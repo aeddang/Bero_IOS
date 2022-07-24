@@ -1,0 +1,111 @@
+//
+//  FocusableTextField.swift
+//  Valla
+//
+//  Created by JeongCheol Kim on 2020/09/27.
+//  Copyright © 2020 JeongCheol Kim. All rights reserved.
+//
+
+import Foundation
+import SwiftUI
+struct FocusableTextField: UIViewRepresentable {
+    @Binding var text:String
+    var placeholder: String = ""
+    var isfocus:Bool
+    var isSecureTextEntry:Bool = false
+    
+    var keyboardType: UIKeyboardType = .default
+    var returnKeyType: UIReturnKeyType = .default
+    
+    var textAlignment:NSTextAlignment = .left
+    var textModifier:TextModifier = RegularTextStyle().textModifier
+    
+    var limitedTextLength: Int = -1
+    var kern: Int = 1
+
+    var inputLimited: (() -> Void)? = nil
+    var inputChange: ((_ text:String) -> Void)? = nil
+    var inputChanged: ((_ text:String) -> Void)? = nil
+    var inputCopmpleted: ((_ text:String) -> Void)? = nil
+    
+    func makeUIView(context: Context) -> UITextField {
+        let textField = UITextField(frame: .zero)
+        textField.text = self.text
+        textField.keyboardType = self.keyboardType
+        textField.returnKeyType = self.returnKeyType
+        textField.delegate = context.coordinator
+        textField.placeholder = self.placeholder
+        textField.autocorrectionType = .yes
+        textField.adjustsFontSizeToFitWidth = true
+        textField.textAlignment = self.textAlignment
+        textField.textColor = self.textModifier.color.uiColor()
+        textField.isSecureTextEntry = self.isSecureTextEntry
+        textField.defaultTextAttributes.updateValue(self.kern, forKey: .kern)
+        textField.attributedPlaceholder = NSAttributedString(string: self.placeholder , attributes: [ NSAttributedString.Key.kern: self.kern])
+        textField.font = UIFont(name: self.textModifier.family, size: self.textModifier.size)
+        return textField
+    }
+
+    func updateUIView(_ uiView: UITextField, context: Context) {
+        if self.isfocus {
+            if !uiView.isFocused {
+                uiView.becomeFirstResponder()
+            }
+        } else {
+            if uiView.isFocused {
+                uiView.resignFirstResponder()
+            }
+        }
+        if uiView.text != self.text { uiView.text = self.text }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self,inputChanged:inputChanged, inputCopmpleted:inputCopmpleted)
+    }
+
+    class Coordinator: NSObject, UITextFieldDelegate {
+        var parent: FocusableTextField
+        var inputChanged: ((_ text:String) -> Void)? = nil
+        var inputCopmpleted: ((_ text:String) -> Void)? = nil
+        init(_ textField: FocusableTextField, inputChanged: ((_ text:String) -> Void)?, inputCopmpleted:((_ text:String) -> Void)?) {
+            self.parent = textField
+            self.inputChanged = inputChanged
+            self.inputCopmpleted = inputCopmpleted
+        }
+        
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            if let text = textField.text,
+                let textRange = Range(range, in: text) {
+                let updatedText = text.replacingCharacters(in: textRange, with: string)
+                if parent.limitedTextLength != -1 {
+                    if updatedText.count > parent.limitedTextLength {
+                        parent.inputLimited?()
+                        return false
+                    }
+                }
+                parent.inputChange?(updatedText)
+            }
+            return true
+        }
+        func textFieldDidChangeSelection(_ textField: UITextField) {
+            let text = textField.text ?? ""
+            self.parent.text = text
+            parent.inputChanged?(text)
+        }
+        
+        
+        func updatefocus(textfield: UITextField) {
+            textfield.becomeFirstResponder()
+        }
+
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            guard let  inputCopmpleted = self.inputCopmpleted else { return true }
+            inputCopmpleted(textField.text ?? "")
+            return false
+        
+        }
+
+    }
+}
+
+
