@@ -86,13 +86,7 @@ struct CPPageViewPager: PageComponent {
         guard let titles = self.titles else{return}
         self.tabs = NavigationBuilder(
             index:idx,
-            textModifier: TextModifier(
-                family:Font.family.bold,
-                size: Font.size.regular,
-                color: Color.app.grey100,
-                activeColor: Color.brand.primary
-            ),
-            marginH:Dimen.margin.regular)
+            marginHorizontal:Dimen.margin.regular)
             .getNavigationButtons(texts:titles, color: self.primaryColor)
     }
 }

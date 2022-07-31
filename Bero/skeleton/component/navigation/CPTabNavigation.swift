@@ -172,7 +172,7 @@ struct CPTabNavigation : PageComponent {
 struct CPTabNavigation_Previews: PreviewProvider {
     
     static var previews: some View {
-        Form{
+      VStack{
             CPTabNavigation(
                 buttons: [
                     NavigationButton(

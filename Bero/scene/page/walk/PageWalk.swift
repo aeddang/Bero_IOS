@@ -41,7 +41,13 @@ struct PageWalk: PageView {
             .background(Color.app.white)
         }//GeometryReader
         .onAppear{
-        
+            self.appSceneObserver.sheet = .select(
+                "Add your dog",
+                "Start with telling more about your dog.",
+                Asset.image.addDog,
+                ["Later","Ok"]){ idx in
+                
+            }
         }
     }//body
     

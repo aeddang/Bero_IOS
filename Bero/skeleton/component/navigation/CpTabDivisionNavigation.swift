@@ -32,7 +32,7 @@ struct CPTabDivisionNavigation : PageComponent {
                         Spacer()
                             .frame(
                                 width: self.getButtonSize(geometry: geometry),
-                                height:Dimen.line.medium
+                                height:Dimen.line.regular
                             )
                             .background(self.primaryColor)
                             .offset(
@@ -41,8 +41,8 @@ struct CPTabDivisionNavigation : PageComponent {
                     }
                 }
                 Spacer()
-                    .modifier(MatchHorizontal(height: Dimen.line.regular))
-                    .background(Color.app.white).opacity(0.1)
+                    .modifier(MatchHorizontal(height:0))
+            
             }
             .modifier(MatchParent())
             .onReceive( self.viewModel.$index ){ idx in
@@ -94,7 +94,7 @@ struct CPTabDivisionNavigation : PageComponent {
 struct CPTabDivisionNavigation_Previews: PreviewProvider {
     
     static var previews: some View {
-        Form{
+        VStack{
             CPTabDivisionNavigation(
                 viewModel:NavigationModel(),
                 buttons: [

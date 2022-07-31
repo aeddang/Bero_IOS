@@ -11,13 +11,38 @@ import SwiftUI
 import Combine
 
 struct MenuTab : PageComponent {
+    enum TabType{
+        case line, box
+        var strokeWidth:CGFloat{
+            switch self {
+            case .line : return 0
+            case .box : return Dimen.stroke.light
+            }
+        }
+        var radius:CGFloat{
+            switch self {
+            case .line : return 0
+            case .box: return Dimen.radius.medium
+            }
+        }
+        func bgColor(_ color:Color) ->Color{
+            switch self {
+            case .line : return Color.transparent.clearUi
+            case .box : return color
+            }
+        }
+    }
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var viewModel:NavigationModel = NavigationModel()
     var scrollReader:ScrollViewProxy? = nil
-    let buttons:[String]
+    
+    var type:TabType = .box
+    var buttons:[String]
     var selectedIdx:Int = 0
-    var height:CGFloat = Dimen.button.regular
+    
+    var color:Color = Color.brand.primary
     var bgColor:Color = Color.app.grey50
+    var height:CGFloat = Dimen.button.regular
     var isDivision:Bool = true
     @State var menus:[MenuBtn] = []
    
@@ -36,32 +61,39 @@ struct MenuTab : PageComponent {
                         
                     }
                 ){
-                    if self.isDivision {
-                        self.createButton(menu)
-                            .modifier(MatchParent())
-                    } else {
-                        self.createButton(menu)
-                            .frame(height: self.height)
+                    ZStack(alignment: .bottom){
+                        if self.isDivision {
+                            self.createButton(menu)
+                                .modifier(MatchParent())
+                        } else {
+                            self.createButton(menu)
+                                .frame(height: self.height)
+                        }
+                        if self.type == .line && menu.idx == self.selectedIdx {
+                            Spacer().modifier(
+                                LineHorizontal(height: Dimen.line.regular, color: self.color)
+                            )
+                        }
                     }
                 }
                 .id(uuid)
                 .background( menu.idx == self.selectedIdx
                              ? Color.app.white
                             : Color.transparent.clearUi)
-                .clipShape( RoundedRectangle(cornerRadius: Dimen.radius.medium))
+                .clipShape( RoundedRectangle(cornerRadius: self.type.radius) )
                 .overlay(
-                    RoundedRectangle(
-                        cornerRadius: Dimen.radius.medium, style: .circular)
+                    RoundedRectangle(cornerRadius: self.type.radius, style: .circular)
                         .strokeBorder(
                             Color.brand.primary  ,
-                            lineWidth: menu.idx == self.selectedIdx ? Dimen.stroke.light : 0 )
+                            lineWidth: menu.idx == self.selectedIdx
+                            ? self.type.strokeWidth : 0 )
                 )
                 .buttonStyle(BorderlessButtonStyle())
             }
         }
         .frame(height: self.height)
-        .background(self.bgColor)
-        .clipShape( RoundedRectangle(cornerRadius: Dimen.radius.medium))
+        .background(self.type.bgColor(self.bgColor))
+        .clipShape( RoundedRectangle(cornerRadius: self.type.radius))
         .onAppear(){
             self.menus = zip(0..<self.buttons.count, self.buttons).map{ idx, btn in
                 MenuBtn(idx: idx, text: btn)
@@ -75,7 +107,7 @@ struct MenuTab : PageComponent {
             .kerning(Font.kern.thin)
             .modifier(BoldTextStyle(
                 size: Font.size.thin,
-                color: menu.idx == self.selectedIdx ? Color.brand.primary : Color.app.grey400
+                color: menu.idx == self.selectedIdx ? self.color : Color.app.grey400
             ))
             .padding(.horizontal, Dimen.margin.regular)
             .fixedSize(horizontal: true, vertical: false)
@@ -99,9 +131,18 @@ struct MenuTab : PageComponent {
 struct MenuTab_Previews: PreviewProvider {
     
     static var previews: some View {
-        ZStack{
+        VStack{
             MenuTab(
                 viewModel:NavigationModel(),
+                buttons: [
+                    "normal", "normal"
+                ]
+            )
+            .frame( alignment: .center)
+            
+            MenuTab(
+                viewModel:NavigationModel(),
+                type:.line,
                 buttons: [
                     "normal", "normal"
                 ]

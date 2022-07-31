@@ -50,7 +50,7 @@ extension View {
 struct AlertBtnData:Identifiable, Equatable{
     let id = UUID.init()
     let title:String
-    var img:String = ""
+    var img:String? = nil
     let index:Int
 }
 
@@ -89,7 +89,7 @@ struct Alert<Presenting>: View where Presenting: View {
                                 ImageButton(
                                     isSelected: true,
                                     index: btn.index,
-                                    defaultImage: btn.img,
+                                    defaultImage: btn.img ?? Asset.icon.tag,
                                     size: CGSize(width: Dimen.icon.heavy, height: Dimen.icon.heavy), text: btn.title
                                     
                                 ){idx in
@@ -107,6 +107,7 @@ struct Alert<Presenting>: View where Presenting: View {
                         ForEach(self.buttons) { btn in
                             FillButton(
                                 type: .fill,
+                                icon: btn.img,
                                 text: btn.title,
                                 index: btn.index,
                                 color: btn.index%2 == 1 ? Color.app.black : Color.app.grey200

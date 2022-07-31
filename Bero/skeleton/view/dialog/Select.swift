@@ -13,6 +13,7 @@ extension View {
     func select(isShowing: Binding<Bool>,
                index: Binding<Int>,
                buttons:[SelectBtnData],
+               cancel: @escaping () -> Void,
                action: @escaping (_ idx:Int) -> Void) -> some View {
         
         return Select(
@@ -20,6 +21,7 @@ extension View {
             index: index,
             presenting: { self },
             buttons: buttons,
+            cancel: cancel,
             action:action)
     }
     
@@ -37,6 +39,7 @@ struct Select<Presenting>: View where Presenting: View {
     @Binding var index: Int
     let presenting: () -> Presenting
     var buttons: [SelectBtnData]
+    var cancel:() -> Void
     let action: (_ idx:Int) -> Void
     
     @State var safeAreaBottom:CGFloat = 0
@@ -47,6 +50,7 @@ struct Select<Presenting>: View where Presenting: View {
                     withAnimation{
                         self.isShowing = false
                     }
+                    self.cancel()
                 }) {
                    Spacer().modifier(MatchParent())
                        .background(Color.transparent.black70)
@@ -104,9 +108,10 @@ struct Select<Presenting>: View where Presenting: View {
     private func dragCompleted(value:DragGesture.Value, screenHeight:CGFloat){
         if value.predictedEndTranslation.height > screenHeight/3 {
             withAnimation(.easeOut(duration: PageContentBody.pageMoveDuration)){
-                self.dragAmount = CGSize(width: 0, height: screenHeight)
                 self.isShowing = false
             }
+            self.cancel()
+            self.dragCancel()
         } else {
             self.dragCancel()
         }
@@ -131,7 +136,10 @@ struct Select_Previews: PreviewProvider {
             buttons: [
                 SelectBtnData(title:"test", index: 0) ,
                 SelectBtnData(title:"test1", index: 1)
-            ]
+            ],
+            cancel: {
+                
+            }
         ){ idx in
         
         }

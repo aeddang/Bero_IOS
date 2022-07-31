@@ -43,6 +43,7 @@ extension Color {
         public static let black =  Color.init(rgb: 0x333333)
         
         public static let white =  Color.white
+        public static let whiteDeep =  Color.init(rgb: 0xDEDEDE)
     
         public static let grey50 = Color.init(rgb: 0xF9F9FB)
         public static let grey100 = Color.init(rgb: 0xF1F2F5)

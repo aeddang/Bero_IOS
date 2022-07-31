@@ -11,9 +11,10 @@ import SwiftUI
 import MapKit
 struct SelectButton: View, SelecterbleProtocol{
     enum ButtonType{
-        case small, medium
+        case tiny, small, medium
         var height:CGFloat{
             switch self {
+            case .tiny : return Dimen.button.regular
             case .small : return Dimen.button.medium
             case .medium : return Dimen.button.heavy
             }
@@ -21,6 +22,7 @@ struct SelectButton: View, SelecterbleProtocol{
         
         var radius:CGFloat{
             switch self {
+            case .tiny : return Dimen.radius.thin
             case .small : return Dimen.radius.thin
             case .medium : return 0
             }
@@ -103,6 +105,15 @@ struct SelectButton_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack{
+            SelectButton(
+                type: .tiny,
+                icon: Asset.icon.album,
+                text: "tiny button",
+                description: "select",
+                isSelected: true
+            ){_ in
+                
+            }
             SelectButton(
                 type: .small,
                 icon: Asset.icon.album,

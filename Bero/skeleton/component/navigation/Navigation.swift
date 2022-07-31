@@ -25,13 +25,13 @@ struct NavigationButton: Identifiable {
 struct NavigationBuilder{
     var index: Int = -1
     var textModifier:TextModifier = TextModifier(
-        family:Font.family.medium,
-        size: Font.size.regular,
-        color: Color.app.black,
+        family:Font.family.bold,
+        size: Font.size.thin,
+        color: Color.app.grey400,
         activeColor: Color.brand.primary
     )
-    var marginH:CGFloat = 0
-    var marginV:CGFloat = Dimen.margin.thin
+    var marginHorizontal:CGFloat = 0
+    var marginVertical:CGFloat = 0
     var imgSize:CGSize = CGSize(width: Dimen.icon.thin, height: Dimen.icon.thin)
     
     func getNavigationButtons(texts:[String], color:Color? = nil) -> [NavigationButton] {
@@ -65,15 +65,15 @@ struct NavigationBuilder{
             id: UUID.init().uuidString,
             body: AnyView(
                 Text(txt)
-                    .kerning(Font.kern.thin)
-                    .font(.custom(Font.family.black, size: textModifier.size))
+                    //.kerning(Font.kern.thin)
+                    .font(.custom(textModifier.family, size: textModifier.size))
                     .foregroundColor(self.index != idx ? textModifier.color : (color ?? textModifier.activeColor))
                     .modifier(MatchParent())
             ),
             idx:idx,
             frame: CGSize (
-                width: size.width * textModifier.sizeScale + (marginH*2.0),
-                height: size.height * textModifier.sizeScale + (marginV*2.0)
+                width: size.width * textModifier.sizeScale + (marginHorizontal*2.0),
+                height: size.height * textModifier.sizeScale + (marginVertical*2.0)
             ),
             data:txt
             
@@ -91,8 +91,8 @@ struct NavigationBuilder{
             ),
             idx:idx,
             frame: CGSize (
-                width: size.width + (marginH*2.0),
-                height: size.height + (marginV*2.0)
+                width: size.width + (marginHorizontal*2.0),
+                height: size.height + (marginVertical*2.0)
             ),
             data:img
         )
@@ -108,15 +108,15 @@ struct NavigationBuilder{
                     .scaledToFit()
                     .frame(width:size.width, height: size.height)
                     Text(txt)
-                        .font(.custom(Font.family.black, size: textModifier.size))
+                        .font(.custom(textModifier.family, size: textModifier.size))
                         .foregroundColor(self.index != idx ? textModifier.color : (color ?? textModifier.activeColor))
                        
                 }
             ),
             idx:idx,
             frame: CGSize (
-                width: size.width + (marginH*2.0),
-                height: size.height + (marginV*2.0)
+                width: size.width + (marginHorizontal*2.0),
+                height: size.height + (marginVertical*2.0)
             ),
             data:img
         )
@@ -133,8 +133,8 @@ struct NavigationBuilder{
             ),
             idx:idx,
             frame: CGSize (
-                width: size.width + (marginH*2.0),
-                height: size.height + (marginV*2.0)
+                width: size.width + (marginHorizontal*2.0),
+                height: size.height + (marginVertical*2.0)
             ),
             data:img.0
         )

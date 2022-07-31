@@ -8,6 +8,33 @@
 
 import Foundation
 import SwiftUI
+enum SceneSelect:Equatable {
+    case select((String,[String]),Int, ((Int) -> Void)? = nil),
+         selectBtn((String,[SelectBtnData]),Int, ((Int) -> Void)? = nil),
+         picker((String,[String]),Int), imgPicker(String)
+    
+    func check(key:String)-> Bool{
+        switch (self) {
+        case let .selectBtn(v, _, _): return v.0 == key
+        case let .select(v, _, _): return v.0 == key
+        case let .picker(v, _): return v.0 == key
+        case let .imgPicker(v): return v.hasPrefix(key)
+        }
+    }
+    
+    static func ==(lhs: SceneSelect, rhs: SceneSelect) -> Bool {
+        switch (lhs, rhs) {
+        case (let .selectBtn(lh,_, _), let .selectBtn(rh,_, _)): return lh.0 == rh.0
+        case (let .select(lh,_, _), let .select(rh,_, _)): return lh.0 == rh.0
+        case (let .picker(lh,_), let .picker(rh,_)): return lh.0 == rh.0
+        case (let .imgPicker(lv), let .imgPicker(rv)): return lv == rv
+        default : return false
+        }
+    }
+}
+enum SceneSelectResult {
+    case complete(SceneSelect,Int)
+}
 
 struct SceneSelectController: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -26,8 +53,16 @@ struct SceneSelectController: PageComponent{
         .select(
             isShowing: self.$isShow,
             index: self.$selected,
-            buttons: self.buttons)
-        { idx in
+            buttons: self.buttons,
+            cancel: {
+                withAnimation{
+                    self.isShow = false
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.reset()
+                }
+            }
+        ){ idx in
             switch self.currentSelect {
             case .select(_ , _, let handler) , .selectBtn(_ , _, let handler) :
                 if let handler = handler {
@@ -37,7 +72,7 @@ struct SceneSelectController: PageComponent{
                 }
                 
             case .imgPicker(_): self.selectedSelect(idx ,data:self.currentSelect!)
-                default: do { return }
+            default: return
             }
             withAnimation{
                 self.isShow = false
@@ -53,7 +88,7 @@ struct SceneSelectController: PageComponent{
                 case .select(let data, let idx, _): self.setupSelect(data:data, idx: idx)
                 case .selectBtn(let data, let idx, _): self.setupSelect(data:data, idx: idx)
                 case .imgPicker(let key): self.setupImagePicker(key: key)
-                default: do { return }
+                default: return
             }
             withAnimation{
                 self.isShow = true

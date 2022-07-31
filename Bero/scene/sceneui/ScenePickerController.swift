@@ -30,8 +30,8 @@ struct ScenePickerController: PageComponent{
             selected: self.$selected)
         { idx in
             switch self.currentSelect {
-                case .picker(let data, _) : self.selectedPicker(idx ,data:data)
-                default: return 
+            case .picker(let data, _) : self.selectedPicker(idx ,data:data)
+            default: return
             }
             withAnimation{
                 self.isShow = false
@@ -45,7 +45,7 @@ struct ScenePickerController: PageComponent{
             self.currentSelect = select
             switch select{
             case .picker(let data, let idx): self.setupPicker(data:data, idx:idx)
-                default: do { return }
+            default: return
             }
             withAnimation{
                 self.isShow = true

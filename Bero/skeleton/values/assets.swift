@@ -28,7 +28,7 @@ extension Asset{
         public static let walk = Asset.icon.paw
         public static let matching = Asset.icon.favorite_on
         public static let diary = Asset.icon.calendar
-        public static let my = Asset.icon.profile_user_default
+        public static let my = Asset.image.profile_user_default
     }
     
     struct icon {
@@ -63,8 +63,6 @@ extension Asset{
         
         public static let notification_off = "notification_off"
         public static let notification_on = "notification_on"
-        public static let profile_dog_empty = "profile_dog_empty"
-        public static let profile_user_default = "profile_user_default"
         public static let chat  = "chat"
         public static let sms = "sms"
         
@@ -112,6 +110,21 @@ extension Asset{
         public static let health = "health"
         public static let tag = "tag"
         public static let vaccine = "vaccine"
+        
+        public static let add_friend = "add_friend"
+        public static let add = "add"
+        public static let ball = "ball"
+        public static let beauty = "beauty"
+        public static let bone = "bone"
+        public static let coin = "coin"
+        public static let drag_handle = "drag_handle"
+        public static let female = "female"
+        public static let food = "food"
+        public static let human_friends = "human_friends"
+        public static let male = "male"
+        public static let point = "point"
+        public static let remove_friend = "remove_friend"
+        public static let vet = "vet"
     }
     
 
@@ -125,6 +138,12 @@ extension Asset{
         public static let man = "man"
         public static let woman = "woman"
         public static let present = "present"
+        public static let addDog = "add_dog"
+        
+        public static let profile_dog_default = "profile_dog_default"
+        public static let profile_dog_default_dark = "profile_dog_default_dark"
+        public static let profile_user_default = "profile_user_default"
+        public static let profile_user_default_dark = "profile_user_default_dark"
     }
     struct shape {
         public static let point = "sp_point"

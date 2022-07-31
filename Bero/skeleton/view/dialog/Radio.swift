@@ -226,9 +226,11 @@ struct Radio<Presenting>: View where Presenting: View {
     private func dragCompleted(value:DragGesture.Value, screenHeight:CGFloat){
         if value.predictedEndTranslation.height > screenHeight/3 {
             withAnimation(.easeOut(duration: PageContentBody.pageMoveDuration)){
-                self.dragAmount = CGSize(width: 0, height: screenHeight)
                 self.isShowing = false
             }
+            self.cancel()
+            self.dragCancel()
+            
         } else {
             self.dragCancel()
         }

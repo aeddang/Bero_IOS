@@ -62,7 +62,7 @@ struct AppLayout: PageComponent{
             SceneSelectController()
             ScenePickerController()
             SceneAlertController()
-            
+            SceneSheetController()
             if self.isLoading {
                 Spacer().modifier(MatchParent()).background(Color.transparent.black70)
                 if self.loadingInfo != nil {

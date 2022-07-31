@@ -9,20 +9,13 @@
 import Foundation
 import SwiftUI
 struct RectButton: View, SelecterbleProtocol{
-    let text:String
+    var icon:String? = nil
+    var text:String? = nil
     var index: Int = 0
     var isSelected: Bool = false
-    var textModifier:TextModifier = TextModifier(
-        family:Font.family.regular,
-        size:Font.size.light,
-        color: Color.app.white,
-        activeColor: Color.app.white
-    )
-    var bgColor = Color.app.black
-    var bgActiveColor = Color.brand.primary
-    var fixSize:CGFloat? = nil
+    var color:Color = Color.brand.primary
+    var defaultColor:Color = Color.app.white
     
-    var icon:String? = nil
     let action: (_ idx:Int) -> Void
     
     var body: some View {
@@ -30,28 +23,29 @@ struct RectButton: View, SelecterbleProtocol{
             self.action(self.index)
         }) {
             ZStack{
-                if let size = self.fixSize  {
-                    Spacer().frame( width: size )
-                }
-                HStack(spacing:Dimen.margin.tiny){
-                    Text(self.text)
-                        .font(.custom(textModifier.family, size: textModifier.size))
-                        .foregroundColor(self.isSelected ? textModifier.activeColor : textModifier.color)
-                    
-                    
-                    if self.icon != nil {
-                        Image(self.icon!)
-                            .renderingMode(.original).resizable()
+                Spacer().modifier(MatchParent())
+                VStack(spacing:Dimen.margin.regularUltra){
+                    if let icon = self.icon {
+                        Image(icon)
+                            .renderingMode(.template)
+                            .resizable()
                             .scaledToFit()
-                            .frame(width: Dimen.icon.tiny, height: Dimen.icon.tiny)
+                            .foregroundColor(!self.isSelected ? self.color : self.defaultColor)
+                            .frame(width: Dimen.icon.heavy, height: Dimen.icon.heavy)
                     }
-                }
+                    if let text = self.text {
+                        Text(text)
+                            .modifier(MediumTextStyle(
+                                size: Font.size.light,
+                                color: !self.isSelected ? self.color : self.defaultColor))
+                    }
                     
+                    
+                }
             }
-            .padding(.horizontal, Dimen.margin.thin)
-            .frame(height:Dimen.button.light)
-            .background(self.isSelected ? self.bgActiveColor : self.bgColor)
-            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.medium))
+            .frame(width:164, height:168)
+            .background(self.isSelected ? self.color : self.defaultColor)
+            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
             
         }
     }
@@ -60,10 +54,20 @@ struct RectButton: View, SelecterbleProtocol{
 struct RectButton_Previews: PreviewProvider {
     
     static var previews: some View {
-        Form{
+        VStack{
             RectButton(
+                icon: Asset.icon.male,
                 text: "test",
-                fixSize: 100
+                isSelected: false,
+                color: Color.app.grey400
+                ){_ in
+                
+            }
+            RectButton(
+                icon: Asset.icon.female,
+                text: "test",
+                isSelected: true,
+                color: Color.brand.primary
                 ){_ in
                 
             }
