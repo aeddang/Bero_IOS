@@ -74,7 +74,7 @@ struct Sheet<Presenting>: View where Presenting: View {
                 }
                 VStack(alignment: .leading, spacing: 0){
                     Spacer().modifier(MatchHorizontal(height: 0))
-                    VStack(alignment: .leading, spacing: Dimen.margin.tinyExtra){
+                    VStack(alignment: .leading, spacing: Dimen.margin.regularExtra){
                         if let title = self.title {
                             Text(title)
                                 .modifier(BoldTextStyle(

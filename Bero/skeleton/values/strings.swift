@@ -67,6 +67,7 @@ extension String {
     
     struct pageTitle {
         public static let my = "titleMy"
+        public static let addDog = "Add a dog"
     }
     
     struct pageText {
@@ -80,6 +81,8 @@ extension String {
         
         public static let loginText = "Let’s walk\nour dogs together!"
         public static let loginButtonText = "Continue with "
+        
+        
     }
     
 }

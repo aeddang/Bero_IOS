@@ -67,6 +67,20 @@ class FaceBookManager:ObservableObject, PageProtocol, Sns{
     
     
     func requestLogin() {
+        LoginManager().logIn(permissions: ["public_profile", "email"], from: nil){ result, err in
+            if result?.isCancelled == true {return}
+            if let err = err {
+                self.onLoginError(error: err)
+                return
+            }
+            guard let token = result?.token else {
+                self.onLoginError(error: err)
+                return
+            }
+            self.onLogin(token: token)
+        
+        }
+        /*
         LoginManager.init().logIn(permissions: ["public_profile", "email"]){result in
             switch result {
             case .success(_, _, let token) :
@@ -75,7 +89,7 @@ class FaceBookManager:ObservableObject, PageProtocol, Sns{
             case .cancelled : break
             case .failed(let err) : self.onLoginError(error: err)
             }
-        }
+        }*/
     }
     
     func requestLogOut() {

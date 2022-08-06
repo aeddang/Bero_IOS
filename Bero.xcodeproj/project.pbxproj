@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31071C78289E763200F46498 /* ProgressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31071C77289E763200F46498 /* ProgressInfo.swift */; };
+		31071C7A289E769E00F46498 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31071C79289E769E00F46498 /* Step.swift */; };
+		31071C7D289E7D9300F46498 /* PageAddDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31071C7C289E7D9300F46498 /* PageAddDog.swift */; };
+		31071C80289E80C900F46498 /* TitleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31071C7F289E80C900F46498 /* TitleSection.swift */; };
 		3117485E288D486E00B96A42 /* Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3117485D288D486E00B96A42 /* Sheet.swift */; };
 		31174860288D508600B96A42 /* SceneSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3117485F288D508600B96A42 /* SceneSheetController.swift */; };
 		311DC42A2877CDEC00A3F7F5 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 311DC4292877CDEC00A3F7F5 /* FirebaseAnalyticsSwift */; };
@@ -281,6 +285,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		31071C77289E763200F46498 /* ProgressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressInfo.swift; sourceTree = "<group>"; };
+		31071C79289E769E00F46498 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		31071C7C289E7D9300F46498 /* PageAddDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAddDog.swift; sourceTree = "<group>"; };
+		31071C7F289E80C900F46498 /* TitleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSection.swift; sourceTree = "<group>"; };
 		3117485D288D486E00B96A42 /* Sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheet.swift; sourceTree = "<group>"; };
 		3117485F288D508600B96A42 /* SceneSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneSheetController.swift; sourceTree = "<group>"; };
 		311DC4362877D73800A3F7F5 /* GoogleSignManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignManager.swift; sourceTree = "<group>"; };
@@ -566,6 +574,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31071C76289E761D00F46498 /* progress */ = {
+			isa = PBXGroup;
+			children = (
+				31071C77289E763200F46498 /* ProgressInfo.swift */,
+			);
+			path = progress;
+			sourceTree = "<group>";
+		};
+		31071C7B289E7D7500F46498 /* profile */ = {
+			isa = PBXGroup;
+			children = (
+				31071C7C289E7D9300F46498 /* PageAddDog.swift */,
+			);
+			path = profile;
+			sourceTree = "<group>";
+		};
+		31071C7E289E809900F46498 /* info */ = {
+			isa = PBXGroup;
+			children = (
+				31071C7F289E80C900F46498 /* TitleSection.swift */,
+			);
+			path = info;
+			sourceTree = "<group>";
+		};
 		311DC45F2879929F00A3F7F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -869,9 +901,9 @@
 		31D91DBD28725834001C2738 /* scene */ = {
 			isa = PBXGroup;
 			children = (
-				31D92053287271CD001C2738 /* sceneui */,
-				31D91DBE28725834001C2738 /* page */,
 				31D91DDA28725834001C2738 /* component */,
+				31D91DBE28725834001C2738 /* page */,
+				31D92053287271CD001C2738 /* sceneui */,
 				31D91F802872705A001C2738 /* AppSceneObserver.swift */,
 				31D91F82287270A7001C2738 /* AppLayout.swift */,
 				31D91F4428725BC4001C2738 /* SceneDelegate.swift */,
@@ -883,6 +915,7 @@
 		31D91DBE28725834001C2738 /* page */ = {
 			isa = PBXGroup;
 			children = (
+				31071C7B289E7D7500F46498 /* profile */,
 				3143CD582888E7E500F1C88A /* walk */,
 				3143CD5028879E4D00F1C88A /* login */,
 				3143CD4828879ABC00F1C88A /* intro */,
@@ -896,6 +929,8 @@
 		31D91DDA28725834001C2738 /* component */ = {
 			isa = PBXGroup;
 			children = (
+				31071C7E289E809900F46498 /* info */,
+				31071C76289E761D00F46498 /* progress */,
 				31F3BD2D28962BFD0025223B /* profile */,
 				314E5EC528829795000EB910 /* tab */,
 				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
@@ -1098,6 +1133,7 @@
 				31D91FD4287271C1001C2738 /* ReflashSpinner.swift */,
 				31D91FD5287271C1001C2738 /* DragDownArrow.swift */,
 				31D91FD6287271C1001C2738 /* ProgressSlider.swift */,
+				31071C79289E769E00F46498 /* Step.swift */,
 			);
 			path = progress;
 			sourceTree = "<group>";
@@ -1510,6 +1546,8 @@
 				3143CD5228879E6700F1C88A /* PageLogin.swift in Sources */,
 				31D920CE28729E67001C2738 /* DeviceMotionObserver.swift in Sources */,
 				31D92040287271C1001C2738 /* FillButton.swift in Sources */,
+				31071C7D289E7D9300F46498 /* PageAddDog.swift in Sources */,
+				31071C80289E80C900F46498 /* TitleSection.swift in Sources */,
 				31D9204B287271C1001C2738 /* MultiStrokeSpinner.swift in Sources */,
 				31D920B828729CDC001C2738 /* PetApiData.swift in Sources */,
 				31D91E8D28725834001C2738 /* SocialMediaSharingManager.swift in Sources */,
@@ -1560,6 +1598,7 @@
 				31D91E8228725834001C2738 /* ViewUtil.swift in Sources */,
 				31D920BE28729CDC001C2738 /* AccountManager.swift in Sources */,
 				31D9205A287271CD001C2738 /* ScenePickerController.swift in Sources */,
+				31071C78289E763200F46498 /* ProgressInfo.swift in Sources */,
 				31D91F812872705A001C2738 /* AppSceneObserver.swift in Sources */,
 				31D92010287271C1001C2738 /* CPWebView.swift in Sources */,
 				31D920C528729CDC001C2738 /* Repository.swift in Sources */,
@@ -1603,6 +1642,7 @@
 				31D92007287271C1001C2738 /* colors.swift in Sources */,
 				31D91FFF287271C1001C2738 /* SnsManager.swift in Sources */,
 				31D92003287271C1001C2738 /* assets.swift in Sources */,
+				31071C7A289E769E00F46498 /* Step.swift in Sources */,
 				31D92016287271C1001C2738 /* CPGoogleMap.swift in Sources */,
 				31D91E7528725834001C2738 /* PageSceneDelegate.swift in Sources */,
 				31D920B328729CDC001C2738 /* Misc.swift in Sources */,
