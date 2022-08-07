@@ -30,6 +30,13 @@ extension Font{
         public static let black =  "Poppins-Black"
     }
     
+    struct spacing {
+        public static let medium:CGFloat = 10
+        public static let regular:CGFloat = -20
+        public static let thin:CGFloat = -30
+        public static let micro:CGFloat = -40
+    }
+    
     struct kern {
         public static let thin:CGFloat =  -0.7
         public static let regular:CGFloat = 0

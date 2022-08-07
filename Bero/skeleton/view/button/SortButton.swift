@@ -3,11 +3,20 @@ import Foundation
 import SwiftUI
 struct SortButton: View{
     enum ButtonType{
-        case fill, stroke
+        case fill, stroke, strokeFill
         var strokeWidth:CGFloat{
             switch self {
             case .fill : return 0
-            case .stroke : return Dimen.stroke.light
+            case .stroke: return Dimen.stroke.light
+            case .strokeFill: return Dimen.stroke.light
+            }
+        }
+        
+        func strokeColor(_ color:Color) ->Color{
+            switch self {
+            case .fill : return Color.app.white
+            case .stroke : return color
+            case .strokeFill : return color.opacity(0.5)
             }
         }
         
@@ -15,6 +24,7 @@ struct SortButton: View{
             switch self {
             case .fill : return color
             case .stroke : return Color.app.white
+            case .strokeFill : return color.opacity(0.15)
             }
         }
         
@@ -22,6 +32,7 @@ struct SortButton: View{
             switch self {
             case .fill : return Color.app.white
             case .stroke : return color
+            case .strokeFill : return color
             }
         }
     }
@@ -114,7 +125,7 @@ struct SortButton: View{
             .overlay(
                 RoundedRectangle(cornerRadius: self.sizeType.radius)
                     .strokeBorder(
-                        self.type.textColor(self.color),
+                        self.type.strokeColor(self.color),
                         lineWidth: self.type.strokeWidth
                     )
             )
@@ -142,6 +153,18 @@ struct SortButtonButton_Previews: PreviewProvider {
             SortButton(
                 type: .stroke,
                 sizeType: .small,
+                icon: Asset.icon.paw,
+                text: "Chip",
+                color: Color.app.orange,
+                isSelected: false
+            )
+            {
+                
+            }
+            
+            SortButton(
+                type: .strokeFill,
+                sizeType: .big,
                 icon: Asset.icon.paw,
                 text: "Chip",
                 color: Color.app.orange,

@@ -50,18 +50,27 @@ extension String {
         public static var locationBtn = "locationBtn"
         
         public static var snsLoginError = "After login. Available."
+        
+        public static var addDogTitle = "Add your dog"
+        public static var addDogText = "Start with telling more about your dog."
+      
     }
     
     struct button {
+        public static let later = "Later"
+        public static let ok = "Ok"
+        public static let prev = "Prev"
+        public static let next = "Next"
         public static let close = "Close"
+        public static let goBack = "Go back"
         public static let retry = "Retry"
         public static let reset = "Reset"
         public static let apply = "Apply"
         public static let more = "more"
         public static let delete = "Delete"
         public static let modify = "Modify"
-        public static let album = "Album"
-        public static let camera = "Camera"
+        public static let album = "Select from Gallery"
+        public static let camera = "Take a photo"
       
     }
     

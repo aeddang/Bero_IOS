@@ -8,11 +8,11 @@ struct InputText: PageView {
     var placeHolder:String = ""
     var tip:String? = nil
     var info:String? = nil
-    
+    var ussFocusAble:Bool = true
     var isFocus:Bool = true
     
     var limitedLine:Int = 1
-    var limitedTextLength:Int = -1
+    var limitedTextLength:Int = 30
    
     var keyboardType:UIKeyboardType = .default
     var returnKeyType: UIReturnKeyType = .done
@@ -21,9 +21,9 @@ struct InputText: PageView {
     
     var textModifier:TextModifier = RegularTextStyle(size: Font.size.light).textModifier
     var actionTitle:String? = nil
-    
+    var onFocus:(() -> Void)? = nil
     var onChange:((String) -> Void)? = nil
-    var action:(() -> Void)? = nil
+    var onAction:(() -> Void)? = nil
     
     @State private var isInputLimited:Bool = false
     var body: some View {
@@ -38,27 +38,53 @@ struct InputText: PageView {
             HStack(alignment: .center, spacing:Dimen.margin.thin){
                 HStack(alignment: self.limitedLine == 1 ? .center : .top, spacing:Dimen.margin.micro){
                     if self.isEditable {
-                        ZStack{
-                            Spacer().modifier(MatchParent())
-                            if self.isFocus {
-                                if self.isSecure{
-                                    SecureField(self.placeHolder, text: self.$input)
-                                        .keyboardType(self.keyboardType)
-                                        .multilineTextAlignment(.leading)
-                                        .foregroundColor(Color.app.grey100)
-                                        .font(.custom(self.textModifier.family, size: self.textModifier.size))
-                            
-                                } else {
-                                    TextEditor(text: self.$input)
-                                        .font(.custom(textModifier.family, size: textModifier.size))
-                                        .foregroundColor(textModifier.color)
-                                        .lineLimit(limitedLine)
-                                        .multilineTextAlignment(.leading)
-                                        //.autocapitalization(.words)
-                                        //.disableAutocorrection(true)
-                                        .onChange(of: self.input) { value in
-                                            self.onChange?(value)
-                                        }
+                        if self.ussFocusAble {
+                            FocusableTextField(
+                                text:self.$input,
+                                keyboardType: self.keyboardType,
+                                returnVal: self.returnKeyType,
+                                placeholder: self.placeHolder,
+                                textAlignment: .left,
+                                maxLength: self.limitedTextLength,
+                                textModifier:self.textModifier,
+                                isfocus: self.isFocus,
+                                isSecureTextEntry: self.isSecure,
+                                inputChanged: self.onChange,
+                                inputCopmpleted: { _ in
+                                    self.onAction?()
+                                }
+                            )
+                            .frame(height : self.textModifier.getTextLineHeight() * CGFloat(self.limitedLine))
+                            .onTapGesture {
+                                self.onFocus?()
+                            }
+                        } else {
+                            ZStack{
+                                Spacer().modifier(MatchParent())
+                                if self.isFocus {
+                                    if self.isSecure{
+                                        SecureField(self.placeHolder, text: self.$input)
+                                            .keyboardType(self.keyboardType)
+                                            .multilineTextAlignment(.leading)
+                                            .foregroundColor(Color.app.grey100)
+                                            .font(.custom(self.textModifier.family, size: self.textModifier.size))
+                                
+                                    } else {
+                                        TextEditor(text: self.$input)
+                                            .font(.custom(textModifier.family, size: textModifier.size))
+                                            .foregroundColor(textModifier.color)
+                                            
+                                            .lineLimit(limitedLine)
+                                            .multilineTextAlignment(.leading)
+                                            //.autocapitalization(.words)
+                                            //.disableAutocorrection(true)
+                                            .onChange(of: self.input) { value in
+                                                
+                                                self.onChange?(value)
+                                            }
+                                            .keyboardType(self.keyboardType)
+                                         
+                                    }
                                 }
                             }
                         }
@@ -95,7 +121,7 @@ struct InputText: PageView {
                         cornerRadius: Dimen.radius.thin, style: .circular)
                         .stroke( self.isFocus
                                  ? ( self.isInputLimited ? Color.app.red : Color.brand.primary )
-                                 : Color.app.grey50 ,
+                                 : Color.app.grey200 ,
                                  lineWidth: 1 )
                 )
                 if let title = self.actionTitle {
@@ -107,14 +133,14 @@ struct InputText: PageView {
                             color: Color.brand.secondary),
                         isUnderLine: true)
                     {_ in
-                        guard let action = self.action else { return }
+                        guard let action = self.onAction else { return }
                         action()
                     }
                 }
             }
             if let info = self.info {
                 Text(info)
-                    .modifier(RegularTextStyle(size: Font.size.thin,color: Color.app.grey300))
+                    .modifier(RegularTextStyle(size: Font.size.thin,color: Color.app.grey400))
                     .multilineTextAlignment(.center)
             }
             

@@ -8,78 +8,121 @@
 
 import Foundation
 import SwiftUI
-struct FocusableTextField: UIViewRepresentable {
+struct FocusableTextField: UIViewRepresentable{
     @Binding var text:String
-    var placeholder: String = ""
-    var isfocus:Bool
-    var isSecureTextEntry:Bool = false
-    
     var keyboardType: UIKeyboardType = .default
-    var returnKeyType: UIReturnKeyType = .default
-    
-    var textAlignment:NSTextAlignment = .left
+    var returnVal: UIReturnKeyType = .default
+    var placeholder: String = ""
+    var placeholderModifier:TextModifier? = nil
+    var placeholderColor:Color = Color.app.grey200
+    var textAlignment:NSTextAlignment = .center
+    var maxLength: Int = -1
+    var kern: CGFloat = 1
+    var kernHolder: CGFloat? = nil
     var textModifier:TextModifier = RegularTextStyle().textModifier
-    
-    var limitedTextLength: Int = -1
-    var kern: Int = 1
-
-    var inputLimited: (() -> Void)? = nil
+    var isfocus:Bool
+    var isDynamicFocus:Bool = false
+    var isSecureTextEntry:Bool = false
+    var focusIn: (() -> Void)? = nil
+    var focusOut: (() -> Void)? = nil
     var inputChange: ((_ text:String) -> Void)? = nil
+    var inputComplete: ((_ text:String) -> Void)? = nil
+    var inputChangedNext: ((_ text:String) -> Void)? = nil
     var inputChanged: ((_ text:String) -> Void)? = nil
+    var inputClear: (() -> Void)? = nil
     var inputCopmpleted: ((_ text:String) -> Void)? = nil
-    
+    @State var isFinalFocus:Bool? = nil
     func makeUIView(context: Context) -> UITextField {
         let textField = UITextField(frame: .zero)
-        textField.text = self.text
+        let font =  UIFont(name: self.textModifier.family, size: self.textModifier.size)
+//        textField.text = self.text
+        
         textField.keyboardType = self.keyboardType
-        textField.returnKeyType = self.returnKeyType
+        textField.returnKeyType = self.returnVal
         textField.delegate = context.coordinator
         textField.placeholder = self.placeholder
-        textField.autocorrectionType = .yes
-        textField.adjustsFontSizeToFitWidth = true
+        textField.autocorrectionType = .no
+        //textField.clearButtonMode = .whileEditing
+        //textField.adjustsFontSizeToFitWidth = true
         textField.textAlignment = self.textAlignment
-        textField.textColor = self.textModifier.color.uiColor()
+        let color = textModifier.color == Color.app.white ? UIColor.white : textModifier.color.uiColor()
+        textField.textColor = color
         textField.isSecureTextEntry = self.isSecureTextEntry
+//        textField.autoresizingMask = .flexibleWidth
         textField.defaultTextAttributes.updateValue(self.kern, forKey: .kern)
-        textField.attributedPlaceholder = NSAttributedString(string: self.placeholder , attributes: [ NSAttributedString.Key.kern: self.kern])
-        textField.font = UIFont(name: self.textModifier.family, size: self.textModifier.size)
+        textField.font = font
+        let fontPlaceholder =  UIFont(name: self.placeholderModifier?.family ?? self.textModifier.family ,
+                                      size:self.placeholderModifier?.size ??  self.textModifier.size)
+        
+        textField.attributedPlaceholder = NSAttributedString(
+            string: self.placeholder ,
+            attributes: [
+                NSAttributedString.Key.kern: self.kernHolder ?? self.kern,
+                NSAttributedString.Key.font: fontPlaceholder ?? UIFont.init(),
+                NSAttributedString.Key.foregroundColor: placeholderColor.uiColor()
+            ])
+        
         return textField
     }
 
     func updateUIView(_ uiView: UITextField, context: Context) {
+        if uiView.text != self.text { uiView.text = self.text }
+        
+        if self.isfocus == self.isFinalFocus {
+            if #available(iOS 15.0, *) {
+                if self.isfocus && self.isDynamicFocus {
+                    if !uiView.isFocused {
+                        DispatchQueue.main.async {
+                            uiView.becomeFirstResponder()
+                        }
+                    }
+                }
+            }
+            return
+        }
         if self.isfocus {
+            //ComponentLog.d("on focus " + uiView.isFocused.description, tag:"FocusableTextField")
             if !uiView.isFocused {
+                //ComponentLog.d("uiView.becomeFirstResponder " + uiView.isFocused.description, tag:"FocusableTextField")
                 uiView.becomeFirstResponder()
             }
-        } else {
+            self.focusIn?()
+        }else if !self.isfocus {
+            //ComponentLog.d("dis focus " + uiView.isFocused.description, tag:"FocusableTextField")
             if uiView.isFocused {
+               // ComponentLog.d("uiView.resignFirstResponder " + uiView.isFocused.description, tag:"FocusableTextField")
                 uiView.resignFirstResponder()
             }
+            self.focusOut?()
         }
-        if uiView.text != self.text { uiView.text = self.text }
+        
+        DispatchQueue.main.async {
+            self.isFinalFocus = self.isfocus
+        }
+        
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self,inputChanged:inputChanged, inputCopmpleted:inputCopmpleted)
+        Coordinator(self)
     }
 
     class Coordinator: NSObject, UITextFieldDelegate {
         var parent: FocusableTextField
-        var inputChanged: ((_ text:String) -> Void)? = nil
-        var inputCopmpleted: ((_ text:String) -> Void)? = nil
-        init(_ textField: FocusableTextField, inputChanged: ((_ text:String) -> Void)?, inputCopmpleted:((_ text:String) -> Void)?) {
+      
+        init(_ textField: FocusableTextField) {
             self.parent = textField
-            self.inputChanged = inputChanged
-            self.inputCopmpleted = inputCopmpleted
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
             if let text = textField.text,
                 let textRange = Range(range, in: text) {
                 let updatedText = text.replacingCharacters(in: textRange, with: string)
-                if parent.limitedTextLength != -1 {
-                    if updatedText.count > parent.limitedTextLength {
-                        parent.inputLimited?()
+                if parent.maxLength != -1 {
+                    if updatedText.count == parent.maxLength {
+                        self.parent.inputComplete?(string)
+                    }
+                    if updatedText.count > parent.maxLength {
+                        self.parent.inputChangedNext?(string)
                         return false
                     }
                 }
@@ -89,18 +132,27 @@ struct FocusableTextField: UIViewRepresentable {
         }
         func textFieldDidChangeSelection(_ textField: UITextField) {
             let text = textField.text ?? ""
-            self.parent.text = text
-            parent.inputChanged?(text)
+            DispatchQueue.main.async {
+                if self.parent.text != text {
+                    self.parent.text = text
+                    self.parent.inputChanged?(text)
+                }
+            }
+        }
+        func textFieldShouldClear(_ textField: UITextField) -> Bool {
+            guard let  inputClear = self.parent.inputClear else { return true }
+            if textField.text?.isEmpty == true {
+                inputClear()
+            }
+            //textField.text = ""
+            return false
+        
         }
         
-        
-        func updatefocus(textfield: UITextField) {
-            textfield.becomeFirstResponder()
-        }
-
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            guard let  inputCopmpleted = self.inputCopmpleted else { return true }
+            guard let  inputCopmpleted = self.parent.inputCopmpleted else { return true }
             inputCopmpleted(textField.text ?? "")
+            //textField.text = ""
             return false
         
         }

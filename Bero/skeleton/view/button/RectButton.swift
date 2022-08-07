@@ -14,7 +14,8 @@ struct RectButton: View, SelecterbleProtocol{
     var index: Int = 0
     var isSelected: Bool = false
     var color:Color = Color.brand.primary
-    var defaultColor:Color = Color.app.white
+    var defaultColor:Color = Color.app.grey500
+    var bgColor:Color = Color.app.white
     
     let action: (_ idx:Int) -> Void
     
@@ -30,23 +31,29 @@ struct RectButton: View, SelecterbleProtocol{
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
-                            .foregroundColor(!self.isSelected ? self.color : self.defaultColor)
+                            .foregroundColor(!self.isSelected ? self.defaultColor : self.bgColor)
                             .frame(width: Dimen.icon.heavy, height: Dimen.icon.heavy)
                     }
                     if let text = self.text {
                         Text(text)
                             .modifier(MediumTextStyle(
                                 size: Font.size.light,
-                                color: !self.isSelected ? self.color : self.defaultColor))
+                                color: !self.isSelected ? self.defaultColor : self.bgColor))
                     }
                     
                     
                 }
             }
             .frame(width:164, height:168)
-            .background(self.isSelected ? self.color : self.defaultColor)
+            .background(self.isSelected ? self.color : self.bgColor)
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
-            
+            .overlay(
+                RoundedRectangle(cornerRadius: Dimen.radius.regular)
+                    .strokeBorder(
+                        self.isSelected ? self.color : Color.app.grey200,
+                        lineWidth: Dimen.stroke.light
+                    )
+            )
         }
     }
 }

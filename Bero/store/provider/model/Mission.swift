@@ -13,14 +13,14 @@ import GooglePlaces
 
 enum MissionType:CaseIterable {
     case today, event, normal
-    func info() -> String{
+    var info : String{
         switch self {
         case .today: return "Today’s Mission"
         case .event: return "Event!! Mission"
         case .normal: return "Any Time Mission"
         }
     }
-    func color() -> Color{
+    var color : Color{
         switch self {
         case .today: return Color.brand.primary
         case .event: return Color.brand.thirdly
@@ -41,7 +41,7 @@ enum MissionType:CaseIterable {
 
 enum MissionLv:CaseIterable {
     case lv1, lv2, lv3, lv4
-    func apiDataKey() -> String {
+    var apiDataKey : String {
         switch self {
         case .lv1 : return "lv1"
         case .lv2 : return "lv2"
@@ -59,7 +59,7 @@ enum MissionLv:CaseIterable {
         default : return .lv1
         }
     }
-    func info() -> String{
+    var info:String{
         switch self {
         case .lv1: return "Easy"
         case .lv2: return "Normal"
@@ -67,7 +67,7 @@ enum MissionLv:CaseIterable {
         case .lv4: return "Very Difficult"
         }
     }
-    func icon() -> String{
+    var icon:String{
         switch self {
         case .lv1: return "ic_difficulty_easy"
         case .lv2: return "ic_difficulty_easy"
@@ -76,7 +76,7 @@ enum MissionLv:CaseIterable {
         }
     }
     
-    func color() -> Color{
+    var color:Color{
         switch self {
         case .lv1: return Color.brand.secondary
         case .lv2: return Color.brand.primary

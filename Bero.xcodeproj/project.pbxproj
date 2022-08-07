@@ -79,6 +79,12 @@
 		314E5EF42882BE63000EB910 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 314E5EDF2882BE63000EB910 /* Poppins-Italic.ttf */; };
 		314E5EF52882BE63000EB910 /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 314E5EE02882BE63000EB910 /* Poppins-MediumItalic.ttf */; };
 		316D35F32895427C002FC476 /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D35F22895427B002FC476 /* InputText.swift */; };
+		31A9D2B9289F47340094EC5C /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A9D2B8289F47340094EC5C /* Check.swift */; };
+		31C17FAD289F87AE009B5EA1 /* InputTextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FAC289F87AE009B5EA1 /* InputTextStep.swift */; };
+		31C17FAF289F89FA009B5EA1 /* SelectPictureStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FAE289F89FA009B5EA1 /* SelectPictureStep.swift */; };
+		31C17FB1289FAB25009B5EA1 /* SelectGenderStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */; };
+		31C17FB3289FB1C2009B5EA1 /* SelectDateStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FB2289FB1C2009B5EA1 /* SelectDateStep.swift */; };
+		31C17FB5289FBFA6009B5EA1 /* InputSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FB4289FBFA6009B5EA1 /* InputSearch.swift */; };
 		31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */; };
 		31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
 		31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3F287257B6001C2738 /* Preview Assets.xcassets */; };
@@ -198,7 +204,6 @@
 		31D9204D287271C1001C2738 /* InputAccssory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF4287271C1001C2738 /* InputAccssory.swift */; };
 		31D9204E287271C1001C2738 /* FocusableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF5287271C1001C2738 /* FocusableTextView.swift */; };
 		31D9204F287271C1001C2738 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF6287271C1001C2738 /* SearchBar.swift */; };
-		31D92050287271C1001C2738 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF7287271C1001C2738 /* InputCell.swift */; };
 		31D92051287271C1001C2738 /* SpanText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF8287271C1001C2738 /* SpanText.swift */; };
 		31D92052287271C1001C2738 /* FocusableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF9287271C1001C2738 /* FocusableTextField.swift */; };
 		31D92059287271CD001C2738 /* SceneSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D92054287271CD001C2738 /* SceneSelectController.swift */; };
@@ -348,6 +353,12 @@
 		314E5EDF2882BE63000EB910 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		314E5EE02882BE63000EB910 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
 		316D35F22895427B002FC476 /* InputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputText.swift; sourceTree = "<group>"; };
+		31A9D2B8289F47340094EC5C /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
+		31C17FAC289F87AE009B5EA1 /* InputTextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextStep.swift; sourceTree = "<group>"; };
+		31C17FAE289F89FA009B5EA1 /* SelectPictureStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPictureStep.swift; sourceTree = "<group>"; };
+		31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderStep.swift; sourceTree = "<group>"; };
+		31C17FB2289FB1C2009B5EA1 /* SelectDateStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateStep.swift; sourceTree = "<group>"; };
+		31C17FB4289FBFA6009B5EA1 /* InputSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSearch.swift; sourceTree = "<group>"; };
 		31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31D91D35287257B3001C2738 /* Bero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D91D3C287257B6001C2738 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -467,7 +478,6 @@
 		31D91FF4287271C1001C2738 /* InputAccssory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccssory.swift; sourceTree = "<group>"; };
 		31D91FF5287271C1001C2738 /* FocusableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusableTextView.swift; sourceTree = "<group>"; };
 		31D91FF6287271C1001C2738 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
-		31D91FF7287271C1001C2738 /* InputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputCell.swift; sourceTree = "<group>"; };
 		31D91FF8287271C1001C2738 /* SpanText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpanText.swift; sourceTree = "<group>"; };
 		31D91FF9287271C1001C2738 /* FocusableTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusableTextField.swift; sourceTree = "<group>"; };
 		31D92054287271CD001C2738 /* SceneSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneSelectController.swift; sourceTree = "<group>"; };
@@ -585,6 +595,7 @@
 		31071C7B289E7D7500F46498 /* profile */ = {
 			isa = PBXGroup;
 			children = (
+				31C17FAB289F8775009B5EA1 /* component */,
 				31071C7C289E7D9300F46498 /* PageAddDog.swift */,
 			);
 			path = profile;
@@ -707,6 +718,17 @@
 			);
 			name = font;
 			path = Bero/font;
+			sourceTree = "<group>";
+		};
+		31C17FAB289F8775009B5EA1 /* component */ = {
+			isa = PBXGroup;
+			children = (
+				31C17FAC289F87AE009B5EA1 /* InputTextStep.swift */,
+				31C17FB2289FB1C2009B5EA1 /* SelectDateStep.swift */,
+				31C17FAE289F89FA009B5EA1 /* SelectPictureStep.swift */,
+				31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */,
+			);
+			path = component;
 			sourceTree = "<group>";
 		};
 		31C91CEB288D0C930003821D /* component */ = {
@@ -996,6 +1018,7 @@
 				31D91FA4287271C1001C2738 /* navigation */,
 				31D91FA9287271C1001C2738 /* map */,
 				31D91FAD287271C1001C2738 /* item */,
+				31D91FDE287271C1001C2738 /* dialog */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -1089,7 +1112,6 @@
 				31D91FD3287271C1001C2738 /* progress */,
 				31D91FD7287271C1001C2738 /* graph */,
 				31D91FDB287271C1001C2738 /* image */,
-				31D91FDE287271C1001C2738 /* dialog */,
 				31D91FE4287271C1001C2738 /* button */,
 				31D91FEF287271C1001C2738 /* loadingbar */,
 				31D91FF3287271C1001C2738 /* text */,
@@ -1166,6 +1188,7 @@
 				31D91FE1287271C1001C2738 /* Select.swift */,
 				31D91FE0287271C1001C2738 /* PickerSelect.swift */,
 				31D91FE3287271C1001C2738 /* Toast.swift */,
+				31A9D2B8289F47340094EC5C /* Check.swift */,
 			);
 			path = dialog;
 			sourceTree = "<group>";
@@ -1201,11 +1224,11 @@
 			children = (
 				31D91FF4287271C1001C2738 /* InputAccssory.swift */,
 				31D91FF6287271C1001C2738 /* SearchBar.swift */,
-				31D91FF7287271C1001C2738 /* InputCell.swift */,
 				31D91FF8287271C1001C2738 /* SpanText.swift */,
 				31D91FF5287271C1001C2738 /* FocusableTextView.swift */,
 				31D91FF9287271C1001C2738 /* FocusableTextField.swift */,
 				316D35F22895427B002FC476 /* InputText.swift */,
+				31C17FB4289FBFA6009B5EA1 /* InputSearch.swift */,
 			);
 			path = text;
 			sourceTree = "<group>";
@@ -1535,6 +1558,7 @@
 				31D9205B287271CD001C2738 /* SceneAlertController.swift in Sources */,
 				31D920AF28729CDC001C2738 /* UserApi.swift in Sources */,
 				31D9202E287271C1001C2738 /* Swipper.swift in Sources */,
+				31C17FB5289FBFA6009B5EA1 /* InputSearch.swift in Sources */,
 				31D920BA28729CDC001C2738 /* AuthApiData.swift in Sources */,
 				314E5EC7288297A4000EB910 /* MenuTab.swift in Sources */,
 				31D92035287271C1001C2738 /* ProgressSlider.swift in Sources */,
@@ -1554,6 +1578,7 @@
 				31D9203C287271C1001C2738 /* PickerSelect.swift in Sources */,
 				31D92009287271C1001C2738 /* CustomCaptureSession.swift in Sources */,
 				311DC43B2879874800A3F7F5 /* PageTestMap.swift in Sources */,
+				31C17FB3289FB1C2009B5EA1 /* SelectDateStep.swift in Sources */,
 				31D9203B287271C1001C2738 /* Alert.swift in Sources */,
 				31D92039287271C1001C2738 /* ImageView.swift in Sources */,
 				31D91E7E28725834001C2738 /* UnitUtil.swift in Sources */,
@@ -1622,7 +1647,9 @@
 				31D91E9328725834001C2738 /* NetworkObserver.swift in Sources */,
 				31D9200E287271C1001C2738 /* ViewPager.swift in Sources */,
 				31D92031287271C1001C2738 /* InfinityScrollView.swift in Sources */,
+				31C17FAD289F87AE009B5EA1 /* InputTextStep.swift in Sources */,
 				31D920CA28729DD8001C2738 /* LocalStorage.swift in Sources */,
+				31A9D2B9289F47340094EC5C /* Check.swift in Sources */,
 				31D9205C287271CD001C2738 /* SceneRadioController.swift in Sources */,
 				31D92041287271C1001C2738 /* SelectButton.swift in Sources */,
 				31D9200F287271C1001C2738 /* CPImageViewPager.swift in Sources */,
@@ -1635,7 +1662,6 @@
 				31D9203E287271C1001C2738 /* Radio.swift in Sources */,
 				31D9204E287271C1001C2738 /* FocusableTextView.swift in Sources */,
 				31D91E8A28725834001C2738 /* InfinityScroll.swift in Sources */,
-				31D92050287271C1001C2738 /* InputCell.swift in Sources */,
 				31D92027287271C1001C2738 /* TextStyle.swift in Sources */,
 				31D92045287271C1001C2738 /* RadioButton.swift in Sources */,
 				31D92018287271C1001C2738 /* ImageItem.swift in Sources */,
@@ -1647,6 +1673,7 @@
 				31D91E7528725834001C2738 /* PageSceneDelegate.swift in Sources */,
 				31D920B328729CDC001C2738 /* Misc.swift in Sources */,
 				31D92038287271C1001C2738 /* GraphLine.swift in Sources */,
+				31C17FB1289FAB25009B5EA1 /* SelectGenderStep.swift in Sources */,
 				31D91E8C28725834001C2738 /* SoundToolBox.swift in Sources */,
 				31D92042287271C1001C2738 /* RectButton.swift in Sources */,
 				31D9203A287271C1001C2738 /* ImageAnimation.swift in Sources */,
@@ -1657,6 +1684,7 @@
 				31D91E8F28725834001C2738 /* WhereverYouCanGo.swift in Sources */,
 				31D92017287271C1001C2738 /* Map.swift in Sources */,
 				31D91F4528725BC4001C2738 /* SceneDelegate.swift in Sources */,
+				31C17FAF289F89FA009B5EA1 /* SelectPictureStep.swift in Sources */,
 				31D9200D287271C1001C2738 /* CPPageViewPager.swift in Sources */,
 				31D9200B287271C1001C2738 /* ImagePicker.swift in Sources */,
 				31D92006287271C1001C2738 /* durations.swift in Sources */,
@@ -1856,12 +1884,13 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bero/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = " Camera permission is required to upload user profile picture <- Camera, Photo Access Permission";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app <- Location data access permission";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app <- Location data access permission";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사용자 프로필 및 사진업로드에 사용됩니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1898,12 +1927,13 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bero/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = " Camera permission is required to upload user profile picture <- Camera, Photo Access Permission";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app <- Location data access permission";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app <- Location data access permission";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사용자 프로필 및 사진업로드에 사용됩니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

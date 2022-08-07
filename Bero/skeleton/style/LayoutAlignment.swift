@@ -69,6 +69,33 @@ struct LayoutCenter: ViewModifier {
     }
 }
 
+
+struct PageAll: ViewModifier {
+    func body(content: Content) -> some View {
+        return content
+            .modifier(PageVertical())
+            .modifier(PageHorizontal())
+    }
+}
+
+struct PageVertical: ViewModifier {
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
+    func body(content: Content) -> some View {
+        return content
+            .padding(.top, self.appSceneObserver.safeHeaderHeight + Dimen.margin.medium)
+            .padding(.bottom, self.appSceneObserver.safeBottomHeight + Dimen.margin.thin)
+    }
+}
+
+struct PageHorizontal: ViewModifier {
+   
+    func body(content: Content) -> some View {
+        return content
+            .padding(.horizontal, Dimen.margin.regular)
+    }
+}
+
+
 struct MatchParent: ViewModifier {
     var marginX:CGFloat = 0
     var marginY:CGFloat = 0

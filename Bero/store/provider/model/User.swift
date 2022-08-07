@@ -8,36 +8,36 @@
 import Foundation
 import SwiftUI
 import UIKit
-enum Gender {
+enum Gender:String {
     case male, female
-    func getIcon() -> String {
+    var icon : String {
         switch self {
-        case .male : return Asset.icon.close
-        case .female : return Asset.icon.close
+        case .male : return Asset.icon.male
+        case .female : return Asset.icon.female
+        }
+    }
+    var color : Color {
+        switch self {
+        case .male : return Color.app.blue
+        case .female : return  Color.app.orange
         }
     }
     
-    func getTitle() -> String {
+    var title : String {
         switch self {
         case .male : return String.app.male
         case .female : return String.app.female
         }
     }
     
-    func getSimpleTitle() -> String {
-        switch self {
-        case .male : return "Male"
-        case .female : return "Female"
-        }
-    }
-    
-    func coreDataKey() -> Int {
+
+    var coreDataKey:Int {
         switch self {
         case .male : return 1
         case .female : return 2
         }
     }
-    func apiDataKey() -> String {
+    var apiDataKey:String {
         switch self {
         case .male : return "Male"
         case .female : return "Female"

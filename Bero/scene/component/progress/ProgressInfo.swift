@@ -13,6 +13,7 @@ struct ProgressInfo:PageView{
     var total:Int
     var image:UIImage? = nil
     var info:String? = nil
+    var subInfo:String? = nil
     var body: some View {
         VStack(alignment: .leading, spacing:0){
             if let img = self.image {
@@ -32,6 +33,14 @@ struct ProgressInfo:PageView{
                     ))
                 .padding(.top, Dimen.margin.tinyExtra)
             }
+            if let info = self.subInfo {
+                Text(info)
+                    .modifier(RegularTextStyle(
+                        size: Font.size.thin,
+                        color: Color.app.grey400
+                    ))
+                .padding(.top, Dimen.margin.regular)
+            }
         }
     }
 }
@@ -41,7 +50,9 @@ struct ProgressInfo_Previews: PreviewProvider {
         VStack{
             ProgressInfo(index: 1, total: 8,
                          image: UIImage(named: Asset.image.profile_dog_default),
-                         info: "What is the name of your dog?")
+                         info: "What is the name of\nyour dog?",
+                         subInfo: "What is the name of your dog"
+            )
         }
     }
 }

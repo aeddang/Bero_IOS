@@ -24,7 +24,7 @@ struct PageLogin: PageView {
         VStack(spacing: Dimen.margin.medium){
             ZStack(alignment: .bottomLeading){
                 Spacer().modifier(MatchParent())
-                    .background(Color.app.orangeExtra)
+                    .background(Color.app.orangeSub)
                     .padding(.bottom, 109)
                 Image(Asset.shape.ellipse)
                     .renderingMode(.original)

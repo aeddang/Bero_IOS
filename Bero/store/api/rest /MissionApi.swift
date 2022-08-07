@@ -23,7 +23,7 @@ class Walk{
 extension MissionApi {
     enum Category {
         case walk, mission, all
-        func getApiCode() -> String {
+        var getApiCode : String {
             switch self {
             case .walk : return "Walk"
             case .mission : return "Mission"
@@ -59,7 +59,7 @@ class MissionApi :Rest{
         var params = [String: String]()
         params["userId"] = userId ?? ""
         params["petId"] = petId?.description ?? ""
-        params["missionCategory"] = cate.getApiCode()
+        params["missionCategory"] = cate.getApiCode
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description
         fetch(route: MissionApiRoute (method: .get, query: params), completion: completion, error:error)
@@ -72,7 +72,7 @@ class MissionApi :Rest{
         params["distance"] = distance?.description ?? ""
         params["lat"] = location?.coordinate.latitude.description ?? ""
         params["lng"] = location?.coordinate.longitude.description ?? ""
-        params["missionCategory"] = cate.getApiCode()
+        params["missionCategory"] = cate.getApiCode
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description
         fetch(route: MissionApiRoute (method: .get, action:.search, query: params), completion: completion, error:error)
@@ -99,11 +99,11 @@ class MissionApi :Rest{
     
     func post(mission:Mission, pets:[PetProfile] , completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
-        params["missionCategory"] = Category.mission.getApiCode()
-        params["missionType"] = mission.type.info()
+        params["missionCategory"] = Category.mission.getApiCode
+        params["missionType"] = mission.type.info
         params["title"] = mission.title
         params["description"] = mission.description
-        params["difficulty"] = mission.lv.apiDataKey()
+        params["difficulty"] = mission.lv.apiDataKey
         params["duration"] = mission.playTime
         params["distance"] = mission.playDistence
         params["pictureUrl"] = mission.pictureUrl
@@ -131,7 +131,7 @@ class MissionApi :Rest{
     
     func post(walk:Walk, pets:[PetProfile] , completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
-        params["missionCategory"] = Category.walk.getApiCode()
+        params["missionCategory"] = Category.walk.getApiCode
        
         params["duration"] = walk.playTime
         params["distance"] = walk.playDistence

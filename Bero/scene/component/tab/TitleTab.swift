@@ -17,10 +17,11 @@ import SwiftUI
 
 extension TitleTab{
     enum ButtonType:String {
-        case more, add, edit, close
+        case more, add, edit, close, back
         case viewMore
         var icon:String {
             switch self {
+            case .back : return Asset.icon.back
             case .more : return Asset.icon.more_vert
             case .add : return Asset.icon.add
             case .edit : return Asset.icon.edit
@@ -55,16 +56,15 @@ struct TitleTab: PageComponent{
     var action: ((ButtonType) -> Void)
    
     var body: some View {
-        HStack(spacing: Dimen.margin.tiny){
-            if useBack {
-                ImageButton(
-                    defaultImage: Asset.icon.back
-                ){ _ in
-                    self.pagePresenter.goBack()
+        ZStack(alignment:self.alignment == .leading || self.useBack ? .leading : .center){
+            HStack(spacing: Dimen.margin.tiny){
+                if useBack {
+                    ImageButton(
+                        defaultImage: Asset.icon.back
+                    ){ _ in
+                        self.action(.back)
+                    }
                 }
-            }
-            VStack(alignment:self.alignment == .leading ? .leading : .center, spacing: 0){
-                Spacer().modifier(MatchHorizontal(height: 0))
                 if let title = self.title {
                     Text(title)
                         .modifier(BoldTextStyle(size: Font.size.light, color: Color.app.black))
@@ -72,24 +72,27 @@ struct TitleTab: PageComponent{
                         .lineLimit(self.lineLimit)
                 }
             }
-            ForEach(self.buttons, id: \.self) { btn in
-                HStack(spacing:Dimen.margin.microExtra){
-                    if let text = btn.text {
-                        Text(text)
-                            .modifier(LightTextStyle(size: Font.size.thin, color: Color.app.grey400))
-                            .onTapGesture {
-                                self.action(btn)
-                            }
-                    }
-                    ImageButton(
-                        defaultImage: btn.icon,
-                        defaultColor: btn.color
-                    ){ _ in
-                        self.action(btn)
+            HStack(spacing: Dimen.margin.tiny){
+                Spacer().modifier(MatchHorizontal(height: 0))
+                ForEach(self.buttons, id: \.self) { btn in
+                    HStack(spacing:Dimen.margin.microExtra){
+                        if let text = btn.text {
+                            Text(text)
+                                .modifier(LightTextStyle(size: Font.size.thin, color: Color.app.grey400))
+                                .onTapGesture {
+                                    self.action(btn)
+                                }
+                        }
+                        ImageButton(
+                            defaultImage: btn.icon,
+                            defaultColor: btn.color
+                        ){ _ in
+                            self.action(btn)
+                        }
                     }
                 }
+                
             }
-            
         }
     }
 }

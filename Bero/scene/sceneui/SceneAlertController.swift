@@ -42,7 +42,6 @@ struct SceneAlertController: PageComponent{
     @State var imgButtons:[AlertBtnData]? = nil
     @State var buttons:[AlertBtnData] = []
     @State var currentAlert:SceneAlert? = nil
-    @State var delayReset:AnyCancellable? = nil
     var body: some View {
         Form{
             Spacer()

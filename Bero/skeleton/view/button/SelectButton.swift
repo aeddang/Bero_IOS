@@ -91,8 +91,8 @@ struct SelectButton: View, SelecterbleProtocol{
             .overlay(
                 RoundedRectangle(cornerRadius: self.type.radius)
                     .strokeBorder(
-                        Color.brand.primary,
-                        lineWidth: self.isSelected ? Dimen.stroke.light : 0
+                        self.isSelected ? Color.brand.primary : Color.app.grey200,
+                        lineWidth: Dimen.stroke.light
                     )
             )
         }

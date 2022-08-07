@@ -45,7 +45,7 @@ struct IntroItem2: PageComponent, Identifiable {
             Spacer().frame(height: Dimen.margin.heavy)
         }
         .modifier(MatchParent())
-        .background(Color.app.orangeExtra)
+        .background(Color.app.orangeSub)
     }
 }
 

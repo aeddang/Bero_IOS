@@ -12,6 +12,7 @@ import SwiftUI
 struct TextModifier {
     var family:String = Font.family.regular
     var size:CGFloat = Font.size.regular
+    var spacing:CGFloat = Font.spacing.regular
     var color: Color = Color.app.black
     var activeColor: Color = Color.brand.primary
     var sizeScale: CGFloat = 1.1
@@ -40,6 +41,7 @@ struct BlackTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.medium)
             .foregroundColor(textModifier.color)
             
     }
@@ -61,8 +63,9 @@ struct BoldTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.regular)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+            
             
     }
 }
@@ -83,8 +86,9 @@ struct SemiBoldTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.regular)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+           
             
     }
 }
@@ -105,8 +109,9 @@ struct MediumTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.regular)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+           
     }
 }
 
@@ -126,8 +131,9 @@ struct RegularTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.regular)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+            
     }
 }
 
@@ -147,8 +153,9 @@ struct LightTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.thin)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+            
     }
 }
 
@@ -169,8 +176,9 @@ struct NumberBoldTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.thin)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+            
     }
 }
 
@@ -190,8 +198,9 @@ struct NumberMediumTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.regular)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+            
     }
 }
 
@@ -211,8 +220,9 @@ struct NumberLightTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.thin)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+            
     }
 }
 
@@ -224,8 +234,9 @@ struct CustomTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
+            .lineSpacing(Font.spacing.regular)
             .foregroundColor(textModifier.color)
-            .lineSpacing(2)
+           
     }
 }
 

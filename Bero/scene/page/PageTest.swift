@@ -18,6 +18,7 @@ struct PageTest: PageView {
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var snsManager:SnsManager
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var naviModel = NavigationModel()
     @ObservedObject var webViewModel = WebViewModel(base: "https://www.todaypp.com")
@@ -29,13 +30,26 @@ struct PageTest: PageView {
         GeometryReader { geometry in
             VStack(alignment: .center)
             {
-                FaceBookButton()
-                    .frame(width: 200, height: 50)
-                Spacer()
-                    .frame(width: 200, height: 50)
-                    .onTapGesture {
-                        self.snsManager.requestLogin(type: .google)
+                FillButton(
+                    text: "test check"){ _ in
+                        self.appSceneObserver.event = .check("check test"){
+                            self.appSceneObserver.event = .toast("checked")
+                        }
                     }
+                FillButton(
+                    text: "test toast"){ _ in
+                        self.appSceneObserver.event = .toast("toast test toast test toast test toast test toast test toast test toast test toast test toast test")
+                    }
+                FillButton(
+                    text: "test camera"){ _ in
+                        self.appSceneObserver.event = .openImagePicker("ttteeestt", type: .camera)
+                    }
+                
+                FillButton(
+                    text: "test photo"){ _ in
+                        self.appSceneObserver.event = .openImagePicker("ttteeestt2")
+                    }
+                
             }//VStack
             .modifier(MatchParent())
             .background(Color.app.white)

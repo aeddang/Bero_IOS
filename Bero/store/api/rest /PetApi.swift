@@ -23,10 +23,10 @@ class PetApi :Rest{
         params["userId"] = user.snsID
         fetch(route: PetApiRoute(method: .post, query: params),
            constructingBlock:{ data in
-            if let value = pet.nickName { data.append(value: value, name: "name") }
+            if let value = pet.name { data.append(value: value, name: "name") }
             if let value = pet.species { data.append(value: value, name: "breed") }
             if let value = pet.birth?.toDateFormatter() { data.append(value: value.subString(start: 0, len: 19), name: "birthdate") }
-            if let value = pet.gender?.apiDataKey() { data.append(value: value, name: "sex") }
+            if let value = pet.gender?.apiDataKey { data.append(value: value, name: "sex") }
             if let value = pet.microfin { data.append(value: value, name: "regNumber") }
             data.append(value: "1", name: "level")
             let status = PetProfile.getStatusValue(pet)
@@ -42,10 +42,10 @@ class PetApi :Rest{
     func put(petId:Int, pet:ModifyPetProfileData, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: PetApiRoute(method: .put, commandId: petId.description),
            constructingBlock:{ data in
-            if let value = pet.nickName { data.append(value: value, name: "name") }
+            if let value = pet.name { data.append(value: value, name: "name") }
             if let value = pet.species { data.append(value: value, name: "breed") }
             if let value = pet.birth?.toDateFormatter() { data.append(value: value.subString(start: 0, len: 19), name: "birthdate") }
-            if let value = pet.gender?.apiDataKey() { data.append(value: value, name: "sex") }
+            if let value = pet.gender?.apiDataKey { data.append(value: value, name: "sex") }
             if let value = pet.microfin { data.append(value: value, name: "regNumber") }
             if let value = pet.weight { data.append(value: value.description, name: "weight") }
             if let value = pet.size { data.append(value: value.description, name: "size") }

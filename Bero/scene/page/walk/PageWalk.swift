@@ -38,16 +38,10 @@ struct PageWalk: PageView {
               
             }//VStack
             .modifier(MatchParent())
-            .background(Color.app.white)
+            .background(Color.brand.bg)
         }//GeometryReader
         .onAppear{
-            self.appSceneObserver.sheet = .select(
-                "Add your dog",
-                "Start with telling more about your dog.",
-                Asset.image.addDog,
-                ["Later","Ok"]){ idx in
-                
-            }
+            
         }
     }//body
     

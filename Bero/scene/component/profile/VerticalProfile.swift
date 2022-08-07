@@ -52,7 +52,7 @@ struct VerticalProfile: PageComponent{
                 imagePath: self.imagePath,
                 size: self.sizeType.imageSize,
                 emptyImagePath: self.type.emptyImage,
-                action: self.isEditable ? {
+                onEdit: self.isEditable ? {
                     
                 } : nil
             )

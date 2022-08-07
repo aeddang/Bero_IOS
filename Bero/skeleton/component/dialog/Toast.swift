@@ -28,26 +28,26 @@ struct Toast<Presenting>: View where Presenting: View {
     @State var safeAreaBottom:CGFloat = 0
     var body: some View {
         ZStack(alignment: .bottom) {
-            self.presenting()
-            HStack(spacing:Dimen.margin.tiny){
-                Image(Asset.icon.paw)
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundColor(Color.app.white)
-                    .scaledToFit()
-                    .frame(width: Dimen.icon.light, height: Dimen.icon.light)
-                    .opacity(0.5)
-                Text(self.text)
-                    .modifier(MediumTextStyle(size: Font.size.light, color: Color.app.white))
-            }
-            .padding(.all, Dimen.margin.tiny)
+            self.presenting().opacity(self.isShowing ? 1 : 0)
+            Text(self.text)
+                .modifier(MediumTextStyle(size: Font.size.thin, color: Color.brand.primary))
+            .padding(.all, Dimen.margin.light)
             .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,  maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .center)
-            .background(Color.app.grey100.opacity(0.7))
+            .background(Color.app.white)
+            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+            .overlay(
+                RoundedRectangle(cornerRadius:Dimen.radius.tiny)
+                    .strokeBorder(
+                        Color.brand.primary,
+                        lineWidth: Dimen.stroke.light
+                    )
+            )
             .padding(.bottom, self.safeAreaBottom)
+            .padding(.horizontal, Dimen.margin.regular)
             .offset(y:self.isShowing ? 0 : 100)
             .opacity(self.isShowing ? 1 : 0)
         }
-        
+       
         .onReceive(self.sceneObserver.$safeAreaBottom){ pos in
             withAnimation{
                 self.safeAreaBottom = pos
@@ -60,21 +60,6 @@ struct Toast<Presenting>: View where Presenting: View {
                     withAnimation {self.isShowing = false}
                 }
             }
-            
         }
-    }
-    
-    @State var autoHidden:AnyCancellable?
-    func delayAutoHidden(){
-        self.autoHidden?.cancel()
-        self.autoHidden = Timer.publish(
-            every: self.duration, on: .current, in: .common)
-            .autoconnect()
-            .sink() {_ in
-                self.autoHidden?.cancel()
-                withAnimation {
-                   self.isShowing = false
-                }
-            }
     }
 }

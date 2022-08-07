@@ -24,11 +24,13 @@ extension Color {
         public static let primary = Color.app.orange
         public static let secondary = Color.app.green
         public static let thirdly = Color.app.red
-        public static let bg = app.white
+        public static let bg = Color.init(rgb: 0xEEEEEE)
     }
     struct app {
         public static let orange = Color.init(rgb: 0xFF7D1F)
-        public static let orangeExtra = Color.init(rgb:0xFFF1E7)
+        public static let orangeSub = Color.init(rgb:0xFFF1E7)
+        public static let orangeSub2 = Color.init(rgb:0xFFD2B1)
+       
     
         public static let orangeGradient:Gradient = Gradient(colors: [
             Color.init(red: 249/255, green: 149/255, blue: 31/255),
@@ -38,6 +40,7 @@ extension Color {
         public static let green = Color.init(rgb:0x13CEA1)
         
         public static let red = Color.init(rgb:0xF2270B)
+        public static let blue = Color.init(rgb:0x88A1FB)
         public static let yellow = Color.init(rgb:0xFFE749)
         
         public static let black =  Color.init(rgb: 0x333333)

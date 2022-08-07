@@ -11,7 +11,7 @@ import UIKit
 
 struct ModifyPetProfileData {
     var image:UIImage? = nil
-    var nickName:String? = nil
+    var name:String? = nil
     var species:String? = nil
     var gender:Gender? = nil
     var birth:Date? = nil
@@ -23,6 +23,23 @@ struct ModifyPetProfileData {
     var rabies:Bool? = nil
     var weight:Double? = nil
     var size:Double? = nil
+    
+    func updata(_ data:ModifyPetProfileData) -> ModifyPetProfileData {
+        return ModifyPetProfileData(
+            image: data.image ?? self.image,
+            name: data.name ?? self.name,
+            species: data.species ?? self.species,
+            gender: data.gender ?? self.gender,
+            birth: data.birth ?? self.birth,
+            microfin: data.microfin ?? self.microfin,
+            neutralization: data.neutralization ?? self.neutralization,
+            distemper: data.distemper ?? self.distemper,
+            hepatitis: data.hepatitis ?? self.hepatitis,
+            parovirus: data.parovirus ?? self.parovirus,
+            rabies: data.rabies ?? self.rabies,
+            weight: data.weight ?? self.weight,
+            size: data.size ?? self.size)
+    }
 }
 
 struct ModifyPlayData {
@@ -58,7 +75,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     private(set) var petId:Int = 0
     private(set) var imagePath:String? = nil
     @Published private(set) var image:UIImage? = nil
-    @Published private(set) var nickName:String? = nil
+    @Published private(set) var name:String? = nil
     @Published private(set) var species:String? = nil
     @Published private(set) var gender:Gender? = nil
     @Published private(set) var birth:Date? = nil
@@ -90,8 +107,8 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     }
     
     init(){}
-    init(nickName:String?,species:String?, gender:Gender?, birth:Date?){
-        self.nickName = nickName
+    init(name:String?,species:String?, gender:Gender?, birth:Date?){
+        self.name = name
         self.species = species
         self.gender = gender
         self.birth = birth
@@ -106,7 +123,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.isMypet = isMyPet
         self.petId = data.petId ?? 0
         self.imagePath = data.pictureUrl
-        self.nickName = data.name
+        self.name = data.name
         self.species = data.breed
         self.gender = Gender.getGender(data.sex) 
         self.birth = data.birthdate?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
@@ -129,7 +146,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @discardableResult
     func empty() -> PetProfile{
         self.isEmpty = true
-        self.nickName = ""
+        self.name = ""
         self.isMypet = true
         return self
     }
@@ -138,7 +155,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     func setDummy() -> PetProfile{
         self.isMypet = false
         self.id = UUID().uuidString
-        self.nickName = "bero"
+        self.name = "bero"
         self.species = "bero species"
         self.gender = .female
         self.birth = Date()
@@ -159,7 +176,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @discardableResult
     func update(data:ModifyPetProfileData) -> PetProfile{
         if let value = data.image { self.image = value }
-        if let value = data.nickName { self.nickName = value }
+        if let value = data.name { self.name = value }
         if let value = data.species { self.species = value }
         if let value = data.gender { self.gender = value }
         if let value = data.microfin { self.microfin = value }

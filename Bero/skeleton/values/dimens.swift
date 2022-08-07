@@ -36,7 +36,7 @@ struct Dimen{
     }
     
     struct profile {
-        public static let heavy:CGFloat = 80 //
+        public static let heavy:CGFloat = 120
         public static let medium:CGFloat = 80
         public static let regular:CGFloat = 56
         public static let light:CGFloat = 48
@@ -98,8 +98,8 @@ struct Dimen{
     struct stroke {
         public static let heavy:CGFloat =  16//
         public static let medium:CGFloat =  8 //
-        public static let regular:CGFloat = 2//
-        public static let light:CGFloat = 1//
+        public static let regular:CGFloat = 2
+        public static let light:CGFloat = 1
     }
     
     struct app {
