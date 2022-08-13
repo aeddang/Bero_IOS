@@ -32,7 +32,7 @@ struct SelectDateStep: PageComponent{
         return startDay...now
     }
     @State var selectDate:Date = Date()
-    
+    @State var isShowing = false
     var body: some View {
         VStack(spacing: Dimen.margin.tiny){
             Spacer()
@@ -85,9 +85,10 @@ struct SelectDateStep: PageComponent{
                 .modifier(Shadow())
             }
         }
-        
+        .opacity(self.isShowing ? 1 : 0)
         .onAppear{
             self.selectDate = self.profile?.birth ?? Date()
+            withAnimation{  self.isShowing = true }
         }
     }
 }

@@ -125,6 +125,7 @@ extension Asset{
         public static let point = "point"
         public static let remove_friend = "remove_friend"
         public static let vet = "vet"
+        public static let hi = "hi"
     }
     
 
@@ -144,6 +145,7 @@ extension Asset{
         public static let profile_dog_default_dark = "profile_dog_default_dark"
         public static let profile_user_default = "profile_user_default"
         public static let profile_user_default_dark = "profile_user_default_dark"
+        public static let profile_deco = "profile_deco"
     }
     struct shape {
         public static let point = "sp_point"

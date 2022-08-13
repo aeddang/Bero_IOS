@@ -24,6 +24,9 @@ extension String {
         public static let kmPerH = "kmPerH"
         public static let km = "km"
         public static let min = "min"
+        
+        public static let animalId = "Animal ID"
+        public static let microchip = "Microchip"
     }
     
     struct gnb {
@@ -61,6 +64,7 @@ extension String {
         public static let ok = "Ok"
         public static let prev = "Prev"
         public static let next = "Next"
+        public static let skipNow = "Skip for now"
         public static let close = "Close"
         public static let goBack = "Go back"
         public static let retry = "Retry"
@@ -90,6 +94,10 @@ extension String {
         
         public static let loginText = "Let’s walk\nour dogs together!"
         public static let loginButtonText = "Continue with "
+         
+        public static let addDogCompletedText1 = "Nice to meet you"
+        public static let addDogCompletedText2 = "There are so many fun walks and dog friends waiting for you!"
+        public static let addDogCompletedConfirm = "Start exploring"
         
         
     }

@@ -31,7 +31,12 @@ struct RadioButton: View, SelecterbleProtocol {
             case .stroke : return Dimen.icon.medium
             }
         }
-        
+        var spacing:CGFloat{
+            switch self {
+            case .blank : return 0
+            case .stroke : return Dimen.margin.tinyExtra
+            }
+        }
         var bgColor:Color{
             switch self {
             case .blank : return Color.transparent.clearUi
@@ -98,6 +103,13 @@ struct RadioButton_Previews: PreviewProvider {
             RadioButton(
                 type: .stroke,
                 isChecked: true,
+                text:"RadioButton"
+            ){ _ in
+                
+            }
+            RadioButton(
+                type: .stroke,
+                isChecked: false,
                 text:"RadioButton"
             ){ _ in
                 

@@ -83,7 +83,7 @@ struct ProfileInfoDescription:PageView{
     @EnvironmentObject var pagePresenter:PagePresenter
     var id:String
     var age:String? = nil
-    var species:String? = nil
+    var breed:String? = nil
     var gender:Gender? = nil
     var useCircle:Bool = true
     var color:Color = Color.app.grey500
@@ -116,7 +116,7 @@ struct ProfileInfoDescription:PageView{
                     ))
             }
             
-            if let species = self.species {
+            if let breed = self.breed {
                 if useCircle {
                     Circle()
                         .fill(Color.brand.primary)
@@ -129,7 +129,7 @@ struct ProfileInfoDescription:PageView{
                         ))
                 }
                     
-                Text(species)
+                Text(breed)
                     .modifier(RegularTextStyle(
                         size: Font.size.thin,
                         color: self.color

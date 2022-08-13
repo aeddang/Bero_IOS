@@ -16,7 +16,7 @@ import FirebaseCore
 import GoogleSignInSwift
 struct PageAddDog: PageView {
     enum Step: CaseIterable{
-        case name, picture, gender, birth, breed, immun, tag, identify
+        case name, picture, gender, birth, breed, immun, hash, identify
         var description:String {
             switch self {
             case .name: return "What is the name of your dog?"
@@ -25,7 +25,7 @@ struct PageAddDog: PageView {
             case .birth : return "When is %s’s birthday?"
             case .breed : return "What is %s’s breed?"
             case .immun : return "Health & Immunization"
-            case .tag : return "Select all that applies to %s."
+            case .hash : return "Select all that applies to %s."
             case .identify : return "Identify %s."
             }
         }
@@ -35,10 +35,24 @@ struct PageAddDog: PageView {
             default : return nil
             }
         }
-        
+        var inputType:[String]? {
+            switch self {
+            case .identify : return [String.app.animalId, String.app.microchip]
+            default : return nil
+            }
+        }
+        var inputDescription:String? {
+            switch self {
+            case .identify : return "An animal ID is consisted of 15 digits.\nTake your pet to be scanned at the local vet, rescue centre or dog wardens service."
+            default : return nil
+            }
+        }
+       
         var placeHolder:String{
             switch self {
             case .name : return "ex. Bero"
+            case .identify : return "ex) 123456789"
+            case .breed : return "Search breed"
             default : return ""
             }
         }
@@ -50,12 +64,21 @@ struct PageAddDog: PageView {
             }
         }
         
+        var isSkipAble:Bool{
+            switch self {
+            case .identify : return true
+            default : return false
+            }
+        }
+        
     }
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
+    @ObservedObject var navigationModel:NavigationModel = NavigationModel()
+    @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -83,12 +106,11 @@ struct PageAddDog: PageView {
                                  info: self.currentStep.description.replace(self.profile.name ?? ""),
                                  subInfo: self.currentStep.caption
                     )
-                    .onTapGesture {
-                        self.onNextStep()
-                    }
+                
                     switch self.currentStep {
-                    case .name :
+                    case .name, .identify :
                         InputTextStep(
+                            navigationModel: self.navigationModel,
                             profile: self.profile,
                             step: self.currentStep,
                             prev: {self.onPrevStep()},
@@ -111,7 +133,27 @@ struct PageAddDog: PageView {
                             step: self.currentStep,
                             prev: {self.onPrevStep()},
                             next: { data in self.onNextStep(updateProfile: data)})
-                    default: Spacer()
+                    case .immun :
+                        SelectListStep(
+                            infinityScrollModel : self.infinityScrollModel,
+                            profile: self.profile,
+                            step: self.currentStep,
+                            prev: {self.onPrevStep()},
+                            next: { data in self.onNextStep(updateProfile: data)})
+                    case .breed :
+                        SelectListStep(
+                            infinityScrollModel : self.infinityScrollModel,
+                            profile: self.profile,
+                            step: self.currentStep,
+                            prev: {self.onPrevStep()},
+                            next: { data in self.onNextStep(updateProfile: data)})
+                    case .hash :
+                        SelectTagStep(
+                            profile: self.profile,
+                            step: self.currentStep,
+                            prev: {self.onPrevStep()},
+                            next: { data in self.onNextStep(updateProfile: data)})
+                   
                     }
                     
                 }
@@ -139,9 +181,8 @@ struct PageAddDog: PageView {
             return
         }
         self.currentCount = wiilStep
-        withAnimation{
-            self.currentStep = Self.Step.allCases[wiilStep]
-        }
+        self.currentStep = Self.Step.allCases[wiilStep]
+        
     }
     private func onNextStep(updateProfile:ModifyPetProfileData? = nil){
         if let update = updateProfile {
@@ -153,12 +194,14 @@ struct PageAddDog: PageView {
             return
         }
         self.currentCount = wiilStep
-        withAnimation{
-            self.currentStep = Self.Step.allCases[wiilStep]
-        }
+        self.currentStep = Self.Step.allCases[wiilStep]
     }
     private func onCompleted(){
-        
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.addDogCompleted)
+                .addParam(key: .data, value: self.profile)
+        )
+        self.pagePresenter.closePopup(self.pageObject?.id)
     }
 }
 

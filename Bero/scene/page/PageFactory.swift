@@ -18,6 +18,7 @@ extension PageID{
     static let my:PageID = "my"
     
     static let addDog:PageID = "addDog"
+    static let addDogCompleted:PageID = "addDogCompleted"
 }
 
 struct PageProvider {
@@ -43,7 +44,7 @@ struct PageProvider {
     
     static func getType(_ pageID:PageID)-> PageAnimationType{
         switch pageID {
-        case  .addDog : return .vertical
+        case  .addDog, .addDogCompleted : return .vertical
         //case  .missionCompleted : return .opacity
         default : return  .horizontal
         }
@@ -132,6 +133,7 @@ struct PageFactory{
         case .walk : return PageWalk()
         case .my : return PageLogin()
         case .addDog : return PageAddDog()
+        case .addDogCompleted : return PageAddDogCompleted()
         default : return PageTest()
         }
     }
@@ -169,7 +171,7 @@ struct PageSceneModel: PageModel {
     
     func isHistoryPage(_ pageObject:PageObject ) -> Bool {
         switch pageObject.pageID {
-        case .addDog : return false
+        case .addDog, .addDogCompleted : return false
         default : return true
         }
     }

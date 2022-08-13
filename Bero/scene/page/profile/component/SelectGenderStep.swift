@@ -26,6 +26,7 @@ struct SelectGenderStep: PageComponent{
     let prev: (() -> Void)
     let next: ((ModifyPetProfileData) -> Void)
     @State var selectGender:Gender? = nil
+    @State var isShowing = false
     var body: some View {
         VStack(spacing: Dimen.margin.tiny){
             
@@ -77,9 +78,10 @@ struct SelectGenderStep: PageComponent{
                 .opacity(self.selectGender == nil ? 0.3 : 1)
             }
         }
-        
+        .opacity(self.isShowing ? 1 : 0)
         .onAppear{
             self.selectGender = self.profile?.gender
+            withAnimation{  self.isShowing = true }
         }
     }
 }

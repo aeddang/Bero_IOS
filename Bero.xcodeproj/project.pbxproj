@@ -85,6 +85,9 @@
 		31C17FB1289FAB25009B5EA1 /* SelectGenderStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */; };
 		31C17FB3289FB1C2009B5EA1 /* SelectDateStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FB2289FB1C2009B5EA1 /* SelectDateStep.swift */; };
 		31C17FB5289FBFA6009B5EA1 /* InputSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FB4289FBFA6009B5EA1 /* InputSearch.swift */; };
+		31C6372828A71514008EA54C /* SelectListStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6372728A71514008EA54C /* SelectListStep.swift */; };
+		31C6372A28A7307A008EA54C /* SelectTagStap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6372928A7307A008EA54C /* SelectTagStap.swift */; };
+		31C6372C28A745A8008EA54C /* PageAddDogCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6372B28A745A8008EA54C /* PageAddDogCompleted.swift */; };
 		31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */; };
 		31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
 		31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3F287257B6001C2738 /* Preview Assets.xcassets */; };
@@ -359,6 +362,9 @@
 		31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderStep.swift; sourceTree = "<group>"; };
 		31C17FB2289FB1C2009B5EA1 /* SelectDateStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateStep.swift; sourceTree = "<group>"; };
 		31C17FB4289FBFA6009B5EA1 /* InputSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSearch.swift; sourceTree = "<group>"; };
+		31C6372728A71514008EA54C /* SelectListStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListStep.swift; sourceTree = "<group>"; };
+		31C6372928A7307A008EA54C /* SelectTagStap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagStap.swift; sourceTree = "<group>"; };
+		31C6372B28A745A8008EA54C /* PageAddDogCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAddDogCompleted.swift; sourceTree = "<group>"; };
 		31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31D91D35287257B3001C2738 /* Bero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D91D3C287257B6001C2738 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -597,6 +603,7 @@
 			children = (
 				31C17FAB289F8775009B5EA1 /* component */,
 				31071C7C289E7D9300F46498 /* PageAddDog.swift */,
+				31C6372B28A745A8008EA54C /* PageAddDogCompleted.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";
@@ -727,6 +734,8 @@
 				31C17FB2289FB1C2009B5EA1 /* SelectDateStep.swift */,
 				31C17FAE289F89FA009B5EA1 /* SelectPictureStep.swift */,
 				31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */,
+				31C6372728A71514008EA54C /* SelectListStep.swift */,
+				31C6372928A7307A008EA54C /* SelectTagStap.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -909,12 +918,12 @@
 			isa = PBXGroup;
 			children = (
 				31D920A428729CDC001C2738 /* Repository.swift */,
+				31D9209528729CDB001C2738 /* provider */,
+				31D920A328729CDC001C2738 /* manager */,
 				31D920C828729DD8001C2738 /* storage */,
 				31D920A528729CDC001C2738 /* share */,
 				31D9208128729CDB001C2738 /* api */,
 				31D9209E28729CDC001C2738 /* coreData */,
-				31D920A328729CDC001C2738 /* manager */,
-				31D9209528729CDB001C2738 /* provider */,
 			);
 			name = store;
 			path = Bero/store;
@@ -1537,6 +1546,7 @@
 				31D920B228729CDC001C2738 /* AuthApi.swift in Sources */,
 				31D92011287271C1001C2738 /* WebView.swift in Sources */,
 				31D920B628729CDC001C2738 /* WeatherApiData.swift in Sources */,
+				31C6372C28A745A8008EA54C /* PageAddDogCompleted.swift in Sources */,
 				31D91E7C28725834001C2738 /* PageComponentProtocol.swift in Sources */,
 				31D92028287271C1001C2738 /* ListStyle.swift in Sources */,
 				31D92051287271C1001C2738 /* SpanText.swift in Sources */,
@@ -1559,6 +1569,7 @@
 				31D920AF28729CDC001C2738 /* UserApi.swift in Sources */,
 				31D9202E287271C1001C2738 /* Swipper.swift in Sources */,
 				31C17FB5289FBFA6009B5EA1 /* InputSearch.swift in Sources */,
+				31C6372A28A7307A008EA54C /* SelectTagStap.swift in Sources */,
 				31D920BA28729CDC001C2738 /* AuthApiData.swift in Sources */,
 				314E5EC7288297A4000EB910 /* MenuTab.swift in Sources */,
 				31D92035287271C1001C2738 /* ProgressSlider.swift in Sources */,
@@ -1699,6 +1710,7 @@
 				31D92029287271C1001C2738 /* RatioSize.swift in Sources */,
 				31D92025287271C1001C2738 /* CustomToggleStyle.swift in Sources */,
 				31D91E8128725834001C2738 /* AESUtil.swift in Sources */,
+				31C6372828A71514008EA54C /* SelectListStep.swift in Sources */,
 				3117485E288D486E00B96A42 /* Sheet.swift in Sources */,
 				3143CD5A2888E7F600F1C88A /* PageWalk.swift in Sources */,
 				31F3BD2A28961AD10025223B /* SlideMenuTab.swift in Sources */,
@@ -1890,7 +1902,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1933,7 +1945,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

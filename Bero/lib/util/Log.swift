@@ -43,7 +43,7 @@ extension Log {
         Self.log(message, tag:tag, log:.default, type:.info )
     }
     
-    static func d(_ message: String, tag:String? = nil, lv:Int = 2) {
+    static func d(_ message: String, tag:String? = nil, lv:Int = 1) {
         if Self.lv < lv {return}
         if LogManager.isMemory {
             LogManager.memoryLog += ("\n" + (tag ?? "Log") + " : " + message)

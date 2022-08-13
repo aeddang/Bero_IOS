@@ -265,10 +265,10 @@ struct PageDragingBody<Content>: PageDragingView  where Content: View{
                     self.onDraging(geometry: geo, value: value)
                 case .draged(let geo, let value) : self.onDragEnd(geometry: geo, value:value)
                 case .dragCancel :
+                    if self.viewModel.status != .drag { return }
                     if self.keyboardObserver.isOn {
                         AppUtil.hideKeyboard()
                     }
-                    if self.viewModel.status != .drag { return }
                     self.onDragCancel()
                 case .dragEnd(let isBottom) :
                     self.onDragEndAction(isBottom: isBottom, offset: 0)

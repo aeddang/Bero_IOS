@@ -132,13 +132,15 @@ struct MenuTab_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack{
-            MenuTab(
-                viewModel:NavigationModel(),
-                buttons: [
-                    "normal", "normal"
-                ]
-            )
-            .frame( alignment: .center)
+            ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { item in
+                MenuTab(
+                    viewModel:NavigationModel(),
+                    buttons: [
+                        "normal", "normal"
+                    ]
+                )
+                .frame( alignment: .center)
+            }
             
             MenuTab(
                 viewModel:NavigationModel(),

@@ -36,7 +36,7 @@ struct VerticalProfile: PageComponent{
     var name:String? = nil
     var gender:Gender? = nil
     var age:String? = nil
-    var species:String? = nil
+    var breed:String? = nil
     var info:String? = nil
     var description:String? = nil
     var isEditable:Bool = false
@@ -67,7 +67,7 @@ struct VerticalProfile: PageComponent{
                 ProfileInfoDescription(
                     id: self.id,
                     age: self.age,
-                    species: self.species,
+                    breed: self.breed,
                     gender: self.gender,
                     action: self.isEditable ? {
                         
@@ -113,7 +113,7 @@ struct VerticalProfile_Previews: PreviewProvider {
                 name: "name",
                 gender: .female,
                 age: "20",
-                species: "dog",
+                breed: "dog",
                 info: "info",
                 description: "description",
                 isEditable: true,
@@ -133,7 +133,7 @@ struct VerticalProfile_Previews: PreviewProvider {
                 name: "name",
                 gender: .female,
                 age: "20",
-                species: nil,
+                breed: nil,
                 info: "info",
                 description: "description",
                 isEditable: true,

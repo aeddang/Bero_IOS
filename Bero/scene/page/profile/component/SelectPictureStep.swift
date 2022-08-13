@@ -27,6 +27,7 @@ struct SelectPictureStep: PageComponent{
     let next: ((ModifyPetProfileData) -> Void)
    
     @State var picture:UIImage? = nil
+    @State var isShowing = false
     var body: some View {
         VStack(spacing: Dimen.margin.tiny){
             ProfileImage(
@@ -89,9 +90,10 @@ struct SelectPictureStep: PageComponent{
                 .opacity(self.picture == nil ? 0.3 : 1)
             }
         }
-        
+        .opacity(self.isShowing ? 1 : 0)
         .onAppear{
             self.picture = self.profile?.image
+            withAnimation{  self.isShowing = true }
         }
     }
 }

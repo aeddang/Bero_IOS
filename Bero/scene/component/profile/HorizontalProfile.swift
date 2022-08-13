@@ -28,7 +28,7 @@ struct HorizontalProfile: PageComponent{
     var name:String? = nil
     var gender:Gender? = nil
     var age:String? = nil
-    var species:String? = nil
+    var breed:String? = nil
     var isSelected:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
@@ -52,7 +52,7 @@ struct HorizontalProfile: PageComponent{
                 ProfileInfoDescription(
                     id: self.id,
                     age: self.age,
-                    species: self.species,
+                    breed: self.breed,
                     gender: self.gender,
                     useCircle: false,
                     color: self.isSelected ? Color.app.white : Color.app.grey500
@@ -88,7 +88,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 name: "name",
                 gender: .female,
                 age: "20",
-                species: "dog",
+                breed: "dog",
                 isSelected: true
             ){
                 
@@ -101,7 +101,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 name: "name",
                 gender: .female,
                 age: "20",
-                species: "dog",
+                breed: "dog",
                 isSelected: false
             )
         }

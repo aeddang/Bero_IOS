@@ -45,7 +45,7 @@ enum ApiValue:String{
 enum ApiType{
     case getUser(SnsUser, isCanelAble:Bool? = true), updateUser(SnsUser, ModifyUserProfileData)
     case joinAuth(SnsUser, SnsUserInfo?), reflashAuth
-    case registPet(SnsUser, PetProfile), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),
+    case registPet(SnsUser, ModifyPetProfileData), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),
          updatePet(petId:Int, ModifyPetProfileData), updatePetImage(petId:Int, UIImage),
          deletePet(petId:Int)
     

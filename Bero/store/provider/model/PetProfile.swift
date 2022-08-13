@@ -12,15 +12,13 @@ import UIKit
 struct ModifyPetProfileData {
     var image:UIImage? = nil
     var name:String? = nil
-    var species:String? = nil
+    var breed:String? = nil
     var gender:Gender? = nil
     var birth:Date? = nil
     var microfin:String? = nil
-    var neutralization:Bool? = nil
-    var distemper:Bool? = nil
-    var hepatitis:Bool? = nil
-    var parovirus:Bool? = nil
-    var rabies:Bool? = nil
+    var animalId:String? = nil
+    var immunStatus:String? = nil
+    var hashStatus:String? = nil
     var weight:Double? = nil
     var size:Double? = nil
     
@@ -28,15 +26,13 @@ struct ModifyPetProfileData {
         return ModifyPetProfileData(
             image: data.image ?? self.image,
             name: data.name ?? self.name,
-            species: data.species ?? self.species,
+            breed: data.breed ?? self.breed,
             gender: data.gender ?? self.gender,
             birth: data.birth ?? self.birth,
             microfin: data.microfin ?? self.microfin,
-            neutralization: data.neutralization ?? self.neutralization,
-            distemper: data.distemper ?? self.distemper,
-            hepatitis: data.hepatitis ?? self.hepatitis,
-            parovirus: data.parovirus ?? self.parovirus,
-            rabies: data.rabies ?? self.rabies,
+            animalId: data.animalId ?? self.animalId,
+            immunStatus: data.immunStatus ?? self.immunStatus,
+            hashStatus: data.hashStatus ?? self.hashStatus,
             weight: data.weight ?? self.weight,
             size: data.size ?? self.size)
     }
@@ -48,24 +44,19 @@ struct ModifyPlayData {
 }
 extension PetProfile {
     static let expRange:Double = 100
-    
-    static func getStatusValue(_ profile:PetProfile)->[String]{
-        var status:[String] = []
-        if profile.neutralization == true {status.append("neutralization")}
-        if profile.distemper == true {status.append("distemper")}
-        if profile.hepatitis == true {status.append("hepatitis")}
-        if profile.parovirus == true {status.append("parovirus")}
-        if profile.rabies == true {status.append("rabies")}
-        return status
+    static func exchangeListToString(_ list:[String]?)->String{
+        if list?.isEmpty == false, let list = list {
+            return list.reduce("", {$0 + "," + $1}).subString(1)
+        } else {
+            return ""
+        }
     }
-    static func getStatusValue(_ profile:ModifyPetProfileData)->[String]{
-        var status:[String] = []
-        if profile.neutralization == true {status.append("neutralization")}
-        if profile.distemper == true {status.append("distemper")}
-        if profile.hepatitis == true {status.append("hepatitis")}
-        if profile.parovirus == true {status.append("parovirus")}
-        if profile.rabies == true {status.append("rabies")}
-        return status
+    static func exchangeStringToList(_ str:String?)->[String]{
+        if str?.isEmpty == false, let str = str {
+            return str.components(separatedBy:",")
+        } else {
+            return []
+        }
     }
 }
 
@@ -76,19 +67,15 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     private(set) var imagePath:String? = nil
     @Published private(set) var image:UIImage? = nil
     @Published private(set) var name:String? = nil
-    @Published private(set) var species:String? = nil
+    @Published private(set) var breed:String? = nil
     @Published private(set) var gender:Gender? = nil
     @Published private(set) var birth:Date? = nil
     @Published private(set) var exp:Double = 0
     @Published private(set) var lv:Int = 0
     @Published private(set) var prevExp:Double = 0
     @Published private(set) var nextExp:Double = 0
-    @Published private(set) var neutralization:Bool? = nil
-    @Published private(set) var distemper:Bool? = nil
-    @Published private(set) var hepatitis:Bool? = nil
-    @Published private(set) var parovirus:Bool? = nil
-    @Published private(set) var rabies:Bool? = nil
-    
+    @Published private(set) var immunStatus:String? = nil
+    @Published private(set) var hashStatus:String? = nil
     @Published private(set) var microfin:String? = nil
     
     @Published private(set) var weight:Double? = nil
@@ -107,9 +94,9 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     }
     
     init(){}
-    init(name:String?,species:String?, gender:Gender?, birth:Date?){
+    init(name:String?,breed:String?, gender:Gender?, birth:Date?){
         self.name = name
-        self.species = species
+        self.breed = breed
         self.gender = gender
         self.birth = birth
         self.isMypet = true
@@ -124,18 +111,15 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.petId = data.petId ?? 0
         self.imagePath = data.pictureUrl
         self.name = data.name
-        self.species = data.breed
+        self.breed = data.breed
         self.gender = Gender.getGender(data.sex) 
         self.birth = data.birthdate?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
         self.exp = Double(data.experience ?? 0)
         self.microfin = data.regNumber
         self.weight = data.weight
         self.size = data.size
-        self.neutralization = data.status?.contains("neutralization")
-        self.distemper = data.status?.contains("distemper")
-        self.hepatitis = data.status?.contains("hepatitis")
-        self.parovirus = data.status?.contains("parovirus")
-        self.rabies = data.status?.contains("rabies")
+        self.immunStatus = data.status
+        self.hashStatus = nil
         self.totalExerciseDistance = data.exerciseDistance
         self.totalExerciseDuration = data.exerciseDuration
         self.totalMissionCount = data.missionCompleteCnt
@@ -156,17 +140,13 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.isMypet = false
         self.id = UUID().uuidString
         self.name = "bero"
-        self.species = "bero species"
+        self.breed = "bero breed"
         self.gender = .female
         self.birth = Date()
         
         self.microfin = "19290192819281928"
         self.image =  UIImage(named: Asset.brand.logoLauncher)
-        self.neutralization = true
-        self.distemper = true
-        self.hepatitis = true
-        self.parovirus = true
-        self.rabies = true
+        
         self.totalExerciseDistance = 1
         self.totalExerciseDuration = 10
     
@@ -177,16 +157,12 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     func update(data:ModifyPetProfileData) -> PetProfile{
         if let value = data.image { self.image = value }
         if let value = data.name { self.name = value }
-        if let value = data.species { self.species = value }
+        if let value = data.breed { self.breed = value }
         if let value = data.gender { self.gender = value }
         if let value = data.microfin { self.microfin = value }
         if let value = data.birth { self.birth = value }
-        if let value = data.neutralization { self.neutralization = value }
-        if let value = data.distemper { self.distemper = value }
-        if let value = data.hepatitis { self.hepatitis = value }
-        if let value = data.parovirus { self.parovirus = value }
-        if let value = data.rabies { self.rabies = value }
-        
+        if let value = data.hashStatus { self.hashStatus  = value }
+        if let value = data.immunStatus { self.immunStatus  = value }
         if let value = data.weight { self.weight = value }
         if let value = data.size { self.size = value }
         //ProfileCoreData().update(id: self.id, data: data)

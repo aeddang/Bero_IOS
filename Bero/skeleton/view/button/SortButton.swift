@@ -103,10 +103,12 @@ struct SortButton: View{
                             .frame(width:self.sizeType.iconSize,height: self.sizeType.iconSize)
                     }
                     Text(self.text)
+                        .lineLimit(1)
                         .modifier(SemiBoldTextStyle(
                             size: self.sizeType.textSize,
                             color: self.type.textColor(self.color)
                         ))
+                    
                     if self.isSort {
                         Image(Asset.icon.direction_down)
                                 .renderingMode(.template)
