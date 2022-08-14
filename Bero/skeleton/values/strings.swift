@@ -41,18 +41,23 @@ extension String {
     }
     
     struct alert {
-        public static var apns = "alertApns"
-        public static var api = "alertApi"
-        public static var apiErrorServer = "alertApiErrorServer"
-        public static var apiErrorClient = "alertApiErrorClient"
-        public static var networkError = "alertNetworkError"
-        public static var dataError = "alertDataError"
+        public static var apns = "Bero notification"
+        public static var api = "Bero notification"
+        public static var apiErrorServer = "Connection lost. Please try again later."
+        public static var apiErrorClient = "Please check the internet connection and try again."
+        public static var networkError = "Your internet connection is unstable."
+        public static var dataError = "No data."
         
-        public static var location = "locationTitle"
-        public static var locationText = "need locationText"
-        public static var locationBtn = "locationBtn"
+        public static var location = "Please allow location access."
+        public static var locationText = "According to Apple's policy, you must allow location access to send us your locatoin"
+        public static var locationBtn = "Go to grant permission"
+        
+        public static var locationDisable = "Unable to get location information. try again?"
+        public static var locationFind = "Retrieving location information. Please wait."
+        public static var dragdown = "Pull to close this page"
         
         public static var snsLoginError = "After login. Available."
+        public static var getUserProfileError = "Failed to retrieve user information, Please try again in a few minutes"
         
         public static var addDogTitle = "Add your dog"
         public static var addDogText = "Start with telling more about your dog."
@@ -79,7 +84,7 @@ extension String {
     }
     
     struct pageTitle {
-        public static let my = "titleMy"
+        public static let my = "My"
         public static let addDog = "Add a dog"
     }
     
@@ -98,7 +103,12 @@ extension String {
         public static let addDogCompletedText1 = "Nice to meet you"
         public static let addDogCompletedText2 = "There are so many fun walks and dog friends waiting for you!"
         public static let addDogCompletedConfirm = "Start exploring"
+        public static let addDogEmpty = "No dog added yet."
         
+        public static let myLv = "My level"
+        public static let myDogs = "My dogs"
+        public static let myHistory = "My history"
+        public static let myCurrentPoint = "You have %s Points"
         
     }
     

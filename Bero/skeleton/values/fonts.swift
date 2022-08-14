@@ -25,9 +25,10 @@ extension Font{
         public static let light =  "Poppins-Light"
         public static let regular = "Poppins-Regular"
         public static let medium =  "Poppins-Medium"
-        public static let bold =  "Poppins-Bold"
         public static let semiBold =  "Poppins-SemiBold"
-        public static let black =  "Poppins-Black"
+        public static let bold =  "Poppins-Bold"
+        public static let black =  "Poppins-ExtraBold"
+        //["Poppins-Regular", "Poppins-Thin", "Poppins-ExtraLight", "Poppins-Light", "Poppins-Medium", "Poppins-SemiBold", "Poppins-Bold", "Poppins-ExtraBold", "Poppins-Black"]
     }
     
     struct spacing {

@@ -11,8 +11,9 @@ import SwiftUI
 struct ProgressSlider: PageView {
     var progress: Float // or some value binded
     var useGesture:Bool = true
-    var progressHeight:CGFloat = Dimen.stroke.regular
+    var progressHeight:CGFloat = Dimen.bar.light
     var thumbSize:CGFloat = 0
+    var radius:CGFloat = Dimen.radius.thin
     var onChange: ((Float) -> Void)? = nil
     var onChanged: ((Float) -> Void)? = nil
     
@@ -48,9 +49,8 @@ struct ProgressSlider: PageView {
                         
                 }
             }
-            .modifier(MatchParent())
             .background(Color.transparent.clearUi)
-            
+            .clipShape(RoundedRectangle(cornerRadius: self.radius))
             .highPriorityGesture(DragGesture(minimumDistance: 0)
                 .onChanged({ value in
                     if !useGesture { return }

@@ -131,7 +131,7 @@ struct PageFactory{
         case .intro : return PageIntro()
         case .login : return PageLogin()
         case .walk : return PageWalk()
-        case .my : return PageLogin()
+        case .my : return PageMy()
         case .addDog : return PageAddDog()
         case .addDogCompleted : return PageAddDogCompleted()
         default : return PageTest()

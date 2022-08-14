@@ -69,5 +69,11 @@
 			</array>
 		</dict>
 	</dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Used for user profiles and photo uploads.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app</string>
 </dict>
 </plist>

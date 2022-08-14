@@ -91,7 +91,7 @@ struct PageHorizontal: ViewModifier {
    
     func body(content: Content) -> some View {
         return content
-            .padding(.horizontal, Dimen.margin.regular)
+            .padding(.horizontal, Dimen.app.pageHorinzontal)
     }
 }
 
@@ -176,6 +176,15 @@ struct Shadow: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .shadow(color: color.opacity(opacity), radius: Dimen.radius.tiny, x: 5, y: 5)
+    }
+}
+
+struct ShadowLight: ViewModifier {
+    var color:Color = Color.app.black
+    var opacity:Double = 0.05
+    func body(content: Content) -> some View {
+        return content
+            .shadow(color: color.opacity(opacity), radius: Dimen.radius.tiny, x: 2, y: 2)
     }
 }
 

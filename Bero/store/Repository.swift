@@ -93,6 +93,22 @@ class Repository:ObservableObject, PageProtocol{
         }).store(in: &anyCancellable)
     }
     
+    private func setupSetting(){
+        if !self.storage.initate {
+            self.storage.initate = true
+            SystemEnvironment.firstLaunch = true
+            DataLog.d("initate APP", tag:self.tag)
+        }
+        self.dataProvider.user.registUser(
+            id: self.storage.loginId,
+            token: self.storage.loginToken,
+            code: self.storage.loginType)
+        
+        if self.storage.retryPushToken != "" {
+            self.registerPushToken(self.storage.retryPushToken)
+        }
+    }
+    
     private func setupApiManager(){
         
         self.apiManager.$event.sink(receiveValue: { status in
@@ -129,30 +145,6 @@ class Repository:ObservableObject, PageProtocol{
         
     }
     
-    private func setupSetting(){
-        if !self.storage.initate {
-            self.storage.initate = true
-            SystemEnvironment.firstLaunch = true
-            DataLog.d("initate APP", tag:self.tag)
-        }
-        self.dataProvider.user.registUser(
-            id: self.storage.loginId,
-            token: self.storage.loginToken,
-            code: self.storage.loginType)
-        
-        if self.storage.retryPushToken != "" {
-            self.registerPushToken(self.storage.retryPushToken)
-        }
-       
-    }
-    
-    private func errorApi(_ err:ApiResultError){
-        switch err.type {
-        case .joinAuth : self.clearLogin()
-        default : break
-        }
-    }
-    
     private func requestApi(_ apiQ:ApiQ, coreDatakey:String){
         DispatchQueue.global(qos: .background).async(){
             let coreData:Codable? = nil
@@ -175,6 +167,13 @@ class Repository:ObservableObject, PageProtocol{
         self.accountManager.respondApi(res)
         if let coreDatakey = res.type.coreDataKey(){
             self.respondApi(res, coreDatakey: coreDatakey)
+        }
+    }
+    private func errorApi(_ err:ApiResultError){
+        self.accountManager.errorApi(err, appSceneObserver: self.appSceneObserver)
+        switch err.type {
+        case .joinAuth : self.clearLogin()
+        default : break
         }
     }
     
@@ -233,8 +232,8 @@ class Repository:ObservableObject, PageProtocol{
         self.storage.authToken = ApiNetwork.accesstoken
         self.event = .loginUpdate
         if let user = self.dataProvider.user.snsUser {
-            self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false)))
-            self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false)))
+            self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
+            self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false), isOptional: true))
         }
     }
     var isLogin: Bool {

@@ -15,9 +15,6 @@
 import Foundation
 import SwiftUI
 
-
-
-
 struct SelectGenderStep: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter

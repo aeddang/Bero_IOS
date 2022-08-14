@@ -24,7 +24,7 @@ extension Color {
         public static let primary = Color.app.orange
         public static let secondary = Color.app.green
         public static let thirdly = Color.app.red
-        public static let bg = Color.init(rgb: 0xEEEEEE)
+        public static let bg = Color.app.white //Color.init(rgb: 0xEEEEEE)
     }
     struct app {
         public static let orange = Color.init(rgb: 0xFF7D1F)

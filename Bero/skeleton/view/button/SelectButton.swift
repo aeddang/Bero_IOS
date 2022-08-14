@@ -30,8 +30,10 @@ struct SelectButton: View, SelecterbleProtocol{
     }
     var type:ButtonType = .small
     var icon:String? = nil
+    var isOriginIcon:Bool = false
     var text:String
     var description:String? = nil
+    var bgColor:Color = Color.app.white
     var index: Int = 0
     var isMore: Bool = true
     var isSelected: Bool = false
@@ -49,13 +51,22 @@ struct SelectButton: View, SelecterbleProtocol{
                             Circle().stroke(Color.app.grey200)
                                 .frame(width: Dimen.circle.regular, height: Dimen.circle.regular)
                         }
-                        Image(icon)
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(
-                                self.isSelected ? Color.brand.primary : Color.app.black)
-                            .frame(width:Dimen.icon.regular, height:Dimen.icon.regular)
+                        if self.isOriginIcon {
+                            Image(icon)
+                                .renderingMode(.original)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width:Dimen.icon.regular, height:Dimen.icon.regular)
+                        } else {
+                            Image(icon)
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(
+                                    self.isSelected ? Color.brand.primary : Color.app.black)
+                                .frame(width:Dimen.icon.regular, height:Dimen.icon.regular)
+                        }
+                        
                     }
                         
                 }
@@ -86,7 +97,7 @@ struct SelectButton: View, SelecterbleProtocol{
             }
             .padding(.horizontal, Dimen.margin.light)
             .modifier( MatchHorizontal(height: self.type.height) )
-            .background(Color.app.white)
+            .background(self.bgColor)
             .clipShape(RoundedRectangle(cornerRadius:  self.type.radius))
             .overlay(
                 RoundedRectangle(cornerRadius: self.type.radius)

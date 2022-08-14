@@ -46,4 +46,12 @@ class AccountManager : PageProtocol{
         default : break
         }
     }
+    
+    func errorApi(_ err:ApiResultError, appSceneObserver:AppSceneObserver?){
+        switch err.type {
+        case .getUser :
+            appSceneObserver?.alert = .alert(nil, String.alert.getUserProfileError )
+        default : break
+        }
+    }
 }

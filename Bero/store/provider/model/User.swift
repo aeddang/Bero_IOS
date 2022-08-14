@@ -11,18 +11,24 @@ import UIKit
 
 
 enum UserEvent{
-    case addedDog(PetProfile), deletedDog(PetProfile)
+    case updatedProfile(UserProfile)
+    case addedDog(PetProfile), deletedDog(PetProfile), updatedDog(PetProfile)
+    case updatedPlayData
 }
 
 class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var id:String = UUID().uuidString
     @Published private(set) var event:UserEvent? = nil {didSet{ if event != nil { event = nil} }}
-    @Published private(set) var pets:[PetProfile] = []
-    @Published private(set) var point:Int = 0
-    @Published private(set) var coin:Double = 0
-    @Published private(set) var mission:Double = 0
+    
+    private(set) var point:Int = 0
+    private(set) var lv:Int = 1
+    private(set) var exp:Double = 70
+    private(set) var nextExp:Double = 100
+    private(set) var mission:Double = 0
+    
     private(set) var currentProfile:UserProfile = UserProfile()
     private(set) var currentPet:PetProfile? = nil
+    private(set) var pets:[PetProfile] = []
     private(set) var snsUser:SnsUser? = nil
     private(set) var recentMission:History? = nil
     private(set) var finalGeo:GeoData? = nil
@@ -65,7 +71,9 @@ class User:ObservableObject, PageProtocol, Identifiable{
     func setData(data:UserData){
         self.point = data.point ?? 0
         self.currentProfile.setData(data: data)
+        self.event = .updatedProfile(self.currentProfile)
     }
+    
     func setData(data:[PetData], isMyPet:Bool = true){
         self.pets = data.map{ PetProfile(data: $0, isMyPet: isMyPet)}
     }
@@ -90,11 +98,6 @@ class User:ObservableObject, PageProtocol, Identifiable{
         return self.pets.first(where: {$0.id == id})
     }
     
-
-    func addPet(_ profile:PetProfile) {
-        pets.append(profile)
-    }
-    
     func missionCompleted(_ mission:Mission) {
         let point =  mission.point
         self.point += point
@@ -102,6 +105,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.pets.filter{$0.isWith}.forEach{
             $0.update(exp: Double(point))
         }
+        self.event = .updatedPlayData
         /*
         UserCoreData().update(
             data: ModifyUserData(

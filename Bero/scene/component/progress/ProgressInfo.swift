@@ -8,39 +8,36 @@ import SwiftUI
 import Foundation
 
 struct ProgressInfo:PageView{
-    @EnvironmentObject var pagePresenter:PagePresenter
-    var index:Int
-    var total:Int
-    var image:UIImage? = nil
-    var info:String? = nil
-    var subInfo:String? = nil
+    var leadingText:String? = nil
+    var trailingText:String = ""
+    var progress:Double = 0
+    var progressMax:Double = 0
     var body: some View {
-        VStack(alignment: .leading, spacing:0){
-            if let img = self.image {
-                ProfileImage(
-                    id : "",
-                    image: img,
-                    size: Dimen.profile.light
-                )
-                .padding(.bottom, Dimen.margin.regularExtra)
-            }
-            Step(index: self.index, total: self.total)
-            if let info = self.info {
-                Text(info)
-                    .modifier(SemiBoldTextStyle(
-                        size: Font.size.bold,
-                        color: Color.app.black
-                    ))
-                .padding(.top, Dimen.margin.tinyExtra)
-            }
-            if let info = self.subInfo {
-                Text(info)
+        VStack(alignment: .leading, spacing:Dimen.margin.tinyExtra){
+            HStack(alignment: .center, spacing: 0){
+                if let text = self.leadingText {
+                    Text(text)
+                        .modifier(BoldTextStyle(
+                            size: Font.size.thin,
+                            color: Color.brand.primary
+                        ))
+                }
+                Spacer().modifier(MatchHorizontal(height: 0))
+                Text(self.progress.toInt().description)
                     .modifier(RegularTextStyle(
-                        size: Font.size.thin,
-                        color: Color.app.grey400
+                        size: Font.size.tiny,
+                        color: Color.brand.primary
                     ))
-                .padding(.top, Dimen.margin.regular)
+                Text("/" + self.progressMax.toInt().description + trailingText)
+                    .modifier(RegularTextStyle(
+                        size: Font.size.tiny,
+                        color: Color.app.grey300
+                    ))
             }
+            ProgressSlider(
+                progress:  Float(self.progress / self.progressMax),
+                thumbSize: 0
+            )
         }
     }
 }
@@ -48,11 +45,11 @@ struct ProgressInfo:PageView{
 struct ProgressInfo_Previews: PreviewProvider {
     static var previews: some View {
         VStack{
-            ProgressInfo(index: 1, total: 8,
-                         image: UIImage(named: Asset.image.profile_dog_default),
-                         info: "What is the name of\nyour dog?",
-                         subInfo: "What is the name of your dog"
-            )
+            ProgressInfo(
+                leadingText: "Lv.13",
+                trailingText: "EXP",
+                progress: 70,
+                progressMax: 100)
         }
     }
 }

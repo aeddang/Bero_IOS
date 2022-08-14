@@ -94,6 +94,14 @@ extension Date{
         dateFormatter.dateFormat = dateFormat
         return dateFormatter.string(from:self)
     }
+    
+    func toAge(trailing:String = "")->String{
+        let now = AppUtil.networkTimeDate()
+        let yy = now.toDateFormatter(dateFormat:"yyyy")
+        let birthYY = self.toDateFormatter(dateFormat:"yyyy")
+        let age = (yy.toInt() - birthYY.toInt() + 1).description + trailing
+        return age
+    }
 }
 
 extension CryptoKit.SHA256.Digest {

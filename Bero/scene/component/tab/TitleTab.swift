@@ -16,9 +16,26 @@ import Foundation
 import SwiftUI
 
 extension TitleTab{
-    enum ButtonType:String {
-        case more, add, edit, close, back
-        case viewMore
+    enum TitleType{
+        case page, section
+        
+        var textFamily:String {
+            switch self {
+            case .page : return Font.family.bold
+            case .section : return Font.family.bold
+            }
+        }
+        var textSize:CGFloat {
+            switch self {
+            case .page : return Font.size.black
+            case .section : return Font.size.regular
+            }
+        }
+    }
+    
+    enum ButtonType:String{
+        case more, add, edit, close, back, setting, alramOn, alram
+        case viewMore, manageDogs
         var icon:String {
             switch self {
             case .back : return Asset.icon.back
@@ -26,19 +43,23 @@ extension TitleTab{
             case .add : return Asset.icon.add
             case .edit : return Asset.icon.edit
             case .close : return Asset.icon.close
-            case .viewMore : return Asset.icon.direction_right
+            case .alram : return Asset.icon.notification_off
+            case .alramOn : return Asset.icon.notification_on
+            case .setting : return Asset.icon.settings
+            case .viewMore, .manageDogs : return Asset.icon.direction_right
             }
         }
         var text:String? {
             switch self {
             case .viewMore : return "View more"
+            case .manageDogs : return "Manage dogs"
             default : return nil
             }
         }
         
         var color:Color {
             switch self {
-            case .viewMore : return Color.app.grey400
+            case .viewMore, .manageDogs : return Color.app.grey400
             default : return Color.app.grey500 
             }
         }
@@ -48,10 +69,11 @@ extension TitleTab{
 
 struct TitleTab: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
+    var type:TitleType = .page
     var title:String? = nil
     var lineLimit:Int = 0
-    var alignment:TextAlignment = .center
-    var useBack:Bool = true
+    var alignment:TextAlignment = .leading
+    var useBack:Bool = false
     var buttons:[ButtonType] = []
     var action: ((ButtonType) -> Void)
    
@@ -67,7 +89,12 @@ struct TitleTab: PageComponent{
                 }
                 if let title = self.title {
                     Text(title)
-                        .modifier(BoldTextStyle(size: Font.size.light, color: Color.app.black))
+                        .font(.custom(
+                            self.type.textFamily,
+                            size: self.type.textSize)
+                        )
+                        .lineSpacing(Font.spacing.regular)
+                        .foregroundColor(Color.app.black)
                         .multilineTextAlignment(self.alignment)
                         .lineLimit(self.lineLimit)
                 }
@@ -78,7 +105,7 @@ struct TitleTab: PageComponent{
                     HStack(spacing:Dimen.margin.microExtra){
                         if let text = btn.text {
                             Text(text)
-                                .modifier(LightTextStyle(size: Font.size.thin, color: Color.app.grey400))
+                                .modifier(RegularTextStyle(size: Font.size.thin, color: Color.app.grey400))
                                 .onTapGesture {
                                     self.action(btn)
                                 }
@@ -101,18 +128,29 @@ struct TitleTab: PageComponent{
 struct TitleTab_Previews: PreviewProvider {
     
     static var previews: some View {
-        Form{
+        VStack{
             TitleTab(
-                title: "title",
+                type: .page,
+                title: "Page Title",
+                useBack: false,
                 buttons: [
-                    .more, .viewMore
+                    .alram, .setting
                 ]
             ){ type in
                 
             }
-            .environmentObject(PagePresenter()).frame(width:320,height:100)
+            TitleTab(
+                type: .section,
+                title: "Menu Title",
+                buttons: [
+                    .viewMore
+                ]
+            ){ type in
+                
+            }
                 
         }
+        .frame(width: 320, height: 600)
     }
 }
 #endif

@@ -73,7 +73,7 @@ struct InputSearch: PageView {
                         .stroke( self.isFocus
                                  ? ( self.isInputLimited ? Color.app.red : Color.brand.primary )
                                  : Color.app.grey200 ,
-                                 lineWidth: 1 )
+                                 lineWidth: Dimen.stroke.light )
                 )
             }
         }

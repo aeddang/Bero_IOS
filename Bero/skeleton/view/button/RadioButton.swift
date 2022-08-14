@@ -80,7 +80,7 @@ struct RadioButton: View, SelecterbleProtocol {
             .overlay(
                 RoundedRectangle(cornerRadius: Dimen.radius.thinExtra)
                     .strokeBorder(
-                        self.isChecked ? self.color : Color.transparent.clear,
+                        self.isChecked ? self.color : Color.app.grey100,
                         lineWidth: self.type.strokeWidth
                     )
             )

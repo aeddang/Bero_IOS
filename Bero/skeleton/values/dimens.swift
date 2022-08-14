@@ -84,7 +84,7 @@ struct Dimen{
     struct bar {
         public static let medium:CGFloat = 34 //
         public static let regular:CGFloat = 7//
-        public static let light:CGFloat = 4 //
+        public static let light:CGFloat = 4 
     }
     
     struct line {
@@ -105,6 +105,7 @@ struct Dimen{
     struct app {
         public static let bottom:CGFloat = 64
         public static let top:CGFloat = 50
+        public static let pageHorinzontal:CGFloat = Dimen.margin.regular
     }
     
 }

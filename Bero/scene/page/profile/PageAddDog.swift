@@ -14,7 +14,7 @@ import Firebase
 import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
-struct PageAddDog: PageView {
+extension PageAddDog{
     enum Step: CaseIterable{
         case name, picture, gender, birth, breed, immun, hash, identify
         var description:String {
@@ -72,6 +72,9 @@ struct PageAddDog: PageView {
         }
         
     }
+}
+
+struct PageAddDog: PageView {
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
@@ -88,10 +91,12 @@ struct PageAddDog: PageView {
                 axis:.vertical
             ) {
                 VStack(alignment: .leading, spacing: Dimen.margin.medium ){
-                    TitleTab(title: String.pageTitle.addDog, useBack: false, buttons:[.close]){ type in
+                    TitleTab(
+                        title: String.pageTitle.addDog,
+                        alignment: .center,
+                        buttons:[.close])
+                    { type in
                         switch type {
-                        case .back :
-                            self.onPrevStep()
                         case .close :
                             self.appSceneObserver.alert = .confirm("닫을래?", "정보사라짐"){ isOk in
                                 if isOk {
@@ -101,7 +106,7 @@ struct PageAddDog: PageView {
                         default : break
                         }
                     }
-                    ProgressInfo(index: self.currentCount + 1, total: self.totalCount,
+                    StepInfo(index: self.currentCount + 1, total: self.totalCount,
                                  image: self.profile.image,
                                  info: self.currentStep.description.replace(self.profile.name ?? ""),
                                  subInfo: self.currentStep.caption
