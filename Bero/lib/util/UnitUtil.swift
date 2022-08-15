@@ -61,6 +61,13 @@ extension Double {
     func toTruncateDecimal (n:Int = 0) -> String {
         return String(format: "%." + n.description + "f", self)
     }
+    func toThousandUnit(f:Int = 0, thousand:String = "T", tenThousand:String = "TT" , hundredMillion:String = "M") -> String {
+        let num = self.description
+        if self < 1000 { return self.calculator }
+        else if self < 10000 { return num.toDecimal(divid: 1000, f: f) + thousand }
+        else if self < 100000000 { return num.toDecimal(divid: 10000, f: f) + tenThousand }
+        else { return num.toDecimal(divid: 100000000, f: f) + hundredMillion}
+    }
 }
 
 extension Date{
@@ -101,6 +108,22 @@ extension Date{
         let birthYY = self.toDateFormatter(dateFormat:"yyyy")
         let age = (yy.toInt() - birthYY.toInt() + 1).description + trailing
         return age
+    }
+    
+    var dayBefore: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
+    }
+    var dayAfter: Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: noon)!
+    }
+    var noon: Date {
+        return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: self)!
+    }
+    var month: Int {
+        return Calendar.current.component(.month,  from: self)
+    }
+    var isLastDayOfMonth: Bool {
+        return dayAfter.month != month
     }
 }
 
@@ -402,7 +425,7 @@ extension String{
         chSet.insert(charactersIn: "-._*")
         return self.addingPercentEncoding(withAllowedCharacters: chSet)?.replace(" ", with: "+") ?? self
     }
-   
+    
     
     /// 특정 문자열의 특정 라인수와 폭에 맞춘 범위를 반환한다.
     /// 사용법.

@@ -26,10 +26,17 @@ struct PageTest: PageView {
     @State var index: Int = 0
     @State private var showingAlert = false
     @State private var showingMsg = ""
+    @State var date:Date = AppUtil.networkTimeDate()
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .center)
             {
+                CPCalendar(
+                    
+                )
+                .datePickerStyle(GraphicalDatePickerStyle())
+                .accentColor(Color.brand.primary)
+                .padding(.top, Dimen.margin.medium)
                 FillButton(
                     text: "test check"){ _ in
                         self.appSceneObserver.event = .check("check test"){

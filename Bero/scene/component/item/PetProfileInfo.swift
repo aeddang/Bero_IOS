@@ -1,27 +1,26 @@
 import Foundation
 import SwiftUI
 
-struct UserProfileInfo: PageComponent{
+struct PetProfileInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
-    var profile:UserProfile
-    var action: (() -> Void)
+    var profile:PetProfile
+    var action: (() -> Void) 
     var body: some View {
         Button(action: {
             self.action()
         }) {
             HorizontalProfile(
                 id: self.profile.id,
-                type: .user,
+                type: .pet,
                 image: self.image,
                 imagePath: self.profile.imagePath,
-                name: self.nickName,
+                name: self.name,
                 gender: self.gender,
                 age: self.age,
-                isSelected: false,
-                action: self.action
+                isSelected: false
             )
-            .onReceive(self.profile.$nickName){value in
-                self.nickName = value
+            .onReceive(self.profile.$name){value in
+                self.name = value
             }
             .onReceive(self.profile.$image){value in
                 self.image = value
@@ -34,7 +33,7 @@ struct UserProfileInfo: PageComponent{
             }
         }
     }
-    @State var nickName:String? = nil
+    @State var name:String? = nil
     @State var gender:Gender? = nil
     @State var age:String? = nil
     @State var image:UIImage? = nil

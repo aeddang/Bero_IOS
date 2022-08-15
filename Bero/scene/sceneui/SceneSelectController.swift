@@ -103,8 +103,8 @@ struct SceneSelectController: PageComponent{
     }
     func setupImagePicker(key:String){
         let imgSelect:[String] = [
-            String.button.album,
-            String.button.camera,
+            String.button.selectAlbum,
+            String.button.takeCamera,
             String.app.cancel
         ]
         self.setupSelect(data:(key,imgSelect), idx: imgSelect.count-1)

@@ -18,7 +18,6 @@ struct MyDogsSection: PageComponent{
                     
                 }
             }
-            
         }
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}

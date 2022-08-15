@@ -44,7 +44,7 @@ struct SelectPictureStep: PageComponent{
             SelectButton(
                 type: .small,
                 icon: Asset.icon.album,
-                text: String.button.album
+                text: String.button.selectAlbum
             ){_ in
                 self.appSceneObserver.event = .openImagePicker(self.tag, type: .photoLibrary){ pick in
                     guard let pick = pick else {return}
@@ -54,7 +54,7 @@ struct SelectPictureStep: PageComponent{
             SelectButton(
                 type: .small,
                 icon: Asset.icon.album,
-                text: String.button.camera
+                text: String.button.takeCamera
             ){_ in
                 self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera){ pick in
                     guard let pick = pick else {return}

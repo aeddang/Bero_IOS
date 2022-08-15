@@ -83,7 +83,7 @@ struct PageVertical: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .padding(.top, self.appSceneObserver.safeHeaderHeight + Dimen.margin.medium)
-            .padding(.bottom, self.appSceneObserver.safeBottomHeight + Dimen.margin.thin)
+            .padding(.bottom, self.appSceneObserver.safeBottomHeight)
     }
 }
 

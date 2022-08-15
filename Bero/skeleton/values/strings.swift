@@ -78,8 +78,11 @@ extension String {
         public static let more = "more"
         public static let delete = "Delete"
         public static let modify = "Modify"
-        public static let album = "Select from Gallery"
-        public static let camera = "Take a photo"
+        public static let selectAlbum = "Select from Gallery"
+        public static let takeCamera = "Take a photo"
+        public static let calendar = "Calendar"
+        public static let album = "Album"
+        public static let startWalking = "Start walking"
       
     }
     

@@ -48,6 +48,9 @@
 		311DC49F2879970200A3F7F5 /* GoogleMapsCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4962879970100A3F7F5 /* GoogleMapsCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		311DC4A02879970200A3F7F5 /* GooglePlaces.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4972879970100A3F7F5 /* GooglePlaces.xcframework */; };
 		311DC4A12879970200A3F7F5 /* GooglePlaces.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4972879970100A3F7F5 /* GooglePlaces.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		311EAA2028A9C34100A5F735 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311EAA1F28A9C34100A5F735 /* ListItem.swift */; };
+		311EAA2228A9D06B00A5F735 /* WalkListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311EAA2128A9D06B00A5F735 /* WalkListItem.swift */; };
+		311EAA2428A9DFCD00A5F735 /* AlbumListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */; };
 		3143CD452887929900F1C88A /* BottomTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD442887929900F1C88A /* BottomTab.swift */; };
 		3143CD4728879A6500F1C88A /* PageIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD4628879A6500F1C88A /* PageIntro.swift */; };
 		3143CD4D28879ADE00F1C88A /* IntroItem3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD4A28879ADE00F1C88A /* IntroItem3.swift */; };
@@ -95,6 +98,10 @@
 		31C6373C28A88152008EA54C /* MyLevelSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6373B28A88151008EA54C /* MyLevelSection.swift */; };
 		31C6373E28A88AB4008EA54C /* MyDogsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6373D28A88AB4008EA54C /* MyDogsSection.swift */; };
 		31C6374128A89313008EA54C /* CPCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374028A89313008EA54C /* CPCalendar.swift */; };
+		31C6374328A8C049008EA54C /* MyHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374228A8C049008EA54C /* MyHistorySection.swift */; };
+		31C6374728A8C75A008EA54C /* EmptyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374628A8C75A008EA54C /* EmptyItem.swift */; };
+		31C6374928A8C793008EA54C /* item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374828A8C793008EA54C /* item.swift */; };
+		31C6374B28A8DDC8008EA54C /* Calender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374A28A8DDC8008EA54C /* Calender.swift */; };
 		31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */; };
 		31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
 		31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3F287257B6001C2738 /* Preview Assets.xcassets */; };
@@ -331,6 +338,9 @@
 		311DC4952879970100A3F7F5 /* GoogleMapsM4B.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMapsM4B.xcframework; path = Bero/Framework/GoogleMapsM4B.xcframework; sourceTree = "<group>"; };
 		311DC4962879970100A3F7F5 /* GoogleMapsCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMapsCore.xcframework; path = Bero/Framework/GoogleMapsCore.xcframework; sourceTree = "<group>"; };
 		311DC4972879970100A3F7F5 /* GooglePlaces.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GooglePlaces.xcframework; path = Bero/Framework/GooglePlaces.xcframework; sourceTree = "<group>"; };
+		311EAA1F28A9C34100A5F735 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
+		311EAA2128A9D06B00A5F735 /* WalkListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkListItem.swift; sourceTree = "<group>"; };
+		311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListItem.swift; sourceTree = "<group>"; };
 		3143CD442887929900F1C88A /* BottomTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTab.swift; sourceTree = "<group>"; };
 		3143CD4628879A6500F1C88A /* PageIntro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIntro.swift; sourceTree = "<group>"; };
 		3143CD4A28879ADE00F1C88A /* IntroItem3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroItem3.swift; sourceTree = "<group>"; };
@@ -379,6 +389,10 @@
 		31C6373B28A88151008EA54C /* MyLevelSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLevelSection.swift; sourceTree = "<group>"; };
 		31C6373D28A88AB4008EA54C /* MyDogsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDogsSection.swift; sourceTree = "<group>"; };
 		31C6374028A89313008EA54C /* CPCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPCalendar.swift; sourceTree = "<group>"; };
+		31C6374228A8C049008EA54C /* MyHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHistorySection.swift; sourceTree = "<group>"; };
+		31C6374628A8C75A008EA54C /* EmptyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyItem.swift; sourceTree = "<group>"; };
+		31C6374828A8C793008EA54C /* item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = item.swift; sourceTree = "<group>"; };
+		31C6374A28A8DDC8008EA54C /* Calender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calender.swift; sourceTree = "<group>"; };
 		31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31D91D35287257B3001C2738 /* Bero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D91D3C287257B6001C2738 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -651,6 +665,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		311EAA1E28A9C31F00A5F735 /* item */ = {
+			isa = PBXGroup;
+			children = (
+				31C6374828A8C793008EA54C /* item.swift */,
+				31C6373528A87D8D008EA54C /* UserProfileInfo.swift */,
+				31C6373928A8804D008EA54C /* PetProfileInfo.swift */,
+				311EAA2128A9D06B00A5F735 /* WalkListItem.swift */,
+				311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */,
+				31C6374628A8C75A008EA54C /* EmptyItem.swift */,
+			);
+			path = item;
+			sourceTree = "<group>";
+		};
 		3143CD4828879ABC00F1C88A /* intro */ = {
 			isa = PBXGroup;
 			children = (
@@ -762,15 +789,7 @@
 			children = (
 				31C6373B28A88151008EA54C /* MyLevelSection.swift */,
 				31C6373D28A88AB4008EA54C /* MyDogsSection.swift */,
-			);
-			path = component;
-			sourceTree = "<group>";
-		};
-		31C6373828A88004008EA54C /* component */ = {
-			isa = PBXGroup;
-			children = (
-				31C6373528A87D8D008EA54C /* UserProfileInfo.swift */,
-				31C6373928A8804D008EA54C /* PetProfileInfo.swift */,
+				31C6374228A8C049008EA54C /* MyHistorySection.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -779,6 +798,7 @@
 			isa = PBXGroup;
 			children = (
 				31C6374028A89313008EA54C /* CPCalendar.swift */,
+				31C6374A28A8DDC8008EA54C /* Calender.swift */,
 			);
 			path = calendar;
 			sourceTree = "<group>";
@@ -989,7 +1009,6 @@
 		31D91DBE28725834001C2738 /* page */ = {
 			isa = PBXGroup;
 			children = (
-				31C6373828A88004008EA54C /* component */,
 				31C6372F28A86526008EA54C /* my */,
 				31071C7B289E7D7500F46498 /* profile */,
 				3143CD582888E7E500F1C88A /* walk */,
@@ -1005,6 +1024,7 @@
 		31D91DDA28725834001C2738 /* component */ = {
 			isa = PBXGroup;
 			children = (
+				311EAA1E28A9C31F00A5F735 /* item */,
 				31071C76289E761D00F46498 /* progress */,
 				31F3BD2D28962BFD0025223B /* profile */,
 				314E5EC528829795000EB910 /* tab */,
@@ -1139,6 +1159,7 @@
 		31D91FAD287271C1001C2738 /* item */ = {
 			isa = PBXGroup;
 			children = (
+				311EAA1F28A9C34100A5F735 /* ListItem.swift */,
 				31D91FAE287271C1001C2738 /* ImageItem.swift */,
 			);
 			path = item;
@@ -1616,6 +1637,7 @@
 				31C17FB5289FBFA6009B5EA1 /* InputSearch.swift in Sources */,
 				31C6372A28A7307A008EA54C /* SelectTagStap.swift in Sources */,
 				31D920BA28729CDC001C2738 /* AuthApiData.swift in Sources */,
+				31C6374728A8C75A008EA54C /* EmptyItem.swift in Sources */,
 				314E5EC7288297A4000EB910 /* MenuTab.swift in Sources */,
 				31D92035287271C1001C2738 /* ProgressSlider.swift in Sources */,
 				31D92001287271C1001C2738 /* util.swift in Sources */,
@@ -1623,6 +1645,7 @@
 				31D9202B287271C1001C2738 /* RoundRectMask.swift in Sources */,
 				31D91E7D28725834001C2738 /* Log.swift in Sources */,
 				31D91E7F28725834001C2738 /* AppUtil.swift in Sources */,
+				311EAA2028A9C34100A5F735 /* ListItem.swift in Sources */,
 				3143CD5228879E6700F1C88A /* PageLogin.swift in Sources */,
 				31D920CE28729E67001C2738 /* DeviceMotionObserver.swift in Sources */,
 				31D92040287271C1001C2738 /* FillButton.swift in Sources */,
@@ -1639,10 +1662,12 @@
 				31D92039287271C1001C2738 /* ImageView.swift in Sources */,
 				31D91E7E28725834001C2738 /* UnitUtil.swift in Sources */,
 				31C6372E28A85C3C008EA54C /* ProgressInfo.swift in Sources */,
+				311EAA2228A9D06B00A5F735 /* WalkListItem.swift in Sources */,
 				31D920D22872A02E001C2738 /* PageTest.swift in Sources */,
 				31D920B528729CDC001C2738 /* AlbumApiData.swift in Sources */,
 				31D920BF28729CDC001C2738 /* PetProfile.swift in Sources */,
 				31D92033287271C1001C2738 /* ReflashSpinner.swift in Sources */,
+				311EAA2428A9DFCD00A5F735 /* AlbumListItem.swift in Sources */,
 				31D920BC28729CDC001C2738 /* DataProvider.swift in Sources */,
 				31D920BD28729CDC001C2738 /* SystemEnvironment.swift in Sources */,
 				31D9202D287271C1001C2738 /* Sector.swift in Sources */,
@@ -1684,6 +1709,7 @@
 				31071C78289E763200F46498 /* StepInfo.swift in Sources */,
 				31D91F812872705A001C2738 /* AppSceneObserver.swift in Sources */,
 				31D92010287271C1001C2738 /* CPWebView.swift in Sources */,
+				31C6374328A8C049008EA54C /* MyHistorySection.swift in Sources */,
 				31D920C528729CDC001C2738 /* Repository.swift in Sources */,
 				31D9205D287271CD001C2738 /* SceneTab.swift in Sources */,
 				31F3BD312896898B0025223B /* HorizontalProfile.swift in Sources */,
@@ -1695,6 +1721,7 @@
 				31D9204A287271C1001C2738 /* CircularSpinner.swift in Sources */,
 				316D35F32895427C002FC476 /* InputText.swift in Sources */,
 				31D9200A287271C1001C2738 /* CustomPHPicker.swift in Sources */,
+				31C6374B28A8DDC8008EA54C /* Calender.swift in Sources */,
 				31D92034287271C1001C2738 /* DragDownArrow.swift in Sources */,
 				31D9200C287271C1001C2738 /* CustomImagePicker.swift in Sources */,
 				31D91E8028725834001C2738 /* DiskStatus.swift in Sources */,
@@ -1734,6 +1761,7 @@
 				31C17FB1289FAB25009B5EA1 /* SelectGenderStep.swift in Sources */,
 				31D91E8C28725834001C2738 /* SoundToolBox.swift in Sources */,
 				31D92042287271C1001C2738 /* RectButton.swift in Sources */,
+				31C6374928A8C793008EA54C /* item.swift in Sources */,
 				31D9203A287271C1001C2738 /* ImageAnimation.swift in Sources */,
 				31C6373128A86533008EA54C /* PageMy.swift in Sources */,
 				31D9202F287271C1001C2738 /* LoopSwipperView.swift in Sources */,

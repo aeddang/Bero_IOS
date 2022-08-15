@@ -142,9 +142,7 @@ extension Asset{
         public static let addDog = "add_dog"
         
         public static let profile_dog_default = "profile_dog_default"
-        public static let profile_dog_default_dark = "profile_dog_default_dark"
         public static let profile_user_default = "profile_user_default"
-        public static let profile_user_default_dark = "profile_user_default_dark"
         public static let profile_deco = "profile_deco"
     }
     struct shape {

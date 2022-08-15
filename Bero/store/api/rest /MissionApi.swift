@@ -31,14 +31,20 @@ extension MissionApi {
             }
         }
         
-        func getView() -> String {
+        var text : String {
             switch self {
-            case .walk : return ""
-            case .mission : return ""
+            case .walk : return "Walk"
+            case .mission : return "Mission"
             case .all : return ""
             }
         }
-        
+        var icon : String {
+            switch self {
+            case .walk : return Asset.icon.paw
+            case .mission : return Asset.icon.goal
+            case .all : return ""
+            }
+        }
         static func getCategory(_ value:String?) -> MissionApi.Category?{
             switch value{
             case "Walk" : return .walk

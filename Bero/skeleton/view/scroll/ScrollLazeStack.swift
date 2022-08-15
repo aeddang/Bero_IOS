@@ -160,6 +160,7 @@ struct ScrollLazeStack<Content>: PageView where Content: View {
                     .preferredColorScheme(.light)
                     .modifier(MatchParent())
                     
+                    
                 }
                 .modifier(MatchParent())
                 .opacity(self.progress / self.progressMax)

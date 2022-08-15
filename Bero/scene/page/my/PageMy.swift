@@ -25,7 +25,7 @@ struct PageMy: PageView {
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
-    
+    @ObservedObject var calenderModel: CalenderModel = CalenderModel()
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -50,7 +50,7 @@ struct PageMy: PageView {
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
                         showIndicators : false,
-                        marginVertical: Dimen.margin.medium,
+                        marginTop: Dimen.margin.medium,
                         marginHorizontal: Dimen.app.pageHorinzontal,
                         spacing:0,
                         isRecycle: true,
@@ -64,34 +64,25 @@ struct PageMy: PageView {
                             .padding(.top, Dimen.margin.regularUltra)
                         MyDogsSection()
                             .padding(.top, Dimen.margin.medium)
+                        Spacer()
+                            .modifier(LineHorizontal(height: Dimen.line.heavy))
+                            .padding(.top, Dimen.margin.medium)
+                        MyHistorySection(
+                            navigationModel: self.navigationModel,
+                            calenderModel: self.calenderModel,
+                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2))
+                            .padding(.top, Dimen.margin.regularUltra)
+                            .modifier(
+                                MatchHorizontal(
+                                    height: geometry.size.height
+                                    - self.appSceneObserver.safeHeaderHeight
+                                    - self.appSceneObserver.safeBottomHeight
+                                    - Dimen.icon.light
+                                )
+                            )
+                            
                     }
-                    /*
-                    TitleTab(type:.menu, title: String.pageText.myLv, buttons:[.viewMore])
-                    { type in
-                        switch type {
-                        case .viewMore : break
-                        default : break
-                        }
-                    }
-                    
-                    TitleTab(type:.menu, title: String.pageText.myDogs, buttons:[.manageDogs])
-                    { type in
-                        switch type {
-                        case .viewMore : break
-                        default : break
-                        }
-                    }
-                    
-                    TitleTab(type:.menu, title: String.pageText.myHistory)
-                    { type in
-                        switch type {
-                        case .viewMore : break
-                        default : break
-                        }
-                    }*/
-                    
                 }
-                .padding(.bottom, Dimen.app.bottom)
                 .modifier(PageVertical())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)
@@ -105,24 +96,20 @@ struct PageMy: PageView {
                 case .addedDog : break
                 default : break
                 }
-                
             }
             .onAppear{
-               
+                let now = AppUtil.networkTimeDate()
+                self.calenderModel.selectAbleDate = [
+                    now.dayBefore.toDateFormatter(dateFormat:"yyyyMMdd"),
+                    now.dayAfter.toDateFormatter(dateFormat:"yyyyMMdd")
+                ]
+                self.calenderModel.request = .reset(now.toDateFormatter(dateFormat:"yyyyMM"))
             
             }
         }//GeometryReader
        
     }//body
-    
-    @State var profile:UserProfile? = nil
-    @State var profiles:[PetProfile] = []
-    @State var point:Int = 0
-    private func updatedUserInfo(){
-        let user = self.dataProvider.user
-        self.profile = user.currentProfile
-        self.profiles = user.pets
-    }
+   
     
    
 }

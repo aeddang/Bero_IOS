@@ -88,7 +88,7 @@ struct Dimen{
     }
     
     struct line {
-        public static let heavy:CGFloat = 10//
+        public static let heavy:CGFloat = 12
         public static let medium:CGFloat = 6//
         public static let regular:CGFloat =  2
         public static let light:CGFloat = 1//

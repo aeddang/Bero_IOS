@@ -102,24 +102,26 @@ struct SortButton: View{
                             .foregroundColor(self.type.textColor(self.color))
                             .frame(width:self.sizeType.iconSize,height: self.sizeType.iconSize)
                     }
-                    Text(self.text)
-                        .lineLimit(1)
-                        .modifier(SemiBoldTextStyle(
-                            size: self.sizeType.textSize,
-                            color: self.type.textColor(self.color)
-                        ))
-                    
-                    if self.isSort {
-                        Image(Asset.icon.direction_down)
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(self.type.textColor(self.color))
-                                .rotationEffect(.degrees(self.isSelected ? 180 : 0))
-                                .frame(width:self.sizeType.iconSize,height: self.sizeType.iconSize)
+                    if !self.text.isEmpty {
+                        Text(self.text)
+                            .lineLimit(1)
+                            .modifier(SemiBoldTextStyle(
+                                size: self.sizeType.textSize,
+                                color: self.type.textColor(self.color)
+                            ))
+                        if self.isSort {
+                            Image(Asset.icon.direction_down)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(self.type.textColor(self.color))
+                                    .rotationEffect(.degrees(self.isSelected ? 180 : 0))
+                                    .frame(width:self.sizeType.iconSize,height: self.sizeType.iconSize)
+                        }
                     }
+                    
                 }
-                .padding(.horizontal, self.sizeType.marginHorizontal)
+                .padding(.horizontal, self.text.isEmpty ? self.sizeType.marginVertical : self.sizeType.marginHorizontal)
                 .padding(.vertical, self.sizeType.marginVertical)
             }
             .background(self.type.bgColor(color))
@@ -156,7 +158,7 @@ struct SortButtonButton_Previews: PreviewProvider {
                 type: .stroke,
                 sizeType: .small,
                 icon: Asset.icon.paw,
-                text: "Chip",
+                text: "",
                 color: Color.app.orange,
                 isSelected: false
             )
