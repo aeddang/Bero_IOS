@@ -18,7 +18,7 @@ import SwiftUI
 struct SelectTagStep: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
-   
+    @EnvironmentObject var dataProvider:DataProvider
     
     let profile:ModifyPetProfileData?
     let step:PageAddDog.Step
@@ -37,12 +37,12 @@ struct SelectTagStep: PageComponent{
                             HStack(alignment: .center, spacing: Dimen.margin.thin) {
                                 ForEach(data.cells) { cell in
                                     SortButton(
-                                        type: self.selects.first(where: {cell.title == $0}) != nil
+                                        type: self.selects.first(where: {cell.value == $0}) != nil
                                         ? .fill : .stroke,
                                         sizeType: .big,
-                                        text: "#"+cell.title,
+                                        text: cell.title,
                                         color:
-                                            self.selects.first(where: {cell.title == $0}) != nil
+                                            self.selects.first(where: {cell.value == $0}) != nil
                                             ? Color.brand.primary : Color.app.grey400,
                                         isSort: false){
                                             self.selected(btn: cell, isSelect: !cell.isSelected)
@@ -82,33 +82,24 @@ struct SelectTagStep: PageComponent{
                 }
             }
             .opacity(self.isShowing ? 1 : 0)
-            
+            .onReceive(self.dataProvider.$result){ res in
+                guard let res = res else { return }
+                if !res.id.hasPrefix(self.tag) {return}
+                switch res.type {
+                case .getCode(let category,_):
+                    self.setupCode(res, category: category)
+                    self.setupData(geometry: geometry)
+                default : break
+                }
+            }
             .onAppear{
                 switch self.step {
                 case .hash :
-                    let range = 0 ..< 15
-                    self.buttons = range.map{ num in
-                        var title = ""
-                        let r = num % 3
-                        switch r {
-                        case 0 :
-                            title = "LongHashTag" + num.description
-                        case 1 :
-                            title = "SHT" + num.description
-                        default :
-                            title = "Hash" + num.description
-                        }
-                        return RadioBtnData(
-                            title: title,
-                            index: num
-                        )
-                    }
                     self.selects = PetProfile.exchangeStringToList(self.profile?.hashStatus)
-                    
-                
+                    self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .personality)))
                 default : break
                 }
-                self.setupData(geometry: geometry)
+                
                 withAnimation{  self.isShowing = true }
             }
         }
@@ -117,6 +108,27 @@ struct SelectTagStep: PageComponent{
     @State var buttons:[RadioBtnData] = []
     @State var buttonSets:[HashRows] = []
     @State var selects:[String] = []
+    
+    private func setupCode(_ res:ApiResultResponds,  category:MiscApi.Category){
+        guard let datas = res.data as? [CodeData] else { return }
+        switch self.step {
+        case .hash :
+            if category != .personality {return}
+            var index:Int = 0
+            self.buttons = datas.map{ data in
+                let num = index
+                index += 1
+                return RadioBtnData(
+                    title: data.value ?? "",
+                    value: data.id?.description,
+                    index: num
+                )
+            }
+        default : break
+        }
+        
+    }
+    
     
     struct HashRows:Identifiable{
         let id = UUID().uuidString
@@ -131,7 +143,7 @@ struct SelectTagStep: PageComponent{
         let margin = SortButton.SizeType.big.marginHorizontal * 2
         let font = SemiBoldTextStyle(size: SortButton.SizeType.big.textSize).textModifier
         self.buttons.forEach{ d in
-            let btnWidth = font.getTextWidth("#"+d.title) + margin
+            let btnWidth = font.getTextWidth(d.title) + margin
             let willSize = lineWidth + btnWidth
             //PageLog.d(d.title + " -> " + btnWidth.description, tag: self.tag )
             //PageLog.d("willSize -> " + willSize.description, tag: self.tag )
@@ -151,11 +163,12 @@ struct SelectTagStep: PageComponent{
     }
 
     private func selected(btn:RadioBtnData, isSelect:Bool) {
+        guard let value = btn.value else {return}
         btn.isSelected = isSelect
         if isSelect {
-            self.selects.append(btn.title)
+            self.selects.append(value)
         } else {
-            if let find = self.selects.firstIndex(of: btn.title) {
+            if let find = self.selects.firstIndex(of: value) {
                 self.selects.remove(at: find)
             }
         }

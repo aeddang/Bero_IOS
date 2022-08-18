@@ -296,7 +296,7 @@ class MultipartFormData {
         self.encoding = encoding
     }
     
-    func append(value: String, name: String) {
+    func append(value: String, name: String, isLogging:Bool = false) {
 
         request.httpBody?.append("--\(boundary)\r\n".data(using: encoding)!)
         request.httpBody?.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n".data(using: encoding)!)
@@ -304,9 +304,13 @@ class MultipartFormData {
         request.httpBody?.append("\r\n".data(using: encoding)!)
         
         let str = String(decoding: request.httpBody!, as: UTF8.self)
-        DataLog.d(str)
+        if isLogging { DataLog.d(str) }
     }
     
+    func log() {
+        let str = String(decoding: request.httpBody!, as: UTF8.self)
+        DataLog.d(str)
+    }
     
     func append(filePath: String, name: String) throws {
         let url = URL(fileURLWithPath: filePath)

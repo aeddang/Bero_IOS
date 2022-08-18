@@ -27,16 +27,19 @@ struct Dimen{
     struct icon {
         public static let heavy:CGFloat = 64
         public static let heavyExtra:CGFloat = 48
+        public static let mediumUltra:CGFloat = 40
         public static let medium:CGFloat = 32
         public static let regular:CGFloat = 28
         public static let light:CGFloat = 24
         public static let thin:CGFloat = 20
         public static let tiny:CGFloat = 12//
-        public static let micro:CGFloat = 8//
+        public static let micro:CGFloat = 4
     }
     
     struct profile {
         public static let heavy:CGFloat = 120
+        public static let heavyExtra:CGFloat = 96
+        public static let mediumUltra:CGFloat = 84
         public static let medium:CGFloat = 80
         public static let regular:CGFloat = 56
         public static let light:CGFloat = 48
@@ -97,7 +100,7 @@ struct Dimen{
     
     struct stroke {
         public static let heavy:CGFloat =  16//
-        public static let medium:CGFloat =  8 //
+        public static let medium:CGFloat =  4
         public static let regular:CGFloat = 2
         public static let light:CGFloat = 1
     }

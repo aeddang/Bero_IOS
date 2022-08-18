@@ -29,6 +29,10 @@ class SceneDelegate: PageSceneDelegate {
         let snsManager = SnsManager()
         let keyboardObserver = KeyboardObserver()
         let locationObserver = LocationObserver()
+        let walkManager = WalkManager(
+            dataProvider: dataProvider, 
+            locationObserver:locationObserver
+        )
         self.pagePresenter.bodyColor = Color.brand.bg
         let res = Repository(
             dataProvider: dataProvider,
@@ -36,7 +40,8 @@ class SceneDelegate: PageSceneDelegate {
             pagePresenter: self.pagePresenter,
             sceneObserver: sceneObserver,
             snsManager: snsManager,
-            locationObserver: locationObserver
+            locationObserver: locationObserver,
+            walkManager:walkManager
         )
         self.repository = res
         
@@ -49,6 +54,7 @@ class SceneDelegate: PageSceneDelegate {
             .environmentObject(keyboardObserver)
             .environmentObject(locationObserver)
             .environmentObject(snsManager)
+            .environmentObject(walkManager)
             
         return AnyView(environmentView)
     }

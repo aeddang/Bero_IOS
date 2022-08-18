@@ -11,48 +11,89 @@ import SwiftUI
 
 struct HorizontalProfile: PageComponent{
     enum ProfileType{
-        case pet, user
+        case pet, user, place
         var emptyImage:String{
             switch self {
             case .pet : return Asset.image.profile_dog_default
             case .user : return Asset.image.profile_user_default
+            case .place : return ""
             }
         }
         var emptyTitle:String{
             switch self {
             case .pet : return String.pageTitle.addDog
             case .user : return ""
+            case .place : return ""
             }
         }
         var emptyText:String{
             switch self {
             case .pet : return String.pageText.addDogEmpty
             case .user : return ""
+            case .place : return ""
             }
         }
+    }
+    enum SizeType{
+        case small, big
+        var imageSize:CGFloat{
+            switch self {
+            case .small : return Dimen.profile.regular
+            case .big : return Dimen.profile.heavyExtra
+            }
+        }
+        var titleSpacing:CGFloat{
+            switch self {
+            case .small : return Dimen.margin.micro
+            case .big : return Dimen.margin.light
+            }
+        }
+    }
+    enum FuncType{
+        case addFriend, button(String), more
     }
     
     let id:String
     var type:ProfileType = .pet
+    var sizeType:SizeType = .small
+    var funcType:FuncType? = nil
     var color:Color = Color.brand.primary
     var image:UIImage? = nil
     var imagePath:String? = nil
     var name:String? = nil
+    var date:String? = nil
     var gender:Gender? = nil
     var age:String? = nil
     var breed:String? = nil
+   
     var isSelected:Bool = false
     var isEmpty:Bool = false
+    
     var action: (() -> Void)? = nil
     var body: some View {
         HStack(spacing:Dimen.margin.regularExtra){
-            ProfileImage(
-                id : self.id,
-                image: self.image,
-                imagePath: self.imagePath,
-                size: Dimen.profile.regular,
-                emptyImagePath: self.type.emptyImage)
-            VStack(alignment: .leading, spacing:Dimen.margin.micro){
+            switch self.type {
+            case .place :
+                Image(Asset.icon.goal)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(self.isSelected ? Color.app.white : self.color)
+                    .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                    .frame(width: Dimen.button.medium, height: Dimen.button.medium)
+                    .background(Color.app.orangeSub)
+                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+            default :
+                ProfileImage(
+                    id : self.id,
+                    image: self.image,
+                    imagePath: self.imagePath,
+                    size: self.sizeType.imageSize,
+                    emptyImagePath: self.type.emptyImage)
+            }
+            
+        
+            VStack(alignment: .leading, spacing:0){
                 Spacer().modifier(MatchHorizontal(height: 0))
                 if self.isEmpty {
                     Text(self.type.emptyTitle)
@@ -60,6 +101,7 @@ struct HorizontalProfile: PageComponent{
                             size: Font.size.medium,
                             color: Color.app.grey300
                         ))
+                        .padding(.bottom, self.sizeType.titleSpacing)
                     Text(self.type.emptyText)
                         .modifier(RegularTextStyle(
                             size: Font.size.thin,
@@ -73,28 +115,70 @@ struct HorizontalProfile: PageComponent{
                                 color: self.isSelected ? Color.app.white : Color.app.black
                             ))
                             .multilineTextAlignment(.leading)
+                            .padding(.bottom, self.sizeType.titleSpacing)
                         
                     }
-                    ProfileInfoDescription(
-                        id: self.id,
-                        age: self.age,
-                        breed: self.breed,
-                        gender: self.gender,
-                        useCircle: false,
-                        color: self.isSelected ? Color.app.white : Color.app.grey500
-                    )
+                    VStack(alignment: .leading, spacing:Dimen.margin.micro){
+                        if let date = self.date {
+                            Text(date)
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color: self.isSelected ? Color.app.white : Color.app.grey500
+                                ))
+                                .multilineTextAlignment(.leading)
+                        }
+                        ProfileInfoDescription(
+                            id: self.id,
+                            age: self.age,
+                            gender: self.gender,
+                            useCircle: false,
+                            color: self.isSelected ? Color.app.white : Color.app.grey500
+                        )
+                        if let breed = self.breed {
+                            Text(breed)
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color: self.isSelected ? Color.app.white : self.color
+                                ))
+                                .multilineTextAlignment(.leading)
+                        }
+                    }
                 }
             }
-            if let action = self.action {
+            if self.isEmpty {
                 ImageButton(
-                    defaultImage: self.isEmpty
-                        ? Asset.icon.add :  Asset.icon.direction_right,
-                    defaultColor:
-                        self.isEmpty
-                        ? Color.brand.primary
-                        : self.isSelected ? Color.app.white : Color.app.grey500
+                    defaultImage: Asset.icon.add,
+                    defaultColor: self.isSelected ? Color.app.white : self.color
                 ){ _ in
-                    action()
+                    action?()
+                }
+            } else if let funcType = self.funcType {
+                switch funcType {
+                case .more :
+                    ImageButton(
+                        defaultImage: Asset.icon.direction_right,
+                        defaultColor: self.isSelected ? Color.app.white : Color.app.grey500
+                    ){ _ in
+                        self.action?()
+                    }
+                case .button(let text) :
+                    SortButton(
+                        type: .fill,
+                        sizeType: .small,
+                        text: text,
+                        color: self.isSelected ? Color.app.white : self.color,
+                        isSort: false
+                    ){
+                        self.action?()
+                    }
+                case .addFriend :
+                    CircleButton(
+                        type: .icon(Asset.icon.add_friend),
+                        isSelected: true,
+                        activeColor: self.color
+                    ){ _ in
+                        self.action?()
+                    }
                 }
             }
         }
@@ -121,7 +205,21 @@ struct HorizontalProfile_Previews: PreviewProvider {
             HorizontalProfile(
                 id: "",
                 type: .pet,
-                color: Color.app.red,
+                funcType: .button("button"),
+                color: Color.brand.primary,
+                image: nil,
+                imagePath: nil,
+                name: "name",
+                gender: .female,
+                age: "20",
+                breed: "dog"
+            ){
+                
+            }
+            HorizontalProfile(
+                id: "",
+                type: .pet,
+                color: Color.brand.primary,
                 image: nil,
                 imagePath: nil,
                 name: "name",
@@ -135,7 +233,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
             HorizontalProfile(
                 id: "",
                 type: .pet,
-                color: Color.app.red,
+                sizeType: .small,
                 image: nil,
                 imagePath: nil,
                 name: "name",
@@ -149,7 +247,19 @@ struct HorizontalProfile_Previews: PreviewProvider {
             }
             HorizontalProfile(
                 id: "",
+                type: .place,
+                sizeType: .small,
+                color: Color.app.red,
+                name: "name",
+                date: "August 23, 2023"
+            ){
+                
+            }
+            HorizontalProfile(
+                id: "",
                 type: .user,
+                sizeType: .big,
+                funcType: .addFriend,
                 image: nil,
                 imagePath: nil,
                 name: "name",

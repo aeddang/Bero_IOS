@@ -144,11 +144,12 @@ struct LineHorizontal: ViewModifier {
 struct LineVertical: ViewModifier {
     var width:CGFloat = Dimen.line.light
     var margin:CGFloat = 0
+    var color:Color = Color.app.grey50
     func body(content: Content) -> some View {
         return content
             .frame(minWidth: width, maxWidth: width , minHeight:0, maxHeight: .infinity - (margin * 2.0))
             .offset(y:margin)
-            .background(Color.app.grey50).opacity(0.4)
+            .background(self.color).opacity(0.4)
             
             
     }

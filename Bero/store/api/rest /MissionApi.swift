@@ -93,8 +93,9 @@ class MissionApi :Rest{
         fetch(route: MissionApiRoute (method: .get, action:.newMissions, query: params), completion: completion, error:error)
     }
     
+    
     func get(departure:CLLocation,destination:CLLocation,
-             completion: @escaping (ApiItemResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+             completion: @escaping (ApiItemResponse<MissionRoute>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["originLat"] = departure.coordinate.latitude.description
         params["originLng"] = departure.coordinate.longitude.description
@@ -164,7 +165,6 @@ class MissionApi :Rest{
         params["petId"] = petId?.description ?? ""
         fetch(route: MissionApiRoute (method: .get, action:.summary, query: params), completion: completion, error:error)
     }
-    
 }
 
 struct MissionApiRoute : ApiRoute{

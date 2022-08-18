@@ -8,8 +8,9 @@ import SwiftUI
 import Foundation
 
 struct ProgressInfo:PageView{
+    var title:String? = nil
     var leadingText:String? = nil
-    var trailingText:String = ""
+    var trailingText:String? = nil
     var progress:Double = 0
     var progressMax:Double = 0
     var body: some View {
@@ -21,18 +22,32 @@ struct ProgressInfo:PageView{
                             size: Font.size.thin,
                             color: Color.brand.primary
                         ))
+                        .fixedSize()
                 }
                 Spacer().modifier(MatchHorizontal(height: 0))
-                Text(self.progress.toInt().description)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.tiny,
-                        color: Color.brand.primary
-                    ))
-                Text("/" + self.progressMax.toInt().description + trailingText)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.tiny,
-                        color: Color.app.grey300
-                    ))
+                if let title = self.title {
+                    Text(title)
+                        .modifier(BoldTextStyle(
+                            size: Font.size.bold,
+                            color: Color.brand.primary
+                        ))
+                        .fixedSize()
+                }
+                Spacer().modifier(MatchHorizontal(height: 0))
+                if let trailingText = self.trailingText {
+                    Text(self.progress.toInt().description)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.tiny,
+                            color: Color.brand.primary
+                        ))
+                        .fixedSize()
+                    Text("/" + self.progressMax.toInt().description + trailingText)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.tiny,
+                            color: Color.app.grey300
+                        ))
+                        .fixedSize()
+                }
             }
             ProgressSlider(
                 progress:  Float(self.progress / self.progressMax),
@@ -50,7 +65,12 @@ struct ProgressInfo_Previews: PreviewProvider {
                 trailingText: "EXP",
                 progress: 70,
                 progressMax: 100)
+            ProgressInfo(
+                title: "LV.2.5",
+                progress: 70,
+                progressMax: 100)
         }
+        .frame(width: 200)
     }
 }
 #endif

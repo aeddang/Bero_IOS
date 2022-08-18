@@ -24,17 +24,27 @@ class PetApi :Rest{
         fetch(route: PetApiRoute(method: .post, query: params),
            constructingBlock:{ data in
             if let value = pet.name { data.append(value: value, name: "name") }
-            if let value = pet.breed { data.append(value: value, name: "breed") }
             if let value = pet.birth?.toDateFormatter() { data.append(value: value.subString(start: 0, len: 19), name: "birthdate") }
             if let value = pet.gender?.apiDataKey { data.append(value: value, name: "sex") }
             if let value = pet.microfin { data.append(value: value, name: "regNumber") }
             data.append(value: "1", name: "level")
-            if pet.immunStatus?.isEmpty == false ,  let status = pet.immunStatus {
-                data.append(value:  status , name: "status")
+            
+            if pet.breed?.isEmpty == false ,  let status = pet.breed{
+                data.append(value:  status , name: "tagBreed")
             }
+            /*
+            if pet.immunStatus?.isEmpty == false ,  let status = pet.immunStatus {
+                data.append(value:  status , name: "tagStatus")
+            }
+            if pet.hashStatus?.isEmpty == false ,  let status = pet.hashStatus {
+                data.append(value:  status , name: "tagPersonality")
+            }
+             */
             if let value = pet.image?.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "profileImage.jpg",mimeType:"image/jpeg")
             }
+            data.log()
+            
         }, completion: completion, error:error)
     }
     
@@ -42,16 +52,22 @@ class PetApi :Rest{
         fetch(route: PetApiRoute(method: .put, commandId: petId.description),
            constructingBlock:{ data in
             if let value = pet.name { data.append(value: value, name: "name") }
-            if let value = pet.breed { data.append(value: value, name: "breed") }
             if let value = pet.birth?.toDateFormatter() { data.append(value: value.subString(start: 0, len: 19), name: "birthdate") }
             if let value = pet.gender?.apiDataKey { data.append(value: value, name: "sex") }
             if let value = pet.microfin { data.append(value: value, name: "regNumber") }
             if let value = pet.weight { data.append(value: value.description, name: "weight") }
             if let value = pet.size { data.append(value: value.description, name: "size") }
-            if pet.immunStatus?.isEmpty == false ,  let status = pet.immunStatus {
-                data.append(value:  status , name: "status")
-            }
             
+            if pet.breed?.isEmpty == false ,  let status = pet.breed{
+                data.append(value:  status , name: "tagBreed")
+            }
+            if pet.immunStatus?.isEmpty == false ,  let status = pet.immunStatus {
+                data.append(value:  status , name: "tagStatus")
+            }
+            if pet.hashStatus?.isEmpty == false ,  let status = pet.hashStatus {
+                data.append(value:  status , name: "tagPersonality")
+            }
+            data.log()
         }, completion: completion, error:error)
     }
     
@@ -61,6 +77,7 @@ class PetApi :Rest{
             if let value = image.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "profileImage.jpg",mimeType:"image/jpeg")
             }
+            data.log()
         }, completion: completion, error:error)
     }
     

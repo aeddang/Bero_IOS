@@ -63,14 +63,17 @@ extension View {
 class RadioBtnData:Identifiable{
     let id = UUID.init()
     let title:String
+    var value:String? = nil
     var index:Int
     var isSelected:Bool
     init(
         title:String,
+        value:String? = nil,
         index:Int,
         isSelected:Bool = false
     ){
         self.title = title
+        self.value = value
         self.index = index
         self.isSelected = isSelected
     }

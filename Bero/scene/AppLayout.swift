@@ -20,6 +20,7 @@ struct AppLayout: PageComponent{
     
     @State var loadingInfo:[String]? = nil
     @State var isLoading = false
+    @State var isLock = false
     @State var isInit = false
   
     
@@ -32,7 +33,9 @@ struct AppLayout: PageComponent{
             SceneAlertController()
             SceneSheetController()
             if self.isLoading {
-                Spacer().modifier(MatchParent()).background(Color.transparent.black70)
+                if self.isLock {
+                    Spacer().modifier(MatchParent()).background(Color.transparent.black70)
+                }
                 if self.loadingInfo != nil {
                     VStack(spacing:0){
                         ForEach(self.loadingInfo!, id: \.self ) { text in
@@ -48,12 +51,12 @@ struct AppLayout: PageComponent{
                 ActivityIndicator(isAnimating: self.$isLoading, style: .large)
             }
         }
+        .onReceive(self.appSceneObserver.$isApiLoading){ loading in
+            withAnimation{ self.isLoading = loading }
+        }
         .onReceive(self.pagePresenter.$isLoading){ loading in
-            DispatchQueue.main.async {
-                withAnimation{
-                    self.isLoading = loading
-                }
-            }
+            self.isLock = loading
+            withAnimation{ self.isLoading = loading }
         }
         .onReceive(self.appSceneObserver.$loadingInfo){ loadingInfo in
             self.loadingInfo = loadingInfo
@@ -159,6 +162,7 @@ struct AppLayout: PageComponent{
             self.appSceneObserver.event = .debug("apns exist")
             self.appSceneObserver.alert = .recivedApns
         } else {
+            
             self.appSceneObserver.sheet = .select(
                 String.alert.addDogTitle,
                 String.alert.addDogText,

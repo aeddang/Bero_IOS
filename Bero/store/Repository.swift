@@ -30,6 +30,7 @@ class Repository:ObservableObject, PageProtocol{
     let snsManager:SnsManager
     let locationObserver:LocationObserver
     let accountManager:AccountManager
+    let walkManager:WalkManager
     let apiCoreDataManager = ApiCoreDataManager()
     private let storage = LocalStorage()
     private let apiManager = ApiManager()
@@ -44,7 +45,8 @@ class Repository:ObservableObject, PageProtocol{
         pagePresenter:PagePresenter? = nil,
         sceneObserver:AppSceneObserver? = nil,
         snsManager:SnsManager? = nil,
-        locationObserver:LocationObserver? = nil
+        locationObserver:LocationObserver? = nil,
+        walkManager:WalkManager? = nil
         
     ) {
         self.dataProvider = dataProvider ?? DataProvider()
@@ -54,6 +56,7 @@ class Repository:ObservableObject, PageProtocol{
         self.shareManager = ShareManager(pagePresenter: pagePresenter)
         self.snsManager = snsManager ?? SnsManager()
         self.locationObserver = locationObserver ?? LocationObserver()
+        self.walkManager = walkManager ?? WalkManager(dataProvider: self.dataProvider, locationObserver: self.locationObserver)
         self.accountManager = AccountManager(user: self.dataProvider.user)
         self.pagePresenter?.$currentPage.sink(receiveValue: { evt in
             self.apiManager.clear()
@@ -110,7 +113,6 @@ class Repository:ObservableObject, PageProtocol{
     }
     
     private func setupApiManager(){
-        
         self.apiManager.$event.sink(receiveValue: { status in
             switch status {
             case .join :

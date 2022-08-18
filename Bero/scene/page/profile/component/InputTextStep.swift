@@ -156,7 +156,7 @@ struct InputTextStep: PageComponent{
             if self.inputTypeIndex == 0 {
                 self.next(.init(animalId : self.input))
                 
-            }else if self.profile?.microfin?.isEmpty == false {
+            }else {
                 self.next(.init(microfin : self.input))
             }
         default : break

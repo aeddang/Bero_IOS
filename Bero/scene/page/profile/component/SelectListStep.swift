@@ -18,6 +18,7 @@ import SwiftUI
 struct SelectListStep: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
+    @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var keyboardObserver:KeyboardObserver
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
@@ -55,6 +56,7 @@ struct SelectListStep: PageComponent{
             InfinityScrollView(
                 viewModel: self.infinityScrollModel,
                 axes: .vertical,
+                showIndicators: self.showIndicators,
                 marginVertical: Dimen.margin.medium,
                 marginHorizontal: self.isMultiSelectAble ? 0 : Dimen.margin.tinyExtra,
                 spacing:self.btnType.spacing,
@@ -66,8 +68,8 @@ struct SelectListStep: PageComponent{
                         type: self.btnType,
                         isChecked:
                             !self.isMultiSelectAble
-                                ? self.finalSelect?.title == btn.title
-                                : self.selects.first(where: {btn.title == $0}) != nil,
+                                ? self.finalSelect?.value == btn.value
+                                : self.selects.first(where: {btn.value == $0}) != nil,
                         text: btn.title
                     ){isSelect in
                         AppUtil.hideKeyboard()
@@ -99,7 +101,7 @@ struct SelectListStep: PageComponent{
                     case .breed :
                         if self.finalSelect == nil {return}
                         self.next(
-                            .init( breed: self.finalSelect?.title)
+                            .init( breed: self.finalSelect?.value)
                         )
                     case .immun :
                         self.next(
@@ -117,55 +119,34 @@ struct SelectListStep: PageComponent{
             if self.pageObservable.layer != .top { return }
             self.updatekeyboardStatus(on:on)
         }
+        .onReceive(self.dataProvider.$result){ res in
+            guard let res = res else { return }
+            if !res.id.hasPrefix(self.tag) {return}
+            switch res.type {
+            case .getCode(let category,_):
+                self.setupCode(res, category: category)
+            default : break
+            }
+        }
         .onAppear{
             switch self.step {
             case .breed :
                 self.btnType = .blank
                 self.isMultiSelectAble = false
+                self.showIndicators = true
                 self.useSearch = true
                 if let breed = self.profile?.breed {
-                    self.finalSelect = RadioBtnData(title: breed, index: 0)
+                    self.finalSelect = RadioBtnData(title: breed, value:breed, index: 0)
                 }
-                var find:Int?  = nil
-                let range = 0 ..< 100
-                self.buttons = range.map{ num in
-                    let title = "dog" + num.description
-                    if title == self.finalSelect?.title {
-                        find = num
-                    }
-                    return RadioBtnData(
-                        title: title,
-                        index: num
-                    )
-                }
-                if let find = find {
-                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
-                        self.infinityScrollModel.uiEvent = .scrollMove(find)
-                    }
-                }
+                self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .breed, searchKeyword: self.keyword)))
                 
             case .immun :
                 self.btnType = .stroke
                 self.isMultiSelectAble = true
+                self.showIndicators = false
                 self.useSearch = false
-                self.buttons = [
-                    RadioBtnData(
-                        title: "Neutralized",
-                        index: 0),
-                    RadioBtnData(
-                        title: "Distemper Vaccinated",
-                        index: 1),
-                    RadioBtnData(
-                        title: "Hepatitis Vaccinated",
-                        index: 2),
-                    RadioBtnData(
-                        title: "Parovirus Vaccinated",
-                        index: 3),
-                    RadioBtnData(
-                        title: "Rabies Vaccinated",
-                        index: 4)
-                ]
                 self.selects = PetProfile.exchangeStringToList(self.profile?.immunStatus)
+                self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .status)))
             default : break
             }
             withAnimation{  self.isShowing = true }
@@ -177,15 +158,61 @@ struct SelectListStep: PageComponent{
     @State var selects:[String] = []
     @State var finalSelect: RadioBtnData?  = nil
     @State var isMultiSelectAble:Bool = false
+    @State var showIndicators:Bool = false
     @State var useSearch:Bool = false
     @State var btnType:RadioButton.ButtonType = .blank
+    private func setupCode(_ res:ApiResultResponds,  category:MiscApi.Category){
+        guard let datas = res.data as? [CodeData] else { return }
+        switch self.step {
+        case .breed :
+            if category != .breed {return}
+            self.isSearching = false
+            var index:Int = 0
+            var find:Int? = nil
+            self.buttons = datas.map{ data in
+                let num = index
+                if data.id?.description == self.finalSelect?.value {
+                    find = num
+                }
+                index += 1
+                return RadioBtnData(
+                    title: data.value ?? "",
+                    value: data.id?.description,
+                    index: num
+                )
+            }
+            if let find = find {
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
+                    self.infinityScrollModel.uiEvent = .scrollMove(find)
+                }
+            }
+            
+        case .immun :
+            if category != .status {return}
+            var index:Int = 0
+            self.buttons = datas.map{ data in
+                let num = index
+                index += 1
+                return RadioBtnData(
+                    title: data.value ?? "",
+                    value: data.id?.description,
+                    index: num
+                )
+            }
+        default : break
+        }
+        
+    }
+    
+    
     private func selected(btn:RadioBtnData, isSelect:Bool) {
+        guard let value = btn.value else {return}
         if self.isMultiSelectAble {
             btn.isSelected = isSelect
             if isSelect {
-                self.selects.append(btn.title)
+                self.selects.append(value)
             } else {
-                if let find = self.selects.firstIndex(of: btn.title) {
+                if let find = self.selects.firstIndex(of: value) {
                     self.selects.remove(at: find)
                 }
             }
@@ -206,19 +233,7 @@ struct SelectListStep: PageComponent{
     private func searching(){
         if self.isSearching {return}
         self.isSearching = true
-        let randomInit = Int.random(in: 0..<6)
-        let randomEnd = Int.random(in: 10..<16)
-        let range = randomInit ..< randomEnd
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-            self.buttons = range.map{ num in
-                let title = "dog" + num.description
-                return RadioBtnData(
-                    title: title,
-                    index: num
-                )
-            }
-            self.isSearching = false
-        }
+        self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .breed, searchKeyword: self.keyword)))
     }
     
     private func search(){

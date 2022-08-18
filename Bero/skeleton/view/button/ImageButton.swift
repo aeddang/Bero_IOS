@@ -18,6 +18,7 @@ struct ImageButton: View, SelecterbleProtocol{
   
     var defaultColor:Color = Color.app.black
     var activeColor:Color = Color.brand.primary
+  
     let action: (_ idx:Int) -> Void
    
     var body: some View {
@@ -33,6 +34,7 @@ struct ImageButton: View, SelecterbleProtocol{
                     .scaledToFit()
                     .foregroundColor(self.isSelected ?  self.activeColor : self.defaultColor)
                     .frame(width: size.width, height: size.height)
+                
                     
                 if let text = self.text {
                     Text(text)

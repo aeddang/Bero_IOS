@@ -20,8 +20,6 @@ struct ApiNetwork :Network{
     static func reset(){
         Self.accesstoken = nil
     }
-    
-    
     var enviroment: NetworkEnvironment = ApiPath.getRestApiPath()
     func onRequestIntercepter(request: URLRequest)->URLRequest{
         guard let token = ApiNetwork.accesstoken else { return request }
@@ -210,6 +208,10 @@ class ApiManager :PageProtocol, ObservableObject{
             self.mission.get(location: location, distance: distance,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
+        case .requestRoute(let departure, let destination) :
+            self.mission.get(departure: departure, destination: destination, 
+                             completion: {res in self.complated(id: apiID, type: type, res: res)},
+                             error:error)
         case .completeMission(let mission, let pets) :
             self.mission.post(mission: mission, pets: pets,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
@@ -251,6 +253,10 @@ class ApiManager :PageProtocol, ObservableObject{
             self.misc.getWeather(id: id, action: action,
                                  completion: {res in self.complated(id: apiID, type: type, res: res)},
                                  error:error)
+        case .getCode(let category, let searchKeyword) :
+            self.misc.getCode(category: category, searchKeyword: searchKeyword,
+                              completion: {res in self.complated(id: apiID, type: type, res: res)},
+                              error:error)
         default: break
         }
         return apiID

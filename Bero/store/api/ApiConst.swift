@@ -51,7 +51,7 @@ enum ApiType{
     
     case getMission(userId:String? = nil,petId:Int? = nil, MissionApi.Category , page:Int? = nil, size:Int? = nil),
          searchMission(MissionApi.Category, MissionApi.SearchType, location:CLLocation? = nil, distance:Double? = nil, page:Int? = nil, size:Int? = nil),
-         requestNewMission(location:CLLocation? = nil, distance:Double? = nil),
+         requestNewMission(location:CLLocation? = nil, distance:Double? = nil), requestRoute(departure:CLLocation, destination:CLLocation),
          completeMission(Mission, [PetProfile]),completeWalk(Walk, [PetProfile]),
          getMissionSummary(petId:Int)
     
@@ -63,7 +63,8 @@ enum ApiType{
          updateAlbumPictures(pictureId:Int, isLike:Bool)
     
     case getWeather(CLLocation),
-         getWeatherCity(id:String, type:ApiAction = .cities)
+         getWeatherCity(id:String, type:ApiAction = .cities),
+         getCode(category:MiscApi.Category, searchKeyword:String? = nil)
     
     func coreDataKey() -> String? {
         switch self {

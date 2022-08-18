@@ -33,29 +33,41 @@ struct VerticalProfile: PageComponent{
     var sizeType:ProfileSizeType = .medium
     var image:UIImage? = nil
     var imagePath:String? = nil
+    var lv:Int? = nil
     var name:String? = nil
     var gender:Gender? = nil
     var age:String? = nil
     var breed:String? = nil
     var info:String? = nil
     var description:String? = nil
-    var isEditable:Bool = false
-    
-    let editImage: () -> Void
-    let editProfile: () -> Void
+  
+    var editImage: (() -> Void)? = nil
+    var editProfile: (() -> Void)? = nil
     
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            ProfileImage(
-                id : self.id,
-                image: self.image,
-                imagePath: self.imagePath,
-                size: self.sizeType.imageSize,
-                emptyImagePath: self.type.emptyImage,
-                onEdit: self.isEditable ? {
-                    
-                } : nil
-            )
+            ZStack(alignment: .bottom){
+                ProfileImage(
+                    id : self.id,
+                    image: self.image,
+                    imagePath: self.imagePath,
+                    size: self.sizeType.imageSize,
+                    emptyImagePath: self.type.emptyImage,
+                    onEdit: self.editImage
+                )
+                if let lv = self.lv {
+                    CircleButton(
+                        type: .text("Lv." + lv.description),
+                        isSelected: true,
+                        strokeWidth: Dimen.stroke.regular,
+                        activeColor: Color.brand.primary
+                    ){ _ in
+                        
+                    }
+                    .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
+                }
+            }
+            .modifier(MatchHorizontal(height: self.sizeType.imageSize))
             VStack(spacing:0){
                 if let name = self.name {
                     Text(name)
@@ -69,9 +81,7 @@ struct VerticalProfile: PageComponent{
                     age: self.age,
                     breed: self.breed,
                     gender: self.gender,
-                    action: self.isEditable ? {
-                        
-                    } : nil
+                    action: self.editProfile
                 )
             }
             if let info = self.info{
@@ -85,13 +95,17 @@ struct VerticalProfile: PageComponent{
             }
             
             if let description = self.description{
-                Text(description)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.thin,color: Color.app.grey400))
-                    .padding(.vertical, Dimen.margin.regularExtra)
-                    .padding(.horizontal, Dimen.margin.medium)
-                    .background(Color.app.white)
-                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+                ZStack{
+                    Text(description)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin,color: Color.app.grey400))
+                        .padding(.horizontal, Dimen.margin.medium)
+                        .modifier(MatchParent())
+                }
+                .modifier(MatchHorizontal(height: 56))
+                .background(Color.app.whiteDeepLight)
+                .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+                .modifier(ShadowLight())
             }
         }
     }
@@ -103,26 +117,20 @@ struct VerticalProfile: PageComponent{
 struct VerticalProfile_Previews: PreviewProvider {
     
     static var previews: some View {
-        VStack{
+        VStack(spacing:20){
             VerticalProfile(
                 id: "",
                 type: .pet,
                 sizeType: .medium,
                 image: nil,
                 imagePath: nil,
+                lv:99,
                 name: "name",
                 gender: .female,
                 age: "20",
                 breed: "dog",
                 info: "info",
-                description: "description",
-                isEditable: true,
-                editImage: {
-                    
-                },
-                editProfile: {
-                    
-                }
+                description: "description"
             )
             VerticalProfile(
                 id: "",
@@ -135,18 +143,12 @@ struct VerticalProfile_Previews: PreviewProvider {
                 age: "20",
                 breed: nil,
                 info: "info",
-                description: "description",
-                isEditable: true,
-                editImage: {
-                    
-                },
-                editProfile: {
-                    
-                }
+                description: "description"
             )
         }
         .padding(.all, 10)
-        .background(Color.app.whiteDeep)
+        .frame(width: 320)
+        .background(Color.app.white)
     }
 }
 #endif
