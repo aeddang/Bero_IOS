@@ -61,13 +61,22 @@ extension Double {
     func toTruncateDecimal (n:Int = 0) -> String {
         return String(format: "%." + n.description + "f", self)
     }
-    func toThousandUnit(f:Int = 0, thousand:String = "T", tenThousand:String = "TT" , hundredMillion:String = "M") -> String {
+    func toThousandUnit(f:Int = 0, thousand:String = "K",  million:String = "M", billion:String = "B") -> String {
         let num = self.description
         if self < 1000 { return self.calculator }
         else if self < 10000 { return num.toDecimal(divid: 1000, f: f) + thousand }
-        else if self < 100000000 { return num.toDecimal(divid: 10000, f: f) + tenThousand }
-        else { return num.toDecimal(divid: 100000000, f: f) + hundredMillion}
+        else if self < 1000000000 { return num.toDecimal(divid: 1000000, f: f) + million }
+        else { return num.toDecimal(divid: 1000000000, f: f) +  billion}
     }
+    /*
+    1K = 1 Thousand = 1천
+    10K = 10 Thousand = 1만
+    100K = 100 Thousand = 10만
+    1M = 1 Million = 100만
+    10M = 10 Million = 1000만
+    100M = 100 Million = 1억
+    1B = 1 Billion = 10억
+    */
 }
 
 extension Date{
@@ -381,7 +390,7 @@ extension String{
     }
     
     func onlyNumric()-> String {
-        let ruleNum = "[0-9]"
+        let ruleNum = "0123456789."
         return self.getArrayAfterRegex(regex: ruleNum ).reduce("", {$0 + $1})
     }
     

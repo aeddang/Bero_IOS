@@ -17,7 +17,6 @@ struct PageWalk: PageView {
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var snsManager:SnsManager
     @ObservedObject var pageObservable:PageObservable = PageObservable()
-    
     @ObservedObject var mapModel:PlayMapModel = PlayMapModel()
    
     @State var isFollowMe:Bool = true
@@ -35,7 +34,13 @@ struct PageWalk: PageView {
                     bottomMargin: 0
                 )
                 .modifier(MatchParent())
-              
+                VStack{
+                    WalkControllBox(
+                        pageObservable: self.pageObservable
+                    )
+                    Spacer().modifier(MatchParent())
+                }
+                .modifier(PageVertical())
             }//VStack
             .modifier(MatchParent())
             .background(Color.brand.bg)

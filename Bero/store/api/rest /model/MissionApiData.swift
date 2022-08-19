@@ -21,7 +21,7 @@ struct MissionData : Decodable {
     private(set) var user: UserData? = nil
     private(set) var geos: [GeoData]? = nil
     private(set) var pets: [PetData]? = nil
-    private(set) var place:PlaceData? = nil
+    private(set) var place:MissionPlace? = nil
 }
 
 struct MissionRoute : Decodable {
@@ -74,7 +74,7 @@ struct MissionTime : Decodable {
 }
 
 
-struct PlaceData : Decodable {
+struct MissionPlace : Decodable {
     private(set) var geometry: GeometryData? = nil
     private(set) var icon: String? = nil
     private(set) var icon_background_color: String? = nil

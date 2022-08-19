@@ -270,6 +270,11 @@
 		31D920D028729FB5001C2738 /* PageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920CF28729FB5001C2738 /* PageFactory.swift */; };
 		31D920D22872A02E001C2738 /* PageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920D12872A02E001C2738 /* PageTest.swift */; };
 		31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31D920D72872B573001C2738 /* GoogleService-Info.plist */; };
+		31EA348E28AEE84E006A2C0A /* PlaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348D28AEE84E006A2C0A /* PlaceApi.swift */; };
+		31EA349028AEE93A006A2C0A /* PlaceApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */; };
+		31EA349228AF07EC006A2C0A /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349128AF07EC006A2C0A /* Place.swift */; };
+		31EA349428AF19E9006A2C0A /* AlramManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349328AF19E9006A2C0A /* AlramManager.swift */; };
+		31EA349728AF8D57006A2C0A /* WalkControllBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349628AF8D57006A2C0A /* WalkControllBox.swift */; };
 		31F3BD2A28961AD10025223B /* SlideMenuTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F3BD2928961AD10025223B /* SlideMenuTab.swift */; };
 		31F3BD2C289621CA0025223B /* TitleTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F3BD2B289621CA0025223B /* TitleTab.swift */; };
 		31F3BD2F28967CBA0025223B /* VerticalProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F3BD2E28967CBA0025223B /* VerticalProfile.swift */; };
@@ -566,6 +571,11 @@
 		31D920D62872AA8B001C2738 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		31D920D72872B573001C2738 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Bero/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31D920D92872BB17001C2738 /* Bero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bero.entitlements; sourceTree = "<group>"; };
+		31EA348D28AEE84E006A2C0A /* PlaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApi.swift; sourceTree = "<group>"; };
+		31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApiData.swift; sourceTree = "<group>"; };
+		31EA349128AF07EC006A2C0A /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		31EA349328AF19E9006A2C0A /* AlramManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlramManager.swift; sourceTree = "<group>"; };
+		31EA349628AF8D57006A2C0A /* WalkControllBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkControllBox.swift; sourceTree = "<group>"; };
 		31F3BD2928961AD10025223B /* SlideMenuTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuTab.swift; sourceTree = "<group>"; };
 		31F3BD2B289621CA0025223B /* TitleTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTab.swift; sourceTree = "<group>"; };
 		31F3BD2E28967CBA0025223B /* VerticalProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalProfile.swift; sourceTree = "<group>"; };
@@ -721,6 +731,7 @@
 		3143CD582888E7E500F1C88A /* walk */ = {
 			isa = PBXGroup;
 			children = (
+				31EA349528AF8D37006A2C0A /* component */,
 				31D0E95228AA3B810076D971 /* model */,
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
 			);
@@ -855,6 +866,7 @@
 			children = (
 				31D9207F28729CDB001C2738 /* Mission.swift */,
 				31D0E95528AA4DF50076D971 /* Route.swift */,
+				31EA349128AF07EC006A2C0A /* Place.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1077,7 +1089,6 @@
 				31071C76289E761D00F46498 /* progress */,
 				31F3BD2D28962BFD0025223B /* profile */,
 				314E5EC528829795000EB910 /* tab */,
-				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -1392,6 +1403,7 @@
 				31D9208A28729CDB001C2738 /* AuthApi.swift */,
 				31D9208B28729CDB001C2738 /* Misc.swift */,
 				31D9209428729CDB001C2738 /* VisionApi.swift */,
+				31EA348D28AEE84E006A2C0A /* PlaceApi.swift */,
 			);
 			path = "rest ";
 			sourceTree = "<group>";
@@ -1405,6 +1417,7 @@
 				31D9209028729CDB001C2738 /* UserApiData.swift */,
 				31D9209128729CDB001C2738 /* PetApiData.swift */,
 				31D9209228729CDB001C2738 /* MissionApiData.swift */,
+				31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */,
 				31D9209328729CDB001C2738 /* AuthApiData.swift */,
 				317C563F28AC6A76005E8512 /* CodeApiData.swift */,
 			);
@@ -1451,6 +1464,7 @@
 		31D920A328729CDC001C2738 /* manager */ = {
 			isa = PBXGroup;
 			children = (
+				31EA349328AF19E9006A2C0A /* AlramManager.swift */,
 			);
 			path = manager;
 			sourceTree = "<group>";
@@ -1470,6 +1484,15 @@
 				31D920C928729DD8001C2738 /* LocalStorage.swift */,
 			);
 			path = storage;
+			sourceTree = "<group>";
+		};
+		31EA349528AF8D37006A2C0A /* component */ = {
+			isa = PBXGroup;
+			children = (
+				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
+				31EA349628AF8D57006A2C0A /* WalkControllBox.swift */,
+			);
+			path = component;
 			sourceTree = "<group>";
 		};
 		31F3BD2D28962BFD0025223B /* profile */ = {
@@ -1688,6 +1711,7 @@
 				31C6372A28A7307A008EA54C /* SelectTagStap.swift in Sources */,
 				31D920BA28729CDC001C2738 /* AuthApiData.swift in Sources */,
 				31C6374728A8C75A008EA54C /* EmptyItem.swift in Sources */,
+				31EA349228AF07EC006A2C0A /* Place.swift in Sources */,
 				314E5EC7288297A4000EB910 /* MenuTab.swift in Sources */,
 				31D92035287271C1001C2738 /* ProgressSlider.swift in Sources */,
 				31937F1428ACFBCA00AA5473 /* ValueInfo.swift in Sources */,
@@ -1705,6 +1729,7 @@
 				31D9204B287271C1001C2738 /* MultiStrokeSpinner.swift in Sources */,
 				31D920B828729CDC001C2738 /* PetApiData.swift in Sources */,
 				31D91E8D28725834001C2738 /* SocialMediaSharingManager.swift in Sources */,
+				31EA349728AF8D57006A2C0A /* WalkControllBox.swift in Sources */,
 				31D9203C287271C1001C2738 /* PickerSelect.swift in Sources */,
 				31D92009287271C1001C2738 /* CustomCaptureSession.swift in Sources */,
 				311DC43B2879874800A3F7F5 /* PageTestMap.swift in Sources */,
@@ -1833,6 +1858,7 @@
 				31D92006287271C1001C2738 /* durations.swift in Sources */,
 				31D91FFC287271C1001C2738 /* Sns.swift in Sources */,
 				31D92037287271C1001C2738 /* GraphArc.swift in Sources */,
+				31EA349028AEE93A006A2C0A /* PlaceApiData.swift in Sources */,
 				31D9203F287271C1001C2738 /* Toast.swift in Sources */,
 				31D91E9028725834001C2738 /* OffsetKey.swift in Sources */,
 				31D91E7A28725834001C2738 /* PageContentBody.swift in Sources */,
@@ -1842,6 +1868,7 @@
 				31D92029287271C1001C2738 /* RatioSize.swift in Sources */,
 				31D92025287271C1001C2738 /* CustomToggleStyle.swift in Sources */,
 				31D91E8128725834001C2738 /* AESUtil.swift in Sources */,
+				31EA349428AF19E9006A2C0A /* AlramManager.swift in Sources */,
 				31C6373628A87D8D008EA54C /* UserProfileInfo.swift in Sources */,
 				31C6372828A71514008EA54C /* SelectListStep.swift in Sources */,
 				31C6374128A89313008EA54C /* CPCalendar.swift in Sources */,
@@ -1859,6 +1886,7 @@
 				31D91E7828725834001C2738 /* PageDragingProtocol.swift in Sources */,
 				31D91E8728725834001C2738 /* Network.swift in Sources */,
 				31D92002287271C1001C2738 /* strings.swift in Sources */,
+				31EA348E28AEE84E006A2C0A /* PlaceApi.swift in Sources */,
 				31D920AC28729CDC001C2738 /* Api.swift in Sources */,
 				31D92000287271C1001C2738 /* FaceBookManager.swift in Sources */,
 			);

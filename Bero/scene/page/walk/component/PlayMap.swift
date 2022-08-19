@@ -13,7 +13,7 @@ import GooglePlaces
 import QuartzCore
 
 enum PlayMapUiEvent {
-    case setupMission(Mission), me(CLLocation, rotate:Double? = nil), completeStep(Int)
+    case test
 }
 class PlayMapModel:MapModel{
     @Published var playEvent:PlayMapUiEvent? = nil{
@@ -33,7 +33,7 @@ extension PlayMap {
 }
 
 struct PlayMap: PageView {
-    
+    @EnvironmentObject var walkManager:WalkManager
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
    
@@ -55,7 +55,7 @@ struct PlayMap: PageView {
                 }
                 
             }) {
-                Image( Asset.icon.map )
+                Image( Asset.icon. )
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()

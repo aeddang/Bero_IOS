@@ -52,16 +52,20 @@ class ApiManager :PageProtocol, ObservableObject{
     //page Api
     private let user:UserApi
     private let pet:PetApi
-    private let mission:MissionApi
-    private let vision:VissionApi
     private let album:AlbumApi
-    private let misc:MiscApi
+    private let mission:MissionApi
     
     //Store Api
     private let auth:AuthApi
     private let userUpdate:UserApi
     private let petUpdate:PetApi
+    private let walk:MissionApi
+    private let place:PlaceApi
+    private let misc:MiscApi
+    private let vision:VissionApi
+    
     private var snsUser:SnsUser? = nil
+    
     
     init() {
         self.auth = AuthApi(network: self.network)
@@ -70,9 +74,11 @@ class ApiManager :PageProtocol, ObservableObject{
         self.pet = PetApi(network: self.network)
         self.petUpdate = PetApi(network: self.network)
         self.mission = MissionApi(network: self.network)
+        self.place = PlaceApi(network: self.network)
         self.vision = VissionApi(network: self.network)
         self.album = AlbumApi(network: self.network)
         self.misc = MiscApi(network: self.network)
+        self.walk = MissionApi(network: self.network)
     }
     
     func clear(){
@@ -80,11 +86,8 @@ class ApiManager :PageProtocol, ObservableObject{
         self.user.clear()
         self.pet.clear()
         self.mission.clear()
-        self.vision.clear()
         self.album.clear()
-        self.misc.clear()
         self.apiQ.removeAll()
-        
     }
     
     func clearApi(){
@@ -204,26 +207,28 @@ class ApiManager :PageProtocol, ObservableObject{
             self.mission.get(cate: cate, search: search, location: location, distance: distance, page: page, size: size,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .requestNewMission(let location, let distance) :
-            self.mission.get(location: location, distance: distance,
-                             completion: {res in self.complated(id: apiID, type: type, res: res)},
-                             error:error)
         case .requestRoute(let departure, let destination) :
-            self.mission.get(departure: departure, destination: destination, 
+            self.mission.get(departure: departure, destination: destination,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .completeMission(let mission, let pets) :
-            self.mission.post(mission: mission, pets: pets,
-                              completion: {res in self.complated(id: apiID, type: type, res: res)},
-                              error:error)
-        case .completeWalk(let walk, let pets) :
-            self.mission.post(walk: walk, pets: pets,
-                              completion: {res in self.complated(id: apiID, type: type, res: res)},
-                              error:error)
         case .getMissionSummary(let petId) :
             self.mission.getSummary(petId: petId,
                                     completion: {res in self.complated(id: apiID, type: type, res: res)},
                                     error:error)
+            
+        case .requestNewMission(let location, let distance) :
+            self.walk.get(location: location, distance: distance,
+                             completion: {res in self.complated(id: apiID, type: type, res: res)},
+                             error:error)
+       
+        case .completeMission(let mission, let pets) :
+            self.walk.post(mission: mission, pets: pets,
+                              completion: {res in self.complated(id: apiID, type: type, res: res)},
+                              error:error)
+        case .completeWalk(let walk, let pets) :
+            self.walk.post(walk: walk, pets: pets,
+                              completion: {res in self.complated(id: apiID, type: type, res: res)},
+                              error:error)
         
         case .checkHumanWithDog(let img) :
             self.vision.post(img: img, action: .detecthumanwithdog,
@@ -257,6 +262,14 @@ class ApiManager :PageProtocol, ObservableObject{
             self.misc.getCode(category: category, searchKeyword: searchKeyword,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
+        case .getPlace(let location) :
+            self.place.get(location: location,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
+        case .registVisit(let place) :
+            self.place.post(place: place,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
         default: break
         }
         return apiID

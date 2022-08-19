@@ -16,7 +16,6 @@ class ApiCoreDataManager:PageProtocol {
         static let itemId = "id"
         static let itemJson = "jsonString"
     }
-    
     var db:Connection? = nil
     let apis:Table = Table(Models.item)
     let id = Expression<String>(Keys.itemId)
@@ -86,5 +85,4 @@ class ApiCoreDataManager:PageProtocol {
         }
 
     }
-    
 }

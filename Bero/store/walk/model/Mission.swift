@@ -121,7 +121,7 @@ class Mission:PageProtocol, Identifiable, Equatable{
     private (set) var playTime:Double = 0
     private (set) var playDistence:Double = 0
     
-    private (set) var placeData:PlaceData? = nil
+    private (set) var place:MissionPlace? = nil
     
     public static func == (l:Mission, r:Mission)-> Bool {
         return l.id == r.id
@@ -163,7 +163,7 @@ class Mission:PageProtocol, Identifiable, Equatable{
         self.pictureUrl = data.pictureUrl
         self.point = data.point ?? 0
         if let place = data.place {
-            self.placeData = place
+            self.place = place
             if let loc = place.geometry?.location {
                 self.departure = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
             }

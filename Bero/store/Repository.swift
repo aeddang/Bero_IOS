@@ -149,9 +149,12 @@ class Repository:ObservableObject, PageProtocol{
     
     private func requestApi(_ apiQ:ApiQ, coreDatakey:String){
         DispatchQueue.global(qos: .background).async(){
-            let coreData:Codable? = nil
+            var coreData:Codable? = nil
             switch apiQ.type {
-                //case .getGnb : break
+                case .getCode :
+                    if let savedData:[CodeData] = self.apiCoreDataManager.getData(key: coreDatakey){
+                        coreData = savedData
+                    }
                 default: break
             }
             DispatchQueue.main.async {
@@ -167,30 +170,29 @@ class Repository:ObservableObject, PageProtocol{
     }
     private func respondApi(_ res:ApiResultResponds){
         self.accountManager.respondApi(res)
+        self.walkManager.respondApi(res)
         if let coreDatakey = res.type.coreDataKey(){
             self.respondApi(res, coreDatakey: coreDatakey)
         }
     }
     private func errorApi(_ err:ApiResultError){
         self.accountManager.errorApi(err, appSceneObserver: self.appSceneObserver)
+        self.walkManager.errorApi(err, appSceneObserver: self.appSceneObserver)
         switch err.type {
         case .joinAuth : self.clearLogin()
         default : break
         }
     }
-    
     private func respondApi(_ res:ApiResultResponds, coreDatakey:String){
         DispatchQueue.global(qos: .background).async(){
             switch res.type {
-                //case .getGnb :
-                    //guard let data = res.data as? GnbBlock  else { return }
-                    //DataLog.d("save coreData getGnb", tag:self.tag)
-                    //self.apiCoreDataManager.setData(key: coreDatakey, data: data)
+                case .getCode :
+                    guard let data = res.data as? [CodeData]  else { return }
+                    self.apiCoreDataManager.setData(key: coreDatakey, data: data)
                 default: break
             }
         }
     }
-    
     // PushToken
     func retryRegisterPushToken(){
         if self.storage.retryPushToken != "" {

@@ -12,6 +12,10 @@ import CoreLocation
 extension MiscApi {
     enum Category:String {
         case breed, status, personality, height, interest
+        
+        var apiCoreKey: String{
+            return "Status" + self.rawValue
+        }
     }
 }
 
