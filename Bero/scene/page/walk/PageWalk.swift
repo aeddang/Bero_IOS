@@ -11,7 +11,12 @@ import SwiftUI
 import WebKit
 import Combine
 
+extension PageWalk{
+    static private var isFollowMe:Bool = false
+}
+
 struct PageWalk: PageView {
+    @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
@@ -19,7 +24,7 @@ struct PageWalk: PageView {
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var mapModel:PlayMapModel = PlayMapModel()
    
-    @State var isFollowMe:Bool = true
+    @State var isFollowMe:Bool = false
     @State var isForceMove:Bool = false
    
     var body: some View {
@@ -31,29 +36,45 @@ struct PageWalk: PageView {
                     viewModel: self.mapModel,
                     isFollowMe: self.$isFollowMe,
                     isForceMove: self.$isForceMove,
-                    bottomMargin: 0
+                    bottomMargin: self.appSceneObserver.safeBottomHeight
                 )
                 .modifier(MatchParent())
-                VStack{
-                    WalkControllBox(
-                        pageObservable: self.pageObservable
+                VStack(alignment: .trailing, spacing: Dimen.margin.thin){
+                    SelectControlBox(
+                        pageObservable: self.pageObservable,
+                        viewModel: self.mapModel
                     )
                     Spacer().modifier(MatchParent())
+                    WalkControllBox(
+                        pageObservable: self.pageObservable,
+                        viewModel: self.mapModel,
+                        isFollowMe: self.$isFollowMe,
+                        isForceMove: self.$isForceMove
+                    )
                 }
                 .modifier(PageVertical())
-            }//VStack
+            }
             .modifier(MatchParent())
             .background(Color.brand.bg)
         }//GeometryReader
+        .onReceive(self.walkManager.$currentLocation){ loc in
+            guard let loc = loc else {return}
+            if !self.isInit {
+                self.isInit = true
+                self.walkManager.updateMapStatus(loc)
+            }
+        }
         .onAppear{
+            self.isFollowMe = Self.isFollowMe
+            self.walkManager.startMap()
             
         }
+        .onDisappear{
+            Self.isFollowMe = self.isFollowMe
+            self.walkManager.endMap()
+        }
     }//body
-    
-    func onPageReload() {
-        PageLog.log("PAGE  VIEW EVENT")
-    }
-    
+    @State var isInit:Bool = false
 }
 
 

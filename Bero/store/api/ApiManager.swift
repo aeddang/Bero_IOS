@@ -207,7 +207,7 @@ class ApiManager :PageProtocol, ObservableObject{
             self.mission.get(cate: cate, search: search, location: location, distance: distance, page: page, size: size,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .requestRoute(let departure, let destination) :
+        case .requestRoute(let departure, let destination, _) :
             self.mission.get(departure: departure, destination: destination,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
@@ -262,8 +262,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.misc.getCode(category: category, searchKeyword: searchKeyword,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
-        case .getPlace(let location) :
-            self.place.get(location: location,
+        case .getPlace(let location, let distance, let searchType) :
+            self.place.get(location: location, distance: distance, searchType: searchType,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
         case .registVisit(let place) :

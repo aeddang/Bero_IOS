@@ -75,7 +75,7 @@ class MissionApi :Rest{
              completion: @escaping (ApiItemResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["searchType"] = search.rawValue
-        params["distance"] = distance?.description ?? ""
+        params["radius"] = distance?.toInt().description ?? ""
         params["lat"] = location?.coordinate.latitude.description ?? ""
         params["lng"] = location?.coordinate.longitude.description ?? ""
         params["missionCategory"] = cate.getApiCode
@@ -87,7 +87,7 @@ class MissionApi :Rest{
     func get(location:CLLocation? = nil,distance:Double? = nil,
              completion: @escaping (ApiItemResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
-        params["distance"] = distance?.description ?? ""
+        params["distance"] = distance?.toInt().description ?? ""
         params["lat"] = location?.coordinate.latitude.description ?? ""
         params["lng"] = location?.coordinate.longitude.description ?? ""
         fetch(route: MissionApiRoute (method: .get, action:.newMissions, query: params), completion: completion, error:error)
@@ -107,7 +107,6 @@ class MissionApi :Rest{
     func post(mission:Mission, pets:[PetProfile] , completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
         params["missionCategory"] = Category.mission.getApiCode
-        params["missionType"] = mission.type.info
         params["title"] = mission.title
         params["description"] = mission.description
         params["difficulty"] = mission.lv.apiDataKey

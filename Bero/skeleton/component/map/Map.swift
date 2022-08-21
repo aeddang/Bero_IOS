@@ -16,15 +16,37 @@ struct MapMarker {
     var isRotationMap = false
 }
 
+struct MapRoute {
+    var id:String = UUID.init().uuidString
+    let line:GMSPolyline
+    var rotation:CLLocationDegrees? = nil
+    var isRotationMap = false
+}
 
 enum MapUiEvent {
-    case addMarker(MapMarker), addMarkers([MapMarker ]), me(MapMarker , follow:CLLocation? = nil) ,
+    case me(MapMarker , follow:CLLocation? = nil),
+         addMarker(MapMarker), addMarkers([MapMarker ]),
+         addRoute(MapRoute), addRoutes([MapRoute]), clearAllRoute,
+         clearAll, clear(String),
          move(CLLocation, zoom:Float? = nil, angle:Double? = nil, duration:Double? = nil)
+    case zip([MapUiEvent])
 }
 
 enum MapViewEvent {
-    case selectedMarker(GMSMarker), tabMarker(GMSMarker)
+    case tabMarker(GMSMarker)
 }
+
+protocol MapUserDataProtocal: Identifiable, Equatable{
+    var isSelected:Bool { get }
+}
+open class MapUserData: MapUserDataProtocal, PageProtocol{
+    public let id:String = UUID().uuidString
+    var isSelected:Bool = false
+    public static func == (l:MapUserData, r:MapUserData)-> Bool {
+        return l.id == r.id
+    }
+}
+
 
 open class MapModel: ComponentObservable {
     var startLocation:CLLocation = CLLocation()
@@ -40,6 +62,7 @@ open class MapModel: ComponentObservable {
             }
         }
     }
+    
     @Published var event:MapViewEvent? = nil{
         didSet{
             if event != nil { self.event = nil }

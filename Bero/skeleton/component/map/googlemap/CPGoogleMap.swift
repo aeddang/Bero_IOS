@@ -13,7 +13,6 @@ import GoogleMaps
 struct CPGoogleMap {
     @ObservedObject var viewModel:MapModel
     @ObservedObject var pageObservable:PageObservable
-    var useRotationEffect = false
     func makeCoordinator() -> Coordinator { return Coordinator() }
     class Coordinator:NSObject, PageProtocol {
     
@@ -23,7 +22,7 @@ struct CPGoogleMap {
 
 extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
     func makeUIViewController(context: UIViewControllerRepresentableContext<CPGoogleMap>) -> UIViewController {
-        let mapController = CustomGoogleMapController(viewModel: self.viewModel, useRotationEffect:self.useRotationEffect)
+        let mapController = CustomGoogleMapController(viewModel: self.viewModel)
         //mapController.delegate = context.coordinator
         return mapController
         
@@ -33,22 +32,37 @@ extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
        if viewModel.status != .update { return }
         guard let evt = viewModel.uiEvent else { return }
         guard let map = uiViewController as? CustomGoogleMapController else { return }
-       
-        ComponentLog.d("evt " , tag: self.tag)
+        viewModel.uiEvent = nil
+        switch evt {
+        case .zip(let evts) : evts.forEach{self.updateExcute(map: map, evt: $0)}
+        default : self.updateExcute(map: map, evt: evt)
+        }
+        
+        
+    }
+    
+    private func updateExcute(map:CustomGoogleMapController, evt:MapUiEvent){
         switch evt {
         case .addMarker(let marker):
             map.addMarker(marker)
         case .addMarkers(let markers):
             map.addMarker(markers)
+        case .addRoute(let route):
+            map.addRoute(route)
+        case .addRoutes(let routes):
+            map.addRoute(routes)
         case .me(let marker, let loc):
             map.me(marker)
             if let loc = loc {
                 map.move(loc)
             }
+        case .clearAllRoute : map.clearAllRoute()
+        case .clearAll : map.clearAll()
+        case .clear(let id) : map.clear(id: id)
         case .move(let loc, let zoom, let angle, let duration):
             map.move(loc, zoom:zoom, angle:angle, duration:duration)
+        default :  break
         }
-        viewModel.uiEvent = nil
     }
 }
 
@@ -56,12 +70,10 @@ extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
 
 open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     @ObservedObject var viewModel:MapModel
-    private var useRotationEffect = false
     private var markers:[String: GMSMarker] = [:]
-    
-    init(viewModel:MapModel, useRotationEffect:Bool) {
+    private var routes:[String: GMSPolyline] = [:]
+    init(viewModel:MapModel) {
         self.viewModel = viewModel
-        self.useRotationEffect = useRotationEffect
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -116,8 +128,8 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     }
     
     fileprivate func addMarker(_ marker:MapMarker ){
+        
         if let prevMarker = self.markers[marker.id] {
-            //prevMarker.icon = marker.marker.icon
             var mapRotete:Double = 0
             if marker.isRotationMap {
                 let targetPoint = CGPoint(x:  marker.marker.position.latitude, y:  marker.marker.position.longitude)
@@ -139,19 +151,51 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
             
         } else {
             self.markers[marker.id] = marker.marker
-            if useRotationEffect {
-                marker.marker.rotation = 30
-            }
             marker.marker.map = mapView
         }
-        //ComponentLog.d("addMarker " + (marker.title ?? "") , tag: "CPGoogleMap")
     }
     fileprivate func addMarker(_ markers:[MapMarker]){
         markers.forEach{
             self.addMarker($0)
         }
-       // ComponentLog.d("addMarkers " + markers.count.description , tag: "CPGoogleMap")
     }
+    
+    fileprivate func addRoute(_ route:MapRoute ){
+        if let prevRoute = self.routes[route.id] {
+            prevRoute.title = route.line.title
+        } else {
+            self.routes[route.id] = route.line
+            route.line.map = mapView
+        }
+    }
+    
+    fileprivate func addRoute(_ routes:[MapRoute] ){
+        routes.forEach{
+            self.addRoute($0)
+        }
+    }
+    
+    fileprivate func clearAllRoute(){
+        self.routes.forEach{$0.value.map = nil}
+        self.routes = [:]
+    }
+    
+    fileprivate func clear(id:String){
+        if let route = self.routes[id] {
+            route.map = nil
+        }
+        if let marker = self.markers[id] {
+            marker.map = nil
+        }
+    }
+    
+    fileprivate func clearAll(){
+        self.routes.forEach{$0.value.map = nil}
+        self.markers.forEach{$0.value.map = nil}
+        self.markers = [:]
+        self.routes = [:]
+    }
+    
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -161,26 +205,20 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
         super.viewWillDisappear(animated)
     }
     
+    
     public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if useRotationEffect {
-            if marker.rotation == 0 {
-                self.viewModel.event = .selectedMarker(marker)
-            } else {
-                marker.rotation = 0
-                self.viewModel.event = .tabMarker(marker)
-            }
-        } else {
-            self.viewModel.event = .tabMarker(marker)
-        }
-        return false // return false to display info window
+        guard let userData:MapUserData = marker.userData as? MapUserData else { return false }
+        userData.isSelected.toggle()
+        self.viewModel.event = .tabMarker(marker)
+        return false
     }
     public func mapView(_ mapView: GMSMapView, didTapInfoWindow marker: GMSMarker) -> Bool {
-        
+        //self.viewModel.event = .tabMarker(marker)
         return false // return false to display info window
     }
     public func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
-        if useRotationEffect {
-            marker.rotation = 30
-        }
+        guard let userData:MapUserData = marker.userData as? MapUserData else { return }
+        userData.isSelected = false
+        self.viewModel.event = .tabMarker(marker)
     }
 }

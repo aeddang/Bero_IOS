@@ -12,7 +12,7 @@ import UIKit
 
 enum UserEvent{
     case updatedProfile(UserProfile)
-    case addedDog(PetProfile), deletedDog(PetProfile), updatedDog(PetProfile)
+    case addedDog(PetProfile), deletedDog(PetProfile), updatedDog(PetProfile) , updatedDogs
     case updatedPlayData
 }
 
@@ -76,6 +76,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     
     func setData(data:[PetData], isMyPet:Bool = true){
         self.pets = data.map{ PetProfile(data: $0, isMyPet: isMyPet)}
+        self.event = .updatedDogs
     }
     
     func deletePet(petId:Int) {

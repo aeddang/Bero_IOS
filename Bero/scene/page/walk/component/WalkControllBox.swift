@@ -15,8 +15,9 @@ struct WalkControllBox : PageComponent {
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
-    
-   
+    @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
+    @Binding var isFollowMe:Bool
+    @Binding var isForceMove:Bool
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.thin){
             HStack(spacing:Dimen.margin.thin){
@@ -50,33 +51,51 @@ struct WalkControllBox : PageComponent {
             
             HStack(spacing:Dimen.margin.thin){
                 CircleButton(
-                    type: .icon(self.isWalk ? Asset.icon.play_circle_filled : Asset.icon.pause),
+                    type: .icon(self.isWalk ? Asset.icon.pause : Asset.icon.play_circle_filled ),
                     isSelected: self.isWalk){ _ in
                         self.toggleWalk()
                 }
                 if let mission = self.mission {
+                    CircleButton(
+                        type: .icon(Asset.icon.paw),
+                        isSelected: true){ _ in
+                            self.appSceneObserver.alert = .confirm(nil, "미션을 종료 하겠습니까?"){ isOk in
+                                if isOk {
+                                    self.walkManager.endMission()
+                                }
+                            }
+                    }
                     CircleButton(
                         type: .icon(Asset.icon.goal),
                         isSelected: self.route != nil){ _ in
                             self.toggleRoute(mission:mission)
                     }
                 }
+                CircleButton(
+                    type: .icon(Asset.icon.my_location),
+                    isSelected: self.isFollowMe)
+                { _ in
+                    self.isFollowMe.toggle()
+                    self.viewModel.playEvent = .resetMap
+                }
+                .padding(.trailing, Dimen.margin.regular)
                 
                 CircleButton(
                     type: .icon(Asset.icon.refresh),
                     isSelected: false){ _ in
                         self.resetMap()
                 }
+                
                
             }
         }
         .padding(.all, Dimen.margin.thin)
-        .modifier(MatchHorizontal(height: 200))
-        .background(Color.app.whiteDeep)
+        .modifier(MatchHorizontal(height: 160))
+        .background(Color.app.whiteDeep.opacity(0.7))
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .addedDog, .deletedDog, .updatedDog : self.updatedPets()
+            case .addedDog, .deletedDog, .updatedDogs : self.updatedPets()
             case .updatedPlayData :
                 break
             default: break
@@ -96,10 +115,11 @@ struct WalkControllBox : PageComponent {
         .onReceive(self.walkManager.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .startMission(let mission): self.mission = mission
-            case .endMission : self.mission = nil
             default: break
             }
+        }
+        .onReceive(self.walkManager.$currentMission){ mission in
+            self.mission = mission
         }
         .onReceive(self.walkManager.$currentRoute){ route in
             self.route = route
@@ -115,6 +135,7 @@ struct WalkControllBox : PageComponent {
         }
         .onAppear(){
             self.updatedPets()
+            
         }
         
     }//body
@@ -131,6 +152,10 @@ struct WalkControllBox : PageComponent {
     }
     
     private func toggleWalk(){
+        if  self.walkManager.currentLocation == nil && !self.isWalk {
+            self.appSceneObserver.event = .toast("위치정보를 알수 없습니다")
+            return
+        }
         if self.mission != nil {
             self.appSceneObserver.alert = .confirm("수행중 미션 있음", "수행중이던 미션은 종료됩니다"){ isOk in
                 if isOk {
@@ -168,7 +193,7 @@ struct WalkControllBox_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack{
-            WalkControllBox(
+            WalkControllBox(isFollowMe: .constant(false), isForceMove: .constant(false)
                 
             )
             .frame( alignment: .center)

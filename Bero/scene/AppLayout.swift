@@ -151,7 +151,10 @@ struct AppLayout: PageComponent{
             }
             return
         }
-        
+        if self.isInit {
+            PageLog.d("onPageInit already init", tag: self.tag)
+            return
+        }
         self.isInit = true
         if !self.appObserverMove(self.appObserver.page) {
             self.pagePresenter.changePage(

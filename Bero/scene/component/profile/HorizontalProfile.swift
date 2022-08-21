@@ -11,26 +11,31 @@ import SwiftUI
 
 struct HorizontalProfile: PageComponent{
     enum ProfileType{
-        case pet, user, place
+        case pet, user, place(icon:String = Asset.icon.goal)
         var emptyImage:String{
             switch self {
             case .pet : return Asset.image.profile_dog_default
             case .user : return Asset.image.profile_user_default
-            case .place : return ""
+            default : return ""
             }
         }
         var emptyTitle:String{
             switch self {
             case .pet : return String.pageTitle.addDog
-            case .user : return ""
-            case .place : return ""
+            default : return ""
             }
         }
         var emptyText:String{
             switch self {
             case .pet : return String.pageText.addDogEmpty
-            case .user : return ""
-            case .place : return ""
+            default : return ""
+            }
+        }
+        
+        var useDescription:Bool{
+            switch self {
+            case .place : return false
+            default : return true
             }
         }
     }
@@ -62,10 +67,11 @@ struct HorizontalProfile: PageComponent{
     var imagePath:String? = nil
     var name:String? = nil
     var date:String? = nil
+    var adress:String? = nil
     var gender:Gender? = nil
     var age:String? = nil
     var breed:String? = nil
-   
+    var description:String? = nil
     var isSelected:Bool = false
     var isEmpty:Bool = false
     
@@ -73,8 +79,8 @@ struct HorizontalProfile: PageComponent{
     var body: some View {
         HStack(spacing:Dimen.margin.regularExtra){
             switch self.type {
-            case .place :
-                Image(Asset.icon.goal)
+            case .place(let icon) :
+                Image(icon)
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
@@ -127,15 +133,33 @@ struct HorizontalProfile: PageComponent{
                                 ))
                                 .multilineTextAlignment(.leading)
                         }
-                        ProfileInfoDescription(
-                            id: self.id,
-                            age: self.age,
-                            gender: self.gender,
-                            useCircle: false,
-                            color: self.isSelected ? Color.app.white : Color.app.grey500
-                        )
+                        if let adress = self.adress {
+                            Text(adress)
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color: self.isSelected ? Color.app.white : Color.app.grey500
+                                ))
+                                .multilineTextAlignment(.leading)
+                        }
+                        if self.type.useDescription {
+                            ProfileInfoDescription(
+                                id: self.id,
+                                age: self.age,
+                                gender: self.gender,
+                                useCircle: false,
+                                color: self.isSelected ? Color.app.white : Color.app.grey500
+                            )
+                        }
                         if let breed = self.breed {
                             Text(breed)
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color: self.isSelected ? Color.app.white : self.color
+                                ))
+                                .multilineTextAlignment(.leading)
+                        }
+                        if let description = self.description {
+                            Text(description)
                                 .modifier(RegularTextStyle(
                                     size: Font.size.thin,
                                     color: self.isSelected ? Color.app.white : self.color
@@ -247,7 +271,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
             }
             HorizontalProfile(
                 id: "",
-                type: .place,
+                type: .place(),
                 sizeType: .small,
                 color: Color.app.red,
                 name: "name",

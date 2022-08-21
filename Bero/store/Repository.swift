@@ -67,6 +67,7 @@ class Repository:ObservableObject, PageProtocol{
         
         self.setupSetting()
         self.setupDataProvider()
+        self.setupWalkManager()
         self.setupApiManager()
         self.status = .ready
         self.autoSnsLogin()
@@ -111,7 +112,15 @@ class Repository:ObservableObject, PageProtocol{
             self.registerPushToken(self.storage.retryPushToken)
         }
     }
-    
+    private func setupWalkManager(){
+        self.walkManager.$event.sink(receiveValue: { evt in
+            switch evt {
+            case .completedMission :
+                self.pagePresenter?.openPopup(PageProvider.getPageObject(.missionCompleted))
+            default: break
+            }
+        }).store(in: &dataCancellable)
+    }
     private func setupApiManager(){
         self.apiManager.$event.sink(receiveValue: { status in
             switch status {

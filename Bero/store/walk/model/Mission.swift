@@ -12,31 +12,7 @@ import UIKit
 import GooglePlaces
 
 enum MissionType:CaseIterable {
-    case today, event, normal
-    var info : String{
-        switch self {
-        case .today: return "Today’s Mission"
-        case .event: return "Event!! Mission"
-        case .normal: return "Any Time Mission"
-        }
-    }
-    var color : Color{
-        switch self {
-        case .today: return Color.brand.primary
-        case .event: return Color.brand.thirdly
-        case .normal: return Color.brand.secondary
-        }
-    }
-    static func random() -> MissionType{
-        return Self.allCases.map{$0}.randomElement()! 
-    }
-    static func getType(_ value:String?) -> MissionType{
-        switch value {
-        case "today" : return .today
-        case "event" : return .event
-        default : return .normal
-        }
-    }
+    case new, history, user
 }
 
 enum MissionLv:CaseIterable {
@@ -84,6 +60,15 @@ enum MissionLv:CaseIterable {
         case .lv4: return Color.brand.thirdly
         }
     }
+    
+    var point:Double{
+        switch self {
+        case .lv1: return 10
+        case .lv2: return 20
+        case .lv3: return 30
+        case .lv4: return 50
+        }
+    }
 }
 
 
@@ -95,14 +80,13 @@ extension Mission{
         return (value / 1000).toTruncateDecimal(n:1) + String.app.km
     }
     static func viewDuration(_ value:Double) -> String {
-        return (value / 60).toTruncateDecimal(n:1) + String.app.min
+        return value.secToMinString()
     }
 }
 
-class Mission:PageProtocol, Identifiable, Equatable{ 
-    let id:String = UUID().uuidString
+class Mission:MapUserData{
     private (set) var missionId:Int = -1
-    private (set) var type:MissionType = .today
+    private (set) var type:MissionType = .new
     private (set) var lv:MissionLv = .lv1
     
     private (set) var title:String? = nil
@@ -115,21 +99,21 @@ class Mission:PageProtocol, Identifiable, Equatable{
     
     private (set) var distance:Double = 0 //miter
     private (set) var duration:Double = 0 //sec
-    
+    private (set) var isStart:Bool = false
     private (set) var isCompleted:Bool = false
     private (set) var playStartDate:Date? = nil
     private (set) var playTime:Double = 0
+    
+    private (set) var playStartDistence:Double = 0
     private (set) var playDistence:Double = 0
     
     private (set) var place:MissionPlace? = nil
-    
-    public static func == (l:Mission, r:Mission)-> Bool {
-        return l.id == r.id
-    }
-    
+    private (set) var user:User? = nil
+   
     var viewDistance:String { return Self.viewDistance(self.distance) }
     var viewDuration:String { return Self.viewDuration(self.duration) }
-    
+    var viewPlayTime:String { return Self.viewDuration(self.playTime) }
+    var viewPlayDistance:String { return Self.viewDistance(self.playDistence) }
     var allPoint:[CLLocation] {
         var points:[CLLocation] = []
         if let value = self.departure { points.append(value) }
@@ -139,35 +123,52 @@ class Mission:PageProtocol, Identifiable, Equatable{
     }
     
     
-    func start(location:CLLocation) {
+    func start(location:CLLocation, walkDistence:Double) {
         self.departure = location
         self.playStartDate = AppUtil.networkTimeDate()
+        self.playStartDistence = walkDistence
         self.playDistence = 0
         self.playTime = 0
+        self.isStart = true
         self.isCompleted = false
     }
+    func end(imgPath:String? = nil) {
+        self.departure = nil
+        self.playStartDate = nil
+        self.playDistence = 0
+        self.playTime = 0
+        self.isStart = false
+        if let img = imgPath {
+            self.pictureUrl = img
+            self.isCompleted = true
+        } else {
+            self.isCompleted = false
+        }
+    }
     
-    func completed(playTime:Double, playDistence:Double, pictureUrl:String) {
-        self.pictureUrl = pictureUrl
-        self.playDistence = playDistence
-        self.playTime = playTime
+    func completed(walkDistence:Double) {
+        self.playDistence = walkDistence - self.playStartDistence
+        self.playTime = AppUtil.networkTimeDate().timeIntervalSince(self.playStartDate ?? Date())
         self.isCompleted = true
     }
     
     @discardableResult
-    func setData(_ data:MissionData)->Mission{
-        self.type =  MissionType.getType(data.missionType)
+    func setData(_ data:MissionData, type:MissionType)->Mission{
+        self.type = type
+        self.missionId = data.missionId ?? UUID().hashValue
         self.lv = MissionLv.getMissionLv(data.difficulty)
         self.title = data.title
         self.description = data.description
         self.pictureUrl = data.pictureUrl
         self.point = data.point ?? 0
+        
         if let place = data.place {
             self.place = place
             if let loc = place.geometry?.location {
-                self.departure = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
+                self.destination = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
             }
         }
+        self.user = User().setData(data)
         self.distance = data.distance ?? 0
         self.duration = data.duration ?? 0
         return self

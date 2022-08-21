@@ -109,6 +109,15 @@
 		31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */; };
 		31D0E95128AA3B7B0076D971 /* WalkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95028AA3B7B0076D971 /* WalkManager.swift */; };
 		31D0E95628AA4DF50076D971 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95528AA4DF50076D971 /* Route.swift */; };
+		31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */; };
+		31D4E2EA28B07C7600C3BA75 /* SelectControlBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */; };
+		31D4E2EC28B0B13B00C3BA75 /* MissonControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */; };
+		31D4E2EE28B0B81E00C3BA75 /* UserControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */; };
+		31D4E2F028B0B92500C3BA75 /* PlaceControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */; };
+		31D4E2F228B0B97500C3BA75 /* PlaceProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */; };
+		31D4E2F628B1CC0C00C3BA75 /* PageMissionCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */; };
+		31D4E2F828B1CC4400C3BA75 /* RedeemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */; };
+		31D4E2FA28B1D0CC00C3BA75 /* ImageProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */; };
 		31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
 		31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3F287257B6001C2738 /* Preview Assets.xcassets */; };
 		31D91D45287257B6001C2738 /* Bero.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31D91D43287257B6001C2738 /* Bero.xcdatamodeld */; };
@@ -411,6 +420,15 @@
 		31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31D0E95028AA3B7B0076D971 /* WalkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkManager.swift; sourceTree = "<group>"; };
 		31D0E95528AA4DF50076D971 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMapComponent.swift; sourceTree = "<group>"; };
+		31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectControlBox.swift; sourceTree = "<group>"; };
+		31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissonControl.swift; sourceTree = "<group>"; };
+		31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserControl.swift; sourceTree = "<group>"; };
+		31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceControl.swift; sourceTree = "<group>"; };
+		31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceProfileInfo.swift; sourceTree = "<group>"; };
+		31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionCompleted.swift; sourceTree = "<group>"; };
+		31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemInfo.swift; sourceTree = "<group>"; };
+		31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcess.swift; sourceTree = "<group>"; };
 		31D91D35287257B3001C2738 /* Bero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D91D3C287257B6001C2738 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31D91D3F287257B6001C2738 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -693,6 +711,7 @@
 				31C6374828A8C793008EA54C /* item.swift */,
 				31C6373528A87D8D008EA54C /* UserProfileInfo.swift */,
 				31C6373928A8804D008EA54C /* PetProfileInfo.swift */,
+				31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */,
 				311EAA2128A9D06B00A5F735 /* WalkListItem.swift */,
 				311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */,
 				31C6374628A8C75A008EA54C /* EmptyItem.swift */,
@@ -734,6 +753,7 @@
 				31EA349528AF8D37006A2C0A /* component */,
 				31D0E95228AA3B810076D971 /* model */,
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
+				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
 			);
 			path = walk;
 			sourceTree = "<group>";
@@ -979,6 +999,7 @@
 				31D91D7628725833001C2738 /* AESUtil.swift */,
 				31D91D7728725833001C2738 /* ViewUtil.swift */,
 				31D91D7828725833001C2738 /* UIKitUtil.swift */,
+				31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -1490,7 +1511,13 @@
 			isa = PBXGroup;
 			children = (
 				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
+				31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */,
 				31EA349628AF8D57006A2C0A /* WalkControllBox.swift */,
+				31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */,
+				31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */,
+				31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */,
+				31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */,
+				31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -1737,9 +1764,11 @@
 				31D9203B287271C1001C2738 /* Alert.swift in Sources */,
 				31D92039287271C1001C2738 /* ImageView.swift in Sources */,
 				31D91E7E28725834001C2738 /* UnitUtil.swift in Sources */,
+				31D4E2F828B1CC4400C3BA75 /* RedeemInfo.swift in Sources */,
 				31C6372E28A85C3C008EA54C /* ProgressInfo.swift in Sources */,
 				311EAA2228A9D06B00A5F735 /* WalkListItem.swift in Sources */,
 				31D920D22872A02E001C2738 /* PageTest.swift in Sources */,
+				31D4E2F228B0B97500C3BA75 /* PlaceProfileInfo.swift in Sources */,
 				31D920B528729CDC001C2738 /* AlbumApiData.swift in Sources */,
 				31D920BF28729CDC001C2738 /* PetProfile.swift in Sources */,
 				31D92033287271C1001C2738 /* ReflashSpinner.swift in Sources */,
@@ -1783,6 +1812,8 @@
 				311DC4372877D73800A3F7F5 /* GoogleSignManager.swift in Sources */,
 				31D91E8228725834001C2738 /* ViewUtil.swift in Sources */,
 				31D920BE28729CDC001C2738 /* AccountManager.swift in Sources */,
+				31D4E2EA28B07C7600C3BA75 /* SelectControlBox.swift in Sources */,
+				31D4E2EC28B0B13B00C3BA75 /* MissonControl.swift in Sources */,
 				31D9205A287271CD001C2738 /* ScenePickerController.swift in Sources */,
 				31071C78289E763200F46498 /* StepInfo.swift in Sources */,
 				31D91F812872705A001C2738 /* AppSceneObserver.swift in Sources */,
@@ -1802,6 +1833,8 @@
 				31D9200A287271C1001C2738 /* CustomPHPicker.swift in Sources */,
 				31C6374B28A8DDC8008EA54C /* Calender.swift in Sources */,
 				31D92034287271C1001C2738 /* DragDownArrow.swift in Sources */,
+				31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */,
+				31D4E2F028B0B92500C3BA75 /* PlaceControl.swift in Sources */,
 				31D9200C287271C1001C2738 /* CustomImagePicker.swift in Sources */,
 				31D91E8028725834001C2738 /* DiskStatus.swift in Sources */,
 				31D920D028729FB5001C2738 /* PageFactory.swift in Sources */,
@@ -1811,6 +1844,7 @@
 				31D91E9328725834001C2738 /* NetworkObserver.swift in Sources */,
 				31D9200E287271C1001C2738 /* ViewPager.swift in Sources */,
 				31D92031287271C1001C2738 /* InfinityScrollView.swift in Sources */,
+				31D4E2FA28B1D0CC00C3BA75 /* ImageProcess.swift in Sources */,
 				31C17FAD289F87AE009B5EA1 /* InputTextStep.swift in Sources */,
 				31D920CA28729DD8001C2738 /* LocalStorage.swift in Sources */,
 				31A9D2B9289F47340094EC5C /* Check.swift in Sources */,
@@ -1825,6 +1859,7 @@
 				31D920CC28729DED001C2738 /* ApiCoreDataManager.swift in Sources */,
 				31D9203E287271C1001C2738 /* Radio.swift in Sources */,
 				31D9204E287271C1001C2738 /* FocusableTextView.swift in Sources */,
+				31D4E2EE28B0B81E00C3BA75 /* UserControl.swift in Sources */,
 				31D91E8A28725834001C2738 /* InfinityScroll.swift in Sources */,
 				31D92027287271C1001C2738 /* TextStyle.swift in Sources */,
 				31D92045287271C1001C2738 /* RadioButton.swift in Sources */,
@@ -1855,6 +1890,7 @@
 				31C17FAF289F89FA009B5EA1 /* SelectPictureStep.swift in Sources */,
 				31D9200D287271C1001C2738 /* CPPageViewPager.swift in Sources */,
 				31D9200B287271C1001C2738 /* ImagePicker.swift in Sources */,
+				31D4E2F628B1CC0C00C3BA75 /* PageMissionCompleted.swift in Sources */,
 				31D92006287271C1001C2738 /* durations.swift in Sources */,
 				31D91FFC287271C1001C2738 /* Sns.swift in Sources */,
 				31D92037287271C1001C2738 /* GraphArc.swift in Sources */,
@@ -2060,9 +2096,9 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bero/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "사용자 프로필 및 사진업로드에 사용됩니다.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Used for user profiles and photo uploads.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2073,7 +2109,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = bero_dev;
@@ -2103,9 +2139,9 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bero/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "사용자 프로필 및 사진업로드에 사용됩니다.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "애플의 정책에 따라 사용자 위치를 확인하기 위해서 위치 접근 권한을 허용하셔야 이용이 가능합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Used for user profiles and photo uploads.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2116,7 +2152,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = bero_des;

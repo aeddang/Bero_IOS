@@ -8,13 +8,13 @@
 import Foundation
 import GooglePlaces
 
-class Route:PageProtocol, Identifiable{
+class Route:PageProtocol {
     let id:String = UUID().uuidString
     private (set) var descriptions:[String] = []
     private (set) var durations:[Double] = []
     private (set) var distances:[Double] = []
     private (set) var waypoints:[CLLocation] = []
-    
+    private (set) var polyLines:[String] = []
    
     private (set) var distance:Double = 0 //miter
     private (set) var duration:Double = 0 //sec
@@ -38,6 +38,7 @@ class Route:PageProtocol, Identifiable{
                     waypoints.append(CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0))
                 }
             }
+            self.polyLines = steps.filter{$0.polyline?.points?.isEmpty == false}.map{$0.polyline?.points ?? ""}
         }
         if let loc = leg.end_location {
             descriptions.append(leg.end_address ?? "")
@@ -45,7 +46,7 @@ class Route:PageProtocol, Identifiable{
             distances.append(0)
             waypoints.append(CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0))
         }
-        
+       
         self.distance = leg.distance?.value ?? 0
         self.duration = leg.duration?.value ?? 0
         return self

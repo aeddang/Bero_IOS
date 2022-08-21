@@ -390,7 +390,7 @@ extension String{
     }
     
     func onlyNumric()-> String {
-        let ruleNum = "0123456789."
+        let ruleNum = "[0123456789.]"
         return self.getArrayAfterRegex(regex: ruleNum ).reduce("", {$0 + $1})
     }
     
