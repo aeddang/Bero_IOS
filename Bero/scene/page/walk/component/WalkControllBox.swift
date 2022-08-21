@@ -38,17 +38,17 @@ struct WalkControllBox : PageComponent {
                     }
                 }
             }
-          
-            HStack(spacing:Dimen.margin.thin){
-                ForEach(self.pets) { pet in
-                    CircleButton(
-                        type: .image(pet.imagePath),
-                        isSelected: pet.isWith){ _ in
-                            
+            ScrollView(.horizontal, showsIndicators: false){
+                HStack(spacing:Dimen.margin.thin){
+                    ForEach(self.pets) { pet in
+                        CircleButton(
+                            type: .image(pet.imagePath),
+                            isSelected: pet.isWith){ _ in
+                                
+                        }
                     }
                 }
             }
-            
             HStack(spacing:Dimen.margin.thin){
                 CircleButton(
                     type: .icon(self.isWalk ? Asset.icon.pause : Asset.icon.play_circle_filled ),
@@ -159,13 +159,25 @@ struct WalkControllBox : PageComponent {
         if self.mission != nil {
             self.appSceneObserver.alert = .confirm("수행중 미션 있음", "수행중이던 미션은 종료됩니다"){ isOk in
                 if isOk {
-                    self.walkManager.endWalk()
+                    self.walkManager.endMission()
+                    self.toggleWalk()
                 }
             }
             return
         }
+        
+        
         if self.isWalk {
-            self.walkManager.endWalk()
+            self.appSceneObserver.alert = .confirm(nil, "산책을 종료 하겠습니까? 1초(테스트) 이상 산책해야 저장됩니다."){ isOk in
+                if isOk {
+                    if walkManager.walkTime >= 1 {
+                        self.walkManager.completeWalk()
+                    } else {
+                        self.walkManager.endWalk()
+                    }
+                }
+            }
+            
         } else {
             self.walkManager.startWalk()
         }

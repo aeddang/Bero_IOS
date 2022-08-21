@@ -10,7 +10,7 @@ import Combine
 import CoreLocation
 import GooglePlaces
 enum WalkEvent {
-    case start, end, startMission(Mission), endMission(Mission), completedMission(Mission), getRoute(Route),
+    case start, end, completed(Mission), startMission(Mission), endMission(Mission), completedMission(Mission), getRoute(Route),
          changeMapStatus, updatedMissions, updatedPlaces , updatedUsers,
          findWaypoint(index:Int, total:Int)
     
@@ -39,6 +39,8 @@ extension WalkManager {
     static let distenceUnit:Double = 200000
 }
 
+
+
 class WalkManager:ObservableObject, PageProtocol{
     private let locationObserver:LocationObserver
     private let dataProvider:DataProvider
@@ -47,7 +49,9 @@ class WalkManager:ObservableObject, PageProtocol{
     private(set) var missionUsers:[Mission] = []
     private(set) var places:[Place] = []
     private(set) var startTime:Date = Date()
-    
+    private(set) var startLocation:CLLocation? = nil
+    private(set) var completedMissions:[Int] = []
+    private(set) var completedWalk:Mission? = nil
     @Published private(set) var event:WalkEvent? = nil {didSet{ if event != nil { event = nil} }}
     @Published private(set) var error:WalkError? = nil {didSet{ if error != nil { error = nil} }}
     @Published private(set) var status:WalkStatus = .ready
@@ -126,18 +130,27 @@ class WalkManager:ObservableObject, PageProtocol{
     
     func startWalk(){
         self.startTime = Date()
+        self.startLocation = self.currentLocation
         self.event = .start
         self.status = .walking
         self.startTimer()
     }
     
+    func completeWalk(){
+        let mission = Mission().setData(self)
+        self.completedWalk = mission
+        self.event = .completed(mission)
+    }
+    
     func endWalk(){
-        self.event = .end
-        self.status = .ready
+        self.completedWalk = nil
         self.walkTime = 0
         self.walkDistence = 0
+        self.completedMissions = []
         self.endMission()
         self.endTimer()
+        self.event = .end
+        self.status = .ready
     }
     
     func startMission(_ mission:Mission, route:Route? = nil){
@@ -150,9 +163,14 @@ class WalkManager:ObservableObject, PageProtocol{
         self.event = .startMission(mission)
     }
     
-    func endMission(imgPath:String? = nil){
+    func endMission(imgPath:String? = nil, missionId:Int? = nil){
         guard let mission = self.currentMission else {return}
-        mission.end()
+        if let id = missionId {
+            self.completedMissions.append(id)
+            mission.end(isCompleted:true, imgPath: imgPath)
+        } else {
+            mission.end(isCompleted:false)
+        }
         self.currentMission = nil
         self.currentRoute =  nil
         self.currentDistenceFromMission = nil

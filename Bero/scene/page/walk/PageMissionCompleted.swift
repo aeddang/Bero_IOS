@@ -30,16 +30,12 @@ struct PageMissionCompleted: PageView {
                 ZStack(alignment: .topLeading){
                     if let mission = self.mission {
                         RedeemInfo(
-                            title: "mission complete",
-                            text: mission.viewPlayTime + "/"  + mission.viewPlayDistance,
-                            point: mission.lv.point,
+                            type: mission.type,
+                            title: (mission.title ?? "mission") + " complete",
+                            text: mission.viewDuration + "/"  + mission.viewDistance,
+                            point: mission.point,
                             action : {
-                                self.appSceneObserver.alert = .alert(nil, String.alert.completedNeedPicture){
-                                    self.appSceneObserver.event = .openImagePicker(self.tag, type: .photoLibrary){ img in
-                                        guard let img = img else {return}
-                                        self.pickImage(img)
-                                    }
-                                }
+                                self.sendResult()
                             },
                             close: {
                                 self.appSceneObserver.alert = .confirm(nil, String.alert.completedExitConfirm){ isOk in
@@ -64,35 +60,18 @@ struct PageMissionCompleted: PageView {
             .onDisappear{
                
             }
-            .onReceive(self.appSceneObserver.$pickImage) { pick in
-                guard let pick = pick else {return}
-                if pick.id?.hasSuffix(self.tag) != true {return}
-                if let img = pick.image {
-                    self.pagePresenter.isLoading = true
-                    DispatchQueue.global(qos:.background).async {
-                        let uiImage = img.normalized().centerCrop().resize(to: CGSize(width: 240,height: 240))
-                        DispatchQueue.main.async {
-                            self.pagePresenter.isLoading = false
-                            self.checkResult(img: uiImage)
-                        }
-                    }
-                }
-            }
             .onReceive(self.dataProvider.$result){ res in
                 guard let res = res else { return }
                 if !res.id.hasPrefix(self.tag) {return}
                 switch res.type {
-                case .completeMission : self.onClose()
-                case .checkHumanWithDog :
-                    guard let data = res.data as? DetectData else {
-                        self.appSceneObserver.event = .toast(String.alert.completedNeedPictureError)
+                case .completeMission :
+                    guard let data = res.data as? MissionData else {
+                        self.appSceneObserver.event = .toast(String.alert.completedError)
                         return
                     }
-                    if data.isDetected != true {
-                        self.appSceneObserver.event = .toast(String.alert.completedNeedPictureError)
-                        return
-                    }
-                    self.sendResult(imgPath: data.pictureUrl)
+                    self.resultMissionId = data.missionId
+                    self.closeMission()
+                    
                 default : break
                 }
             }
@@ -101,40 +80,23 @@ struct PageMissionCompleted: PageView {
    
     @State var mission:Mission? = nil
     @State var withProfiles:[PetProfile] = []
-    @State var resultImage:String? = nil
-    private func pickImage(_ img:UIImage) {
-        self.pagePresenter.isLoading = true
-        DispatchQueue.global(qos:.background).async {
-            let uiImage = img.normalized().centerCrop().resize(to: CGSize(width: 240,height: 240))
-            DispatchQueue.main.async {
-                self.pagePresenter.isLoading = false
-                self.checkResult(img: uiImage)
-            }
-        }
-    }
-    
-    private func checkResult(img:UIImage){
-        self.dataProvider.requestData(q: .init(id:self.tag, type: .checkHumanWithDog(img), isLock: true))
-        
-    }
-    private func sendResult(imgPath:String?){
-        self.resultImage = imgPath
+    @State var resultMissionId:Int? = nil
+   
+    private func sendResult(){
         guard let mission = self.mission else { return }
         self.dataProvider.requestData(q: .init(id:self.tag, type: .completeMission(mission, self.withProfiles), isLock: true))
         
     }
-    private func onClose(){
+    
+    private func closeMission(){
         if let mission = self.mission {
+            self.walkManager.endMission(missionId: self.resultMissionId)
             self.dataProvider.user.missionCompleted(mission)
         }
-        self.closeMission()
-    }
-    private func closeMission(){
-        self.walkManager.endMission(imgPath: self.resultImage)
-        if self.resultImage != nil {
+        if self.resultMissionId != nil {
             self.appSceneObserver.event = .toast(String.pageText.missionCompletedSaved)
         }
-        self.pagePresenter.closeAllPopup()
+        self.pagePresenter.closePopup(self.pageObject?.id)
     }
 
 }

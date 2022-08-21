@@ -12,14 +12,14 @@ import Combine
 
 
 struct RedeemInfo: PageComponent {
+    var type:MissionType
     var title:String? = nil
     var text:String? = nil
-    var point:Double = 0
+    var point:Int = 0
     var action: (() -> Void)? = nil
     var close: (() -> Void)? = nil
     var body: some View {
         ZStack(alignment: .topTrailing){
-            
             VStack(spacing: 0){
                 Image(Asset.image.present)
                     .renderingMode(.original)
@@ -52,7 +52,7 @@ struct RedeemInfo: PageComponent {
                 }
                 
                 HStack(alignment: .center, spacing: Dimen.margin.tiny){
-                    Text(String.button.pictureCertification)
+                    Text(self.type.completeButton)
                         .modifier(RegularTextStyle(
                             size: Font.size.light,
                             color: Color.app.grey500
@@ -88,7 +88,7 @@ struct RedeemInfo: PageComponent {
                 Button(action: {
                     close()
                 }) {
-                    Image(Asset.icon.delete)
+                    Image(Asset.icon.close)
                         .renderingMode(.original)
                         .resizable()
                         .scaledToFit()
@@ -106,7 +106,7 @@ struct RedeemInfo: PageComponent {
 struct RedeemInfo_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            RedeemInfo()
+            RedeemInfo(type: .walk)
             .frame(width: 375, height: 640, alignment: .center)
         }
     }

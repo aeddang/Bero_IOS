@@ -12,7 +12,19 @@ import UIKit
 import GooglePlaces
 
 enum MissionType:CaseIterable {
-    case new, history, user
+    case new, history, user, walk
+    var apiDataKey : String {
+        switch self {
+        case .walk: return "Walk"
+        default : return "Mission"
+        }
+    }
+    var completeButton : String {
+        switch self {
+        case .walk: return String.button.walkComplete
+        default : return String.button.missionComplete
+        }
+    }
 }
 
 enum MissionLv:CaseIterable {
@@ -87,7 +99,7 @@ extension Mission{
 class Mission:MapUserData{
     private (set) var missionId:Int = -1
     private (set) var type:MissionType = .new
-    private (set) var lv:MissionLv = .lv1
+    private (set) var difficulty:String? = nil
     
     private (set) var title:String? = nil
     private (set) var description:String? = nil
@@ -132,17 +144,15 @@ class Mission:MapUserData{
         self.isStart = true
         self.isCompleted = false
     }
-    func end(imgPath:String? = nil) {
+    func end(isCompleted:Bool? = nil, imgPath:String? = nil) {
         self.departure = nil
         self.playStartDate = nil
         self.playDistence = 0
         self.playTime = 0
         self.isStart = false
-        if let img = imgPath {
-            self.pictureUrl = img
-            self.isCompleted = true
-        } else {
-            self.isCompleted = false
+        self.pictureUrl = imgPath
+        if let com = isCompleted {
+            self.isCompleted = com
         }
     }
     
@@ -156,7 +166,7 @@ class Mission:MapUserData{
     func setData(_ data:MissionData, type:MissionType)->Mission{
         self.type = type
         self.missionId = data.missionId ?? UUID().hashValue
-        self.lv = MissionLv.getMissionLv(data.difficulty)
+        self.difficulty = data.difficulty
         self.title = data.title
         self.description = data.description
         self.pictureUrl = data.pictureUrl
@@ -174,7 +184,16 @@ class Mission:MapUserData{
         return self
     }
     
-    
+    @discardableResult
+    func setData(_ data:WalkManager)->Mission{
+        self.type = .walk
+        self.title = "Walk"
+        self.departure = data.startLocation
+        self.destination = data.currentLocation
+        self.distance = data.walkDistence
+        self.duration = data.walkTime
+        return self
+    }
 }
 
 

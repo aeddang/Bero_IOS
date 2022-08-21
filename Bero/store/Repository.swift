@@ -117,6 +117,8 @@ class Repository:ObservableObject, PageProtocol{
             switch evt {
             case .completedMission :
                 self.pagePresenter?.openPopup(PageProvider.getPageObject(.missionCompleted))
+            case .completed :
+                self.pagePresenter?.openPopup(PageProvider.getPageObject(.walkCompleted))
             default: break
             }
         }).store(in: &dataCancellable)

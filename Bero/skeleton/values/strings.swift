@@ -62,9 +62,10 @@ extension String {
         public static var addDogTitle = "Add your dog"
         public static var addDogText = "Start with telling more about your dog."
         
+        public static var completedError = "Save fail. retry."
         public static var completedNeedPicture = "Need picture with your Dog."
         public static var completedNeedPictureError = "Need picture with your Dog. retry."
-        public static var completedExitConfirm = "If you exit without receiving a mission reward, the completed mission record will not be saved. Are you sure you want to quit?"
+        public static var completedExitConfirm = "If you exit without receiving a reward, the completed walk record will not be saved. Are you sure you want to quit?"
       
         
     }
@@ -88,7 +89,8 @@ extension String {
         public static let calendar = "Calendar"
         public static let album = "Album"
         public static let startWalking = "Start walking"
-        public static let pictureCertification = "Photo verification and reward"
+        public static let missionComplete = "Mission Complete"
+        public static let walkComplete = "Walk Complete"
     }
     
     struct pageTitle {
@@ -119,7 +121,7 @@ extension String {
         public static let myCurrentPoint = "You have %s Points"
         
         public static let missionCompletedSaved = "Mission saved."
-        
+        public static let walkCompletedSaved = "Mission saved."
     }
     
 }

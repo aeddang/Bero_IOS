@@ -1,0 +1,6 @@
+framework module Pods_BeroTests {
+  umbrella header "Pods-BeroTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

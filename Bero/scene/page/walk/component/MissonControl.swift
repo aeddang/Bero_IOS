@@ -60,7 +60,26 @@ struct MissionControl : PageComponent {
                         
                         self.startMission()
                 }
-                
+                if !self.isPlay {
+                    CircleButton(
+                        type: .icon(Asset.icon.goal),
+                        isSelected: self.isViewRoute){ _ in
+                            if self.isViewRoute {
+                                self.isViewRoute = false
+                                self.route = nil
+                                self.viewModel.playEvent = .clearViewRoute
+                                
+                            } else {
+                                self.walkManager.getRoute(mission: data)
+                            }
+                    }
+                } else {
+                    CircleButton(
+                        type: .text("완료"),
+                        isSelected: self.isCompleted){ _ in
+                            self.walkManager.forceCompleteMission()
+                    }
+                }
                 
             } else {
                 CircleButton(
@@ -69,26 +88,7 @@ struct MissionControl : PageComponent {
                         self.appSceneObserver.event = .toast("완료 미션 입니다.")
                 }
             }
-            if !self.isPlay {
-                CircleButton(
-                    type: .text("강제완료"),
-                    isSelected: self.isCompleted){ _ in
-                        self.walkManager.forceCompleteMission()
-                }
-                
-                CircleButton(
-                    type: .icon(Asset.icon.goal),
-                    isSelected: self.isViewRoute){ _ in
-                        if self.isViewRoute {
-                            self.isViewRoute = false
-                            self.route = nil
-                            self.viewModel.playEvent = .clearViewRoute
-                            
-                        } else {
-                            self.walkManager.getRoute(mission: data)
-                        }
-                }
-            }
+            
             
         }
         .onReceive(self.walkManager.$event){ evt in
@@ -119,7 +119,7 @@ struct MissionControl : PageComponent {
     private func startMission(){
         self.walkManager.startMission(data, route: self.route)
         self.appSceneObserver.event = .toast("미션을 시작합니다")
-        self.close()
+        //self.close()
     }
     private func updateMission(_ data:Mission){
         if data != self.data {return}

@@ -21,33 +21,6 @@
 		311DC4372877D73800A3F7F5 /* GoogleSignManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311DC4362877D73800A3F7F5 /* GoogleSignManager.swift */; };
 		311DC43B2879874800A3F7F5 /* PageTestMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311DC43A2879874800A3F7F5 /* PageTestMap.swift */; };
 		311DC43D287987D700A3F7F5 /* PlayMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311DC43C287987D700A3F7F5 /* PlayMap.swift */; };
-		311DC470287993AD00A3F7F5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC46F287993AD00A3F7F5 /* Accelerate.framework */; };
-		311DC472287993B600A3F7F5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC471287993B600A3F7F5 /* CoreData.framework */; };
-		311DC478287993DA00A3F7F5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC473287993D900A3F7F5 /* CoreLocation.framework */; };
-		311DC479287993DA00A3F7F5 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC474287993DA00A3F7F5 /* CoreImage.framework */; };
-		311DC47A287993DA00A3F7F5 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC475287993DA00A3F7F5 /* CoreText.framework */; };
-		311DC47B287993DA00A3F7F5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC476287993DA00A3F7F5 /* CoreGraphics.framework */; };
-		311DC47C287993DA00A3F7F5 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC477287993DA00A3F7F5 /* CoreTelephony.framework */; };
-		311DC47E287993E600A3F7F5 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC47D287993E500A3F7F5 /* GLKit.framework */; };
-		311DC480287993F000A3F7F5 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC47F287993F000A3F7F5 /* ImageIO.framework */; };
-		311DC4822879940700A3F7F5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4812879940700A3F7F5 /* libc++.tbd */; };
-		311DC4842879941000A3F7F5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4832879941000A3F7F5 /* libz.tbd */; };
-		311DC4862879941800A3F7F5 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4852879941800A3F7F5 /* Metal.framework */; };
-		311DC4882879942400A3F7F5 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4872879942400A3F7F5 /* OpenGLES.framework */; };
-		311DC48A2879942A00A3F7F5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4892879942A00A3F7F5 /* QuartzCore.framework */; };
-		311DC48C2879943100A3F7F5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC48B2879943100A3F7F5 /* SystemConfiguration.framework */; };
-		311DC48E2879943900A3F7F5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC48D2879943800A3F7F5 /* UIKit.framework */; };
-		311DC4922879968C00A3F7F5 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 311DC4912879968C00A3F7F5 /* GoogleMaps.bundle */; };
-		311DC4982879970100A3F7F5 /* GoogleMapsBase.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4932879970100A3F7F5 /* GoogleMapsBase.xcframework */; };
-		311DC4992879970100A3F7F5 /* GoogleMapsBase.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4932879970100A3F7F5 /* GoogleMapsBase.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		311DC49A2879970100A3F7F5 /* GoogleMaps.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4942879970100A3F7F5 /* GoogleMaps.xcframework */; };
-		311DC49B2879970100A3F7F5 /* GoogleMaps.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4942879970100A3F7F5 /* GoogleMaps.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		311DC49C2879970200A3F7F5 /* GoogleMapsM4B.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4952879970100A3F7F5 /* GoogleMapsM4B.xcframework */; };
-		311DC49D2879970200A3F7F5 /* GoogleMapsM4B.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4952879970100A3F7F5 /* GoogleMapsM4B.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		311DC49E2879970200A3F7F5 /* GoogleMapsCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4962879970100A3F7F5 /* GoogleMapsCore.xcframework */; };
-		311DC49F2879970200A3F7F5 /* GoogleMapsCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4962879970100A3F7F5 /* GoogleMapsCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		311DC4A02879970200A3F7F5 /* GooglePlaces.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4972879970100A3F7F5 /* GooglePlaces.xcframework */; };
-		311DC4A12879970200A3F7F5 /* GooglePlaces.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 311DC4972879970100A3F7F5 /* GooglePlaces.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		311EAA2028A9C34100A5F735 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311EAA1F28A9C34100A5F735 /* ListItem.swift */; };
 		311EAA2228A9D06B00A5F735 /* WalkListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311EAA2128A9D06B00A5F735 /* WalkListItem.swift */; };
 		311EAA2428A9DFCD00A5F735 /* AlbumListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */; };
@@ -118,6 +91,7 @@
 		31D4E2F628B1CC0C00C3BA75 /* PageMissionCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */; };
 		31D4E2F828B1CC4400C3BA75 /* RedeemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */; };
 		31D4E2FA28B1D0CC00C3BA75 /* ImageProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */; };
+		31D4E2FC28B284C500C3BA75 /* PageWalkCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */; };
 		31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
 		31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3F287257B6001C2738 /* Preview Assets.xcassets */; };
 		31D91D45287257B6001C2738 /* Bero.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31D91D43287257B6001C2738 /* Bero.xcdatamodeld */; };
@@ -289,6 +263,9 @@
 		31F3BD2F28967CBA0025223B /* VerticalProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F3BD2E28967CBA0025223B /* VerticalProfile.swift */; };
 		31F3BD312896898B0025223B /* HorizontalProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F3BD302896898B0025223B /* HorizontalProfile.swift */; };
 		31F3BD3328968AB50025223B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F3BD3228968AB50025223B /* Profile.swift */; };
+		460B25DB5718FB12BE7B1C0E /* Pods_Bero.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EEB839735FA5708BB1C6133 /* Pods_Bero.framework */; };
+		62E39DEA77430E073FF904E5 /* Pods_BeroTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 804E0A5725F53B5F08767818 /* Pods_BeroTests.framework */; };
+		64F4E9C06FAB991E6BFED5D0 /* Pods_Bero_BeroUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C228353527A1A6908D608D /* Pods_Bero_BeroUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -315,11 +292,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				311DC49F2879970200A3F7F5 /* GoogleMapsCore.xcframework in Embed Frameworks */,
-				311DC4992879970100A3F7F5 /* GoogleMapsBase.xcframework in Embed Frameworks */,
-				311DC4A12879970200A3F7F5 /* GooglePlaces.xcframework in Embed Frameworks */,
-				311DC49B2879970100A3F7F5 /* GoogleMaps.xcframework in Embed Frameworks */,
-				311DC49D2879970200A3F7F5 /* GoogleMapsM4B.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -327,6 +299,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		075D2EA2CDD25C2FBFF8124C /* Pods-BeroTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeroTests.debug.xcconfig"; path = "Target Support Files/Pods-BeroTests/Pods-BeroTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0C4CFF1DCDF4E05BB6C53ED1 /* Pods-Bero.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bero.debug.xcconfig"; path = "Target Support Files/Pods-Bero/Pods-Bero.debug.xcconfig"; sourceTree = "<group>"; };
+		2925AECBDDF7EA23BF25DC71 /* Pods-Bero.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bero.release.xcconfig"; path = "Target Support Files/Pods-Bero/Pods-Bero.release.xcconfig"; sourceTree = "<group>"; };
 		31071C77289E763200F46498 /* StepInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepInfo.swift; sourceTree = "<group>"; };
 		31071C79289E769E00F46498 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		31071C7C289E7D9300F46498 /* PageAddDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAddDog.swift; sourceTree = "<group>"; };
@@ -336,28 +311,6 @@
 		311DC4362877D73800A3F7F5 /* GoogleSignManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignManager.swift; sourceTree = "<group>"; };
 		311DC43A2879874800A3F7F5 /* PageTestMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTestMap.swift; sourceTree = "<group>"; };
 		311DC43C287987D700A3F7F5 /* PlayMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMap.swift; sourceTree = "<group>"; };
-		311DC46F287993AD00A3F7F5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		311DC471287993B600A3F7F5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		311DC473287993D900A3F7F5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		311DC474287993DA00A3F7F5 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		311DC475287993DA00A3F7F5 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		311DC476287993DA00A3F7F5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		311DC477287993DA00A3F7F5 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		311DC47D287993E500A3F7F5 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		311DC47F287993F000A3F7F5 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		311DC4812879940700A3F7F5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		311DC4832879941000A3F7F5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		311DC4852879941800A3F7F5 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
-		311DC4872879942400A3F7F5 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		311DC4892879942A00A3F7F5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		311DC48B2879943100A3F7F5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		311DC48D2879943800A3F7F5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		311DC4912879968C00A3F7F5 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = "Carthage/Build/GoogleMaps.xcframework/ios-arm64_x86_64-simulator/GoogleMaps.framework/Resources/GoogleMaps.bundle"; sourceTree = "<group>"; };
-		311DC4932879970100A3F7F5 /* GoogleMapsBase.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMapsBase.xcframework; path = Bero/Framework/GoogleMapsBase.xcframework; sourceTree = "<group>"; };
-		311DC4942879970100A3F7F5 /* GoogleMaps.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMaps.xcframework; path = Bero/Framework/GoogleMaps.xcframework; sourceTree = "<group>"; };
-		311DC4952879970100A3F7F5 /* GoogleMapsM4B.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMapsM4B.xcframework; path = Bero/Framework/GoogleMapsM4B.xcframework; sourceTree = "<group>"; };
-		311DC4962879970100A3F7F5 /* GoogleMapsCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMapsCore.xcframework; path = Bero/Framework/GoogleMapsCore.xcframework; sourceTree = "<group>"; };
-		311DC4972879970100A3F7F5 /* GooglePlaces.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GooglePlaces.xcframework; path = Bero/Framework/GooglePlaces.xcframework; sourceTree = "<group>"; };
 		311EAA1F28A9C34100A5F735 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		311EAA2128A9D06B00A5F735 /* WalkListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkListItem.swift; sourceTree = "<group>"; };
 		311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListItem.swift; sourceTree = "<group>"; };
@@ -429,6 +382,7 @@
 		31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionCompleted.swift; sourceTree = "<group>"; };
 		31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemInfo.swift; sourceTree = "<group>"; };
 		31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcess.swift; sourceTree = "<group>"; };
+		31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkCompleted.swift; sourceTree = "<group>"; };
 		31D91D35287257B3001C2738 /* Bero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D91D3C287257B6001C2738 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31D91D3F287257B6001C2738 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -599,6 +553,12 @@
 		31F3BD2E28967CBA0025223B /* VerticalProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalProfile.swift; sourceTree = "<group>"; };
 		31F3BD302896898B0025223B /* HorizontalProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalProfile.swift; sourceTree = "<group>"; };
 		31F3BD3228968AB50025223B /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		47C228353527A1A6908D608D /* Pods_Bero_BeroUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bero_BeroUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4836AABA16E852181131D6DC /* Pods-Bero-BeroUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bero-BeroUITests.release.xcconfig"; path = "Target Support Files/Pods-Bero-BeroUITests/Pods-Bero-BeroUITests.release.xcconfig"; sourceTree = "<group>"; };
+		6EEB839735FA5708BB1C6133 /* Pods_Bero.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bero.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		804E0A5725F53B5F08767818 /* Pods_BeroTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeroTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A6BC6AC82C743F5766AC5A8 /* Pods-Bero-BeroUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bero-BeroUITests.debug.xcconfig"; path = "Target Support Files/Pods-Bero-BeroUITests/Pods-Bero-BeroUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C3580B3C31E8E7EB5B6DF4EC /* Pods-BeroTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeroTests.release.xcconfig"; path = "Target Support Files/Pods-BeroTests/Pods-BeroTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -606,38 +566,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				311DC48E2879943900A3F7F5 /* UIKit.framework in Frameworks */,
-				311DC48C2879943100A3F7F5 /* SystemConfiguration.framework in Frameworks */,
-				311DC48A2879942A00A3F7F5 /* QuartzCore.framework in Frameworks */,
-				311DC4882879942400A3F7F5 /* OpenGLES.framework in Frameworks */,
-				311DC4A02879970200A3F7F5 /* GooglePlaces.xcframework in Frameworks */,
-				311DC4862879941800A3F7F5 /* Metal.framework in Frameworks */,
-				311DC4842879941000A3F7F5 /* libz.tbd in Frameworks */,
-				311DC4822879940700A3F7F5 /* libc++.tbd in Frameworks */,
-				311DC480287993F000A3F7F5 /* ImageIO.framework in Frameworks */,
-				311DC47E287993E600A3F7F5 /* GLKit.framework in Frameworks */,
-				311DC478287993DA00A3F7F5 /* CoreLocation.framework in Frameworks */,
-				311DC479287993DA00A3F7F5 /* CoreImage.framework in Frameworks */,
-				311DC47A287993DA00A3F7F5 /* CoreText.framework in Frameworks */,
-				311DC47B287993DA00A3F7F5 /* CoreGraphics.framework in Frameworks */,
-				311DC47C287993DA00A3F7F5 /* CoreTelephony.framework in Frameworks */,
-				311DC472287993B600A3F7F5 /* CoreData.framework in Frameworks */,
-				311DC470287993AD00A3F7F5 /* Accelerate.framework in Frameworks */,
 				311DC42A2877CDEC00A3F7F5 /* FirebaseAnalyticsSwift in Frameworks */,
-				311DC49C2879970200A3F7F5 /* GoogleMapsM4B.xcframework in Frameworks */,
 				31D91F41287258A9001C2738 /* SQLite in Frameworks */,
-				311DC4982879970100A3F7F5 /* GoogleMapsBase.xcframework in Frameworks */,
 				31D9206028727289001C2738 /* FacebookCore in Frameworks */,
 				311DC4332877D3AF00A3F7F5 /* GoogleSignInSwift in Frameworks */,
-				311DC49A2879970100A3F7F5 /* GoogleMaps.xcframework in Frameworks */,
 				31D9206428727289001C2738 /* FacebookShare in Frameworks */,
 				31D91F3E2872589A001C2738 /* Kingfisher in Frameworks */,
-				311DC49E2879970200A3F7F5 /* GoogleMapsCore.xcframework in Frameworks */,
 				311DC42E2877CDEC00A3F7F5 /* FirebaseDynamicLinks in Frameworks */,
 				31D9206228727289001C2738 /* FacebookLogin in Frameworks */,
 				311DC42C2877CDEC00A3F7F5 /* FirebaseCrashlytics in Frameworks */,
 				311DC4302877CDEC00A3F7F5 /* FirebaseMessaging in Frameworks */,
 				31D91F3B2872588C001C2738 /* Reachability in Frameworks */,
+				460B25DB5718FB12BE7B1C0E /* Pods_Bero.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +585,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62E39DEA77430E073FF904E5 /* Pods_BeroTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +593,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64F4E9C06FAB991E6BFED5D0 /* Pods_Bero_BeroUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,27 +622,9 @@
 		311DC45F2879929F00A3F7F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				311DC4942879970100A3F7F5 /* GoogleMaps.xcframework */,
-				311DC4932879970100A3F7F5 /* GoogleMapsBase.xcframework */,
-				311DC4962879970100A3F7F5 /* GoogleMapsCore.xcframework */,
-				311DC4952879970100A3F7F5 /* GoogleMapsM4B.xcframework */,
-				311DC4972879970100A3F7F5 /* GooglePlaces.xcframework */,
-				311DC48D2879943800A3F7F5 /* UIKit.framework */,
-				311DC48B2879943100A3F7F5 /* SystemConfiguration.framework */,
-				311DC4892879942A00A3F7F5 /* QuartzCore.framework */,
-				311DC4872879942400A3F7F5 /* OpenGLES.framework */,
-				311DC4852879941800A3F7F5 /* Metal.framework */,
-				311DC4832879941000A3F7F5 /* libz.tbd */,
-				311DC4812879940700A3F7F5 /* libc++.tbd */,
-				311DC47F287993F000A3F7F5 /* ImageIO.framework */,
-				311DC47D287993E500A3F7F5 /* GLKit.framework */,
-				311DC476287993DA00A3F7F5 /* CoreGraphics.framework */,
-				311DC474287993DA00A3F7F5 /* CoreImage.framework */,
-				311DC473287993D900A3F7F5 /* CoreLocation.framework */,
-				311DC477287993DA00A3F7F5 /* CoreTelephony.framework */,
-				311DC475287993DA00A3F7F5 /* CoreText.framework */,
-				311DC471287993B600A3F7F5 /* CoreData.framework */,
-				311DC46F287993AD00A3F7F5 /* Accelerate.framework */,
+				6EEB839735FA5708BB1C6133 /* Pods_Bero.framework */,
+				47C228353527A1A6908D608D /* Pods_Bero_BeroUITests.framework */,
+				804E0A5725F53B5F08767818 /* Pods_BeroTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -754,6 +678,7 @@
 				31D0E95228AA3B810076D971 /* model */,
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
 				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
+				31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */,
 			);
 			path = walk;
 			sourceTree = "<group>";
@@ -895,7 +820,6 @@
 			isa = PBXGroup;
 			children = (
 				314E5ECB2882BE63000EB910 /* font */,
-				311DC4912879968C00A3F7F5 /* GoogleMaps.bundle */,
 				31D920D72872B573001C2738 /* GoogleService-Info.plist */,
 				31D91D6728725833001C2738 /* lib */,
 				31D91F84287271C1001C2738 /* skeleton */,
@@ -906,6 +830,7 @@
 				31D91D57287257B6001C2738 /* BeroUITests */,
 				31D91D36287257B3001C2738 /* Products */,
 				311DC45F2879929F00A3F7F5 /* Frameworks */,
+				97D36C94E507DB1426B6EC1F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1533,6 +1458,19 @@
 			path = profile;
 			sourceTree = "<group>";
 		};
+		97D36C94E507DB1426B6EC1F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0C4CFF1DCDF4E05BB6C53ED1 /* Pods-Bero.debug.xcconfig */,
+				2925AECBDDF7EA23BF25DC71 /* Pods-Bero.release.xcconfig */,
+				9A6BC6AC82C743F5766AC5A8 /* Pods-Bero-BeroUITests.debug.xcconfig */,
+				4836AABA16E852181131D6DC /* Pods-Bero-BeroUITests.release.xcconfig */,
+				075D2EA2CDD25C2FBFF8124C /* Pods-BeroTests.debug.xcconfig */,
+				C3580B3C31E8E7EB5B6DF4EC /* Pods-BeroTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1540,10 +1478,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 31D91D5E287257B6001C2738 /* Build configuration list for PBXNativeTarget "Bero" */;
 			buildPhases = (
+				E380F47C908FF3C3594108DB /* [CP] Check Pods Manifest.lock */,
 				31D91D31287257B3001C2738 /* Sources */,
 				31D91D32287257B3001C2738 /* Frameworks */,
 				31D91D33287257B3001C2738 /* Resources */,
 				311DC4562879918800A3F7F5 /* Embed Frameworks */,
+				11249F24D0C4768BDA777075 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1571,6 +1511,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 31D91D61287257B6001C2738 /* Build configuration list for PBXNativeTarget "BeroTests" */;
 			buildPhases = (
+				93075B0C65681D5F46C482EE /* [CP] Check Pods Manifest.lock */,
 				31D91D46287257B6001C2738 /* Sources */,
 				31D91D47287257B6001C2738 /* Frameworks */,
 				31D91D48287257B6001C2738 /* Resources */,
@@ -1589,9 +1530,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 31D91D64287257B6001C2738 /* Build configuration list for PBXNativeTarget "BeroUITests" */;
 			buildPhases = (
+				A19607C97F46337520854939 /* [CP] Check Pods Manifest.lock */,
 				31D91D50287257B6001C2738 /* Sources */,
 				31D91D51287257B6001C2738 /* Frameworks */,
 				31D91D52287257B6001C2738 /* Resources */,
+				2CF065926CCE43F24B85954C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1674,7 +1617,6 @@
 				314E5EEE2882BE63000EB910 /* Poppins-LightItalic.ttf in Resources */,
 				314E5EE22882BE63000EB910 /* Roboto-Light.ttf in Resources */,
 				31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */,
-				311DC4922879968C00A3F7F5 /* GoogleMaps.bundle in Resources */,
 				31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */,
 				314E5EF12882BE63000EB910 /* Roboto-Bold.ttf in Resources */,
 				314E5EE32882BE63000EB910 /* Poppins-ExtraLight.ttf in Resources */,
@@ -1703,6 +1645,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		11249F24D0C4768BDA777075 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bero/Pods-Bero-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bero/Pods-Bero-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bero/Pods-Bero-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2CF065926CCE43F24B85954C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bero-BeroUITests/Pods-Bero-BeroUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bero-BeroUITests/Pods-Bero-BeroUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bero-BeroUITests/Pods-Bero-BeroUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		93075B0C65681D5F46C482EE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BeroTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A19607C97F46337520854939 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bero-BeroUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E380F47C908FF3C3594108DB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bero-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		31D91D31287257B3001C2738 /* Sources */ = {
@@ -1821,6 +1866,7 @@
 				31C6374328A8C049008EA54C /* MyHistorySection.swift in Sources */,
 				31D920C528729CDC001C2738 /* Repository.swift in Sources */,
 				31D9205D287271CD001C2738 /* SceneTab.swift in Sources */,
+				31D4E2FC28B284C500C3BA75 /* PageWalkCompleted.swift in Sources */,
 				31F3BD312896898B0025223B /* HorizontalProfile.swift in Sources */,
 				31D92043287271C1001C2738 /* ImageButton.swift in Sources */,
 				31937F1228ACFA8F00AA5473 /* ValueBox.swift in Sources */,
@@ -2079,6 +2125,7 @@
 		};
 		31D91D5F287257B6001C2738 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C4CFF1DCDF4E05BB6C53ED1 /* Pods-Bero.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2122,6 +2169,7 @@
 		};
 		31D91D60287257B6001C2738 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2925AECBDDF7EA23BF25DC71 /* Pods-Bero.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2165,6 +2213,7 @@
 		};
 		31D91D62287257B6001C2738 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 075D2EA2CDD25C2FBFF8124C /* Pods-BeroTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2185,6 +2234,7 @@
 		};
 		31D91D63287257B6001C2738 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C3580B3C31E8E7EB5B6DF4EC /* Pods-BeroTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2205,6 +2255,7 @@
 		};
 		31D91D65287257B6001C2738 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A6BC6AC82C743F5766AC5A8 /* Pods-Bero-BeroUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2223,6 +2274,7 @@
 		};
 		31D91D66287257B6001C2738 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4836AABA16E852181131D6DC /* Pods-Bero-BeroUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

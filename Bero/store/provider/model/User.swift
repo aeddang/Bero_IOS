@@ -100,6 +100,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     
     func missionCompleted(_ mission:Mission) {
+        if !mission.isCompleted {return}
         let point =  mission.point
         self.point += point
         self.mission += 1
@@ -107,12 +108,6 @@ class User:ObservableObject, PageProtocol, Identifiable{
             $0.update(exp: Double(point))
         }
         self.event = .updatedPlayData
-        /*
-        UserCoreData().update(
-            data: ModifyUserData(
-                point: self.point,
-                mission: self.mission)
-        )*/
     }
     
 }

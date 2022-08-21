@@ -221,15 +221,11 @@ class ApiManager :PageProtocol, ObservableObject{
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
        
-        case .completeMission(let mission, let pets) :
-            self.walk.post(mission: mission, pets: pets,
+        case .completeMission(let mission, let pets, let pictureUrl) :
+            self.walk.post(mission: mission, pets: pets, pictureUrl: pictureUrl,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
-        case .completeWalk(let walk, let pets) :
-            self.walk.post(walk: walk, pets: pets,
-                              completion: {res in self.complated(id: apiID, type: type, res: res)},
-                              error:error)
-        
+    
         case .checkHumanWithDog(let img) :
             self.vision.post(img: img, action: .detecthumanwithdog,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},

@@ -104,36 +104,39 @@ class MissionApi :Rest{
         fetch(route: MissionApiRoute (method: .get, action:.directions, query: params), completion: completion, error:error)
     }
     
-    func post(mission:Mission, pets:[PetProfile] , completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func post(mission:Mission, pets:[PetProfile] , pictureUrl:String?,  completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
-        params["missionCategory"] = Category.mission.getApiCode
-        params["title"] = mission.title
-        params["description"] = mission.description
-        params["difficulty"] = mission.lv.apiDataKey
-        params["duration"] = mission.playTime
-        params["distance"] = mission.playDistence
-        params["pictureUrl"] = mission.pictureUrl
-        let point = mission.point.description
-        params["point"] = point
-        params["experience"] = point
+        params["missionCategory"] = mission.type.apiDataKey
+        switch mission.type {
+        case .walk : break
+        default :
+            params["title"] = mission.title
+            params["description"] = mission.description
+            params["difficulty"] = mission.difficulty
+           
+        }
+        params["duration"] = mission.duration
+        params["distance"] = mission.distance
+        params["point"] = mission.point
+        params["pictureUrl"] = pictureUrl
         params["petIds"] = pets.map{$0.petId}
-        
         var geos: [[String: Any]] = []
         if let loc = mission.departure {
             var geo :[String: Any] = [:]
             geo["lat"] = loc.coordinate.latitude
-            geo["lat"] = loc.coordinate.longitude
+            geo["lng"] = loc.coordinate.longitude
             geos.append(geo)
         }
         if let loc = mission.destination {
             var geo :[String: Any] = [:]
             geo["lat"] = loc.coordinate.latitude
-            geo["lat"] = loc.coordinate.longitude
+            geo["lng"] = loc.coordinate.longitude
             geos.append(geo)
         }
         params["geos"] = geos
         fetch(route: MissionApiRoute (method: .post, body: params), completion: completion, error:error)
     }
+    
     
     func post(walk:Walk, pets:[PetProfile] , completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
