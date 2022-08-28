@@ -27,25 +27,33 @@ class AlbumListItemData:InfinityData{
         self.contentID = data.missionId?.description ?? ""
         return self
     }
+    
+    func setData(_ data:PictureData, idx:Int, isMine:Bool) -> AlbumListItemData{
+        self.index = idx
+        self.imagePath = data.pictureUrl
+        self.contentID = data.pictureId?.description ?? ""
+        self.isLike = data.isChecked ?? false
+        self.likeCount = data.thumbsupCount ?? 0
+        return self
+    }
 }
-
 
 struct AlbumListItem: PageComponent{
     let data:AlbumListItemData
     let imgSize:CGSize
-    var action: (() -> Void)
+
     var body: some View {
-        Button(action: {
-            self.action()
-        }) {
-            ListItem(
-                id: self.data.id,
-                imgSize: self.imgSize,
-                likeCount: self.data.likeCount,
-                isLike: self.data.isLike,
-                likeSize: .small
-            )
-        }
+        ListItem(
+            id: self.data.id,
+            imagePath: self.data.imagePath,
+            imgSize: self.imgSize,
+            likeCount: self.data.likeCount,
+            isLike: self.data.isLike,
+            likeSize: .small,
+            action:{},
+            move:{}
+        )
+        
     }
 }
 

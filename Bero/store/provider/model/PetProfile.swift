@@ -15,10 +15,11 @@ struct ModifyPetProfileData {
     var breed:String? = nil
     var gender:Gender? = nil
     var birth:Date? = nil
-    var microfin:String? = nil
+    var microchip:String? = nil
     var animalId:String? = nil
     var immunStatus:String? = nil
     var hashStatus:String? = nil
+    var introduction:String? = nil
     var weight:Double? = nil
     var size:Double? = nil
     
@@ -29,10 +30,11 @@ struct ModifyPetProfileData {
             breed: data.breed ?? self.breed,
             gender: data.gender ?? self.gender,
             birth: data.birth ?? self.birth,
-            microfin: data.microfin ?? self.microfin,
+            microchip: data.microchip ?? self.microchip,
             animalId: data.animalId ?? self.animalId,
             immunStatus: data.immunStatus ?? self.immunStatus,
             hashStatus: data.hashStatus ?? self.hashStatus,
+            introduction: data.introduction ?? self.introduction,
             weight: data.weight ?? self.weight,
             size: data.size ?? self.size)
     }
@@ -64,20 +66,21 @@ extension PetProfile {
 class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     private(set) var id:String = UUID().uuidString
     private(set) var petId:Int = 0
-    private(set) var imagePath:String? = nil
+    @Published private(set) var imagePath:String? = nil
     @Published private(set) var image:UIImage? = nil
     @Published private(set) var name:String? = nil
     @Published private(set) var breed:String? = nil
     @Published private(set) var gender:Gender? = nil
     @Published private(set) var birth:Date? = nil
+    @Published private(set) var introduction:String? = nil
     @Published private(set) var exp:Double = 0
     @Published private(set) var lv:Int = 0
     @Published private(set) var prevExp:Double = 0
     @Published private(set) var nextExp:Double = 0
     @Published private(set) var immunStatus:String? = nil
     @Published private(set) var hashStatus:String? = nil
-    @Published private(set) var microfin:String? = nil
-    
+    @Published private(set) var microchip:String? = nil
+    @Published private(set) var animalId:String? = nil
     @Published private(set) var weight:Double? = nil
     @Published private(set) var size:Double? = nil
     private(set) var isEmpty:Bool = false
@@ -85,8 +88,8 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     
     private(set) var totalExerciseDistance: Double? = nil
     private(set) var totalExerciseDuration: Double? = nil
-    private(set) var totalMissionCount: Int? = nil
-    private(set) var totalWalkCount: Int? = nil
+    @Published private(set) var totalMissionCount: Int = 0
+    @Published private(set) var totalWalkCount: Int = 0
     var isWith:Bool = true
     
     public static func == (l:PetProfile, r:PetProfile)-> Bool {
@@ -109,22 +112,28 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     init(data:PetData, isMyPet:Bool){
         self.isMypet = isMyPet
         self.petId = data.petId ?? 0
-        self.imagePath = data.pictureUrl
+        if data.pictureUrl?.isEmpty == false {
+            self.imagePath = data.pictureUrl
+        }
         self.name = data.name
         self.breed = data.tagBreed
         self.gender = Gender.getGender(data.sex) 
         self.birth = data.birthdate?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
         self.exp = Double(data.experience ?? 0)
-        self.microfin = data.regNumber
+        self.microchip = data.regNumber
+        self.animalId = data.animalId
         self.weight = data.weight
         self.size = data.size
         self.immunStatus = data.tagStatus
         self.hashStatus = data.tagPersonality
         self.totalExerciseDistance = data.exerciseDistance
         self.totalExerciseDuration = data.exerciseDuration
-        self.totalMissionCount = data.missionCompleteCnt
-        self.totalWalkCount = data.walkCompleteCnt
+        self.totalMissionCount = data.missionCompleteCnt ?? 0
+        self.totalWalkCount = data.walkCompleteCnt ?? 0
         self.updatedExp()
+        if let name = data.name {
+            self.introduction = String.pageText.introductionDefault.replace(name)
+        }
     }
     
     @discardableResult
@@ -140,11 +149,11 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.isMypet = false
         self.id = UUID().uuidString
         self.name = "bero"
-        self.breed = "bero breed"
+        self.breed = "1"
         self.gender = .female
         self.birth = Date()
         
-        self.microfin = "19290192819281928"
+        self.microchip = "19290192819281928"
         self.image =  UIImage(named: Asset.brand.logoLauncher)
         
         self.totalExerciseDistance = 1
@@ -159,12 +168,15 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         if let value = data.name { self.name = value }
         if let value = data.breed { self.breed = value }
         if let value = data.gender { self.gender = value }
-        if let value = data.microfin { self.microfin = value }
+        if let value = data.microchip { self.microchip = value }
+        if let value = data.animalId { self.animalId = value }
         if let value = data.birth { self.birth = value }
         if let value = data.hashStatus { self.hashStatus  = value }
         if let value = data.immunStatus { self.immunStatus  = value }
+        if let value = data.introduction { self.introduction  = value }
         if let value = data.weight { self.weight = value }
         if let value = data.size { self.size = value }
+        
         //ProfileCoreData().update(id: self.id, data: data)
         return self
     }
@@ -172,21 +184,34 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     func recordSummry() -> String? {
         var summry = ""
         if let distance = self.totalExerciseDistance {
-            summry += Mission.viewDistance(distance)
+            summry += WalkManager.viewDistance(distance)
         }
         if let duration = self.totalExerciseDuration {
             if !summry.isEmpty {summry += " / "}
-            summry += Mission.viewDuration(duration)
+            summry += WalkManager.viewDuration(duration)
         }
         if summry.isEmpty {return nil}
         return summry
     }
     
-    
+    func missionCompleted(_ mission:Mission) {
+        if !mission.isCompleted {return}
+        switch mission.type {
+        case .walk :
+            self.totalWalkCount += 1
+           
+        default :
+            self.totalMissionCount += 1
+        }
+        
+    }
     
     @discardableResult
     func update(image:UIImage?) -> PetProfile{
         self.image = image
+        if image == nil {
+            self.imagePath = nil
+        }
         return self
     }
     

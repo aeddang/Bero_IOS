@@ -15,6 +15,7 @@ struct PetData : Decodable {
     private(set) var birthdate: String? = nil
     private(set) var sex: String? = nil
     private(set) var regNumber: String? = nil
+    private(set) var animalId: String? = nil
     private(set) var level: String? = nil
     private(set) var status: String? = nil
     private(set) var exerciseDistance: Double? = nil

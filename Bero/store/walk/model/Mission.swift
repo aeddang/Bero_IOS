@@ -19,6 +19,18 @@ enum MissionType:CaseIterable {
         default : return "Mission"
         }
     }
+    var text : String {
+        switch self {
+        case .walk: return "Walk"
+        default : return "Mission"
+        }
+    }
+    var icon : String {
+        switch self {
+        case .walk: return Asset.icon.paw
+        default : return Asset.icon.goal
+        }
+    }
     var completeButton : String {
         switch self {
         case .walk: return String.button.walkComplete
@@ -84,17 +96,7 @@ enum MissionLv:CaseIterable {
 }
 
 
-extension Mission{
-    static func viewSpeed(_ value:Double) -> String {
-        return (value * 3600 / 1000).toTruncateDecimal(n:1) + String.app.kmPerH
-    }
-    static func viewDistance(_ value:Double) -> String {
-        return (value / 1000).toTruncateDecimal(n:1) + String.app.km
-    }
-    static func viewDuration(_ value:Double) -> String {
-        return value.secToMinString()
-    }
-}
+
 
 class Mission:MapUserData{
     private (set) var missionId:Int = -1
@@ -122,10 +124,10 @@ class Mission:MapUserData{
     private (set) var place:MissionPlace? = nil
     private (set) var user:User? = nil
    
-    var viewDistance:String { return Self.viewDistance(self.distance) }
-    var viewDuration:String { return Self.viewDuration(self.duration) }
-    var viewPlayTime:String { return Self.viewDuration(self.playTime) }
-    var viewPlayDistance:String { return Self.viewDistance(self.playDistence) }
+    var viewDistance:String { return WalkManager.viewDistance(self.distance) }
+    var viewDuration:String { return WalkManager.viewDuration(self.duration) }
+    var viewPlayTime:String { return WalkManager.viewDuration(self.playTime) }
+    var viewPlayDistance:String { return WalkManager.viewDistance(self.playDistence) }
     var allPoint:[CLLocation] {
         var points:[CLLocation] = []
         if let value = self.departure { points.append(value) }

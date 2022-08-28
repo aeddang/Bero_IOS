@@ -53,7 +53,7 @@ struct SelectPictureStep: PageComponent{
             }
             SelectButton(
                 type: .small,
-                icon: Asset.icon.album,
+                icon: Asset.icon.add_photo,
                 text: String.button.takeCamera
             ){_ in
                 self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera){ pick in

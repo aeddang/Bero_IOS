@@ -69,7 +69,7 @@ class Repository:ObservableObject, PageProtocol{
         self.setupDataProvider()
         self.setupWalkManager()
         self.setupApiManager()
-        self.status = .ready
+        
         self.autoSnsLogin()
       
     }
@@ -89,11 +89,25 @@ class Repository:ObservableObject, PageProtocol{
             }else{
                 self.appSceneObserver?.isApiLoading = true
             }
-            if let coreDatakey = apiQ.type.coreDataKey(){
+            if self.status != .initate, let coreDatakey = apiQ.type.coreDataKey() {
                 self.requestApi(apiQ, coreDatakey:coreDatakey)
             }else{
                 self.apiManager.load(q: apiQ)
             }
+        }).store(in: &anyCancellable)
+        
+        self.dataProvider.$result.sink(receiveValue: { res in
+            guard let res = res else { return }
+            if res.id != self.tag { return }
+            switch res.type {
+            case .getCode(let category, _) :
+                if category == .breed {
+                    SystemEnvironment.setupBreedCode(res: res)
+                    self.onReady()
+                }
+            default : break
+            }
+            
         }).store(in: &anyCancellable)
     }
     
@@ -153,6 +167,18 @@ class Repository:ObservableObject, PageProtocol{
             }
             self.appSceneObserver?.isApiLoading = false
             self.pagePresenter?.isLoading = false
+            
+            if err.id != self.tag { return }
+            switch err.type {
+            case .getCode(let category, _) :
+                if category == .breed , let coreDataKey = err.type.coreDataKey() {
+                    if let savedData:[CodeData] = self.apiCoreDataManager.getData(key: coreDataKey){
+                        SystemEnvironment.setupBreedCode(datas: savedData)
+                    }
+                    self.onReady()
+                }
+            default : break
+            }
             
         }).store(in: &dataCancellable)
         
@@ -246,6 +272,12 @@ class Repository:ObservableObject, PageProtocol{
     private func loginCompleted() {
         self.storage.authToken = ApiNetwork.accesstoken
         self.event = .loginUpdate
+        self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .breed)))
+ 
+    }
+    private func onReady() {
+        self.storage.authToken = ApiNetwork.accesstoken
+        self.status = .ready
         if let user = self.dataProvider.user.snsUser {
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false), isOptional: true))

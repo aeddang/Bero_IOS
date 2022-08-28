@@ -28,15 +28,17 @@ struct SlideMenuTab : PageComponent {
                         NavigationBuilder(index:self.selectedIdx)
                         .getNavigationButtons(texts:self.buttons)
                 )
+                .frame(height: self.height)
             } else {
                 CPTabNavigation(
                     buttons:
                         NavigationBuilder(index:self.selectedIdx, marginVertical: Dimen.margin.thin)
                         .getNavigationButtons(texts:self.buttons)
                 )
+                .frame(height: self.height)
             }
         }
-        .frame(height: self.height)
+       
         .background(self.bgColor)
         .onAppear(){
             

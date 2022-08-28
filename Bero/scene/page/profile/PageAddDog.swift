@@ -47,7 +47,12 @@ extension PageAddDog{
             default : return nil
             }
         }
-       
+        var keyboardType:UIKeyboardType {
+            switch self {
+            case .identify: return .numberPad
+            default : return .namePhonePad
+            }
+        }
         var placeHolder:String{
             switch self {
             case .name : return "ex. Bero"
@@ -70,7 +75,6 @@ extension PageAddDog{
             default : return false
             }
         }
-        
     }
 }
 

@@ -35,6 +35,7 @@ struct ApiCode {
 enum ApiAction:String{
     case login, detecthumanwithdog, thumbsup, cities
     case search, summary, newMissions, directions, visit
+    case isReguested, requesting, request, accept
 }
 
 enum ApiValue:String{
@@ -42,10 +43,11 @@ enum ApiValue:String{
 }
       
 enum ApiType{
-    case getUser(SnsUser, isCanelAble:Bool? = true), updateUser(SnsUser, ModifyUserProfileData)
+    case getUser(SnsUser, isCanelAble:Bool? = true),
+         updateUser(SnsUser, ModifyUserProfileData), updateUserImage(SnsUser, UIImage?)
     case joinAuth(SnsUser, SnsUserInfo?), reflashAuth
     case registPet(SnsUser, ModifyPetProfileData), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),
-         updatePet(petId:Int, ModifyPetProfileData), updatePetImage(petId:Int, UIImage),
+         updatePet(petId:Int, ModifyPetProfileData), updatePetImage(petId:Int, UIImage?),
          deletePet(petId:Int)
     
     case getMission(userId:String? = nil,petId:Int? = nil, MissionApi.Category , page:Int? = nil, size:Int? = nil),
@@ -67,6 +69,9 @@ enum ApiType{
    
     case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil),
          registVisit(Place)
+    
+    case getFriend(type:ApiAction? = nil, page:Int? = nil, size:Int? = nil),
+         requestFriend(userId:String), rejectFriend(userId:String) , acceptFriend(userId:String)
     
     func coreDataKey() -> String? {
         switch self {

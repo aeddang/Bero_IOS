@@ -20,14 +20,14 @@ struct MultiProfile: PageComponent{
         }
         func getButtonSelectStatus(circleButtontype:CircleButton.ButtonType)->Bool{
             switch circleButtontype {
-            case .text : return true
+            case .text, .image : return true
             default : return false
             }
         }
         
         func getStroke(circleButtontype:CircleButton.ButtonType)->CGFloat{
             switch circleButtontype {
-            case .image : return Dimen.stroke.medium
+            case .image : return Dimen.stroke.heavy
             default : return Dimen.stroke.regular
             }
         }
@@ -38,6 +38,7 @@ struct MultiProfile: PageComponent{
     var circleButtontype:CircleButton.ButtonType? = nil
     var image:UIImage? = nil
     var imagePath:String? = nil
+    var imageSize:CGFloat? = nil
     var name:String? = nil
     var buttonAction: (() -> Void)? = nil
     var body: some View {
@@ -47,7 +48,7 @@ struct MultiProfile: PageComponent{
                     id : self.id,
                     image: self.image,
                     imagePath: self.imagePath,
-                    size: Dimen.profile.mediumUltra,
+                    size: self.imageSize ?? Dimen.profile.mediumUltra,
                     emptyImagePath: self.type.emptyImage
                 )
                 if let type = self.circleButtontype {
@@ -63,13 +64,16 @@ struct MultiProfile: PageComponent{
                     .padding(.leading, Dimen.profile.mediumUltra - Dimen.margin.light)
                 }
             }
-            .modifier(MatchHorizontal(height: Dimen.profile.mediumUltra))
+            .modifier(MatchHorizontal(height: self.imageSize ?? Dimen.profile.mediumUltra))
             if let name = self.name {
                 Text(name)
                     .modifier(SemiBoldTextStyle(
                         size: Font.size.tiny,
                         color: Color.app.black
                     ))
+                    .lineLimit(1)
+                    .frame(width: self.imageSize ?? Dimen.profile.mediumUltra)
+                    
             }
         }
     }

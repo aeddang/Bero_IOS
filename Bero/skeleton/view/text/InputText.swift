@@ -12,7 +12,7 @@ struct InputText: PageView {
     var isFocus:Bool = true
     
     var limitedLine:Int = 1
-    var limitedTextLength:Int = 30
+    var limitedTextLength:Int = 100
    
     var keyboardType:UIKeyboardType = .default
     var returnKeyType: UIReturnKeyType = .done
@@ -26,6 +26,7 @@ struct InputText: PageView {
     var onAction:(() -> Void)? = nil
     
     @State private var isInputLimited:Bool = false
+    @State private var inputSize:Int = 0
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.micro){
             if let title = self.title {
@@ -36,94 +37,134 @@ struct InputText: PageView {
             }
             
             HStack(alignment: .center, spacing:Dimen.margin.thin){
-                HStack(alignment: self.limitedLine == 1 ? .center : .top, spacing:Dimen.margin.micro){
-                    if self.isEditable {
-                        if self.ussFocusAble {
-                            FocusableTextField(
-                                text:self.$input,
-                                keyboardType: self.keyboardType,
-                                returnVal: self.returnKeyType,
-                                placeholder: self.placeHolder,
-                                textAlignment: .left,
-                                maxLength: self.limitedTextLength,
-                                textModifier:self.textModifier,
-                                isfocus: self.isFocus,
-                                isSecureTextEntry: self.isSecure,
-                                inputChanged: self.onChange,
-                                inputCopmpleted: { _ in
-                                    self.onAction?()
+                VStack(alignment: .trailing, spacing: Dimen.margin.micro){
+                    HStack(alignment: self.limitedLine == 1 ? .center : .top, spacing:Dimen.margin.micro){
+                        if self.isEditable {
+                            if self.ussFocusAble {
+                                if self.limitedLine <= 1 {
+                                    FocusableTextField(
+                                        text:self.$input,
+                                        keyboardType: self.keyboardType,
+                                        returnVal: self.returnKeyType,
+                                        placeholder: self.placeHolder,
+                                        textAlignment: .left,
+                                        maxLength: self.limitedTextLength,
+                                        textModifier:self.textModifier,
+                                        isfocus: self.isFocus,
+                                        isSecureTextEntry: self.isSecure,
+                                        inputChanged: self.onChange,
+                                        inputCopmpleted: { _ in
+                                            self.onAction?()
+                                        }
+                                    )
+                                    .frame(height : self.textModifier.getTextLineHeight() * CGFloat(self.limitedLine))
+                                    .onTapGesture {
+                                        self.onFocus?()
+                                    }
+                                } else {
+                                    FocusableTextView(
+                                        text:self.$input,
+                                        placeholder: self.placeHolder,
+                                        isfocus: self.isFocus,
+                                        isSecureTextEntry: self.isSecure,
+                                        keyboardType: self.keyboardType,
+                                        returnKeyType: self.returnKeyType,
+                                        textAlignment: .left,
+                                        textModifier:self.textModifier,
+                                        limitedLine: self.limitedLine,
+                                        limitedTextLength: self.limitedTextLength,
+                                        inputChanged: { text, _ in
+                                            self.inputSize = text.count
+                                            self.onChange?(text)
+                                        },
+                                        inputCopmpleted: { _ in
+                                            self.onAction?()
+                                        }
+                                    )
+                                    .frame(height : self.textModifier.getTextLineHeight() * CGFloat(self.limitedLine))
+                                    .onTapGesture {
+                                        self.onFocus?()
+                                    }
                                 }
-                            )
-                            .frame(height : self.textModifier.getTextLineHeight() * CGFloat(self.limitedLine))
-                            .onTapGesture {
-                                self.onFocus?()
-                            }
-                        } else {
-                            ZStack{
-                                Spacer().modifier(MatchParent())
-                                if self.isFocus {
-                                    if self.isSecure{
-                                        SecureField(self.placeHolder, text: self.$input)
-                                            .keyboardType(self.keyboardType)
-                                            .multilineTextAlignment(.leading)
-                                            .foregroundColor(Color.app.grey100)
-                                            .font(.custom(self.textModifier.family, size: self.textModifier.size))
-                                
-                                    } else {
-                                        TextEditor(text: self.$input)
-                                            .font(.custom(textModifier.family, size: textModifier.size))
-                                            .foregroundColor(textModifier.color)
-                                            
-                                            .lineLimit(limitedLine)
-                                            .multilineTextAlignment(.leading)
-                                            //.autocapitalization(.words)
-                                            //.disableAutocorrection(true)
-                                            .onChange(of: self.input) { value in
+                            } else {
+                                ZStack{
+                                    Spacer().modifier(MatchParent())
+                                    if self.isFocus {
+                                        if self.isSecure{
+                                            SecureField(self.placeHolder, text: self.$input)
+                                                .keyboardType(self.keyboardType)
+                                                .multilineTextAlignment(.leading)
+                                                .foregroundColor(Color.app.grey100)
+                                                .font(.custom(self.textModifier.family, size: self.textModifier.size))
+                                    
+                                        } else {
+                                            TextEditor(text: self.$input)
+                                                .font(.custom(textModifier.family, size: textModifier.size))
+                                                .foregroundColor(textModifier.color)
                                                 
-                                                self.onChange?(value)
-                                            }
-                                            .keyboardType(self.keyboardType)
-                                         
+                                                .lineLimit(limitedLine)
+                                                .multilineTextAlignment(.leading)
+                                                //.autocapitalization(.words)
+                                                //.disableAutocorrection(true)
+                                                .onChange(of: self.input) { value in
+                                                    
+                                                    self.onChange?(value)
+                                                }
+                                                .keyboardType(self.keyboardType)
+                                             
+                                        }
                                     }
                                 }
                             }
+                        }else{
+                            Text(self.input)
+                                .font(.custom(textModifier.family, size: textModifier.size))
+                                .foregroundColor(textModifier.color.opacity(0.7))
+                                .lineLimit(self.limitedLine)
+                                .multilineTextAlignment(.leading)
                         }
-                    }else{
-                        Text(self.input)
-                            .font(.custom(textModifier.family, size: textModifier.size))
-                            .foregroundColor(textModifier.color.opacity(0.7))
-                            .lineLimit(self.limitedLine)
-                            .multilineTextAlignment(.leading)
+                        if !self.input.isEmpty {
+                            Button(action: {
+                                self.input = ""
+                            }) {
+                                Image(Asset.icon.erase)
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: Dimen.icon.light,
+                                           height: Dimen.icon.light)
+                            }
+                            .padding(.top, self.limitedLine == 1 ? 0 : Dimen.margin.tiny)
+                        }
                     }
-                    if !self.input.isEmpty {
-                        Button(action: {
-                            self.input = ""
-                        }) {
-                            Image(Asset.icon.erase)
-                                .renderingMode(.original)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: Dimen.icon.light,
-                                       height: Dimen.icon.light)
-                        }
-                        .padding(.top, self.limitedLine == 1 ? 0 : Dimen.margin.tiny)
+                    .padding(.horizontal, Dimen.margin.tiny)
+                    .modifier(MatchHorizontal(
+                        height: self.textModifier.getTextLineHeight() * CGFloat(self.limitedLine)
+                        + (Dimen.margin.tinyExtra*2)
+                    ))
+                    .background(self.limitedLine <= 1 ? Color.app.white : Color.app.grey100)
+                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.thin))
+                    .overlay(
+                        RoundedRectangle(
+                            cornerRadius: Dimen.radius.thin, style: .circular)
+                            .stroke( self.isFocus
+                                     ? ( self.isInputLimited ? Color.app.red : Color.brand.primary )
+                                     : Color.app.grey200 ,
+                                     lineWidth: 1 )
+                    )
+                    if self.limitedLine > 1 {
+                        Text("(")
+                            .font(.custom(Font.family.regular, size: Font.size.thin))
+                            .foregroundColor(Color.app.grey300)
+                        + Text(self.inputSize.description)
+                            .font(.custom(Font.family.regular, size: Font.size.thin))
+                            .foregroundColor(Color.brand.primary)
+                        + Text("/" + self.limitedTextLength.description + ")")
+                            .font(.custom(Font.family.regular, size: Font.size.thin))
+                            .foregroundColor(Color.app.grey300)
                     }
                 }
-                .padding(.horizontal, Dimen.margin.tiny)
-                .modifier(MatchHorizontal(
-                    height: self.textModifier.getTextLineHeight() * CGFloat(self.limitedLine)
-                    + (Dimen.margin.tinyExtra*2)
-                ))
-                .background(Color.app.white)
-                .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.thin))
-                .overlay(
-                    RoundedRectangle(
-                        cornerRadius: Dimen.radius.thin, style: .circular)
-                        .stroke( self.isFocus
-                                 ? ( self.isInputLimited ? Color.app.red : Color.brand.primary )
-                                 : Color.app.grey200 ,
-                                 lineWidth: 1 )
-                )
+                
                 if let title = self.actionTitle {
                     TextButton(
                         defaultText:title,
@@ -155,6 +196,9 @@ struct InputText: PageView {
             }
             
         }
+        .onAppear(){
+            self.inputSize = self.input.count
+        }
     }
     
 }
@@ -166,7 +210,7 @@ struct InputText_Previews: PreviewProvider {
         Form{
             InputText(
                 title: "title",
-                input: .constant("ATtestsdssdsdsddsdsdsdssdsdd"),
+                input: .constant("ATtestsdssdsdsddsdsdsdssdsdㅊㅇㅊㅇㅊㅇㅊㅇㅊㅇㅇㅊㅇㅊㅇㅊㅇd"),
                 tip: "tip",
                 info: "info",
                 isFocus: true,

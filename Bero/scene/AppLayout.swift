@@ -108,12 +108,6 @@ struct AppLayout: PageComponent{
             default: break
             }
         }
-        .onReceive(self.repository.$event){ evt in
-            switch evt {
-            case .loginUpdate: self.onPageInit()
-            default: break
-            }
-        }
         .onReceive(self.pageObservable.$status){status in
             self.sceneObserver.status = status
         }

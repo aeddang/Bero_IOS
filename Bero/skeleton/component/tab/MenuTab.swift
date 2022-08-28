@@ -23,12 +23,28 @@ struct MenuTab : PageComponent {
             switch self {
             case .line : return 0
             case .box: return Dimen.radius.medium
+           
             }
         }
+        var textSize:CGFloat{
+            switch self {
+            case .line : return Font.size.light
+            case .box: return Font.size.thin
+            }
+        }
+        
+        
         func bgColor(_ color:Color) ->Color{
             switch self {
             case .line : return Color.transparent.clearUi
             case .box : return color
+            }
+        }
+        
+        var btnBgColor : Color{
+            switch self {
+            case .line : return Color.transparent.clearUi
+            case .box : return Color.app.white
             }
         }
     }
@@ -49,12 +65,11 @@ struct MenuTab : PageComponent {
     var body: some View {
         HStack(spacing:0){
             ForEach(self.menus) { menu in
-                let uuid = UUID().hashValue
                 Button(
                     action: {
                         if let scrollReader = self.scrollReader {
                             if menu.idx < self.menus.count-2 {
-                                withAnimation{scrollReader.scrollTo(uuid, anchor: .center)}
+                                withAnimation{scrollReader.scrollTo(menu.hashIdx, anchor: .center)}
                             }
                         }
                         self.performAction(menu)
@@ -69,17 +84,20 @@ struct MenuTab : PageComponent {
                             self.createButton(menu)
                                 .frame(height: self.height)
                         }
-                        if self.type == .line && menu.idx == self.selectedIdx {
+                        if self.type == .line {
                             Spacer().modifier(
-                                LineHorizontal(height: Dimen.line.regular, color: self.color)
+                                LineHorizontal(
+                                    height : menu.idx == self.selectedIdx ? Dimen.line.regular :  Dimen.line.light,
+                                    color: menu.idx == self.selectedIdx ? self.color : Color.app.grey100)
                             )
                         }
                     }
                 }
-                .id(uuid)
-                .background( menu.idx == self.selectedIdx
-                             ? Color.app.white
-                            : Color.transparent.clearUi)
+                .id(menu.hashIdx)
+                .background(
+                    menu.idx == self.selectedIdx
+                        ? self.type.btnBgColor
+                        : Color.transparent.clearUi)
                 .clipShape( RoundedRectangle(cornerRadius: self.type.radius) )
                 .overlay(
                     RoundedRectangle(cornerRadius: self.type.radius, style: .circular)
@@ -106,7 +124,7 @@ struct MenuTab : PageComponent {
         return Text(menu.text)
             .kerning(Font.kern.thin)
             .modifier(BoldTextStyle(
-                size: Font.size.thin,
+                size: self.type.textSize,
                 color: menu.idx == self.selectedIdx ? self.color : Color.app.grey400
             ))
             .padding(.horizontal, Dimen.margin.regular)
@@ -122,6 +140,7 @@ struct MenuTab : PageComponent {
     
     struct MenuBtn : SelecterbleProtocol, Identifiable {
         let id = UUID().uuidString
+        let hashIdx:Int = UUID().hashValue
         var idx:Int = 0
         var text:String = ""
     }

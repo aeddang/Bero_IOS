@@ -30,7 +30,12 @@ struct ScenePickerController: PageComponent{
             selected: self.$selected)
         { idx in
             switch self.currentSelect {
-            case .picker(let data, _) : self.selectedPicker(idx ,data:data)
+            case .picker(let data, _, let handler) :
+                if let handler = handler {
+                    self.selectedPicker(idx ,completionHandler: handler)
+                } else {
+                    self.selectedPicker(idx ,data:data)
+                }
             default: return
             }
             withAnimation{
@@ -44,7 +49,7 @@ struct ScenePickerController: PageComponent{
         .onReceive(self.sceneObserver.$select){ select in
             self.currentSelect = select
             switch select{
-            case .picker(let data, let idx): self.setupPicker(data:data, idx:idx)
+            case .picker(let data, let idx, _): self.setupPicker(data:data, idx:idx)
             default: return
             }
             withAnimation{
@@ -60,12 +65,14 @@ struct ScenePickerController: PageComponent{
     }
     
     func setupPicker(data:(String,[String]), idx:Int) {
-        
         let range = 0 ..< data.1.count
         self.buttons = zip(range, data.1).map {index, text in
             SelectBtnData(title: text, index: index)
         }
         self.selected = idx
+    }
+    func selectedPicker(_ idx:Int, completionHandler: @escaping (Int) -> Void) {
+        completionHandler(idx)
     }
     func selectedPicker(_ idx:Int, data:(String,[String])) {
         self.sceneObserver.selectResult = .complete(.picker(data, idx), idx)

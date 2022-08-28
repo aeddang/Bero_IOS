@@ -54,7 +54,7 @@ class ApiManager :PageProtocol, ObservableObject{
     private let pet:PetApi
     private let album:AlbumApi
     private let mission:MissionApi
-    
+    private let friend:FriendApi
     //Store Api
     private let auth:AuthApi
     private let userUpdate:UserApi
@@ -79,6 +79,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.album = AlbumApi(network: self.network)
         self.misc = MiscApi(network: self.network)
         self.walk = MissionApi(network: self.network)
+        self.friend = FriendApi(network: self.network)
     }
     
     func clear(){
@@ -87,6 +88,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.pet.clear()
         self.mission.clear()
         self.album.clear()
+        self.friend.clear()
         self.apiQ.removeAll()
     }
     
@@ -168,6 +170,10 @@ class ApiManager :PageProtocol, ObservableObject{
             self.userUpdate.put(user: user, modifyData:modifyData,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
+        case .updateUserImage(let user, let img) :
+            self.userUpdate.put(user: user, image: img,
+                                completion: {res in self.complated(id: apiID, type: type, res: res)},
+                                error:error)
             
         case .registPet(let user, let pet) :
             self.petUpdate.post(user: user, pet: pet,
@@ -266,6 +272,22 @@ class ApiManager :PageProtocol, ObservableObject{
             self.place.post(place: place,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
+        case .getFriend(let action, let page , let size) :
+            self.friend.get(action: action, page: page, size: size,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
+        case .requestFriend(let userId) :
+            self.friend.post(userId: userId,
+                            completion: {res in self.complated(id: apiID, type: type, res: res)},
+                            error:error)
+        case .acceptFriend(let userId) :
+            self.friend.put(userId: userId,
+                            completion: {res in self.complated(id: apiID, type: type, res: res)},
+                            error:error)
+        case .rejectFriend(let userId) :
+            self.friend.delete(userId: userId,
+                            completion: {res in self.complated(id: apiID, type: type, res: res)},
+                            error:error)
         default: break
         }
         return apiID

@@ -53,6 +53,12 @@ struct HorizontalProfile: PageComponent{
             case .big : return Dimen.margin.light
             }
         }
+        var nameSize:CGFloat{
+            switch self {
+            case .small : return Font.size.light
+            case .big : return Font.size.medium
+            }
+        }
     }
     enum FuncType{
         case addFriend, button(String), more
@@ -72,6 +78,7 @@ struct HorizontalProfile: PageComponent{
     var age:String? = nil
     var breed:String? = nil
     var description:String? = nil
+    var distance:Double? = nil
     var isSelected:Bool = false
     var isEmpty:Bool = false
     
@@ -117,7 +124,7 @@ struct HorizontalProfile: PageComponent{
                     if let name = self.name {
                         Text(name)
                             .modifier(SemiBoldTextStyle(
-                                size: Font.size.medium,
+                                size: self.sizeType.nameSize,
                                 color: self.isSelected ? Color.app.white : Color.app.black
                             ))
                             .multilineTextAlignment(.leading)
@@ -125,22 +132,6 @@ struct HorizontalProfile: PageComponent{
                         
                     }
                     VStack(alignment: .leading, spacing:Dimen.margin.micro){
-                        if let date = self.date {
-                            Text(date)
-                                .modifier(RegularTextStyle(
-                                    size: Font.size.thin,
-                                    color: self.isSelected ? Color.app.white : Color.app.grey500
-                                ))
-                                .multilineTextAlignment(.leading)
-                        }
-                        if let adress = self.adress {
-                            Text(adress)
-                                .modifier(RegularTextStyle(
-                                    size: Font.size.thin,
-                                    color: self.isSelected ? Color.app.white : Color.app.grey500
-                                ))
-                                .multilineTextAlignment(.leading)
-                        }
                         if self.type.useDescription {
                             ProfileInfoDescription(
                                 id: self.id,
@@ -150,21 +141,50 @@ struct HorizontalProfile: PageComponent{
                                 color: self.isSelected ? Color.app.white : Color.app.grey500
                             )
                         }
-                        if let breed = self.breed {
-                            Text(breed)
+                        
+                        
+                        if let breed = self.breed, let breedValue = SystemEnvironment.breedCode[breed] {
+                            Text( breedValue)
                                 .modifier(RegularTextStyle(
                                     size: Font.size.thin,
                                     color: self.isSelected ? Color.app.white : self.color
                                 ))
                                 .multilineTextAlignment(.leading)
                         }
-                        if let description = self.description {
-                            Text(description)
-                                .modifier(RegularTextStyle(
-                                    size: Font.size.thin,
-                                    color: self.isSelected ? Color.app.white : self.color
-                                ))
-                                .multilineTextAlignment(.leading)
+                        HStack(spacing: Dimen.margin.tiny){
+                            if let description = self.description {
+                                Text(description)
+                                    .modifier(RegularTextStyle(
+                                        size: Font.size.thin,
+                                        color: self.isSelected ? Color.app.white : Color.app.grey500
+                                    ))
+                                    .multilineTextAlignment(.leading)
+                            }
+                            
+                            if let distance = self.distance {
+                                Text(WalkManager.viewDistance(distance))
+                                    .modifier(RegularTextStyle(
+                                        size: Font.size.thin,
+                                        color: self.isSelected ? Color.app.white : self.color
+                                    ))
+                                    .multilineTextAlignment(.leading)
+                            }
+                            if let date = self.date {
+                                Text(date)
+                                    .modifier(RegularTextStyle(
+                                        size: Font.size.thin,
+                                        color: self.isSelected ? Color.app.white : Color.app.grey500
+                                    ))
+                                    .multilineTextAlignment(.leading)
+                            }
+                            if let adress = self.adress {
+                                Text(adress)
+                                    .modifier(RegularTextStyle(
+                                        size: Font.size.thin,
+                                        color: self.isSelected ? Color.app.white : Color.app.grey500
+                                    ))
+                                    .multilineTextAlignment(.leading)
+                            }
                         }
                     }
                 }
@@ -181,7 +201,7 @@ struct HorizontalProfile: PageComponent{
                 case .more :
                     ImageButton(
                         defaultImage: Asset.icon.direction_right,
-                        defaultColor: self.isSelected ? Color.app.white : Color.app.grey500
+                        defaultColor: self.isSelected ? Color.app.white : Color.app.grey400
                     ){ _ in
                         self.action?()
                     }

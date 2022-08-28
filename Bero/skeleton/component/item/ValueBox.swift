@@ -44,7 +44,7 @@ struct ValueBox: PageComponent{
                     Spacer().modifier(LineVertical(
                         width: Dimen.line.light,
                         margin: Dimen.margin.micro,
-                        color: Color.app.grey200))
+                        color: Color.app.grey100))
                 }
             }
         }
@@ -69,13 +69,13 @@ struct ValueBox_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack{
-            ValueBox(datas: [
+           ValueBox(datas: [
                 .init(idx: 0, type: .progress("LV", percent: 52)),
                 .init(idx: 1, type: .value(.point, value: 100))
                 //.init(idx: 2, type: .value(.coin, value: 10.3))
             
             ]){ type in
-                
+                 
             }
            
         }

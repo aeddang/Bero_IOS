@@ -26,7 +26,6 @@ struct SelectTagStep: PageComponent{
     let next: ((ModifyPetProfileData) -> Void)
     
     @State var isShowing = false
-    @State var isSearch:Bool = false
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing:Dimen.margin.regular){

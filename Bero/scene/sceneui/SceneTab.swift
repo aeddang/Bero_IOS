@@ -126,7 +126,7 @@ struct SceneTab: PageComponent{
             switch result {
                 case .complete(let type, let idx) : do {
                     switch type {
-                    case .imgPicker(let id):
+                    case .imgPicker(let id, _):
                         if type.check(key: SceneRequest.imagePicker.rawValue) {
                             if idx != 2 {
                                 self.imagePickerModel.pickId = id

@@ -18,15 +18,26 @@ extension String {
         public static let confirm = "Confirm"
         public static let cancel = "Cancel"
         
+        public static let name = "Name"
+        public static let gender = "Gender"
+        public static let age = "Age"
+        public static let introduction = "Introduction"
         public static let male = "Male"
         public static let female = "Female"
         
         public static let kmPerH = "kmPerH"
         public static let km = "km"
         public static let min = "min"
+        public static let kg = "kg"
+        public static let inch = "”"
         
+        public static let weight = "Weight"
+        public static let height = "Height"
+        public static let immunization = "Immunization"
+        public static let animalChip = "Animal chip"
         public static let animalId = "Animal ID"
         public static let microchip = "Microchip"
+        
     }
     
     struct gnb {
@@ -78,6 +89,7 @@ extension String {
         public static let skipNow = "Skip for now"
         public static let close = "Close"
         public static let goBack = "Go back"
+        public static let save = "Save"
         public static let retry = "Retry"
         public static let reset = "Reset"
         public static let apply = "Apply"
@@ -91,13 +103,29 @@ extension String {
         public static let startWalking = "Start walking"
         public static let missionComplete = "Mission Complete"
         public static let walkComplete = "Walk Complete"
+        public static let information = "Information"
+        public static let unregistered = "Unregistered"
+        
+        public static let edit = "Edit"
+        public static let viewMore = "View more"
+        public static let manageDogs = "Manage dogs"
+
     }
     
     struct pageTitle {
         public static let my = "My"
         public static let addDog = "Add a dog"
+        public static let history = "History"
+        public static let album = "Album"
+        public static let tag = "Tags"
+        public static let physicalInformation = "Physical information"
+        public static let friends = "friends"
+        public static let myDogs = "My dogs"
+        public static let myProfile = "My Profile"
+        public static let dogProfile = "Dog Profile"
     }
     
+
     struct pageText {
         public static let introText1_1 = "Walk your dog\nwith fun missions."
         public static let introText1_2 = "Walking dogs never been this\nfun! Explore new routes with\nthe daily and monthly missions."
@@ -109,19 +137,20 @@ extension String {
         
         public static let loginText = "Let’s walk\nour dogs together!"
         public static let loginButtonText = "Continue with "
-         
+        
+        public static let introductionDefault = "Hello, I am @%s. Let’s be friends!"
+        
+        
         public static let addDogCompletedText1 = "Nice to meet you"
         public static let addDogCompletedText2 = "There are so many fun walks and dog friends waiting for you!"
         public static let addDogCompletedConfirm = "Start exploring"
         public static let addDogEmpty = "No dog added yet."
-        
-        public static let myLv = "My level"
-        public static let myDogs = "My dogs"
-        public static let myHistory = "My history"
-        public static let myCurrentPoint = "You have %s Points"
+        public static let historyCompleted = "%s completed"
         
         public static let missionCompletedSaved = "Mission saved."
         public static let walkCompletedSaved = "Mission saved."
+        
+        
     }
     
 }

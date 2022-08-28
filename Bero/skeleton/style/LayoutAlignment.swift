@@ -136,7 +136,7 @@ struct LineHorizontal: ViewModifier {
         return content
             .frame(minWidth: 0, maxWidth: .infinity - (margin * 2.0) , minHeight: height, maxHeight: height)
             .offset(x:margin)
-            .background(self.color).opacity(0.4)
+            .background(self.color)
             
             
     }
@@ -149,7 +149,7 @@ struct LineVertical: ViewModifier {
         return content
             .frame(minWidth: width, maxWidth: width , minHeight:0, maxHeight: .infinity - (margin * 2.0))
             .offset(y:margin)
-            .background(self.color).opacity(0.4)
+            .background(self.color)
             
             
     }

@@ -12,6 +12,7 @@ import SwiftUI
 struct Dimen{
     struct margin {
         public static let heavy:CGFloat = 56
+        public static let mediumUltra:CGFloat = 48
         public static let medium:CGFloat = 32
         public static let regularUltra:CGFloat = 24
         public static let regular:CGFloat = 20
@@ -49,7 +50,7 @@ struct Dimen{
     }
     
     struct tab {
-        public static let heavy:CGFloat = 85//
+        public static let heavy:CGFloat = 88
         public static let medium:CGFloat = 52
         public static let regular:CGFloat = 46
         public static let light:CGFloat = 36//
@@ -57,6 +58,7 @@ struct Dimen{
     }
     
     struct button {
+        
         public static let heavy:CGFloat = 72
         public static let medium:CGFloat = 56
         public static let mediumExtra:CGFloat = 52
@@ -94,13 +96,13 @@ struct Dimen{
         public static let heavy:CGFloat = 12
         public static let medium:CGFloat = 6//
         public static let regular:CGFloat =  2
-        public static let light:CGFloat = 1//
+        public static let light:CGFloat = 1
     }
     
     
     struct stroke {
-        public static let heavy:CGFloat =  16//
-        public static let medium:CGFloat =  4
+        public static let heavy:CGFloat =  4
+        public static let medium:CGFloat =  3
         public static let regular:CGFloat = 2
         public static let light:CGFloat = 1
     }

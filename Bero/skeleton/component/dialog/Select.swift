@@ -31,6 +31,7 @@ struct SelectBtnData:Identifiable, Equatable{
     let title:String
     let index:Int
     var tip:String? = nil
+    var icon:String? = nil
 }
 
 struct Select<Presenting>: View where Presenting: View {
@@ -58,9 +59,10 @@ struct Select<Presenting>: View where Presenting: View {
                 }
                 VStack{
                     Spacer()
-                    VStack(alignment: .center, spacing:0) {
+                    VStack(alignment: .center, spacing:Dimen.margin.tiny) {
                         ForEach(self.buttons) { btn in
                             SelectButton(
+                                icon:btn.icon,
                                 text: btn.title ,
                                 description: btn.tip,
                                 index: btn.index,

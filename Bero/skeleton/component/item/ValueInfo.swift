@@ -11,11 +11,12 @@ import SwiftUI
 
 struct ValueInfo: PageComponent{
     enum ValueType{
-        case point, coin
+        case point, coin, heart
         var icon:String{
             switch self {
             case .point : return Asset.icon.point
             case .coin : return Asset.icon.coin
+            case .heart : return Asset.icon.favorite_on
             }
         }
         
@@ -23,6 +24,7 @@ struct ValueInfo: PageComponent{
             switch self {
             case .point : return "Points"
             case .coin : return "Coins"
+            case .heart : return "Heart Level"
             }
         }
         
@@ -30,6 +32,14 @@ struct ValueInfo: PageComponent{
             switch self {
             case .point : return value.toInt().description
             case .coin : return value.description
+            case .heart : return value.toInt().description
+            }
+        }
+        
+        var isIconFirst:Bool{
+            switch self {
+            case .heart : return true
+            default : return false
             }
         }
     }
@@ -39,14 +49,24 @@ struct ValueInfo: PageComponent{
     var body: some View {
         VStack(spacing:Dimen.margin.micro){
             HStack( spacing: Dimen.margin.micro){
+                if self.type.isIconFirst {
+                    Image(self.type.icon)
+                        .renderingMode(.template)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(Color.brand.primary)
+                        .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                }
                 Text(self.type.getValue(value))
                     .modifier(BoldTextStyle(
                         size: Font.size.medium,color: Color.brand.primary))
-                Image(self.type.icon)
-                    .renderingMode(.original)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                if !self.type.isIconFirst {
+                    Image(self.type.icon)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                }
             }
             if let text = self.type.text{
                 Text(text)
@@ -62,6 +82,10 @@ struct ValueInfo_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack{
+            ValueInfo(
+                type: .heart,
+                value: 100
+            )
             ValueInfo(
                 type: .point,
                 value: 100

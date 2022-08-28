@@ -18,10 +18,20 @@ class UserApi :Rest{
         fetch(route: UserApiRoute(method: .put, commandId: user.snsID),
            constructingBlock:{ data in
             if let value = modifyData.nickName { data.append(value: value, name: "name") }
-           
             if let value = modifyData.image?.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "profileImage.jpg",mimeType:"image/jpeg")
             }
+        }, completion: completion, error:error)
+    }
+    func put(user:SnsUser, image:UIImage?, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        fetch(route: UserApiRoute(method: .put, commandId: user.snsID),
+           constructingBlock:{ data in
+            if let value = image?.jpegData(compressionQuality: 1.0) {
+                data.append(file: value,name: "contents",fileName: "profileImage.jpg",mimeType:"image/jpeg")
+            } else {
+                data.append(file: Data(),name: "contents",fileName: "profileImage.jpg",mimeType:"image/jpeg")
+            }
+            data.log()
         }, completion: completion, error:error)
     }
 }

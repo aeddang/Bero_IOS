@@ -28,11 +28,13 @@ struct ProfileImage:PageView{
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .modifier(MatchParent())
+                        
                 } else if let path = self.imagePath {
                     ImageView(url: path,
                         contentMode: .fill,
                               noImg: Asset.image.profile_user_default)
-                        .modifier(MatchParent())
+                    .modifier(MatchParent())
+                        
                 } else {
                     Image( uiImage: UIImage(named: self.emptyImagePath)! )
                         .renderingMode(.original)
@@ -40,40 +42,38 @@ struct ProfileImage:PageView{
                         .aspectRatio(contentMode: .fill)
                         .modifier(MatchParent())
                 }
+                if let onEdit = self.onEdit {
+                    Button(action: {
+                        onEdit()
+                    }) {
+                        Spacer().background(Color.transparent.clearUi)
+                            .modifier(MatchParent())
+                    }
+                    
+                }
             }
             .frame(width: self.size, height: self.size)
             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+            .frame(width: self.size + (Dimen.stroke.medium*2) , height: self.size + (Dimen.stroke.medium*2))
             .overlay(
                 /*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/
-                    .strokeBorder(
+                    .stroke(
                         Color.brand.primary,
-                        lineWidth: self.isSelected ? Dimen.stroke.regular : 0
+                        lineWidth: self.isSelected ? Dimen.stroke.medium : 0
                     )
             )
-            if let action = self.onEdit{
-                ImageButton(
-                    defaultImage: Asset.icon.edit,
-                    size: CGSize(width: Dimen.icon.light, height: Dimen.icon.light),
-                    defaultColor: Color.app.grey500
-                ){ _ in
-                    action()
-                }
-                .padding(.all, Dimen.margin.tinyExtra)
-                .background(Color.app.white)
-                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-            }
             
-            if !(self.image == nil && self.imagePath == nil) , let action = self.onDelete{
-                ImageButton(
-                    defaultImage: Asset.icon.delete,
-                    size: CGSize(width: Dimen.icon.light, height: Dimen.icon.light),
-                    defaultColor: Color.app.grey500
+            
+            if let action = self.onDelete{
+                CircleButton(
+                    type: .icon( self.imagePath == nil && self.image == nil  ? Asset.icon.add_photo :  Asset.icon.delete),
+                    isSelected: false,
+                    strokeWidth: Dimen.stroke.regular,
+                    defaultColor: Color.app.black
                 ){ _ in
                     action()
                 }
-                .padding(.all, Dimen.margin.tinyExtra)
-                .background(Color.app.white)
-                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+
             }
         }
     }
@@ -116,7 +116,7 @@ struct ProfileInfoDescription:PageView{
                     ))
             }
             
-            if let breed = self.breed {
+            if let breed = self.breed, let breedValue = SystemEnvironment.breedCode[breed] {
                 if useCircle {
                     Circle()
                         .fill(Color.brand.primary)
@@ -129,7 +129,7 @@ struct ProfileInfoDescription:PageView{
                         ))
                 }
                     
-                Text(breed)
+                Text(breedValue)
                     .modifier(RegularTextStyle(
                         size: Font.size.thin,
                         color: self.color

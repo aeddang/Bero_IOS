@@ -32,6 +32,7 @@ struct InputTextStep: PageComponent{
     @State var inputTypeIndex:Int = 0
     @State var isEditing:Bool = false
     @State var isShowing = false
+    @State var limitedTextLength:Int = 100
     var body: some View {
         VStack(spacing: Dimen.margin.medium){
             if let types = self.step.inputType {
@@ -46,7 +47,8 @@ struct InputTextStep: PageComponent{
                 placeHolder: self.step.placeHolder,
                 tip: self.tip,
                 isFocus: self.isEditing,
-                keyboardType: .namePhonePad,
+                limitedTextLength:self.limitedTextLength,
+                keyboardType: self.step.keyboardType,
                 onFocus: {
                     withAnimation{ self.isEditing = true }
                 },
@@ -115,8 +117,10 @@ struct InputTextStep: PageComponent{
             case .identify :
                 if self.profile?.animalId?.isEmpty == false {
                     self.navigationModel.index = 0
-                }else if self.profile?.microfin?.isEmpty == false {
+                    self.limitedTextLength = 15
+                }else if self.profile?.microchip?.isEmpty == false {
                     self.navigationModel.index = 1
+                    self.limitedTextLength = 9
                 }
             default : break
             }
@@ -133,14 +137,16 @@ struct InputTextStep: PageComponent{
         switch self.step {
         case .name :
             self.input = self.profile?.name ?? ""
+            self.limitedTextLength = 20
         case .identify :
             if self.navigationModel.index == 0 {
                 self.input = self.profile?.animalId ?? ""
                 self.inputTypeIndex = 0
-                
+                self.limitedTextLength = 15
             } else {
-                self.input = self.profile?.microfin ?? ""
+                self.input = self.profile?.microchip ?? ""
                 self.inputTypeIndex = 1
+                self.limitedTextLength = 9
                 
             }
         default : break
@@ -157,7 +163,7 @@ struct InputTextStep: PageComponent{
                 self.next(.init(animalId : self.input))
                 
             }else {
-                self.next(.init(microfin : self.input))
+                self.next(.init(microchip : self.input))
             }
         default : break
         }

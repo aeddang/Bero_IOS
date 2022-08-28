@@ -56,13 +56,9 @@ struct PageContentBody: PageView  {
                 child.contentBody
                     .offset(x: self.offsetX ,y: self.offsetY)
             }
-            if self.isBelow {
-                
-                Spacer().modifier(MatchParent()).background(Color.transparent.black70)
-                    .opacity(self.dragOpacity)
-                    
-                    //.animation(.easeIn(duration: PageContentBody.pageMoveDuration), value: self.dragOpacity)
-            }
+            Spacer().modifier(MatchParent()).background(Color.transparent.black70)
+                .opacity(self.dragOpacity)
+                .opacity(self.isBelow ? 1 : 0)
         }
         .accessibilityElement(children: self.isVoiceOver ? .contain : .ignore)
         .opacity(self.opacity)
@@ -84,12 +80,12 @@ struct PageContentBody: PageView  {
             if pageObject.isLayer || pageObject.isWillCloseLayer{ return }
             
             if PageObject.isSamePage(l:pageObject , r:page) {
-                withAnimation(.easeOut(duration: Self.pageMoveDuration)){
+                withAnimation(.easeIn(duration: Self.pageMoveDuration)){
                     self.isTop = true
                     self.isBelow = false
                     self.pageOffsetX = 0.0
                     self.pageOffsetY = 0.0
-                    self.dragOpacity = 0
+                   // self.dragOpacity = 0
                 }
                 
             } else {

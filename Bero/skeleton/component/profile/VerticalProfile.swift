@@ -31,6 +31,7 @@ struct VerticalProfile: PageComponent{
     let id:String
     var type:ProfileType = .pet
     var sizeType:ProfileSizeType = .medium
+    var isSelected:Bool = false
     var image:UIImage? = nil
     var imagePath:String? = nil
     var lv:Int? = nil
@@ -40,10 +41,7 @@ struct VerticalProfile: PageComponent{
     var breed:String? = nil
     var info:String? = nil
     var description:String? = nil
-  
-    var editImage: (() -> Void)? = nil
     var editProfile: (() -> Void)? = nil
-    
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
             ZStack(alignment: .bottom){
@@ -53,9 +51,19 @@ struct VerticalProfile: PageComponent{
                     imagePath: self.imagePath,
                     size: self.sizeType.imageSize,
                     emptyImagePath: self.type.emptyImage,
-                    onEdit: self.editImage
+                    onEdit: self.editProfile
                 )
-                if let lv = self.lv {
+                if let edit = self.editProfile {
+                    CircleButton(
+                        type: .icon(Asset.icon.edit),
+                        isSelected: false,
+                        strokeWidth: Dimen.stroke.regular,
+                        defaultColor: Color.app.black
+                    ){ _ in
+                        edit()
+                    }
+                    .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
+                }else if let lv = self.lv {
                     CircleButton(
                         type: .text("Lv." + lv.description),
                         isSelected: true,
@@ -81,7 +89,7 @@ struct VerticalProfile: PageComponent{
                     age: self.age,
                     breed: self.breed,
                     gender: self.gender,
-                    action: self.editProfile
+                    action: nil
                 )
             }
             if let info = self.info{
@@ -105,7 +113,6 @@ struct VerticalProfile: PageComponent{
                 .modifier(MatchHorizontal(height: 56))
                 .background(Color.app.whiteDeepLight)
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
-                .modifier(ShadowLight())
             }
         }
     }
@@ -131,6 +138,21 @@ struct VerticalProfile_Previews: PreviewProvider {
                 breed: "dog",
                 info: "info",
                 description: "description"
+            )
+            VerticalProfile(
+                id: "",
+                type: .user,
+                sizeType: .medium,
+                image: nil,
+                imagePath: nil,
+                lv:nil,
+                name: "name",
+                gender: .female,
+                age: "20",
+                description: "description",
+                editProfile: {
+                    
+                }
             )
             VerticalProfile(
                 id: "",

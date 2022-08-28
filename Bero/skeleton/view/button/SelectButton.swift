@@ -31,11 +31,13 @@ struct SelectButton: View, SelecterbleProtocol{
     var type:ButtonType = .small
     var icon:String? = nil
     var isOriginIcon:Bool = false
+    var title:String? = nil
     var text:String
     var description:String? = nil
     var bgColor:Color = Color.app.white
     var index: Int = 0
     var isMore: Bool = true
+    var useStroke: Bool = true
     var isSelected: Bool = false
     
     let action: (_ idx:Int) -> Void
@@ -68,10 +70,14 @@ struct SelectButton: View, SelecterbleProtocol{
                         }
                         
                     }
-                        
                 }
                 VStack(alignment:.leading, spacing:0){
                     Spacer().modifier(MatchHorizontal(height: 0))
+                    if let tip = self.title {
+                        Text(tip)
+                            .modifier(MediumTextStyle(
+                                size: Font.size.thin, color: Color.app.grey400))
+                    }
                     Text(self.text)
                         .modifier(MediumTextStyle(
                             size: Font.size.light,
@@ -103,7 +109,7 @@ struct SelectButton: View, SelecterbleProtocol{
                 RoundedRectangle(cornerRadius: self.type.radius)
                     .strokeBorder(
                         self.isSelected ? Color.brand.primary : Color.app.grey200,
-                        lineWidth: Dimen.stroke.light
+                        lineWidth: self.useStroke ? Dimen.stroke.light : 0
                     )
             )
         }
@@ -139,6 +145,16 @@ struct SelectButton_Previews: PreviewProvider {
                 icon: Asset.icon.album,
                 text: "medium button",
                 description: "unselect",
+                isSelected: false
+            ){_ in
+                
+            }
+            
+            SelectButton(
+                type: .medium,
+                title: "title no icon",
+                text: "medium button",
+                useStroke: false,
                 isSelected: false
             ){_ in
                 

@@ -24,9 +24,13 @@ class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var lv:Int = 1
     private(set) var exp:Double = 70
     private(set) var nextExp:Double = 100
-    private(set) var mission:Double = 0
     
-    private(set) var currentProfile:UserProfile = UserProfile()
+    private(set) var walk:Int = 0
+    private(set) var mission:Int = 0
+    private(set) var totalWalkDistance:Double = 100000000
+    private(set) var totalMissionDistance:Double = 10000
+    
+    private(set) var currentProfile:UserProfile = UserProfile(isMine: true)
     private(set) var currentPet:PetProfile? = nil
     private(set) var pets:[PetProfile] = []
     private(set) var snsUser:SnsUser? = nil
@@ -103,9 +107,18 @@ class User:ObservableObject, PageProtocol, Identifiable{
         if !mission.isCompleted {return}
         let point =  mission.point
         self.point += point
-        self.mission += 1
+        switch mission.type {
+        case .walk :
+            self.walk += 1
+            self.totalWalkDistance += mission.playDistence
+           
+        default :
+            self.mission += 1
+            self.totalMissionDistance += mission.distance
+        }
         self.pets.filter{$0.isWith}.forEach{
-            $0.update(exp: Double(point))
+            //$0.update(exp: Double(point))
+            $0.missionCompleted(mission)
         }
         self.event = .updatedPlayData
     }

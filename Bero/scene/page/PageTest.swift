@@ -22,6 +22,7 @@ struct PageTest: PageView {
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var naviModel = NavigationModel()
     @ObservedObject var webViewModel = WebViewModel(base: "https://www.todaypp.com")
+    @ObservedObject var calenderModel: CalenderModel = CalenderModel()
     @State var naviImg:String? = Asset.brand.logoLauncher
     @State var index: Int = 0
     @State private var showingAlert = false
@@ -32,7 +33,7 @@ struct PageTest: PageView {
             VStack(alignment: .center)
             {
                 CPCalendar(
-                    
+                    viewModel: self.calenderModel
                 )
                 .datePickerStyle(GraphicalDatePickerStyle())
                 .accentColor(Color.brand.primary)
@@ -62,6 +63,12 @@ struct PageTest: PageView {
             .background(Color.app.white)
         }//GeometryReader
         .onAppear{
+            let now = AppUtil.networkTimeDate()
+            self.calenderModel.selectAbleDate = [
+                now.dayBefore.toDateFormatter(dateFormat:"yyyyMMdd"),
+                now.dayAfter.toDateFormatter(dateFormat:"yyyyMMdd")
+            ]
+            self.calenderModel.request = .reset(now.toDateFormatter(dateFormat:"yyyyMM"))
             self.webViewModel.request = .home
             //self.playerModel.event = PlayerUIEvent.load(testPath, false, 0.0)
             //self.playerModel.event = PlayerUIEvent.resume

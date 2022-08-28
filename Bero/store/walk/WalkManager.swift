@@ -37,6 +37,15 @@ enum WalkStatus {
 }
 extension WalkManager {
     static let distenceUnit:Double = 200000
+    static func viewSpeed(_ value:Double) -> String {
+        return (value * 3600 / 1000).toTruncateDecimal(n:1) + String.app.kmPerH
+    }
+    static func viewDistance(_ value:Double) -> String {
+        return (value / 1000).toTruncateDecimal(n:1) + String.app.km
+    }
+    static func viewDuration(_ value:Double) -> String {
+        return value.secToMinString()
+    }
 }
 
 

@@ -31,7 +31,7 @@ struct NavigationBuilder{
         activeColor: Color.brand.primary
     )
     var marginHorizontal:CGFloat = 0
-    var marginVertical:CGFloat = 0
+    var marginVertical:CGFloat = Dimen.margin.thin
     var imgSize:CGSize = CGSize(width: Dimen.icon.thin, height: Dimen.icon.thin)
     
     func getNavigationButtons(texts:[String], color:Color? = nil) -> [NavigationButton] {

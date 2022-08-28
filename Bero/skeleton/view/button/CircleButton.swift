@@ -65,7 +65,7 @@ struct CircleButton: View, SelecterbleProtocol {
             .overlay(
                 Circle()
                     .strokeBorder(
-                        Color.app.white,
+                        self.isSelected ? Color.app.white : Color.app.grey200,
                         lineWidth: self.strokeWidth
                     )
             )

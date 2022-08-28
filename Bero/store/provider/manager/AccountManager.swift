@@ -27,6 +27,10 @@ class AccountManager : PageProtocol{
             if user.snsID == self.user.snsUser?.snsID {
                 self.user.currentProfile.update(data: data)
             }
+        case .updateUserImage(let user, let data):
+            if user.snsID == self.user.snsUser?.snsID {
+                self.user.currentProfile.update(image: data)
+            }
         case .registPet(let user, _):
             if user.snsID == self.user.snsUser?.snsID , let data = res.data as? PetData{
                 self.user.registPetComplete(profile: PetProfile(data: data, isMyPet: true))

@@ -25,7 +25,7 @@ struct PageMy: PageView {
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
-    @ObservedObject var calenderModel: CalenderModel = CalenderModel()
+   
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -39,9 +39,7 @@ struct PageMy: PageView {
                         buttons:[.alram,.setting]){ type in
                         switch type {
                         case .alram : break
-                        case .setting :
-                            self.dataProvider.user.currentProfile.update(image: UIImage(named: Asset.image.manWithDog))
-                            break
+                        case .setting :break
                         default : break
                         }
                     }
@@ -50,36 +48,43 @@ struct PageMy: PageView {
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
                         showIndicators : false,
-                        marginTop: Dimen.margin.medium,
-                        marginHorizontal: Dimen.app.pageHorinzontal,
+                        marginVertical: Dimen.margin.medium,
+                        marginHorizontal: 0,
                         spacing:0,
-                        isRecycle: true,
+                        isRecycle: false,
                         useTracking: false
                     ){
-                        UserProfileInfo(profile: self.dataProvider.user.currentProfile){
-                            
-                        }
-                        
-                        MyLevelSection()
-                            .padding(.top, Dimen.margin.regularUltra)
-                        MyDogsSection()
-                            .padding(.top, Dimen.margin.medium)
-                        Spacer()
-                            .modifier(LineHorizontal(height: Dimen.line.heavy))
-                            .padding(.top, Dimen.margin.medium)
-                        MyHistorySection(
-                            navigationModel: self.navigationModel,
-                            calenderModel: self.calenderModel,
-                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2))
-                            .padding(.top, Dimen.margin.regularUltra)
-                            .modifier(
-                                MatchHorizontal(
-                                    height: geometry.size.height
-                                    - self.appSceneObserver.safeHeaderHeight
-                                    - self.appSceneObserver.safeBottomHeight
-                                    - Dimen.icon.light
-                                )
+                        UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.modifyUser)
                             )
+                        }
+                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        MyPlayInfo()
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.regular)
+                        
+                        Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                            .padding(.top, Dimen.margin.medium)
+                        MyDogsSection()
+                            .padding(.top, Dimen.margin.regular)
+                        
+                        MyFriendSection(
+                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                        )
+                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        .padding(.top, Dimen.margin.mediumUltra)
+                        
+                            
+                        MyAlbumSection(
+                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                        )
+                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        .padding(.top, Dimen.margin.mediumUltra)
+                        
+                        MyHistorySection()
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.mediumUltra)
                             
                     }
                 }
@@ -98,12 +103,7 @@ struct PageMy: PageView {
                 }
             }
             .onAppear{
-                let now = AppUtil.networkTimeDate()
-                self.calenderModel.selectAbleDate = [
-                    now.dayBefore.toDateFormatter(dateFormat:"yyyyMMdd"),
-                    now.dayAfter.toDateFormatter(dateFormat:"yyyyMMdd")
-                ]
-                self.calenderModel.request = .reset(now.toDateFormatter(dateFormat:"yyyyMM"))
+                
             
             }
         }//GeometryReader

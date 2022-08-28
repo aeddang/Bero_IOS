@@ -21,14 +21,14 @@ extension TitleTab{
         
         var textFamily:String {
             switch self {
-            case .page : return Font.family.bold
-            case .section : return Font.family.bold
+            case .page : return Font.family.semiBold
+            case .section : return Font.family.semiBold
             }
         }
         var textSize:CGFloat {
             switch self {
             case .page : return Font.size.black
-            case .section : return Font.size.regular
+            case .section : return Font.size.light
             }
         }
     }
@@ -36,12 +36,12 @@ extension TitleTab{
     enum ButtonType:String{
         case more, add, edit, close, back, setting, alramOn, alram
         case viewMore, manageDogs
-        var icon:String {
+        var icon:String? {
             switch self {
             case .back : return Asset.icon.back
             case .more : return Asset.icon.more_vert
             case .add : return Asset.icon.add
-            case .edit : return Asset.icon.edit
+            case .edit : return nil
             case .close : return Asset.icon.close
             case .alram : return Asset.icon.notification_off
             case .alramOn : return Asset.icon.notification_on
@@ -51,14 +51,16 @@ extension TitleTab{
         }
         var text:String? {
             switch self {
-            case .viewMore : return "View more"
-            case .manageDogs : return "Manage dogs"
+            case .edit : return String.button.edit
+            case .viewMore : return String.button.viewMore
+            case .manageDogs : return String.button.manageDogs
             default : return nil
             }
         }
         
         var color:Color {
             switch self {
+            case .edit : return Color.brand.primary
             case .viewMore, .manageDogs : return Color.app.grey400
             default : return Color.app.grey500 
             }
@@ -78,7 +80,7 @@ struct TitleTab: PageComponent{
     var action: ((ButtonType) -> Void)
    
     var body: some View {
-        ZStack(alignment:self.alignment == .leading || self.useBack ? .leading : .center){
+        ZStack(alignment:self.alignment == .leading ? .leading : .center){
             HStack(spacing: Dimen.margin.tiny){
                 if useBack {
                     ImageButton(
@@ -88,15 +90,30 @@ struct TitleTab: PageComponent{
                     }
                 }
                 if let title = self.title {
-                    Text(title)
-                        .font(.custom(
-                            self.type.textFamily,
-                            size: self.type.textSize)
-                        )
-                        .lineSpacing(Font.spacing.regular)
-                        .foregroundColor(Color.app.black)
-                        .multilineTextAlignment(self.alignment)
-                        .lineLimit(self.lineLimit)
+                    if self.alignment == .leading {
+                        Text(title)
+                            .font(.custom(
+                                self.type.textFamily,
+                                size: self.type.textSize)
+                            )
+                            .lineSpacing(Font.spacing.regular)
+                            .foregroundColor(Color.app.black)
+                            .multilineTextAlignment(self.alignment)
+                            .lineLimit(self.lineLimit)
+                    } else {
+                        Text(title)
+                            .font(.custom(
+                                self.type.textFamily,
+                                size: self.type.textSize)
+                            )
+                            .lineSpacing(Font.spacing.regular)
+                            .foregroundColor(Color.app.black)
+                            .multilineTextAlignment(self.alignment)
+                            .lineLimit(self.lineLimit)
+                            .modifier(MatchHorizontal(height: self.type.textSize ))
+                            .padding(.trailing, Dimen.icon.light)
+                    }
+                   
                 }
             }
             HStack(spacing: Dimen.margin.tiny){
@@ -105,16 +122,18 @@ struct TitleTab: PageComponent{
                     HStack(spacing:Dimen.margin.microExtra){
                         if let text = btn.text {
                             Text(text)
-                                .modifier(RegularTextStyle(size: Font.size.thin, color: Color.app.grey400))
+                                .modifier(RegularTextStyle(size: Font.size.thin, color: btn.color))
                                 .onTapGesture {
                                     self.action(btn)
                                 }
                         }
-                        ImageButton(
-                            defaultImage: btn.icon,
-                            defaultColor: btn.color
-                        ){ _ in
-                            self.action(btn)
+                        if let icon = btn.icon {
+                            ImageButton(
+                                defaultImage: icon,
+                                defaultColor: btn.color
+                            ){ _ in
+                                self.action(btn)
+                            }
                         }
                     }
                 }

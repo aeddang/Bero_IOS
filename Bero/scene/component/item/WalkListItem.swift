@@ -34,18 +34,15 @@ struct WalkListItem: PageComponent{
     let imgSize:CGSize
     var action: (() -> Void) 
     var body: some View {
-        Button(action: {
-            self.action()
-        }) {
-            ListItem(
-                id: self.data.id,
-                imgSize: self.imgSize,
-                title: self.data.title,
-                subTitle: self.data.description,
-                icon: self.data.type.icon,
-                iconText: self.data.type.text
-            )
-        }
+        ListItem(
+            id: self.data.id,
+            imgSize: self.imgSize,
+            title: self.data.title,
+            subTitle: self.data.description,
+            icon: self.data.type.icon,
+            iconText: self.data.type.text,
+            move:self.action
+        )
     }
 }
 

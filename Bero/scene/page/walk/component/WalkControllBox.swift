@@ -23,9 +23,9 @@ struct WalkControllBox : PageComponent {
             HStack(spacing:Dimen.margin.thin){
                 Text(self.status)
                     .modifier(BoldTextStyle(size: Font.size.thin, color: Color.app.black))
-                Text(Mission.viewDistance(self.walkDistence))
+                Text(WalkManager.viewDistance(self.walkDistence))
                     .modifier(BoldTextStyle(size: Font.size.thin, color: Color.app.black))
-                Text(Mission.viewDuration(self.walkTime))
+                Text(WalkManager.viewDuration(self.walkTime))
                     .modifier(BoldTextStyle(size: Font.size.thin, color: Color.app.black))
             }
             if let mission = self.mission {
@@ -33,7 +33,7 @@ struct WalkControllBox : PageComponent {
                     Text(mission.description ?? mission.place?.name ?? "mission")
                         .modifier(BoldTextStyle(size: Font.size.thin, color: Color.app.black))
                     if let distence = self.distenceFromMission {
-                        Text(Mission.viewDistance(distence))
+                        Text(WalkManager.viewDistance(distence))
                             .modifier(BoldTextStyle(size: Font.size.thin, color: Color.app.black))
                     }
                 }

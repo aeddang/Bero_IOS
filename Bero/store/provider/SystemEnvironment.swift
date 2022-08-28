@@ -14,7 +14,18 @@ struct SystemEnvironment {
     static var firstLaunch :Bool = false
 
     static var isTablet = AppUtil.isPad()
-    
+    static private(set) var breedCode:[String:String] = [:]
+    static func setupBreedCode(res:ApiResultResponds){
+        guard let datas = res.data as? [CodeData] else { return }
+        self.setupBreedCode(datas: datas)
+    }
+    static func setupBreedCode(datas:[CodeData]){
+        datas.forEach{ data in
+            if let id = data.id?.description {
+                self.breedCode[id] = data.value ?? "bero?"
+            }
+        }
+    }
 }
 
 

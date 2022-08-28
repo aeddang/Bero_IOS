@@ -10,11 +10,10 @@ import Foundation
 struct Asset {}
 extension Asset {
     public static let appIcon = "launcher"
-    public static let noImg16_9 = "no_image"
-    public static let noImg4_3 = "no_image"
-    public static let noImg1_1 = "no_image"
-    public static let noImg9_16 = "no_image"
-    public static let noImg3_4 = "no_image"
+    public static let noImg16_9 = "present"
+    public static let noImg4_3 = "present"
+    public static let noImg1_1 = "present"
+
 }
 extension Asset{
     

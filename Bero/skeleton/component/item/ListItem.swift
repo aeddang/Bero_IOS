@@ -24,19 +24,25 @@ struct ListItem: PageComponent{
     var isLike:Bool = false
     var likeSize:SortButton.SizeType = .big
     var pets:[PetProfile] = []
-   
+    var action: (() -> Void)? = nil
+    var move:(() -> Void)
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.thin){
             ZStack{
-                if let path = self.imagePath {
-                    ImageView(url: path,
-                              contentMode: .fit,
-                              noImg: Asset.noImg1_1)
-                        .modifier(MatchParent())
-                } else {
-                    Spacer()
-                        .modifier(MatchParent())
+                Button(action: {
+                    self.move()
+                }) {
+                    if let path = self.imagePath {
+                        ImageView(url: path,
+                                  contentMode: .fit,
+                                  noImg: Asset.noImg1_1)
+                            .modifier(MatchParent())
+                    } else {
+                        Spacer()
+                            .modifier(MatchParent())
+                    }
                 }
+                
                 VStack{
                     HStack{
                         if let icon = self.icon {
@@ -48,7 +54,7 @@ struct ListItem: PageComponent{
                                 color: self.iconColor,
                                 isSort: false
                             ){
-                                
+                                self.action?()
                             }
                             .fixedSize()
                         }
@@ -66,7 +72,7 @@ struct ListItem: PageComponent{
                                 color: self.isLike ? Color.brand.primary : Color.app.grey400,
                                 isSort: false
                             ){
-                                
+                                self.action?()
                             }
                             .fixedSize()
                         }
@@ -117,7 +123,9 @@ struct ListItem_Previews: PreviewProvider {
                 iconText: "Walk",
                 likeCount:0,
                 isLike: true
-            )
+            ){
+                
+            }
         }
         .padding(.all, 10)
         .background(Color.app.white)

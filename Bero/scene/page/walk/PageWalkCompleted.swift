@@ -65,21 +65,6 @@ struct PageWalkCompleted: PageView {
             .onDisappear{
                
             }
-            /*
-            .onReceive(self.appSceneObserver.$pickImage) { pick in
-                guard let pick = pick else {return}
-                if pick.id?.hasSuffix(self.tag) != true {return}
-                if let img = pick.image {
-                    self.pagePresenter.isLoading = true
-                    DispatchQueue.global(qos:.background).async {
-                        let uiImage = img.normalized().centerCrop().resize(to: CGSize(width: 240,height: 240))
-                        DispatchQueue.main.async {
-                            self.pagePresenter.isLoading = false
-                            self.checkResult(img: uiImage)
-                        }
-                    }
-                }
-            }*/
             .onReceive(self.dataProvider.$result){ res in
                 guard let res = res else { return }
                 if !res.id.hasPrefix(self.tag) {return}

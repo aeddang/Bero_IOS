@@ -16,6 +16,10 @@ extension PageID{
     static let matching:PageID = "matching"
     static let diary:PageID = "diary"
     static let my:PageID = "my"
+    static let myDog:PageID = "myDog"
+    static let modifyUser:PageID = "modifyUser"
+    static let modifyPet:PageID = "modifyPet"
+    static let editProfile:PageID = "editProfile"
     
     static let missionCompleted:PageID = "missionCompleted"
     static let walkCompleted:PageID = "walkCompleted"
@@ -135,10 +139,14 @@ struct PageFactory{
         case .login : return PageLogin()
         case .walk : return PageWalk()
         case .my : return PageMy()
+        case .myDog : return PageMyDog()
         case .addDog : return PageAddDog()
         case .addDogCompleted : return PageAddDogCompleted()
         case .missionCompleted : return PageMissionCompleted()
         case .walkCompleted : return PageWalkCompleted()
+        case .modifyUser : return PageModifyUser()
+        case .modifyPet : return PageModifyPet()
+        case .editProfile : return PageEditProfile()
         default : return PageTest()
         }
     }
@@ -176,7 +184,7 @@ struct PageSceneModel: PageModel {
     
     func isHistoryPage(_ pageObject:PageObject ) -> Bool {
         switch pageObject.pageID {
-        case .addDog, .addDogCompleted, .missionCompleted, .walkCompleted : return false
+        case .addDog, .addDogCompleted, .missionCompleted, .walkCompleted, .editProfile : return false
         default : return true
         }
     }
