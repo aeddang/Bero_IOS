@@ -131,7 +131,8 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.totalMissionCount = data.missionCompleteCnt ?? 0
         self.totalWalkCount = data.walkCompleteCnt ?? 0
         self.updatedExp()
-        if let name = data.name {
+        self.introduction = data.introduce
+        if !(self.introduction?.isEmpty == false) , let name = data.name {
             self.introduction = String.pageText.introductionDefault.replace(name)
         }
     }

@@ -17,8 +17,11 @@ extension PageID{
     static let diary:PageID = "diary"
     static let my:PageID = "my"
     static let myDog:PageID = "myDog"
+    static let manageDogs:PageID = "manageDogs"
     static let modifyUser:PageID = "modifyUser"
     static let modifyPet:PageID = "modifyPet"
+    static let modifyPetHealth:PageID = "modifyPetHealth"
+
     static let editProfile:PageID = "editProfile"
     
     static let missionCompleted:PageID = "missionCompleted"
@@ -140,12 +143,14 @@ struct PageFactory{
         case .walk : return PageWalk()
         case .my : return PageMy()
         case .myDog : return PageMyDog()
+        case .manageDogs : return PageManageDogs()
         case .addDog : return PageAddDog()
         case .addDogCompleted : return PageAddDogCompleted()
         case .missionCompleted : return PageMissionCompleted()
         case .walkCompleted : return PageWalkCompleted()
         case .modifyUser : return PageModifyUser()
         case .modifyPet : return PageModifyPet()
+        case .modifyPetHealth : return PageModifyPetHealth()
         case .editProfile : return PageEditProfile()
         default : return PageTest()
         }

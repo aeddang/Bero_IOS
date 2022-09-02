@@ -46,14 +46,18 @@ struct PageMyDog: PageView {
                     }
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                     if let profile = self.profile {
-                        PetProfileTopInfo(profile: profile){
-                            self.pagePresenter.openPopup(
-                                PageProvider.getPageObject(.modifyPet)
-                                    .addParam(key: .data, value: profile)
-                            )
+                        ZStack{
+                            PetProfileTopInfo(profile: profile){
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.modifyPet)
+                                        .addParam(key: .data, value: profile)
+                                )
+                            }
+                            .frame(height: self.topHeight)
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.medium)
                         }
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        .padding(.top, Dimen.margin.medium)
+                        .opacity(self.topHeight/PetProfileTopInfo.height)
                         MenuTab(
                             viewModel:self.navigationModel,
                             type: .line,
@@ -61,6 +65,7 @@ struct PageMyDog: PageView {
                             selectedIdx: self.menuIdx
                         )
                         .padding(.top, Dimen.margin.medium)
+                        .background(Color.brand.bg)
                         switch self.viewType {
                         case .album :
                             AlbumList(
@@ -79,7 +84,7 @@ struct PageMyDog: PageView {
                                 marginHorizontal: 0,
                                 spacing:0,
                                 isRecycle: false,
-                                useTracking: false
+                                useTracking: true
                             ){
                                 MyPetTagSection(
                                     profile: profile,
@@ -98,6 +103,7 @@ struct PageMyDog: PageView {
                                 MyPetHistorySection(profile:profile)
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                                     .padding(.top, Dimen.margin.medium)
+                                
                             }
                         }
                         
@@ -120,6 +126,20 @@ struct PageMyDog: PageView {
                 withAnimation{
                     self.menuIdx = idx
                 }
+                self.topHeight = PetProfileTopInfo.height
+            }
+            .onReceive(self.infinityScrollModel.$event){ evt in
+                guard let evt = evt else {return}
+                switch evt{
+                case .top :
+                    self.isTopHold = true
+                break
+                }
+            }
+            .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
+                if self.isTopHold {return}
+                PageLog.d("scrollPos " + scrollPos.description, tag:self.tag)
+                self.topHeight = max(PetProfileTopInfo.height + scrollPos, 0)
             }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
@@ -134,6 +154,10 @@ struct PageMyDog: PageView {
     @State var profile:PetProfile? = nil
     @State var viewType:ViewType = .info
     @State var menuIdx:Int = 0
+    
+    @State var isTopHold:Bool = false
+    @State var topHeight:CGFloat = PetProfileTopInfo.height
+    
 }
 
 
@@ -142,8 +166,12 @@ struct PageMyDog_Previews: PreviewProvider {
     static var previews: some View {
         Form{
             PageMyDog().contentBody
-                .environmentObject(PagePresenter())
                 .environmentObject(Repository())
+                .environmentObject(PagePresenter())
+                .environmentObject(PageSceneObserver())
+                .environmentObject(AppObserver())
+                .environmentObject(AppSceneObserver())
+                .environmentObject(DataProvider())
                 .frame(width: 375, height: 640, alignment: .center)
         }
     }

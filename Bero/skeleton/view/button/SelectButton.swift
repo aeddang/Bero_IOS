@@ -77,16 +77,20 @@ struct SelectButton: View, SelecterbleProtocol{
                         Text(tip)
                             .modifier(MediumTextStyle(
                                 size: Font.size.thin, color: Color.app.grey400))
+                            .multilineTextAlignment(.leading)
+                            .padding(.bottom, Dimen.margin.micro)
                     }
                     Text(self.text)
                         .modifier(MediumTextStyle(
                             size: Font.size.light,
                             color: self.isSelected ? Color.brand.primary : Color.app.black))
+                        .multilineTextAlignment(.leading)
                     
                     if let tip = self.description {
                         Text(tip)
                             .modifier(MediumTextStyle(
                                 size: Font.size.thin, color: Color.app.grey400))
+                            .multilineTextAlignment(.leading)
                     }
                     
                 }

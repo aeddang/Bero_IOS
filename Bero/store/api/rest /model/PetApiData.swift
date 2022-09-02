@@ -32,4 +32,5 @@ struct PetData : Decodable {
     private(set) var tagHeight: String? = nil
     private(set) var tagInterest: String? = nil
     private(set) var tagBreed: String? = nil
+    private(set) var introduce: String? = nil
 }

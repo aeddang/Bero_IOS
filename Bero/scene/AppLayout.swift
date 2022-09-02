@@ -163,7 +163,7 @@ struct AppLayout: PageComponent{
             self.appSceneObserver.sheet = .select(
                 String.alert.addDogTitle,
                 String.alert.addDogText,
-                Asset.image.addDog,
+                image:Asset.image.addDog,
                 [String.button.later,String.button.ok]){ idx in
                     if idx == 1 {
                         self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))

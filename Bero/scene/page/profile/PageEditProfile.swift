@@ -35,8 +35,8 @@ extension PageEditProfile{
         var caption:String? {
             switch self {
             case .name : return String.app.name
-            case .weight: return "Weight (lbs)"
-            case .height: return "Height (feet)"
+            case .weight: return "Weight (kg)"
+            case .height: return "Height (cm)"
             case .birth : return "Select your birthday"
             case .immun: return "Select all that applies"
             case .animalId: return String.app.animalId

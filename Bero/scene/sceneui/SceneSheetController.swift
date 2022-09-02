@@ -11,9 +11,9 @@ import SwiftUI
 import Combine
 
 enum SceneSheet {
-    case confirm(String?, String?, String?, (Bool) -> Void),
-         select(String?, String?, String?, [String], (Int) -> Void),
-         alert(String?, String?, String?, String? = nil, (() -> Void)? = nil)
+    case confirm(String?, String?, image:String?=nil, (Bool) -> Void),
+         select(String?, String?, image:String?=nil, [String], (Int) -> Void),
+         alert(String?, String?, image:String?=nil, confirm:String? = nil, (() -> Void)? = nil)
 }
 
 enum SceneSheetResult {

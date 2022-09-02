@@ -25,12 +25,7 @@ struct HorizontalProfile: PageComponent{
             default : return ""
             }
         }
-        var emptyText:String{
-            switch self {
-            case .pet : return String.pageText.addDogEmpty
-            default : return ""
-            }
-        }
+        
         
         var useDescription:Bool{
             switch self {
@@ -61,7 +56,7 @@ struct HorizontalProfile: PageComponent{
         }
     }
     enum FuncType{
-        case addFriend, button(String), more
+        case addFriend, button(String), more, delete
     }
     
     let id:String
@@ -115,11 +110,13 @@ struct HorizontalProfile: PageComponent{
                             color: Color.app.grey300
                         ))
                         .padding(.bottom, self.sizeType.titleSpacing)
-                    Text(self.type.emptyText)
-                        .modifier(RegularTextStyle(
-                            size: Font.size.thin,
-                            color: Color.app.grey300
-                        ))
+                    if let description = self.description {
+                        Text(description)
+                            .modifier(RegularTextStyle(
+                                size: Font.size.thin,
+                                color: Color.app.grey300
+                            ))
+                    }
                 } else {
                     if let name = self.name {
                         Text(name)
@@ -198,6 +195,13 @@ struct HorizontalProfile: PageComponent{
                 }
             } else if let funcType = self.funcType {
                 switch funcType {
+                case .delete :
+                    ImageButton(
+                        defaultImage: Asset.icon.delete,
+                        defaultColor: self.isSelected ? Color.app.white : Color.app.grey400
+                    ){ _ in
+                        self.action?()
+                    }
                 case .more :
                     ImageButton(
                         defaultImage: Asset.icon.direction_right,
@@ -280,11 +284,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 sizeType: .small,
                 image: nil,
                 imagePath: nil,
-                name: "name",
-                gender: .female,
-                age: "20",
-                breed: "dog",
-                isSelected: false,
+                description: String.pageText.addDogEmpty,
                 isEmpty: true
             ){
                 

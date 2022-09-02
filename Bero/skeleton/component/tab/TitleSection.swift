@@ -89,6 +89,10 @@ struct TitleSection_Previews: PreviewProvider {
             ){
                 
             }
+            
+            TitleSection(
+                title: "TITLE"
+            )
         }
         .padding(.all, 20)
     }

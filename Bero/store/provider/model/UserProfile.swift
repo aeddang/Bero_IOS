@@ -40,9 +40,14 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
             self.imagePath = data.pictureUrl
         }
         self.type = SnsType.getType(code: data.providerType)
-        if let name = data.name {
+        
+        self.gender = Gender.getGender(data.sex)
+        self.birth = data.birthdate?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
+        self.introduction = data.introduce
+        if !(self.introduction?.isEmpty == false) , let name = data.name {
             self.introduction = String.pageText.introductionDefault.replace(name)
         }
+        
         self.image = nil
     }
     
@@ -53,6 +58,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
         if let value = data.gender { self.gender = value }
         if let value = data.birth { self.birth = value }
         if let value = data.email { self.email = value }
+        if let value = data.introduction { self.introduction  = value }
         return self
     }
     

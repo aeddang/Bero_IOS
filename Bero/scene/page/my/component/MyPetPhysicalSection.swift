@@ -8,48 +8,30 @@ struct MyPetPhysicalSection: PageComponent{
 
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.physicalInformation){ type in }
+            TitleTab(type:.section, title: String.pageTitle.physicalInformation, buttons: [.edit]){ type in
+                switch type {
+                case .edit :
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.modifyPetHealth)
+                            .addParam(key: .data, value: profile)
+                    )
+                default : break
+                }
+                
+            }
             HStack(spacing:Dimen.margin.thin){
-                Button(action: {
-                    
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.editProfile)
-                            .addParam(key: .data, value: self.profile)
-                            .addParam(key: .type, value: PageEditProfile.EditType.weight)
-                    )
-                    
-                }) {
-                    PropertyInfo(
-                        title: String.app.weight,
-                        value: self.weight
-                    )
-                }
-                Button(action: {
-                    
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.editProfile)
-                            .addParam(key: .data, value: self.profile)
-                            .addParam(key: .type, value: PageEditProfile.EditType.height)
-                    )
-                    
-                }) {
-                    PropertyInfo(
-                        title: String.app.height,
-                        value: self.height
-                    )
-                }
-                Button(action: {
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.editProfile)
-                            .addParam(key: .data, value: self.profile)
-                            .addParam(key: .type, value: PageEditProfile.EditType.immun)
-                    )
-                }) {
-                    PropertyInfo(
-                        title: String.app.immunization,
-                        value: self.immunization
-                    )
-                }
+                PropertyInfo(
+                    title: String.app.weight,
+                    value: self.weight
+                )
+                PropertyInfo(
+                    title: String.app.height,
+                    value: self.height
+                )
+                PropertyInfo(
+                    title: String.app.immunization,
+                    value: self.immunization
+                )
             }
             HStack(spacing: 0){
                 Text(String.app.animalId)
@@ -57,18 +39,10 @@ struct MyPetPhysicalSection: PageComponent{
                         size: Font.size.thin, color: Color.app.grey400))
                     .fixedSize()
                 Spacer()
-                Button(action: {
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.editProfile)
-                            .addParam(key: .data, value: self.profile)
-                            .addParam(key: .type, value: PageEditProfile.EditType.animalId)
-                    )
-                }) {
-                    Text(self.animalId)
-                        .modifier(RegularTextStyle(
-                            size: Font.size.thin, color: Color.app.grey500))
-                        .fixedSize()
-                }
+                Text(self.animalId)
+                    .modifier(RegularTextStyle(
+                        size: Font.size.thin, color: Color.app.grey500))
+                    .fixedSize()
             }
             HStack(spacing: 0){
                 Text(String.app.microchip)
@@ -76,18 +50,10 @@ struct MyPetPhysicalSection: PageComponent{
                         size: Font.size.thin, color: Color.app.grey400))
                     .fixedSize()
                 Spacer()
-                Button(action: {
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.editProfile)
-                            .addParam(key: .data, value: self.profile)
-                            .addParam(key: .type, value: PageEditProfile.EditType.microchip)
-                    )
-                }) {
-                    Text(self.microchip)
-                        .modifier(RegularTextStyle(
-                            size: Font.size.thin, color: Color.app.grey500))
-                        .fixedSize()
-                }
+                Text(self.microchip)
+                    .modifier(RegularTextStyle(
+                        size: Font.size.thin, color: Color.app.grey500))
+                    .fixedSize()
                 
             }
         }
@@ -97,7 +63,7 @@ struct MyPetPhysicalSection: PageComponent{
         }
         .onReceive(self.profile.$size){ size in
             guard let h = size else {return}
-            self.height = h.description + String.app.inch
+            self.height = h.description + String.app.cm
         }
         .onReceive(self.profile.$immunStatus){ immunStatus in
             guard let status = immunStatus else {return}

@@ -27,6 +27,8 @@ extension String {
         
         public static let kmPerH = "kmPerH"
         public static let km = "km"
+        public static let m = "m"
+        public static let cm = "cm"
         public static let min = "min"
         public static let kg = "kg"
         public static let inch = "”"
@@ -72,6 +74,10 @@ extension String {
         
         public static var addDogTitle = "Add your dog"
         public static var addDogText = "Start with telling more about your dog."
+        
+        public static var deleteDogTitle = "Are you sure you want to delete Bero’s profile?"
+        public static var deleteDogText = "The data, information, and history of the dog will be permanently deleted."
+        public static var deleteDogConfirm = "Yes, delete"
         
         public static var completedError = "Save fail. retry."
         public static var completedNeedPicture = "Need picture with your Dog."
@@ -123,6 +129,7 @@ extension String {
         public static let myDogs = "My dogs"
         public static let myProfile = "My Profile"
         public static let dogProfile = "Dog Profile"
+        public static let healthInformation = "Health Information"
     }
     
 

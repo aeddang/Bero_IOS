@@ -6,10 +6,11 @@ struct MyDogsSection: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.myDogs, buttons:self.pets.isEmpty ? [] : [.manageDogs])
+            TitleTab(type:.section, title: String.pageTitle.myDogs, buttons:[.manageDogs])
             { type in
                 switch type {
-                case .manageDogs : break
+                case .manageDogs :
+                    self.pagePresenter.openPopup(PageProvider.getPageObject(.manageDogs))
                 default : break
                 }
             }
