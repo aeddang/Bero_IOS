@@ -115,6 +115,10 @@ extension String {
         public static let edit = "Edit"
         public static let viewMore = "View more"
         public static let manageDogs = "Manage dogs"
+        public static let addFriend = "Add friend"
+        public static let chat = "Chat"
+        public static let requestSent = "Request sent"
+        public static let removeFriend = "Remove friend"
 
     }
     
@@ -128,12 +132,16 @@ extension String {
         public static let friends = "friends"
         public static let myDogs = "My dogs"
         public static let myProfile = "My Profile"
+        public static let myLv = "My Heart Level"
         public static let dogProfile = "Dog Profile"
         public static let healthInformation = "Health Information"
+        public static let usersDogs = "%s’s dogs"
+        
     }
     
 
     struct pageText {
+        //for page
         public static let introText1_1 = "Walk your dog\nwith fun missions."
         public static let introText1_2 = "Walking dogs never been this\nfun! Explore new routes with\nthe daily and monthly missions."
         public static let introText2_1 = "Earn Encrypted\nCoins as you walk."
@@ -145,15 +153,19 @@ extension String {
         public static let loginText = "Let’s walk\nour dogs together!"
         public static let loginButtonText = "Continue with "
         
-        public static let introductionDefault = "Hello, I am @%s. Let’s be friends!"
-        
-        
         public static let addDogCompletedText1 = "Nice to meet you"
         public static let addDogCompletedText2 = "There are so many fun walks and dog friends waiting for you!"
         public static let addDogCompletedConfirm = "Start exploring"
         public static let addDogEmpty = "No dog added yet."
-        public static let historyCompleted = "%s completed"
         
+        public static let myLvText = "Earn friendship to level up your heart!"
+        public static let myLvText1 = "How to earn friendship"
+        public static let myLvText2 = "Welcome to %s!"
+        public static let myLvText3 = "Earn +%s friendship to level up!"
+        
+        //for component
+        public static let introductionDefault = "Hello, I am @%s. Let’s be friends!"
+        public static let historyCompleted = "%s completed"
         public static let missionCompletedSaved = "Mission saved."
         public static let walkCompletedSaved = "Mission saved."
         

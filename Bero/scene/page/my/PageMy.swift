@@ -69,7 +69,8 @@ struct PageMy: PageView {
                         MyDogsSection()
                             .padding(.top, Dimen.margin.regular)
                         
-                        MyFriendSection(
+                        FriendSection(
+                            user: self.dataProvider.user,
                             listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                         )
                         .padding(.horizontal, Dimen.app.pageHorinzontal)

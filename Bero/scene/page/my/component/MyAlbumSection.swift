@@ -4,14 +4,13 @@ import SwiftUI
 struct MyAlbumSection: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
-    var user:User? = nil
-    var profile:PetProfile? = nil
     var listSize:CGFloat = 300
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
             TitleTab(type:.section, title: String.pageTitle.album, buttons: self.isEmpty ? [] : [.viewMore]){ type in
                 switch type {
-                case .viewMore : self.moveAlbum()
+                case .viewMore :
+                    self.pagePresenter.openPopup(PageProvider.getPageObject(.myAlbum))
                 default : break
                 }
             }
@@ -55,9 +54,10 @@ struct MyAlbumSection: PageComponent{
     @State var albumSize:CGSize = .zero
     private func updateAlbum(){
         let w = (self.listSize - Dimen.margin.regularExtra)/2
+        self.currentId = self.dataProvider.user.snsUser?.snsID ?? ""
         self.albumSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getAlbumPictures(id: self.currentId, .user, page: 1, size: 2)))
+                .getAlbumPictures(id: self.currentId, .mission, page: 0, size: 2)))
         
         
     }
@@ -67,8 +67,6 @@ struct MyAlbumSection: PageComponent{
     }
     private func loaded(_ res:ApiResultResponds){
         guard let datas = res.data as? [PictureData] else { return }
-        
-        
         var added:[AlbumListItemData] = []
         let start = 0
         let end = max(2,datas.count)

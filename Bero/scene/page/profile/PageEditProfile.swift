@@ -61,6 +61,12 @@ extension PageEditProfile{
             default : return .namePhonePad
             }
         }
+        var keyboardReturnType:UIReturnKeyType {
+            switch self {
+            case .introduction : return .default
+            default : return .done
+            }
+        }
     }
     struct EditData {
         var name:String? = nil

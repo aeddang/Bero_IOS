@@ -123,7 +123,7 @@ class Mission:MapUserData{
     
     private (set) var place:MissionPlace? = nil
     private (set) var user:User? = nil
-   
+    private(set) var completedMissions:[Int] = []
     var viewDistance:String { return WalkManager.viewDistance(self.distance) }
     var viewDuration:String { return WalkManager.viewDuration(self.duration) }
     var viewPlayTime:String { return WalkManager.viewDuration(self.playTime) }
@@ -194,6 +194,7 @@ class Mission:MapUserData{
         self.destination = data.currentLocation
         self.distance = data.walkDistence
         self.duration = data.walkTime
+        self.completedMissions = data.completedMissions
         return self
     }
 }

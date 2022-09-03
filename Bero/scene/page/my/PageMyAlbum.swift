@@ -1,0 +1,89 @@
+//
+//  PageTest.swift
+//  today
+//
+//  Created by JeongCheol Kim on 2020/05/29.
+//  Copyright © 2020 JeongCheol Kim. All rights reserved.
+//
+
+import Foundation
+import SwiftUI
+import WebKit
+import Combine
+import Firebase
+import FacebookLogin
+import FirebaseCore
+import GoogleSignInSwift
+
+struct PageMyAlbum: PageView {
+    enum ViewType{
+        case info, album
+    }
+    @EnvironmentObject var pagePresenter:PagePresenter
+    @EnvironmentObject var pageSceneObserver:PageSceneObserver
+    @EnvironmentObject var appObserver:AppObserver
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
+    @EnvironmentObject var dataProvider:DataProvider
+    @ObservedObject var pageObservable:PageObservable = PageObservable()
+    @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
+    @ObservedObject var navigationModel:NavigationModel = NavigationModel()
+    @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
+    
+    let buttons = [String.button.information, String.button.album]
+    var body: some View {
+        GeometryReader { geometry in
+            PageDragingBody(
+                pageObservable: self.pageObservable,
+                viewModel:self.pageDragingModel,
+                axis:.horizontal
+            ) {
+                VStack(alignment: .leading, spacing: 0 ){
+                    TitleTab(
+                        type:.section,
+                        title:String.button.album,
+                        alignment: .center,
+                        useBack:true
+                    ){ type in
+                        switch type {
+                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                        default : break
+                        }
+                    }
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    AlbumList(
+                        infinityScrollModel: self.infinityScrollModel,
+                        user:self.dataProvider.user,
+                        listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                    )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                }
+                .modifier(PageVertical())
+                .modifier(MatchParent())
+                .background(Color.brand.bg)
+                .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
+                
+            }//draging
+            
+        }//GeometryReader
+    }//body
+
+}
+
+
+#if DEBUG
+struct PageMyAlbum_Previews: PreviewProvider {
+    static var previews: some View {
+        Form{
+            PageMyAlbum().contentBody
+                .environmentObject(Repository())
+                .environmentObject(PagePresenter())
+                .environmentObject(PageSceneObserver())
+                .environmentObject(AppObserver())
+                .environmentObject(AppSceneObserver())
+                .environmentObject(DataProvider())
+                .frame(width: 375, height: 640, alignment: .center)
+        }
+    }
+}
+#endif
+

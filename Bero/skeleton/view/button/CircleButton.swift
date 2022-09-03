@@ -14,9 +14,7 @@ struct CircleButton: View, SelecterbleProtocol {
         var size:CGFloat{
             switch self {
             case .tiny : return Dimen.icon.micro
-            case .icon : return Dimen.icon.mediumUltra
-            case .text : return Dimen.icon.mediumUltra
-            case .image : return Dimen.icon.mediumUltra
+            default : return Dimen.icon.mediumUltra
             }
         }
     }
@@ -49,7 +47,8 @@ struct CircleButton: View, SelecterbleProtocol {
                             size: Font.size.tiny,
                             color: self.isSelected ? Color.app.white : self.defaultColor
                         ))
-                case .image(let path):
+                
+                 case .image(let path):
                     ProfileImage(
                         id : "",
                         imagePath: path,

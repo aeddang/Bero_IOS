@@ -72,7 +72,6 @@ class InfinityScrollModel:ComponentObservable{
     fileprivate(set) var appearValue:Float = 0
 
     var initIndex:Int? = nil
-   
     let idstr:String = UUID().uuidString
     let topIdx:Int = UUID.init().hashValue
     var size = 20

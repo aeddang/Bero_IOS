@@ -159,7 +159,7 @@ struct AppLayout: PageComponent{
             self.appSceneObserver.event = .debug("apns exist")
             self.appSceneObserver.alert = .recivedApns
         } else {
-            
+            /*
             self.appSceneObserver.sheet = .select(
                 String.alert.addDogTitle,
                 String.alert.addDogText,
@@ -168,7 +168,7 @@ struct AppLayout: PageComponent{
                     if idx == 1 {
                         self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
                     }
-            }
+            }*/
         }
     }
     

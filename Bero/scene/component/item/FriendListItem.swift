@@ -54,7 +54,8 @@ struct FriendListItem: PageComponent{
                 image: nil,
                 imagePath: self.data.imagePath,
                 imageSize: self.imgSize,
-                name: self.data.text
+                name: self.data.text,
+                buttonAction: self.action
             )
         }
     }

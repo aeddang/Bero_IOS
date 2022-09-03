@@ -39,6 +39,7 @@ struct InputTextEdit: PageComponent{
                 limitedLine: self.limitedLine,
                 limitedTextLength: self.limitedTextLength,
                 keyboardType: self.type.keyboardType,
+                returnKeyType: self.type.keyboardReturnType,
                 onFocus: {
                     withAnimation{ self.isEditing = true }
                 },
@@ -97,7 +98,8 @@ struct InputTextEdit: PageComponent{
         switch self.type {
         case .name :
             self.edit(.init(name : self.input))
-            
+        case .introduction :
+            self.edit(.init(introduction : self.input))
         case .weight :
             self.edit(.init(weight : self.input.toDouble()))
         case .height :

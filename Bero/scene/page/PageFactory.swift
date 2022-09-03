@@ -16,7 +16,9 @@ extension PageID{
     static let matching:PageID = "matching"
     static let diary:PageID = "diary"
     static let my:PageID = "my"
-    static let myDog:PageID = "myDog"
+    static let dog:PageID = "dog"
+    static let user:PageID = "user"
+    static let myAlbum:PageID = "myAlbum"
     static let manageDogs:PageID = "manageDogs"
     static let modifyUser:PageID = "modifyUser"
     static let modifyPet:PageID = "modifyPet"
@@ -98,6 +100,7 @@ extension PageParam {
     static let link = "link"
     static let data = "data"
     static let datas = "datas"
+    static let subData = "subData"
     static let type = "type"
     static let subType = "subType"
     static let title = "title"
@@ -142,7 +145,9 @@ struct PageFactory{
         case .login : return PageLogin()
         case .walk : return PageWalk()
         case .my : return PageMy()
-        case .myDog : return PageMyDog()
+        case .dog : return PageDog()
+        case .user : return PageUser()
+        case .myAlbum : return PageMyAlbum()
         case .manageDogs : return PageManageDogs()
         case .addDog : return PageAddDog()
         case .addDogCompleted : return PageAddDogCompleted()

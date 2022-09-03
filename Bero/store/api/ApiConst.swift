@@ -43,7 +43,7 @@ enum ApiValue:String{
 }
       
 enum ApiType{
-    case getUser(SnsUser, isCanelAble:Bool? = true),
+    case getUser(SnsUser, isCanelAble:Bool? = true), getUserDetail(userId:String),
          updateUser(SnsUser, ModifyUserProfileData), updateUserImage(SnsUser, UIImage?)
     case joinAuth(SnsUser, SnsUserInfo?), reflashAuth
     case registPet(SnsUser, ModifyPetProfileData), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),
@@ -56,12 +56,12 @@ enum ApiType{
          completeMission(Mission, [PetProfile], image:String? = nil),
          getMissionSummary(petId:Int)
     
-    case checkHumanWithDog(UIImage)
+    case checkHumanWithDog(img:UIImage,thumbImg:UIImage)
     
     case getAlbumPictures(id:String, AlbumApi.Category, page:Int? = nil, size:Int? = nil),
          registAlbumPicture(img:UIImage, thumbImg:UIImage, id:String, AlbumApi.Category),
          deleteAlbumPictures(ids:String),
-         updateAlbumPictures(pictureId:Int, isLike:Bool)
+         updateAlbumPicture(pictureId:Int, isLike:Bool)
     
     case getWeather(CLLocation),
          getWeatherCity(id:String, type:ApiAction = .cities),

@@ -14,7 +14,10 @@ import Firebase
 import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
-struct PageMyDog: PageView {
+extension PageDog{
+    static let height:CGFloat = 232
+}
+struct PageDog: PageView {
     enum ViewType{
         case info, album
     }
@@ -53,11 +56,12 @@ struct PageMyDog: PageView {
                                         .addParam(key: .data, value: profile)
                                 )
                             }
-                            .frame(height: self.topHeight)
+                            .frame(height: self.originTopHeight)
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.medium)
                         }
-                        .opacity(self.topHeight/PetProfileTopInfo.height)
+                        .frame(height: self.topHeight)
+                        .padding(.top, Dimen.margin.medium * (self.topHeight/self.originTopHeight))
+                        .opacity(self.topHeight/Self.height)
                         MenuTab(
                             viewModel:self.navigationModel,
                             type: .line,
@@ -70,6 +74,7 @@ struct PageMyDog: PageView {
                         case .album :
                             AlbumList(
                                 infinityScrollModel: self.infinityScrollModel,
+                                user: user,
                                 profile:profile,
                                 listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                             )
@@ -104,6 +109,8 @@ struct PageMyDog: PageView {
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                                     .padding(.top, Dimen.margin.medium)
                                 
+                                Spacer().frame(width: 0, height: self.originTopHeight-self.topHeight)
+                                
                             }
                         }
                         
@@ -126,46 +133,58 @@ struct PageMyDog: PageView {
                 withAnimation{
                     self.menuIdx = idx
                 }
-                self.topHeight = PetProfileTopInfo.height
+                self.topHeight = self.originTopHeight
             }
-            .onReceive(self.infinityScrollModel.$event){ evt in
-                guard let evt = evt else {return}
-                switch evt{
-                case .top :
-                    self.isTopHold = true
-                break
-                }
-            }
+            
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
-                if self.isTopHold {return}
+                if scrollPos > 0 {return}
+                if self.viewType == .album
+                    && ceil(Float(self.infinityScrollModel.total) / Float(AlbumList.row) ) < 2 {return}
+                
                 PageLog.d("scrollPos " + scrollPos.description, tag:self.tag)
-                self.topHeight = max(PetProfileTopInfo.height + scrollPos, 0)
+                self.topHeight = max(self.originTopHeight + scrollPos, 0)
             }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
+                if let user = obj.getParamValue(key: .subData) as? User{
+                    self.user = user
+                }
                 if let profile = obj.getParamValue(key: .data) as? PetProfile{
                     self.profile = profile
+                    self.setupTopHeight(geometry: geometry)
                 }
             
             }
         }//GeometryReader
        
     }//body
+    @State var user:User? = nil
     @State var profile:PetProfile? = nil
     @State var viewType:ViewType = .info
     @State var menuIdx:Int = 0
-    
-    @State var isTopHold:Bool = false
-    @State var topHeight:CGFloat = PetProfileTopInfo.height
+    @State var topHeight:CGFloat = Self.height
+    @State var originTopHeight:CGFloat = Self.height
+
+    private func setupTopHeight(geometry:GeometryProxy){
+        guard let text = self.profile?.introduction else {
+            self.originTopHeight = Self.height
+            return
+        }
+        let w = geometry.size.width - 2*(Dimen.app.pageHorinzontal + VerticalProfile.descriptionPadding)
+        let textH = VerticalProfile.descriptionStyle.textModifier.getTextHeight(text, screenWidth: w)
+        let addTextHeight = textH - VerticalProfile.descriptionStyle.textModifier.size
+        self.originTopHeight = Self.height + addTextHeight
+        self.topHeight = max(self.originTopHeight + self.infinityScrollModel.scrollPosition, 0)
+    }
     
 }
 
 
 #if DEBUG
-struct PageMyDog_Previews: PreviewProvider {
+struct PageDog_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            PageMyDog().contentBody
+           PageDog().contentBody
                 .environmentObject(Repository())
                 .environmentObject(PagePresenter())
                 .environmentObject(PageSceneObserver())

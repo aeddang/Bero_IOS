@@ -1,10 +1,10 @@
 import Foundation
 import SwiftUI
 
-struct MyFriendSection: PageComponent{
+struct FriendSection: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
-
+    var user:User
     var listSize:CGFloat = 300
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
@@ -37,7 +37,9 @@ struct MyFriendSection: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getMission: self.loaded(res)
+            case .getMission:
+                self.reset()
+                self.loaded(res)
             default : break
             }
         }
@@ -53,14 +55,18 @@ struct MyFriendSection: PageComponent{
     private func updateFriend(){
         self.imageSize = (self.listSize - (Dimen.margin.medium*2)) / 3
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                 .getMission(userId: self.dataProvider.user.snsUser?.snsID ?? "",
+                 .getMission(userId: self.user.snsUser?.snsID ?? "",
                              petId: nil, .all,
                              page: 1, size: 3)))
         
     }
-    
+    private func reset(){
+        self.friends = []
+        self.friendDataSets = []
+    }
     private func loaded(_ res:ApiResultResponds){
         guard let datas = res.data as? [MissionData] else { return }
+        
         var added:[FriendListItemData] = []
         let start = self.friends.count
         let end = start + datas.count
@@ -74,7 +80,6 @@ struct MyFriendSection: PageComponent{
         }
     }
                           
-    
     private func setupFriendDataSet(added:[FriendListItemData]){
         let count:Int = 3
         var rows:[FriendListItemDataSet] = []
@@ -100,7 +105,10 @@ struct MyFriendSection: PageComponent{
     }
     
     private func moveFriend(id:String? = nil){
-        
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.user)
+                .addParam(key: .id, value:id)
+        )
     }
 }
 

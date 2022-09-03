@@ -53,6 +53,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.snsUser = SnsUser(snsType: type, snsID: id, snsToken: token)
     }
     
+    @discardableResult
     func setData(_ data:MissionData) -> User {
         self.recentMission = History(data: data)
         if let user = data.user {
@@ -72,10 +73,19 @@ class User:ObservableObject, PageProtocol, Identifiable{
         return self
     }
     
-    func setData(data:UserData){
+    @discardableResult
+    func setData(data:UserData) -> User {
+        if self.snsUser == nil,  let type = SnsType.getType(code: data.providerType), let id = data.userId {
+            self.snsUser = SnsUser(
+                snsType: type,
+                snsID: id,
+                snsToken: ""
+            )
+        }
         self.point = data.point ?? 0
         self.currentProfile.setData(data: data)
         self.event = .updatedProfile(self.currentProfile)
+        return self
     }
     
     func setData(data:[PetData], isMyPet:Bool = true){
@@ -178,6 +188,69 @@ enum Gender:String {
     }
 }
 
+enum Lv {
+    case purple, blue, lightBlue, sky, lightSky, green, lightGreen, yellow , orange, red
+    var icon : String {
+        switch self {
+        case .purple : return Asset.icon.favorite_on
+        case .blue : return Asset.icon.favorite_on
+        case .lightBlue : return Asset.icon.favorite_on
+        case .sky : return Asset.icon.favorite_on
+        case .lightSky : return Asset.icon.favorite_on
+        case .green : return Asset.icon.favorite_on
+        case .lightGreen : return Asset.icon.favorite_on
+        case .yellow : return Asset.icon.favorite_on
+        case .orange : return Asset.icon.favorite_on
+        case .red : return Asset.icon.favorite_on
+        }
+    }
+    var color : Color {
+        switch self {
+        case .purple : return Color.init(rgb:0x9A7DEB)
+        case .blue : return Color.init(rgb:0x7D88EB)
+        case .lightBlue : return Color.init(rgb:0x7DA9EB)
+        case .sky : return Color.init(rgb:0x7DCAEB)
+        case .lightSky : return Color.init(rgb:0x71E4D0)
+        case .green : return Color.init(rgb:0x51DF8A)
+        case .lightGreen : return Color.init(rgb:0x9CEF6A)
+        case .yellow : return Color.init(rgb:0xF8D41C)
+        case .orange : return Color.init(rgb:0xFFAD31)
+        case .red : return Color.brand.primary
+        }
+    }
+    
+    var title : String {
+        switch self {
+        case .purple : return "개집사"
+        case .blue : return "집사"
+        case .lightBlue : return "강아지"
+        case .sky : return "개"
+        case .lightSky : return "강아지주인"
+        case .green : return "개주인"
+        case .lightGreen : return "개장수"
+        case .yellow : return "동물원장"
+        case .orange : return "동물의왕"
+        case .red : return "왕"
+        }
+    }
+        
+    static func getLv(_ value:Int) -> Lv?{
+        switch value{
+        case 1...10 : return .purple
+        case 10...20 : return .blue
+        case 20...30 : return .lightBlue
+        case 30...40 : return .sky
+        case 40...50 : return .lightSky
+        case 50...60 : return .green
+        case 60...70 : return .lightGreen
+        case 70...80 : return .yellow
+        case 80...90 : return .orange
+        case 90...100 : return .red
+        default : return .red
+        }
+    }
+}
+
 struct ModifyUserData {
     var point:Double?
     var mission:Double?
@@ -185,7 +258,6 @@ struct ModifyUserData {
 }
 
 class History:InfinityData {
-   
     private(set) var missionId: Int? = nil
     private(set) var category: String? = nil
     private(set) var title: String? = nil

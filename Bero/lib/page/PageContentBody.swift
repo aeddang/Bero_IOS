@@ -196,7 +196,7 @@ struct PageContentBody: PageView  {
             self.offsetY = self.pageObservable.pagePosition.y
             if self.pageObject?.animationType == .opacity { self.opacity = 0 }
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
                 self.isReady = true
                 self.pageObservable.status = .appear
                 self.pageObservable.pagePosition.x = 0

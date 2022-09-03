@@ -1,8 +1,6 @@
 import Foundation
 import SwiftUI
-extension PetProfileTopInfo{
-    static let height:CGFloat = 252
-}
+
 struct PetProfileTopInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider

@@ -166,6 +166,10 @@ class ApiManager :PageProtocol, ObservableObject{
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
             }
+        case .getUserDetail(let userId) :
+            self.user.get(userId: userId,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
         case .updateUser(let user, let modifyData) :
             self.userUpdate.put(user: user, modifyData:modifyData,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
@@ -232,8 +236,8 @@ class ApiManager :PageProtocol, ObservableObject{
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
     
-        case .checkHumanWithDog(let img) :
-            self.vision.post(img: img, action: .detecthumanwithdog,
+        case .checkHumanWithDog(let img, let thumb) :
+            self.vision.post(img: img, thumbImg: thumb, action: .detecthumanwithdog,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
         case .getAlbumPictures(let id, let cate, let page , let size) :
@@ -248,7 +252,7 @@ class ApiManager :PageProtocol, ObservableObject{
             self.album.delete(ids: ids,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
-        case .updateAlbumPictures(let pictureId, let isLike) :
+        case .updateAlbumPicture(let pictureId, let isLike) :
             self.album.put(id: pictureId, isLike: isLike,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)

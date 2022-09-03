@@ -134,6 +134,7 @@ class MissionApi :Rest{
             geos.append(geo)
         }
         params["geos"] = geos
+        params["missionIds"] =  mission.completedMissions
         fetch(route: MissionApiRoute (method: .post, body: params), completion: completion, error:error)
     }
     

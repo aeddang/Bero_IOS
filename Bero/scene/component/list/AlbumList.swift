@@ -8,6 +8,9 @@
 import Foundation
 import Foundation
 import SwiftUI
+extension AlbumList {
+    static let row:Int = 2
+}
 
 struct AlbumList: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -85,8 +88,9 @@ struct AlbumList: PageComponent{
     @State var albumDataSets:[AlbumListItemDataSet] = []
     @State var albumSize:CGSize = .zero
     private func updateAlbum(){
+        self.currentId = self.user?.snsUser?.snsID ?? ""
         self.resetScroll()
-        let w = self.listSize - Dimen.margin.regularExtra
+        let w = (self.listSize - Dimen.margin.regularExtra) / CGFloat(Self.row)
         self.albumSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
         self.loadAlbum()
         
@@ -95,9 +99,9 @@ struct AlbumList: PageComponent{
         if self.infinityScrollModel.isLoading {return}
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
-        self.currentId = self.dataProvider.user.snsUser?.snsID ?? ""
+        self.currentId = self.user?.snsUser?.snsID ?? ""
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getAlbumPictures(id: self.currentId, .user, page: self.infinityScrollModel.page)))
+                .getAlbumPictures(id: self.currentId, .mission, page: self.infinityScrollModel.page)))
         
     }
     
@@ -122,7 +126,7 @@ struct AlbumList: PageComponent{
     }
     
     private func setupAlbumDataSet(added:[AlbumListItemData]){
-        let count:Int = 2
+        let count:Int = Self.row
         var rows:[AlbumListItemDataSet] = []
         var cells:[AlbumListItemData] = []
         var total = added.count

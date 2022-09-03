@@ -10,11 +10,13 @@ import SwiftUI
 
 extension AlbumApi {
     enum Category:Equatable {
-        case pet, user
+        case pet, user, mission, all
         func getApiCode() -> String {
             switch self {
             case .pet : return "Pet"
             case .user : return "User"
+            case .mission : return "Mission"
+            case .all : return "All"
             }
         }
         
@@ -22,6 +24,7 @@ extension AlbumApi {
             switch value{
             case "Pet" : return .pet
             case "User" : return .user
+            case "Mission" : return .mission
             default : return nil
             }
         }
@@ -30,10 +33,15 @@ extension AlbumApi {
             switch (lhs, rhs) {
             case ( .user, .user):return true
             case ( .pet, .pet):return true
+            case ( .mission, .mission):return true
             default: return false
             }
         }
     }
+    
+    public static let originSize:CGFloat = 320
+    public static let thumbSize:CGFloat = 120
+       
 }
 
 class AlbumApi :Rest{

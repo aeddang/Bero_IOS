@@ -17,43 +17,69 @@ struct AlbumListItemDataSet:Identifiable {
     var index:Int = -1
 }
 
-class AlbumListItemData:InfinityData{
+class AlbumListItemData:InfinityData, ObservableObject{
     private(set) var imagePath:String? = nil
-    private(set) var isLike:Bool = false
-    private(set) var likeCount:Double = 0
-    func setData(_ data:MissionData, idx:Int, isMine:Bool) -> AlbumListItemData{
-        self.index = idx
-        self.imagePath = data.pictureUrl
-        self.contentID = data.missionId?.description ?? ""
-        return self
-    }
-    
+    @Published private(set) var isLike:Bool = false
+    @Published private(set) var likeCount:Double = 0
+    private(set) var pictureId:Int = -1
     func setData(_ data:PictureData, idx:Int, isMine:Bool) -> AlbumListItemData{
         self.index = idx
         self.imagePath = data.pictureUrl
-        self.contentID = data.pictureId?.description ?? ""
+        self.pictureId = data.pictureId ?? -1
         self.isLike = data.isChecked ?? false
         self.likeCount = data.thumbsupCount ?? 0
+        return self
+    }
+    
+    @discardableResult
+    func updata(isLike:Bool) -> AlbumListItemData{
+        if isLike != self.isLike {
+            self.likeCount = isLike ? self.likeCount+1 : self.likeCount-1
+            self.isLike = isLike
+        }
         return self
     }
 }
 
 struct AlbumListItem: PageComponent{
-    let data:AlbumListItemData
+    @EnvironmentObject var dataProvider:DataProvider
+    @ObservedObject var data:AlbumListItemData
     let imgSize:CGSize
-
+    
+    @State var isLike:Bool = false
+    @State var likeCount:Double = 0
     var body: some View {
         ListItem(
             id: self.data.id,
             imagePath: self.data.imagePath,
             imgSize: self.imgSize,
-            likeCount: self.data.likeCount,
-            isLike: self.data.isLike,
+            likeCount: self.likeCount,
+            isLike: self.isLike,
             likeSize: .small,
-            action:{},
+            action:{
+                self.dataProvider.requestData(
+                    q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+            },
             move:{}
         )
-        
+        .onReceive(self.data.$isLike) { isLike in
+            self.isLike = isLike
+        }
+        .onReceive(self.data.$likeCount) { value in
+            self.likeCount = value
+        }
+        .onReceive(self.dataProvider.$result){ res in
+            guard let res = res else { return }
+            switch res.type {
+            case .updateAlbumPicture(let pictureId, let isLike): self.updated(pictureId, isLike: isLike)
+            default : break
+            }
+        }
+    }
+    private func updated(_ id:Int, isLike:Bool){
+        if self.data.pictureId == id {
+            self.data.updata(isLike: isLike)
+        }
     }
 }
 

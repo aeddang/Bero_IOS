@@ -34,7 +34,7 @@ struct ScrollLazeStack<Content>: PageView where Content: View {
     @State var scrollIdx:Int? = nil
     @State var isTracking = false
     @State var anchor:UnitPoint? = nil
-    @State var isSmothMove:Bool = false
+    @State var isAnimationMove:Bool = false
     @State var isScroll:Bool = true
     @State var progress:Double = 1
     @State var progressMax:Double = 1
@@ -82,7 +82,6 @@ struct ScrollLazeStack<Content>: PageView where Content: View {
         
     var body: some View {
         if #available(iOS 14.0, *) {
-            
             ScrollViewReader{ reader in
                 ZStack(alignment:.bottomTrailing){
                     ScrollView(self.isScroll ? self.axes : [], showsIndicators: self.axes == .vertical ? self.showIndicators : false) {
@@ -171,7 +170,7 @@ struct ScrollLazeStack<Content>: PageView where Content: View {
                 .onChange(of: self.scrollIdx, perform: { idx in
                     guard let idx = idx else {return}
                     if idx == -1 {return}
-                    if self.isSmothMove {
+                    if self.isAnimationMove {
                         withAnimation(.easeOut(duration: 0.2)){ reader.scrollTo(idx, anchor: anchor)}
                     } else {
                         reader.scrollTo(idx, anchor: anchor)
@@ -215,11 +214,11 @@ struct ScrollLazeStack<Content>: PageView where Content: View {
                     switch evt {
                     case .scrollTo(let idx, let anchor):
                         self.anchor = anchor
-                        self.isSmothMove = false
+                        self.isAnimationMove = false
                         self.scrollIdx = idx
                     case .scrollMove(let idx, let anchor):
                         self.anchor = anchor
-                        self.isSmothMove = true
+                        self.isAnimationMove = true
                         self.scrollIdx = idx
                     default: break
                     }

@@ -28,6 +28,8 @@ struct VerticalProfile: PageComponent{
             }
         }
     }
+    static let descriptionStyle = RegularTextStyle(size: Font.size.thin,color: Color.app.grey400)
+    static let descriptionPadding = Dimen.margin.light
     let id:String
     var type:ProfileType = .pet
     var sizeType:ProfileSizeType = .medium
@@ -64,12 +66,10 @@ struct VerticalProfile: PageComponent{
                     }
                     .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
                 }else if let lv = self.lv {
-                    CircleButton(
-                        type: .text("Lv." + lv.description),
-                        isSelected: true,
-                        strokeWidth: Dimen.stroke.regular,
-                        activeColor: Color.brand.primary
-                    ){ _ in
+                    HeartButton(
+                        text: lv.description,
+                        isSelected: true
+                    ){_ in
                         
                     }
                     .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
@@ -104,13 +104,13 @@ struct VerticalProfile: PageComponent{
             
             if let description = self.description{
                 ZStack{
+                    Spacer().modifier(MatchHorizontal(height: 0))
                     Text(description)
-                        .modifier(RegularTextStyle(
-                            size: Font.size.thin,color: Color.app.grey400))
-                        .padding(.horizontal, Dimen.margin.medium)
+                        .modifier(Self.descriptionStyle)
+                        .padding(.all, Self.descriptionPadding)
                         .modifier(MatchParent())
+                        .multilineTextAlignment(.center)
                 }
-                .modifier(MatchHorizontal(height: 56))
                 .background(Color.app.whiteDeepLight)
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
             }

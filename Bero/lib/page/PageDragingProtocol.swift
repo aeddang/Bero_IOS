@@ -212,23 +212,6 @@ struct PageDragingBody<Content>: PageDragingView  where Content: View{
                         .modifier(MatchVertical(width: 15, margin: 0))
                         .background(Color.transparent.clearUi)
                         .modifier(PageDraging(geometry: geometry, pageDragingModel: self.viewModel))
-                        /*
-                        .highPriorityGesture(
-                            DragGesture(minimumDistance: 5, coordinateSpace: .local)
-                                .onChanged({ value in
-                                    self.viewModel.uiEvent = .drag(geometry, value)
-                                })
-                                .onEnded({ value in
-                                    self.viewModel.uiEvent = .draged(geometry, value)
-                                })
-                        )
-                        .gesture(
-                            self.viewModel.cancelGesture
-                                .onChanged({_ in
-                                    self.viewModel.uiEvent = .dragCancel})
-                                .onEnded({_ in
-                                    self.viewModel.uiEvent = .dragCancel})
-                        )*/
                 }
             }
             .offset(self.dragAmount)

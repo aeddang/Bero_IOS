@@ -77,7 +77,7 @@ struct TitleTab: PageComponent{
     var alignment:TextAlignment = .leading
     var useBack:Bool = false
     var buttons:[ButtonType] = []
-    var action: ((ButtonType) -> Void)
+    var action: ((ButtonType) -> Void)? = nil
    
     var body: some View {
         ZStack(alignment:self.alignment == .leading ? .leading : .center){
@@ -86,7 +86,7 @@ struct TitleTab: PageComponent{
                     ImageButton(
                         defaultImage: Asset.icon.back
                     ){ _ in
-                        self.action(.back)
+                        self.action?(.back)
                     }
                 }
                 if let title = self.title {
@@ -124,7 +124,7 @@ struct TitleTab: PageComponent{
                             Text(text)
                                 .modifier(RegularTextStyle(size: Font.size.thin, color: btn.color))
                                 .onTapGesture {
-                                    self.action(btn)
+                                    self.action?(btn)
                                 }
                         }
                         if let icon = btn.icon {
@@ -132,7 +132,7 @@ struct TitleTab: PageComponent{
                                 defaultImage: icon,
                                 defaultColor: btn.color
                             ){ _ in
-                                self.action(btn)
+                                self.action?(btn)
                             }
                         }
                     }

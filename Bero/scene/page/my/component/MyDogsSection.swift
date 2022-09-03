@@ -56,8 +56,9 @@ struct MyDogsSection: PageComponent{
     
     private func movePetPage(_ profile:PetProfile){
         self.pagePresenter.openPopup(
-            PageProvider.getPageObject(.myDog)
+            PageProvider.getPageObject(.dog)
                 .addParam(key: .data, value: profile)
+                .addParam(key: .subData, value: self.dataProvider.user)
         )
     }
 }

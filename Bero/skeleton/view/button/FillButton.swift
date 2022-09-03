@@ -37,13 +37,12 @@ struct FillButton: View, SelecterbleProtocol{
     var icon:String? = nil
     var text:String = ""
     var index: Int = 0
-    var isActive: Bool = false
-    
     var size:CGFloat = Dimen.button.mediumExtra
     var color:Color = Color.app.black
     var textColor:Color? = nil
     var gradient:Gradient? = nil
     var textSize:CGFloat = Font.size.light
+    var isActive: Bool = true
     let action: (_ idx:Int) -> Void
     
     var body: some View {
@@ -84,7 +83,7 @@ struct FillButton: View, SelecterbleProtocol{
                 }
             }
             .modifier( MatchHorizontal(height: self.size) )
-            .background(self.type.bgColor(self.color))
+            .background(self.type.bgColor(self.color).opacity(self.isActive ? 1 : 0.3))
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.thin))
             .overlay(
                 RoundedRectangle(cornerRadius: Dimen.radius.thin)
@@ -93,6 +92,7 @@ struct FillButton: View, SelecterbleProtocol{
                         lineWidth: self.type.strokeWidth
                     )
             )
+            
         }
     }
 }

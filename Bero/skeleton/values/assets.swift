@@ -10,9 +10,9 @@ import Foundation
 struct Asset {}
 extension Asset {
     public static let appIcon = "launcher"
-    public static let noImg16_9 = "present"
-    public static let noImg4_3 = "present"
-    public static let noImg1_1 = "present"
+    public static let noImg16_9 = "noimage_16_9"
+    public static let noImg4_3 = "noimage_4_3"
+    public static let noImg1_1 = "noimage_1_1"
 
 }
 extension Asset{
@@ -68,7 +68,7 @@ extension Asset{
         public static let add_photo = "add_photo"
         public static let album  = "album"
         public static let chart  = "chart"
-        public static let lightening = "lightening"
+        public static let lightening_circle = "lightening_circle"
         public static let paw = "paw"
         public static let shopping_cart = "shopping_cart"
         public static let view_gallery = "view_gallery"
@@ -125,6 +125,12 @@ extension Asset{
         public static let remove_friend = "remove_friend"
         public static let vet = "vet"
         public static let hi = "hi"
+        
+        public static let cloudy = "cloudy"
+        public static let rain = "rain"
+        public static let lightening = "lightening"
+        public static let sunny = "hi"
+        
     }
     
 
@@ -143,6 +149,8 @@ extension Asset{
         public static let profile_dog_default = "profile_dog_default"
         public static let profile_user_default = "profile_user_default"
         public static let profile_deco = "profile_deco"
+        public static let hands_heart = "hands_heart"
+        
     }
     struct shape {
         public static let point = "sp_point"

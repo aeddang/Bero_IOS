@@ -100,16 +100,25 @@ struct PageWalkCompleted: PageView {
     private func pickImage(_ img:UIImage) {
         self.pagePresenter.isLoading = true
         DispatchQueue.global(qos:.background).async {
-            let uiImage = img.normalized().centerCrop().resize(to: CGSize(width: 240,height: 240))
+            let scale:CGFloat = 1.0 //UIScreen.main.scale
+            let size = CGSize(
+                width: AlbumApi.originSize * scale,
+                height: AlbumApi.originSize * scale)
+            let image = img.normalized().crop(to: size).resize(to: size)
+            
+            let sizeList = CGSize(
+                width: AlbumApi.thumbSize * scale,
+                height: AlbumApi.thumbSize * scale)
+            let thumbImage = img.normalized().crop(to: sizeList).resize(to: size)
             DispatchQueue.main.async {
                 self.pagePresenter.isLoading = false
-                self.checkResult(img: uiImage)
+                self.checkResult(img: image, thumb:thumbImage)
             }
         }
     }
     
-    private func checkResult(img:UIImage){
-        self.dataProvider.requestData(q: .init(id:self.tag, type: .checkHumanWithDog(img), isLock: true))
+    private func checkResult(img:UIImage, thumb:UIImage){
+        self.dataProvider.requestData(q: .init(id:self.tag, type: .checkHumanWithDog(img:img, thumbImg: thumb), isLock: true))
         
     }
     private func sendResult(imgPath:String?){

@@ -19,6 +19,17 @@ struct TextModifier {
     func getTextWidth(_ text:String) -> CGFloat{
         return text.textSizeFrom(fontSize: size * sizeScale).width
     }
+    func getTextHeight(_ text:String, screenWidth:CGFloat) -> CGFloat{
+        let strs = text.components(separatedBy: "\n")
+        let h = self.size + 1.2
+        var height:CGFloat = 0
+        strs.forEach{ str in
+            let w = self.getTextWidth(str)
+            let l = ceil(w / screenWidth)
+            height += (l*h)
+        }
+        return height
+    }
     func getTextLineHeight() -> CGFloat{
         return self.size + 10
     }
