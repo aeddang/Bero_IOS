@@ -19,7 +19,7 @@ struct GraphLine: PageView {
     var selectIdx:Int = -1
     var selectedColor:Color = Color.brand.primary
     var points:[Float]? = nil
-    var lineColor:Color = Color.app.grey100
+    var lineColor:Color = Color.app.grey400
     var stroke:CGFloat = Dimen.stroke.regular
     var body: some View {
         GeometryReader { geometry in

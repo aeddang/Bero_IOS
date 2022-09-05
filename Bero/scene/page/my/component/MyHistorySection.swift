@@ -8,7 +8,10 @@ struct MyHistorySection: PageComponent{
         VStack(spacing:Dimen.margin.regularExtra){
             TitleTab(type:.section, title: String.pageTitle.history){ type in }
             Button(action: {
-                
+                self.pagePresenter.openPopup(
+                    PageProvider.getPageObject(.walkHistory)
+                        .addParam(key: .data, value: self.dataProvider.user)
+                )
             }) {
                 HorizontalProfile(
                     id: "",

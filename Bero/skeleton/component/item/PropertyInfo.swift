@@ -10,10 +10,21 @@ import Foundation
 import SwiftUI
 
 struct PropertyInfo: PageComponent{
+    var icon:String? = nil
     let title:String
     var value:String = ""
+    var color:Color = Color.brand.primary
+    var bgColor:Color = Color.app.whiteDeepLight
     var body: some View {
         VStack(spacing:Dimen.margin.micro){
+            if let icon = self.icon {
+                Image(icon)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(self.color)
+                    .frame(width:Dimen.icon.light,height: Dimen.icon.light)
+            }
             Text(title)
                 .modifier(RegularTextStyle(
                     size: Font.size.tiny, color: Color.app.grey400))
@@ -22,10 +33,12 @@ struct PropertyInfo: PageComponent{
                     size: Font.size.light, color: Color.app.black))
         }
         .modifier(MatchHorizontal(height: 80))
-        .background(Color.app.whiteDeepLight)
+        .background(self.bgColor)
         .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
     }
 }
+
+
 
 #if DEBUG
 struct PropertyInfo_Previews: PreviewProvider {
@@ -33,8 +46,10 @@ struct PropertyInfo_Previews: PreviewProvider {
     static var previews: some View {
         HStack(spacing:Dimen.margin.thin){
             PropertyInfo(
+                icon: Asset.icon.speed,
                 title: "Weight",
-                value: "8.1 kg"
+                value: "8.1 kg",
+                bgColor: Color.transparent.clear
             )
             PropertyInfo(
                 title: "Weight",

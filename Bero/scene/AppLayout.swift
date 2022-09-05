@@ -201,8 +201,8 @@ struct AppLayout: PageComponent{
     }
     
     private func updateSafeArea(){
-        var bottom = self.appSceneObserver.useBottom ? Dimen.app.bottom : 0
-        self.appSceneObserver.safeBottomHeight = bottom + self.sceneObserver.safeAreaBottom
+        //let bottom = self.appSceneObserver.useBottom ? Dimen.app.bottom : 0
+        self.appSceneObserver.safeBottomHeight = self.sceneObserver.safeAreaBottom
         self.appSceneObserver.safeHeaderHeight = self.sceneObserver.safeAreaTop
     }
     

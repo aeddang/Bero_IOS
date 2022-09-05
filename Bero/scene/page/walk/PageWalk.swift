@@ -52,6 +52,7 @@ struct PageWalk: PageView {
                         isForceMove: self.$isForceMove
                     )
                 }
+                .padding(.bottom, Dimen.app.bottom)
                 .modifier(PageVertical())
             }
             .modifier(MatchParent())

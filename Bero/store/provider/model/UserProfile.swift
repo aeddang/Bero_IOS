@@ -13,6 +13,7 @@ struct ModifyUserProfileData {
 
 class UserProfile:ObservableObject, PageProtocol, Identifiable {
     private(set) var id:String = UUID().uuidString
+    private(set) var userId:String = ""
     @Published private(set) var imagePath:String? = nil
     @Published private(set) var image:UIImage? = nil
     @Published private(set) var nickName:String? = nil
@@ -32,8 +33,9 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
         self.type = data.snsType
         return self
     }
-    
-    func setData(data:UserData){
+    @discardableResult
+    func setData(data:UserData) -> UserProfile{
+        self.userId = data.userId ?? ""
         self.nickName = data.name
         self.email = data.email
         if data.pictureUrl?.isEmpty == false {
@@ -47,8 +49,11 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
         if !(self.introduction?.isEmpty == false) , let name = data.name {
             self.introduction = String.pageText.introductionDefault.replace(name)
         }
-        
         self.image = nil
+        return self
+    }
+    func setLv(_ lv:Int){
+        self.lv = lv
     }
     
     @discardableResult

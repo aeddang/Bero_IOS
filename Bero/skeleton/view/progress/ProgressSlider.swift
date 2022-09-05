@@ -13,6 +13,7 @@ struct ProgressSlider: PageView {
     var useGesture:Bool = true
     var progressHeight:CGFloat = Dimen.bar.light
     var thumbSize:CGFloat = 0
+    var color:Color = Color.brand.primary
     var radius:CGFloat = Dimen.radius.thin
     var onChange: ((Float) -> Void)? = nil
     var onChanged: ((Float) -> Void)? = nil
@@ -43,7 +44,7 @@ struct ProgressSlider: PageView {
                 
                 if self.thumbSize > 0 {
                     Circle()
-                        .foregroundColor(Color.brand.primary)
+                        .foregroundColor(self.color)
                         .frame(width: self.thumbSize, height: self.thumbSize)
                         .offset( x: self.getThumbPosition(geometry:geometry) )
                         

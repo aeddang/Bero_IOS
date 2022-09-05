@@ -129,9 +129,10 @@ struct Radio<Presenting>: View where Presenting: View {
                         
                     }
                     if self.buttons.count < 10 {
-                        VStack (alignment: .leading, spacing: Dimen.margin.regular){
+                        VStack (alignment: .leading, spacing: Dimen.margin.tiny){
                             ForEach(self.buttons) { btn in
                                 RadioButton(
+                                    type: .blank,
                                     isChecked: btn.isSelected,
                                     text: btn.title
                                 ){isSelect in
@@ -141,9 +142,10 @@ struct Radio<Presenting>: View where Presenting: View {
                         }
                     }else {
                         ScrollView(.vertical , showsIndicators: false) {
-                            LazyVStack(alignment: .leading, spacing: Dimen.margin.regular){
+                            LazyVStack(alignment: .leading, spacing: Dimen.margin.tiny){
                                 ForEach(self.buttons) { btn in
                                     RadioButton(
+                                        type: .blank,
                                         isChecked: btn.isSelected,
                                         text: btn.title
                                     ){isSelect in
@@ -268,6 +270,7 @@ struct Radio_Previews: PreviewProvider {
             
             }
         )
+        .environmentObject(PageSceneObserver())
     }
 }
 #endif

@@ -76,9 +76,8 @@ struct PageDog: PageView {
                                 infinityScrollModel: self.infinityScrollModel,
                                 user: user,
                                 profile:profile,
-                                listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                                listSize: geometry.size.width
                             )
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
                           
                         case .info :
                             InfinityScrollView(
@@ -91,24 +90,26 @@ struct PageDog: PageView {
                                 isRecycle: false,
                                 useTracking: true
                             ){
-                                MyPetTagSection(
+                                PetTagSection(
                                     profile: profile,
                                     listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.regular)
-                                MyPetPhysicalSection(
+                                PetPhysicalSection(
                                     profile: profile
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.mediumUltra)
                                 Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                     .padding(.top, Dimen.margin.medium)
-                                
-                                MyPetHistorySection(profile:profile)
-                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                    .padding(.top, Dimen.margin.medium)
-                                
+                                if let user = self.user {
+                                    PetHistorySection(
+                                        user:user,
+                                        profile:profile)
+                                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                        .padding(.top, Dimen.margin.medium)
+                                }
                                 Spacer().frame(width: 0, height: self.originTopHeight-self.topHeight)
                                 
                             }
@@ -140,7 +141,7 @@ struct PageDog: PageView {
                 if scrollPos > 0 {return}
                 if self.viewType == .album
                     && ceil(Float(self.infinityScrollModel.total) / Float(AlbumList.row) ) < 2 {return}
-                
+
                 PageLog.d("scrollPos " + scrollPos.description, tag:self.tag)
                 self.topHeight = max(self.originTopHeight + scrollPos, 0)
             }

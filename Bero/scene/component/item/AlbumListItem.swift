@@ -42,8 +42,10 @@ class AlbumListItemData:InfinityData, ObservableObject{
 }
 
 struct AlbumListItem: PageComponent{
+    @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var data:AlbumListItemData
+    var user:User? = nil
     let imgSize:CGSize
     
     @State var isLike:Bool = false
@@ -60,7 +62,50 @@ struct AlbumListItem: PageComponent{
                 self.dataProvider.requestData(
                     q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
             },
-            move:{}
+            move: {
+                self.pagePresenter.openPopup( 
+                    PageProvider.getPageObject(.album)
+                        .addParam(key: .data, value: self.user)
+                        .addParam(key: .id, value: self.data.pictureId)
+                )
+            }
+        )
+        .onReceive(self.data.$isLike) { isLike in
+            self.isLike = isLike
+        }
+        .onReceive(self.data.$likeCount) { value in
+            self.likeCount = value
+        }
+        .onReceive(self.dataProvider.$result){ res in
+            guard let res = res else { return }
+            switch res.type {
+            case .updateAlbumPicture(let pictureId, let isLike): self.updated(pictureId, isLike: isLike)
+            default : break
+            }
+        }
+    }
+    private func updated(_ id:Int, isLike:Bool){
+        if self.data.pictureId == id {
+            self.data.updata(isLike: isLike)
+        }
+    }
+}
+
+struct AlbumListDetailItem: PageComponent{
+    @EnvironmentObject var dataProvider:DataProvider
+    @ObservedObject var data:AlbumListItemData
+    let imgSize:CGSize
+    
+    @State var isLike:Bool = false
+    @State var likeCount:Double = 0
+    var body: some View {
+        ListDetailItem(
+            id: self.data.id,
+            imagePath: self.data.imagePath,
+            imgSize: self.imgSize,
+            likeCount: self.likeCount,
+            isLike: self.isLike,
+            likeSize: .small
         )
         .onReceive(self.data.$isLike) { isLike in
             self.isLike = isLike

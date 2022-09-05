@@ -67,6 +67,7 @@ struct UsersDogSection: PageComponent{
         self.pagePresenter.openPopup(
             PageProvider.getPageObject(.dog)
                 .addParam(key: .data, value: profile)
+                .addParam(key: .subData, value: self.user)
         )
     }
 }

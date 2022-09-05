@@ -44,11 +44,13 @@ struct PageMy: PageView {
                         }
                     }
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
+                   
                     InfinityScrollView(
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
                         showIndicators : false,
-                        marginVertical: Dimen.margin.medium,
+                        marginTop: Dimen.margin.medium,
+                        marginBottom: Dimen.app.bottom + Dimen.margin.medium,
                         marginHorizontal: 0,
                         spacing:0,
                         isRecycle: false,
@@ -60,7 +62,20 @@ struct PageMy: PageView {
                             )
                         }
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        MyPlayInfo()
+                        MyPlayInfo(){ type in
+                            switch type {
+                            case .value(let valueType, _) :
+                                switch valueType {
+                                case .heart :
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.myLv)
+                                    )
+                                default : break
+                                }
+                            default : break
+                            }
+                            
+                        }
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                             .padding(.top, Dimen.margin.regular)
                         

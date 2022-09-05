@@ -14,7 +14,7 @@ extension String {
     }
     
     struct app {
-        public static let appName = "appName"
+        public static let appName = "Bero"
         public static let confirm = "Confirm"
         public static let cancel = "Cancel"
         
@@ -32,18 +32,23 @@ extension String {
         public static let min = "min"
         public static let kg = "kg"
         public static let inch = "”"
-        
+        public static let exp = "EXP"
         public static let weight = "Weight"
         public static let height = "Height"
         public static let immunization = "Immunization"
         public static let animalChip = "Animal chip"
         public static let animalId = "Animal ID"
         public static let microchip = "Microchip"
-        
+        public static let today = "Today"
+        public static let walk = "Walk"
+        public static let near = "Near"
+        public static let likes = "likes"
     }
     
     struct gnb {
         public static let walk = "Walk"
+        public static let explore = "Explore"
+        public static let chat = "Chat"
         public static let matching = "Matching"
         public static let diary = "Diary"
         public static let my = "My"
@@ -119,11 +124,14 @@ extension String {
         public static let chat = "Chat"
         public static let requestSent = "Request sent"
         public static let removeFriend = "Remove friend"
-
+        public static let all = "All"
+        public static let returnToAllPosts = "Return to all posts"
     }
     
     struct pageTitle {
         public static let my = "My"
+        public static let explore = "Explore"
+        public static let chat = "Chat"
         public static let addDog = "Add a dog"
         public static let history = "History"
         public static let album = "Album"
@@ -136,7 +144,8 @@ extension String {
         public static let dogProfile = "Dog Profile"
         public static let healthInformation = "Health Information"
         public static let usersDogs = "%s’s dogs"
-        
+        public static let walkHistory = "Walk History"
+        public static let walkReport = "Walk Report"
     }
     
 
@@ -160,14 +169,49 @@ extension String {
         
         public static let myLvText = "Earn friendship to level up your heart!"
         public static let myLvText1 = "How to earn friendship"
-        public static let myLvText2 = "Welcome to %s!"
-        public static let myLvText3 = "Earn +%s friendship to level up!"
+        public static let myLvText2 = "Hi %s!"
+        public static let myLvText3 = "Welcome to %s!"
+        public static let myLvText4 = "Earn +%s friendship to level up!"
+        
+        public static let walkHistoryText1 = "Walked in total"
+        public static let walkHistorySeletReport = "Whose report do you want to see?"
+        
+        public static let reportWalkSummaryWeekly = "Weekly"
+        public static let reportWalkSummaryMonthly = "Monthly"
+       
+        public static let reportWalkDayUnit = "days"
+        public static let reportWalkDayText = "You’ve walked"
+        public static let reportWalkDayWeek = "in total this week."
+        public static let reportWalkDayMonth = "in total this month."
+
+        public static let reportWalkDayCompleted = "You achieved the goal! Good job!"
+        public static let reportWalkDayContinue = "Walk %s days";
+
+        public static let reportWalkDayCompareText1 = "This is"
+        public static let reportWalkDayCompareText2 = "as the average of others."
+        public static let reportWalkDayCompareLess = "day less"
+        public static let reportWalkDayCompareMore = "day more"
+        public static let reportWalkDayCompareSame = "just the same"
+        
+        public static let reportWalkDayCompareMe = "You"
+        public static let reportWalkDayCompareOthers =  "Others"
+
+        public static let reportWalkRecentlyUnit = "mins"
+        public static let reportWalkRecentlyText1 = "Your recently walked"
+        public static let reportWalkRecentlyText2 = "in average for each walk."
+        public static let reportWalkRecentlyTip = "The recommended time for each walk\nis between 20-40 mins."
+        
+        public static let exploreSeletReport = "Whose posts do you want to see?"
+        
         
         //for component
         public static let introductionDefault = "Hello, I am @%s. Let’s be friends!"
         public static let historyCompleted = "%s completed"
+        
+        
         public static let missionCompletedSaved = "Mission saved."
         public static let walkCompletedSaved = "Mission saved."
+        
         
         
     }

@@ -13,6 +13,7 @@ struct ProgressInfo:PageView{
     var trailingText:String? = nil
     var progress:Double = 0
     var progressMax:Double = 0
+    var color:Color = Color.brand.primary
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.tinyExtra){
             HStack(alignment: .center, spacing: 0){
@@ -51,7 +52,8 @@ struct ProgressInfo:PageView{
             }
             ProgressSlider(
                 progress:  Float(self.progress / self.progressMax),
-                thumbSize: 0
+                thumbSize: 0,
+                color: self.color
             )
         }
     }

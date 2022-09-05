@@ -67,14 +67,14 @@ struct BottomTab: PageComponent{
                     icon: Asset.gnb.walk, text: String.gnb.walk),
                 
                 PageSelecterble(
-                    id: .matching,
-                    idx: PageProvider.getPageIdx(.matching),
-                    icon: Asset.gnb.matching, text: String.gnb.matching),
+                    id: .explore,
+                    idx: PageProvider.getPageIdx(.explore),
+                    icon: Asset.gnb.explore, text: String.gnb.explore),
                 
                 PageSelecterble(
-                    id: .diary,
-                    idx: PageProvider.getPageIdx(.diary),
-                    icon: Asset.gnb.diary, text: String.gnb.diary),
+                    id: .chat,
+                    idx: PageProvider.getPageIdx(.chat),
+                    icon: Asset.gnb.chat, text: String.gnb.chat),
                
                 PageSelecterble(
                     id: .my,

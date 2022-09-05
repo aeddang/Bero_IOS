@@ -13,12 +13,17 @@ extension PageID{
     static let intro:PageID = "intro"
     static let login:PageID = "login"
     static let walk:PageID = "walk"
+    static let explore:PageID = "explore"
+    static let chat:PageID = "chat"
     static let matching:PageID = "matching"
     static let diary:PageID = "diary"
     static let my:PageID = "my"
+    static let walkHistory:PageID = "walkHistory"
+    static let walkReport:PageID = "walkReport"
+    static let myLv:PageID = "myLv"
     static let dog:PageID = "dog"
     static let user:PageID = "user"
-    static let myAlbum:PageID = "myAlbum"
+    static let album:PageID = "album"
     static let manageDogs:PageID = "manageDogs"
     static let modifyUser:PageID = "modifyUser"
     static let modifyPet:PageID = "modifyPet"
@@ -73,9 +78,11 @@ struct PageProvider {
         switch pageID {
         case .intro : return 1
         case .walk : return 100
-        case .matching : return 200
-        case .diary : return 300
-        case .my : return 400
+        case .explore : return 200
+        case .chat : return 300
+        case .matching : return 400
+        case .diary : return 500
+        case .my : return 600
         default : return  9999
         }
     }
@@ -144,10 +151,15 @@ struct PageFactory{
         case .intro : return PageIntro()
         case .login : return PageLogin()
         case .walk : return PageWalk()
+        case .explore : return PageExplore()
+        case .chat : return PageWalk()
         case .my : return PageMy()
         case .dog : return PageDog()
         case .user : return PageUser()
-        case .myAlbum : return PageMyAlbum()
+        case .walkHistory : return PageWalkHistory()
+        case .walkReport : return PageWalkReport()
+        case .album : return PageAlbum()
+        case .myLv : return PageMyLv()
         case .manageDogs : return PageManageDogs()
         case .addDog : return PageAddDog()
         case .addDogCompleted : return PageAddDogCompleted()
@@ -201,7 +213,7 @@ struct PageSceneModel: PageModel {
     
     static func needBottomTab(_ pageObject:PageObject) -> Bool{
         switch pageObject.pageID {
-        case .walk, .matching, .my, .diary : return true
+        case .walk, .matching, .my, .diary, .chat, .explore : return true
         default : return false
         }
     }

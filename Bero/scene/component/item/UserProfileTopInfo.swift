@@ -5,6 +5,7 @@ struct UserProfileTopInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var profile:UserProfile
+    
     var action: (() -> Void)? = nil
     var body: some View {
         VerticalProfile(

@@ -28,17 +28,25 @@ struct ValueBox: PageComponent{
             ForEach(self.datas) { data in
                 switch data.type {
                 case .progress(let title, let percent) :
-                    ProgressInfo(
-                        title: title,
-                        progress: percent,
-                        progressMax: 100)
-                    .frame(height: 48)
+                    Button(action: {
+                        self.action?(data.type)
+                    }) {
+                        ProgressInfo(
+                            title: title,
+                            progress: percent,
+                            progressMax: 100)
+                        .frame(height: 48)
+                    }
                 case .value(let type, let value) :
-                    ValueInfo(
-                        type: type,
-                        value: value
-                    )
-                    .modifier(MatchParent())
+                    Button(action: {
+                        self.action?(data.type)
+                    }) {
+                        ValueInfo(
+                            type: type,
+                            value: value
+                        )
+                        .modifier(MatchParent())
+                    }
                 }
                 if data.idx < self.datas.count-1 {
                     Spacer().modifier(LineVertical(

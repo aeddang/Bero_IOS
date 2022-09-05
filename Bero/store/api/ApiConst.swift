@@ -34,7 +34,7 @@ struct ApiCode {
 
 enum ApiAction:String{
     case login, detecthumanwithdog, thumbsup, cities
-    case search, summary, newMissions, directions, visit
+    case search, summary, newMissions, directions, visit, monthlyList
     case isReguested, requesting, request, accept
 }
 
@@ -50,11 +50,11 @@ enum ApiType{
          updatePet(petId:Int, ModifyPetProfileData), updatePetImage(petId:Int, UIImage?),
          deletePet(petId:Int)
     
-    case getMission(userId:String? = nil,petId:Int? = nil, MissionApi.Category , page:Int? = nil, size:Int? = nil),
+    case getMission(userId:String? = nil,petId:Int? = nil, date:Date? = nil, MissionApi.Category , page:Int? = nil, size:Int? = nil),
          searchMission(MissionApi.Category, MissionApi.SearchType, location:CLLocation? = nil, distance:Double? = nil, page:Int? = nil, size:Int? = nil),
          requestNewMission(CLLocation? = nil, distance:Double? = nil), requestRoute(departure:CLLocation, destination:CLLocation, missionId:String? = nil),
          completeMission(Mission, [PetProfile], image:String? = nil),
-         getMissionSummary(petId:Int)
+         getMissionSummary(petId:Int), getMonthlyMission(userId:String, date:Date)
     
     case checkHumanWithDog(img:UIImage,thumbImg:UIImage)
     

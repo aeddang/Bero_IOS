@@ -140,6 +140,7 @@ struct TitleTab: PageComponent{
                 
             }
         }
+        .padding(.vertical, Dimen.margin.thin)
     }
 }
 
@@ -170,6 +171,7 @@ struct TitleTab_Previews: PreviewProvider {
                 
         }
         .frame(width: 320, height: 600)
+        .background(Color.app.whiteDeep)
     }
 }
 #endif

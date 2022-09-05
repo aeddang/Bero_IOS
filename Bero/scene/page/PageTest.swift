@@ -130,8 +130,12 @@ struct PageTest_Previews: PreviewProvider {
     static var previews: some View {
         Form{
             PageTest().contentBody
-                .environmentObject(PagePresenter())
                 .environmentObject(Repository())
+                .environmentObject(PagePresenter())
+                .environmentObject(PageSceneObserver())
+                .environmentObject(AppObserver())
+                .environmentObject(AppSceneObserver())
+                .environmentObject(DataProvider())
                 .frame(width: 375, height: 640, alignment: .center)
         }
     }

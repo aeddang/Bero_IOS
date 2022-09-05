@@ -10,9 +10,9 @@ import Foundation
 import SwiftUI
 
 struct ListItem: PageComponent{
-    
     let id:String
     var imagePath:String? = nil
+    var emptyImage:String = Asset.noImg1_1
     var imgSize:CGSize = CGSize(width: 100, height: 100)
     var title:String? = nil
     var subTitle:String? = nil
@@ -25,17 +25,17 @@ struct ListItem: PageComponent{
     var likeSize:SortButton.SizeType = .big
     var pets:[PetProfile] = []
     var action: (() -> Void)? = nil
-    var move:(() -> Void)
+    var move:(() -> Void)? = nil
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.thin){
             ZStack{
                 Button(action: {
-                    self.move()
+                    self.move?()
                 }) {
                     if let path = self.imagePath {
                         ImageView(url: path,
-                                  contentMode: .fit,
-                                  noImg: Asset.noImg1_1)
+                                  contentMode: .fill,
+                                  noImg: self.emptyImage)
                             .modifier(MatchParent())
                     } else {
                         Spacer()
@@ -84,21 +84,38 @@ struct ListItem: PageComponent{
             .background(Color.app.grey100)
             .frame(width: self.imgSize.width, height: self.imgSize.height)
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
-            if self.title != nil || self.subTitle != nil {
-                VStack(alignment: .leading, spacing:Dimen.margin.microExtra){
-                    if let text = self.title {
-                        Text(text)
-                            .modifier(SemiBoldTextStyle(
-                                size: Font.size.light,
-                                color: Color.app.black
-                            ))
+            HStack(spacing:0){
+                if self.title != nil || self.subTitle != nil {
+                    VStack(alignment: .leading, spacing:0){
+                        Spacer().modifier(MatchHorizontal(height: 0))
+                        if let text = self.title {
+                            Text(text)
+                                .modifier(SemiBoldTextStyle(
+                                    size: Font.size.light,
+                                    color: Color.app.black
+                                ))
+                        }
+                        if let text = self.subTitle {
+                            Text(text)
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color: Color.app.grey300
+                                ))
+                                .padding(.top, Dimen.margin.microExtra)
+                        }
                     }
-                    if let text = self.subTitle {
-                        Text(text)
-                            .modifier(RegularTextStyle(
-                                size: Font.size.thin,
-                                color: Color.app.grey300
-                            ))
+                }
+                if !self.pets.isEmpty, let pets = self.pets.reversed() {
+                    ZStack(alignment: .trailing){
+                        ForEach(pets) { profile in
+                            ProfileImage(
+                                image:profile.image,
+                                imagePath: profile.imagePath,
+                                size: Dimen.profile.thin,
+                                emptyImagePath: Asset.image.profile_dog_default
+                            )
+                            .padding(.trailing, Dimen.margin.thin * CGFloat(profile.index))
+                        }
                     }
                 }
             }
@@ -116,13 +133,19 @@ struct ListItem_Previews: PreviewProvider {
         VStack{
             ListItem(
                 id: "",
-                imgSize: CGSize(width: 160, height: 160),
+                imgSize: CGSize(width: 240, height: 160),
                 title: "title",
                 subTitle: "subTitle",
                 icon: Asset.icon.paw,
                 iconText: "Walk",
                 likeCount:0,
-                isLike: true
+                isLike: true,
+                pets: [
+                    PetProfile(data: PetData(), isMyPet: false, index: 0),
+                    PetProfile(data: PetData(), isMyPet: false, index: 1),
+                    PetProfile(data: PetData(), isMyPet: false, index: 2),
+                    PetProfile(data: PetData(), isMyPet: false, index: 3)
+                ]
             ){
                 
             }

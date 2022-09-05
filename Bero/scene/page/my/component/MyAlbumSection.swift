@@ -10,7 +10,10 @@ struct MyAlbumSection: PageComponent{
             TitleTab(type:.section, title: String.pageTitle.album, buttons: self.isEmpty ? [] : [.viewMore]){ type in
                 switch type {
                 case .viewMore :
-                    self.pagePresenter.openPopup(PageProvider.getPageObject(.myAlbum))
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.album)
+                            .addParam(key: .data, value: self.dataProvider.user)
+                    )
                 default : break
                 }
             }
@@ -21,7 +24,7 @@ struct MyAlbumSection: PageComponent{
                     HStack(spacing: Dimen.margin.regularExtra){
                         ForEach(dataSet.datas) { data in
                             AlbumListItem(
-                                data: data, imgSize: self.albumSize
+                                data: data, user:self.dataProvider.user, imgSize: self.albumSize
                             )
                         }
                         if !dataSet.isFull {

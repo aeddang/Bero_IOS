@@ -25,6 +25,8 @@ extension Asset{
     }
     struct gnb {
         public static let walk = Asset.icon.paw
+        public static let explore = Asset.icon.explore
+        public static let chat = Asset.icon.chat
         public static let matching = Asset.icon.favorite_on
         public static let diary = Asset.icon.calendar
         public static let my = Asset.image.profile_user_default
@@ -101,6 +103,7 @@ extension Asset{
         
         public static let favorite_off = "favorite_off"
         public static let favorite_on = "favorite_on"
+        public static let favorite_on_big = "favorite_on_big"
         public static let star_off  = "star_off"
         public static let star_on  = "star_on"
         

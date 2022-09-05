@@ -10,19 +10,37 @@ import Foundation
 import SwiftUI
 extension AlbumList {
     static let row:Int = 2
+    enum  ListType{
+        case detail, normal
+        
+        var raw:Int{
+            switch self {
+            case .detail : return 1
+            default : return AlbumList.row
+            }
+        }
+        
+        var marginHorizontal:CGFloat{
+            switch self {
+            case .detail : return 0
+            default : return Dimen.app.pageHorinzontal
+            }
+        }
+    }
 }
 
 struct AlbumList: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
+    var type:ListType = .normal
     var user:User? = nil
     var profile:PetProfile? = nil
     var listSize:CGFloat = 300
     var isMine:Bool = false
     var body: some View {
         VStack(spacing:0){
-            if self.albumDataSets.isEmpty {
+            if self.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.top, Dimen.margin.regularUltra)
                 Spacer().modifier(MatchParent())
@@ -32,21 +50,39 @@ struct AlbumList: PageComponent{
                     axes: .vertical,
                     showIndicators : false,
                     marginTop: Dimen.margin.regularUltra,
-                    marginHorizontal: 0,
+                    marginHorizontal: self.type.marginHorizontal,
                     spacing:Dimen.margin.regularUltra,
                     isRecycle: true,
                     useTracking: true
                 ){
-                    ForEach(self.albumDataSets) { dataSet in
-                        HStack(spacing: Dimen.margin.regularExtra){
-                            ForEach(dataSet.datas) { data in
-                                AlbumListItem(data: data, imgSize: self.albumSize)
+                    switch self.type {
+                    case .normal:
+                        ForEach(self.albumDataSets) { dataSet in
+                            HStack(spacing: Dimen.margin.regularExtra){
+                                ForEach(dataSet.datas) { data in
+                                    AlbumListItem(data: data, user: self.user, imgSize: self.albumSize)
+                                }
+                                if !dataSet.isFull {
+                                    Spacer().frame(width: self.albumSize.width, height: self.albumSize.height)
+                                }
                             }
-                            if !dataSet.isFull {
-                                Spacer().frame(width: self.albumSize.width, height: self.albumSize.height)
+                            .onAppear{
+                                if  dataSet.index == (self.albumDataSets.count-1) {
+                                    self.infinityScrollModel.event = .bottom
+                                }
+                            }
+                        }
+                    case .detail :
+                        ForEach(self.albums) { data in
+                            AlbumListDetailItem(data: data, imgSize: self.albumSize)
+                            .onAppear{
+                                if data.index == (self.albums.count-1) {
+                                    self.infinityScrollModel.event = .bottom
+                                }
                             }
                         }
                     }
+                    
                 }
             }
         }
@@ -62,8 +98,11 @@ struct AlbumList: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getAlbumPictures(let id, _, _,let size):
+            case .getAlbumPictures(let id, _, let page ,let size):
                 if self.currentId == id && size == nil{
+                    if page == 0 {
+                        self.resetScroll()
+                    }
                     self.loaded(res)
                 }
             default : break
@@ -75,7 +114,7 @@ struct AlbumList: PageComponent{
         }
     }
     @State var currentId:String = ""
-    @State var isEmpty:Bool = true
+    @State var isEmpty:Bool = false
     
     private func resetScroll(){
         withAnimation{ self.isEmpty = false }
@@ -90,7 +129,9 @@ struct AlbumList: PageComponent{
     private func updateAlbum(){
         self.currentId = self.user?.snsUser?.snsID ?? ""
         self.resetScroll()
-        let w = (self.listSize - Dimen.margin.regularExtra) / CGFloat(Self.row)
+        let w = (self.listSize
+                 - (Dimen.margin.regularExtra * CGFloat(self.type.raw-1))
+                 - (self.type.marginHorizontal*2)) / CGFloat(self.type.raw)
         self.albumSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
         self.loadAlbum()
         
@@ -126,10 +167,11 @@ struct AlbumList: PageComponent{
     }
     
     private func setupAlbumDataSet(added:[AlbumListItemData]){
+        if self.type == .detail {return}
         let count:Int = Self.row
         var rows:[AlbumListItemDataSet] = []
         var cells:[AlbumListItemData] = []
-        var total = added.count
+        var total = self.albumDataSets.count
         added.forEach{ d in
             if cells.count < count {
                 cells.append(d)

@@ -40,34 +40,25 @@ struct PageMyLv: PageView {
                         }
                     }
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    InfinityScrollView(
-                        viewModel: self.infinityScrollModel,
-                        axes: .vertical,
-                        showIndicators : false,
-                        marginVertical: Dimen.margin.medium,
-                        marginHorizontal: Dimen.app.pageHorinzontal,
-                        spacing:Dimen.margin.regularExtra,
-                        isRecycle: false,
-                        useTracking: false
-                    ){
-                        
-                        TitleSection(
-                            title: String.button.manageDogs
-                        )
-                        
-                        ForEach(self.pets) { pet in
-                            PetProfileEditable(profile: pet){
-                                self.deletePet(pet)
-                            }
-                        }
-                        if self.pets.count < 3 {
-                            PetProfileEmpty(
-                                description: self.pets.isEmpty ? String.pageText.addDogEmpty : nil
-                            ){
-                                self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
-                            }
-                        }
-                    }
+                    TitleSection(
+                        title: String.pageTitle.myLv,
+                        trailer: String.pageText.myLvText1
+                    )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    .padding(.top, Dimen.margin.regularExtra)
+                    LvSection(
+                        user: self.dataProvider.user
+                    )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    .padding(.top, Dimen.margin.regularExtra)
+                    
+                    Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                        .padding(.top, Dimen.margin.medium)
+                    
+                    LvHistoryList(
+                        infinityScrollModel:self.infinityScrollModel,
+                        user:self.dataProvider.user)
+                    
                 }
                 .modifier(PageVertical())
                 .modifier(MatchParent())
@@ -75,35 +66,16 @@ struct PageMyLv: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
-            .onReceive(self.dataProvider.user.$event){ evt in
-                guard let evt = evt else {return}
-                switch evt {
-                case .addedDog, .deletedDog: self.update()
-                default : break
-                }
-            }
+            
+            
             .onAppear(){
-                self.update()
+               
             }
         }//GeometryReader
        
     }//body
-    @State var pets:[PetProfile] = []
     
-    private func update(){
-        self.pets = self.dataProvider.user.pets
-    }
-    
-    private func deletePet(_ profile:PetProfile){
-        self.appSceneObserver.sheet = .select(
-            String.alert.deleteDogTitle,
-            String.alert.deleteDogText,
-            [String.app.cancel,String.alert.deleteDogConfirm]){ idx in
-                if idx == 1 {
-                    self.dataProvider.requestData(q: .init(type: .deletePet(petId: profile.petId)))
-                }
-        }
-    }
+   
 }
 
 

@@ -81,6 +81,8 @@ struct SortButton: View{
     }
     var type:ButtonType = .fill
     var sizeType:SizeType = .big
+    var userProgile:UserProfile? = nil
+    var petProgile:PetProfile? = nil
     var icon:String? = nil
     var text:String
     var color:Color = Color.app.black
@@ -94,6 +96,24 @@ struct SortButton: View{
         }) {
             ZStack{
                 HStack(spacing:self.sizeType.spacing){
+                    if let profile = self.petProgile {
+                        ProfileImage(
+                            id : "",
+                            image:profile.image,
+                            imagePath: profile.imagePath,
+                            size: self.sizeType.iconSize,
+                            emptyImagePath: Asset.image.profile_dog_default
+                        )
+                    }
+                    if let profile = self.userProgile {
+                        ProfileImage(
+                            id : "",
+                            image:profile.image,
+                            imagePath: profile.imagePath,
+                            size: self.sizeType.iconSize,
+                            emptyImagePath: Asset.image.profile_user_default
+                        )
+                    }
                     if let icon = self.icon {
                         Image(icon)
                             .renderingMode(.template)

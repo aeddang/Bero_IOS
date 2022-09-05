@@ -22,22 +22,23 @@ class User:ObservableObject, PageProtocol, Identifiable{
     
     private(set) var point:Int = 0
     private(set) var lv:Int = 1
-    private(set) var exp:Double = 70
-    private(set) var nextExp:Double = 100
+    private(set) var exp:Double = 0
+    private(set) var nextExp:Double = 0
     
     private(set) var walk:Int = 0
     private(set) var mission:Int = 0
-    private(set) var totalWalkDistance:Double = 100000000
-    private(set) var totalMissionDistance:Double = 10000
+    private(set) var exerciseDuration:Double = 0
+    private(set) var totalWalkDistance:Double = 0
+    private(set) var totalMissionDistance:Double = 0
     
     private(set) var currentProfile:UserProfile = UserProfile(isMine: true)
-    private(set) var currentPet:PetProfile? = nil
+   
     private(set) var pets:[PetProfile] = []
     private(set) var snsUser:SnsUser? = nil
     private(set) var recentMission:History? = nil
     private(set) var finalGeo:GeoData? = nil
     
-    
+    var currentPet:PetProfile? = nil
     func registUser(user:SnsUser){
         self.snsUser = user
     }
@@ -83,13 +84,19 @@ class User:ObservableObject, PageProtocol, Identifiable{
             )
         }
         self.point = data.point ?? 0
+        self.lv = data.level ?? 1
+        self.exp = data.exp ?? (Double(self.lv-1) * Lv.expRange)
+        self.totalWalkDistance = data.walkDistance ?? 0
+        self.totalMissionDistance = data.missionDistance ?? 0
+        self.exerciseDuration = data.exerciseDuration ?? 0
         self.currentProfile.setData(data: data)
+        self.updateExp(0)
         self.event = .updatedProfile(self.currentProfile)
         return self
     }
     
     func setData(data:[PetData], isMyPet:Bool = true){
-        self.pets = data.map{ PetProfile(data: $0, isMyPet: isMyPet)}
+        self.pets = zip(0..<data.count, data).map{ idx, profile in PetProfile(data: profile, isMyPet: isMyPet, index: idx)}
         self.event = .updatedDogs
     }
     
@@ -103,9 +110,6 @@ class User:ObservableObject, PageProtocol, Identifiable{
     
     func registPetComplete(profile:PetProfile)  {
         self.pets.append(profile)
-        if self.currentPet == nil {
-            self.currentPet = profile
-        }
         self.event = .addedDog(profile)
     }
     
@@ -116,21 +120,31 @@ class User:ObservableObject, PageProtocol, Identifiable{
     func missionCompleted(_ mission:Mission) {
         if !mission.isCompleted {return}
         let point =  mission.point
+        var exp:Double = 0
         self.point += point
         switch mission.type {
         case .walk :
             self.walk += 1
             self.totalWalkDistance += mission.playDistence
-           
+            exp = mission.playDistence
         default :
             self.mission += 1
             self.totalMissionDistance += mission.distance
+            exp = mission.distance
         }
         self.pets.filter{$0.isWith}.forEach{
             //$0.update(exp: Double(point))
             $0.missionCompleted(mission)
         }
+        self.updateExp(exp)
         self.event = .updatedPlayData
+    }
+    
+    func updateExp(_ exp:Double) {
+        self.exp += exp
+        self.lv = floor(self.exp / Lv.expRange).toInt() + 1
+        self.nextExp = Double(self.lv) * Lv.expRange
+        self.currentProfile.setLv(self.lv)
     }
     
 }
@@ -190,6 +204,9 @@ enum Gender:String {
 
 enum Lv {
     case purple, blue, lightBlue, sky, lightSky, green, lightGreen, yellow , orange, red
+    
+    static let expRange:Double = 100
+    
     var icon : String {
         switch self {
         case .purple : return Asset.icon.favorite_on
@@ -234,9 +251,9 @@ enum Lv {
         }
     }
         
-    static func getLv(_ value:Int) -> Lv?{
+    static func getLv(_ value:Int) -> Lv{
         switch value{
-        case 1...10 : return .purple
+        case 0...10 : return .purple
         case 10...20 : return .blue
         case 20...30 : return .lightBlue
         case 30...40 : return .sky
@@ -249,6 +266,7 @@ enum Lv {
         default : return .red
         }
     }
+    
 }
 
 struct ModifyUserData {

@@ -33,7 +33,8 @@ class AccountManager : PageProtocol{
             }
         case .registPet(let user, _):
             if user.snsID == self.user.snsUser?.snsID , let data = res.data as? PetData{
-                self.user.registPetComplete(profile: PetProfile(data: data, isMyPet: true))
+                let idx = self.user.pets.count
+                self.user.registPetComplete(profile: PetProfile(data: data, isMyPet: true, index: idx))
             }
         case .updatePet(let petId, let data):
             if let pet = self.user.pets.first(where: {$0.petId == petId}) {

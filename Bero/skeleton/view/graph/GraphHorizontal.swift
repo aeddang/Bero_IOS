@@ -12,7 +12,7 @@ struct GraphHorizontal: PageView {
     var progress: Float // or some value binded
     var progressColor:Gradient = Gradient(colors: [Color.brand.primary, Color.brand.primary])
     var bgColor:Color = Color.app.white
-    var stroke:CGFloat = Dimen.stroke.heavy
+    var stroke:CGFloat =  Dimen.bar.regular
     var cornerRadius:CGFloat = Dimen.radius.micro
     var body: some View {
         GeometryReader { geometry in

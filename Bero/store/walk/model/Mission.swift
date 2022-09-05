@@ -128,6 +128,8 @@ class Mission:MapUserData{
     var viewDuration:String { return WalkManager.viewDuration(self.duration) }
     var viewPlayTime:String { return WalkManager.viewDuration(self.playTime) }
     var viewPlayDistance:String { return WalkManager.viewDistance(self.playDistence) }
+    var viewSpeed:String { return WalkManager.viewSpeed(self.distance/self.duration) }
+    
     var allPoint:[CLLocation] {
         var points:[CLLocation] = []
         if let value = self.departure { points.append(value) }

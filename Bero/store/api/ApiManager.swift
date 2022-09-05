@@ -209,8 +209,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.petUpdate.delete(petId: petId,
                                   completion: {res in self.complated(id: apiID, type: type, res: res)},
                                   error:error)
-        case .getMission(let userId , let petId, let cate, let page, let size) :
-            self.mission.get(userId: userId, petId: petId, cate:cate, page:page, size: size,
+        case .getMission(let userId , let petId, let date, let cate, let page, let size) :
+            self.mission.get(userId: userId, petId: petId, date:date, cate:cate, page:page, size: size,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
         case .searchMission(let cate, let search, let location, let distance, let page, let size) :
@@ -223,6 +223,10 @@ class ApiManager :PageProtocol, ObservableObject{
                              error:error)
         case .getMissionSummary(let petId) :
             self.mission.getSummary(petId: petId,
+                                    completion: {res in self.complated(id: apiID, type: type, res: res)},
+                                    error:error)
+        case .getMonthlyMission(let userId, let date) :
+            self.mission.getMonthly(userId: userId, date:date, 
                                     completion: {res in self.complated(id: apiID, type: type, res: res)},
                                     error:error)
             

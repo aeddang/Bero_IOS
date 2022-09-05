@@ -42,7 +42,7 @@ extension MissionApi {
             switch self {
             case .walk : return Asset.icon.paw
             case .mission : return Asset.icon.goal
-            case .all : return ""
+            case .all : return Asset.icon.paw
             }
         }
         static func getCategory(_ value:String?) -> MissionApi.Category?{
@@ -55,12 +55,26 @@ extension MissionApi {
     }
     
     enum SearchType:String {
-        case Distance, Time, Random, User
+        case Distance, Time, Random, User, Walk, Friend
+        var title : String {
+            switch self {
+            case .User, .Random: return "All"
+            case .Friend : return "Friends"
+            default : return ""
+            }
+        }
+        var text : String {
+            switch self {
+            case .User, .Random : return "All users"
+            case .Friend : return "My friends’ posts only"
+            default : return ""
+            }
+        }
     }
 }
 
 class MissionApi :Rest{
-    func get(userId:String?, petId:Int?, cate:MissionApi.Category, page:Int?, size:Int?,
+    func get(userId:String?, petId:Int?, date:Date?, cate:MissionApi.Category, page:Int?, size:Int?,
              completion: @escaping (ApiItemResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["userId"] = userId ?? ""
@@ -68,6 +82,7 @@ class MissionApi :Rest{
         params["missionCategory"] = cate.getApiCode
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description
+        if let date = date { params["date"] = date.toDateFormatter(dateFormat: "yyyy-MM-dd") }
         fetch(route: MissionApiRoute (method: .get, query: params), completion: completion, error:error)
     }
     
@@ -102,6 +117,15 @@ class MissionApi :Rest{
         params["destLat"] = destination.coordinate.latitude.description
         params["destLng"] = destination.coordinate.longitude.description
         fetch(route: MissionApiRoute (method: .get, action:.directions, query: params), completion: completion, error:error)
+    }
+    
+    func getMonthly(userId:String, date:Date,
+             completion: @escaping (ApiItemResponse<String>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["missionCategory"] = MissionApi.Category.all.getApiCode
+        params["userId"] = userId
+        params["month"] = date.toDateFormatter(dateFormat: "yyyy-MM") 
+        fetch(route: MissionApiRoute (method: .get, action:.monthlyList, query: params), completion: completion, error:error)
     }
     
     func post(mission:Mission, pets:[PetProfile] , pictureUrl:String?,  completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){

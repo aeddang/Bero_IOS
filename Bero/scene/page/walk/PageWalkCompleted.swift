@@ -100,7 +100,7 @@ struct PageWalkCompleted: PageView {
     private func pickImage(_ img:UIImage) {
         self.pagePresenter.isLoading = true
         DispatchQueue.global(qos:.background).async {
-            let scale:CGFloat = 1.0 //UIScreen.main.scale
+            let scale:CGFloat = 1 //UIScreen.main.scale
             let size = CGSize(
                 width: AlbumApi.originSize * scale,
                 height: AlbumApi.originSize * scale)

@@ -76,9 +76,8 @@ struct PageUser: PageView {
                             AlbumList(
                                 infinityScrollModel: self.infinityScrollModel,
                                 user:user,
-                                listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                                listSize: geometry.size.width
                             )
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
                           
                         case .info :
                             InfinityScrollView(

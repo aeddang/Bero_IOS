@@ -13,7 +13,7 @@ struct GraphArc: PageView, AnimateDrawViewProtocol{
     var progressColor:Gradient = Gradient(colors: [Color.brand.primary, Color.brand.primary])
     var bgColor:Color = Color.app.grey50
     var innerCircleColor:Color = Color.app.white
-    var stroke:CGFloat = Dimen.stroke.heavy
+    var stroke:CGFloat =  Dimen.bar.regular
     var start:CGFloat = 180
     var end:CGFloat = 360
     var fps:Double = 0.01
