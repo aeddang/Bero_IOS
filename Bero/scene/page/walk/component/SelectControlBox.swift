@@ -60,21 +60,24 @@ struct SelectControlBox : PageComponent {
             guard let evt = evt else {return}
             switch evt {
             case .tabMarker(let marker) :
-                if let mission = marker.userData as? Mission {
-                    switch mission.type {
-                    case .new :
-                        self.changeMissionStatus(mission)
-                    case .user :
-                        self.changeUserStatus(mission)
-                    default : break
+                self.reset()
+                DispatchQueue.main.async {
+                    if let mission = marker.userData as? Mission {
+                        switch mission.type {
+                        case .new :
+                            self.changeMissionStatus(mission)
+                        case .user :
+                            self.changeUserStatus(mission)
+                        default : break
+                        }
+                    } else if let place = marker.userData as? Place {
+                        self.changePlaceStatus(place)
                     }
-                } else if let place = marker.userData as? Place {
-                    self.changePlaceStatus(place)
-                }
-                let willShowing =  self.place != nil || self.user != nil || self.mission != nil
-                if willShowing == self.isShowing {return}
-                withAnimation{
-                    self.isShowing = willShowing
+                    let willShowing =  self.place != nil || self.user != nil || self.mission != nil
+                    if willShowing == self.isShowing {return}
+                    withAnimation{
+                        self.isShowing = willShowing
+                    }
                 }
             }
         }

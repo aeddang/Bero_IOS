@@ -91,6 +91,11 @@
 		31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794928C18F0800118B05 /* PageManageDogs.swift */; };
 		31AF794C28C1A33300118B05 /* PetProfileHealthEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */; };
 		31AF794E28C1A7A000118B05 /* PageModifyPetHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794D28C1A7A000118B05 /* PageModifyPetHealth.swift */; };
+		31B0F6FE28C6CCB100E86F05 /* RewardApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */; };
+		31B0F70028C6CDC500E86F05 /* RewardApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */; };
+		31B0F70228C6ED4B00E86F05 /* PageMissionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */; };
+		31B0F70428C6ED5D00E86F05 /* TotalMissionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */; };
+		31B0F70628C6EFE000E86F05 /* MissionHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */; };
 		31BBE44428C2F3F0006C3C84 /* UserFriendFunctionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44328C2F3F0006C3C84 /* UserFriendFunctionBox.swift */; };
 		31BBE44628C2FEAD006C3C84 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44528C2FEAD006C3C84 /* HeartButton.swift */; };
 		31BCF3AD28C363C9004605CF /* PageAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AC28C363C9004605CF /* PageAlbum.swift */; };
@@ -434,6 +439,11 @@
 		31AF794928C18F0800118B05 /* PageManageDogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManageDogs.swift; sourceTree = "<group>"; };
 		31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileHealthEdit.swift; sourceTree = "<group>"; };
 		31AF794D28C1A7A000118B05 /* PageModifyPetHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageModifyPetHealth.swift; sourceTree = "<group>"; };
+		31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardApi.swift; sourceTree = "<group>"; };
+		31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardApiData.swift; sourceTree = "<group>"; };
+		31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionHistory.swift; sourceTree = "<group>"; };
+		31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalMissionSection.swift; sourceTree = "<group>"; };
+		31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionHistoryList.swift; sourceTree = "<group>"; };
 		31BBE44328C2F3F0006C3C84 /* UserFriendFunctionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFriendFunctionBox.swift; sourceTree = "<group>"; };
 		31BBE44528C2FEAD006C3C84 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		31BCF3AC28C363C9004605CF /* PageAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAlbum.swift; sourceTree = "<group>"; };
@@ -877,6 +887,7 @@
 			children = (
 				316B77B528BB31370090E924 /* AlbumList.swift */,
 				31BCF3B528C41FC2004605CF /* LvHistoryList.swift */,
+				31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */,
 				31BCF3D228C5C147004605CF /* UserList.swift */,
 			);
 			path = list;
@@ -888,6 +899,7 @@
 				31BCF3BB28C445E0004605CF /* component */,
 				31BCF3AF28C36906004605CF /* PageWalkHistory.swift */,
 				31BCF3BE28C459D1004605CF /* PageWalkReport.swift */,
+				31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */,
 			);
 			path = history;
 			sourceTree = "<group>";
@@ -896,6 +908,7 @@
 			isa = PBXGroup;
 			children = (
 				31BCF3C228C45C89004605CF /* WalkPropertySection.swift */,
+				31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */,
 				31BCF3BC28C445FD004605CF /* TotalWalkSection.swift */,
 				31BCF3CB28C5766D004605CF /* MonthlyWalkSection.swift */,
 				31BCF3C028C459E0004605CF /* ReportText.swift */,
@@ -1601,6 +1614,7 @@
 				31D9208B28729CDB001C2738 /* Misc.swift */,
 				31D9209428729CDB001C2738 /* VisionApi.swift */,
 				31EA348D28AEE84E006A2C0A /* PlaceApi.swift */,
+				31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */,
 			);
 			path = "rest ";
 			sourceTree = "<group>";
@@ -1618,6 +1632,7 @@
 				31D9209328729CDB001C2738 /* AuthApiData.swift */,
 				317C563F28AC6A76005E8512 /* CodeApiData.swift */,
 				316B778828B9EB7B0090E924 /* FriendApiData.swift */,
+				31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2093,6 +2108,7 @@
 				31D920BC28729CDC001C2738 /* DataProvider.swift in Sources */,
 				31D920BD28729CDC001C2738 /* SystemEnvironment.swift in Sources */,
 				31D9202D287271C1001C2738 /* Sector.swift in Sources */,
+				31B0F70628C6EFE000E86F05 /* MissionHistoryList.swift in Sources */,
 				31F3BD3328968AB50025223B /* Profile.swift in Sources */,
 				31BCF3B628C41FC2004605CF /* LvHistoryList.swift in Sources */,
 				316B779F28BAEACB0090E924 /* MyAlbumSection.swift in Sources */,
@@ -2170,6 +2186,7 @@
 				31D9200C287271C1001C2738 /* CustomImagePicker.swift in Sources */,
 				31D91E8028725834001C2738 /* DiskStatus.swift in Sources */,
 				316B77B828BB4AFC0090E924 /* PropertyInfo.swift in Sources */,
+				31B0F70028C6CDC500E86F05 /* RewardApiData.swift in Sources */,
 				31D920D028729FB5001C2738 /* PageFactory.swift in Sources */,
 				316B778F28B9FA6C0090E924 /* UserProfilePictureEdit.swift in Sources */,
 				31BCF3D128C5B710004605CF /* UserListItem.swift in Sources */,
@@ -2185,6 +2202,7 @@
 				31D920CA28729DD8001C2738 /* LocalStorage.swift in Sources */,
 				31A9D2B9289F47340094EC5C /* Check.swift in Sources */,
 				31D9205C287271CD001C2738 /* SceneRadioController.swift in Sources */,
+				31B0F70228C6ED4B00E86F05 /* PageMissionHistory.swift in Sources */,
 				31D92041287271C1001C2738 /* SelectButton.swift in Sources */,
 				31D9200F287271C1001C2738 /* CPImageViewPager.swift in Sources */,
 				31D920B928729CDC001C2738 /* MissionApiData.swift in Sources */,
@@ -2217,6 +2235,7 @@
 				31D91E8C28725834001C2738 /* SoundToolBox.swift in Sources */,
 				31D92042287271C1001C2738 /* RectButton.swift in Sources */,
 				31C6374928A8C793008EA54C /* item.swift in Sources */,
+				31B0F6FE28C6CCB100E86F05 /* RewardApi.swift in Sources */,
 				31D9203A287271C1001C2738 /* ImageAnimation.swift in Sources */,
 				31C6373128A86533008EA54C /* PageMy.swift in Sources */,
 				31D9202F287271C1001C2738 /* LoopSwipperView.swift in Sources */,
@@ -2252,6 +2271,7 @@
 				31D92029287271C1001C2738 /* RatioSize.swift in Sources */,
 				31D92025287271C1001C2738 /* CustomToggleStyle.swift in Sources */,
 				31D91E8128725834001C2738 /* AESUtil.swift in Sources */,
+				31B0F70428C6ED5D00E86F05 /* TotalMissionSection.swift in Sources */,
 				31EA349428AF19E9006A2C0A /* AlramManager.swift in Sources */,
 				31C6373628A87D8D008EA54C /* UserProfileInfo.swift in Sources */,
 				31C6372828A71514008EA54C /* SelectListStep.swift in Sources */,
@@ -2436,7 +2456,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2480,7 +2500,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

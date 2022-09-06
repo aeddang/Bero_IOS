@@ -43,6 +43,7 @@ extension String {
         public static let walk = "Walk"
         public static let near = "Near"
         public static let likes = "likes"
+        public static let missions = "missions"
     }
     
     struct gnb {
@@ -146,6 +147,7 @@ extension String {
         public static let usersDogs = "%s’s dogs"
         public static let walkHistory = "Walk History"
         public static let walkReport = "Walk Report"
+        public static let missionHistory = "Mission History"
     }
     
 
@@ -174,7 +176,10 @@ extension String {
         public static let myLvText4 = "Earn +%s friendship to level up!"
         
         public static let walkHistoryText1 = "Walked in total"
+        public static let missionHistoryText1 = "completed in total"
         public static let walkHistorySeletReport = "Whose report do you want to see?"
+        
+        
         
         public static let reportWalkSummaryWeekly = "Weekly"
         public static let reportWalkSummaryMonthly = "Monthly"

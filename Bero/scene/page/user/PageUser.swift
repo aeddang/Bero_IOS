@@ -186,6 +186,9 @@ struct PageUser: PageView {
         let addTextHeight = textH - VerticalProfile.descriptionStyle.textModifier.size
         self.originTopHeight = Self.height + addTextHeight
         self.topHeight = max(self.originTopHeight + self.infinityScrollModel.scrollPosition, 0)
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
+            self.pageObservable.isInit = true
+        }
     }
     
 }

@@ -85,7 +85,8 @@ struct HorizontalProfile: PageComponent{
     var isSelected:Bool = false
     var isEmpty:Bool = false
     
-    var action: (() -> Void)? = nil
+    var action: ((FuncType?) -> Void)? = nil
+    
     var body: some View {
         HStack(spacing:Dimen.margin.regularExtra){
             switch self.type {
@@ -107,7 +108,9 @@ struct HorizontalProfile: PageComponent{
                     image: self.image,
                     imagePath: self.imagePath,
                     imageSize: Dimen.profile.thin
-                )
+                ){
+                    self.action?(nil)
+                }
                 .frame(width: Dimen.profile.thin)
             default :
                 ProfileImage(
@@ -209,7 +212,7 @@ struct HorizontalProfile: PageComponent{
                     defaultImage: Asset.icon.add,
                     defaultColor: self.isSelected ? Color.app.white : self.color
                 ){ _ in
-                    action?()
+                    action?(nil)
                 }
             } else if let funcType = self.funcType {
                 switch funcType {
@@ -218,14 +221,14 @@ struct HorizontalProfile: PageComponent{
                         defaultImage: Asset.icon.delete,
                         defaultColor: self.isSelected ? Color.app.white : Color.app.grey400
                     ){ _ in
-                        self.action?()
+                        self.action?(funcType)
                     }
                 case .more :
                     ImageButton(
                         defaultImage: Asset.icon.direction_right,
                         defaultColor: self.isSelected ? Color.app.white : Color.app.grey400
                     ){ _ in
-                        self.action?()
+                        self.action?(funcType)
                     }
                 case .button(let text) :
                     SortButton(
@@ -235,7 +238,7 @@ struct HorizontalProfile: PageComponent{
                         color: self.isSelected ? Color.app.white : self.color,
                         isSort: false
                     ){
-                        self.action?()
+                        self.action?(funcType)
                     }
                 case .addFriend :
                     CircleButton(
@@ -243,7 +246,7 @@ struct HorizontalProfile: PageComponent{
                         isSelected: true,
                         activeColor: self.color
                     ){ _ in
-                        self.action?()
+                        self.action?(funcType)
                     }
                 }
             }
@@ -279,7 +282,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 gender: .female,
                 age: "20",
                 breed: "dog"
-            ){
+            ){ _ in
                 
             }
             HorizontalProfile(
@@ -293,7 +296,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 age: "20",
                 breed: "dog",
                 isSelected: true
-            ){
+            ){ _ in
                 
             }
             HorizontalProfile(
@@ -304,7 +307,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 imagePath: nil,
                 description: String.pageText.addDogEmpty,
                 isEmpty: true
-            ){
+            ){ _ in
                 
             }
             HorizontalProfile(
@@ -314,7 +317,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 color: Color.app.red,
                 name: "name",
                 date: "August 23, 2023"
-            ){
+            ){ _ in
                 
             }
             HorizontalProfile(

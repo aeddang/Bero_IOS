@@ -15,13 +15,13 @@ struct TextModifier {
     var spacing:CGFloat = Font.spacing.regular
     var color: Color = Color.app.black
     var activeColor: Color = Color.brand.primary
-    var sizeScale: CGFloat = 1.1
+    var sizeScale: CGFloat = 1.2
     func getTextWidth(_ text:String) -> CGFloat{
         return text.textSizeFrom(fontSize: size * sizeScale).width
     }
     func getTextHeight(_ text:String, screenWidth:CGFloat) -> CGFloat{
         let strs = text.components(separatedBy: "\n")
-        let h = self.size + 1.2
+        let h = self.size * sizeScale
         var height:CGFloat = 0
         strs.forEach{ str in
             let w = self.getTextWidth(str)

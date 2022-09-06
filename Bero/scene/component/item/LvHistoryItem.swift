@@ -11,23 +11,38 @@ import SwiftUI
 
 
 
-class LvHistoryListItemData:InfinityData{
+class RewardHistoryListItemData:InfinityData{
     private(set) var title:String? = nil
     private(set) var date:String? = nil
     private(set) var exp:Int = 0
-    func setData(_ data:MissionData, idx:Int) -> LvHistoryListItemData{
+    private(set) var expType:RewardApi.RewardType? = nil
+    func setData(_ data:MissionData, idx:Int) -> RewardHistoryListItemData{
         self.index = idx
-        self.title = data.missionCategory
+        let cate = MissionApi.Category.getCategory(data.missionCategory)
+        switch cate {
+        case .mission : self.expType = .mission
+        default : self.expType = .walk
+        }
+        self.title = self.expType?.text
         self.date = data.createdAt?.toDate(dateFormat:"yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         self.exp = data.distance?.toInt() ?? 0
         return self
     }
     
+    func setData(_ data:RewardHistoryData, idx:Int) -> RewardHistoryListItemData{
+        self.index = idx
+        self.expType = RewardApi.RewardType.getType(data.expType)
+        self.title = self.expType?.text
+        self.date = data.createdAt?.toDate(dateFormat:"yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
+        self.exp = data.exp?.toInt() ?? 0
+        return self
+    }
+    
 }
 
-struct LvHistoryListItem: PageComponent{
+struct RewardHistoryListItem: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
-    var data:LvHistoryListItemData
+    var data:RewardHistoryListItemData
     var body: some View {
         HistoryItem(
             id: "",

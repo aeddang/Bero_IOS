@@ -21,9 +21,7 @@ struct AppLayout: PageComponent{
     @State var loadingInfo:[String]? = nil
     @State var isLoading = false
     @State var isLock = false
-    @State var isInit = false
-  
-    
+
     var body: some View {
         ZStack{
             SceneTab()
@@ -122,9 +120,12 @@ struct AppLayout: PageComponent{
             
         }
     }
+    
+    @State var isInit = false
+    @State var isLaunching = false
     func onStoreInit(){
-        //self.appSceneObserver.event = .debug("onStoreInit")
-        if SystemEnvironment.firstLaunch {
+        if SystemEnvironment.firstLaunch && !self.isLaunching{
+            self.isLaunching = true
             self.pagePresenter.changePage(
                 PageProvider.getPageObject(.intro)
             )

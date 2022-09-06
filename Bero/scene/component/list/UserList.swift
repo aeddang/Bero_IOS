@@ -54,7 +54,6 @@ struct UserList: PageComponent{
                             }
                         }
                         Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                            .padding(.top, Dimen.margin.medium)
                     }
                     
                 }

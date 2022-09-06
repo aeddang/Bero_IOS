@@ -44,8 +44,11 @@ struct PetProfileEmpty: PageComponent{
             sizeType: .small,
             description:self.description,
             isEmpty: true,
-            action: self.action
+            action: { _ in self.action() }
         )
+        .onTapGesture {
+            self.action()
+        }
     }
 }
 
@@ -69,7 +72,7 @@ struct PetProfileBody: PageComponent{
             age: self.age,
             breed: self.breed,
             isSelected: false,
-            action:self.action
+            action: { _ in self.action?() }
         )
         .onReceive(self.profile.$name){value in
             self.name = value

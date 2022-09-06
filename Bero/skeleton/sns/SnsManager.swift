@@ -137,6 +137,7 @@ class SnsManager: ObservableObject, PageProtocol {
     }
     
     func getUserInfo() {
+        
         currentManager?.getUserInfo()
     }
     

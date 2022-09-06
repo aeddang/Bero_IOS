@@ -20,6 +20,7 @@ extension PageID{
     static let my:PageID = "my"
     static let walkHistory:PageID = "walkHistory"
     static let walkReport:PageID = "walkReport"
+    static let missionHistory:PageID = "missionHistory"
     static let myLv:PageID = "myLv"
     static let dog:PageID = "dog"
     static let user:PageID = "user"
@@ -48,6 +49,7 @@ struct PageProvider {
         pobj.isDimed = getDimed(pageID)
         pobj.animationType = getType(pageID)
         pobj.zIndex = isTop(pageID) ? 1 : 0
+        pobj.isAutoInit = isAutoInit(pageID)
         return pobj
     }
     
@@ -69,8 +71,14 @@ struct PageProvider {
     
     static func isTop(_ pageID:PageID)-> Bool{
         switch pageID{
-        //case .mission : return true
         default : return  false
+        }
+    }
+    
+    static func isAutoInit(_ pageID:PageID)-> Bool{
+        switch pageID{
+        case .user, .album, .dog,.walkReport, .walkHistory, .missionHistory : return false
+        default : return  true
         }
     }
     
@@ -146,30 +154,31 @@ enum PageStyle{
 }
 
 struct PageFactory{
-    static func getPage(_ pageObject:PageObject) -> PageViewProtocol{
+    static func getPage(_ pageObject:PageObject, pageObservable:PageObservable) -> PageViewProtocol{
         switch pageObject.pageID {
-        case .intro : return PageIntro()
-        case .login : return PageLogin()
-        case .walk : return PageWalk()
-        case .explore : return PageExplore()
-        case .chat : return PageWalk()
-        case .my : return PageMy()
-        case .dog : return PageDog()
-        case .user : return PageUser()
-        case .walkHistory : return PageWalkHistory()
-        case .walkReport : return PageWalkReport()
-        case .album : return PageAlbum()
-        case .myLv : return PageMyLv()
-        case .manageDogs : return PageManageDogs()
-        case .addDog : return PageAddDog()
-        case .addDogCompleted : return PageAddDogCompleted()
-        case .missionCompleted : return PageMissionCompleted()
-        case .walkCompleted : return PageWalkCompleted()
-        case .modifyUser : return PageModifyUser()
-        case .modifyPet : return PageModifyPet()
-        case .modifyPetHealth : return PageModifyPetHealth()
-        case .editProfile : return PageEditProfile()
-        default : return PageTest()
+        case .intro : return PageIntro(pageObservable:pageObservable)
+        case .login : return PageLogin(pageObservable:pageObservable)
+        case .walk : return PageWalk(pageObservable:pageObservable)
+        case .explore : return PageExplore(pageObservable:pageObservable)
+        case .chat : return PageWalk(pageObservable:pageObservable)
+        case .my : return PageMy(pageObservable:pageObservable)
+        case .dog : return PageDog(pageObservable:pageObservable)
+        case .user : return PageUser(pageObservable:pageObservable)
+        case .walkHistory : return PageWalkHistory(pageObservable:pageObservable)
+        case .walkReport : return PageWalkReport(pageObservable:pageObservable)
+        case .missionHistory : return PageMissionHistory(pageObservable:pageObservable)
+        case .album : return PageAlbum(pageObservable:pageObservable)
+        case .myLv : return PageMyLv(pageObservable:pageObservable)
+        case .manageDogs : return PageManageDogs(pageObservable:pageObservable)
+        case .addDog : return PageAddDog(pageObservable:pageObservable)
+        case .addDogCompleted : return PageAddDogCompleted(pageObservable:pageObservable)
+        case .missionCompleted : return PageMissionCompleted(pageObservable:pageObservable)
+        case .walkCompleted : return PageWalkCompleted(pageObservable:pageObservable)
+        case .modifyUser : return PageModifyUser(pageObservable:pageObservable)
+        case .modifyPet : return PageModifyPet(pageObservable:pageObservable)
+        case .modifyPetHealth : return PageModifyPetHealth(pageObservable:pageObservable)
+        case .editProfile : return PageEditProfile(pageObservable:pageObservable)
+        default : return PageTest(pageObservable:pageObservable)
         }
     }
    

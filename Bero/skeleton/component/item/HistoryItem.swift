@@ -15,7 +15,7 @@ struct HistoryItem: PageComponent{
         var icon:String{
             switch self {
             case .point : return Asset.icon.point
-            case .exp : return Asset.icon.favorite_on
+            case .exp : return Asset.icon.lightening_circle
             case .walk : return Asset.icon.paw
             case .mission : return Asset.icon.goal
 

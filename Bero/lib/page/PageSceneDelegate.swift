@@ -538,12 +538,13 @@ class PageSceneDelegate: UIResponder, UIWindowSceneDelegate, PageProtocol {
     
     func onInitPage(){}
     func onInitController(controller:PageContentController){}
-    func getPageContentProtocol(_ page:PageObject) -> PageViewProtocol{ return PageContent() }
+    func getPageContentProtocol(_ page:PageObject, pageObservable:PageObservable) -> PageViewProtocol{ return PageContent() }
     func adjustEnvironmentObjects<T>(_ view:T) -> AnyView where T : View { return AnyView(view) }
     func isGoBackAble(prevPage:PageObject?, nextPage:PageObject?) -> Bool { return true }
     
     func getPageContentBody(_ page:PageObject) -> PageViewProtocol{
-        return PageContentBody(childView:getPageContentProtocol(page))
+        let pageObservable:PageObservable = PageObservable()
+        return PageContentBody(childView:getPageContentProtocol(page, pageObservable:pageObservable), pageObservable:pageObservable)
     }
     func willChangeAblePage(_ page:PageObject?, isCloseAllPopup:Bool = false)->Bool{ return true }
     func switchTopPopup(_ page:PageObject) {

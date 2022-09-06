@@ -55,6 +55,7 @@ class ApiManager :PageProtocol, ObservableObject{
     private let album:AlbumApi
     private let mission:MissionApi
     private let friend:FriendApi
+    private let rewardApi:RewardApi
     //Store Api
     private let auth:AuthApi
     private let userUpdate:UserApi
@@ -80,6 +81,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.misc = MiscApi(network: self.network)
         self.walk = MissionApi(network: self.network)
         self.friend = FriendApi(network: self.network)
+        self.rewardApi = RewardApi(network: self.network)
     }
     
     func clear(){
@@ -89,6 +91,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.mission.clear()
         self.album.clear()
         self.friend.clear()
+        self.rewardApi.clear()
         self.apiQ.removeAll()
     }
     
@@ -296,6 +299,10 @@ class ApiManager :PageProtocol, ObservableObject{
             self.friend.delete(userId: userId,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
+        case .getRewardHistory(let userId, let page, let size) :
+            self.rewardApi.getHistory(userId: userId, page: page, size: size,
+                                      completion: {res in self.complated(id: apiID, type: type, res: res)},
+                                      error:error)
         default: break
         }
         return apiID

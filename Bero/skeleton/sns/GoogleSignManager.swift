@@ -33,6 +33,11 @@ class GoogleSignManager:ObservableObject, PageProtocol, Sns{
     }
     
     func getUserInfo(){
+        
+    }
+    
+    
+    func requestLogin() {
         guard  let vc = UIApplication.shared.windows.filter({$0.isKeyWindow}).first?.rootViewController else { return }
         GIDSignIn.sharedInstance.signIn(with: Self.signInConfig, presenting: vc){ user, error in
             if let error = error as? NSError {
@@ -62,11 +67,6 @@ class GoogleSignManager:ObservableObject, PageProtocol, Sns{
             self.respond = SnsResponds(event: .getProfile, type: self.type, data:userInfo)
             
         }
-    }
-    
-    
-    func requestLogin() {
-        self.getUserInfo()
     }
     
     func requestLogOut() {

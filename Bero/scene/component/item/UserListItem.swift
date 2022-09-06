@@ -46,19 +46,28 @@ struct UserListItem: PageComponent{
                 gender: self.data.userProfile?.gender,
                 age: self.data.userProfile?.birth?.toAge(),
                 isSelected: false
-            ){
+            ){ type in
+                
+                switch type {
+                case .addFriend : break
+                default : self.moveUser()
+                }
                 
             }
             .onTapGesture {
-                self.pagePresenter.openPopup(
-                    PageProvider.getPageObject(.user)
-                        .addParam(key: .id, value:self.data.userProfile?.userId)
-                )
+                self.moveUser()
             }
             if let walkData = self.data.walkData{
                 WalkListDetailItem(data: walkData, imgSize: self.imgSize)
             }
         }
+    }
+    
+    private func moveUser(){
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.user)
+                .addParam(key: .id, value:self.data.userProfile?.userId)
+        )
     }
 }
 

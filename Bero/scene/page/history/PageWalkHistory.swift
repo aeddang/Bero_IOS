@@ -98,6 +98,16 @@ struct PageWalkHistory: PageView {
                     if userId == self.userId , let data = res.data as? UserData{
                         self.user = User().setData(data:data)
                     }
+                    self.pageObservable.isInit = true
+                default : break
+                }
+            }
+            .onReceive(self.dataProvider.$error){err in
+                guard let err = err else { return }
+                if !err.id.hasPrefix(self.tag) {return}
+                switch err.type {
+                case .getUserDetail:
+                    self.pageObservable.isInit = true
                 default : break
                 }
             }
@@ -106,6 +116,7 @@ struct PageWalkHistory: PageView {
                 if let user = obj.getParamValue(key: .data) as? User{
                     self.user = user
                     self.userId = user.snsUser?.snsID
+                    self.pageObservable.isInit = true
                     return
                 }
                 if let userId = obj.getParamValue(key: .id) as? String{

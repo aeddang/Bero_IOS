@@ -14,7 +14,7 @@ import Firebase
 import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
-struct PageMy: PageView {
+struct PageMissionHistory: PageView {
     
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
@@ -31,76 +31,49 @@ struct PageMy: PageView {
             PageDragingBody(
                 pageObservable: self.pageObservable,
                 viewModel:self.pageDragingModel,
-                axis:.vertical
+                axis:.horizontal
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        title: String.pageTitle.my,
-                        buttons:[.alram,.setting]){ type in
+                        type:.section,
+                        title: String.pageTitle.missionHistory,
+                        alignment: .center,
+                        useBack: true){ type in
                         switch type {
-                        case .alram : break
-                        case .setting :break
+                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
                         default : break
                         }
                     }
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
-                   
                     InfinityScrollView(
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
                         showIndicators : false,
-                        marginTop: Dimen.margin.medium,
-                        marginBottom: Dimen.app.bottom + Dimen.margin.medium,
+                        marginVertical: Dimen.margin.medium,
                         marginHorizontal: 0,
                         spacing:0,
                         isRecycle: false,
                         useTracking: false
                     ){
-                        UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){
-                            self.pagePresenter.openPopup(
-                                PageProvider.getPageObject(.modifyUser)
-                            )
-                        }
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        MyPlayInfo(){ type in
-                            switch type {
-                            case .value(let valueType, _) :
-                                switch valueType {
-                                case .heart :
-                                    self.pagePresenter.openPopup(
-                                        PageProvider.getPageObject(.myLv)
-                                    )
-                                default : break
-                                }
-                            default : break
+                        if let user = self.user {
+                            TotalMissionSection(
+                                infinityScrollModel: self.infinityScrollModel,
+                                user: user
+                            ){ pet in
+                                self.pet = pet
                             }
-                            
-                        }
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.regular)
-                        
-                        Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                            
+                            Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                                .padding(.top, Dimen.margin.medium)
+                            MissionHistoryList(
+                                infinityScrollModel: self.infinityScrollModel,
+                                user: user ,
+                                pet: self.pet
+                            )
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
                             .padding(.top, Dimen.margin.medium)
-                        MyDogsSection()
-                            .padding(.top, Dimen.margin.regular)
-                        
-                        FriendSection(
-                            user: self.dataProvider.user,
-                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
-                        )
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        .padding(.top, Dimen.margin.mediumUltra)
-                        
-                            
-                        MyAlbumSection(
-                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
-                        )
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        .padding(.top, Dimen.margin.mediumUltra)
-                        
-                        MyHistorySection()
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.mediumUltra)
+                        }
                             
                     }
                 }
@@ -110,31 +83,56 @@ struct PageMy: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
-            
-            .onReceive(self.dataProvider.user.$event){ evt in
-                guard let evt = evt else {return}
-                switch evt {
-                case .addedDog : break
+            .onReceive(self.dataProvider.$result){res in
+                guard let res = res else { return }
+                if !res.id.hasPrefix(self.tag) {return}
+                switch res.type {
+                case .getUserDetail(let userId):
+                    if userId == self.userId , let data = res.data as? UserData{
+                        self.user = User().setData(data:data)
+                    }
+                    self.pageObservable.isInit = true
+                default : break
+                }
+            }
+            .onReceive(self.dataProvider.$error){err in
+                guard let err = err else { return }
+                if !err.id.hasPrefix(self.tag) {return}
+                switch err.type {
+                case .getUserDetail:
+                    self.pageObservable.isInit = true
                 default : break
                 }
             }
             .onAppear{
-            
+                guard let obj = self.pageObject  else { return }
+                if let user = obj.getParamValue(key: .data) as? User{
+                    self.user = user
+                    self.userId = user.snsUser?.snsID
+                    self.pageObservable.isInit = true
+                    self.pet = user.currentPet
+                    return
+                }
+                if let userId = obj.getParamValue(key: .id) as? String{
+                    self.userId = userId
+                    self.dataProvider.requestData(q: .init(id:self.tag, type: .getUserDetail(userId:userId)))
+                }
             }
         }//GeometryReader
        
     }//body
    
-    
-   
+    @State var userId:String? = nil
+    @State var user:User? = nil
+    @State var pet:PetProfile? = nil
 }
 
 
 #if DEBUG
-struct PageMy_Previews: PreviewProvider {
+struct PageMissionHistory_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            PageMy().contentBody
+            PageMissionHistory().contentBody
                 .environmentObject(Repository())
                 .environmentObject(PagePresenter())
                 .environmentObject(PageSceneObserver())

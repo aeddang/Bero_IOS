@@ -67,10 +67,14 @@ struct LvSection: PageComponent{
     private func updatedLv(){
         self.lvValue = user.lv
         self.lv = Lv.getLv(user.lv)
-        self.exp = user.exp
-        self.nextExp = user.nextExp
-        let current:Double = Double(user.lv) * Lv.expRange
-        self.expProgress = round((user.nextExp - current) / Lv.expRange)
+        let exp = user.exp
+        let nextExp = user.nextExp
+        let current:Double = Double(user.lv-1) * Lv.expRange
+        let progress = exp - current
+        self.exp = exp
+        self.nextExp = nextExp
+        self.expProgress = progress
+        
         if self.exp == 0 {
             self.needInfo = String.pageText.myLvText3.replace(String.app.appName)
         } else {

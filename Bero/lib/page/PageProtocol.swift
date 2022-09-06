@@ -23,6 +23,7 @@ class PageObject : Equatable, Identifiable{
     var params:[PageParam:Any]?
     var isPopup:Bool
     var isCloseException:Bool = false
+    var isAutoInit:Bool = true
     var zIndex:Int = 0
     var isDimed:Bool
     var isHome:Bool = false
@@ -131,6 +132,7 @@ enum SceneOrientation :String{
 
 open class PageObservable: ObservableObject  {
     @Published var status:PageStatus = .initate
+    @Published var isInit:Bool = false
     @Published var layer:PageLayer = .top
     @Published var pageObject:PageObject?
     @Published var pagePosition:CGPoint = CGPoint()

@@ -230,7 +230,17 @@ struct PageWalkReport: PageView {
                         self.user = User().setData(data:data)
                         self.profile = self.user?.pets.first
                         self.load()
+                        self.pageObservable.isInit = true
                     }
+                default : break
+                }
+            }
+            .onReceive(self.dataProvider.$error){err in
+                guard let err = err else { return }
+                if !err.id.hasPrefix(self.tag) {return}
+                switch err.type {
+                case .getUserDetail:
+                    self.pageObservable.isInit = true
                 default : break
                 }
             }
@@ -245,6 +255,7 @@ struct PageWalkReport: PageView {
                         self.profile = self.user?.currentPet ?? self.user?.pets.first
                     }
                     self.load()
+                    self.pageObservable.isInit = true
                     return
                 }
                 if let userId = obj.getParamValue(key: .id) as? String{

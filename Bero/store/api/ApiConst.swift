@@ -36,6 +36,7 @@ enum ApiAction:String{
     case login, detecthumanwithdog, thumbsup, cities
     case search, summary, newMissions, directions, visit, monthlyList
     case isReguested, requesting, request, accept
+    case histories
 }
 
 enum ApiValue:String{
@@ -72,6 +73,8 @@ enum ApiType{
     
     case getFriend(type:ApiAction? = nil, page:Int? = nil, size:Int? = nil),
          requestFriend(userId:String), rejectFriend(userId:String) , acceptFriend(userId:String)
+    
+    case getRewardHistory(userId:String, page:Int? = nil, size:Int? = nil)
     
     func coreDataKey() -> String? {
         switch self {

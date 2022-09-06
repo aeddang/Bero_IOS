@@ -61,8 +61,8 @@ class SceneDelegate: PageSceneDelegate {
     override func willChangeAblePage(_ page: PageObject?, isCloseAllPopup: Bool = false) -> Bool {
         return true
     }
-    override func getPageContentProtocol(_ page: PageObject) -> PageViewProtocol {
-        return PageFactory.getPage(page)
+    override func getPageContentProtocol(_ page: PageObject, pageObservable:PageObservable) -> PageViewProtocol {
+        return PageFactory.getPage(page, pageObservable:pageObservable)
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

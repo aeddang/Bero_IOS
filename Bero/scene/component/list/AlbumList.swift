@@ -32,6 +32,7 @@ extension AlbumList {
 struct AlbumList: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     var type:ListType = .normal
     var user:User? = nil
@@ -104,10 +105,20 @@ struct AlbumList: PageComponent{
                         self.resetScroll()
                     }
                     self.loaded(res)
+                    self.pageObservable.isInit = true
                 }
             default : break
             }
-            
+        }
+        .onReceive(self.dataProvider.$error){err in
+            guard let err = err else { return }
+            if !err.id.hasPrefix(self.tag) {return}
+            switch err.type {
+            case .getAlbumPictures :
+                self.pageObservable.isInit = true
+                
+            default : break
+            }
         }
         .onAppear(){
             self.updateAlbum()

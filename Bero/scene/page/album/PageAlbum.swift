@@ -52,6 +52,7 @@ struct PageAlbum: PageView {
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                     if let user = self.user {
                         AlbumList(
+                            pageObservable: self.pageObservable,
                             infinityScrollModel: self.infinityScrollModel,
                             type:.detail,
                             user:user,

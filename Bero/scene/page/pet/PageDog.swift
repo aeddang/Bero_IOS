@@ -153,6 +153,9 @@ struct PageDog: PageView {
                 if let profile = obj.getParamValue(key: .data) as? PetProfile{
                     self.profile = profile
                     self.setupTopHeight(geometry: geometry)
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
+                        self.pageObservable.isInit = true
+                    }
                 }
             
             }

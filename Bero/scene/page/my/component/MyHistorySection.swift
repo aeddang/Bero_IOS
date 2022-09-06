@@ -24,7 +24,10 @@ struct MyHistorySection: PageComponent{
                 )
             }
             Button(action: {
-                
+                self.pagePresenter.openPopup(
+                    PageProvider.getPageObject(.missionHistory)
+                        .addParam(key: .data, value: self.dataProvider.user)
+                )
             }) {
                 HorizontalProfile(
                     id: "",

@@ -195,7 +195,7 @@ struct PageEditProfile: PageView {
                 self.profile = profile
                 self.name = profile.name ?? ""
                 self.birth = profile.birth ?? Date()
-                self.gender = profile.gender ?? .male 
+                self.gender = profile.gender 
                 self.introduction = profile.introduction ?? ""
                 self.weight = profile.weight?.description ?? ""
                 self.height = profile.size?.description ?? ""
@@ -208,7 +208,7 @@ struct PageEditProfile: PageView {
                 self.user = user
                 self.name = user.currentProfile.nickName ?? ""
                 self.birth = user.currentProfile.birth ?? Date()
-                self.gender = user.currentProfile.gender ?? .male
+                self.gender = user.currentProfile.gender
                 self.introduction = user.currentProfile.introduction ?? ""
             }
             if let type = obj.getParamValue(key: .type) as?  PageEditProfile.EditType{

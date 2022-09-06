@@ -9,7 +9,6 @@
 import Foundation
 import SwiftUI
 import Combine
-
 struct PageBackgroundBody: View {
     @EnvironmentObject var pageChanger:PagePresenter
     var body: some View {
@@ -31,7 +30,6 @@ extension PageContentBody{
     }
 }
 
-
 struct PageContentBody: PageView  {
     var childView:PageViewProtocol? = nil
     @EnvironmentObject var pageChanger:PagePresenter
@@ -40,7 +38,6 @@ struct PageContentBody: PageView  {
     @State var offsetX:CGFloat = 0
     @State var offsetY:CGFloat = 0
     @State var dragOpacity:Double = 0.0
-   
     @State var opacity:Double = 1.0
     @State var pageOffsetX:CGFloat = 0.0
     @State var pageOffsetY:CGFloat = 0.0
@@ -116,7 +113,6 @@ struct PageContentBody: PageView  {
                     withAnimation(.easeOut(duration: Self.pageMoveDuration)){
                         self.isTop = false
                         self.isBelow = PageObject.isSamePage(l: below , r: pageObject)
-                        
                         PageLog.d("below : " + (below?.pageID ?? "nil"), tag:self.tag)
                         PageLog.d("pageObject : " + pageObject.pageID, tag:self.tag)
                         PageLog.d("self.isBelow : " + self.isBelow.description, tag:self.tag)
@@ -135,11 +131,7 @@ struct PageContentBody: PageView  {
                         }
                     }
                 }
-                
-                
-                
             }
-            
         }
         .onReceive(self.pageChanger.$dragOpercity){ opacity in
             if !self.isReady  {return}
@@ -190,19 +182,17 @@ struct PageContentBody: PageView  {
                 self.opacity = opacity
             }
         }
+        .onReceive(self.pageObservable.$isInit){ isInit in
+            if !isInit || self.isReady {return}
+            self.initAnimation()
+        }
         .onAppear{
             PageLog.log("onAppear",tag:self.pageID)
             self.offsetX = self.pageObservable.pagePosition.x
             self.offsetY = self.pageObservable.pagePosition.y
             if self.pageObject?.animationType == .opacity { self.opacity = 0 }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-                self.isReady = true
-                self.pageObservable.status = .appear
-                self.pageObservable.pagePosition.x = 0
-                self.pageObservable.pagePosition.y = 0
-                self.pageObservable.pageOpacity = 1.0
-                self.childView?.appear()
+            if self.pageObject?.isAutoInit == true {
+                self.initAnimation()
             }
         }
         .onDisappear{
@@ -210,6 +200,15 @@ struct PageContentBody: PageView  {
             self.pageObservable.status = .disAppear
             PageLog.log("onDisappear",tag:self.pageID)
         }
+    }
+    
+    private func initAnimation(){
+        self.isReady = true
+        self.pageObservable.status = .appear
+        self.pageObservable.pagePosition.x = 0
+        self.pageObservable.pagePosition.y = 0
+        self.pageObservable.pageOpacity = 1.0
+        self.childView?.appear()
     }
 }
 

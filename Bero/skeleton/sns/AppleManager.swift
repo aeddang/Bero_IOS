@@ -76,7 +76,7 @@ class AppleManager:NSObject,
             self.respond = SnsResponds(event: .login, type: self.type, data:user)
             
             let userInfo = SnsUserInfo(
-                nickName: fullName?.givenName ,
+                nickName: fullName?.nickname ,
                 profile: nil,
                 email: email
             )

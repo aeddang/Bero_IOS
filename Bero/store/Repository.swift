@@ -258,7 +258,7 @@ class Repository:ObservableObject, PageProtocol{
         self.dataProvider.user.clearUser()
         self.snsManager.requestAllLogOut()
         self.event = .loginUpdate
-        
+        self.status = .ready
     }
     
     private func autoSnsLogin() {
