@@ -141,8 +141,8 @@ struct PageWalkReport: PageView {
                             marginVertical: Dimen.margin.medium,
                             marginHorizontal: Dimen.app.pageHorinzontal,
                             spacing:Dimen.margin.medium,
-                            isRecycle: false,
-                            useTracking: false
+                            isRecycle: true,
+                            useTracking: true
                         ){
                             HStack(spacing: Dimen.margin.thin){
                                 TitleSection(

@@ -20,19 +20,19 @@ class FriendApi :Rest{
         fetch(route: FriendRoute (method: .get, action:action, query: params), completion: completion, error:error)
     }
     
-    func post(userId:String, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func post(userId:String, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["otherUserId"] = userId
         fetch(route: FriendRoute(method: .post, action:.request, query: params), completion: completion, error:error)
     }
     
-    func put(userId:String, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func put(action:ApiAction?, userId:String, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["otherUserId"] = userId
-        fetch(route: FriendRoute(method: .put, action:.accept, query: params), completion: completion, error:error)
+        fetch(route: FriendRoute(method: .put, action:action, query: params), completion: completion, error:error)
     }
     
-    func delete(userId:String, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func delete(userId:String, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["otherUserId"] = userId
         fetch(route: FriendRoute(method: .delete, query: params), completion: completion, error:error)

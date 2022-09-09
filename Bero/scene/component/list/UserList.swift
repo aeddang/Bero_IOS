@@ -30,7 +30,9 @@ struct UserList: PageComponent{
                     
                 ){_ in
                     self.type = .User
-                    self.infinityScrollModel.uiEvent = .reload
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
+                        self.infinityScrollModel.uiEvent = .reload
+                    }
                 }
                 .padding(.top, Dimen.margin.regularExtra)
                 Spacer().modifier(MatchParent())
@@ -77,7 +79,7 @@ struct UserList: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .searchMission(_, let type, _, _, let page, _):
+            case .searchMission(_, let type, _, _, _, let page, _):
                 if self.type == type {
                     if page == 0 {
                         self.resetScroll()

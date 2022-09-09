@@ -9,7 +9,7 @@ import Foundation
 import Foundation
 import SwiftUI
 extension AlbumList {
-    static let row:Int = 2
+    static let row:Int = SystemEnvironment.isTablet ? 4 : 2
     enum  ListType{
         case detail, normal
         
@@ -38,7 +38,7 @@ struct AlbumList: PageComponent{
     var user:User? = nil
     var profile:PetProfile? = nil
     var listSize:CGFloat = 300
-    var isMine:Bool = false
+    var marginBottom:CGFloat = Dimen.margin.medium
     var body: some View {
         VStack(spacing:0){
             if self.isEmpty {
@@ -51,6 +51,7 @@ struct AlbumList: PageComponent{
                     axes: .vertical,
                     showIndicators : false,
                     marginTop: Dimen.margin.regularUltra,
+                    marginBottom: self.marginBottom,
                     marginHorizontal: self.type.marginHorizontal,
                     spacing:Dimen.margin.regularUltra,
                     isRecycle: true,
@@ -94,7 +95,13 @@ struct AlbumList: PageComponent{
             default : break
             }
         }
-        
+        .onReceive(self.infinityScrollModel.$uiEvent){ evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .reload : self.updateAlbum()
+            default : break
+            }
+        }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
@@ -126,14 +133,6 @@ struct AlbumList: PageComponent{
     }
     @State var currentId:String = ""
     @State var isEmpty:Bool = false
-    
-    private func resetScroll(){
-        withAnimation{ self.isEmpty = false }
-        self.albums = []
-        self.albumDataSets = []
-        self.infinityScrollModel.reload()
-    }
-        
     @State var albums:[AlbumListItemData] = []
     @State var albumDataSets:[AlbumListItemDataSet] = []
     @State var albumSize:CGSize = .zero
@@ -147,7 +146,15 @@ struct AlbumList: PageComponent{
         self.loadAlbum()
         
     }
-    func loadAlbum(){
+    
+    private func resetScroll(){
+        withAnimation{ self.isEmpty = false }
+        self.albums = []
+        self.albumDataSets = []
+        self.infinityScrollModel.reload()
+    }
+    
+    private func loadAlbum(){
         if self.infinityScrollModel.isLoading {return}
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
@@ -167,7 +174,7 @@ struct AlbumList: PageComponent{
         let start = self.albums.count
         let end = start + datas.count
         added = zip(start...end, datas).map { idx, d in
-            return AlbumListItemData().setData(d,  idx: idx, isMine: self.isMine)
+            return AlbumListItemData().setData(d,  idx: idx)
         }
         self.albums.append(contentsOf: added)
         self.setupAlbumDataSet(added: added)

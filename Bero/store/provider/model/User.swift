@@ -13,7 +13,7 @@ import UIKit
 enum UserEvent{
     case updatedProfile(UserProfile)
     case addedDog(PetProfile), deletedDog(PetProfile), updatedDog(PetProfile) , updatedDogs
-    case updatedPlayData
+    case updatedPlayData, updatedLvData
 }
 
 class User:ObservableObject, PageProtocol, Identifiable{
@@ -25,20 +25,32 @@ class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var exp:Double = 0
     private(set) var nextExp:Double = 0
     
-    private(set) var walk:Int = 0
-    private(set) var mission:Int = 0
     private(set) var exerciseDuration:Double = 0
     private(set) var totalWalkDistance:Double = 0
     private(set) var totalMissionDistance:Double = 0
-    
+    private(set) var totalMissionCount: Int = 0
+    private(set) var totalWalkCount: Int = 0
     private(set) var currentProfile:UserProfile = UserProfile(isMine: true)
    
     private(set) var pets:[PetProfile] = []
     private(set) var snsUser:SnsUser? = nil
     private(set) var recentMission:History? = nil
     private(set) var finalGeo:GeoData? = nil
-    
+    private(set) var isMe:Bool = false
     var currentPet:PetProfile? = nil
+    init(isMe:Bool = false) {
+        self.isMe = isMe
+    }
+    
+    func isSameUser(_ user:User?) -> Bool{
+        guard let id = user?.currentProfile.userId else { return false }
+        return self.snsUser?.snsID == id
+    }
+    func isSameUser(_ user:UserProfile?) -> Bool{
+        guard let id = user?.userId else { return false }
+        return self.snsUser?.snsID == id
+    }
+    
     func registUser(user:SnsUser){
         self.snsUser = user
     }
@@ -86,6 +98,8 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.point = data.point ?? 0
         self.lv = data.level ?? 1
         self.exp = data.exp ?? (Double(self.lv-1) * Lv.expRange)
+        self.totalWalkCount = data.walkCompleteCnt ?? 0
+        self.totalMissionCount = data.missionCompleteCnt ?? 0
         self.totalWalkDistance = data.walkDistance ?? 0
         self.totalMissionDistance = data.missionDistance ?? 0
         self.exerciseDuration = data.exerciseDuration ?? 0
@@ -95,7 +109,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
         return self
     }
     
-    func setData(data:[PetData], isMyPet:Bool = true){
+    func setData(data:[PetData], isMyPet:Bool = false){
         self.pets = zip(0..<data.count, data).map{ idx, profile in PetProfile(data: profile, isMyPet: isMyPet, index: idx)}
         self.event = .updatedDogs
     }
@@ -119,16 +133,13 @@ class User:ObservableObject, PageProtocol, Identifiable{
     
     func missionCompleted(_ mission:Mission) {
         if !mission.isCompleted {return}
-        let point =  mission.point
-        var exp:Double = 0
-        self.point += point
         switch mission.type {
         case .walk :
-            self.walk += 1
+            self.totalWalkCount += 1
             self.totalWalkDistance += mission.playDistence
             exp = mission.playDistence
         default :
-            self.mission += 1
+            self.totalMissionCount += 1
             self.totalMissionDistance += mission.distance
             exp = mission.distance
         }
@@ -136,7 +147,6 @@ class User:ObservableObject, PageProtocol, Identifiable{
             //$0.update(exp: Double(point))
             $0.missionCompleted(mission)
         }
-        self.updateExp(exp)
         self.event = .updatedPlayData
     }
     
@@ -145,7 +155,9 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.lv = floor(self.exp / Lv.expRange).toInt() + 1
         self.nextExp = Double(self.lv) * Lv.expRange
         self.currentProfile.setLv(self.lv)
+        self.event = .updatedLvData
     }
+    
     
 }
 
@@ -264,6 +276,34 @@ enum Lv {
         case 80...90 : return .orange
         case 90...100 : return .red
         default : return .red
+        }
+    }
+}
+
+enum FriendStatus{
+    case norelation, requestFriend, friend, recieveFriend
+    var icon:String{
+        switch self {
+        case .requestFriend : return Asset.icon.check
+        case .friend : return Asset.icon.remove_friend
+        case .recieveFriend : return Asset.icon.add_friend
+        default : return Asset.icon.add_friend
+        }
+    }
+    var text:String{
+        switch self {
+        case .requestFriend : return String.button.requestSent
+        case .friend : return String.button.removeFriend
+        case .recieveFriend : return String.button.addFriend
+        default : return String.button.addFriend
+        }
+    }
+    var buttons:[FriendButton.ButtonType]{
+        switch self {
+        case .requestFriend : return [.requested]
+        case .friend : return [.delete]
+        case .recieveFriend : return [.reject, .accept]
+        default : return [.request]
         }
     }
     

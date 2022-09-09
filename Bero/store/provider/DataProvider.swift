@@ -9,7 +9,7 @@
 import Foundation
 
 class DataProvider : ObservableObject {
-    let user: User = User()
+    let user: User = User(isMe: true)
    
     @Published private(set) var request:ApiQ? = nil
         {didSet{ if request != nil { request = nil} }}

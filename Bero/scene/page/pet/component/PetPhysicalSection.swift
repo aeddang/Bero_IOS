@@ -33,28 +33,30 @@ struct PetPhysicalSection: PageComponent{
                     value: self.immunization
                 )
             }
-            HStack(spacing: 0){
-                Text(String.app.animalId)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.thin, color: Color.app.grey400))
-                    .fixedSize()
-                Spacer()
-                Text(self.animalId)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.thin, color: Color.app.grey500))
-                    .fixedSize()
-            }
-            HStack(spacing: 0){
-                Text(String.app.microchip)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.thin, color: Color.app.grey400))
-                    .fixedSize()
-                Spacer()
-                Text(self.microchip)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.thin, color: Color.app.grey500))
-                    .fixedSize()
-                
+            if self.profile.isMypet {
+                HStack(spacing: 0){
+                    Text(String.app.animalId)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin, color: Color.app.grey400))
+                        .fixedSize()
+                    Spacer()
+                    Text(self.animalId)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin, color: Color.app.grey500))
+                        .fixedSize()
+                }
+                HStack(spacing: 0){
+                    Text(String.app.microchip)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin, color: Color.app.grey400))
+                        .fixedSize()
+                    Spacer()
+                    Text(self.microchip)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin, color: Color.app.grey500))
+                        .fixedSize()
+                    
+                }
             }
         }
         .onReceive(self.profile.$weight){ weight in

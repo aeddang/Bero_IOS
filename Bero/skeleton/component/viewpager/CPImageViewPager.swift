@@ -28,7 +28,7 @@ struct CPImageViewPager: PageComponent {
             .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
             if self.useButton && self.pages.count > 1 {
                 HStack(spacing: Dimen.margin.tiny) {
-                    ForEach(0..<self.pages.count) { index in
+                    ForEach(0..<self.pages.count, id: \.self) { index in
                         CircleButton(
                             isSelected: self.index == index ,
                             index:index )

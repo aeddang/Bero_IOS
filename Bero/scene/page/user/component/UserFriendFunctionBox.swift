@@ -1,52 +1,6 @@
 import Foundation
 import SwiftUI
-extension UserFriendFunctionBox{
-    enum Status{
-        case none, requestFriend, friend, recieveFriend
-        var icon:String{
-            switch self {
-            case .requestFriend : return Asset.icon.check
-            case .friend : return Asset.icon.remove_friend
-            case .recieveFriend : return Asset.icon.add_friend
-            default : return Asset.icon.add_friend
-            }
-        }
-       
-        var bgColor:Color{
-            switch self {
-            case .requestFriend : return Color.app.grey50
-            case .friend : return Color.app.black
-            case .recieveFriend : return Color.brand.primary
-            default : return Color.brand.primary
-            }
-        }
-        var textColor:Color{
-            switch self {
-            case .requestFriend : return Color.app.grey300
-            case .friend : return Color.app.black
-            case .recieveFriend : return Color.app.white
-            default : return Color.app.white
-            }
-        }
-        var text:String{
-            switch self {
-            case .requestFriend : return String.button.requestSent
-            case .friend : return String.button.removeFriend
-            case .recieveFriend : return String.button.addFriend
-            default : return String.button.addFriend
-            }
-        }
-        
-        var buttonType:FillButton.ButtonType{
-            switch self {
-            case .friend : return .stroke
-            default : return .fill
-            }
-        }
-    }
-    
-    
-}
+
 
 struct UserFriendFunctionBox: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -55,20 +9,17 @@ struct UserFriendFunctionBox: PageComponent{
    
     var body: some View {
         HStack(spacing:Dimen.margin.micro){
-            FillButton(
-                type: self.status.buttonType,
-                icon: self.status.icon,
-                text: self.status.text,
-                color: self.status.bgColor,
-                textColor: self.status.textColor
-            ){_ in
-                
+            ForEach(self.currentStatus.buttons.filter{$0 != .delete}, id:\.rawValue){ btn in
+                FriendButton(
+                    userId:self.user.currentProfile.userId,
+                    type: btn
+                )
             }
             FillButton(
                 type: .fill,
                 text: String.button.chat,
                 color: Color.brand.primary,
-                isActive: self.status == .friend
+                isActive: self.currentStatus == .friend
             ){_ in
                 
             }
@@ -77,15 +28,26 @@ struct UserFriendFunctionBox: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            
+            case .requestFriend(let userId) :
+                if self.user.currentProfile.userId == userId {
+                    self.currentStatus = .requestFriend
+                }
+            case .acceptFriend(let userId) :
+                if self.user.currentProfile.userId == userId {
+                    self.currentStatus = .friend
+                }
+            case .rejectFriend(let userId), .deleteFriend(let userId) :
+                if self.user.currentProfile.userId == userId {
+                    self.currentStatus = .norelation
+                }
             default : break
             }
         }
         .onAppear{
-            
+            self.currentStatus = self.user.currentProfile.status
         }
     }
-    @State var status:Status = .none
+    @State var currentStatus:FriendStatus = .norelation
 }
 
 

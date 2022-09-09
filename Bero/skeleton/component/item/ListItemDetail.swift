@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct ListDetailItem: PageComponent{
+    @EnvironmentObject var pagePresenter:PagePresenter
     var id:String = UUID().uuidString
     var imagePath:String? = nil
     var emptyImage:String = Asset.noImg1_1
@@ -112,15 +113,21 @@ struct ListDetailItem: PageComponent{
                 }
                 Spacer()
                 if !self.pets.isEmpty, let pets = self.pets.reversed() {
-                    ZStack(alignment: .trailing){
+                    HStack(spacing:Dimen.margin.micro){
                         ForEach(pets) { profile in
-                            ProfileImage(
-                                image:profile.image,
-                                imagePath: profile.imagePath,
-                                size: Dimen.profile.thin,
-                                emptyImagePath: Asset.image.profile_dog_default
-                            )
-                            .padding(.trailing, Dimen.margin.thin * CGFloat(profile.index))
+                            Button(action: {
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.dog)
+                                        .addParam(key: .id, value: profile.petId)
+                                )
+                            }) {
+                                ProfileImage(
+                                    image:profile.image,
+                                    imagePath: profile.imagePath,
+                                    size: Dimen.profile.thin,
+                                    emptyImagePath: Asset.image.profile_dog_default
+                                )
+                            }
                         }
                     }
                     .fixedSize()

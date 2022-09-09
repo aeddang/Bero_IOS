@@ -123,6 +123,8 @@ class Mission:MapUserData{
     
     private (set) var place:MissionPlace? = nil
     private (set) var user:User? = nil
+    private (set) var startDate:Date? = nil
+    private (set) var endDate:Date? = nil
     private(set) var completedMissions:[Int] = []
     var viewDistance:String { return WalkManager.viewDistance(self.distance) }
     var viewDuration:String { return WalkManager.viewDuration(self.duration) }
@@ -175,7 +177,10 @@ class Mission:MapUserData{
         self.description = data.description
         self.pictureUrl = data.pictureUrl
         self.point = data.point ?? 0
-        
+        if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
+            self.endDate = end
+            self.startDate = end.addingTimeInterval(data.duration ?? 0)
+        }
         if let place = data.place {
             self.place = place
             if let loc = place.geometry?.location {

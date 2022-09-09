@@ -127,6 +127,8 @@ extension String {
         public static let removeFriend = "Remove friend"
         public static let all = "All"
         public static let returnToAllPosts = "Return to all posts"
+        public static let reject = "Reject"
+        public static let accept = "Accept"
     }
     
     struct pageTitle {
@@ -148,6 +150,7 @@ extension String {
         public static let walkHistory = "Walk History"
         public static let walkReport = "Walk Report"
         public static let missionHistory = "Mission History"
+        public static let completedMissions = "Completed missions"
     }
     
 

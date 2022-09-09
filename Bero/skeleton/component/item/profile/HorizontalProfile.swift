@@ -11,7 +11,7 @@ import SwiftUI
 
 struct HorizontalProfile: PageComponent{
     enum ProfileType{
-        case pet, user, place(icon:String = Asset.icon.goal), multi(imgPath:String?)
+        case pet, user, place(icon:String = Asset.icon.goal), multi(imgPath:String?, useDescription:Bool = false)
         var emptyImage:String{
             switch self {
             case .pet : return Asset.image.profile_dog_default
@@ -29,7 +29,8 @@ struct HorizontalProfile: PageComponent{
         
         var useDescription:Bool{
             switch self {
-            case .place, .multi : return false
+            case .multi(_ , let useDescription) : return useDescription
+            case .place : return false
             default : return true
             }
         }
@@ -100,7 +101,7 @@ struct HorizontalProfile: PageComponent{
                     .frame(width: Dimen.button.medium, height: Dimen.button.medium)
                     .background(Color.app.orangeSub)
                     .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
-            case .multi(let imgPath) :
+            case .multi(let imgPath, _) :
                 MultiProfile(
                     type: .user,
                     sizeType: .small,

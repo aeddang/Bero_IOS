@@ -38,7 +38,7 @@ struct UsersDogSection: PageComponent{
             switch res.type {
             case .getPets(let user, _):
                 if user.snsID == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
-                    self.user.setData(data: data, isMyPet: false)
+                    self.user.setData(data: data)
                 }
             default : break
             }

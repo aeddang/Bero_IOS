@@ -11,28 +11,42 @@ import SwiftUI
 
 struct ValueInfo: PageComponent{
     enum ValueType{
-        case point, coin, heart
+        case point, coin, heart, walk, mission, walkComplete, missionComplete
         var icon:String{
             switch self {
             case .point : return Asset.icon.point
             case .coin : return Asset.icon.coin
             case .heart : return Asset.icon.favorite_on
+            case .walkComplete : return Asset.icon.paw
+            case .missionComplete : return Asset.icon.goal
+            default : return Asset.icon.lightening_circle
             }
         }
         
+        var iconColor:Color?{
+            switch self {
+            case .heart, .walk, .mission : return Color.brand.primary
+            case .walkComplete : return  Color.brand.primary
+            case .missionComplete : return  Color.brand.secondary
+            default : return nil
+            }
+        }
         var text:String?{
             switch self {
             case .point : return "Points"
             case .coin : return "Coins"
             case .heart : return "Heart Level"
+            case .walk : return "from walk"
+            case .mission : return "from mission"
+            case .walkComplete : return "Walks done"
+            case .missionComplete : return "Missions completed"
             }
         }
         
         func getValue(_ value:Double) -> String{
             switch self {
-            case .point : return value.toInt().description
             case .coin : return value.description
-            case .heart : return value.toInt().description
+            default : return value.toInt().description
             }
         }
         
@@ -50,22 +64,40 @@ struct ValueInfo: PageComponent{
         VStack(spacing:Dimen.margin.micro){
             HStack( spacing: Dimen.margin.micro){
                 if self.type.isIconFirst {
-                    Image(self.type.icon)
-                        .renderingMode(.template)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(Color.brand.primary)
-                        .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                    if let color = self.type.iconColor {
+                        Image(self.type.icon)
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(color)
+                            .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                    } else {
+                        Image(self.type.icon)
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                    }
+                   
                 }
                 Text(self.type.getValue(value))
                     .modifier(BoldTextStyle(
-                        size: Font.size.medium,color: Color.brand.primary))
+                        size: Font.size.medium,color: value == 0 ? Color.app.grey400 : Color.brand.primary))
                 if !self.type.isIconFirst {
-                    Image(self.type.icon)
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                    if let color = self.type.iconColor {
+                        Image(self.type.icon)
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(color)
+                            .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                    } else {
+                        Image(self.type.icon)
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                    }
                 }
             }
             if let text = self.type.text{

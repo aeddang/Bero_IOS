@@ -17,9 +17,8 @@ class UserListItemData:InfinityData{
     private(set) var subImagePath:String? = nil
     private(set) var date:String? = nil
    
-    
     func setData(_ data:MissionData, idx:Int) -> UserListItemData {
-        self.walkData = WalkListItemData().setData(data, idx: 0, isMine: false)
+        self.walkData = WalkListItemData().setData(data, idx: 0)
         if let user = data.user {
             self.userProfile = UserProfile().setData(data: user)
         }
@@ -32,37 +31,26 @@ class UserListItemData:InfinityData{
 
 struct UserListItem: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
-    let data:UserListItemData
+    @EnvironmentObject var dataProvider:DataProvider
+    var data:UserListItemData
     let imgSize:CGSize
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
-            HorizontalProfile(
-                type: .multi(imgPath: self.data.subImagePath),
-                sizeType: .small,
-                funcType: .addFriend,
-                imagePath: self.data.userProfile?.imagePath,
-                name: self.data.userProfile?.nickName,
-                date: self.data.date,
-                gender: self.data.userProfile?.gender,
-                age: self.data.userProfile?.birth?.toAge(),
-                isSelected: false
-            ){ type in
-                
-                switch type {
-                case .addFriend : break
-                default : self.moveUser()
-                }
-                
-            }
-            .onTapGesture {
-                self.moveUser()
+            if let user = self.data.userProfile {
+                UserProfileItem(
+                    data: user,
+                    subImagePath: self.data.subImagePath,
+                    date: self.data.date,
+                    action:self.moveUser
+                )
             }
             if let walkData = self.data.walkData{
                 WalkListDetailItem(data: walkData, imgSize: self.imgSize)
             }
         }
+        
+        
     }
-    
     private func moveUser(){
         self.pagePresenter.openPopup(
             PageProvider.getPageObject(.user)

@@ -35,7 +35,7 @@ struct ApiCode {
 enum ApiAction:String{
     case login, detecthumanwithdog, thumbsup, cities
     case search, summary, newMissions, directions, visit, monthlyList
-    case isReguested, requesting, request, accept
+    case isRequested, requesting, request, accept, reject
     case histories
 }
 
@@ -52,7 +52,8 @@ enum ApiType{
          deletePet(petId:Int)
     
     case getMission(userId:String? = nil,petId:Int? = nil, date:Date? = nil, MissionApi.Category , page:Int? = nil, size:Int? = nil),
-         searchMission(MissionApi.Category, MissionApi.SearchType, location:CLLocation? = nil, distance:Double? = nil, page:Int? = nil, size:Int? = nil),
+         searchMission(MissionApi.Category, MissionApi.SearchType, searchValue:String? = nil,
+                       location:CLLocation? = nil, distance:Double? = nil, page:Int? = nil, size:Int? = nil),
          requestNewMission(CLLocation? = nil, distance:Double? = nil), requestRoute(departure:CLLocation, destination:CLLocation, missionId:String? = nil),
          completeMission(Mission, [PetProfile], image:String? = nil),
          getMissionSummary(petId:Int), getMonthlyMission(userId:String, date:Date)
@@ -71,8 +72,11 @@ enum ApiType{
     case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil),
          registVisit(Place)
     
-    case getFriend(type:ApiAction? = nil, page:Int? = nil, size:Int? = nil),
-         requestFriend(userId:String), rejectFriend(userId:String) , acceptFriend(userId:String)
+    case getFriend (page:Int? = nil, size:Int? = nil),
+         getRequestFriend(page:Int? = nil, size:Int? = nil),
+         getRequestedFriend(page:Int? = nil, size:Int? = nil),
+         requestFriend(userId:String), deleteFriend(userId:String),
+         rejectFriend(userId:String), acceptFriend(userId:String)
     
     case getRewardHistory(userId:String, page:Int? = nil, size:Int? = nil)
     

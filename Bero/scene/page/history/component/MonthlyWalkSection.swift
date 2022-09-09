@@ -38,7 +38,13 @@ struct MonthlyWalkSection: PageComponent{
                         WalkListItem(
                             data: data, imgSize: self.walkListSize
                         ){
+                            guard let missionData = data.originData else {return}
+                            let mission = Mission().setData( missionData, type: .history)
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.walkInfo)
+                                    .addParam(key: .data, value: mission)
                             
+                            )
                         }
                     }
                 }
@@ -119,7 +125,7 @@ struct MonthlyWalkSection: PageComponent{
         let yyyyMMdd = date.toDateFormatter(dateFormat: "yyyyMMdd") 
         if self.yyyyMMdd != yyyyMMdd {return}
         self.currentDate = date.toDateFormatter(dateFormat: "EEEE, MMMM d") + (self.isToday ? " ("+String.app.today+")" : "")
-        self.datas = datas.map{WalkListItemData().setData($0, idx: 0, isMine: self.user.currentProfile.isMine)}
+        self.datas = datas.map{WalkListItemData().setData($0, idx: 0)}
     }
 }
 

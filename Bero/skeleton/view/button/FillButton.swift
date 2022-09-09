@@ -38,6 +38,7 @@ struct FillButton: View, SelecterbleProtocol{
     var text:String = ""
     var index: Int = 0
     var size:CGFloat = Dimen.button.mediumExtra
+    var radius:CGFloat = Dimen.radius.thin
     var color:Color = Color.app.black
     var textColor:Color? = nil
     var gradient:Gradient? = nil
@@ -84,9 +85,9 @@ struct FillButton: View, SelecterbleProtocol{
             }
             .modifier( MatchHorizontal(height: self.size) )
             .background(self.type.bgColor(self.color).opacity(self.isActive ? 1 : 0.3))
-            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.thin))
+            .clipShape(RoundedRectangle(cornerRadius: self.radius))
             .overlay(
-                RoundedRectangle(cornerRadius: Dimen.radius.thin)
+                RoundedRectangle(cornerRadius: self.radius)
                     .strokeBorder(
                         self.type.textColor(self.color),
                         lineWidth: self.type.strokeWidth

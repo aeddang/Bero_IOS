@@ -138,17 +138,25 @@ class Repository:ObservableObject, PageProtocol{
         }).store(in: &dataCancellable)
     }
     private func setupApiManager(){
-        self.apiManager.$event.sink(receiveValue: { status in
-            switch status {
+        self.apiManager.$event.sink(receiveValue: { evt in
+            switch evt {
             case .join :
                 self.loginCompleted()
                 self.apiManager.initateApi(user: self.dataProvider.user.snsUser)
             case .initate : self.loginCompleted()
             case .error : self.clearLogin()
+            
             default: break
             }
         }).store(in: &dataCancellable)
-        
+        self.apiManager.$rewardEvent.sink(receiveValue: { evt in
+            switch evt {
+            case .exp(let score) :
+                self.dataProvider.user.updateExp(score)
+                self.appSceneObserver?.event = .check("+ exp " + score.toInt().description)
+            default: break
+            }
+        }).store(in: &dataCancellable)
         self.apiManager.$result.sink(receiveValue: { res in
             guard let res = res else { return }
             self.respondApi(res)

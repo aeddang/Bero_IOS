@@ -86,10 +86,11 @@ class MissionApi :Rest{
         fetch(route: MissionApiRoute (method: .get, query: params), completion: completion, error:error)
     }
     
-    func get(cate:MissionApi.Category, search:MissionApi.SearchType, location:CLLocation? = nil,distance:Double? = nil, page:Int?, size:Int?,
+    func get(cate:MissionApi.Category, search:MissionApi.SearchType, searchValue:String? = nil, location:CLLocation? = nil,distance:Double? = nil, page:Int?, size:Int?,
              completion: @escaping (ApiItemResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["searchType"] = search.rawValue
+        params["searchValue"] = searchValue
         params["radius"] = distance?.toInt().description ?? ""
         params["lat"] = location?.coordinate.latitude.description ?? ""
         params["lng"] = location?.coordinate.longitude.description ?? ""
@@ -174,7 +175,6 @@ class MissionApi :Rest{
         params["point"] = point
         params["experience"] = point
         params["petIds"] = pets.map{$0.petId}
-        
         let geos: [[String: Any]] = walk.locations.map{
             var geo = [String: Any]()
             geo["lat"] = $0.coordinate.latitude

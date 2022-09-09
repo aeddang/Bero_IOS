@@ -8,6 +8,7 @@ struct MyHistorySection: PageComponent{
         VStack(spacing:Dimen.margin.regularExtra){
             TitleTab(type:.section, title: String.pageTitle.history){ type in }
             Button(action: {
+                self.dataProvider.user.currentPet = nil
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.walkHistory)
                         .addParam(key: .data, value: self.dataProvider.user)
@@ -24,6 +25,7 @@ struct MyHistorySection: PageComponent{
                 )
             }
             Button(action: {
+                self.dataProvider.user.currentPet = nil
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.missionHistory)
                         .addParam(key: .data, value: self.dataProvider.user)
@@ -60,8 +62,8 @@ struct MyHistorySection: PageComponent{
         let user = self.dataProvider.user
         self.walkDistance = user.totalWalkDistance
         self.missionDistance = user.totalMissionDistance
-        self.walkDescription = String.pageText.historyCompleted.replace(user.walk.description)
-        self.missionDescription = String.pageText.historyCompleted.replace(user.mission.description)
+        self.walkDescription = String.pageText.historyCompleted.replace(user.totalWalkCount.description)
+        self.missionDescription = String.pageText.historyCompleted.replace(user.totalMissionCount.description)
     }
 }
 

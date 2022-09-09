@@ -15,6 +15,10 @@ enum ApiStatus{
 enum ApiEvent{
     case initate, error, join
 }
+
+enum RewardEvent{
+    case exp(value:Double)
+}
 struct ApiNetwork :Network{
     static fileprivate(set) var accesstoken:String? = nil
     static func reset(){
@@ -42,6 +46,7 @@ class ApiManager :PageProtocol, ObservableObject{
     
     @Published var status:ApiStatus = .initate
     @Published var event:ApiEvent? = nil {didSet{ if event != nil { event = nil} }}
+    @Published var rewardEvent:RewardEvent? = nil
     @Published var result:ApiResultResponds? = nil {didSet{ if result != nil { result = nil} }}
     @Published var error:ApiResultError? = nil {didSet{ if error != nil { error = nil} }}
     
@@ -216,8 +221,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.mission.get(userId: userId, petId: petId, date:date, cate:cate, page:page, size: size,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .searchMission(let cate, let search, let location, let distance, let page, let size) :
-            self.mission.get(cate: cate, search: search, location: location, distance: distance, page: page, size: size,
+        case .searchMission(let cate, let search, let searchValue, let location, let distance, let page, let size) :
+            self.mission.get(cate: cate, search: search, searchValue:searchValue, location: location, distance: distance, page: page, size: size,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
         case .requestRoute(let departure, let destination, _) :
@@ -283,8 +288,16 @@ class ApiManager :PageProtocol, ObservableObject{
             self.place.post(place: place,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
-        case .getFriend(let action, let page , let size) :
-            self.friend.get(action: action, page: page, size: size,
+        case .getFriend(let page , let size) :
+            self.friend.get(action: nil, page: page, size: size,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
+        case .getRequestFriend(let page , let size) :
+            self.friend.get(action: .requesting, page: page, size: size,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
+        case .getRequestedFriend(let page , let size) :
+            self.friend.get(action: .isRequested, page: page, size: size,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
         case .requestFriend(let userId) :
@@ -292,10 +305,14 @@ class ApiManager :PageProtocol, ObservableObject{
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
         case .acceptFriend(let userId) :
-            self.friend.put(userId: userId,
+            self.friend.put(action: .accept, userId: userId,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
         case .rejectFriend(let userId) :
+            self.friend.put(action: .reject , userId: userId,
+                            completion: {res in self.complated(id: apiID, type: type, res: res)},
+                            error:error)
+        case .deleteFriend(let userId) :
             self.friend.delete(userId: userId,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
@@ -336,6 +353,10 @@ class ApiManager :PageProtocol, ObservableObject{
     }
     private func complated<T:Decodable>(id:String, type:ApiType, res:ApiContentResponse<T>){
         let result:ApiResultResponds = .init(id: id, type:type, data: res.contents)
+        if let exp = res.metadata?.exp{
+            self.rewardEvent = .exp(value: exp)
+        }
+        
         switch type {
         case .joinAuth :
             if let res = result.data as? UserAuth {

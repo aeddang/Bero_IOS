@@ -16,7 +16,7 @@ class UserApi :Rest{
     func get(userId:String, completion: @escaping (ApiContentResponse<UserData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: UserApiRoute (method: .get, commandId: userId), completion: completion, error:error)
     }
-    func put(user:SnsUser, modifyData:ModifyUserProfileData, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func put(user:SnsUser, modifyData:ModifyUserProfileData, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: UserApiRoute(method: .put, commandId: user.snsID),
            constructingBlock:{ data in
             if let value = modifyData.nickName { data.append(value: value, name: "name") }
@@ -29,7 +29,7 @@ class UserApi :Rest{
             }
         }, completion: completion, error:error)
     }
-    func put(user:SnsUser, image:UIImage?, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func put(user:SnsUser, image:UIImage?, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: UserApiRoute(method: .put, commandId: user.snsID),
            constructingBlock:{ data in
             if let value = image?.jpegData(compressionQuality: 1.0) {

@@ -77,7 +77,13 @@ struct PageAll: ViewModifier {
             .modifier(PageHorizontal())
     }
 }
-
+struct PageTop: ViewModifier {
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
+    func body(content: Content) -> some View {
+        return content
+            .padding(.top, self.appSceneObserver.safeHeaderHeight + Dimen.margin.regular)
+    }
+}
 struct PageVertical: ViewModifier {
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     func body(content: Content) -> some View {

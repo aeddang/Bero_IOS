@@ -92,8 +92,10 @@ struct PageMy: PageView {
                         .padding(.top, Dimen.margin.mediumUltra)
                         
                             
-                        MyAlbumSection(
-                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                        AlbumSection(
+                            user: self.dataProvider.user,
+                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2),
+                            pageSize: 2
                         )
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                         .padding(.top, Dimen.margin.mediumUltra)

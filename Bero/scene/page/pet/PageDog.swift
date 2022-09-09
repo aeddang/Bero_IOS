@@ -18,9 +18,7 @@ extension PageDog{
     static let height:CGFloat = 232
 }
 struct PageDog: PageView {
-    enum ViewType{
-        case info, album
-    }
+    
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -28,9 +26,8 @@ struct PageDog: PageView {
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
-    @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
-    let buttons = [String.button.information, String.button.album]
+
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -62,61 +59,56 @@ struct PageDog: PageView {
                         .frame(height: self.topHeight)
                         .padding(.top, Dimen.margin.medium * (self.topHeight/self.originTopHeight))
                         .opacity(self.topHeight/Self.height)
-                        MenuTab(
-                            viewModel:self.navigationModel,
-                            type: .line,
-                            buttons: self.buttons,
-                            selectedIdx: self.menuIdx
-                        )
-                        .padding(.top, Dimen.margin.medium)
-                        .background(Color.brand.bg)
-                        switch self.viewType {
-                        case .album :
-                            AlbumList(
-                                infinityScrollModel: self.infinityScrollModel,
-                                user: user,
-                                profile:profile,
-                                listSize: geometry.size.width
+                       
+                        InfinityScrollView(
+                            viewModel: self.infinityScrollModel,
+                            axes: .vertical,
+                            showIndicators : false,
+                            marginVertical: Dimen.margin.medium,
+                            marginHorizontal: 0,
+                            spacing:0,
+                            isRecycle: false,
+                            useTracking: !SystemEnvironment.isTablet
+                        ){
+                            PetTagSection(
+                                profile: profile,
+                                listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                             )
-                          
-                        case .info :
-                            InfinityScrollView(
-                                viewModel: self.infinityScrollModel,
-                                axes: .vertical,
-                                showIndicators : false,
-                                marginVertical: Dimen.margin.medium,
-                                marginHorizontal: 0,
-                                spacing:0,
-                                isRecycle: false,
-                                useTracking: true
-                            ){
-                                PetTagSection(
-                                    profile: profile,
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.regular)
+                            PetPhysicalSection(
+                                profile: profile
+                            )
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.mediumUltra)
+                            Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                                .padding(.top, Dimen.margin.medium)
+                            if let user = self.user {
+                                PetHistorySection(
+                                    user:user,
+                                    profile:profile)
+                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                    .padding(.top, Dimen.margin.medium)
+                                
+                                AlbumSection(
+                                    user: user,
                                     listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .padding(.top, Dimen.margin.regular)
-                                PetPhysicalSection(
-                                    profile: profile
-                                )
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.mediumUltra)
-                                Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                                    .padding(.top, Dimen.margin.medium)
-                                if let user = self.user {
-                                    PetHistorySection(
-                                        user:user,
-                                        profile:profile)
-                                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                        .padding(.top, Dimen.margin.medium)
-                                }
-                                Spacer().frame(width: 0, height: self.originTopHeight-self.topHeight)
-                                
                             }
                         }
-                        
+                        .background(Color.brand.bg)
                     } else {
                         Spacer()
+                    }
+                    if !self.dataProvider.user.isSameUser(self.user) , let user = self.user?.currentProfile {
+                        UserProfileItem(
+                            data: user,
+                            subImagePath: self.profile?.imagePath,
+                            action:self.moveUser
+                        )
+                        .modifier(ShadowTop())
                     }
                 }
                 .modifier(PageVertical())
@@ -125,29 +117,51 @@ struct PageDog: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
-            .onReceive(self.navigationModel.$index){ idx in
-                if idx == 0 {
-                    self.viewType = .info
-                } else {
-                    self.viewType = .album
-                }
-                withAnimation{
-                    self.menuIdx = idx
-                }
-                self.topHeight = self.originTopHeight
-            }
             
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
+                
                 if scrollPos > 0 {return}
-                if self.viewType == .album
-                    && ceil(Float(self.infinityScrollModel.total) / Float(AlbumList.row) ) < 2 {return}
-
-                PageLog.d("scrollPos " + scrollPos.description, tag:self.tag)
                 self.topHeight = max(self.originTopHeight + scrollPos, 0)
+            }
+            .onReceive(self.dataProvider.$result){res in
+                guard let res = res else { return }
+                if !res.id.hasPrefix(self.tag) {return}
+                switch res.type {
+                case .getPet(let petId) :
+                    if petId == self.currentPetId, let data = res.data as? PetData{
+                        self.profile = PetProfile(data: data)
+                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05){
+                            self.pageObservable.isInit = true
+                            self.getUser()
+                        }
+                    }
+                case .getUserDetail(let userId):
+                    if userId == self.currentUserId , let data = res.data as? UserData{
+                        self.user = User().setData(data:data)
+                    }
+                default : break
+                }
+            }
+            .onReceive(self.dataProvider.$error){err in
+                guard let err = err else { return }
+                if !err.id.hasPrefix(self.tag) {return}
+                switch err.type {
+                case .getPet(let petId) :
+                    if petId == self.currentPetId{
+                        self.pageObservable.isInit = true
+                    }
+                default : break
+                }
+            }
+            .onReceive(self.pageObservable.$isAnimationComplete){ isAni in
+                if isAni {
+                    self.getUser()
+                }
             }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 if let user = obj.getParamValue(key: .subData) as? User{
+                    self.fromUserPage = true
                     self.user = user
                 }
                 if let profile = obj.getParamValue(key: .data) as? PetProfile{
@@ -155,20 +169,32 @@ struct PageDog: PageView {
                     self.setupTopHeight(geometry: geometry)
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
                         self.pageObservable.isInit = true
+                        if self.pageObservable.isAnimationComplete {
+                            self.getUser()
+                        }
                     }
+                    return
                 }
+                
+                if let petId = obj.getParamValue(key: .id) as? Int{
+                    self.currentPetId = petId
+                    self.dataProvider.requestData(q: .init(id:self.tag, type: .getPet(petId: petId)))
+                    return
+                }
+                self.pageObservable.isInit = true
             
             }
         }//GeometryReader
        
     }//body
+    @State var currentPetId:Int = -1
+    @State var currentUserId:String = ""
     @State var user:User? = nil
     @State var profile:PetProfile? = nil
-    @State var viewType:ViewType = .info
     @State var menuIdx:Int = 0
     @State var topHeight:CGFloat = Self.height
     @State var originTopHeight:CGFloat = Self.height
-
+    @State var fromUserPage:Bool = false
     private func setupTopHeight(geometry:GeometryProxy){
         guard let text = self.profile?.introduction else {
             self.originTopHeight = Self.height
@@ -180,7 +206,24 @@ struct PageDog: PageView {
         self.originTopHeight = Self.height + addTextHeight
         self.topHeight = max(self.originTopHeight + self.infinityScrollModel.scrollPosition, 0)
     }
+    private func getUser(){
+        if self.user == nil, let id = self.profile?.userId {
+            self.currentUserId = id
+            self.dataProvider.requestData(q: .init(id:self.tag, type: .getUserDetail(userId:id)))
+        }
+    }
     
+    private func moveUser(){
+        guard let user = self.user else { return }
+        if self.fromUserPage {
+            self.pagePresenter.closePopup(self.pageObject?.id)
+            return
+        }
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.user)
+                .addParam(key: .data, value:user)
+        )
+    }
 }
 
 

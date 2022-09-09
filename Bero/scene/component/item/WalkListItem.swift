@@ -14,8 +14,10 @@ class WalkListItemData:InfinityData{
     private(set) var title:String? = nil
     private(set) var description:String? = nil
     private(set) var pets:[PetProfile] = []
-    func setData(_ data:MissionData, idx:Int, isMine:Bool = false) -> WalkListItemData {
+    private(set) var originData:MissionData? = nil
+    func setData(_ data:MissionData, idx:Int) -> WalkListItemData {
         self.index = idx
+        self.originData = data
         self.imagePath = data.pictureUrl
         self.contentID = data.missionId?.description ?? ""
         self.title = WalkManager.viewDistance(data.distance ?? 0) + " " + String.app.walk
@@ -23,7 +25,7 @@ class WalkListItemData:InfinityData{
             self.description = String.app.near + " " + (place.name ?? "")
         }
         if let datas = data.pets {
-            self.pets = zip(0..<datas.count, datas).map{ idx, profile in PetProfile(data: profile, isMyPet:isMine, index: idx)}
+            self.pets = zip(0..<datas.count, datas).map{ idx, profile in PetProfile(data: profile, index: idx)}
         }
         self.type = MissionApi.Category.getCategory(data.missionType) ?? .all
         return self

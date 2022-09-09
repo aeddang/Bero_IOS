@@ -49,7 +49,7 @@ class PetApi :Rest{
         }, completion: completion, error:error)
     }
     
-    func put(petId:Int, pet:ModifyPetProfileData, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func put(petId:Int, pet:ModifyPetProfileData, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: PetApiRoute(method: .put, commandId: petId.description),
            constructingBlock:{ data in
             if let value = pet.name { data.append(value: value, name: "name") }
@@ -74,7 +74,7 @@ class PetApi :Rest{
         }, completion: completion, error:error)
     }
     
-    func put(petId:Int, image:UIImage?, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func put(petId:Int, image:UIImage?, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: PetApiRoute(method: .put, commandId: petId.description),
            constructingBlock:{ data in
             if let value = image?.jpegData(compressionQuality: 1.0) {
@@ -86,7 +86,7 @@ class PetApi :Rest{
         }, completion: completion, error:error)
     }
     
-    func delete(petId:Int, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func delete(petId:Int, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: PetApiRoute(method: .delete, commandId: petId.description), completion: completion, error:error)
     }
     

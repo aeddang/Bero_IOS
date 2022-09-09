@@ -65,7 +65,8 @@ extension PetProfile {
 
 class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     private(set) var id:String = UUID().uuidString
-    private(set) var petId:Int = 0
+    private(set) var petId:Int = -1
+    private(set) var userId:String = ""
     private(set) var index:Int = -1
     @Published private(set) var imagePath:String? = nil
     @Published private(set) var image:UIImage? = nil
@@ -110,13 +111,14 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     init(isMyPet:Bool){
         self.isMypet = isMyPet
     }
-    init(data:PetData, isMyPet:Bool, index:Int){
+    init(data:PetData, isMyPet:Bool = false, index:Int = -1){
         self.isMypet = isMyPet
         self.index = index
         self.petId = data.petId ?? 0
         if data.pictureUrl?.isEmpty == false {
             self.imagePath = data.pictureUrl
         }
+        self.userId = data.userId ?? ""
         self.name = data.name
         self.breed = data.tagBreed
         self.gender = Gender.getGender(data.sex) 

@@ -22,6 +22,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
     @Published private(set) var birth:Date? = nil
     @Published private(set) var email:String? =  nil
     @Published private(set) var lv:Int = 1
+    @Published var status:FriendStatus = .norelation
     private(set) var type:SnsType? = nil
     let isMine:Bool
     init(isMine:Bool = false){
@@ -50,6 +51,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
             self.introduction = String.pageText.introductionDefault.replace(name)
         }
         self.image = nil
+        self.status = data.isFriend == true ? .friend : .norelation
         return self
     }
     func setLv(_ lv:Int){

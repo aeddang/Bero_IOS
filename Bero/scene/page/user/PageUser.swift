@@ -19,9 +19,7 @@ extension PageUser{
     static let innerScrollHeight:CGFloat = 300
 }
 struct PageUser: PageView {
-    enum ViewType{
-        case info, album
-    }
+    
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -29,10 +27,9 @@ struct PageUser: PageView {
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
-    @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
-    let buttons = [String.button.information, String.button.album]
+    let buttons = [String.button.album, String.button.information]
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -60,56 +57,45 @@ struct PageUser: PageView {
                         .frame(height: self.topHeight)
                         .padding(.top, Dimen.margin.medium * (self.topHeight/self.originTopHeight))
                         .opacity(self.topHeight/self.originTopHeight)
-                        UserFriendFunctionBox(user: user)
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.regular)
-                        MenuTab(
-                            viewModel:self.navigationModel,
-                            type: .line,
-                            buttons: self.buttons,
-                            selectedIdx: self.menuIdx
-                        )
-                        .padding(.top, Dimen.margin.medium)
-                        .background(Color.brand.bg)
-                        switch self.viewType {
-                        case .album :
-                            AlbumList(
-                                infinityScrollModel: self.infinityScrollModel,
-                                user:user,
-                                listSize: geometry.size.width
-                            )
-                          
-                        case .info :
-                            InfinityScrollView(
-                                viewModel: self.infinityScrollModel,
-                                axes: .vertical,
-                                showIndicators : false,
-                                marginVertical: Dimen.margin.medium,
-                                marginHorizontal: 0,
-                                spacing:0,
-                                isRecycle: false,
-                                useTracking: true
-                            ){
-                                UsersDogSection( user:user )
-                                .padding(.top, Dimen.margin.regular)
-                                
-                                FriendSection(
-                                    user: user,
-                                    listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
-                                )
+                        if !self.dataProvider.user.isSameUser(user) {
+                            UserFriendFunctionBox(user: user)
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .padding(.top, Dimen.margin.mediumUltra)
-                                
-                                Spacer().frame(
-                                    width: 0,
-                                    height: max(geometry.size.height - Self.innerScrollHeight, 0)
-                                )
-                                
-                                Spacer().frame(width: 0, height: self.originTopHeight-self.topHeight)
-                                
-                            }
+                                .padding(.top, Dimen.margin.regular)
                         }
-                        
+                        InfinityScrollView(
+                            viewModel: self.infinityScrollModel,
+                            axes: .vertical,
+                            showIndicators : false,
+                            marginVertical: Dimen.margin.medium,
+                            marginHorizontal: 0,
+                            spacing:0,
+                            isRecycle: false,
+                            useTracking: !SystemEnvironment.isTablet
+                        ){
+                            UsersDogSection( user:user )
+                            .padding(.top, Dimen.margin.regular)
+                            
+                            UserHistorySection(
+                                user: user
+                            )
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.mediumUltra)
+                            
+                            FriendSection(
+                                user: user,
+                                listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                            )
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.mediumUltra)
+                            
+                            AlbumSection(
+                                user: user,
+                                listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                            )
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.mediumUltra)
+                        }
+                        .background(Color.brand.bg)
                     } else {
                         Spacer()
                     }
@@ -120,24 +106,8 @@ struct PageUser: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
-            
-            .onReceive(self.navigationModel.$index){ idx in
-                if idx == 0 {
-                    self.viewType = .info
-                } else {
-                    self.viewType = .album
-                }
-                withAnimation{
-                    self.menuIdx = idx
-                }
-                self.topHeight = self.originTopHeight
-            }
-            
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
                 if scrollPos > 0 {return}
-                if self.viewType == .album
-                    && ceil(Float(self.infinityScrollModel.total) / Float(AlbumList.row) ) < 2 {return}
-                PageLog.d("scrollPos " + scrollPos.description, tag:self.tag)
                 self.topHeight = max(self.originTopHeight + scrollPos, 0)
             }
             .onReceive(self.dataProvider.$result){res in
@@ -152,26 +122,40 @@ struct PageUser: PageView {
                 default : break
                 }
             }
+            .onReceive(self.dataProvider.$error){err in
+                guard let err = err else { return }
+                if !err.id.hasPrefix(self.tag) {return}
+                switch err.type {
+                case .getUserDetail :
+                    if userId == self.userId{
+                        self.pageObservable.isInit = true
+                    }
+                default : break
+                }
+            }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 if let user = obj.getParamValue(key: .data) as? User{
                     self.user = user
                     self.userId = user.snsUser?.snsID
                     self.setupTopHeight(geometry: geometry)
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
+                        self.pageObservable.isInit = true
+                    }
                     return
                 }
                 
                 if let userId = obj.getParamValue(key: .id) as? String{
                     self.userId = userId
                     self.dataProvider.requestData(q: .init(id:self.tag, type: .getUserDetail(userId:userId)))
+                    return
                 }
+                self.pageObservable.isInit = true
             }
         }//GeometryReader
     }//body
-    
     @State var userId:String? = nil
     @State var user:User? = nil
-    @State var viewType:ViewType = .info
     @State var menuIdx:Int = 0
     @State var topHeight:CGFloat = Self.height
     @State var originTopHeight:CGFloat = Self.height

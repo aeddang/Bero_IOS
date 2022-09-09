@@ -21,7 +21,7 @@ class AccountManager : PageProtocol{
             }
         case .getPets(let user, _) :
             if user.snsID == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
-                self.user.setData(data: data)
+                self.user.setData(data: data, isMyPet: true)
             }
         case .updateUser(let user, let data):
             if user.snsID == self.user.snsUser?.snsID {

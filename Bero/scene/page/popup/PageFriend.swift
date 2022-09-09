@@ -15,7 +15,8 @@ import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
 
-struct PageExplore: PageView {
+struct PageFriend: PageView {
+    
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -23,7 +24,6 @@ struct PageExplore: PageView {
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
-    @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
     var body: some View {
@@ -34,30 +34,40 @@ struct PageExplore: PageView {
                 axis:.horizontal
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
-                    HStack(spacing: Dimen.margin.thin){
-                        TitleTab(
-                            title: String.pageTitle.explore,
-                            buttons:[]){ type in
-                            }
+                    TitleTab(
+                        useBack:true
+                    ){ type in
+                        switch type {
+                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                        default : break
+                        }
+                    }
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    HStack(spacing:0){
+                        TitleSection(
+                            title: String.button.manageDogs
+                        )
                         SortButton(
                             type: .stroke,
                             sizeType: .big,
-                            text: self.type.title,
+                            text: self.sortType.text,
                             color:Color.app.grey400,
                             isSort: true){
                                 self.onSort()
                             }
                             .fixedSize()
                     }
+                    .padding(.top, Dimen.margin.regularExtra)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    Spacer().modifier(LineHorizontal())
-                    UserList(
-                        infinityScrollModel: self.infinityScrollModel,
-                        type: self.$type,
-                        listSize: geometry.size.width,
-                        marginBottom: Dimen.app.bottom
-                    )
-                    
+                    if let user = self.user {
+                        FriendList(
+                            pageObservable: self.pageObservable,
+                            infinityScrollModel: self.infinityScrollModel,
+                            type:self.sortType,
+                            user:user,
+                            listSize: geometry.size.width
+                        )
+                    }
                 }
                 .modifier(PageVertical())
                 .modifier(MatchParent())
@@ -66,38 +76,45 @@ struct PageExplore: PageView {
                 
             }//draging
             .onAppear{
-               
+                guard let obj = self.pageObject  else { return }
+                if let user = obj.getParamValue(key: .data) as? User{
+                    self.user = user
+                    return
+                }
+                self.pageObservable.isInit = true
             }
         }//GeometryReader
     }//body
-    @State var type:MissionApi.SearchType = .Random
+    @State var user:User? = nil
+    @State var sortType:FriendList.ListType = .friend
     private func onSort(){
         let datas:[String] = [
-            MissionApi.SearchType.Random.text,
-            MissionApi.SearchType.Friend.text
+            FriendList.ListType.friend.text,
+            FriendList.ListType.requested.text,
+            FriendList.ListType.request.text
         ]
-        self.appSceneObserver.radio = .sort( (self.tag, datas), title: String.pageText.exploreSeletReport){ idx in
+        self.appSceneObserver.radio = .sort( (self.tag, datas), title: String.pageText.walkHistorySeletReport){ idx in
             guard let idx = idx else {return}
             switch idx {
-            case 0 : self.type = .Random
-            case 1 : self.type = .Friend
-            default: break
+            case 0 : self.sortType = .friend
+            case 1 : self.sortType = .requested
+            case 2 : self.sortType = .request
+            default : return
             }
             DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
                 self.infinityScrollModel.uiEvent = .reload
             }
-            
         }
+        
     }
-
 }
 
 
 #if DEBUG
-struct PageExplore_Previews: PreviewProvider {
+struct PageFriend_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            PageExplore().contentBody
+            PageFriend().contentBody
                 .environmentObject(Repository())
                 .environmentObject(PagePresenter())
                 .environmentObject(PageSceneObserver())

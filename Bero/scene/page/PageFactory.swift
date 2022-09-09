@@ -20,11 +20,13 @@ extension PageID{
     static let my:PageID = "my"
     static let walkHistory:PageID = "walkHistory"
     static let walkReport:PageID = "walkReport"
+    static let walkInfo:PageID = "walkInfo"
     static let missionHistory:PageID = "missionHistory"
     static let myLv:PageID = "myLv"
     static let dog:PageID = "dog"
     static let user:PageID = "user"
     static let album:PageID = "album"
+    static let friend:PageID = "friend"
     static let manageDogs:PageID = "manageDogs"
     static let modifyUser:PageID = "modifyUser"
     static let modifyPet:PageID = "modifyPet"
@@ -77,7 +79,8 @@ struct PageProvider {
     
     static func isAutoInit(_ pageID:PageID)-> Bool{
         switch pageID{
-        case .user, .album, .dog,.walkReport, .walkHistory, .missionHistory : return false
+        case .user, .album, .dog,.walkReport, .walkInfo,
+            .walkHistory, .missionHistory, .friend : return false
         default : return  true
         }
     }
@@ -166,8 +169,10 @@ struct PageFactory{
         case .user : return PageUser(pageObservable:pageObservable)
         case .walkHistory : return PageWalkHistory(pageObservable:pageObservable)
         case .walkReport : return PageWalkReport(pageObservable:pageObservable)
+        case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)
         case .missionHistory : return PageMissionHistory(pageObservable:pageObservable)
         case .album : return PageAlbum(pageObservable:pageObservable)
+        case .friend : return PageFriend(pageObservable:pageObservable)
         case .myLv : return PageMyLv(pageObservable:pageObservable)
         case .manageDogs : return PageManageDogs(pageObservable:pageObservable)
         case .addDog : return PageAddDog(pageObservable:pageObservable)

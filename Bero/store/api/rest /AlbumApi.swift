@@ -79,7 +79,7 @@ class AlbumApi :Rest{
     }
     
     
-    func delete(ids:String, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func delete(ids:String, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["pictureIds"] = ids
         fetch(route: AlbumPicturesApiRoute(method: .delete, query: params), completion: completion, error:error)

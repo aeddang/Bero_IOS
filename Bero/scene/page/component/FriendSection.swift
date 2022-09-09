@@ -6,11 +6,17 @@ struct FriendSection: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     var user:User
     var listSize:CGFloat = 300
+    var pageSize:Int = SystemEnvironment.isTablet ? 5 : 3
+    var rowSize:Int = SystemEnvironment.isTablet ? 5 : 3
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.friends, buttons: self.isEmpty ? [] : [.viewMore]){ type in
+            TitleTab(type:.section, title: String.pageTitle.friends, buttons:[.viewMore]){ type in
                 switch type {
-                case .viewMore : self.moveFriend()
+                case .viewMore :
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.friend)
+                            .addParam(key: .data, value: self.user)
+                    )
                 default : break
                 }
             }
@@ -18,16 +24,18 @@ struct FriendSection: PageComponent{
                 EmptyItem(type: .myList)
             } else {
                 ForEach(self.friendDataSets) { dataSet in
-                    HStack(spacing: Dimen.margin.medium){
+                    HStack(spacing: Dimen.margin.regularExtra){
                         ForEach(dataSet.datas) { data in
                             FriendListItem(
                                 data: data,
                                 imgSize: self.imageSize,
-                                action: {self.moveFriend(id:data.contentID)}
+                                action: {self.moveFriend(id:data.userId)}
                             )
                         }
-                        if !dataSet.isFull {
-                            Spacer().frame(width: self.imageSize, height: self.imageSize)
+                        if !dataSet.isFull , let count = self.rowSize-dataSet.datas.count {
+                            ForEach(0..<count, id: \.self) { _ in
+                                Spacer().frame(width: self.imageSize, height: self.imageSize)
+                            }
                         }
                     }
                 }
@@ -35,11 +43,12 @@ struct FriendSection: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getMission:
-                self.reset()
-                self.loaded(res)
+            case .getFriend(let page , _):
+                if page == 0 {
+                    self.reset()
+                    self.loaded(res)
+                }
             default : break
             }
         }
@@ -53,11 +62,11 @@ struct FriendSection: PageComponent{
     @State var friendDataSets:[FriendListItemDataSet] = []
     @State var imageSize:CGFloat = 0
     private func updateFriend(){
-        self.imageSize = (self.listSize - (Dimen.margin.medium*2)) / 3
+        let r:CGFloat = CGFloat(self.rowSize)
+        let w:CGFloat = (self.listSize - (Dimen.margin.regularExtra * (r-1))) / r
+        self.imageSize = w
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                 .getMission(userId: self.user.snsUser?.snsID ?? "",
-                             petId: nil, .all,
-                             page: 1, size: 3)))
+                .getFriend(page: 0, size: self.pageSize)))
         
     }
     private func reset(){
@@ -65,13 +74,13 @@ struct FriendSection: PageComponent{
         self.friendDataSets = []
     }
     private func loaded(_ res:ApiResultResponds){
-        guard let datas = res.data as? [MissionData] else { return }
+        guard let datas = res.data as? [FriendData] else { return }
         
         var added:[FriendListItemData] = []
         let start = self.friends.count
-        let end = start + datas.count
+        let end = min(self.pageSize, datas.count)
         added = zip(start...end, datas).map { idx, d in
-            return FriendListItemData().setData(d,  idx: idx)
+            return FriendListItemData().setData(d,  idx: idx, type: .friend)
         }
         self.friends.append(contentsOf: added)
         self.setupFriendDataSet(added: added)
@@ -81,7 +90,7 @@ struct FriendSection: PageComponent{
     }
                           
     private func setupFriendDataSet(added:[FriendListItemData]){
-        let count:Int = 3
+        let count:Int = self.rowSize
         var rows:[FriendListItemDataSet] = []
         var cells:[FriendListItemData] = []
         var total = added.count

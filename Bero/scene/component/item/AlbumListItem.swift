@@ -22,7 +22,7 @@ class AlbumListItemData:InfinityData, ObservableObject{
     @Published private(set) var isLike:Bool = false
     @Published private(set) var likeCount:Double = 0
     private(set) var pictureId:Int = -1
-    func setData(_ data:PictureData, idx:Int, isMine:Bool) -> AlbumListItemData{
+    func setData(_ data:PictureData, idx:Int) -> AlbumListItemData{
         self.index = idx
         self.imagePath = data.pictureUrl
         self.pictureId = data.pictureId ?? -1
@@ -105,7 +105,11 @@ struct AlbumListDetailItem: PageComponent{
             imgSize: self.imgSize,
             likeCount: self.likeCount,
             isLike: self.isLike,
-            likeSize: .small
+            likeSize: .small,
+            action:{
+                self.dataProvider.requestData(
+                    q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+            }
         )
         .onReceive(self.data.$isLike) { isLike in
             self.isLike = isLike
@@ -119,6 +123,10 @@ struct AlbumListDetailItem: PageComponent{
             case .updateAlbumPicture(let pictureId, let isLike): self.updated(pictureId, isLike: isLike)
             default : break
             }
+        }
+        .onAppear(){
+            self.isLike = self.data.isLike
+            self.likeCount = self.data.likeCount
         }
     }
     private func updated(_ id:Int, isLike:Bool){

@@ -62,13 +62,17 @@ struct ApiErrorResponse: Decodable {
 struct ApiContentResponse<T>: Decodable where T: Decodable {
     private(set) var contents:T
     private(set) var kind: String
-    //private(set) var metadata: [String:String]? = nil
+    private(set) var metadata: MetaData? = nil
 }
 
 struct ApiItemResponse<T>: Decodable where T: Decodable {
     private(set) var items:[T]
     private(set) var kind: String
-    //private(set) var metadata: [String:String]? = nil
+    private(set) var metadata: MetaData? = nil
+}
+
+struct MetaData : Decodable {
+    private(set) var exp: Double? = nil
 }
 
 protocol ApiRoute : NetworkRoute {

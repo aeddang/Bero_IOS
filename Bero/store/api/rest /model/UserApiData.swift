@@ -24,6 +24,9 @@ struct UserData : Decodable {
     private(set) var exerciseDuration: Double? = nil
     private(set) var walkDistance: Double? = nil
     private(set) var missionDistance: Double? = nil
+    private(set) var walkCompleteCnt: Int? = nil
+    private(set) var missionCompleteCnt: Int? = nil
     private(set) var level: Int? = nil
     private(set) var isChecked: Bool? = nil
+    private(set) var isFriend: Bool? = nil
 }

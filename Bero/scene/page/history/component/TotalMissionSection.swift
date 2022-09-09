@@ -60,7 +60,7 @@ struct TotalMissionSection: PageComponent{
             switch res.type {
             case .getPets(let user, _):
                 if user.snsID == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
-                    self.user.setData(data: data, isMyPet: false)
+                    self.user.setData(data: data)
                 }
             default : break
             }
@@ -96,7 +96,9 @@ struct TotalMissionSection: PageComponent{
             self.profile = self.user.pets.first(where: {$0.name == select})
             self.user.currentPet = self.profile
             self.updatedMission()
-            self.infinityScrollModel.uiEvent = .reload
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
+                self.infinityScrollModel.uiEvent = .reload
+            }
         }
         
     }

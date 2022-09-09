@@ -13,7 +13,7 @@ struct MyPlayInfo: PageComponent{
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .updatedPlayData : self.updated()
+            case .updatedLvData : self.updated()
             default : break
             }
         }
