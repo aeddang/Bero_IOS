@@ -42,7 +42,7 @@ struct AlbumSection: PageComponent{
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
             switch res.type {
-            case .getAlbumPictures(let id, _, let page, _):
+            case .getAlbumPictures(let id, _, _, let page, _):
                 if self.currentId == id && page == 0 {
                     self.reset()
                     self.loaded(res)

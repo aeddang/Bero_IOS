@@ -10,6 +10,7 @@ import Foundation
 import Foundation
 import SwiftUI
 struct SceneTab: PageComponent{
+    @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var sceneObserver:PageSceneObserver
@@ -18,6 +19,7 @@ struct SceneTab: PageComponent{
     @State var positionBottom:CGFloat = -Dimen.app.bottom
     @State var isDimed:Bool = false
     @State var isLoading:Bool = false
+    @State var isSimpleWalkView:Bool = false
     @State var safeAreaTop:CGFloat = 0
     @State var safeAreaBottom:CGFloat = 0
     @State var useBottom:Bool = false
@@ -35,11 +37,18 @@ struct SceneTab: PageComponent{
     @State var imagePick:((UIImage?)->Void)? = nil
     var body: some View {
         ZStack{
-            VStack(spacing:Dimen.margin.regular){
+            VStack(alignment: .leading, spacing:0){
                 Spacer()
                 if self.isLoading {
-                    ActivityIndicator(isAnimating: self.$isLoading)
+                    ZStack{
+                        Spacer().modifier(MatchHorizontal(height: 0))
+                        ActivityIndicator(isAnimating: self.$isLoading)
+                            .padding(.bottom, Dimen.margin.regular)
+                    }
                 }
+                SimpleWalkBox()
+                    .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
+                    .padding(.bottom, Dimen.margin.thin)
                 BottomTab()
                     .padding(.bottom, self.positionBottom)
                     .opacity(self.useBottom ? 1 : 0)
@@ -91,7 +100,20 @@ struct SceneTab: PageComponent{
                 .toast(isShowing: self.$isToastShowing , text: self.toastMsg)
         }
         .modifier(MatchParent())
-        
+        .onReceive(self.walkManager.$isSimpleView) { isSimple in
+            withAnimation{
+                self.isSimpleWalkView = isSimple
+            }
+        }
+        .onReceive(self.pagePresenter.$currentTopPage){ page in
+            guard let pageId = page?.pageID else {return}
+            switch pageId {
+            case .walk : self.walkManager.updateSimpleView(false)
+            case .walkCompleted, .missionCompleted : break
+            default :self.walkManager.updateSimpleView(true)
+            }
+            
+        }
         .onReceive (self.appSceneObserver.$isApiLoading) { loading in
             DispatchQueue.main.async {
                 withAnimation{

@@ -36,6 +36,7 @@ enum WalkStatus {
     case ready, walking
 }
 extension WalkManager {
+    static var todayWalkCount:Int = 0
     static let distenceUnit:Double = 200000
     static func viewSpeed(_ value:Double) -> String {
         return (value * 3600 / 1000).toTruncateDecimal(n:1) + String.app.kmPerH
@@ -51,7 +52,7 @@ extension WalkManager {
 
 
 class WalkManager:ObservableObject, PageProtocol{
-    private let locationObserver:LocationObserver
+    let locationObserver:LocationObserver
     private let dataProvider:DataProvider
     private var anyCancellable = Set<AnyCancellable>()
     private(set) var missions:[Mission] = []
@@ -71,7 +72,9 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private(set) var currentLocation:CLLocation? = nil
     @Published private(set) var isMapLoading:Bool = false
     @Published private(set) var currentDistenceFromMission:Double? = nil
-    
+    @Published private (set) var playPoint:Int = 0
+    @Published private (set) var playExp:Double = 0
+    @Published private (set) var isSimpleView:Bool = false
     init(
         dataProvider:DataProvider,
         locationObserver:LocationObserver){
@@ -106,6 +109,19 @@ class WalkManager:ObservableObject, PageProtocol{
             }
         }
         self.requestMapStatus(location)
+    }
+    func updateSimpleView(_ view:Bool) {
+        if self.status != .walking {
+            self.isSimpleView = false
+            return
+        }
+        self.isSimpleView = view
+       
+    }
+    func updateReward(_ exp:Double, point:Int) {
+        if self.status != .walking { return }
+        self.playPoint += point
+        self.playExp += exp
     }
     
     func startMap() {
@@ -155,11 +171,14 @@ class WalkManager:ObservableObject, PageProtocol{
         self.completedWalk = nil
         self.walkTime = 0
         self.walkDistence = 0
+        self.playExp = 0
+        self.playPoint = 0
         self.completedMissions = []
         self.endMission()
         self.endTimer()
         self.event = .end
         self.status = .ready
+        self.isSimpleView = false
     }
     
     func startMission(_ mission:Mission, route:Route? = nil){
@@ -297,7 +316,7 @@ class WalkManager:ObservableObject, PageProtocol{
                 self.missionUsers = datas.map{Mission().setData($0, type: .user)}
                 self.event = .updatedUsers
             }
-        case  .getPlace :
+        case .getPlace :
             if let datas = res.data as? [PlaceData] {
                 self.places = datas.map{Place().setData($0)}
                 self.event = .updatedPlaces

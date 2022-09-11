@@ -163,7 +163,7 @@ struct PageFactory{
         case .login : return PageLogin(pageObservable:pageObservable)
         case .walk : return PageWalk(pageObservable:pageObservable)
         case .explore : return PageExplore(pageObservable:pageObservable)
-        case .chat : return PageWalk(pageObservable:pageObservable)
+        case .chat : return PageChat(pageObservable:pageObservable)
         case .my : return PageMy(pageObservable:pageObservable)
         case .dog : return PageDog(pageObservable:pageObservable)
         case .user : return PageUser(pageObservable:pageObservable)

@@ -11,6 +11,7 @@ import Combine
 import GoogleMaps
 
 struct PageWalkCompleted: PageView {
+    @EnvironmentObject var repository:Repository
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var sceneObserver:PageSceneObserver
@@ -130,6 +131,7 @@ struct PageWalkCompleted: PageView {
     
     private func closeMission(){
         self.walkManager.endWalk()
+        self.repository.updateTodayWalkCount()
         if let mission = self.mission {
             self.dataProvider.user.missionCompleted(mission)
         }

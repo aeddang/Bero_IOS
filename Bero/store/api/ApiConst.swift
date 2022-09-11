@@ -36,6 +36,7 @@ enum ApiAction:String{
     case login, detecthumanwithdog, thumbsup, cities
     case search, summary, newMissions, directions, visit, monthlyList
     case isRequested, requesting, request, accept, reject
+    case read, send
     case histories
 }
 
@@ -60,7 +61,7 @@ enum ApiType{
     
     case checkHumanWithDog(img:UIImage,thumbImg:UIImage)
     
-    case getAlbumPictures(id:String, AlbumApi.Category, page:Int? = nil, size:Int? = nil),
+    case getAlbumPictures(id:String, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , page:Int? = nil, size:Int? = nil),
          registAlbumPicture(img:UIImage, thumbImg:UIImage, id:String, AlbumApi.Category),
          deleteAlbumPictures(ids:String),
          updateAlbumPicture(pictureId:Int, isLike:Bool)
@@ -79,6 +80,12 @@ enum ApiType{
          rejectFriend(userId:String), acceptFriend(userId:String)
     
     case getRewardHistory(userId:String, page:Int? = nil, size:Int? = nil)
+    
+    case getChats (page:Int? = nil, size:Int? = nil),
+         readChat(chatId:Int),
+         deleteChat(chatId:Int),
+         deleteAllChat(chatIds:String),
+         sendChat(userId:String, contents:String)
     
     func coreDataKey() -> String? {
         switch self {

@@ -19,6 +19,7 @@ class LocalStorage {
         static let loginId = "loginId" + VS
         
         static let authToken = "authToken" + VS
+        static let walkCount = "walkCount" + VS
        
     }
     let defaults = UserDefaults.standard
@@ -72,6 +73,15 @@ class LocalStorage {
         }
         get{
             return defaults.string(forKey: Keys.authToken)
+        }
+    }
+    
+    var walkCount:String?{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.walkCount)
+        }
+        get{
+            return defaults.string(forKey: Keys.walkCount)
         }
     }
 }

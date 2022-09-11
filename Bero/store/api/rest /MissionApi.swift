@@ -143,6 +143,7 @@ class MissionApi :Rest{
         params["duration"] = mission.duration
         params["distance"] = mission.distance
         params["point"] = mission.point
+        params["exp"] = mission.exp
         params["pictureUrl"] = pictureUrl
         params["petIds"] = pets.map{$0.petId}
         var geos: [[String: Any]] = []
@@ -163,28 +164,7 @@ class MissionApi :Rest{
         fetch(route: MissionApiRoute (method: .post, body: params), completion: completion, error:error)
     }
     
-    
-    func post(walk:Walk, pets:[PetProfile] , completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
-        var params = [String: Any]()
-        params["missionCategory"] = Category.walk.getApiCode
-       
-        params["duration"] = walk.playTime
-        params["distance"] = walk.playDistence
-        params["pictureUrl"] = walk.pictureUrl
-        let point = walk.point()
-        params["point"] = point
-        params["experience"] = point
-        params["petIds"] = pets.map{$0.petId}
-        let geos: [[String: Any]] = walk.locations.map{
-            var geo = [String: Any]()
-            geo["lat"] = $0.coordinate.latitude
-            geo["lng"] = $0.coordinate.longitude
-            return geo
-        }
-        params["geos"] = geos
-        fetch(route: MissionApiRoute (method: .post, body: params), completion: completion, error:error)
-    }
-    
+
     
     func getSummary(petId:Int?,
              completion: @escaping (ApiContentResponse<MissionSummary>) -> Void, error: ((_ e:Error) -> Void)? = nil){

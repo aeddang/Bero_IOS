@@ -107,6 +107,7 @@ class Mission:MapUserData{
     private (set) var description:String? = nil
     private (set) var pictureUrl:String? = nil
     private (set) var point:Int = 0
+    private (set) var exp:Int = 0
     private (set) var departure:CLLocation? = nil
     private (set) var destination:CLLocation? = nil
     private (set) var waypoints:[CLLocation] = []
@@ -177,6 +178,7 @@ class Mission:MapUserData{
         self.description = data.description
         self.pictureUrl = data.pictureUrl
         self.point = data.point ?? 0
+        self.exp = data.exp ?? 0
         if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
             self.endDate = end
             self.startDate = end.addingTimeInterval(data.duration ?? 0)
@@ -202,6 +204,8 @@ class Mission:MapUserData{
         self.distance = data.walkDistence
         self.duration = data.walkTime
         self.completedMissions = data.completedMissions
+        self.point = data.playPoint
+        self.exp = data.playExp.toInt()
         return self
     }
 }

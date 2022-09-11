@@ -44,6 +44,7 @@ struct AlbumList: PageComponent{
             if self.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.top, Dimen.margin.regularUltra)
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                 Spacer().modifier(MatchParent())
             } else {
                 InfinityScrollView(
@@ -106,7 +107,7 @@ struct AlbumList: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getAlbumPictures(let id, _, let page ,let size):
+            case .getAlbumPictures(let id, _, _, let page ,let size):
                 if self.currentId == id && size == nil{
                     if page == 0 {
                         self.resetScroll()

@@ -19,15 +19,15 @@ struct UserProfileItem: PageComponent{
     var action: (() -> Void)? = nil
     var body: some View {
         HorizontalProfile(
-            type: .multi(imgPath: self.subImagePath, useDescription: date==nil),
+            type: .multi(imgPath: self.subImagePath),
             sizeType: .small,
             funcType:
                 !self.dataProvider.user.isSameUser(self.data) && self.status == .norelation ? .addFriend : nil,
             imagePath: self.data.imagePath,
             name: self.data.nickName,
-            date: self.date,
             gender: self.data.gender,
             age: self.data.birth?.toAge(),
+            description: self.date,
             isSelected: false
         ){ type in
             

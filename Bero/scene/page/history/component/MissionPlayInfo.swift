@@ -16,9 +16,9 @@ struct MissionPlayInfo: PageComponent{
     
     @State var datas:[ValueData] = []
     private func updated(){
-        let walkData = ValueData(idx: 0, type: .value(.walk, value: Double(mission.point)))
-        let missionData = ValueData(idx: 1, type: .value(.mission, value: Double(mission.point)))
-        self.datas = [walkData, missionData]
+        let walkData = ValueData(idx: 0, type: .value(.exp, value: Double(mission.exp)))
+        let pointData = ValueData(idx: 1, type: .value(.point, value: Double(mission.point)))
+        self.datas = [walkData, pointData]
     }
 }
 

@@ -77,6 +77,36 @@ extension Double {
     100M = 100 Million = 1억
     1B = 1 Billion = 10억
     */
+    func since()->String {
+        var value:Double = 0
+        var unit:String = ""
+       
+        if self < 60 * 1000 {
+            return "just now"
+        }
+        else if self < 60 * 1000 * 60 {
+            value = self / (60 * 1000)
+            unit = "min before"
+        }
+        else if self < 60 * 1000 * 60 * 24 {
+            value = self / ( 60 * 1000 * 60)
+            unit = "hour before"
+        }
+        else if self < 60 * 1000 * 60 * 24 * 30{
+            value = self / ( 60 * 1000 * 60 * 24)
+            unit = "days before"
+        }
+        else if self < 60 * 1000 * 60 * 24 * 365 {
+            value = self / ( 60 * 1000 * 60 * 24 * 30)
+            unit = "month ago"
+        }
+        else {
+            value = self / ( 60 * 1000 * 60 * 24 * 365)
+            unit = "year ago"
+        }
+        return String(format: "%.0f",  value ) + unit
+    }
+    
 }
 
 extension Date{
@@ -134,6 +164,15 @@ extension Date{
     var isLastDayOfMonth: Bool {
         return dayAfter.month != month
     }
+    
+    func sinceNow()->String {
+        let diff = self.timeIntervalSinceNow
+        DataLog.d(Date().currentTimeMillis().description)
+        DataLog.d(self.description)
+        return diff.since()
+    }
+    
+    
 }
 
 extension CryptoKit.SHA256.Digest {

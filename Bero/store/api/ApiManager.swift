@@ -17,7 +17,7 @@ enum ApiEvent{
 }
 
 enum RewardEvent{
-    case exp(value:Double)
+    case exp(value:Double), point(value:Int), reward(exp:Double, point:Int)
 }
 struct ApiNetwork :Network{
     static fileprivate(set) var accesstoken:String? = nil
@@ -60,7 +60,8 @@ class ApiManager :PageProtocol, ObservableObject{
     private let album:AlbumApi
     private let mission:MissionApi
     private let friend:FriendApi
-    private let rewardApi:RewardApi
+    private let reward:RewardApi
+    private let chat:ChatApi
     //Store Api
     private let auth:AuthApi
     private let userUpdate:UserApi
@@ -86,7 +87,8 @@ class ApiManager :PageProtocol, ObservableObject{
         self.misc = MiscApi(network: self.network)
         self.walk = MissionApi(network: self.network)
         self.friend = FriendApi(network: self.network)
-        self.rewardApi = RewardApi(network: self.network)
+        self.reward = RewardApi(network: self.network)
+        self.chat = ChatApi(network: self.network)
     }
     
     func clear(){
@@ -96,7 +98,8 @@ class ApiManager :PageProtocol, ObservableObject{
         self.mission.clear()
         self.album.clear()
         self.friend.clear()
-        self.rewardApi.clear()
+        self.reward.clear()
+        self.chat.clear()
         self.apiQ.removeAll()
     }
     
@@ -252,8 +255,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.vision.post(img: img, thumbImg: thumb, action: .detecthumanwithdog,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .getAlbumPictures(let id, let cate, let page , let size) :
-            self.album.get(id: id, type: cate, page: page, size: size,
+        case .getAlbumPictures(let id, let cate, let searchType, let page , let size) :
+            self.album.get(id: id, type: cate, searchType:searchType, page: page, size: size,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
         case .registAlbumPicture(let img, let thumb, let id, let cate) :
@@ -317,9 +320,30 @@ class ApiManager :PageProtocol, ObservableObject{
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
         case .getRewardHistory(let userId, let page, let size) :
-            self.rewardApi.getHistory(userId: userId, page: page, size: size,
+            self.reward.getHistory(userId: userId, page: page, size: size,
                                       completion: {res in self.complated(id: apiID, type: type, res: res)},
                                       error:error)
+            
+        case .getChats(let page, let size) :
+            self.chat.get(page: page, size: size,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .sendChat(let userId, let contents) :
+            self.chat.post(userId: userId, contents: contents,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .readChat(let chatId) :
+            self.chat.put(chatId: chatId,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .deleteChat(let chatId) :
+            self.chat.delete(chatId: chatId,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .deleteAllChat(let chatIds) :
+            self.chat.deleteAll(chatIds: chatIds,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
         default: break
         }
         return apiID
@@ -353,8 +377,14 @@ class ApiManager :PageProtocol, ObservableObject{
     }
     private func complated<T:Decodable>(id:String, type:ApiType, res:ApiContentResponse<T>){
         let result:ApiResultResponds = .init(id: id, type:type, data: res.contents)
-        if let exp = res.metadata?.exp{
+        let expValue = res.metadata?.exp == 0 ? nil : res.metadata?.exp
+        let pointValue = res.metadata?.point == 0 ? nil : res.metadata?.point
+        if let exp = expValue, let point = pointValue {
+            self.rewardEvent = .reward(exp: exp, point: point)
+        } else if let exp = expValue {
             self.rewardEvent = .exp(value: exp)
+        } else if let point = pointValue {
+            self.rewardEvent = .point(value: point)
         }
         
         switch type {

@@ -9,6 +9,7 @@ import Foundation
 struct RewardHistoryData : Decodable {
     private(set) var expType: String? = nil
     private(set) var exp: Double? = nil
+    private(set) var point: Double? = nil
     private(set) var createdAt: String? = nil
     private(set) var userId: String? = nil
 }

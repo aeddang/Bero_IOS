@@ -157,8 +157,14 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.currentProfile.setLv(self.lv)
         self.event = .updatedLvData
     }
-    
-    
+    func updatePoint(_ point:Int) {
+        self.point += point
+        self.event = .updatedLvData
+    }
+    func updateReward(_ exp:Double, point:Int) {
+        self.point += point
+        self.updateExp(exp)
+    }
 }
 
 

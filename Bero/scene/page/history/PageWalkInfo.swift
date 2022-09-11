@@ -105,12 +105,12 @@ struct PageWalkInfo: PageView {
                                                     .padding(.vertical, Dimen.margin.regular)
                                             }
                                         }
+                                        if self.missions.isEmpty {
+                                            EmptyItem(type: .myList)
+                                        }
                                         if self.missions.count < 3 {
                                             Spacer()
                                                 .frame(height:100)
-                                        }
-                                        if self.missions.isEmpty {
-                                            EmptyItem(type: .myList)
                                         }
                                         Spacer()
                                             .frame(height: max(-self.topOffSet, 0))

@@ -45,14 +45,19 @@ struct PageWalk: PageView {
                         viewModel: self.mapModel
                     )
                     Spacer().modifier(MatchParent())
-                    WalkControllBox(
-                        pageObservable: self.pageObservable,
-                        viewModel: self.mapModel,
-                        isFollowMe: self.$isFollowMe,
-                        isForceMove: self.$isForceMove
-                    )
+                    if !self.isWalk {
+                        StartBox()
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    } else {
+                        WalkBox(
+                            pageObservable: self.pageObservable,
+                            viewModel: self.mapModel,
+                            isFollowMe: self.$isFollowMe
+                        )
+                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    }
                 }
-                .padding(.bottom, Dimen.app.bottom)
+                .padding(.bottom, Dimen.app.bottom + Dimen.margin.thin)
                 .modifier(PageVertical())
             }
             .modifier(MatchParent())
@@ -63,6 +68,14 @@ struct PageWalk: PageView {
             if !self.isInit {
                 self.isInit = true
                 self.walkManager.updateMapStatus(loc)
+            }
+        }
+        .onReceive(self.walkManager.$status){ status in
+            switch status {
+            case .ready :
+                self.isWalk = false
+            case .walking :
+                self.isWalk = true
             }
         }
         .onAppear{
@@ -76,6 +89,7 @@ struct PageWalk: PageView {
         }
     }//body
     @State var isInit:Bool = false
+    @State var isWalk:Bool = false
 }
 
 

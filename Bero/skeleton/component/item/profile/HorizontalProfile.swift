@@ -11,7 +11,7 @@ import SwiftUI
 
 struct HorizontalProfile: PageComponent{
     enum ProfileType{
-        case pet, user, place(icon:String = Asset.icon.goal), multi(imgPath:String?, useDescription:Bool = false)
+        case pet, user, place(icon:String = Asset.icon.goal), multi(imgPath:String?)
         var emptyImage:String{
             switch self {
             case .pet : return Asset.image.profile_dog_default
@@ -23,15 +23,6 @@ struct HorizontalProfile: PageComponent{
             switch self {
             case .pet : return String.pageTitle.addDog
             default : return ""
-            }
-        }
-        
-        
-        var useDescription:Bool{
-            switch self {
-            case .multi(_ , let useDescription) : return useDescription
-            case .place : return false
-            default : return true
             }
         }
         
@@ -65,7 +56,8 @@ struct HorizontalProfile: PageComponent{
         }
     }
     enum FuncType{
-        case addFriend, button(String), more, delete
+        case addFriend, button(String), more, delete,
+             view(String, color:Color = Color.brand.primary)
     }
     
     var id:String = UUID().uuidString
@@ -76,8 +68,7 @@ struct HorizontalProfile: PageComponent{
     var image:UIImage? = nil
     var imagePath:String? = nil
     var name:String? = nil
-    var date:String? = nil
-    var adress:String? = nil
+    var date:Date? = nil
     var gender:Gender? = nil
     var age:String? = nil
     var breed:String? = nil
@@ -85,7 +76,6 @@ struct HorizontalProfile: PageComponent{
     var distance:Double? = nil
     var isSelected:Bool = false
     var isEmpty:Bool = false
-    
     var action: ((FuncType?) -> Void)? = nil
     
     var body: some View {
@@ -101,7 +91,7 @@ struct HorizontalProfile: PageComponent{
                     .frame(width: Dimen.button.medium, height: Dimen.button.medium)
                     .background(Color.app.orangeSub)
                     .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
-            case .multi(let imgPath, _) :
+            case .multi(let imgPath) :
                 MultiProfile(
                     type: .user,
                     sizeType: .small,
@@ -141,17 +131,27 @@ struct HorizontalProfile: PageComponent{
                     }
                 } else {
                     if let name = self.name {
-                        Text(name)
-                            .modifier(SemiBoldTextStyle(
-                                size: self.sizeType.nameSize,
-                                color: self.isSelected ? Color.app.white : Color.app.black
-                            ))
-                            .multilineTextAlignment(.leading)
-                            .padding(.bottom, self.sizeType.titleSpacing)
-                        
+                        HStack(spacing: Dimen.margin.thin){
+                            Text(name)
+                                .modifier(SemiBoldTextStyle(
+                                    size: self.sizeType.nameSize,
+                                    color: self.isSelected ? Color.app.white : Color.app.black
+                                ))
+                                .multilineTextAlignment(.leading)
+                                
+                            if let date = self.date {
+                                Text(date.sinceNow())
+                                    .modifier(RegularTextStyle(
+                                        size: Font.size.tiny,
+                                        color: Color.app.grey300
+                                    ))
+                                    .fixedSize()
+                            }
+                        }
+                        .padding(.bottom, self.sizeType.titleSpacing)
                     }
                     VStack(alignment: .leading, spacing:Dimen.margin.micro){
-                        if self.type.useDescription {
+                        if self.gender != nil || self.age != nil {
                             ProfileInfoDescription(
                                 id: self.id,
                                 age: self.age,
@@ -161,14 +161,13 @@ struct HorizontalProfile: PageComponent{
                             )
                         }
                         
-                        
                         if let breed = self.breed, let breedValue = SystemEnvironment.breedCode[breed] {
                             Text( breedValue)
                                 .modifier(RegularTextStyle(
                                     size: Font.size.thin,
                                     color: self.isSelected ? Color.app.white : self.color
                                 ))
-                                .multilineTextAlignment(.leading)
+                                .lineLimit(1)
                         }
                         HStack(spacing: Dimen.margin.tiny){
                             if let description = self.description {
@@ -177,7 +176,7 @@ struct HorizontalProfile: PageComponent{
                                         size: Font.size.thin,
                                         color: self.isSelected ? Color.app.white : Color.app.grey500
                                     ))
-                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(1)
                             }
                             
                             if let distance = self.distance {
@@ -186,23 +185,7 @@ struct HorizontalProfile: PageComponent{
                                         size: Font.size.thin,
                                         color: self.isSelected ? Color.app.white : self.color
                                     ))
-                                    .multilineTextAlignment(.leading)
-                            }
-                            if let date = self.date {
-                                Text(date)
-                                    .modifier(RegularTextStyle(
-                                        size: Font.size.thin,
-                                        color: self.isSelected ? Color.app.white : Color.app.grey500
-                                    ))
-                                    .multilineTextAlignment(.leading)
-                            }
-                            if let adress = self.adress {
-                                Text(adress)
-                                    .modifier(RegularTextStyle(
-                                        size: Font.size.thin,
-                                        color: self.isSelected ? Color.app.white : Color.app.grey500
-                                    ))
-                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(1)
                             }
                         }
                     }
@@ -249,6 +232,15 @@ struct HorizontalProfile: PageComponent{
                     ){ _ in
                         self.action?(funcType)
                     }
+                case .view(let str, let color) :
+                    Text(str)
+                        .modifier(MediumTextStyle(
+                            size: Font.size.tiny,
+                            color: Color.app.white
+                        ))
+                        .padding(.all, Dimen.margin.micro)
+                        .background(color)
+                        .clipShape(Circle())
                 }
             }
         }
@@ -317,7 +309,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 sizeType: .small,
                 color: Color.app.red,
                 name: "name",
-                date: "August 23, 2023"
+                description: "August 23, 2023"
             ){ _ in
                 
             }

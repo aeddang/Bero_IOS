@@ -52,6 +52,7 @@ struct FriendList: PageComponent{
             if self.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.top, Dimen.margin.regularUltra)
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                 Spacer().modifier(MatchParent())
             } else {
                 InfinityScrollView(

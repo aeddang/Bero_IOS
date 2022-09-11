@@ -31,7 +31,15 @@ extension Asset{
         public static let diary = Asset.icon.calendar
         public static let my = Asset.image.profile_user_default
     }
-    
+    struct map {
+        public static let pinEmpty = "pin_empty"
+        public static let pinFood = "pin_food"
+        public static let pinHospital = "pin_hospital"
+        public static let pinMission = "pin_mission"
+        public static let pinPlay = "pin_play"
+        public static let myLocation = "my_location"
+        public static let locator = "locator"
+    }
     struct icon {
         public static let calendar = "calendar"
         public static let copy = "copy"
@@ -128,12 +136,13 @@ extension Asset{
         public static let remove_friend = "remove_friend"
         public static let vet = "vet"
         public static let hi = "hi"
-        
         public static let cloudy = "cloudy"
         public static let rain = "rain"
         public static let lightening = "lightening"
         public static let sunny = "hi"
-        
+        public static let minimize = "minimize"
+        public static let maximize = "maximize"
+        public static let send = "send"
     }
     
 

@@ -23,6 +23,7 @@ struct UserList: PageComponent{
             if self.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.top, Dimen.margin.regularUltra)
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                 FillButton(
                     type: .fill,
                     text: String.button.returnToAllPosts,
@@ -35,6 +36,7 @@ struct UserList: PageComponent{
                     }
                 }
                 .padding(.top, Dimen.margin.regularExtra)
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
                 Spacer().modifier(MatchParent())
             } else {
                 InfinityScrollView(

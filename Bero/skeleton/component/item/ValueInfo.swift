@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ValueInfo: PageComponent{
     enum ValueType{
-        case point, coin, heart, walk, mission, walkComplete, missionComplete
+        case point, coin, heart, walk, mission, walkComplete, missionComplete, exp
         var icon:String{
             switch self {
             case .point : return Asset.icon.point
@@ -33,6 +33,7 @@ struct ValueInfo: PageComponent{
         }
         var text:String?{
             switch self {
+            case .exp : return "Exps"
             case .point : return "Points"
             case .coin : return "Coins"
             case .heart : return "Heart Level"

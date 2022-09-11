@@ -69,8 +69,8 @@ class Repository:ObservableObject, PageProtocol{
         self.setupDataProvider()
         self.setupWalkManager()
         self.setupApiManager()
-        
         self.autoSnsLogin()
+        self.updateTodayWalkCount(0)
       
     }
     
@@ -154,6 +154,15 @@ class Repository:ObservableObject, PageProtocol{
             case .exp(let score) :
                 self.dataProvider.user.updateExp(score)
                 self.appSceneObserver?.event = .check("+ exp " + score.toInt().description)
+                self.walkManager.updateReward(score, point: 0)
+            case .point(let score) :
+                self.dataProvider.user.updatePoint(score)
+                self.appSceneObserver?.event = .check("+ point " + score.description)
+                self.walkManager.updateReward(0, point: score)
+            case .reward(let exp, let point) :
+                self.dataProvider.user.updateReward(exp, point: point)
+                self.appSceneObserver?.event = .check("+ point " + point.description + "\n" + "+ exp " + exp.toInt().description)
+                self.walkManager.updateReward(exp, point: point)
             default: break
             }
         }).store(in: &dataCancellable)
@@ -294,5 +303,19 @@ class Repository:ObservableObject, PageProtocol{
     var isLogin: Bool {
         self.storage.authToken?.isEmpty == false
     }
-   
+    
+    func updateTodayWalkCount(_ diff:Int = 1){
+        var count = diff
+        let now = AppUtil.networkTimeDate().toDateFormatter(dateFormat: "yyyyMMdd")
+        if let pre = self.storage.walkCount {
+            if pre.hasPrefix(now) {
+                let preCount = pre.replace(now, with:"").toInt()
+                if preCount != -1 {
+                    count = count + preCount
+                }
+            }
+        }
+        self.storage.walkCount = now + count.description
+        WalkManager.todayWalkCount = count
+    }
 }

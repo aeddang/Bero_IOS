@@ -14,7 +14,7 @@ struct PlaceProfileInfo: PageComponent{
                 type: .place(),
                 sizeType: .small,
                 name: profile.name,
-                adress: nil
+                description: nil
             )
         }
     }
