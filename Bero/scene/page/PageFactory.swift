@@ -18,6 +18,7 @@ extension PageID{
     static let matching:PageID = "matching"
     static let diary:PageID = "diary"
     static let my:PageID = "my"
+    static let chooseDog:PageID = "chooseDog"
     static let walkHistory:PageID = "walkHistory"
     static let walkReport:PageID = "walkReport"
     static let walkInfo:PageID = "walkInfo"
@@ -66,7 +67,7 @@ struct PageProvider {
     static func getType(_ pageID:PageID)-> PageAnimationType{
         switch pageID {
         case  .addDog, .addDogCompleted : return .vertical
-        case  .missionCompleted, .walkCompleted: return .opacity
+        case  .missionCompleted, .walkCompleted, .chooseDog: return .opacity
         default : return  .horizontal
         }
     }
@@ -167,6 +168,7 @@ struct PageFactory{
         case .my : return PageMy(pageObservable:pageObservable)
         case .dog : return PageDog(pageObservable:pageObservable)
         case .user : return PageUser(pageObservable:pageObservable)
+        case .chooseDog : return PageChooseDog(pageObservable:pageObservable)
         case .walkHistory : return PageWalkHistory(pageObservable:pageObservable)
         case .walkReport : return PageWalkReport(pageObservable:pageObservable)
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)

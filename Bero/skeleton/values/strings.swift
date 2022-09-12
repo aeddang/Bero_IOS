@@ -92,6 +92,9 @@ extension String {
         public static var completedExitConfirm = "If you exit without receiving a reward, the completed walk record will not be saved. Are you sure you want to quit?"
       
         public static var noItemsSelected = "No items selected."
+        
+        public static var walkDisableRemovePet = "walkDisableRemovePet."
+        public static var walkDisableEmptyWithPet = "walkDisableEmptyWithPet."
     }
     
     struct button {
@@ -138,6 +141,7 @@ extension String {
         public static let reply = "Reply"
         public static let accepAndClose = "Accept and close"
         public static let takeAnotherPhoto = "Take another photo"
+       
     }
     
     struct sort {
@@ -249,6 +253,9 @@ extension String {
         
         public static let missionSuccessTitle = "You’re close to a mission place. Keep it up!"
         public static let missionSuccessText = "You can accomplish %s missions today."
+        
+        public static let walkStartChooseDogTitle = "Start a walk?"
+        public static let walkStartChooseDogText = "Choose dogs you are walking with."
         
     }
     

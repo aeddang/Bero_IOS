@@ -156,20 +156,23 @@ struct Radio<Presenting>: View where Presenting: View {
                         }
                         .frame(height:300)
                     }
-                    HStack(spacing: Dimen.margin.tinyExtra){
-                        if self.isMultiSelectAble {
-                            FillButton(type: .fill, text: String.button.reset, color:Color.app.grey50){ _ in
+                    if self.isMultiSelectAble {
+                        HStack(spacing: Dimen.margin.tinyExtra){
+                            FillButton(type: .fill,
+                                       text: String.button.reset,
+                                       color:Color.app.grey50,
+                                       textColor: Color.app.grey400){ _ in
                                 self.buttons.forEach{$0.isSelected = false}
                             }
-                        }
-                        FillButton(type: .fill, text: String.button.apply,
-                                   color: self.buttons.first(where: {$0.isSelected}) == nil
-                                   ? Color.app.grey400 : Color.app.grey50,
-                                   gradient: self.buttons.first(where: {$0.isSelected}) == nil
-                                   ? nil : Color.app.orangeGradient){ _ in
-                            
-                            if self.buttons.first(where: {$0.isSelected}) == nil {return}
-                            self.completed()
+                            FillButton(type: .fill, text: String.button.apply,
+                                       color: self.buttons.first(where: {$0.isSelected}) == nil
+                                       ? Color.app.grey400 : Color.app.grey50,
+                                       gradient: self.buttons.first(where: {$0.isSelected}) == nil
+                                       ? nil : Color.app.orangeGradient){ _ in
+                                
+                                if self.buttons.first(where: {$0.isSelected}) == nil {return}
+                                self.completed()
+                            }
                         }
                     }
                 }
@@ -205,6 +208,7 @@ struct Radio<Presenting>: View where Presenting: View {
         self.action(btn.index, isSelect)
         if self.isMultiSelectAble {
             btn.isSelected = isSelect
+            self.buttons = newButtons
         }else {
             if isSelect {
                 if let find = newButtons.first(where: {$0.isSelected}) {
@@ -214,8 +218,12 @@ struct Radio<Presenting>: View where Presenting: View {
             } else {
                 btn.isSelected = false
             }
+            self.buttons = newButtons
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.35){
+                self.completed()
+            }
         }
-        self.buttons = newButtons
+        
     }
     
     @State var pageOpacity:Double = 1

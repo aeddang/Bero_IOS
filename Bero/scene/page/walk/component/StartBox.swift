@@ -80,6 +80,10 @@ struct StartBox: PageComponent{
             self.appSceneObserver.event = .toast(String.pageText.walkLocationNotFound)
             return
         }
+        if PageChooseDog.isFirstChoose && self.dataProvider.user.pets.count >= 2 {
+            self.pagePresenter.openPopup(PageProvider.getPageObject(.chooseDog))
+            return
+        }
         self.walkManager.startWalk()
     }
 }

@@ -65,6 +65,8 @@
 		3151DD2628CE995900641BCC /* InputComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2528CE995900641BCC /* InputComment.swift */; };
 		3151DD2928CE9AC000641BCC /* ChatBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2828CE9AC000641BCC /* ChatBox.swift */; };
 		3151DD2C28CEBE9000641BCC /* UserAlbumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */; };
+		3151DD2E28CF320500641BCC /* PageChooseDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2D28CF320500641BCC /* PageChooseDog.swift */; };
+		3151DD3028CF35E500641BCC /* PetProfileCheckItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */; };
 		316B777E28B982F80090E924 /* UserProfileTopInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B777D28B982F80090E924 /* UserProfileTopInfo.swift */; };
 		316B778128B98E470090E924 /* MyPlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778028B98E470090E924 /* MyPlayInfo.swift */; };
 		316B778328B996410090E924 /* DistanceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778228B996410090E924 /* DistanceItem.swift */; };
@@ -435,6 +437,8 @@
 		3151DD2528CE995900641BCC /* InputComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComment.swift; sourceTree = "<group>"; };
 		3151DD2828CE9AC000641BCC /* ChatBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBox.swift; sourceTree = "<group>"; };
 		3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumList.swift; sourceTree = "<group>"; };
+		3151DD2D28CF320500641BCC /* PageChooseDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageChooseDog.swift; sourceTree = "<group>"; };
+		3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileCheckItem.swift; sourceTree = "<group>"; };
 		316B777D28B982F80090E924 /* UserProfileTopInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTopInfo.swift; sourceTree = "<group>"; };
 		316B778028B98E470090E924 /* MyPlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayInfo.swift; sourceTree = "<group>"; };
 		316B778228B996410090E924 /* DistanceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceItem.swift; sourceTree = "<group>"; };
@@ -800,12 +804,13 @@
 				31BCF3B728C4203A004605CF /* LvHistoryItem.swift */,
 				31C6373928A8804D008EA54C /* PetProfileItem.swift */,
 				316B77A628BB19660090E924 /* PetProfileTopInfo.swift */,
+				3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */,
+				3151DD1A28CDD72100641BCC /* MessageListItem.swift */,
 				31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */,
 				31BCF3D028C5B710004605CF /* UserListItem.swift */,
 				31D6657E28CAFC3A00765625 /* UserProfileItem.swift */,
 				316B777D28B982F80090E924 /* UserProfileTopInfo.swift */,
 				31C6373528A87D8D008EA54C /* UserProfileInfo.swift */,
-				3151DD1A28CDD72100641BCC /* MessageListItem.swift */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -845,6 +850,7 @@
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
 				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
 				31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */,
+				3151DD2D28CF320500641BCC /* PageChooseDog.swift */,
 			);
 			path = walk;
 			sourceTree = "<group>";
@@ -2276,6 +2282,7 @@
 				31F3BD2F28967CBA0025223B /* VerticalProfile.swift in Sources */,
 				31D91E8B28725834001C2738 /* AnimateDrawView.swift in Sources */,
 				316B777E28B982F80090E924 /* UserProfileTopInfo.swift in Sources */,
+				3151DD3028CF35E500641BCC /* PetProfileCheckItem.swift in Sources */,
 				31D9204A287271C1001C2738 /* CircularSpinner.swift in Sources */,
 				31BCF3D328C5C147004605CF /* UserWalkList.swift in Sources */,
 				316D35F32895427C002FC476 /* InputText.swift in Sources */,
@@ -2401,6 +2408,7 @@
 				3143CD4E28879ADE00F1C88A /* IntroItem1.swift in Sources */,
 				31D91E7828725834001C2738 /* PageDragingProtocol.swift in Sources */,
 				31BCF3B428C411B5004605CF /* LvSection.swift in Sources */,
+				3151DD2E28CF320500641BCC /* PageChooseDog.swift in Sources */,
 				31BCF3C828C463D3004605CF /* LineGraph.swift in Sources */,
 				31D91E8728725834001C2738 /* Network.swift in Sources */,
 				31D92002287271C1001C2738 /* strings.swift in Sources */,
@@ -2568,7 +2576,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2612,7 +2620,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

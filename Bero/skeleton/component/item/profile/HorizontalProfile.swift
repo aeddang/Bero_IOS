@@ -31,7 +31,6 @@ struct HorizontalProfile: PageComponent{
             case .multi : return 0
             default : return Dimen.radius.light
             }
-            
         }
     }
     enum SizeType{
@@ -56,8 +55,15 @@ struct HorizontalProfile: PageComponent{
         }
     }
     enum FuncType{
-        case addFriend, button(String), more, delete, send,
+        case addFriend, button(String), more, delete, send, check(Bool),
              view(String, color:Color = Color.brand.primary)
+        
+        var strokeColor:Color? {
+            switch self {
+            case .check(let isCheck) : return isCheck ? Color.brand.primary : nil
+            default : return nil
+            }
+        }
     }
     
     var id:String = UUID().uuidString
@@ -240,6 +246,14 @@ struct HorizontalProfile: PageComponent{
                     ){ _ in
                         self.action?(funcType)
                     }
+                case .check(let isCheck) :
+                    CircleButton(
+                        type: .icon(Asset.icon.check),
+                        isSelected: true,
+                        activeColor: isCheck ? self.color : Color.app.grey100
+                    ){ _ in
+                        self.action?(funcType)
+                    }
                 case .view(let str, let color) :
                     Text(str)
                         .modifier(MediumTextStyle(
@@ -258,7 +272,7 @@ struct HorizontalProfile: PageComponent{
         .overlay(
             RoundedRectangle(cornerRadius: self.type.radius)
                 .strokeBorder(
-                    Color.app.grey100,
+                    self.funcType?.strokeColor ?? Color.app.grey100,
                     lineWidth: self.type.radius == 0 ? 0 : Dimen.stroke.light
                 )
         )
@@ -348,6 +362,20 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 breed: "dog",
                 isSelected: false
             )
+            
+            HorizontalProfile(
+                id: "",
+                type: .pet,
+                funcType: .check(true),
+                image: nil,
+                imagePath: nil,
+                name: "name",
+                gender: .female,
+                age: "20",
+                breed: "dog"
+            ){ _ in
+                
+            }
         }
         .padding(.all, 10)
         .background(Color.app.whiteDeep)

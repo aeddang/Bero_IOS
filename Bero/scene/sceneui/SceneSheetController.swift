@@ -12,8 +12,8 @@ import Combine
 
 enum SceneSheet {
     case confirm(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, (Bool) -> Void),
-         select(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, [String], (Int) -> Void),
-         alert(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, confirm:String? = nil, (() -> Void)? = nil)
+         alert(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, confirm:String? = nil, (() -> Void)? = nil),
+         select(String?, String?, icon:String? = nil, image:String?=nil, point:Int? = nil, exp:Double? = nil, [String], (Int) -> Void)
 }
 
 enum SceneSheetResult {
@@ -32,6 +32,7 @@ struct SceneSheetController: PageComponent{
     @State var isShow = false
     @State var title:String? = nil
     @State var description:String? = nil
+    @State var icon:String? = nil
     @State var image:String? = nil
     @State var point:Int? = nil
     @State var exp:Double? = nil
@@ -45,6 +46,7 @@ struct SceneSheetController: PageComponent{
         }
         .sheet(
             isShowing: self.$isShow,
+            icon: self.icon,
             title: self.title,
             description: self.description,
             image: self.image,
@@ -61,7 +63,7 @@ struct SceneSheetController: PageComponent{
             switch self.currentSheet {
             case .alert(_, _, _, _, _, _, let completionHandler) :
                 if let handler = completionHandler { self.selectedAlert(idx, completionHandler:handler) }
-            case .select(_, _, _, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
+            case .select(_, _, _, _, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
             case .confirm(_, _, _, _, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
             default: return
             }
@@ -76,8 +78,8 @@ struct SceneSheetController: PageComponent{
             switch sheet{
             case .alert(let title,let text, let image, let point, let exp, let btnText, _) :
                 self.setupAlert(title:title, text:text, image:image, point:point, exp:exp, btnText:btnText)
-            case .select(let title,let text, let image, let point, let exp, let selects, _) :
-                self.setupSelect(title: title, text: text, image:image, point:point, exp:exp, selects: selects)
+            case .select(let title,let text, let icon, let image, let point, let exp, let selects, _) :
+                self.setupSelect(title: title, text: text, icon:icon, image:image, point:point, exp:exp, selects: selects)
             case .confirm(let title,let text,let image, let point, let exp,  _) :
                 self.setupConfirm(title:title, text:text, image:image, point:point, exp:exp)
             default: return
@@ -92,6 +94,7 @@ struct SceneSheetController: PageComponent{
         if self.isShow { return }
         self.title = nil
         self.image = nil
+        self.icon = nil
         self.point = nil
         self.exp = nil
         self.description = nil
@@ -133,10 +136,11 @@ struct SceneSheetController: PageComponent{
     }
     
     
-    func setupSelect(title:String?, text:String?, image:String?, point:Int? = nil, exp:Double? = nil, selects:[String] ) {
+    func setupSelect(title:String?, text:String?, icon:String?, image:String?, point:Int? = nil, exp:Double? = nil, selects:[String] ) {
         self.title = title
         self.description = text
         self.image = image
+        self.icon = icon
         self.point = point
         self.exp = exp
         self.isLock = false

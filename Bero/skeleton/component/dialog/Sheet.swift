@@ -12,6 +12,7 @@ import SwiftUI
 
 extension View {
     func sheet(isShowing: Binding<Bool>,
+               icon:String? = nil,
                title:String? = nil,
                description:String? = nil,
                image:String? = nil,
@@ -33,6 +34,7 @@ extension View {
         }
         return Sheet(
             isShowing: isShowing,
+            icon: icon,
             title:title,
             description:description,
             image:image,
@@ -58,6 +60,7 @@ struct SheetBtnData:Identifiable, Equatable{
 struct Sheet<Presenting>: View where Presenting: View {
     @EnvironmentObject var sceneObserver:PageSceneObserver
     @Binding var isShowing: Bool
+    var icon:String? = nil
     var title:String? = nil
     var description:String? = nil
     var image:String? = nil
@@ -90,6 +93,15 @@ struct Sheet<Presenting>: View where Presenting: View {
                 VStack(alignment: .leading, spacing: 0){
                     Spacer().modifier(MatchHorizontal(height: 0))
                     VStack(alignment: .leading, spacing: Dimen.margin.regularExtra){
+                        if let icon = self.icon {
+                            Image(icon)
+                                .resizable()
+                                .renderingMode(.template)
+                                .scaledToFit()
+                                .foregroundColor(Color.brand.primary)
+                                .frame(width: Dimen.icon.heavyUltra, height: Dimen.icon.heavyUltra)
+                        }
+                        
                         if let title = self.title {
                             Text(title)
                                 .modifier(BoldTextStyle(
@@ -224,9 +236,12 @@ struct Sheet_Previews: PreviewProvider {
         }
         .sheet(
             isShowing: .constant(true),
+            icon: Asset.icon.walk,
             title: "TITLE",
             description: "desc",
             image: Asset.image.addDog,
+            point: 99,
+            exp: 99,
             cancel: {
                 
             },

@@ -21,7 +21,6 @@ struct PageWalk: PageView {
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
-    @EnvironmentObject var snsManager:SnsManager
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var mapModel:PlayMapModel = PlayMapModel()
    
@@ -129,7 +128,10 @@ struct PageWalk_Previews: PreviewProvider {
         Form{
             PageWalk().contentBody
                 .environmentObject(PagePresenter())
+                .environmentObject(PageSceneObserver())
                 .environmentObject(Repository())
+                .environmentObject(DataProvider())
+                .environmentObject(AppSceneObserver())
                 .frame(width: 375, height: 640, alignment: .center)
         }
     }

@@ -15,6 +15,7 @@ import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
 struct PageManageDogs: PageView {
+    @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -95,6 +96,11 @@ struct PageManageDogs: PageView {
     }
     
     private func deletePet(_ profile:PetProfile){
+        if walkManager.status == .walking {
+            self.appSceneObserver.event = .toast(String.alert.walkDisableRemovePet)
+            return
+        }
+        
         self.appSceneObserver.sheet = .select(
             String.alert.deleteDogTitle,
             String.alert.deleteDogText,
