@@ -13,6 +13,7 @@ import SwiftUI
 struct UserProfileItem: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var data:UserProfile
     var subImagePath:String? = nil
     var date:String? = nil
@@ -21,18 +22,20 @@ struct UserProfileItem: PageComponent{
         HorizontalProfile(
             type: .multi(imgPath: self.subImagePath),
             sizeType: .small,
-            funcType:
-                !self.dataProvider.user.isSameUser(self.data) && self.status == .norelation ? .addFriend : nil,
+            funcType: self.dataProvider.user.isSameUser(self.data)
+                ? nil
+                : self.status == .friend ? .send : .addFriend ,
             imagePath: self.data.imagePath,
             name: self.data.nickName,
-            gender: self.data.gender,
-            age: self.data.birth?.toAge(),
+            gender: self.date == nil ? self.data.gender : nil,
+            age: self.date == nil ? self.data.birth?.toAge() : nil,
             description: self.date,
             isSelected: false
         ){ type in
             
             switch type {
             case .addFriend : self.requestFriend()
+            case .send : self.appSceneObserver.event = .sendChat(userId: self.data.userId)
             default : self.action?()
             }
         }

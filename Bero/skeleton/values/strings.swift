@@ -44,6 +44,7 @@ extension String {
         public static let near = "Near"
         public static let likes = "likes"
         public static let missions = "missions"
+        
     }
     
     struct gnb {
@@ -107,6 +108,8 @@ extension String {
         public static let apply = "Apply"
         public static let more = "more"
         public static let delete = "Delete"
+        public static let request = "Request"
+        public static let remove = "Remove"
         public static let modify = "Modify"
         public static let selectAlbum = "Select from Gallery"
         public static let takeCamera = "Take a photo"
@@ -124,14 +127,24 @@ extension String {
         public static let viewMore = "View more"
         public static let manageDogs = "Manage dogs"
         public static let addFriend = "Add friend"
+        public static let remopveFriend = "Remove friend"
         public static let chat = "Chat"
         public static let requestSent = "Request sent"
-        public static let removeFriend = "Remove friend"
         public static let all = "All"
         public static let returnToAllPosts = "Return to all posts"
         public static let reject = "Reject"
         public static let accept = "Accept"
         public static let checkAll = "Check All"
+        public static let reply = "Reply"
+        public static let accepAndClose = "Accept and close"
+        public static let takeAnotherPhoto = "Take another photo"
+    }
+    
+    struct sort {
+        public static let all = "All"
+        public static let friends = "Friends"
+        public static let allText = "All users"
+        public static let friendsText = "My friends’ posts only"
     }
     
     struct pageTitle {
@@ -143,7 +156,7 @@ extension String {
         public static let album = "Album"
         public static let tag = "Tags"
         public static let physicalInformation = "Physical information"
-        public static let friends = "friends"
+        public static let friends = "Friends"
         public static let myDogs = "My dogs"
         public static let myProfile = "My Profile"
         public static let myLv = "My Heart Level"
@@ -226,6 +239,16 @@ extension String {
         public static let walkLocationNotFound = "Where Are You?"
         public static let walkNoWalksText = "No walks today"
         public static let walkMissionCompletedText = "%s missions today"
+        
+        public static let walkFinishConfirm = "Finish the walk?"
+        public static let walkFinishSuccessTitle = "Here is your reward!"
+        public static let walkFinishSuccessText = "Don’t forget to walk with %s tomorrow."
+        
+        public static let walkFinishFailTitle = "Oops...\nThe image didn’t work."
+        public static let walkFinishFailText = "Take another photo with your dog’s face clearly shown in the center."
+        
+        public static let missionSuccessTitle = "You’re close to a mission place. Keep it up!"
+        public static let missionSuccessText = "You can accomplish %s missions today."
         
     }
     

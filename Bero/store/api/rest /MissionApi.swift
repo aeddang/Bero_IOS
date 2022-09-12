@@ -58,15 +58,15 @@ extension MissionApi {
         case Distance, Time, Random, User, Walk, Friend
         var title : String {
             switch self {
-            case .User, .Random: return "All"
-            case .Friend : return "Friends"
+            case .User, .Random: return String.sort.all
+            case .Friend : return String.sort.friends
             default : return ""
             }
         }
         var text : String {
             switch self {
-            case .User, .Random : return "All users"
-            case .Friend : return "My friends’ posts only"
+            case .User, .Random : return String.sort.allText
+            case .Friend : return String.sort.friendsText
             default : return ""
             }
         }

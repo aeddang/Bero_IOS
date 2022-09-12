@@ -11,9 +11,9 @@ import SwiftUI
 import Combine
 
 enum SceneSheet {
-    case confirm(String?, String?, image:String?=nil, (Bool) -> Void),
-         select(String?, String?, image:String?=nil, [String], (Int) -> Void),
-         alert(String?, String?, image:String?=nil, confirm:String? = nil, (() -> Void)? = nil)
+    case confirm(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, (Bool) -> Void),
+         select(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, [String], (Int) -> Void),
+         alert(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, confirm:String? = nil, (() -> Void)? = nil)
 }
 
 enum SceneSheetResult {
@@ -33,7 +33,10 @@ struct SceneSheetController: PageComponent{
     @State var title:String? = nil
     @State var description:String? = nil
     @State var image:String? = nil
+    @State var point:Int? = nil
+    @State var exp:Double? = nil
     @State var buttons:[SheetBtnData] = []
+    @State var isLock:Bool = false
     @State var currentSheet:SceneSheet? = nil
     @State var delayReset:AnyCancellable? = nil
     var body: some View {
@@ -45,7 +48,10 @@ struct SceneSheetController: PageComponent{
             title: self.title,
             description: self.description,
             image: self.image,
+            point: self.point,
+            exp: self.exp,
             buttons: self.buttons,
+            isLock: self.isLock,
             cancel: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.reset()
@@ -53,10 +59,10 @@ struct SceneSheetController: PageComponent{
             }
         ){ idx in
             switch self.currentSheet {
-            case .alert(_, _, _, _, let completionHandler) :
+            case .alert(_, _, _, _, _, _, let completionHandler) :
                 if let handler = completionHandler { self.selectedAlert(idx, completionHandler:handler) }
-            case .select(_, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
-            case .confirm(_, _, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
+            case .select(_, _, _, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
+            case .confirm(_, _, _, _, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
             default: return
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -68,9 +74,12 @@ struct SceneSheetController: PageComponent{
             self.reset()
             self.currentSheet = sheet
             switch sheet{
-            case .alert(let title,let text, let image, let btnText, _) : self.setupAlert(title:title, text:text, image:image, btnText:btnText)
-            case .select(let title,let text, let image, let selects, _) : self.setupSelect(title: title, text: text, image:image, selects: selects)
-            case .confirm(let title,let text,let image,  _) : self.setupConfirm(title:title, text:text, image:image)
+            case .alert(let title,let text, let image, let point, let exp, let btnText, _) :
+                self.setupAlert(title:title, text:text, image:image, point:point, exp:exp, btnText:btnText)
+            case .select(let title,let text, let image, let point, let exp, let selects, _) :
+                self.setupSelect(title: title, text: text, image:image, point:point, exp:exp, selects: selects)
+            case .confirm(let title,let text,let image, let point, let exp,  _) :
+                self.setupConfirm(title:title, text:text, image:image, point:point, exp:exp)
             default: return
             }
             withAnimation{
@@ -83,16 +92,22 @@ struct SceneSheetController: PageComponent{
         if self.isShow { return }
         self.title = nil
         self.image = nil
+        self.point = nil
+        self.exp = nil
         self.description = nil
         self.buttons = []
         self.currentSheet = nil
+        self.isLock = false
     }
 
     
-    func setupConfirm(title:String?, text:String?, image:String?) {
+    func setupConfirm(title:String?, text:String?, image:String?, point:Int? = nil, exp:Double? = nil) {
         self.title = title
         self.image = image
+        self.point = point
+        self.exp = exp
         self.description = text
+        self.isLock = true
         self.buttons = [
             SheetBtnData(title: String.app.cancel, index: 0),
             SheetBtnData(title: String.app.confirm, index: 1)
@@ -102,12 +117,15 @@ struct SceneSheetController: PageComponent{
         completionHandler(idx == 1)
     }
     
-    func setupAlert(title:String?, text:String?, image:String?, btnText:String? = nil) {
+    func setupAlert(title:String?, text:String?, image:String?, point:Int? = nil, exp:Double? = nil, btnText:String? = nil) {
         self.title = title
         self.description = text
         self.image = image
+        self.point = point
+        self.exp = exp
+        self.isLock = true
         self.buttons = [
-            SheetBtnData(title: btnText ?? String.app.confirm, index: 0)
+            SheetBtnData(title: btnText ?? String.app.confirm, index: 1)
         ]
     }
     func selectedAlert(_ idx:Int, completionHandler: @escaping () -> Void) {
@@ -115,10 +133,13 @@ struct SceneSheetController: PageComponent{
     }
     
     
-    func setupSelect(title:String?, text:String?, image:String?, selects:[String] ) {
+    func setupSelect(title:String?, text:String?, image:String?, point:Int? = nil, exp:Double? = nil, selects:[String] ) {
         self.title = title
         self.description = text
         self.image = image
+        self.point = point
+        self.exp = exp
+        self.isLock = false
         self.buttons = zip(selects, 0..<selects.count).map{title, idx in
             SheetBtnData(title: title, index: idx)
         }

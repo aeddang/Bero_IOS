@@ -61,6 +61,7 @@ struct Check<Presenting>: View where Presenting: View {
                 }
                 Text(self.text)
                     .modifier(MediumTextStyle(size: Font.size.thin, color: Color.brand.primary))
+                    .multilineTextAlignment(.center)
             }
             .padding(.vertical, Dimen.margin.regularUltra)
             .padding(.horizontal, Dimen.margin.light)

@@ -17,14 +17,14 @@ struct AppLayout: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var keyboardObserver:KeyboardObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
-    
+    @ObservedObject var imagePickerModel = ImagePickerModel()
     @State var loadingInfo:[String]? = nil
     @State var isLoading = false
     @State var isLock = false
 
     var body: some View {
         ZStack{
-            SceneTab()
+            SceneTab(imagePickerModel:self.imagePickerModel)
             SceneRadioController()
             SceneSelectController()
             ScenePickerController()

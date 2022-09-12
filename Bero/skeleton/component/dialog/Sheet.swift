@@ -15,7 +15,10 @@ extension View {
                title:String? = nil,
                description:String? = nil,
                image:String? = nil,
+               point:Int? = nil,
+               exp:Double? = nil,
                buttons:[SheetBtnData]? = nil,
+               isLock:Bool = false,
                cancel: @escaping () -> Void,
                action: @escaping (_ idx:Int) -> Void
     ) -> some View {
@@ -33,7 +36,10 @@ extension View {
             title:title,
             description:description,
             image:image,
+            point: point,
+            exp: exp,
             buttons:alertBtns,
+            isLock: isLock,
             presenting: { self },
             cancel: cancel,
             action:action
@@ -45,6 +51,7 @@ struct SheetBtnData:Identifiable, Equatable{
     let title:String
     var img:String? = nil
     let index:Int
+
 }
 
 
@@ -54,7 +61,10 @@ struct Sheet<Presenting>: View where Presenting: View {
     var title:String? = nil
     var description:String? = nil
     var image:String? = nil
+    var point:Int? = nil
+    var exp:Double? = nil
     var buttons: [SheetBtnData] = []
+    var isLock:Bool = false
     let presenting: () -> Presenting
     var cancel:() -> Void
     let action: (_ idx:Int) -> Void
@@ -62,15 +72,20 @@ struct Sheet<Presenting>: View where Presenting: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .bottom) {
-                Button(action: {
-                    withAnimation{
-                        self.isShowing = false
+                if self.isLock {
+                    Spacer().modifier(MatchParent())
+                        
+                } else {
+                    Button(action: {
+                        withAnimation{
+                            self.isShowing = false
+                        }
+                        self.cancel()
+                    }) {
+                       Spacer().modifier(MatchParent())
+                           .background(Color.transparent.black70)
+                           .opacity(self.pageOpacity)
                     }
-                    self.cancel()
-                }) {
-                   Spacer().modifier(MatchParent())
-                       .background(Color.transparent.black70)
-                       .opacity(self.pageOpacity)
                 }
                 VStack(alignment: .leading, spacing: 0){
                     Spacer().modifier(MatchHorizontal(height: 0))
@@ -100,6 +115,28 @@ struct Sheet<Presenting>: View where Presenting: View {
                             .modifier(MatchHorizontal(height: 146))
                             .padding(.top, Dimen.margin.medium)
                     }
+                    if self.point != nil || self.exp != nil {
+                        ZStack{
+                            Spacer().modifier(MatchHorizontal(height: 0))
+                            HStack(spacing:Dimen.margin.thin){
+                                if let exp = self.exp {
+                                    RewardInfo(
+                                        type: .exp,
+                                        sizeType: .big,
+                                        value: exp.toInt()
+                                    )
+                                }
+                                if let point = self.point {
+                                    RewardInfo(
+                                        type: .point,
+                                        sizeType: .big,
+                                        value: point
+                                    )
+                                }
+                            }
+                        }
+                        .padding(.top, Dimen.margin.medium)
+                    }
                     HStack(spacing:Dimen.margin.tiny){
                         ForEach(self.buttons) { btn in
                             FillButton(
@@ -119,7 +156,7 @@ struct Sheet<Presenting>: View where Presenting: View {
                             }
                         }
                     }
-                    .padding(.top, Dimen.margin.regular)
+                    .padding(.top, Dimen.margin.medium)
                 }
                 .padding(.bottom, self.safeAreaBottom)
                 .modifier(BottomFunctionTab())
@@ -150,6 +187,7 @@ struct Sheet<Presenting>: View where Presenting: View {
     @State var pageOpacity:Double = 1
     @State var dragAmount = CGSize.zero
     private func drag(value:DragGesture.Value, screenHeight:CGFloat){
+        if self.isLock {return}
         let offset = value.translation.height
         
         withAnimation(.easeOut(duration: PageContentBody.pageMoveDuration)){
@@ -158,6 +196,7 @@ struct Sheet<Presenting>: View where Presenting: View {
         }
     }
     private func dragCompleted(value:DragGesture.Value, screenHeight:CGFloat){
+        if self.isLock {return}
         if value.predictedEndTranslation.height > screenHeight/3 {
             withAnimation(.easeOut(duration: PageContentBody.pageMoveDuration)){
                 self.isShowing = false

@@ -11,12 +11,11 @@ import SwiftUI
 extension FriendButton {
     enum ButtonType:String{
         case request, requested, accept, reject, delete
-        var icon:String{
+        var icon:String?{
             switch self {
             case .request, .requested : return Asset.icon.check
             case .delete: return Asset.icon.remove_friend
-            case .accept : return Asset.icon.add_friend
-            case .reject : return Asset.icon.remove_friend
+            default : return nil
             }
         }
         var bgColor:Color{
@@ -25,7 +24,7 @@ extension FriendButton {
             case .requested : return Color.app.grey300
             case .delete : return Color.app.grey300
             case .accept : return Color.brand.primary
-            case .reject : return Color.app.black
+            case .reject : return Color.app.grey300
             }
         }
         var textColor:Color{
@@ -36,8 +35,8 @@ extension FriendButton {
         }
         var text:String{
             switch self {
-            case .request, .requested : return String.button.requestSent
-            case .delete : return String.button.removeFriend
+            case .request, .requested : return String.button.request
+            case .delete : return String.button.remove
             case .accept : return String.button.accept
             case .reject : return String.button.reject
             }

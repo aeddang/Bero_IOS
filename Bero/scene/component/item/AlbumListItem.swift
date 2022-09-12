@@ -19,12 +19,14 @@ struct AlbumListItemDataSet:Identifiable {
 
 class AlbumListItemData:InfinityData, ObservableObject{
     private(set) var imagePath:String? = nil
+    private(set) var thumbIagePath:String? = nil
     @Published private(set) var isLike:Bool = false
     @Published private(set) var likeCount:Double = 0
     private(set) var pictureId:Int = -1
     func setData(_ data:PictureData, idx:Int) -> AlbumListItemData{
         self.index = idx
         self.imagePath = data.pictureUrl
+        self.thumbIagePath = data.smallPictureUrl
         self.pictureId = data.pictureId ?? -1
         self.isLike = data.isChecked ?? false
         self.likeCount = data.thumbsupCount ?? 0
@@ -53,7 +55,7 @@ struct AlbumListItem: PageComponent{
     var body: some View {
         ListItem(
             id: self.data.id,
-            imagePath: self.data.imagePath,
+            imagePath: self.data.thumbIagePath,
             imgSize: self.imgSize,
             likeCount: self.likeCount,
             isLike: self.isLike,

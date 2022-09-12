@@ -17,6 +17,7 @@ extension PageWalk{
 
 struct PageWalk: PageView {
     @EnvironmentObject var walkManager:WalkManager
+    @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
@@ -45,16 +46,18 @@ struct PageWalk: PageView {
                         viewModel: self.mapModel
                     )
                     Spacer().modifier(MatchParent())
-                    if !self.isWalk {
-                        StartBox()
+                    if self.isInitable {
+                        if !self.isWalk {
+                            StartBox()
+                                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        } else {
+                            WalkBox(
+                                pageObservable: self.pageObservable,
+                                viewModel: self.mapModel,
+                                isFollowMe: self.$isFollowMe
+                            )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    } else {
-                        WalkBox(
-                            pageObservable: self.pageObservable,
-                            viewModel: self.mapModel,
-                            isFollowMe: self.$isFollowMe
-                        )
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        }
                     }
                 }
                 .padding(.bottom, Dimen.app.bottom + Dimen.margin.thin)
@@ -78,18 +81,45 @@ struct PageWalk: PageView {
                 self.isWalk = true
             }
         }
+        .onReceive(self.dataProvider.user.$event){ evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .addedDog, .deletedDog, .updatedDogs:
+                withAnimation{
+                    self.isInitable = !self.dataProvider.user.pets.isEmpty
+                }
+                self.needDog()
+            default : break
+            }
+        }
         .onAppear{
             self.isFollowMe = Self.isFollowMe
             self.walkManager.startMap()
-            
+            withAnimation{
+                self.isInitable = !self.dataProvider.user.pets.isEmpty
+            }
         }
         .onDisappear{
             Self.isFollowMe = self.isFollowMe
             self.walkManager.endMap()
         }
     }//body
+    @State var isInitable:Bool = false
     @State var isInit:Bool = false
     @State var isWalk:Bool = false
+    
+    private func needDog(){
+        if !self.dataProvider.user.pets.isEmpty { return }
+        self.appSceneObserver.sheet = .select(
+            String.alert.addDogTitle,
+            String.alert.addDogText,
+            image:Asset.image.addDog,
+            [String.button.later,String.button.ok]){ idx in
+                if idx == 1 {
+                    self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
+                }
+        }
+    }
 }
 
 

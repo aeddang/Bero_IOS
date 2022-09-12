@@ -107,7 +107,7 @@ class Mission:MapUserData{
     private (set) var description:String? = nil
     private (set) var pictureUrl:String? = nil
     private (set) var point:Int = 0
-    private (set) var exp:Int = 0
+    private (set) var exp:Double = 0
     private (set) var departure:CLLocation? = nil
     private (set) var destination:CLLocation? = nil
     private (set) var waypoints:[CLLocation] = []
@@ -205,7 +205,7 @@ class Mission:MapUserData{
         self.duration = data.walkTime
         self.completedMissions = data.completedMissions
         self.point = data.playPoint
-        self.exp = data.playExp.toInt()
+        self.exp = data.playExp
         return self
     }
 }

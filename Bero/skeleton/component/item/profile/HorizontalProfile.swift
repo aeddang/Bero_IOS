@@ -56,7 +56,7 @@ struct HorizontalProfile: PageComponent{
         }
     }
     enum FuncType{
-        case addFriend, button(String), more, delete,
+        case addFriend, button(String), more, delete, send,
              view(String, color:Color = Color.brand.primary)
     }
     
@@ -227,6 +227,14 @@ struct HorizontalProfile: PageComponent{
                 case .addFriend :
                     CircleButton(
                         type: .icon(Asset.icon.add_friend),
+                        isSelected: true,
+                        activeColor: self.color
+                    ){ _ in
+                        self.action?(funcType)
+                    }
+                case .send :
+                    CircleButton(
+                        type: .icon(Asset.icon.send),
                         isSelected: true,
                         activeColor: self.color
                     ){ _ in

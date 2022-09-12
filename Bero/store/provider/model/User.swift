@@ -137,11 +137,10 @@ class User:ObservableObject, PageProtocol, Identifiable{
         case .walk :
             self.totalWalkCount += 1
             self.totalWalkDistance += mission.playDistence
-            exp = mission.playDistence
+    
         default :
             self.totalMissionCount += 1
             self.totalMissionDistance += mission.distance
-            exp = mission.distance
         }
         self.pets.filter{$0.isWith}.forEach{
             //$0.update(exp: Double(point))
@@ -299,7 +298,7 @@ enum FriendStatus{
     var text:String{
         switch self {
         case .requestFriend : return String.button.requestSent
-        case .friend : return String.button.removeFriend
+        case .friend : return String.button.remopveFriend
         case .recieveFriend : return String.button.addFriend
         default : return String.button.addFriend
         }

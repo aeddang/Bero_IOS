@@ -15,4 +15,6 @@ struct ChatData : Decodable {
     private(set) var receiver: String? = nil
     private(set) var isRead: Bool? = nil
     private(set) var userName: String? = nil
+    private(set) var senderUser:UserData? = nil
+    private(set) var senderPets: [PetData]? = nil
 }

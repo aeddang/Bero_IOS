@@ -85,9 +85,10 @@ struct FriendListItem: PageComponent{
                     ForEach(status.buttons, id:\.rawValue){ btn in
                         FriendButton(
                             userId: self.data.userId,
-                            type: btn, size:Dimen.button.light,
+                            type: btn,
+                            size:Dimen.button.light,
                             radius: Dimen.radius.regular,
-                            textSize: Font.size.thin
+                            textSize: Font.size.tiny
                         )
                     }
                 }

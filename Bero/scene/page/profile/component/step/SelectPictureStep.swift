@@ -58,7 +58,18 @@ struct SelectPictureStep: PageComponent{
             ){_ in
                 self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera){ pick in
                     guard let pick = pick else {return}
-                    self.picture = pick
+                    DispatchQueue.global(qos:.background).async {
+                        let scale:CGFloat = 1 //UIScreen.main.scale
+                        let sizeList = CGSize(
+                            width: AlbumApi.thumbSize * scale,
+                            height: AlbumApi.thumbSize * scale)
+                        let thumbImage = pick.normalized().crop(to: sizeList).resize(to: sizeList)
+                        DispatchQueue.main.async {
+                            self.pagePresenter.isLoading = false
+                            self.picture = thumbImage
+                        }
+                    }
+                    
                 }
             }
             Spacer()
@@ -96,6 +107,8 @@ struct SelectPictureStep: PageComponent{
             withAnimation{  self.isShowing = true }
         }
     }
+    
+    
 }
 
 #if DEBUG

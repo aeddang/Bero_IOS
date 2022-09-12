@@ -52,14 +52,15 @@ struct PageContentBody: PageView  {
             if let child = childView {
                 child.contentBody
                     .offset(x: self.offsetX ,y: self.offsetY)
+                    .offset(x:  self.pageOffsetX, y:  -self.pageOffsetY )
             }
             Spacer().modifier(MatchParent()).background(Color.transparent.black70)
                 .opacity(self.dragOpacity)
                 .opacity(self.isBelow ? 1 : 0)
         }
         .accessibilityElement(children: self.isVoiceOver ? .contain : .ignore)
-        .opacity(self.opacity)
-        .offset(x:  self.pageOffsetX, y:  -self.pageOffsetY )
+        
+        
     
         .onReceive(self.pageChanger.$currentTopPage){ page in
             guard let page = page else { return }
@@ -74,7 +75,10 @@ struct PageContentBody: PageView  {
                 self.isVoiceOver = false
             }
            // if pageObject.zIndex != 0 { return }
-            if pageObject.isLayer || pageObject.isWillCloseLayer{ return }
+            if pageObject.isLayer || pageObject.isWillCloseLayer{
+                self.dragOpacity = 0
+                return
+            }
             
             if PageObject.isSamePage(l:pageObject , r:page) {
                 withAnimation(.easeIn(duration: Self.pageMoveDuration)){
@@ -113,9 +117,9 @@ struct PageContentBody: PageView  {
                     withAnimation(.easeOut(duration: Self.pageMoveDuration)){
                         self.isTop = false
                         self.isBelow = PageObject.isSamePage(l: below , r: pageObject)
-                        PageLog.d("below : " + (below?.pageID ?? "nil"), tag:self.tag)
-                        PageLog.d("pageObject : " + pageObject.pageID, tag:self.tag)
-                        PageLog.d("self.isBelow : " + self.isBelow.description, tag:self.tag)
+                        //PageLog.d("below : " + (below?.pageID ?? "nil"), tag:self.tag)
+                        //PageLog.d("pageObject : " + pageObject.pageID, tag:self.tag)
+                        //PageLog.d("self.isBelow : " + self.isBelow.description, tag:self.tag)
                         self.dragOpacity = 1
                         if !self.useBelowPageMove {return}
                         switch self.topPageType {

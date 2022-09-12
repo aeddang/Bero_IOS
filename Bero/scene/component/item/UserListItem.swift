@@ -13,6 +13,7 @@ import SwiftUI
 
 class UserListItemData:InfinityData{
     private(set) var walkData:WalkListItemData? = nil
+    private(set) var albumData:AlbumListItemData? = nil
     private(set) var userProfile:UserProfile? = nil
     private(set) var subImagePath:String? = nil
     private(set) var date:String? = nil
@@ -23,7 +24,16 @@ class UserListItemData:InfinityData{
             self.userProfile = UserProfile().setData(data: user)
         }
         self.subImagePath = data.pets?.first?.pictureUrl
-        self.contentID = data.missionId?.description ?? ""
+        self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
+        return self
+    }
+    
+    func setData(_ data:PictureData, idx:Int) -> UserListItemData {
+        self.albumData = AlbumListItemData().setData(data, idx: 0)
+        if let user = data.user {
+            self.userProfile = UserProfile().setData(data: user)
+        }
+        self.subImagePath = data.pets?.first?.pictureUrl
         self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         return self
     }
@@ -46,6 +56,9 @@ struct UserListItem: PageComponent{
             }
             if let walkData = self.data.walkData{
                 WalkListDetailItem(data: walkData, imgSize: self.imgSize)
+            }
+            if let albumData = self.data.albumData{
+                AlbumListDetailItem(data: albumData, imgSize: self.imgSize)
             }
         }
         

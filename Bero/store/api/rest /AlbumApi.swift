@@ -47,6 +47,18 @@ extension AlbumApi {
             case .all : return ""
             }
         }
+        var title : String {
+            switch self {
+            case .all: return String.sort.all
+            case .friends : return String.sort.friends
+            }
+        }
+        var text : String {
+            switch self {
+            case .all : return String.sort.allText
+            case .friends : return String.sort.friendsText
+            }
+        }
     }
     
     public static let originSize:CGFloat = 320
@@ -55,11 +67,13 @@ extension AlbumApi {
 }
 
 class AlbumApi :Rest{
-    func get(id:String, type:AlbumApi.Category, searchType:AlbumApi.SearchType, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func get(id:String?, type:AlbumApi.Category, searchType:AlbumApi.SearchType, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["pictureType"] = type.getApiCode()
         params["searchType"] = searchType.getApiCode()
-        params["ownerId"] = id
+        if let id = id {
+            params["ownerId"] = id
+        }
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description
         fetch(route: AlbumPicturesApiRoute (method: .get, query: params), completion: completion, error:error)

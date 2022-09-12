@@ -81,27 +81,27 @@ extension Double {
         var value:Double = 0
         var unit:String = ""
        
-        if self < 60 * 1000 {
+        if self < 60 {
             return "just now"
         }
-        else if self < 60 * 1000 * 60 {
-            value = self / (60 * 1000)
+        else if self < 60 * 60 {
+            value = self / 60
             unit = "min before"
         }
-        else if self < 60 * 1000 * 60 * 24 {
-            value = self / ( 60 * 1000 * 60)
+        else if self < 60 * 60 * 24 {
+            value = self / ( 60 * 60)
             unit = "hour before"
         }
-        else if self < 60 * 1000 * 60 * 24 * 30{
-            value = self / ( 60 * 1000 * 60 * 24)
+        else if self < 60 * 60 * 24 * 30{
+            value = self / ( 60 * 60 * 24)
             unit = "days before"
         }
-        else if self < 60 * 1000 * 60 * 24 * 365 {
-            value = self / ( 60 * 1000 * 60 * 24 * 30)
+        else if self < 60 * 60 * 24 * 365 {
+            value = self / ( 60 * 60 * 24 * 30)
             unit = "month ago"
         }
         else {
-            value = self / ( 60 * 1000 * 60 * 24 * 365)
+            value = self / ( 60 * 60 * 24 * 365)
             unit = "year ago"
         }
         return String(format: "%.0f",  value ) + unit
@@ -166,9 +166,7 @@ extension Date{
     }
     
     func sinceNow()->String {
-        let diff = self.timeIntervalSinceNow
-        DataLog.d(Date().currentTimeMillis().description)
-        DataLog.d(self.description)
+        let diff = -self.timeIntervalSinceNow
         return diff.since()
     }
     

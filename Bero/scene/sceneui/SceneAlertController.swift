@@ -122,7 +122,7 @@ struct SceneAlertController: PageComponent{
             ]
         }else{
             self.buttons = [
-                AlertBtnData(title: String.app.confirm, index: 0)
+                AlertBtnData(title: String.app.confirm, index: 1)
             ]
         }
     }

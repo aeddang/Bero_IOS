@@ -42,7 +42,7 @@ struct PageExplore: PageView {
                         SortButton(
                             type: .stroke,
                             sizeType: .big,
-                            text: self.type.title,
+                            text: self.type.title, 
                             color:Color.app.grey400,
                             isSort: true){
                                 self.onSort()
@@ -51,7 +51,7 @@ struct PageExplore: PageView {
                     }
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                     Spacer().modifier(LineHorizontal())
-                    UserList(
+                    UserAlbumList(
                         infinityScrollModel: self.infinityScrollModel,
                         type: self.$type,
                         listSize: geometry.size.width,
@@ -70,17 +70,17 @@ struct PageExplore: PageView {
             }
         }//GeometryReader
     }//body
-    @State var type:MissionApi.SearchType = .Random
+    @State var type:AlbumApi.SearchType = .all
     private func onSort(){
         let datas:[String] = [
-            MissionApi.SearchType.Random.text,
-            MissionApi.SearchType.Friend.text
+            AlbumApi.SearchType.all.text,
+            AlbumApi.SearchType.friends.text
         ]
         self.appSceneObserver.radio = .sort( (self.tag, datas), title: String.pageText.exploreSeletReport){ idx in
             guard let idx = idx else {return}
             switch idx {
-            case 0 : self.type = .Random
-            case 1 : self.type = .Friend
+            case 0 : self.type = .all
+            case 1 : self.type = .friends
             default: break
             }
             DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {

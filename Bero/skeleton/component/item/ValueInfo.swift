@@ -25,9 +25,9 @@ struct ValueInfo: PageComponent{
         
         var iconColor:Color?{
             switch self {
-            case .heart, .walk, .mission : return Color.brand.primary
+            case .heart, .walk, .mission, .exp : return Color.brand.primary
             case .walkComplete : return  Color.brand.primary
-            case .missionComplete : return  Color.brand.secondary
+            case .missionComplete : return  Color.brand.primary
             default : return nil
             }
         }
@@ -83,7 +83,7 @@ struct ValueInfo: PageComponent{
                 }
                 Text(self.type.getValue(value))
                     .modifier(BoldTextStyle(
-                        size: Font.size.medium,color: value == 0 ? Color.app.grey400 : Color.brand.primary))
+                        size: Font.size.medium,color: value == 0 ? Color.app.grey400 : (self.type.iconColor ?? Color.brand.primary)))
                 if !self.type.isIconFirst {
                     if let color = self.type.iconColor {
                         Image(self.type.icon)

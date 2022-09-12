@@ -17,17 +17,23 @@ extension SimpleWalkBox {
 struct SimpleWalkBox: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var walkManager:WalkManager
+    @EnvironmentObject var pagePresenter:PagePresenter
     var body: some View {
         ZStack(alignment: .top){
             FillButton(
                 type: .fill,
-                icon: Asset.icon.play_circle_filled,
-                text: String.button.finish,
+                icon: Asset.icon.paw,
+                text: WalkManager.viewDistance(self.walkDistence),
                 size: Dimen.button.regularExtra,
                 color: Color.app.black,
                 isActive: true
             ){_ in
-                self.finishWalk()
+                if self.pagePresenter.currentPage?.pageID == PageID.walk {
+                    self.walkManager.updateSimpleView(false)
+                } else {
+                    self.pagePresenter.changePage(PageProvider.getPageObject(.walk))
+                }
+                //self.finishWalk()
             }
             .frame(width: 95)
         }
@@ -43,28 +49,22 @@ struct SimpleWalkBox: PageComponent{
                     lineWidth: Dimen.stroke.light
                 )
         )
-       
+        .onReceive(self.walkManager.$walkDistence){ distence in
+            self.walkDistence = distence
+        }
+        
     }
-    
+    @State var walkDistence:Double = 0
     private func finishWalk(){
-        if self.walkManager.currentMission != nil {
-            self.appSceneObserver.alert = .confirm("수행중 미션 있음", "수행중이던 미션은 종료됩니다"){ isOk in
-                if isOk {
+        self.appSceneObserver.sheet = .select(
+            String.pageText.walkFinishConfirm,
+            nil,
+            [String.app.cancel,String.button.finish]){ idx in
+                if idx == 1 {
                     self.walkManager.endMission()
-                    self.finishWalk()
-                }
-            }
-            return
-        }
-        self.appSceneObserver.alert = .confirm(nil, "산책을 종료 하겠습니까? 1초(테스트) 이상 산책해야 저장됩니다."){ isOk in
-            if isOk {
-                if self.walkManager.walkTime >= 1 {
                     self.walkManager.completeWalk()
-                } else {
-                    self.walkManager.endWalk()
                 }
             }
-        }
     }
 
 }

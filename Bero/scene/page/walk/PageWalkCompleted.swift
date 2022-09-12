@@ -28,43 +28,7 @@ struct PageWalkCompleted: PageView {
                 viewModel:self.pageDragingModel,
                 axis:.vertical
             ) {
-                ZStack(alignment: .topLeading){
-                    if let mission = self.mission {
-                        RedeemInfo(
-                            type: mission.type,
-                            title: (mission.title ?? "Walk") + " complete",
-                            text: mission.viewDuration + "/"  + mission.viewDistance,
-                            point: mission.point,
-                            action : {
-                                self.appSceneObserver.alert = .alert(nil, String.alert.completedNeedPicture){
-                                    self.appSceneObserver.event = .openImagePicker(self.tag, type: .photoLibrary){ img in
-                                        guard let img = img else {return}
-                                        self.pickImage(img)
-                                    }
-                                }
-                            },
-                            close: {
-                                self.appSceneObserver.alert = .confirm(nil, String.alert.completedExitConfirm){ isOk in
-                                    if isOk {
-                                        self.closeMission()
-                                    }
-                                }
-                            }
-                        )
-                    }
-                }
-                .padding(.all, Dimen.margin.regular)
-                .modifier(MatchParent())
-                .background(Color.transparent.black70)
-                //.modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
-            }
-            .onAppear{
-                self.mission = self.walkManager.completedWalk
-                let datas = self.dataProvider.user.pets.filter{$0.isWith}
-                self.withProfiles = datas
-            }
-            .onDisappear{
-               
+                Spacer().modifier(MatchParent())
             }
             .onReceive(self.dataProvider.$result){ res in
                 guard let res = res else { return }
@@ -73,6 +37,7 @@ struct PageWalkCompleted: PageView {
                 case .completeMission :
                     guard let data = res.data as? MissionData else {
                         self.appSceneObserver.event = .toast(String.alert.completedError)
+                        self.pictureCheckSuccess(imgPath: self.resultImage, isRetry: true)
                         return
                     }
                     self.resultMissionId = data.missionId
@@ -80,22 +45,91 @@ struct PageWalkCompleted: PageView {
                     
                 case .checkHumanWithDog :
                     guard let data = res.data as? DetectData else {
-                        self.appSceneObserver.event = .toast(String.alert.completedNeedPictureError)
+                        self.pictureCheckFail()
                         return
                     }
                     if data.isDetected != true {
-                        self.appSceneObserver.event = .toast(String.alert.completedNeedPictureError)
+                        self.pictureCheckFail()
                         return
                     }
-                    self.sendResult(imgPath: data.pictureUrl)
+                    self.pictureCheckSuccess(imgPath: data.pictureUrl)
                 default : break
                 }
             }
+            .onReceive(self.dataProvider.$error){ err in
+                guard let err = err else { return }
+                if !err.id.hasPrefix(self.tag) {return}
+                switch err.type {
+                case .completeMission :
+                    self.pictureCheckSuccess(imgPath: self.resultImage, isRetry: true)
+                    
+                case .checkHumanWithDog :
+                    self.pictureCheckFail()
+                default : break
+                }
+            }
+            .onAppear{
+                self.mission = self.walkManager.completedWalk
+                self.openPicker()
+            }
+            .onDisappear{
+               
+            }
+            
         }//geo
     }//body
-   
+    
+    private func openPicker(){
+        self.appSceneObserver.event = .openImagePicker(self.tag, type: .photoLibrary){ img in
+            guard let img = img else {
+                self.pagePresenter.closePopup(self.pageObject?.id)
+                return
+            }
+            self.pickImage(img)
+        }
+    }
+    
+    private func pictureCheckSuccess(imgPath:String?, isRetry:Bool = false){
+        self.resultImage = imgPath
+        let firstPet = self.dataProvider.user.pets.filter{$0.isWith}.first
+        let point = self.walkManager.playPoint
+        let exp = self.walkManager.playExp
+        if isRetry {
+            self.appSceneObserver.sheet = .confirm(
+                String.pageText.walkFinishSuccessTitle,
+                firstPet == nil ? nil : String.pageText.walkFinishSuccessText.replace(firstPet?.name ?? ""),
+                point:point,
+                exp:exp
+            ) { isOk in
+                    if isOk {
+                        self.sendResult()
+                    } else {
+                        self.pagePresenter.closePopup(self.pageObject?.id)
+                    }
+                }
+        } else {
+            self.appSceneObserver.sheet = .alert(
+                String.pageText.walkFinishSuccessTitle,
+                firstPet == nil ? nil : String.pageText.walkFinishSuccessText.replace(firstPet?.name ?? ""),
+                point:point,
+                exp:exp,
+                confirm: String.button.accepAndClose) {
+                    self.sendResult()
+                }
+        }
+        
+    }
+    
+    private func pictureCheckFail(){
+        self.appSceneObserver.sheet = .alert(
+            String.pageText.walkFinishFailTitle,
+            String.pageText.walkFinishFailText,
+            confirm: String.button.takeAnotherPhoto) {
+                self.sendResult()
+            }
+    }
+    
     @State var mission:Mission? = nil
-    @State var withProfiles:[PetProfile] = []
     @State var resultMissionId:Int? = nil
     @State var resultImage:String? = nil
     private func pickImage(_ img:UIImage) {
@@ -110,7 +144,7 @@ struct PageWalkCompleted: PageView {
             let sizeList = CGSize(
                 width: AlbumApi.thumbSize * scale,
                 height: AlbumApi.thumbSize * scale)
-            let thumbImage = img.normalized().crop(to: sizeList).resize(to: size)
+            let thumbImage = img.normalized().crop(to: sizeList).resize(to: sizeList)
             DispatchQueue.main.async {
                 self.pagePresenter.isLoading = false
                 self.checkResult(img: image, thumb:thumbImage)
@@ -122,11 +156,12 @@ struct PageWalkCompleted: PageView {
         self.dataProvider.requestData(q: .init(id:self.tag, type: .checkHumanWithDog(img:img, thumbImg: thumb), isLock: true))
         
     }
-    private func sendResult(imgPath:String?){
-        self.resultImage = imgPath
+    
+    private func sendResult(){
+        guard let imgPath = self.resultImage else { return }
         guard let mission = self.mission else { return }
-        self.dataProvider.requestData(q: .init(id:self.tag, type: .completeMission(mission, self.withProfiles, image: self.resultImage), isLock: true))
-        
+        let withProfiles = self.dataProvider.user.pets.filter{$0.isWith}
+        self.dataProvider.requestData(q: .init(id:self.tag, type: .completeMission(mission, withProfiles, image: imgPath), isLock: true))
     }
     
     private func closeMission(){

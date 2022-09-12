@@ -27,38 +27,8 @@ struct PageMissionCompleted: PageView {
                 viewModel:self.pageDragingModel,
                 axis:.vertical
             ) {
-                ZStack(alignment: .topLeading){
-                    if let mission = self.mission {
-                        RedeemInfo(
-                            type: mission.type,
-                            title: (mission.title ?? "mission") + " complete",
-                            text: mission.viewDuration + "/"  + mission.viewDistance,
-                            point: mission.point,
-                            action : {
-                                self.sendResult()
-                            },
-                            close: {
-                                self.appSceneObserver.alert = .confirm(nil, String.alert.completedExitConfirm){ isOk in
-                                    if isOk {
-                                        self.closeMission()
-                                    }
-                                }
-                            }
-                        )
-                    }
-                }
-                .padding(.all, Dimen.margin.regular)
-                .modifier(MatchParent())
-                .background(Color.transparent.black70)
+                Spacer().modifier(MatchParent())
                 //.modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
-            }
-            .onAppear{
-                self.mission = self.walkManager.currentMission
-                let datas = self.dataProvider.user.pets.filter{$0.isWith}
-                self.withProfiles = datas
-            }
-            .onDisappear{
-               
             }
             .onReceive(self.dataProvider.$result){ res in
                 guard let res = res else { return }
@@ -67,6 +37,7 @@ struct PageMissionCompleted: PageView {
                 case .completeMission :
                     guard let data = res.data as? MissionData else {
                         self.appSceneObserver.event = .toast(String.alert.completedError)
+                        self.openSheet(isRetry: true)
                         return
                     }
                     self.resultMissionId = data.missionId
@@ -75,16 +46,59 @@ struct PageMissionCompleted: PageView {
                 default : break
                 }
             }
+            .onReceive(self.dataProvider.$error){ err in
+                guard let err = err else { return }
+                if !err.id.hasPrefix(self.tag) {return}
+                switch err.type {
+                case .completeMission : self.openSheet(isRetry: true)
+                default : break
+                }
+            }
+            .onAppear{
+                self.mission = self.walkManager.currentMission
+                self.openSheet()
+            
+            }
+            .onDisappear{
+               
+            }
+            
         }//geo
     }//body
    
     @State var mission:Mission? = nil
-    @State var withProfiles:[PetProfile] = []
     @State var resultMissionId:Int? = nil
+    
+    private func openSheet(isRetry:Bool = false){
+        let totalComplete = self.walkManager.completedMissions.count + 1
+        if isRetry {
+            self.appSceneObserver.sheet = .confirm(
+                String.pageText.missionSuccessTitle,
+                String.pageText.missionSuccessText.replace(totalComplete.description),
+                point: self.mission?.point,
+                exp: self.mission?.exp) { isOk in
+                    if isOk {
+                        self.sendResult()
+                    } else {
+                        self.pagePresenter.closePopup(self.pageObject?.id)
+                    }
+                }
+        } else {
+            self.appSceneObserver.sheet = .alert(
+                String.pageText.missionSuccessTitle,
+                String.pageText.missionSuccessText.replace(totalComplete.description),
+                point: self.mission?.point,
+                exp: self.mission?.exp,
+                confirm: String.app.confirm) {
+                    self.sendResult()
+                }
+        }
+    }
    
     private func sendResult(){
         guard let mission = self.mission else { return }
-        self.dataProvider.requestData(q: .init(id:self.tag, type: .completeMission(mission, self.withProfiles), isLock: true))
+        let withProfiles = self.dataProvider.user.pets.filter{$0.isWith}
+        self.dataProvider.requestData(q: .init(id:self.tag, type: .completeMission(mission, withProfiles), isLock: true))
         
     }
     

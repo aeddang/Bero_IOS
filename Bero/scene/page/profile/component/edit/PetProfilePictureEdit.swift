@@ -47,7 +47,17 @@ struct PetProfilePictureEdit: PageComponent{
     private func onPick(){
         self.appSceneObserver.select = .imgPicker(self.tag){ pick in
             guard let pick = pick else {return}
-            self.onEdit(img: pick)
+            DispatchQueue.global(qos:.background).async {
+                let scale:CGFloat = 1 //UIScreen.main.scale
+                let sizeList = CGSize(
+                    width: AlbumApi.thumbSize * scale,
+                    height: AlbumApi.thumbSize * scale)
+                let thumbImage = pick.normalized().crop(to: sizeList).resize(to: sizeList)
+                DispatchQueue.main.async {
+                    self.pagePresenter.isLoading = false
+                    self.onEdit(img: thumbImage)
+                }
+            }
         }
     }
     

@@ -22,29 +22,30 @@ struct WalkBox: PageComponent{
     @State var isExpand:Bool = true
     var body: some View {
         ZStack(alignment: .topTrailing){
-            Spacer().modifier(MatchHorizontal(height: 0))
-            CircleButton(
-                type: .icon(self.isExpand ? Asset.icon.minimize : Asset.icon.maximize),
-                isSelected: false,
-                strokeWidth: Dimen.stroke.regular,
-                defaultColor: self.isExpand ? Color.app.grey500 : Color.brand.primary)
-            { _ in
-                withAnimation{
-                    self.isExpand.toggle()
-                    self.walkManager.updateSimpleView(!self.isExpand)
+            HStack(spacing:0){
+                CircleButton(
+                    type: .icon(self.isExpand ? Asset.icon.minimize : Asset.icon.maximize),
+                    isSelected: false,
+                    strokeWidth: Dimen.stroke.regular,
+                    defaultColor: self.isExpand ? Color.app.grey500 : Color.brand.primary)
+                { _ in
+                    withAnimation{
+                        self.isExpand.toggle()
+                        self.walkManager.updateSimpleView(!self.isExpand)
+                    }
+                }
+                .opacity(self.isExpand ? 1 : 0)
+                Spacer().modifier(MatchHorizontal(height: 0))
+                CircleButton(
+                    type: .icon(Asset.icon.my_location),
+                    isSelected: false,
+                    strokeWidth: Dimen.stroke.regular,
+                    defaultColor: self.isFollowMe ? Color.app.blue : Color.app.grey500)
+                { _ in
+                    self.isFollowMe.toggle()
+                    self.viewModel.playEvent = .resetMap
                 }
             }
-           
-            CircleButton(
-                type: .icon(Asset.icon.my_location),
-                isSelected: false,
-                strokeWidth: Dimen.stroke.regular,
-                defaultColor: self.isFollowMe ? Color.app.blue : Color.app.grey500)
-            { _ in
-                self.isFollowMe.toggle()
-                self.viewModel.playEvent = .resetMap
-            }
-            .padding(.trailing, Dimen.icon.mediumUltra + Dimen.margin.thin)
             if self.isExpand {
                 ZStack(alignment: .top){
                     HStack(spacing:0){
@@ -134,25 +135,15 @@ struct WalkBox: PageComponent{
     @State var pets:[PetProfile] = []
     
     private func finishWalk(){
-        if self.walkManager.currentMission != nil {
-            self.appSceneObserver.alert = .confirm("수행중 미션 있음", "수행중이던 미션은 종료됩니다"){ isOk in
-                if isOk {
+        self.appSceneObserver.sheet = .select(
+            String.pageText.walkFinishConfirm,
+            nil,
+            [String.app.cancel,String.button.finish]){ idx in
+                if idx == 1 {
                     self.walkManager.endMission()
-                    self.finishWalk()
-                }
-            }
-            return
-        }
-        
-        self.appSceneObserver.alert = .confirm(nil, "산책을 종료 하겠습니까? 1초(테스트) 이상 산책해야 저장됩니다."){ isOk in
-            if isOk {
-                if self.walkManager.walkTime >= 1 {
                     self.walkManager.completeWalk()
-                } else {
-                    self.walkManager.endWalk()
                 }
             }
-        }
     }
     
     private func updatedPets(){

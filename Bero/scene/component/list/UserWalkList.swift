@@ -9,7 +9,7 @@ import Foundation
 import Foundation
 import SwiftUI
 
-struct UserList: PageComponent{
+struct UserWalkList: PageComponent{
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider

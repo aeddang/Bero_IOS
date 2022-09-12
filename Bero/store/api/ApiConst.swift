@@ -61,7 +61,7 @@ enum ApiType{
     
     case checkHumanWithDog(img:UIImage,thumbImg:UIImage)
     
-    case getAlbumPictures(id:String, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , page:Int? = nil, size:Int? = nil),
+    case getAlbumPictures(id:String?, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , page:Int? = nil, size:Int? = nil),
          registAlbumPicture(img:UIImage, thumbImg:UIImage, id:String, AlbumApi.Category),
          deleteAlbumPictures(ids:String),
          updateAlbumPicture(pictureId:Int, isLike:Bool)

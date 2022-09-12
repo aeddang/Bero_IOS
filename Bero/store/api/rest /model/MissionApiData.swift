@@ -18,7 +18,7 @@ struct MissionData : Decodable {
     private(set) var duration: Double? = nil
     private(set) var distance: Double? = nil
     private(set) var point: Int? = nil
-    private(set) var exp: Int? = nil
+    private(set) var exp: Double? = nil
     private(set) var user: UserData? = nil
     private(set) var geos: [GeoData]? = nil
     private(set) var pets: [PetData]? = nil

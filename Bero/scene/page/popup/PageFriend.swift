@@ -45,7 +45,7 @@ struct PageFriend: PageView {
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                     HStack(spacing:0){
                         TitleSection(
-                            title: String.button.manageDogs
+                            title: String.pageTitle.friends
                         )
                         SortButton(
                             type: .stroke,

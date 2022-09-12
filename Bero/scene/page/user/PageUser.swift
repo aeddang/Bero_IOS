@@ -129,6 +129,7 @@ struct PageUser: PageView {
                 case .getUserDetail :
                     if userId == self.userId{
                         self.pageObservable.isInit = true
+                        
                     }
                 default : break
                 }
@@ -139,9 +140,6 @@ struct PageUser: PageView {
                     self.user = user
                     self.userId = user.snsUser?.snsID
                     self.setupTopHeight(geometry: geometry)
-                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
-                        self.pageObservable.isInit = true
-                    }
                     return
                 }
                 

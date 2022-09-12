@@ -9,7 +9,7 @@ import Foundation
 import Foundation
 import SwiftUI
 extension FriendList {
-    static let row:Int = SystemEnvironment.isTablet ? 5 : 2
+    static let row:Int = SystemEnvironment.isTablet ? 6 : 3
     enum  ListType{
         case friend, request, requested
         var text:String{

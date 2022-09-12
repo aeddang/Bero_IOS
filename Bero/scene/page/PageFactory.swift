@@ -58,7 +58,7 @@ struct PageProvider {
     
     static func isHome(_ pageID:PageID)-> Bool{
         switch pageID {
-        case .intro, .login, .walk, .matching, .diary, .my : return  true
+        case .intro, .login, .walk, .matching, .diary, .my , .chat, .explore: return  true
            default : return  false
         }
     }

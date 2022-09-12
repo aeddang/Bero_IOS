@@ -18,8 +18,10 @@ class MessageListItemData:InfinityData, ObservableObject{
     fileprivate(set) var isRead:Bool = false
     @Published var isDelete:Bool = false
     func setData(_ data:ChatData, idx:Int) -> MessageListItemData {
-        self.userProfile = UserProfile()
-        self.subImagePath = ""
+        if let user = data.senderUser {
+            self.userProfile = UserProfile().setData(data: user)
+        }
+        self.subImagePath = data.senderPets?.first?.pictureUrl
         self.chatId = data.chatId ?? -1
         self.contents = data.contents
         self.isRead = data.isRead ?? false
@@ -31,13 +33,14 @@ class MessageListItemData:InfinityData, ObservableObject{
 struct MessageListItem: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var data:MessageListItemData
     @Binding var isEdit:Bool
     @State var isRead:Bool = false
     @State var isExpand:Bool = false
     @State var isDelete:Bool = false
     var body: some View {
-        VStack( spacing: Dimen.margin.thin){
+        VStack( spacing: 0){
             HStack(spacing: Dimen.margin.thin){
                 HorizontalProfile(
                     type: .multi(imgPath: self.data.subImagePath),
@@ -46,7 +49,9 @@ struct MessageListItem: PageComponent{
                     imagePath: self.data.userProfile?.imagePath,
                     name: self.data.userProfile?.nickName,
                     date: self.data.date,
-                    description: self.data.title,
+                    gender : self.isExpand ? self.data.userProfile?.gender : nil,
+                    age : self.isExpand ? self.data.userProfile?.birth?.toAge() : nil,
+                    description: self.isExpand ? nil : self.data.contents,
                     isSelected: false
                 ){ type in
                     self.pagePresenter.openPopup(
@@ -76,8 +81,8 @@ struct MessageListItem: PageComponent{
                 }
             }
             if self.isExpand && !self.isEdit{
-                HStack(alignment: .center, spacing: Dimen.margin.tiny){
-                    VStack(spacing:0){
+                VStack(alignment: .trailing, spacing: Dimen.margin.tiny){
+                    VStack(alignment:.leading, spacing:0){
                         Spacer().modifier(MatchHorizontal(height: 0))
                         Text(self.data.contents ?? "")
                             .modifier(RegularTextStyle(
@@ -87,18 +92,23 @@ struct MessageListItem: PageComponent{
                             .multilineTextAlignment(.leading)
                             
                     }
-                    CircleButton(
-                        type: .icon(Asset.icon.send),
-                        isSelected: true,
-                        activeColor: Color.brand.primary
-                    ){ _ in
-                        
+                    if let userId = self.data.userProfile?.userId {
+                        TextButton(
+                            defaultText: String.button.reply,
+                            textModifier:TextModifier(
+                                family:Font.family.medium,
+                                size:Font.size.thin,
+                                color: Color.brand.primary)
+                        )
+                        {_ in
+                            self.appSceneObserver.event = .sendChat(userId: userId)
+                        }
                     }
                 }
                 .padding(.all, Dimen.margin.thin)
                 .background(Color.app.whiteDeepLight)
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.lightExtra))
-                .padding(.leading, 52)
+                .padding(.leading, 62)
             }
         }
         .onAppear(){

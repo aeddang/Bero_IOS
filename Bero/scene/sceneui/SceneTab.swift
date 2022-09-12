@@ -69,7 +69,9 @@ struct SceneTab: PageComponent{
                 )
                 .edgesIgnoringSafeArea(.all)
                 .onReceive(self.imagePickerModel.$event){ evt in
-                    if evt == .cancel {
+                    guard let evt = evt else { return }
+                    switch evt {
+                    case .cancel :
                         if let pick = self.imagePick {
                             pick(nil)
                             self.imagePick = nil
@@ -77,6 +79,7 @@ struct SceneTab: PageComponent{
                         withAnimation{
                             self.isShowCamera = false
                         }
+                    default : break
                     }
                 }
                 .onReceive(self.imagePickerModel.$pickImage){ img in
@@ -93,6 +96,8 @@ struct SceneTab: PageComponent{
                     }
                 }
             }
+            ChatBox()
+            
             Spacer().modifier(MatchParent())
                 .check(isShowing: self.$isCheckShowing , text: self.checkMsg,
                        isAuto: self.isAutoCheck, action: self.checked)
