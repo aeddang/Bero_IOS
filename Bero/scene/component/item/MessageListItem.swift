@@ -40,7 +40,7 @@ struct MessageListItem: PageComponent{
     @State var isExpand:Bool = false
     @State var isDelete:Bool = false
     var body: some View {
-        VStack( spacing: 0){
+        VStack(alignment: .leading, spacing: 0){
             HStack(spacing: Dimen.margin.thin){
                 HorizontalProfile(
                     type: .multi(imgPath: self.data.subImagePath),
@@ -69,7 +69,6 @@ struct MessageListItem: PageComponent{
                         self.isExpand.toggle()
                     }
                 }
-                
                 if self.isEdit {
                     CircleButton(
                         type: .icon(Asset.icon.delete),
@@ -108,7 +107,7 @@ struct MessageListItem: PageComponent{
                 .padding(.all, Dimen.margin.thin)
                 .background(Color.app.whiteDeepLight)
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.lightExtra))
-                .padding(.leading, 62)
+                
             }
         }
         .onAppear(){

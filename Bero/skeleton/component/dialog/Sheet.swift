@@ -135,14 +135,16 @@ struct Sheet<Presenting>: View where Presenting: View {
                                     RewardInfo(
                                         type: .exp,
                                         sizeType: .big,
-                                        value: exp.toInt()
+                                        value: exp.toInt(),
+                                        isActive: true
                                     )
                                 }
                                 if let point = self.point {
                                     RewardInfo(
                                         type: .point,
                                         sizeType: .big,
-                                        value: point
+                                        value: point,
+                                        isActive: true
                                     )
                                 }
                             }

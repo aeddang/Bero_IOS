@@ -33,6 +33,7 @@ struct PageManageDogs: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
                         useBack: true
                     ){ type in
                         switch type {
@@ -40,7 +41,6 @@ struct PageManageDogs: PageView {
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     InfinityScrollView(
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
@@ -49,7 +49,7 @@ struct PageManageDogs: PageView {
                         marginHorizontal: Dimen.app.pageHorinzontal,
                         spacing:Dimen.margin.regularExtra,
                         isRecycle: false,
-                        useTracking: false
+                        useTracking: true
                     ){
                         
                         TitleSection(

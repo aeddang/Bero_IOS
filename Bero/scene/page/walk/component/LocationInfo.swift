@@ -77,7 +77,7 @@ struct LocationInfo: PageComponent{
                 guard let data = res.data as? WeatherCityData else { return }
                 //self.weather = data.desc
                 if let temp = data.temp {
-                    self.temperature = temp.toTruncateDecimal(n: 1) + "°"
+                    self.temperature = temp.toTruncateDecimal(n: 1) + "°C"
                 }
                 if let icon = data.iconId {
                     self.weatherIcon = "http://openweathermap.org/img/wn/" + icon + "@2x.png"

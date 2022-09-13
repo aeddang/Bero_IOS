@@ -34,23 +34,13 @@ struct PageExplore: PageView {
                 axis:.horizontal
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
-                    HStack(spacing: Dimen.margin.thin){
-                        TitleTab(
-                            title: String.pageTitle.explore,
-                            buttons:[]){ type in
-                            }
-                        SortButton(
-                            type: .stroke,
-                            sizeType: .big,
-                            text: self.type.title, 
-                            color:Color.app.grey400,
-                            isSort: true){
-                                self.onSort()
-                            }
-                            .fixedSize()
-                    }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    Spacer().modifier(LineHorizontal())
+                    TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
+                        title: String.pageTitle.explore,
+                        sortButton: self.type.title,
+                        sort: self.onSort
+                    )
+                   
                     UserAlbumList(
                         infinityScrollModel: self.infinityScrollModel,
                         type: self.$type,

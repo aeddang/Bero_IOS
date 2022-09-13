@@ -36,6 +36,7 @@ struct PageChat: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.chat,
                         buttons:[.setting]){ type in
                         switch type {
@@ -46,7 +47,6 @@ struct PageChat: PageView {
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     MessageList(
                         infinityScrollModel: self.infinityScrollModel,
                         isEdit: self.$isEdit)

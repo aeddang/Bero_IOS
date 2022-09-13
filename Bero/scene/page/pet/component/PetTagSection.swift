@@ -27,7 +27,7 @@ struct PetTagSection: PageComponent{
                         ForEach(data.cells) { cell in
                             SortButton(
                                 type: .strokeFill,
-                                sizeType: .big,
+                                sizeType: .small,
                                 text: cell.title,
                                 color:Color.brand.primary ,
                                 isSort: false){

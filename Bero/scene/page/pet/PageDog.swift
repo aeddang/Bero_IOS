@@ -37,6 +37,7 @@ struct PageDog: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
                         useBack: true
                     ){ type in
                         switch type {
@@ -44,7 +45,6 @@ struct PageDog: PageView {
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     if let profile = self.profile {
                         ZStack{
                             PetProfileTopInfo(profile: profile){
@@ -68,7 +68,7 @@ struct PageDog: PageView {
                             marginHorizontal: 0,
                             spacing:0,
                             isRecycle: false,
-                            useTracking: !SystemEnvironment.isTablet
+                            useTracking: true
                         ){
                             PetTagSection(
                                 profile: profile,
@@ -119,7 +119,7 @@ struct PageDog: PageView {
             }//draging
             
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
-                
+                if SystemEnvironment.isTablet {return}
                 if scrollPos > 0 {return}
                 self.topHeight = max(self.originTopHeight + scrollPos, 0)
             }

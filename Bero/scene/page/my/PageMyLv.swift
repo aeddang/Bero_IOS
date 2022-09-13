@@ -39,7 +39,6 @@ struct PageMyLv: PageView {
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     TitleSection(
                         title: String.pageTitle.myLv,
                         trailer: String.pageText.myLvText1

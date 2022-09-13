@@ -46,7 +46,7 @@ struct PageWalkInfo: PageView {
                     }
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                     ZStack(alignment: .top){
-                        ZStack{
+                        ZStack(alignment: .topTrailing){
                             if let path = self.mission?.pictureUrl {
                                 ImageView(url: path,
                                           contentMode: .fill,
@@ -58,6 +58,27 @@ struct PageWalkInfo: PageView {
                             } else {
                                 Spacer()
                                     .modifier(MatchParent())
+                            }
+                            if let pets = self.mission?.user?.pets {
+                                HStack(spacing:Dimen.margin.micro){
+                                    ForEach(pets) { profile in
+                                        Button(action: {
+                                            self.pagePresenter.openPopup(
+                                                PageProvider.getPageObject(.dog)
+                                                    .addParam(key: .id, value: profile.petId)
+                                            )
+                                        }) {
+                                            ProfileImage(
+                                                image:profile.image,
+                                                imagePath: profile.imagePath,
+                                                size: Dimen.profile.thin,
+                                                emptyImagePath: Asset.image.profile_dog_default
+                                            )
+                                        }
+                                    }
+                                }
+                                .fixedSize()
+                                .padding(.all, Dimen.margin.regular)
                             }
                         }
                         .modifier(MatchHorizontal(height: geometry.size.width))

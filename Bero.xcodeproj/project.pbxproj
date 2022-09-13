@@ -861,7 +861,6 @@
 				31071C7F289E80C900F46498 /* TitleSection.swift */,
 				314E5EC6288297A4000EB910 /* MenuTab.swift */,
 				31F3BD2928961AD10025223B /* SlideMenuTab.swift */,
-				31F3BD2B289621CA0025223B /* TitleTab.swift */,
 				31937F1128ACFA8F00AA5473 /* ValueBox.swift */,
 			);
 			path = tab;
@@ -915,6 +914,7 @@
 		3151DD2A28CE9AFA00641BCC /* tab */ = {
 			isa = PBXGroup;
 			children = (
+				31F3BD2B289621CA0025223B /* TitleTab.swift */,
 				3143CD442887929900F1C88A /* BottomTab.swift */,
 				3151DD2828CE9AC000641BCC /* ChatBox.swift */,
 			);

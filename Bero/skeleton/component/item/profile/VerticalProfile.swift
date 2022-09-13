@@ -78,7 +78,7 @@ struct VerticalProfile: PageComponent{
                 }
             }
             .modifier(MatchHorizontal(height: self.sizeType.imageSize))
-            VStack(spacing:0){
+            VStack(spacing:Dimen.margin.micro){
                 if let name = self.name {
                     Text(name)
                         .modifier(SemiBoldTextStyle(

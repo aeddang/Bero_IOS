@@ -35,15 +35,16 @@ struct PageMy: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.my,
-                        buttons:[.alram,.setting]){ type in
+                        buttons:[]){ type in
                         switch type {
                         case .alram : break
                         case .setting :break
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                       
                    
                     InfinityScrollView(
                         viewModel: self.infinityScrollModel,
@@ -54,7 +55,7 @@ struct PageMy: PageView {
                         marginHorizontal: 0,
                         spacing:0,
                         isRecycle: false,
-                        useTracking: false
+                        useTracking: true
                     ){
                         UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){
                             self.pagePresenter.openPopup(

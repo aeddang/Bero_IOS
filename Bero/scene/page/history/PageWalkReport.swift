@@ -126,6 +126,7 @@ struct PageWalkReport: PageView {
                 ZStack(alignment: .topLeading){
                     VStack(spacing:0){
                         TitleTab(
+                            infinityScrollModel: self.infinityScrollModel,
                             useBack: true
                         ){ type in
                             switch type {
@@ -133,7 +134,6 @@ struct PageWalkReport: PageView {
                             default : break
                             }
                         }
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
                         InfinityScrollView(
                             viewModel: self.infinityScrollModel,
                             axes: .vertical,

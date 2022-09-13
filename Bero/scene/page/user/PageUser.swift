@@ -39,6 +39,7 @@ struct PageUser: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
                         useBack:true
                     ){ type in
                         switch type {
@@ -46,7 +47,6 @@ struct PageUser: PageView {
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     if let user = self.user {
                         ZStack{
                             UserProfileTopInfo(profile: user.currentProfile)
@@ -70,7 +70,7 @@ struct PageUser: PageView {
                             marginHorizontal: 0,
                             spacing:0,
                             isRecycle: false,
-                            useTracking: !SystemEnvironment.isTablet
+                            useTracking: true
                         ){
                             UsersDogSection( user:user )
                             .padding(.top, Dimen.margin.regular)
@@ -107,6 +107,7 @@ struct PageUser: PageView {
                 
             }//draging
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
+                if SystemEnvironment.isTablet {return}
                 if scrollPos > 0 {return}
                 self.topHeight = max(self.originTopHeight + scrollPos, 0)
             }

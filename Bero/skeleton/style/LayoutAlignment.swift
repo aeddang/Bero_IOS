@@ -204,7 +204,14 @@ struct ShadowTop: ViewModifier {
     }
 }
 
-
+struct ShadowBottom: ViewModifier {
+    var color:Color = Color.app.black
+    var opacity:Double = 0.12
+    func body(content: Content) -> some View {
+        return content
+            .shadow(color: color.opacity(opacity), radius: Dimen.radius.tiny, x: 0, y: 5)
+    }
+}
 struct ContentTab: ViewModifier {
     var margin:CGFloat = Dimen.margin.regular
     var bgColor:Color = Color.app.white

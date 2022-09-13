@@ -46,6 +46,7 @@ struct WalkTopInfo: PageComponent{
                 .padding(.top, Dimen.margin.microExtra)
                 
             }
+            /*
             if self.mission.user?.pets.isEmpty == false , let pets = self.mission.user?.pets.reversed() {
                 ZStack(alignment: .trailing){
                     ForEach(pets) { profile in
@@ -59,7 +60,7 @@ struct WalkTopInfo: PageComponent{
                     }
                 }
                 .fixedSize()
-            }
+            }*/
         }
         .onAppear{
             if let start = self.mission.startDate, let end = self.mission.endDate {

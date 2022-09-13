@@ -96,8 +96,10 @@ struct PageAddDog: PageView {
             ) {
                 VStack(alignment: .leading, spacing: Dimen.margin.medium ){
                     TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.addDog,
                         alignment: .center,
+                        margin: 0,
                         buttons:[.close])
                     { type in
                         switch type {

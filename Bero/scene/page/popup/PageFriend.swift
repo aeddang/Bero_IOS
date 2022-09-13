@@ -35,6 +35,7 @@ struct PageFriend: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
                         useBack:true
                     ){ type in
                         switch type {
@@ -42,7 +43,6 @@ struct PageFriend: PageView {
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     HStack(spacing:0){
                         TitleSection(
                             title: String.pageTitle.friends
