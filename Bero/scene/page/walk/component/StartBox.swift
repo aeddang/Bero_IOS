@@ -68,9 +68,12 @@ struct StartBox: PageComponent{
         if WalkManager.todayWalkCount == 0 {
             self.title = String.pageText.walkNoWalksText
         } else {
+            self.title = String.pageText.walkStartWalksText
+            /*
             let count = self.walkManager.missions.filter{$0.isCompleted}.count
             let pre = count == 0 ? "No" : count.description
             self.title = String.pageText.walkMissionCompletedText.replace(pre)
+             */
         }
         
     }

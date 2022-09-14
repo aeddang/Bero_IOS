@@ -32,16 +32,16 @@ extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
        if viewModel.status != .update { return }
         guard let evt = viewModel.uiEvent else { return }
         guard let map = uiViewController as? CustomGoogleMapController else { return }
-        viewModel.uiEvent = nil
-        switch evt {
-        case .zip(let evts) : evts.forEach{self.updateExcute(map: map, evt: $0)}
-        default : self.updateExcute(map: map, evt: evt)
+        DispatchQueue.main.async {
+            switch evt {
+            case .zip(let evts) : evts.forEach{self.updateExcute(map: map, evt: $0)}
+            default : self.updateExcute(map: map, evt: evt)
+            }
         }
-        
-        
     }
     
     private func updateExcute(map:CustomGoogleMapController, evt:MapUiEvent){
+        viewModel.uiEvent = nil
         switch evt {
         case .addMarker(let marker):
             map.addMarker(marker)

@@ -242,6 +242,7 @@ extension String {
         
         public static let walkLocationNotFound = "Where Are You?"
         public static let walkNoWalksText = "No walks today"
+        public static let walkStartWalksText = "Start walking with your dog!"
         public static let walkMissionCompletedText = "%s missions today"
         
         public static let walkFinishConfirm = "Finish the walk?"
