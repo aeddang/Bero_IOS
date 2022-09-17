@@ -188,10 +188,21 @@ struct SortButtonButton_Previews: PreviewProvider {
             
             SortButton(
                 type: .strokeFill,
-                sizeType: .big,
+                sizeType: .small,
                 icon: Asset.icon.paw,
                 text: "Chip",
                 color: Color.app.orange,
+                isSelected: false
+            )
+            {
+                
+            }
+            SortButton(
+                type: .stroke,
+                sizeType: .small,
+                icon: Asset.icon.paw,
+                text: "Chip",
+                color: Color.app.grey300,
                 isSelected: false
             )
             {

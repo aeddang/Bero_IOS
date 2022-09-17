@@ -71,6 +71,8 @@ struct PageWalkInfo: PageView {
                                             ProfileImage(
                                                 image:profile.image,
                                                 imagePath: profile.imagePath,
+                                                isSelected: true,
+                                                strokeColor: Color.app.white,
                                                 size: Dimen.profile.thin,
                                                 emptyImagePath: Asset.image.profile_dog_default
                                             )
@@ -154,8 +156,8 @@ struct PageWalkInfo: PageView {
             .onReceive(self.infinityScrollModel.$event){evt in
                 guard let evt = evt else {return}
                 switch evt {
-                case .pullCancel :
-                    withAnimation{ self.imageScale = 1 }
+                case .pullCancel : break
+                    //withAnimation{ self.imageScale = 1 }
                 default : break
                 }
             }

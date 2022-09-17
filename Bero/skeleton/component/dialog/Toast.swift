@@ -28,7 +28,7 @@ struct Toast<Presenting>: View where Presenting: View {
     @State var safeAreaBottom:CGFloat = 0
     var body: some View {
         ZStack(alignment: .bottom) {
-            self.presenting().opacity(self.isShowing ? 1 : 0)
+            self.presenting()
             Text(self.text)
                 .modifier(MediumTextStyle(size: Font.size.thin, color: Color.brand.primary))
             .padding(.all, Dimen.margin.light)
@@ -54,12 +54,32 @@ struct Toast<Presenting>: View where Presenting: View {
             }
         }
         .onReceive( [self.isShowing].publisher ) { show in
-            if !show  { return }
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + self.duration) {
-                DispatchQueue.main.async {
-                    withAnimation {self.isShowing = false}
-                }
+            DataLog.d("Toast")
+            if !show  {
+                self.cancelAutoHidden()
+                return
+            }
+            if self.autoHidden == nil {
+                self.delayAutoHidden()
             }
         }
+        
+    }
+    @State var autoHidden:AnyCancellable?
+    func delayAutoHidden(){
+        self.autoHidden?.cancel()
+        self.autoHidden = Timer.publish(
+            every: self.duration, on: .current, in: .common)
+            .autoconnect()
+            .sink() {_ in
+                self.autoHidden?.cancel()
+                withAnimation {
+                   self.isShowing = false
+                }
+            }
+    }
+    func cancelAutoHidden(){
+        self.autoHidden?.cancel()
+        self.autoHidden = nil
     }
 }

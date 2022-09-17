@@ -5,12 +5,13 @@ struct UserProfileTopInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var profile:UserProfile
-    
+    var isSimple:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
         VerticalProfile(
             id: self.profile.id,
             type: .user,
+            alignment: self.isSimple ? .leading : .center,
             sizeType: .medium,
             isSelected: true,
             image: self.image,
@@ -19,7 +20,7 @@ struct UserProfileTopInfo: PageComponent{
             name: self.nickName,
             gender: self.gender,
             age: self.age,
-            description: self.description,
+            description: self.isSimple ? nil : self.description,
             editProfile: self.profile.isMine ? self.action : nil
         )
         .onReceive(self.profile.$nickName){value in

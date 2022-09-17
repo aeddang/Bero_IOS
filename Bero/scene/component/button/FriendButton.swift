@@ -20,13 +20,22 @@ extension FriendButton {
         }
         var bgColor:Color{
             switch self {
-            case .request : return Color.brand.primary
+            case .request : return Color.app.white
             case .requested : return Color.app.grey300
             case .delete : return Color.app.grey300
-            case .accept : return Color.brand.primary
+            case .accept : return Color.app.white
             case .reject : return Color.app.grey300
             }
         }
+        
+        var bgGradient:Gradient?{
+            switch self {
+            case .request : return Color.app.orangeGradient
+            case .accept : return Color.app.orangeGradient
+            default : return nil
+            }
+        }
+        
         var textColor:Color{
             switch self {
             case .delete : return Color.app.grey300
@@ -35,7 +44,7 @@ extension FriendButton {
         }
         var text:String{
             switch self {
-            case .request, .requested : return String.button.request
+            case .request, .requested : return String.button.requestFriend
             case .delete : return String.button.remove
             case .accept : return String.button.accept
             case .reject : return String.button.reject
@@ -68,6 +77,7 @@ struct FriendButton: PageComponent{
             radius: self.radius,
             color: self.type.bgColor,
             textColor: self.type.textColor,
+            gradient:self.type.bgGradient,
             textSize: self.textSize
         ){_ in
             

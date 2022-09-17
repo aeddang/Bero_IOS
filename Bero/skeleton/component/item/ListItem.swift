@@ -68,7 +68,7 @@ struct ListItem: PageComponent{
                                 type: .stroke,
                                 sizeType: self.likeSize,
                                 icon: self.isLike ? Asset.icon.favorite_on : Asset.icon.favorite_off,
-                                text: likeCount == 0 ? "" : likeCount.toThousandUnit(),
+                                text: likeCount.toThousandUnit(),
                                 color: self.isLike ? Color.brand.primary : Color.app.grey400,
                                 isSort: false
                             ){

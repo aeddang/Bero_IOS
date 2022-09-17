@@ -127,13 +127,14 @@ struct PageWalkReport: PageView {
                     VStack(spacing:0){
                         TitleTab(
                             infinityScrollModel: self.infinityScrollModel,
-                            useBack: true
-                        ){ type in
-                            switch type {
-                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                            default : break
+                            useBack: true,
+                            action :{ type in
+                                switch type {
+                                case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                                default : break
+                                }
                             }
-                        }
+                        )
                         InfinityScrollView(
                             viewModel: self.infinityScrollModel,
                             axes: .vertical,

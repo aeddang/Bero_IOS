@@ -42,9 +42,11 @@ extension String {
         public static let today = "Today"
         public static let walk = "Walk"
         public static let near = "Near"
-        public static let likes = "likes"
-        public static let missions = "missions"
-        
+        public static let likes = "Likes"
+        public static let missions = "Missions"
+        public static let stores = "Stores"
+        public static let dogs = "Dogs"
+        public static let users = "Users"
     }
     
     struct gnb {
@@ -130,6 +132,7 @@ extension String {
         public static let viewMore = "View more"
         public static let manageDogs = "Manage dogs"
         public static let addFriend = "Add friend"
+        public static let requestFriend = "Request friend"
         public static let remopveFriend = "Remove friend"
         public static let chat = "Chat"
         public static let requestSent = "Request sent"
@@ -141,14 +144,33 @@ extension String {
         public static let reply = "Reply"
         public static let accepAndClose = "Accept and close"
         public static let takeAnotherPhoto = "Take another photo"
-       
+        public static let visitProfile = "Visit profile"
+        public static let leaveAmark = "Leave a mark"
+        public static let hitTheArea = "Hit the area"
+        public static let stop = "Stop"
     }
     
     struct sort {
         public static let all = "All"
+        public static let notUsed = "notUsed"
         public static let friends = "Friends"
-        public static let allText = "All users"
+        public static let new = "New"
+        public static let complete = "Complete"
+        public static let restaurant = "Restaurant"
+        public static let cafe = "Cafe"
+        public static let hospital = "Hospital"
+        public static let hotel = "Hotel"
+        public static let shop = "Shop"
+        
         public static let friendsText = "My friends’ posts only"
+        public static let notUsedText = "invisible"
+        public static let restaurantText = "Restaurant"
+        public static let cafeText = "Cafe"
+        public static let hospitalText = "Hospital"
+        public static let hotelText = "Hotel"
+        public static let shopText = "Shop"
+        
+        
     }
     
     struct pageTitle {
@@ -201,8 +223,6 @@ extension String {
         public static let walkHistoryText1 = "Walked in total"
         public static let missionHistoryText1 = "completed in total"
         public static let walkHistorySeletReport = "Whose report do you want to see?"
-        
-        
         
         public static let reportWalkSummaryWeekly = "Weekly"
         public static let reportWalkSummaryMonthly = "Monthly"
@@ -257,6 +277,10 @@ extension String {
         
         public static let walkStartChooseDogTitle = "Start a walk?"
         public static let walkStartChooseDogText = "Choose dogs you are walking with."
+        
+        public static let walkPlaceMarkText = "See who left %s marks"
+        
+        public static let walkMissionTitleText = "Visit %s"
         
     }
     

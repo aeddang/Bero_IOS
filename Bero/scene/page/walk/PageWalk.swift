@@ -40,10 +40,11 @@ struct PageWalk: PageView {
                 )
                 .modifier(MatchParent())
                 VStack(alignment: .trailing, spacing: Dimen.margin.thin){
-                    SelectControlBox(
-                        pageObservable: self.pageObservable,
-                        viewModel: self.mapModel
+                    MapSortBox(
+                        pageObservable:self.pageObservable,
+                        viewModel:self.mapModel
                     )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     Spacer().modifier(MatchParent())
                     if self.isInitable {
                         if !self.isWalk {
@@ -89,6 +90,12 @@ struct PageWalk: PageView {
                 }
                 self.needDog()
             default : break
+            }
+        }
+        .onReceive(self.mapModel.$event){ evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .tabMarker(let marker) : self.onMapMarkerSelect(marker)
             }
         }
         .onAppear{

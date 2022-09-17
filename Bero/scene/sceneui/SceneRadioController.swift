@@ -116,6 +116,7 @@ struct SceneRadioController: PageComponent{
     }//body
     
     func reset(){
+        if self.isShow { return }
         self.buttons = []
         self.currentRadio = nil
         self.title = nil

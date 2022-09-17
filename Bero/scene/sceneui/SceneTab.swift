@@ -15,6 +15,8 @@ struct SceneTab: PageComponent{
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var sceneObserver:PageSceneObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
+    
+    @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var imagePickerModel = ImagePickerModel()
     @State var positionBottom:CGFloat = -Dimen.app.bottom
     @State var isDimed:Bool = false

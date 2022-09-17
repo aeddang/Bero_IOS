@@ -20,7 +20,7 @@ class PlaceApi :Rest{
         fetch(route: PlaceApiRoute (method: .get, action:.search, query: params), completion: completion, error:error)
     }
     
-    func post(place:Place? = nil, completion: @escaping (Blank) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func post(place:Place? = nil, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
         params["lat"] = place?.location?.coordinate.latitude.description ?? ""
         params["lng"] = place?.location?.coordinate.longitude.description ?? ""

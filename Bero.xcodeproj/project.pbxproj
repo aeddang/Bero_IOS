@@ -101,6 +101,7 @@
 		31937F1228ACFA8F00AA5473 /* ValueBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1128ACFA8F00AA5473 /* ValueBox.swift */; };
 		31937F1428ACFBCA00AA5473 /* ValueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1328ACFBCA00AA5473 /* ValueInfo.swift */; };
 		31A9D2B9289F47340094EC5C /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A9D2B8289F47340094EC5C /* Check.swift */; };
+		31AEC3AD28D2995D00507386 /* PopupWalkUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */; };
 		31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794928C18F0800118B05 /* PageManageDogs.swift */; };
 		31AF794C28C1A33300118B05 /* PetProfileHealthEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */; };
 		31AF794E28C1A7A000118B05 /* PageModifyPetHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794D28C1A7A000118B05 /* PageModifyPetHealth.swift */; };
@@ -109,7 +110,13 @@
 		31B0F70228C6ED4B00E86F05 /* PageMissionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */; };
 		31B0F70428C6ED5D00E86F05 /* TotalMissionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */; };
 		31B0F70628C6EFE000E86F05 /* MissionHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */; };
-		31BBE44428C2F3F0006C3C84 /* UserFriendFunctionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44328C2F3F0006C3C84 /* UserFriendFunctionBox.swift */; };
+		31B311E628D528B5001B539A /* PopupWalkPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311E528D528B5001B539A /* PopupWalkPlace.swift */; };
+		31B311E928D52DD0001B539A /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311E828D52DD0001B539A /* UserView.swift */; };
+		31B311EB28D53749001B539A /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EA28D53749001B539A /* PlaceView.swift */; };
+		31B311ED28D545E1001B539A /* PopupWalkMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EC28D545E1001B539A /* PopupWalkMission.swift */; };
+		31B311EF28D5460E001B539A /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EE28D5460E001B539A /* MissionView.swift */; };
+		31B311F128D5727D001B539A /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311F028D5727D001B539A /* PlaceInfo.swift */; };
+		31BBE44428C2F3F0006C3C84 /* FriendFunctionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */; };
 		31BBE44628C2FEAD006C3C84 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44528C2FEAD006C3C84 /* HeartButton.swift */; };
 		31BCF3AD28C363C9004605CF /* PageAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AC28C363C9004605CF /* PageAlbum.swift */; };
 		31BCF3B028C36906004605CF /* PageWalkHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AF28C36906004605CF /* PageWalkHistory.swift */; };
@@ -165,7 +172,6 @@
 		31D4E2F028B0B92500C3BA75 /* PlaceControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */; };
 		31D4E2F228B0B97500C3BA75 /* PlaceProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */; };
 		31D4E2F628B1CC0C00C3BA75 /* PageMissionCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */; };
-		31D4E2F828B1CC4400C3BA75 /* RedeemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */; };
 		31D4E2FA28B1D0CC00C3BA75 /* ImageProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */; };
 		31D4E2FC28B284C500C3BA75 /* PageWalkCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */; };
 		31D6657D28CAEC4800765625 /* UserHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D6657C28CAEC4800765625 /* UserHistorySection.swift */; };
@@ -334,6 +340,8 @@
 		31D920D028729FB5001C2738 /* PageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920CF28729FB5001C2738 /* PageFactory.swift */; };
 		31D920D22872A02E001C2738 /* PageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920D12872A02E001C2738 /* PageTest.swift */; };
 		31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31D920D72872B573001C2738 /* GoogleService-Info.plist */; };
+		31E5B5BE28D300B000834A56 /* PageWalkPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */; };
+		31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5C028D3FA3100834A56 /* MapSortBox.swift */; };
 		31EA348E28AEE84E006A2C0A /* PlaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348D28AEE84E006A2C0A /* PlaceApi.swift */; };
 		31EA349028AEE93A006A2C0A /* PlaceApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */; };
 		31EA349228AF07EC006A2C0A /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349128AF07EC006A2C0A /* Place.swift */; };
@@ -473,6 +481,7 @@
 		31937F1128ACFA8F00AA5473 /* ValueBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueBox.swift; sourceTree = "<group>"; };
 		31937F1328ACFBCA00AA5473 /* ValueInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueInfo.swift; sourceTree = "<group>"; };
 		31A9D2B8289F47340094EC5C /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
+		31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkUser.swift; sourceTree = "<group>"; };
 		31AF794928C18F0800118B05 /* PageManageDogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManageDogs.swift; sourceTree = "<group>"; };
 		31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileHealthEdit.swift; sourceTree = "<group>"; };
 		31AF794D28C1A7A000118B05 /* PageModifyPetHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageModifyPetHealth.swift; sourceTree = "<group>"; };
@@ -481,7 +490,13 @@
 		31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionHistory.swift; sourceTree = "<group>"; };
 		31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalMissionSection.swift; sourceTree = "<group>"; };
 		31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionHistoryList.swift; sourceTree = "<group>"; };
-		31BBE44328C2F3F0006C3C84 /* UserFriendFunctionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFriendFunctionBox.swift; sourceTree = "<group>"; };
+		31B311E528D528B5001B539A /* PopupWalkPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkPlace.swift; sourceTree = "<group>"; };
+		31B311E828D52DD0001B539A /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		31B311EA28D53749001B539A /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
+		31B311EC28D545E1001B539A /* PopupWalkMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkMission.swift; sourceTree = "<group>"; };
+		31B311EE28D5460E001B539A /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
+		31B311F028D5727D001B539A /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
+		31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFunctionBox.swift; sourceTree = "<group>"; };
 		31BBE44528C2FEAD006C3C84 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		31BCF3AC28C363C9004605CF /* PageAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAlbum.swift; sourceTree = "<group>"; };
 		31BCF3AF28C36906004605CF /* PageWalkHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkHistory.swift; sourceTree = "<group>"; };
@@ -537,7 +552,6 @@
 		31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceControl.swift; sourceTree = "<group>"; };
 		31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceProfileInfo.swift; sourceTree = "<group>"; };
 		31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionCompleted.swift; sourceTree = "<group>"; };
-		31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemInfo.swift; sourceTree = "<group>"; };
 		31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcess.swift; sourceTree = "<group>"; };
 		31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkCompleted.swift; sourceTree = "<group>"; };
 		31D6657C28CAEC4800765625 /* UserHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistorySection.swift; sourceTree = "<group>"; };
@@ -705,6 +719,8 @@
 		31D920D62872AA8B001C2738 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		31D920D72872B573001C2738 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Bero/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31D920D92872BB17001C2738 /* Bero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bero.entitlements; sourceTree = "<group>"; };
+		31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkPopup.swift; sourceTree = "<group>"; };
+		31E5B5C028D3FA3100834A56 /* MapSortBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSortBox.swift; sourceTree = "<group>"; };
 		31EA348D28AEE84E006A2C0A /* PlaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApi.swift; sourceTree = "<group>"; };
 		31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApiData.swift; sourceTree = "<group>"; };
 		31EA349128AF07EC006A2C0A /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
@@ -811,6 +827,8 @@
 				31D6657E28CAFC3A00765625 /* UserProfileItem.swift */,
 				316B777D28B982F80090E924 /* UserProfileTopInfo.swift */,
 				31C6373528A87D8D008EA54C /* UserProfileInfo.swift */,
+				3151DD1628CDC00500641BCC /* RewardInfo.swift */,
+				31B311F028D5727D001B539A /* PlaceInfo.swift */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -846,11 +864,12 @@
 			isa = PBXGroup;
 			children = (
 				31EA349528AF8D37006A2C0A /* component */,
+				31E5B5BF28D300C300834A56 /* pop */,
 				31D0E95228AA3B810076D971 /* model */,
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
+				31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */,
 				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
 				31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */,
-				3151DD2D28CF320500641BCC /* PageChooseDog.swift */,
 			);
 			path = walk;
 			sourceTree = "<group>";
@@ -963,6 +982,18 @@
 				3151DD2028CDEF1400641BCC /* MessageList.swift */,
 			);
 			path = list;
+			sourceTree = "<group>";
+		};
+		31B311E728D52D9D001B539A /* test */ = {
+			isa = PBXGroup;
+			children = (
+				31EA349628AF8D57006A2C0A /* WalkControllBox.swift */,
+				31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */,
+				31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */,
+				31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */,
+				31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */,
+			);
+			path = test;
 			sourceTree = "<group>";
 		};
 		31BCF3AE28C368F4004605CF /* history */ = {
@@ -1078,7 +1109,6 @@
 			isa = PBXGroup;
 			children = (
 				31C7A91228C2BCB80010D045 /* UsersDogSection.swift */,
-				31BBE44328C2F3F0006C3C84 /* UserFriendFunctionBox.swift */,
 				31D6657C28CAEC4800765625 /* UserHistorySection.swift */,
 			);
 			path = component;
@@ -1106,9 +1136,9 @@
 		31C7A91628C2C2410010D045 /* component */ = {
 			isa = PBXGroup;
 			children = (
-				3151DD1628CDC00500641BCC /* RewardInfo.swift */,
 				31BCF3B328C411B5004605CF /* LvSection.swift */,
 				316B77A028BAEE410090E924 /* FriendSection.swift */,
+				31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */,
 				316B779E28BAEACB0090E924 /* AlbumSection.swift */,
 			);
 			path = component;
@@ -1790,22 +1820,32 @@
 			path = storage;
 			sourceTree = "<group>";
 		};
+		31E5B5BF28D300C300834A56 /* pop */ = {
+			isa = PBXGroup;
+			children = (
+				3151DD2D28CF320500641BCC /* PageChooseDog.swift */,
+				31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */,
+				31B311E528D528B5001B539A /* PopupWalkPlace.swift */,
+				31B311EC28D545E1001B539A /* PopupWalkMission.swift */,
+			);
+			path = pop;
+			sourceTree = "<group>";
+		};
 		31EA349528AF8D37006A2C0A /* component */ = {
 			isa = PBXGroup;
 			children = (
+				31B311E728D52D9D001B539A /* test */,
 				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
 				31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */,
-				31EA349628AF8D57006A2C0A /* WalkControllBox.swift */,
-				31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */,
-				31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */,
-				31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */,
-				31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */,
-				31D4E2F728B1CC4400C3BA75 /* RedeemInfo.swift */,
 				31D6658028CD64EB00765625 /* StartBox.swift */,
 				31D6658428CDAE9D00765625 /* WalkBox.swift */,
 				3151DD1828CDCF8600641BCC /* SimpleWalkBox.swift */,
 				31D6658228CDAC2A00765625 /* LocationInfo.swift */,
 				3151DD1428CDBCE100641BCC /* WithPetItem.swift */,
+				31E5B5C028D3FA3100834A56 /* MapSortBox.swift */,
+				31B311E828D52DD0001B539A /* UserView.swift */,
+				31B311EA28D53749001B539A /* PlaceView.swift */,
+				31B311EE28D5460E001B539A /* MissionView.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -2139,7 +2179,7 @@
 				31D91FFE287271C1001C2738 /* AppleManager.swift in Sources */,
 				316B77BC28BB5AD90090E924 /* SelectListEdit.swift in Sources */,
 				31D920B428729CDC001C2738 /* VisionApiData.swift in Sources */,
-				31BBE44428C2F3F0006C3C84 /* UserFriendFunctionBox.swift in Sources */,
+				31BBE44428C2F3F0006C3C84 /* FriendFunctionBox.swift in Sources */,
 				31D91E7B28725834001C2738 /* PageProtocol.swift in Sources */,
 				31D6658528CDAE9D00765625 /* WalkBox.swift in Sources */,
 				3151DD2128CDEF1400641BCC /* MessageList.swift in Sources */,
@@ -2154,6 +2194,7 @@
 				31D920AD28729CDC001C2738 /* ApiConst.swift in Sources */,
 				31D9205B287271CD001C2738 /* SceneAlertController.swift in Sources */,
 				31D920AF28729CDC001C2738 /* UserApi.swift in Sources */,
+				31B311E928D52DD0001B539A /* UserView.swift in Sources */,
 				316B77BE28BB5F400090E924 /* SelectTagEdit.swift in Sources */,
 				31D9202E287271C1001C2738 /* Swipper.swift in Sources */,
 				31C17FB5289FBFA6009B5EA1 /* InputSearch.swift in Sources */,
@@ -2175,6 +2216,7 @@
 				3151DD2928CE9AC000641BCC /* ChatBox.swift in Sources */,
 				31D91E7F28725834001C2738 /* AppUtil.swift in Sources */,
 				311EAA2028A9C34100A5F735 /* ListItem.swift in Sources */,
+				31B311EF28D5460E001B539A /* MissionView.swift in Sources */,
 				3143CD5228879E6700F1C88A /* PageLogin.swift in Sources */,
 				31D920CE28729E67001C2738 /* DeviceMotionObserver.swift in Sources */,
 				31AF794C28C1A33300118B05 /* PetProfileHealthEdit.swift in Sources */,
@@ -2197,7 +2239,6 @@
 				31D9203B287271C1001C2738 /* Alert.swift in Sources */,
 				31D92039287271C1001C2738 /* ImageView.swift in Sources */,
 				31D91E7E28725834001C2738 /* UnitUtil.swift in Sources */,
-				31D4E2F828B1CC4400C3BA75 /* RedeemInfo.swift in Sources */,
 				316B778928B9EB7B0090E924 /* FriendApiData.swift in Sources */,
 				31C6372E28A85C3C008EA54C /* ProgressInfo.swift in Sources */,
 				3151DD1928CDCF8600641BCC /* SimpleWalkBox.swift in Sources */,
@@ -2231,6 +2272,7 @@
 				31BCF3C328C45C89004605CF /* WalkPropertySection.swift in Sources */,
 				31D91E7928725834001C2738 /* PageHostingController.swift in Sources */,
 				31D91E8928725834001C2738 /* SelecterbleView.swift in Sources */,
+				31E5B5BE28D300B000834A56 /* PageWalkPopup.swift in Sources */,
 				31D920C628729CDC001C2738 /* ShareManager.swift in Sources */,
 				316B779328BA146A0090E924 /* UserProfileEdit.swift in Sources */,
 				31F3BD2C289621CA0025223B /* TitleTab.swift in Sources */,
@@ -2255,6 +2297,7 @@
 				31D920AB28729CDC001C2738 /* ApiManager.swift in Sources */,
 				31D92044287271C1001C2738 /* CircleButton.swift in Sources */,
 				31D91E8328725834001C2738 /* UIKitUtil.swift in Sources */,
+				31B311E628D528B5001B539A /* PopupWalkPlace.swift in Sources */,
 				31D92015287271C1001C2738 /* CPCircularNavigation.swift in Sources */,
 				311DC4372877D73800A3F7F5 /* GoogleSignManager.swift in Sources */,
 				31D91E8228725834001C2738 /* ViewUtil.swift in Sources */,
@@ -2267,6 +2310,7 @@
 				31BCF3CA28C463EF004605CF /* CompareGraph.swift in Sources */,
 				31071C78289E763200F46498 /* StepInfo.swift in Sources */,
 				31D91F812872705A001C2738 /* AppSceneObserver.swift in Sources */,
+				31B311F128D5727D001B539A /* PlaceInfo.swift in Sources */,
 				31D6657D28CAEC4800765625 /* UserHistorySection.swift in Sources */,
 				31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */,
 				31D92010287271C1001C2738 /* CPWebView.swift in Sources */,
@@ -2292,11 +2336,13 @@
 				31C3F2C728C80F8400EFF7F4 /* FriendButton.swift in Sources */,
 				31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */,
 				316B77AF28BB2B7E0090E924 /* PageModifyPet.swift in Sources */,
+				31B311EB28D53749001B539A /* PlaceView.swift in Sources */,
 				31D4E2F028B0B92500C3BA75 /* PlaceControl.swift in Sources */,
 				31D9200C287271C1001C2738 /* CustomImagePicker.swift in Sources */,
 				31D91E8028725834001C2738 /* DiskStatus.swift in Sources */,
 				316B77B828BB4AFC0090E924 /* PropertyInfo.swift in Sources */,
 				31B0F70028C6CDC500E86F05 /* RewardApiData.swift in Sources */,
+				31AEC3AD28D2995D00507386 /* PopupWalkUser.swift in Sources */,
 				31D920D028729FB5001C2738 /* PageFactory.swift in Sources */,
 				316B778F28B9FA6C0090E924 /* UserProfilePictureEdit.swift in Sources */,
 				31BCF3D128C5B710004605CF /* UserListItem.swift in Sources */,
@@ -2358,6 +2404,7 @@
 				316B778328B996410090E924 /* DistanceItem.swift in Sources */,
 				31D92052287271C1001C2738 /* FocusableTextField.swift in Sources */,
 				31D920C128729CDC001C2738 /* User.swift in Sources */,
+				31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */,
 				31C6373A28A8804D008EA54C /* PetProfileItem.swift in Sources */,
 				31D91E8F28725834001C2738 /* WhereverYouCanGo.swift in Sources */,
 				31C3F2CC28C8487700EFF7F4 /* MissionPlayInfo.swift in Sources */,
@@ -2372,6 +2419,7 @@
 				31D91FFC287271C1001C2738 /* Sns.swift in Sources */,
 				31D92037287271C1001C2738 /* GraphArc.swift in Sources */,
 				31EA349028AEE93A006A2C0A /* PlaceApiData.swift in Sources */,
+				31B311ED28D545E1001B539A /* PopupWalkMission.swift in Sources */,
 				316B77B128BB2BBF0090E924 /* PetProfileEdit.swift in Sources */,
 				31BBE44628C2FEAD006C3C84 /* HeartButton.swift in Sources */,
 				31D9203F287271C1001C2738 /* Toast.swift in Sources */,
@@ -2576,7 +2624,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2620,7 +2668,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

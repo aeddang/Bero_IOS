@@ -209,7 +209,9 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         guard let userData:MapUserData = marker.userData as? MapUserData else { return false }
         userData.isSelected.toggle()
-        self.viewModel.event = .tabMarker(marker)
+        if userData.isSelected {
+            self.viewModel.event = .tabMarker(marker)
+        }
         return false
     }
     public func mapView(_ mapView: GMSMapView, didTapInfoWindow marker: GMSMarker) -> Bool {
@@ -219,6 +221,6 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     public func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
         guard let userData:MapUserData = marker.userData as? MapUserData else { return }
         userData.isSelected = false
-        self.viewModel.event = .tabMarker(marker)
+        //self.viewModel.event = .tabMarker(marker)
     }
 }

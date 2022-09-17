@@ -2,12 +2,12 @@ import Foundation
 import SwiftUI
 
 
-struct UserFriendFunctionBox: PageComponent{
+struct FriendFunctionBox: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     let user:User
-   
+    var isSimple:Bool = false
     var body: some View {
         HStack(spacing:Dimen.margin.micro){
             ForEach(self.currentStatus.buttons.filter{$0 != .delete}, id:\.rawValue){ btn in
@@ -16,15 +16,16 @@ struct UserFriendFunctionBox: PageComponent{
                     type: btn
                 )
             }
-            FillButton(
-                type: .fill,
-                icon : self.currentStatus == .friend ? Asset.icon.send : nil,
-                text: String.button.chat,
-                color: Color.brand.primary,
-                isActive: self.currentStatus == .friend
-            ){_ in
-                if self.currentStatus != .friend { return }
-                self.appSceneObserver.event = .sendChat(userId: self.user.currentProfile.userId)
+            if self.currentStatus == .friend {
+                FillButton(
+                    type: .fill,
+                    icon : Asset.icon.sms,
+                    text: String.button.chat,
+                    color: Color.brand.primary,
+                    isActive: true
+                ){_ in
+                    self.appSceneObserver.event = .sendChat(userId: self.user.currentProfile.userId)
+                }
             }
         }
         .onReceive(self.dataProvider.$result){res in

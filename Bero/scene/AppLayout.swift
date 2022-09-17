@@ -24,12 +24,16 @@ struct AppLayout: PageComponent{
 
     var body: some View {
         ZStack{
-            SceneTab(imagePickerModel:self.imagePickerModel)
-            SceneRadioController()
-            SceneSelectController()
-            ScenePickerController()
-            SceneAlertController()
-            SceneSheetController()
+            Group {
+                SceneTab(
+                    pageObservable: self.pageObservable,
+                    imagePickerModel:self.imagePickerModel)
+                SceneRadioController()
+                SceneSelectController()
+                ScenePickerController()
+                SceneAlertController()
+                SceneSheetController()
+            }
             if self.isLoading {
                 if self.isLock {
                     Spacer().modifier(MatchParent()).background(Color.transparent.black70)
@@ -73,7 +77,7 @@ struct AppLayout: PageComponent{
             guard let cPage = page else { return }
             PageLog.d("currentTopPage " + cPage.pageID.debugDescription, tag:self.tag)
             
-            self.appSceneObserver.useBottom = PageSceneModel.needBottomTab(cPage)
+            self.appSceneObserver.useBottom = self.pagePresenter.hasLayerPopup() ? false : PageSceneModel.needBottomTab(cPage)
             AppUtil.hideKeyboard()
             if PageSceneModel.needKeyboard(cPage) {
                 self.keyboardObserver.start()
@@ -97,7 +101,7 @@ struct AppLayout: PageComponent{
         }
         .onReceive (self.appObserver.$pushToken) { token in
             guard let token = token else { return }
-            self.repository.registerPushToken(token)
+            self.repository.onCurrentPushToken(token)
         }
         
         .onReceive(self.repository.$status){ status in
@@ -203,7 +207,7 @@ struct AppLayout: PageComponent{
     
     private func updateSafeArea(){
         //let bottom = self.appSceneObserver.useBottom ? Dimen.app.bottom : 0
-        self.appSceneObserver.safeBottomHeight = self.sceneObserver.safeAreaBottom
+        self.appSceneObserver.safeBottomHeight = self.sceneObserver.safeAreaIgnoreKeyboardBottom
         self.appSceneObserver.safeHeaderHeight = self.sceneObserver.safeAreaTop
     }
     

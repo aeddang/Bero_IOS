@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1189AC40-9B1C-4FA3-B2DB-2EF811B21B13"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bero/skeleton/view/text/FocusableTextField.swift"
@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D11CF8E8-442E-4D75-BF31-1BC51B0216C5"
+            uuid = "589EFF1E-D6EF-4AE9-B49B-AC8EF26C2743"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Bero/scene/sceneui/ScenePickerController.swift"
+            filePath = "Bero/scene/page/history/component/TotalMissionSection.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "selectedPicker(_:completionHandler:)"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "onSort()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

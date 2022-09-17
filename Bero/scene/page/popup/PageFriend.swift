@@ -36,13 +36,14 @@ struct PageFriend: PageView {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
-                        useBack:true
-                    ){ type in
-                        switch type {
-                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
+                        useBack:true,
+                        action:{ type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
                         }
-                    }
+                    )
                     HStack(spacing:0){
                         TitleSection(
                             title: String.pageTitle.friends

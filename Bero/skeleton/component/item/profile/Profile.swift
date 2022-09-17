@@ -15,6 +15,7 @@ struct ProfileImage:PageView{
     var image:UIImage? = nil
     var imagePath:String? = nil
     var isSelected:Bool = false
+    var strokeColor:Color = Color.brand.primary
     var size:CGFloat = Dimen.profile.medium
     var emptyImagePath:String = Asset.image.profile_user_default
     var onEdit: (() -> Void)? = nil
@@ -59,7 +60,7 @@ struct ProfileImage:PageView{
             .overlay(
                 /*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/
                     .stroke(
-                        Color.brand.primary,
+                        self.strokeColor,
                         lineWidth: self.isSelected ? Dimen.stroke.medium : 0
                     )
             )

@@ -15,7 +15,7 @@ struct RewardInfo: PageComponent{
         var icon:String{
             switch self {
             case .point : return Asset.icon.point
-            case .exp : return Asset.icon.lightening_circle
+            case .exp : return Asset.icon.exp
             }
         }
         
@@ -95,7 +95,7 @@ struct RewardInfo: PageComponent{
             }
         }
         .frame(width: self.sizeType.boxSize.width, height: self.sizeType.boxSize.height)
-        .background(self.isActive ? self.type.bgcolor : Color.app.whiteDeep)
+        .background(self.isActive ? self.type.bgcolor : Color.app.grey50)
         .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
         .overlay(
             RoundedRectangle(cornerRadius: Dimen.radius.regular)

@@ -14,8 +14,12 @@ class Place:MapUserData{
     private(set) var name: String? = nil
     private(set) var googlePlaceId: String? = nil
     private(set) var visitors: [PlaceVisitor] = []
+    private(set) var playExp:Double = 0
+    private(set) var playPoint:Int = 0
+    private(set) var place:MissionPlace? = nil
+    private(set) var isMark:Bool = false
     @discardableResult
-    func setData(_ data:PlaceData)->Place{
+    func setData(_ data:PlaceData, me:String)->Place{
         self.name = data.name
         self.googlePlaceId = data.googlePlaceId
         self.placeId = data.placeId ?? 0
@@ -29,9 +33,15 @@ class Place:MapUserData{
             }
         }
         self.visitors = data.visitors ?? []
+        self.place = data.place ?? MissionPlace()
+        self.isMark = self.visitors.first(where: {$0.userId == me}) != nil
         return self
     }
-    
+     
+    func addMark(user:User){
+        self.isMark = true
+        self.visitors.append(.init(userId: user.snsUser?.snsID, userName: user.currentProfile.nickName))
+    }
     
 }
 

@@ -19,6 +19,7 @@ extension PageID{
     static let diary:PageID = "diary"
     static let my:PageID = "my"
     static let chooseDog:PageID = "chooseDog"
+   
     static let walkHistory:PageID = "walkHistory"
     static let walkReport:PageID = "walkReport"
     static let walkInfo:PageID = "walkInfo"
@@ -40,6 +41,11 @@ extension PageID{
     
     static let addDog:PageID = "addDog"
     static let addDogCompleted:PageID = "addDogCompleted"
+    
+    static let popupWalkUser:PageID = "popupWalkUser"
+    static let popupWalkPlace:PageID = "popupWalkPlace"
+    static let popupWalkMission:PageID = "popupWalkMission"
+    
 }
 
 struct PageProvider {
@@ -52,6 +58,7 @@ struct PageProvider {
         pobj.isDimed = getDimed(pageID)
         pobj.animationType = getType(pageID)
         pobj.zIndex = isTop(pageID) ? 1 : 0
+        pobj.isLayer = isLayer(pageID)
         pobj.isAutoInit = isAutoInit(pageID)
         return pobj
     }
@@ -66,8 +73,9 @@ struct PageProvider {
     
     static func getType(_ pageID:PageID)-> PageAnimationType{
         switch pageID {
-        case  .addDog, .addDogCompleted : return .vertical
-        case  .missionCompleted, .walkCompleted, .chooseDog: return .opacity
+        case  .addDog, .addDogCompleted, .chooseDog,
+                .popupWalkUser, .popupWalkPlace, .popupWalkMission : return .vertical
+        case  .missionCompleted, .walkCompleted: return .opacity
         default : return  .horizontal
         }
     }
@@ -77,11 +85,16 @@ struct PageProvider {
         default : return  false
         }
     }
-    
+    static func isLayer(_ pageID:PageID)-> Bool{
+        switch pageID{
+        case .chooseDog, .popupWalkUser, .popupWalkPlace, .popupWalkMission : return true
+        default : return false
+        }
+    }
     static func isAutoInit(_ pageID:PageID)-> Bool{
         switch pageID{
         case .user, .album, .dog,.walkReport, .walkInfo,
-            .walkHistory, .missionHistory, .friend : return false
+            .walkHistory, .missionHistory, .friend , .editProfile: return false
         default : return  true
         }
     }
@@ -169,6 +182,7 @@ struct PageFactory{
         case .dog : return PageDog(pageObservable:pageObservable)
         case .user : return PageUser(pageObservable:pageObservable)
         case .chooseDog : return PageChooseDog(pageObservable:pageObservable)
+        
         case .walkHistory : return PageWalkHistory(pageObservable:pageObservable)
         case .walkReport : return PageWalkReport(pageObservable:pageObservable)
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)
@@ -185,6 +199,10 @@ struct PageFactory{
         case .modifyPet : return PageModifyPet(pageObservable:pageObservable)
         case .modifyPetHealth : return PageModifyPetHealth(pageObservable:pageObservable)
         case .editProfile : return PageEditProfile(pageObservable:pageObservable)
+            
+        case .popupWalkUser : return PopupWalkUser(pageObservable:pageObservable)
+        case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
+        case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)
         default : return PageTest(pageObservable:pageObservable)
         }
     }

@@ -14,8 +14,11 @@ open class ImagePickerModel: ComponentObservable {
     @Published var event:ImagePickerEvent? = nil
     var pickId:String? = nil
     func reset() {
-        pickImage = nil
-        event = nil
+        DispatchQueue.main.async {
+            self.pickImage = nil
+            self.event = nil
+        }
+       
     }
 }
 

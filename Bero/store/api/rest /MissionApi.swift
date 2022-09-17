@@ -65,7 +65,7 @@ extension MissionApi {
         }
         var text : String {
             switch self {
-            case .User, .Random : return String.sort.allText
+            case .User, .Random : return String.sort.all + " " + String.app.users.lowercased()
             case .Friend : return String.sort.friendsText
             default : return ""
             }

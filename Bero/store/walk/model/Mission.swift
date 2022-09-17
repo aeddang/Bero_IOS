@@ -132,7 +132,7 @@ class Mission:MapUserData{
     var viewPlayTime:String { return WalkManager.viewDuration(self.playTime) }
     var viewPlayDistance:String { return WalkManager.viewDistance(self.playDistence) }
     var viewSpeed:String { return WalkManager.viewSpeed(self.distance/self.duration) }
-    
+   
     var allPoint:[CLLocation] {
         var points:[CLLocation] = []
         if let value = self.departure { points.append(value) }
@@ -140,7 +140,6 @@ class Mission:MapUserData{
         if let value = self.destination { points.append(value) }
         return points
     }
-    
     
     func start(location:CLLocation, walkDistence:Double) {
         self.departure = location
@@ -151,6 +150,7 @@ class Mission:MapUserData{
         self.isStart = true
         self.isCompleted = false
     }
+    
     func end(isCompleted:Bool? = nil, imgPath:String? = nil) {
         self.departure = nil
         self.playStartDate = nil
@@ -174,7 +174,7 @@ class Mission:MapUserData{
         self.type = type
         self.missionId = data.missionId ?? UUID().hashValue
         self.difficulty = data.difficulty
-        self.title = data.title
+        self.title = data.title ?? String.pageText.walkMissionTitleText.replace((data.place?.name ?? "")) 
         self.description = data.description
         self.pictureUrl = data.pictureUrl
         self.point = data.point ?? 0
@@ -188,6 +188,8 @@ class Mission:MapUserData{
             if let loc = place.geometry?.location {
                 self.destination = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
             }
+        } else if let loc = data.geos?.last {
+            self.destination = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
         }
         self.user = User().setData(data)
         self.distance = data.distance ?? 0

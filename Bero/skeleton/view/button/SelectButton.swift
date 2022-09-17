@@ -140,7 +140,7 @@ struct SelectButton_Previews: PreviewProvider {
                 icon: Asset.icon.album,
                 text: "small button",
                 description: "select",
-                isSelected: true
+                isSelected: false
             ){_ in
                 
             }

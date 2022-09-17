@@ -60,6 +60,8 @@ struct PageContentController: View{
    
     @State var isFullScreen:Bool = false
     @State var isLandscape:Bool = true
+    
+   
     var currnetPage:PageViewProtocol?{
         get{
             return pageControllerObservable.pages.first
@@ -83,16 +85,17 @@ struct PageContentController: View{
     let orientationChanged = NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
             .makeConnectable()
             .autoconnect()
-   
     var body: some View {
         GeometryReader { geometry in
             ZStack{
+                
                 ForEach(self.pageControllerObservable.pages, id: \.id) { page in page.contentBody }
                 ForEach(self.pageControllerObservable.popups, id: \.id) { popup in popup.contentBody }
                 self.pageControllerObservable.overlayView?.contentBody
+                
             }
             //.frame(width: sceneObserver.screenSize.width, height: sceneObserver.screenSize.height)
-            .background(Color.brand.bg)
+            .background( Color.brand.bg )
             .edgesIgnoringSafeArea(.all)
             .statusBar(hidden: self.isFullScreen)
             .onReceive(self.sceneObserver.$isUpdated){ update in
@@ -101,27 +104,46 @@ struct PageContentController: View{
                     self.isLandscape =  self.sceneObserver.sceneOrientation == .landscape
                 }
             }
-            .onReceive(self.keyboardObserver.$isOn){ _ in
+            .onReceive(self.keyboardObserver.$isOn){ isOn in
+                ComponentLog.d("keyboard Changed " + isOn.description , tag:"SceneObserver")
                 delaySafeAreaUpdate(geometry: geometry)
             }
             
-            .onReceive(self.orientationChanged){ _ in
+            .onReceive(self.orientationChanged){ note in
+                guard let device = note.object as? UIDevice else {
+                    return
+                }
+                if device.orientation.isPortrait {
+                    UINavigationController.attemptRotationToDeviceOrientation()
+                    PageLog.d("device.orientation.isPortrait", tag: "SceneAppDelegate")
+                }
+                else if device.orientation.isLandscape {
+                    UINavigationController.attemptRotationToDeviceOrientation()
+                    PageLog.d(" device.orientation.isLandscape" , tag: "SceneAppDelegate")
+                }
+                
                 DispatchQueue.main.async {
                     sceneObserver.update(geometry: geometry)
                 }
+                delaySafeAreaUpdate(geometry: geometry)
             }
             .onReceive(self.pagePresenter.$isFullScreen){ isFullScreen in
                 self.isFullScreen = isFullScreen
+                ComponentLog.d("FullScreenChanged " + isFullScreen.description, tag:"SceneObserver")
                 DispatchQueue.main.async {
                     sceneObserver.update(geometry: geometry)
                 }
-                delaySafeAreaUpdate(geometry: geometry, delay: 0.2)
+                delaySafeAreaUpdate(geometry: geometry)
             }
             .onReceive(self.pagePresenter.$currentTopPage){ page in
-                sceneObserver.update(geometry: geometry)
-                
+                DispatchQueue.main.async {
+                    sceneObserver.update(geometry: geometry)
+                }
+                delaySafeAreaUpdate(geometry: geometry)
+       
             }
             .onAppear(){
+                UIDevice.current.beginGeneratingDeviceOrientationNotifications()
                 sceneObserver.update(geometry: geometry)
             }
             .onDisappear(){
@@ -131,13 +153,19 @@ struct PageContentController: View{
     }
     
     @State var safeAreaUpdateSubscription:AnyCancellable?
-    func delaySafeAreaUpdate(geometry:GeometryProxy, delay:Double = 0.02) {
+    func delaySafeAreaUpdate(geometry:GeometryProxy, delay:Double = 0.05) {
         self.safeAreaUpdateSubscription?.cancel()
+        var count = 0
+        //ComponentLog.d("delaySafeAreaUpdate " + delay.description, tag:"SceneObserver")
         self.safeAreaUpdateSubscription = Timer.publish(
             every: delay, on: .main, in: .common)
             .autoconnect()
             .sink() {_ in
-                self.safeAreaUpdateSubscription?.cancel()
+                if count == 2 {
+                    self.safeAreaUpdateSubscription?.cancel()
+                }
+                count += 1
+                ComponentLog.d("delaySafeAreaUpdate " + count.description, tag:"SceneObserver")
                 sceneObserver.update(geometry: geometry)
         }
     }
@@ -176,7 +204,7 @@ struct PageContentController: View{
     func addPopup(_ page:PageViewProtocol){
         DispatchQueue.main.async {
             pageControllerObservable.popups.append(page)
-            pageControllerObservable.popups.sort{$0.zIndex < $1.zIndex} 
+            pageControllerObservable.popups.sort{$0.zIndex < $1.zIndex}
             pageControllerObservable.pages.forEach({ $0.pageAdded( page.pageObject )})
             pageControllerObservable.popups.forEach({ $0.pageAdded( page.pageObject )})
             pageControllerObservable.overlayView?.pageAdded(page.pageObject)
@@ -190,8 +218,8 @@ struct PageContentController: View{
     }
     
     func removePopup(_ key:String){
-        guard let findIdx = pageControllerObservable.popups.firstIndex(where: { $0.id == key }) else { return }
         DispatchQueue.main.async {
+            guard let findIdx = pageControllerObservable.popups.firstIndex(where: { $0.id == key }) else { return }
             let pop = pageControllerObservable.popups.remove(at: findIdx)
             pageControllerObservable.pages.forEach({ $0.pageRemoved( pop.pageObject )})
             pageControllerObservable.popups.forEach({ $0.pageRemoved( pop.pageObject )})

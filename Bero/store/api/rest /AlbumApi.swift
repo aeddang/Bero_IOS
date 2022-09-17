@@ -55,7 +55,7 @@ extension AlbumApi {
         }
         var text : String {
             switch self {
-            case .all : return String.sort.allText
+            case .all : return String.sort.all + " " + String.app.users.lowercased()
             case .friends : return String.sort.friendsText
             }
         }

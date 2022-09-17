@@ -44,6 +44,7 @@ struct ImageButton: View, SelecterbleProtocol{
                         ))
                 }
             }
+            .background(Color.transparent.clearUi)
         }
     }
 }

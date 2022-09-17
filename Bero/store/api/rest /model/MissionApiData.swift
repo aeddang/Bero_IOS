@@ -25,7 +25,6 @@ struct MissionData : Decodable {
     private(set) var place:MissionPlace? = nil
 }
 
-
 struct MissionSummary : Decodable {
     private(set) var totalDuration: Double? = nil
     private(set) var totalDistance: Double? = nil

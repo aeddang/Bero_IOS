@@ -60,6 +60,7 @@ struct ScenePickerController: PageComponent{
     }//body
     
     func reset(){
+        if self.isShow { return }
         self.buttons = []
         self.currentSelect = nil
     }

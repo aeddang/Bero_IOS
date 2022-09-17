@@ -31,8 +31,8 @@ struct WalkBox: PageComponent{
                 { _ in
                     withAnimation{
                         self.isExpand.toggle()
-                        self.walkManager.updateSimpleView(!self.isExpand)
                     }
+                    self.walkManager.updateSimpleView(!self.isExpand)
                 }
                 .opacity(self.isExpand ? 1 : 0)
                 Spacer().modifier(MatchHorizontal(height: 0))
@@ -122,6 +122,11 @@ struct WalkBox: PageComponent{
         }
         .onReceive(self.walkManager.$walkDistence){ distence in
             self.walkDistence = distence
+        }
+        .onReceive(self.walkManager.$isSimpleView){ isSimple in
+            withAnimation{
+                self.isExpand = !isSimple
+            }
         }
         .onAppear(){
             self.updatedPets()

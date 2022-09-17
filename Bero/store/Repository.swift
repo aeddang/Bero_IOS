@@ -122,9 +122,6 @@ class Repository:ObservableObject, PageProtocol{
             token: self.storage.loginToken,
             code: self.storage.loginType)
         
-        if self.storage.retryPushToken != "" {
-            self.registerPushToken(self.storage.retryPushToken)
-        }
     }
     private func setupWalkManager(){
         self.walkManager.$event.sink(receiveValue: { evt in
@@ -184,7 +181,6 @@ class Repository:ObservableObject, PageProtocol{
             }
             self.appSceneObserver?.isApiLoading = false
             self.pagePresenter?.isLoading = false
-            
             if err.id != self.tag { return }
             switch err.type {
             case .getCode(let category, _) :
@@ -225,6 +221,10 @@ class Repository:ObservableObject, PageProtocol{
     private func respondApi(_ res:ApiResultResponds){
         self.accountManager.respondApi(res)
         self.walkManager.respondApi(res)
+        switch res.type {
+        case .registPush(let token) : self.registedPushToken(token)
+        default : break
+        }
         if let coreDatakey = res.type.coreDataKey(){
             self.respondApi(res, coreDatakey: coreDatakey)
         }
@@ -234,6 +234,7 @@ class Repository:ObservableObject, PageProtocol{
         self.walkManager.errorApi(err, appSceneObserver: self.appSceneObserver)
         switch err.type {
         case .joinAuth : self.clearLogin()
+        case .registPush(let token) : self.registFailPushToken(token)
         default : break
         }
     }
@@ -247,18 +248,8 @@ class Repository:ObservableObject, PageProtocol{
             }
         }
     }
-    // PushToken
-    func retryRegisterPushToken(){
-        if self.storage.retryPushToken != "" {
-            self.registerPushToken(self.storage.retryPushToken)
-        }
-    }
     
-    func registerPushToken(_ token:String) {
-        self.storage.retryPushToken = token
-    }
-    
-    
+
     func registerSnsLogin(_ user:SnsUser, info:SnsUserInfo?) {
         self.storage.loginId = user.snsID
         self.storage.loginToken = user.snsToken
@@ -276,6 +267,7 @@ class Repository:ObservableObject, PageProtocol{
         self.snsManager.requestAllLogOut()
         self.event = .loginUpdate
         self.status = .ready
+        self.retryRegisterPushToken()
     }
     
     private func autoSnsLogin() {
@@ -299,6 +291,8 @@ class Repository:ObservableObject, PageProtocol{
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false), isOptional: true))
         }
+        self.retryRegisterPushToken()
+        
     }
     var isLogin: Bool {
         self.storage.authToken?.isEmpty == false
@@ -317,5 +311,36 @@ class Repository:ObservableObject, PageProtocol{
         }
         self.storage.walkCount = now + count.description
         WalkManager.todayWalkCount = count
+    }
+    
+    // PushToken
+    func retryRegisterPushToken(){
+        if !self.storage.retryPushToken.isEmpty{
+            DataLog.d("retryRegisterPushToken " + self.storage.retryPushToken, tag:self.tag)
+            self.registPushToken(self.storage.retryPushToken)
+        }
+    }
+    func onCurrentPushToken(_ token:String) {
+        if self.storage.registPushToken == token {return}
+        DataLog.d("onCurrentPushToken", tag:self.tag)
+        switch self.status {
+        case .initate :  self.storage.retryPushToken = token
+        case .ready : self.registPushToken(token)
+        }
+    }
+    
+    private func registPushToken(_ token:String) {
+        self.storage.retryPushToken = ""
+        self.storage.registPushToken = token
+        self.dataProvider.requestData(q: .init(type: .registPush(token: token), isOptional: true))
+    }
+    private func registedPushToken(_ token:String) {
+        
+        DataLog.d("registedPushToken", tag:self.tag)
+    }
+    private func registFailPushToken(_ token:String) {
+        self.storage.retryPushToken = token
+        self.storage.registPushToken = ""
+        DataLog.d("registFailPushToken", tag:self.tag)
     }
 }

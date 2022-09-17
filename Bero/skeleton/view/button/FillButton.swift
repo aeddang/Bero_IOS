@@ -56,6 +56,7 @@ struct FillButton: View, SelecterbleProtocol{
                         gradient:gradient,
                         startPoint: .leading, endPoint: .trailing)
                         .modifier(MatchParent())
+                        .opacity(self.isActive ? 1 : 0.3)
                 }
                 HStack(spacing:Dimen.margin.tinyExtra){
                     if let icon = self.icon {

@@ -5,11 +5,13 @@ struct UsersDogSection: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     let user:User
-   
+    var isSimple:Bool = false
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.usersDogs.replace(user.currentProfile.nickName ?? ""))
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
+            if !self.isSimple {
+                TitleTab(type:.section, title: String.pageTitle.usersDogs.replace(user.currentProfile.nickName ?? ""))
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+            }
             if self.pets.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)

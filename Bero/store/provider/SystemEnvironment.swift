@@ -12,7 +12,8 @@ struct SystemEnvironment {
     static let model:String = AppUtil.model
     static let systemVersion:String = UIDevice.current.systemVersion
     static var firstLaunch :Bool = false
-
+    static let deviceId: String = UIDevice.current.identifierForVendor?.uuidString ?? UUID.init().uuidString
+    static let pushToken: String? = nil
     static var isTablet = AppUtil.isPad()
     static private(set) var breedCode:[String:String] = [:]
     static func setupBreedCode(res:ApiResultResponds){

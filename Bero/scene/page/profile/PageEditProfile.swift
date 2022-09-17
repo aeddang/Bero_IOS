@@ -214,6 +214,9 @@ struct PageEditProfile: PageView {
             if let type = obj.getParamValue(key: .type) as?  PageEditProfile.EditType{
                 self.currentType = type
             }
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
+                self.pageObservable.isInit = true
+            }
         }
     }//body
     @State var user:User? = nil

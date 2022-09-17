@@ -15,7 +15,7 @@ import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
 extension PageUser{
-    static let height:CGFloat = 232
+    static let userProfileHeight:CGFloat = 232
     static let innerScrollHeight:CGFloat = 300
 }
 struct PageUser: PageView {
@@ -58,7 +58,7 @@ struct PageUser: PageView {
                         .padding(.top, Dimen.margin.medium * (self.topHeight/self.originTopHeight))
                         .opacity(self.topHeight/self.originTopHeight)
                         if !self.dataProvider.user.isSameUser(user) {
-                            UserFriendFunctionBox(user: user)
+                            FriendFunctionBox(user: user)
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.regular)
                         }
@@ -156,18 +156,18 @@ struct PageUser: PageView {
     @State var userId:String? = nil
     @State var user:User? = nil
     @State var menuIdx:Int = 0
-    @State var topHeight:CGFloat = Self.height
-    @State var originTopHeight:CGFloat = Self.height
+    @State var topHeight:CGFloat = Self.userProfileHeight
+    @State var originTopHeight:CGFloat = Self.userProfileHeight
 
     private func setupTopHeight(geometry:GeometryProxy){
         guard let text = self.user?.currentProfile.introduction else {
-            self.originTopHeight = Self.height
+            self.originTopHeight = Self.userProfileHeight
             return
         }
         let w = geometry.size.width - 2*(Dimen.app.pageHorinzontal + VerticalProfile.descriptionPadding)
         let textH = VerticalProfile.descriptionStyle.textModifier.getTextHeight(text, screenWidth: w)
         let addTextHeight = textH - VerticalProfile.descriptionStyle.textModifier.size
-        self.originTopHeight = Self.height + addTextHeight
+        self.originTopHeight = Self.userProfileHeight + addTextHeight
         self.topHeight = max(self.originTopHeight + self.infinityScrollModel.scrollPosition, 0)
         DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
             self.pageObservable.isInit = true

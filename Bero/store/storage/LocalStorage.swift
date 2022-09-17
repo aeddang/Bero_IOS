@@ -13,7 +13,7 @@ class LocalStorage {
         static let VS = "1.000"
         static let initate = "initate" + VS
         static let retryPushToken = "retryPushToken" + VS
-        
+        static let registPushToken = "registPushToken" + VS
         static let loginType = "loginType" + VS
         static let loginToken = "loginToken" + VS
         static let loginId = "loginId" + VS
@@ -30,6 +30,15 @@ class LocalStorage {
         }
         get{
             return defaults.string(forKey: Keys.retryPushToken) ?? ""
+        }
+    }
+    
+    var registPushToken:String{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.registPushToken)
+        }
+        get{
+            return defaults.string(forKey: Keys.registPushToken) ?? ""
         }
     }
     

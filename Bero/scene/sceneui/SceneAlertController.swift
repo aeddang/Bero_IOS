@@ -65,7 +65,7 @@ struct SceneAlertController: PageComponent{
             case .apiError(let data): self.selectedApi(idx, data:data)
             case .requestLocation(let completionHandler): self.selectedRequestLocation(idx, completionHandler:completionHandler)
             case .recivedApns: self.selectedRecivedApns(idx)
-            default: do { return }
+            default: return 
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.reset()

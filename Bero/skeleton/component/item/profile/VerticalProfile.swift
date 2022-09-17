@@ -33,6 +33,7 @@ struct VerticalProfile: PageComponent{
     static let descriptionPadding = Dimen.margin.light
     let id:String
     var type:ProfileType = .pet
+    var alignment:HorizontalAlignment = .center
     var sizeType:ProfileSizeType = .medium
     var isSelected:Bool = false
     var image:UIImage? = nil
@@ -46,8 +47,8 @@ struct VerticalProfile: PageComponent{
     var description:String? = nil
     var editProfile: (() -> Void)? = nil
     var body: some View {
-        VStack(spacing:Dimen.margin.regularExtra){
-            ZStack(alignment: .bottom){
+        VStack(alignment: self.alignment, spacing:Dimen.margin.regularExtra){
+            ZStack(alignment: self.alignment == .center ? .bottom : .bottomLeading){
                 ProfileImage(
                     id : self.id,
                     image: self.image,
@@ -76,15 +77,20 @@ struct VerticalProfile: PageComponent{
                     }
                     .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
                 }
+                if self.alignment == .center {
+                    Spacer().modifier(MatchHorizontal(height: self.sizeType.imageSize))
+                } else {
+                    Spacer().frame(width:self.sizeType.imageSize, height: self.sizeType.imageSize)
+                }
             }
-            .modifier(MatchHorizontal(height: self.sizeType.imageSize))
-            VStack(spacing:Dimen.margin.micro){
+            VStack(alignment: self.alignment, spacing:Dimen.margin.micro){
                 if let name = self.name {
                     Text(name)
                         .modifier(SemiBoldTextStyle(
                             size: Font.size.bold,
                             color: Color.app.black
                         ))
+                        .multilineTextAlignment(self.alignment == .center ? .center : .leading)
                 }
                 ProfileInfoDescription(
                     id: self.id,
@@ -100,8 +106,10 @@ struct VerticalProfile: PageComponent{
                         size: Font.size.thin,color: Color.app.orange))
                     .padding(.vertical, Dimen.margin.micro)
                     .padding(.horizontal, Dimen.margin.thin)
+                    .multilineTextAlignment(self.alignment == .center ? .center : .leading)
                     .background(Color.app.orange.opacity(0.14))
                     .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
+                
             }
             
             if let description = self.description{
@@ -111,7 +119,7 @@ struct VerticalProfile: PageComponent{
                         .modifier(Self.descriptionStyle)
                         .padding(.all, Self.descriptionPadding)
                         .modifier(MatchParent())
-                        .multilineTextAlignment(.center)
+                        .multilineTextAlignment(self.alignment == .center ? .center : .leading)
                 }
                 .background(Color.app.whiteDeepLight)
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))

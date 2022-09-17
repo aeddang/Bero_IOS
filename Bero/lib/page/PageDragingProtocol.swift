@@ -107,7 +107,7 @@ extension PageDragingView{
 
 class PageDragingModel: ObservableObject, PageProtocol, Identifiable{
     static var MIN_DRAG_RANGE:CGFloat = 50
-
+    static var MAX_DRAG_RANGE:CGFloat = 100
     @Published var uiEvent:PageDragingUIEvent? = nil {didSet{ if uiEvent != nil { uiEvent = nil} }}
     @Published var event:PageDragingEvent? = nil {didSet{ if event != nil { event = nil} }}
     @Published var status:PageDragingStatus = .none
@@ -438,9 +438,47 @@ struct PageDragingSecondPriority: ViewModifier {
 }
 
 
-
-
-
+struct ContentScrollPull: ViewModifier {
+    @EnvironmentObject var sceneObserver:PageSceneObserver
+    var tag:String? = nil
+    var infinityScrollModel:InfinityScrollModel
+    var pageDragingModel:PageDragingModel
+    
+    @State var anyCancellable = Set<AnyCancellable>()
+    private func setScrollList(){
+        self.infinityScrollModel.$event.sink(receiveValue: { evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .ready : self.infinityScrollModel.setup(scrollSize: sceneObserver.screenSize)
+            case .pullCompleted : self.pageDragingModel.updateNestedScroll(evt: .pullCompleted)
+            case .pullCancel : self.pageDragingModel.updateNestedScroll(evt: .pullCancel)
+            default : break
+            }
+        })
+        .store(in: &anyCancellable)
+        self.infinityScrollModel.$pullPosition.sink(receiveValue: { pos in
+            self.pageDragingModel.updateNestedScroll(evt: .pull(pos))
+        })
+        .store(in: &anyCancellable)
+    }
+   
+    func body(content: Content) -> some View {
+        return content
+            .onAppear(){
+                self.setScrollList()
+                if let tag = self.tag {
+                    ComponentLog.d("onAppear " + tag,tag: "ContentScrollPull")
+                }
+            }
+            .onDisappear{
+                self.anyCancellable.forEach{$0.cancel()}
+                self.anyCancellable.removeAll()
+                if let tag = self.tag {
+                    ComponentLog.d("onDisappear " + tag,tag: "ContentScrollPull")
+                }
+            }
+    }
+}
 
 
 

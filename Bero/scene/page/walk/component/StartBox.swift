@@ -32,7 +32,8 @@ struct StartBox: PageComponent{
                     type: .fill,
                     text: String.button.startWalking,
                     size: Dimen.button.regular,
-                    color: Color.brand.primary,
+                    color:  Color.app.white,
+                    gradient:Color.app.orangeGradient,
                     isActive: true
                 ){_ in
                     self.startWalk()

@@ -240,7 +240,7 @@ struct HorizontalProfile: PageComponent{
                     }
                 case .send :
                     CircleButton(
-                        type: .icon(Asset.icon.send),
+                        type: .icon(Asset.icon.sms),
                         isSelected: true,
                         activeColor: self.color
                     ){ _ in

@@ -14,12 +14,12 @@ struct ValueInfo: PageComponent{
         case point, coin, heart, walk, mission, walkComplete, missionComplete, exp , expEarned , pointEarned
         var icon:String{
             switch self {
-            case .point : return Asset.icon.point
+            case .point, .pointEarned : return Asset.icon.point
             case .coin : return Asset.icon.coin
             case .heart : return Asset.icon.favorite_on
             case .walkComplete : return Asset.icon.paw
             case .missionComplete : return Asset.icon.goal
-            default : return Asset.icon.lightening_circle
+            default : return Asset.icon.exp
             }
         }
         
@@ -70,7 +70,7 @@ struct ValueInfo: PageComponent{
                             .renderingMode(.template)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .foregroundColor(color)
+                            .foregroundColor( value == 0 ? Color.app.grey300 : color)
                             .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
                     } else {
                         Image(self.type.icon)
@@ -83,14 +83,14 @@ struct ValueInfo: PageComponent{
                 }
                 Text(self.type.getValue(value))
                     .modifier(BoldTextStyle(
-                        size: Font.size.medium,color: value == 0 ? Color.app.grey400 : (self.type.iconColor ?? Color.brand.primary)))
+                        size: Font.size.medium,color: value == 0 ? Color.app.grey300 : (self.type.iconColor ?? Color.brand.primary)))
                 if !self.type.isIconFirst {
                     if let color = self.type.iconColor {
                         Image(self.type.icon)
                             .renderingMode(.template)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .foregroundColor(color)
+                            .foregroundColor( value == 0 ? Color.app.grey300 : color)
                             .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
                     } else {
                         Image(self.type.icon)
@@ -104,7 +104,7 @@ struct ValueInfo: PageComponent{
             if let text = self.type.text{
                 Text(text)
                     .modifier(RegularTextStyle(
-                        size: Font.size.tiny, color: Color.app.grey400))
+                        size: Font.size.tiny, color: Color.app.grey300))
             }
         }
     }

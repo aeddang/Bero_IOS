@@ -48,7 +48,7 @@ struct SwipperView : View , PageProtocol, Swipper {
             .offset(x: self.isUserSwiping ? self.offset : CGFloat(self.index) * -geometry.size.width)
             .frame(width: geometry.size.width, alignment: .leading)
             .opacity(max(0.2,self.progress/self.progressMax))
-            .gesture(
+            .highPriorityGesture(
                 DragGesture(minimumDistance: Self.MIN_DRAG_RANGE, coordinateSpace: self.coordinateSpace)
                 .onChanged({ value in
                     self.isUserSwiping = true

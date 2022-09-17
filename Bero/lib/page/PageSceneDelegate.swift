@@ -391,7 +391,7 @@ class PageSceneDelegate: UIResponder, UIWindowSceneDelegate, PageProtocol {
         PageLog.d("closePopup Start" + id, tag: self.tag)
         var delay = self.changeDelay
         let ani = animationType ?? popupContent.pageObject?.animationType ?? .none
-        if let pageObject = popupContent.pageObject {
+        if popupContent.pageObject != nil {
             delay = ani == .none ? self.changeDelay : self.changeAniDelay
             let opacity = ani == .opacity ? 0.0 : 1.0
             switch  ani {
@@ -515,9 +515,9 @@ class PageSceneDelegate: UIResponder, UIWindowSceneDelegate, PageProtocol {
             popups = self.popups.filter{ top in
                 exps.first(where: { $0 == top.pageID }) == nil
             }
-        }else{
-            popups = self.popups.filter{!($0.isWillCloseLayer || $0.isCloseException)}
         }
+        popups = popups.filter{!($0.isWillCloseLayer || $0.isCloseException)}
+        
         let isHistoryBack = popups.isEmpty
     
         guard let back = isHistoryBack ? pageModel.currentPageObject : popups[popups.count-1] else { return }
@@ -685,24 +685,34 @@ class PageSceneDelegate: UIResponder, UIWindowSceneDelegate, PageProtocol {
        
         DataLog.d("orientationLock " + orientationLock.rawValue.description, tag:"PageSceneModel")
         AppDelegate.orientationLock = orientationLock
+        UINavigationController.attemptRotationToDeviceOrientation()
     }
     
     final func requestDeviceOrientation(_ mask:UIInterfaceOrientationMask, isForce:Bool = false){
         let changeOrientation:UIInterfaceOrientation? = getChangeDeviceOrientation(mask: mask)
         if isForce {
-            PageLog.d("requestDeviceOrientation mask force" , tag: "PageScene")
+            PageLog.d("requestDeviceOrientation mask force" , tag: self.tag)
             UINavigationController.attemptRotationToDeviceOrientation()
             return
         }
-        
         guard let change = changeOrientation else { return }
+        let prev = AppDelegate.orientationLock
+        PageLog.d("requestDeviceOrientation mask prev " + prev.rawValue.description , tag: "SceneAppDelegate")
+        if prev.rawValue != mask.rawValue {
+            AppDelegate.orientationLock = mask
+            PageLog.d("requestDeviceOrientation mask set " + mask.rawValue.description , tag: "SceneAppDelegate")
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+                AppDelegate.orientationLock = prev
+                PageLog.d("requestDeviceOrientation mask reset prev " + prev.rawValue.description , tag: "SceneAppDelegate")
+                //UIDevice.current.setValue(change.rawValue, forKey: "orientation")
+                //UINavigationController.attemptRotationToDeviceOrientation()
+            }
+        }
         DispatchQueue.main.async {
             UIDevice.current.setValue(change.rawValue, forKey: "orientation")
             UINavigationController.attemptRotationToDeviceOrientation()
-            PageLog.d("requestDeviceOrientation mask" + change.rawValue.description, tag: "PageScene")
+            PageLog.d("requestDeviceOrientation mask" + change.rawValue.description, tag: self.tag)
         }
-        
-       
     }
 
     final func getChangeDeviceOrientation(mask:UIInterfaceOrientationMask) -> UIInterfaceOrientation? {

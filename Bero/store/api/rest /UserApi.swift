@@ -10,6 +10,13 @@ import Foundation
 import UIKit
 
 class UserApi :Rest{
+    func post(pushToken:String, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: Any]()
+        params["deviceId"] = SystemEnvironment.deviceId
+        params["token"] = pushToken
+        params["platform"] = "IOS"
+        fetch(route: UserApiRoute (method: .post, action: .pushToken, body: params), completion: completion, error:error)
+    }
     func get(user:SnsUser, completion: @escaping (ApiContentResponse<UserData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: UserApiRoute (method: .get, commandId: user.snsID), completion: completion, error:error)
     }
@@ -45,6 +52,7 @@ class UserApi :Rest{
 struct UserApiRoute : ApiRoute{
     var method:HTTPMethod = .get
     var command: String = "users"
+    var action: ApiAction? = nil
     var commandId: String? = nil
     var query:[String: String]? = nil
     var body:[String: Any]? = nil

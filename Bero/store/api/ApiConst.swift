@@ -33,7 +33,8 @@ struct ApiCode {
 }
 
 enum ApiAction:String{
-    case login, detecthumanwithdog, thumbsup, cities
+    case login, pushToken
+    case detecthumanwithdog, thumbsup, cities
     case search, summary, newMissions, directions, visit, monthlyList
     case isRequested, requesting, request, accept, reject
     case read, send
@@ -45,7 +46,7 @@ enum ApiValue:String{
 }
       
 enum ApiType{
-    case getUser(SnsUser, isCanelAble:Bool? = true), getUserDetail(userId:String),
+    case registPush(token:String), getUser(SnsUser, isCanelAble:Bool? = true), getUserDetail(userId:String),
          updateUser(SnsUser, ModifyUserProfileData), updateUserImage(SnsUser, UIImage?)
     case joinAuth(SnsUser, SnsUserInfo?), reflashAuth
     case registPet(SnsUser, ModifyPetProfileData), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),

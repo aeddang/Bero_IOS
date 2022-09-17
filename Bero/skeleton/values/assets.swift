@@ -32,13 +32,22 @@ extension Asset{
         public static let my = Asset.image.profile_user_default
     }
     struct map {
-        public static let pinEmpty = "pin_empty"
-        public static let pinFood = "pin_food"
-        public static let pinHospital = "pin_hospital"
+        public static let pinUser = "pin_user"
+        public static let pinUserFriend = "pin_user_friend"
+        
         public static let pinMission = "pin_mission"
-        public static let pinPlay = "pin_play"
-        public static let myLocation = "my_location"
+        public static let pinMissionCompleted = "pin_mission_completed"
+        
+        public static let pinCafe = "pin_cafe"
+        public static let pinHotel = "pin_hotel"
+        public static let pinHospital = "pin_hospital"
+        public static let pinSalon = "pin_salon"
+        public static let pinRestaurant = "pin_restaurant"
+        
+        public static let myLocation = "pin_my_location"
+        public static let myLocationWalk = "pin_my_location_walk"
         public static let locator = "locator"
+        
     }
     struct icon {
         public static let calendar = "calendar"
@@ -50,7 +59,7 @@ extension Asset{
         public static let search = "search"
         public static let settings = "settings"
         public static let sync = "sync"
-        
+        public static let exp = "exp"
         public static let arrow_right = "arrow_right"
         public static let back = "back"
         public static var close = "close"
@@ -143,6 +152,7 @@ extension Asset{
         public static let minimize = "minimize"
         public static let maximize = "maximize"
         public static let send = "send"
+        public static let place = "place"
     }
     
 

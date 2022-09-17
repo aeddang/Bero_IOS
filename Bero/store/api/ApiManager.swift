@@ -167,6 +167,11 @@ class ApiManager :PageProtocol, ObservableObject{
             return apiID
         }
         switch type {
+        case .registPush(let token) :
+            self.userUpdate.post(pushToken: token,
+                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
+                                 error:error)
+            
         case .getUser(let user, let isCanelAble) :
             if isCanelAble == true {
                 self.user.get(user: user,
