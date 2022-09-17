@@ -9,6 +9,44 @@
 import Foundation
 import SwiftUI
 struct RectButton: View, SelecterbleProtocol{
+    enum SizeType{
+        case tiny, medium
+        var iconSize:CGFloat{
+            switch self {
+            case .tiny : return Dimen.icon.thin
+            case .medium : return Dimen.icon.heavy
+            }
+        }
+        
+        var bgSize:CGFloat{
+            switch self {
+            case .tiny : return Dimen.button.regularExtra
+            case .medium : return 164
+            }
+        }
+        
+        var textSize:CGFloat{
+            switch self {
+            case .tiny : return Font.size.micro
+            case .medium : return Font.size.light
+            }
+        }
+        
+        var spacing:CGFloat{
+            switch self {
+            case .tiny : return 0
+            case .medium : return Dimen.margin.regularUltra
+            }
+        }
+        
+        var radius:CGFloat{
+            switch self {
+            case .tiny : return Dimen.radius.tiny
+            case .medium : return Dimen.radius.regular
+            }
+        }
+    }
+    var sizeType:SizeType = .medium
     var icon:String? = nil
     var text:String? = nil
     var index: Int = 0
@@ -25,30 +63,30 @@ struct RectButton: View, SelecterbleProtocol{
         }) {
             ZStack{
                 Spacer().modifier(MatchParent())
-                VStack(spacing:Dimen.margin.regularUltra){
+                VStack(spacing:self.sizeType.spacing){
                     if let icon = self.icon {
                         Image(icon)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .foregroundColor(!self.isSelected ? self.defaultColor : self.bgColor)
-                            .frame(width: Dimen.icon.heavy, height: Dimen.icon.heavy)
+                            .frame(width: self.sizeType.iconSize, height: self.sizeType.iconSize)
                     }
                     if let text = self.text {
                         Text(text)
                             .modifier(MediumTextStyle(
-                                size: Font.size.light,
+                                size: self.sizeType.textSize,
                                 color: !self.isSelected ? self.defaultColor : self.bgColor))
                     }
                     
                     
                 }
             }
-            .frame(width:164, height:168)
+            .frame(width:self.sizeType.bgSize, height:self.sizeType.bgSize)
             .background(self.isSelected ? self.color : self.bgColor)
-            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
+            .clipShape(RoundedRectangle(cornerRadius:self.sizeType.radius))
             .overlay(
-                RoundedRectangle(cornerRadius: Dimen.radius.regular)
+                RoundedRectangle(cornerRadius:self.sizeType.radius)
                     .strokeBorder(
                         self.isSelected ? self.color : Color.app.grey200,
                         lineWidth: Dimen.stroke.light
@@ -72,6 +110,15 @@ struct RectButton_Previews: PreviewProvider {
             }
             RectButton(
                 icon: Asset.icon.female,
+                text: "test",
+                isSelected: true,
+                color: Color.brand.primary
+                ){_ in
+                
+            }
+            RectButton(
+                sizeType: .tiny,
+                icon: Asset.icon.goal,
                 text: "test",
                 isSelected: true,
                 color: Color.brand.primary

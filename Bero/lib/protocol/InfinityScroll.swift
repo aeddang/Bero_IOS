@@ -176,8 +176,8 @@ class InfinityScrollModel:ComponentObservable{
             return
         }
         let diff = self.prevPosition - pos
-        ComponentLog.d("pos " + pos.description, tag: "InfinityScrollViewProtocol")
-        ComponentLog.d("diff " + diff.description, tag: "InfinityScrollViewProtocol")
+        //ComponentLog.d("pos " + pos.description, tag: "InfinityScrollViewProtocol")
+        //ComponentLog.d("diff " + diff.description, tag: "InfinityScrollViewProtocol")
         if abs(diff) > 10000 { return }
         if abs(diff) > self.minDiff{
             self.scrollPosition = pos

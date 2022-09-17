@@ -86,7 +86,6 @@ struct Check<Presenting>: View where Presenting: View {
             }
         }
         .onReceive( [self.isShowing].publisher ) { show in
-            DataLog.d("Check")
             if !self.isAuto {return}
             if !show  { return }
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + self.duration) {

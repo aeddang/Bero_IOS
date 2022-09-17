@@ -74,7 +74,7 @@ struct PageMissionCompleted: PageView {
         if isRetry {
             self.appSceneObserver.sheet = .confirm(
                 String.pageText.missionSuccessTitle,
-                String.pageText.missionSuccessText.replace(totalComplete.description),
+                String.pageText.missionSuccessText.replace(mission?.place?.name ?? "Mission"),
                 point: self.mission?.point,
                 exp: self.mission?.exp) { isOk in
                     if isOk {
@@ -86,10 +86,10 @@ struct PageMissionCompleted: PageView {
         } else {
             self.appSceneObserver.sheet = .alert(
                 String.pageText.missionSuccessTitle,
-                String.pageText.missionSuccessText.replace(totalComplete.description),
+                String.pageText.missionSuccessText.replace(mission?.place?.name ?? "Mission"),
                 point: self.mission?.point,
                 exp: self.mission?.exp,
-                confirm: String.app.confirm) {
+                confirm: String.button.redeemReward) {
                     self.sendResult()
                 }
         }

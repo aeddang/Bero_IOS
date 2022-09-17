@@ -116,6 +116,7 @@
 		31B311ED28D545E1001B539A /* PopupWalkMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EC28D545E1001B539A /* PopupWalkMission.swift */; };
 		31B311EF28D5460E001B539A /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EE28D5460E001B539A /* MissionView.swift */; };
 		31B311F128D5727D001B539A /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311F028D5727D001B539A /* PlaceInfo.swift */; };
+		31B311F328D6146E001B539A /* MultiProfileListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311F228D6146E001B539A /* MultiProfileListItem.swift */; };
 		31BBE44428C2F3F0006C3C84 /* FriendFunctionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */; };
 		31BBE44628C2FEAD006C3C84 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44528C2FEAD006C3C84 /* HeartButton.swift */; };
 		31BCF3AD28C363C9004605CF /* PageAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AC28C363C9004605CF /* PageAlbum.swift */; };
@@ -496,6 +497,7 @@
 		31B311EC28D545E1001B539A /* PopupWalkMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkMission.swift; sourceTree = "<group>"; };
 		31B311EE28D5460E001B539A /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
 		31B311F028D5727D001B539A /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
+		31B311F228D6146E001B539A /* MultiProfileListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProfileListItem.swift; sourceTree = "<group>"; };
 		31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFunctionBox.swift; sourceTree = "<group>"; };
 		31BBE44528C2FEAD006C3C84 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		31BCF3AC28C363C9004605CF /* PageAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAlbum.swift; sourceTree = "<group>"; };
@@ -827,6 +829,7 @@
 				31D6657E28CAFC3A00765625 /* UserProfileItem.swift */,
 				316B777D28B982F80090E924 /* UserProfileTopInfo.swift */,
 				31C6373528A87D8D008EA54C /* UserProfileInfo.swift */,
+				31B311F228D6146E001B539A /* MultiProfileListItem.swift */,
 				3151DD1628CDC00500641BCC /* RewardInfo.swift */,
 				31B311F028D5727D001B539A /* PlaceInfo.swift */,
 			);
@@ -2406,6 +2409,7 @@
 				31D920C128729CDC001C2738 /* User.swift in Sources */,
 				31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */,
 				31C6373A28A8804D008EA54C /* PetProfileItem.swift in Sources */,
+				31B311F328D6146E001B539A /* MultiProfileListItem.swift in Sources */,
 				31D91E8F28725834001C2738 /* WhereverYouCanGo.swift in Sources */,
 				31C3F2CC28C8487700EFF7F4 /* MissionPlayInfo.swift in Sources */,
 				316B77A728BB19660090E924 /* PetProfileTopInfo.swift in Sources */,
@@ -2624,7 +2628,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2668,7 +2672,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

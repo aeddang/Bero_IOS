@@ -96,6 +96,10 @@ struct PageWalk: PageView {
             guard let evt = evt else {return}
             switch evt {
             case .tabMarker(let marker) : self.onMapMarkerSelect(marker)
+            case .move(let isUser) :
+                if isUser {
+                    self.isFollowMe = false
+                }
             }
         }
         .onAppear{

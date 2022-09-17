@@ -26,7 +26,7 @@ struct PlaceView: PageComponent, Identifiable{
             axes: .vertical,
             scrollType: .vertical(isDragEnd: false),
             showIndicators : false,
-            marginVertical: Dimen.margin.regular,
+            marginVertical: Dimen.margin.medium,
             marginHorizontal: 0,
             spacing:Dimen.margin.regularExtra,
             isRecycle: false,

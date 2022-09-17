@@ -9,7 +9,7 @@ import Foundation
 import GooglePlaces
 
 class Place:MapUserData{
-    private(set) var placeId: Int = 0
+    private(set) var placeId:String = ""
     private(set) var location:CLLocation? = nil
     private(set) var name: String? = nil
     private(set) var googlePlaceId: String? = nil
@@ -22,7 +22,7 @@ class Place:MapUserData{
     func setData(_ data:PlaceData, me:String)->Place{
         self.name = data.name
         self.googlePlaceId = data.googlePlaceId
-        self.placeId = data.placeId ?? 0
+        self.placeId = data.googlePlaceId ?? ""
         if let locs = data.location?.components(separatedBy: " ") {
             let latitude = locs[0].onlyNumric().toDouble()
             let longitude = locs[1].onlyNumric().toDouble()

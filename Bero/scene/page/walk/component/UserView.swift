@@ -28,16 +28,16 @@ struct UserView: PageComponent, Identifiable{
             axes: .vertical,
             scrollType: .vertical(isDragEnd: false),
             showIndicators : false,
-            marginVertical: Dimen.margin.regular,
+            marginVertical: Dimen.margin.medium,
             marginHorizontal: 0,
             spacing:Dimen.margin.regularExtra,
             isRecycle: false,
             useTracking: true
         ){
             if let user  = self.mission.user {
-                HStack(spacing:Dimen.margin.thin){
+                HStack(alignment: .bottom, spacing:Dimen.margin.thin){
                     UserProfileTopInfo(profile: user.currentProfile, isSimple: true)
-                        .frame(width:120, height: PageUser.userProfileHeight)
+                        .frame(width:120)
                     VStack(spacing:Dimen.margin.regularExtra){
                         FriendFunctionBox(user: user)
                         FillButton(

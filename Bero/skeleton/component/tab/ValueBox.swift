@@ -49,10 +49,11 @@ struct ValueBox: PageComponent{
                     }
                 }
                 if data.idx < self.datas.count-1 {
-                    Spacer().modifier(LineVertical(
-                        width: Dimen.line.light,
-                        margin: Dimen.margin.micro,
-                        color: Color.app.grey100))
+                    Spacer().modifier(
+                        LineVertical(width: Dimen.line.light,color: Color.app.grey100)
+                    )
+                    .padding(.vertical, Dimen.margin.tiny)
+                    
                 }
             }
         }

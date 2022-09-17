@@ -47,6 +47,7 @@ extension PlayMap {
         let icon = UIImage(named: iconPath)
         let image = UIImageView(image: icon)
         marker.iconView = image
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)
         marker.zIndex = 111
         if let pets = data.user?.pets {
             let petNames = pets.reduce("", {$0+", "+($1.name ?? "")}).dropFirst()
@@ -67,6 +68,7 @@ extension PlayMap {
         let icon = UIImage(named: data.isCompleted ? Asset.map.pinMissionCompleted : Asset.map.pinMission)
         let image = UIImageView(image: icon)
         marker.iconView = image
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)
         marker.snippet = data.description
         marker.zIndex = 222
         return marker
@@ -86,6 +88,7 @@ extension PlayMap {
         let icon = UIImage(named: self.walkManager.placeFilter.icon)
         let image = UIImageView(image: icon)
         marker.iconView = image
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)
         marker.snippet = data.visitors.first?.userName
         marker.zIndex = 333
         return marker

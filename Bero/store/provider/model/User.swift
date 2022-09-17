@@ -255,16 +255,16 @@ enum Lv {
     
     var title : String {
         switch self {
-        case .purple : return "개집사"
-        case .blue : return "집사"
-        case .lightBlue : return "강아지"
-        case .sky : return "개"
-        case .lightSky : return "강아지주인"
-        case .green : return "개주인"
-        case .lightGreen : return "개장수"
-        case .yellow : return "동물원장"
-        case .orange : return "동물의왕"
-        case .red : return "왕"
+        case .purple : return "Heart Lv.1"
+        case .blue : return "Heart Lv.2"
+        case .lightBlue : return "Heart Lv.3"
+        case .sky : return "Heart Lv.4"
+        case .lightSky : return "Heart Lv.5"
+        case .green : return "Heart Lv.6"
+        case .lightGreen : return "Heart Lv.7"
+        case .yellow : return "Heart Lv.8"
+        case .orange : return "Heart Lv.9"
+        case .red : return "Heart Lv.10"
         }
     }
         

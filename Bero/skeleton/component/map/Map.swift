@@ -28,12 +28,12 @@ enum MapUiEvent {
          addMarker(MapMarker), addMarkers([MapMarker ]),
          addRoute(MapRoute), addRoutes([MapRoute]), clearAllRoute,
          clearAll, clear(String),
-         move(CLLocation, zoom:Float? = nil, angle:Double? = nil, duration:Double? = nil)
+         move(CLLocation, rotate:Double? = nil, zoom:Float? = nil, angle:Double? = nil, duration:Double? = nil)
     case zip([MapUiEvent])
 }
 
 enum MapViewEvent {
-    case tabMarker(GMSMarker)
+    case tabMarker(GMSMarker), move(isUser:Bool)
 }
 
 protocol MapUserDataProtocal: Identifiable, Equatable{

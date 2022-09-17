@@ -27,7 +27,7 @@ struct MissionView: PageComponent, Identifiable{
             axes: .vertical,
             scrollType: .vertical(isDragEnd: false),
             showIndicators : false,
-            marginVertical: Dimen.margin.regular,
+            marginVertical: Dimen.margin.medium,
             marginHorizontal: 0,
             spacing:Dimen.margin.regularExtra,
             isRecycle: false,
@@ -127,7 +127,7 @@ struct MissionView: PageComponent, Identifiable{
     
     private func start(){
         if self.walkManager.status != .walking {
-            self.appSceneObserver.alert = .confirm(nil, "산책시작후 미션수행이 가능합니다 산책을 시작하겠습니까?"){ isOk in
+            self.appSceneObserver.alert = .confirm(nil, String.alert.missionStartNeedWalkConfirm){ isOk in
                 if isOk {
                     self.walkManager.startWalk()
                     self.startMission()
@@ -136,7 +136,7 @@ struct MissionView: PageComponent, Identifiable{
             return
         }
         if self.isPlay {
-            self.appSceneObserver.alert = .confirm(nil, "미션을 종료 하겠습니까?"){ isOk in
+            self.appSceneObserver.alert = .confirm(nil, String.alert.missionCancelConfirm){ isOk in
                 if isOk {
                     self.walkManager.endMission()
                 }
@@ -144,7 +144,7 @@ struct MissionView: PageComponent, Identifiable{
             return
         }
         if self.walkManager.currentMission != nil {
-            self.appSceneObserver.event = .toast("미션수행중입니다. 종료후 다른미션 가능합니다")
+            self.appSceneObserver.event = .toast(String.alert.missionStartPrevMissionCancel)
             return
         }
         self.startMission()
@@ -152,7 +152,7 @@ struct MissionView: PageComponent, Identifiable{
     
     private func startMission(){
         self.walkManager.startMission(self.mission, route: self.route)
-        self.appSceneObserver.event = .toast("미션을 시작합니다")
+        self.appSceneObserver.event = .toast(String.alert.missionStart)
         self.pagePresenter.closePopup(self.pageObservable.pageObject?.id)
     }
 }

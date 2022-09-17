@@ -30,7 +30,8 @@ struct UserProfileItem: PageComponent{
             gender: self.date == nil ? self.data.gender : nil,
             age: self.date == nil ? self.data.birth?.toAge() : nil,
             description: self.date,
-            isSelected: false
+            isSelected: false,
+            useBg: false
         ){ type in
             
             switch type {

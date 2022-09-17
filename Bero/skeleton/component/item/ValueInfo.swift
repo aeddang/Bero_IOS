@@ -25,7 +25,7 @@ struct ValueInfo: PageComponent{
         
         var iconColor:Color?{
             switch self {
-            case .coin, .point, .pointEarned : return nil
+            case .coin, .point, .pointEarned, .heart : return nil
             default : return Color.brand.primary
             }
         }
@@ -73,11 +73,21 @@ struct ValueInfo: PageComponent{
                             .foregroundColor( value == 0 ? Color.app.grey300 : color)
                             .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
                     } else {
-                        Image(self.type.icon)
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                        switch self.type {
+                        case .heart :
+                            Image(self.type.icon)
+                                .renderingMode(.template)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(Lv.getLv(self.value.toInt()).color)
+                                .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                        default :
+                            Image(self.type.icon)
+                                .renderingMode(.original)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                        }
                     }
                    
                 }

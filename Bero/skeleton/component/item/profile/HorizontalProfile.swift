@@ -28,8 +28,12 @@ struct HorizontalProfile: PageComponent{
         
         var radius:CGFloat {
             switch self {
-            case .multi : return 0
             default : return Dimen.radius.light
+            }
+        }
+        var padding:CGFloat {
+            switch self {
+            default : return Dimen.margin.regularExtra
             }
         }
     }
@@ -82,6 +86,7 @@ struct HorizontalProfile: PageComponent{
     var distance:Double? = nil
     var isSelected:Bool = false
     var isEmpty:Bool = false
+    var useBg:Bool = true
     var action: ((FuncType?) -> Void)? = nil
     
     var body: some View {
@@ -266,17 +271,17 @@ struct HorizontalProfile: PageComponent{
                 }
             }
         }
-        .padding(.all, Dimen.margin.regularExtra)
+        .padding(.all, self.useBg ? self.type.padding : 0)
         .background(self.isSelected && !self.isEmpty ? self.color : Color.app.white )
-        .clipShape(RoundedRectangle(cornerRadius: self.type.radius))
+        .clipShape(RoundedRectangle(cornerRadius: self.useBg ? self.type.radius : 0))
         .overlay(
             RoundedRectangle(cornerRadius: self.type.radius)
                 .strokeBorder(
                     self.funcType?.strokeColor ?? Color.app.grey100,
-                    lineWidth: self.type.radius == 0 ? 0 : Dimen.stroke.light
+                    lineWidth: self.useBg ? Dimen.stroke.light : 0
                 )
         )
-        .modifier(ShadowLight( opacity: self.type.radius == 0 ? 0 : 0.05 ))
+        .modifier(ShadowLight( opacity: self.useBg ? 0.05 : 0 ))
     }
 }
 

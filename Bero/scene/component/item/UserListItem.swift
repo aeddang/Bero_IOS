@@ -53,6 +53,8 @@ struct UserListItem: PageComponent{
                     date: self.data.date,
                     action:self.moveUser
                 )
+                .padding(.vertical, Dimen.margin.regularExtra)
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
             }
             if let walkData = self.data.walkData{
                 WalkListDetailItem(data: walkData, imgSize: self.imgSize)

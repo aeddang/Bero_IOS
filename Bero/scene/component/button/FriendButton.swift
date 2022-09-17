@@ -13,7 +13,8 @@ extension FriendButton {
         case request, requested, accept, reject, delete
         var icon:String?{
             switch self {
-            case .request, .requested : return Asset.icon.check
+            case .request : return Asset.icon.add_friend
+            case .requested : return Asset.icon.check
             case .delete: return Asset.icon.remove_friend
             default : return nil
             }
@@ -44,7 +45,8 @@ extension FriendButton {
         }
         var text:String{
             switch self {
-            case .request, .requested : return String.button.requestFriend
+            case .request : return String.button.addFriend
+            case .requested : return String.button.request
             case .delete : return String.button.remove
             case .accept : return String.button.accept
             case .reject : return String.button.reject

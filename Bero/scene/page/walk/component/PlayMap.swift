@@ -30,6 +30,7 @@ extension PlayMap {
     static let zoomOut:Float = 16.0
     static let mapMoveDuration:Double = 0.5
     static let mapMoveAngle:Double = 30
+    
 }
 
 struct PlayMap: PageView {
@@ -40,8 +41,6 @@ struct PlayMap: PageView {
    
     @Binding var isFollowMe:Bool
     @Binding var isForceMove:Bool
-    @State var wayPoints:[MapMarker] = []
-    
     var bottomMargin:CGFloat = 0
     var body: some View {
         CPGoogleMap(
@@ -102,7 +101,7 @@ struct PlayMap: PageView {
         }
     }//body
    
-    @State var rotation:Double = 270
+   
     @State var location:CLLocation? = nil
     @State var isWalk:Bool = false
     @State var isInit:Bool = false
@@ -125,7 +124,7 @@ struct PlayMap: PageView {
     }
     
     private func moveLocation(_ loc:CLLocation){
-        self.viewModel.uiEvent = .move(loc, zoom: Self.zoomCloseup, duration: Self.mapMoveDuration)
+        self.viewModel.uiEvent = .move(loc, rotate: 0, zoom: Self.zoomCloseup, duration: Self.mapMoveDuration)
         self.forceMoveLock()
     }
     
@@ -145,7 +144,7 @@ struct PlayMap: PageView {
     }
     
     @State var meIcon:UIImageView? = nil
-    private func moveMe(_ loc:CLLocation, rotation:Double? = nil, isMove:Bool? = nil){
+    private func moveMe(_ loc:CLLocation, isMove:Bool? = nil){
         if !self.isInit {return}
         if self.isForceMove {return}
         if self.meIcon == nil {
@@ -170,13 +169,19 @@ struct PlayMap: PageView {
         marker.iconView = icon
         marker.zIndex = 999
         let move = isMove ?? self.isFollowMe
-        let rote:Double = (rotation ?? self.rotation)
+        var rotate:Double? = nil
+        if let target = self.walkManager.currentMission?.destination?.coordinate {
+            let targetPoint = CGPoint(x: target.latitude, y: target.longitude)
+            let mePoint = CGPoint(x: loc.coordinate.latitude, y: loc.coordinate.longitude)
+            rotate = mePoint.getAngleBetweenPoints(target: targetPoint)
+        }
         self.viewModel.uiEvent = .me(
             MapMarker(
                 id: "me",
                 marker:  marker,
-                rotation: rote,
-                isRotationMap: move) ,
+                rotation: rotate,
+                isRotationMap: move
+            ) ,
             follow: move ? loc : nil
         )
     }

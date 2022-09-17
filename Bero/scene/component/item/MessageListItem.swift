@@ -52,13 +52,15 @@ struct MessageListItem: PageComponent{
                     gender : self.isExpand ? self.data.userProfile?.gender : nil,
                     age : self.isExpand ? self.data.userProfile?.birth?.toAge() : nil,
                     description: self.isExpand ? nil : self.data.contents,
-                    isSelected: false
+                    isSelected: false,
+                    useBg: false
                 ){ type in
                     self.pagePresenter.openPopup(
                         PageProvider.getPageObject(.user)
                             .addParam(key: .id, value:self.data.userProfile?.userId)
                     )
                 }
+                .padding(.vertical, Dimen.margin.regularExtra)
                 .onTapGesture {
                     if !self.isRead {
                         self.isRead = true
@@ -79,6 +81,7 @@ struct MessageListItem: PageComponent{
                     }
                 }
             }
+            
             if self.isExpand && !self.isEdit{
                 VStack(alignment: .trailing, spacing: Dimen.margin.tiny){
                     VStack(alignment:.leading, spacing:0){

@@ -158,6 +158,7 @@ struct SwipperView : View , PageProtocol, Swipper {
     func reset(idx:Int) {
        self.autoResetSubscription?.cancel()
        self.autoResetSubscription = nil
+       withAnimation{self.progress = self.progressMax}
        if !self.isUserSwiping { return }
        DispatchQueue.main.async {
            if self.viewModel.index != idx { self.viewModel.index = idx }

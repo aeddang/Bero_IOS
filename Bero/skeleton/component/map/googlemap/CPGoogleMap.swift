@@ -59,8 +59,8 @@ extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
         case .clearAllRoute : map.clearAllRoute()
         case .clearAll : map.clearAll()
         case .clear(let id) : map.clear(id: id)
-        case .move(let loc, let zoom, let angle, let duration):
-            map.move(loc, zoom:zoom, angle:angle, duration:duration)
+        case .move(let loc, let rotate, let zoom, let angle, let duration):
+            map.move(loc, rotate:rotate, zoom:zoom, angle:angle, duration:duration)
         default :  break
         }
     }
@@ -104,7 +104,10 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
         self.addMarker(marker)
         //ComponentLog.d("me " + loc.debugDescription , tag: "CPGoogleMap")
     }
-    fileprivate func move(_ loc:CLLocation, zoom:Float? = nil, angle:Double? = nil, duration:Double? = nil){
+    fileprivate func move(_ loc:CLLocation, rotate:Double? = nil, zoom:Float? = nil, angle:Double? = nil, duration:Double? = nil){
+        if let rotate {
+            self.mapRotate = rotate
+        }
         if let duration = duration {
             CATransaction.begin()
             CATransaction.setValue(duration, forKey: kCATransactionAnimationDuration)
@@ -147,6 +150,8 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
             prevMarker.position = marker.marker.position
             if let rt = marker.rotation {
                 prevMarker.rotation = rt - mapRotete
+            } else {
+                prevMarker.rotation = 0
             }
             
         } else {
@@ -204,7 +209,13 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
-    
+    public func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
+        //ComponentLog.d("willMove gesture " + gesture.description, tag: "CustomGoogleMapController")
+        self.viewModel.event = .move(isUser: gesture)
+    }
+    public func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        //ComponentLog.d("didChange CameraPosition", tag: "CustomGoogleMapController")
+    }
     
     public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         guard let userData:MapUserData = marker.userData as? MapUserData else { return false }

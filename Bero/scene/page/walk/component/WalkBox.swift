@@ -79,12 +79,26 @@ struct WalkBox: PageComponent{
                             FillButton(
                                 type: .fill,
                                 text: String.button.finishTheWalk,
-                                size: Dimen.button.regular,
+                                size: Dimen.button.regularExtra,
                                 color: Color.app.black,
                                 isActive: true
                             ){_ in
                                 self.finishWalk()
                             }
+                            if let mission = self.mission {
+                                RectButton(
+                                    sizeType: .tiny,
+                                    icon: Asset.icon.goal,
+                                    text: WalkManager.viewDistance(self.distenceFromMission),
+                                    isSelected: true,
+                                    color: Color.brand.primary
+                                    ){_ in
+                                    
+                                        self.isFollowMe = false
+                                        self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkMission).addParam(key: .data, value: mission))
+                                }
+                            }
+                            
                         }
                     }
                 }
@@ -123,6 +137,12 @@ struct WalkBox: PageComponent{
         .onReceive(self.walkManager.$walkDistence){ distence in
             self.walkDistence = distence
         }
+        .onReceive(self.walkManager.$currentMission){ mission in
+            self.mission = mission
+        }
+        .onReceive(self.walkManager.$currentDistenceFromMission){ distence in
+            self.distenceFromMission = distence ?? 0
+        }
         .onReceive(self.walkManager.$isSimpleView){ isSimple in
             withAnimation{
                 self.isExpand = !isSimple
@@ -138,7 +158,8 @@ struct WalkBox: PageComponent{
     @State var playExp:Int = 0
     @State var playPoint:Int = 0
     @State var pets:[PetProfile] = []
-    
+    @State var mission:Mission? = nil
+    @State var distenceFromMission:Double = 0
     private func finishWalk(){
         self.appSceneObserver.sheet = .select(
             String.pageText.walkFinishConfirm,

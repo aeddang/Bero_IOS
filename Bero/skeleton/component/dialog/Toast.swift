@@ -54,9 +54,7 @@ struct Toast<Presenting>: View where Presenting: View {
             }
         }
         .onReceive( [self.isShowing].publisher ) { show in
-            DataLog.d("Toast")
             if !show  {
-                self.cancelAutoHidden()
                 return
             }
             if self.autoHidden == nil {
@@ -72,7 +70,7 @@ struct Toast<Presenting>: View where Presenting: View {
             every: self.duration, on: .current, in: .common)
             .autoconnect()
             .sink() {_ in
-                self.autoHidden?.cancel()
+                self.cancelAutoHidden()
                 withAnimation {
                    self.isShowing = false
                 }

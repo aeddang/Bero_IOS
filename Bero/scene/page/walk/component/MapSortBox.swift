@@ -67,23 +67,29 @@ struct MapSortBox: PageView {
     
     private func onSort(_ type:WalkManager.SortType){
         let datas:[String] = type.filter.map{$0.getText(type: type)}
-        self.appSceneObserver.radio = .sort((self.tag, datas)){ idx in
+        var changeUserFilter:WalkManager.Filter? = nil
+        var changePlaceFilter:WalkManager.Filter? = nil
+        var changeMissionFilter:WalkManager.Filter? = nil
+        self.appSceneObserver.radio = .sort((self.tag, datas), title: type.title + " " + String.app.filter.lowercased()){ idx in
             guard let idx = idx else {return}
             switch type {
             case .user :
                 self.userFilter = type.filter[idx]
+                changeUserFilter = self.userFilter
             case .mission :
                 self.missionFilter = type.filter[idx]
+                changeMissionFilter = self.missionFilter
             case .place :
                 self.placeFilter = type.filter[idx]
+                changePlaceFilter = self.placeFilter
             }
             DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
                 guard let loc = self.walkManager.currentLocation else {return}
                 self.walkManager.resetMapStatus(
                     loc,
-                    userFilter: self.userFilter,
-                    placeFilter: self.placeFilter,
-                    missionFilter: self.missionFilter
+                    userFilter: changeUserFilter,
+                    placeFilter: changePlaceFilter,
+                    missionFilter: changeMissionFilter
                 )
             }
         }

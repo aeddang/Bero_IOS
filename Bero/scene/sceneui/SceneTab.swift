@@ -99,7 +99,6 @@ struct SceneTab: PageComponent{
                 }
             }
             ChatBox()
-            
             Spacer().modifier(MatchParent())
                 .check(isShowing: self.$isCheckShowing , text: self.checkMsg,
                        isAuto: self.isAutoCheck, action: self.checked)

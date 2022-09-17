@@ -79,6 +79,7 @@ struct SelectControlBox : PageComponent {
                         self.isShowing = willShowing
                     }
                 }
+            default : break
             }
         }
         .onAppear{

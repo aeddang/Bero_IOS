@@ -110,7 +110,7 @@ struct Alert<Presenting>: View where Presenting: View {
                                 icon: btn.img,
                                 text: btn.title,
                                 index: btn.index,
-                                color: btn.index%2 == 1 ? Color.app.black : Color.app.grey200
+                                color: btn.index%2 == 1 ? Color.brand.primary : Color.app.grey200
                                 
                             ){idx in
                                 self.action(idx)

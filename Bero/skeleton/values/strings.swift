@@ -47,6 +47,7 @@ extension String {
         public static let stores = "Stores"
         public static let dogs = "Dogs"
         public static let users = "Users"
+        public static let filter = "Filter"
     }
     
     struct gnb {
@@ -95,8 +96,14 @@ extension String {
       
         public static var noItemsSelected = "No items selected."
         
-        public static var walkDisableRemovePet = "walkDisableRemovePet."
-        public static var walkDisableEmptyWithPet = "walkDisableEmptyWithPet."
+        public static var walkDisableRemovePet = "You cannot delete a character of the dog while walking."
+        public static var walkDisableEmptyWithPet = "You have to choose a dog to take a walk."
+        
+        public static var walkFinishWithMissionConfirm = "As you cancel, the mission will also end."
+        public static var missionStartNeedWalkConfirm = "You can start the mission while walking. Would you like to start walking?"
+        public static var missionCancelConfirm = "Do you want to quit the mission?"
+        public static var missionStartPrevMissionCancel = "The mission is already in progress. play mission quit and retry."
+        public static var missionStart = "Start the mission now."
     }
     
     struct button {
@@ -148,6 +155,7 @@ extension String {
         public static let leaveAmark = "Leave a mark"
         public static let hitTheArea = "Hit the area"
         public static let stop = "Stop"
+        public static let redeemReward = "Redeem reward"
     }
     
     struct sort {
@@ -272,8 +280,8 @@ extension String {
         public static let walkFinishFailTitle = "Oops...\nThe image didn’t work."
         public static let walkFinishFailText = "Take another photo with your dog’s face clearly shown in the center."
         
-        public static let missionSuccessTitle = "You’re close to a mission place. Keep it up!"
-        public static let missionSuccessText = "You can accomplish %s missions today."
+        public static let missionSuccessTitle = "Mission complete!"
+        public static let missionSuccessText = "You visited %s during your walk. Receive the reward and continue walking."
         
         public static let walkStartChooseDogTitle = "Start a walk?"
         public static let walkStartChooseDogText = "Choose dogs you are walking with."
