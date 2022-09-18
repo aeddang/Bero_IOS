@@ -59,6 +59,14 @@ struct PlaceView: PageComponent, Identifiable{
                     if self.isMark {
                         return
                     }
+                    if self.distance > 20 {
+                        self.appSceneObserver.sheet = .alert(
+                            String.pageText.walkPlaceMarkDisAbleTitle,
+                            String.pageText.walkPlaceMarkDisAbleText
+                        )
+                        return
+                    }
+                    
                     self.dataProvider.requestData(q: .init(type: .registVisit(self.place)))
                 }
             }
@@ -70,6 +78,7 @@ struct PlaceView: PageComponent, Identifiable{
                 isSelected: false
             ){_ in
                 
+                self.pagePresenter.openPopup(PageProvider.getPageObject(.popupPlaceVisitor).addParam(key: .data, value: self.place))
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
         }
@@ -98,7 +107,7 @@ struct PlaceView: PageComponent, Identifiable{
     
     private func updateData(){
         self.isMark = self.place.isMark
-        self.visitorNum = self.place.visitors.count
+        self.visitorNum = self.place.visitorCount
         if let loc = self.walkManager.currentLocation, let destination = self.place.location {
             self.distance = destination.distance(from: loc)
         }

@@ -92,6 +92,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     private(set) var totalExerciseDuration: Double? = nil
     @Published private(set) var totalMissionCount: Int = 0
     @Published private(set) var totalWalkCount: Int = 0
+    private(set) var originData:PetData? = nil
     var isWith:Bool = true
     
     public static func == (l:PetProfile, r:PetProfile)-> Bool {
@@ -113,6 +114,9 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     }
     init(data:PetData, isMyPet:Bool = false, index:Int = -1){
         self.isMypet = isMyPet
+        if isMyPet {
+            self.originData = data
+        }
         self.index = index
         self.petId = data.petId ?? 0
         if data.pictureUrl?.isEmpty == false {

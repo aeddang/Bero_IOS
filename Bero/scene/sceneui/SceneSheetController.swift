@@ -37,6 +37,7 @@ struct SceneSheetController: PageComponent{
     @State var point:Int? = nil
     @State var exp:Double? = nil
     @State var buttons:[SheetBtnData] = []
+    @State var buttonColor:Color? = nil
     @State var isLock:Bool = false
     @State var currentSheet:SceneSheet? = nil
     @State var delayReset:AnyCancellable? = nil
@@ -53,6 +54,7 @@ struct SceneSheetController: PageComponent{
             point: self.point,
             exp: self.exp,
             buttons: self.buttons,
+            buttonColor: self.buttonColor,
             isLock: self.isLock,
             cancel: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -63,6 +65,7 @@ struct SceneSheetController: PageComponent{
             switch self.currentSheet {
             case .alert(_, _, _, _, _, _, let completionHandler) :
                 if let handler = completionHandler { self.selectedAlert(idx, completionHandler:handler) }
+               
             case .select(_, _, _, _, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
             case .confirm(_, _, _, _, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
             default: return
@@ -76,7 +79,8 @@ struct SceneSheetController: PageComponent{
             self.reset()
             self.currentSheet = sheet
             switch sheet{
-            case .alert(let title,let text, let image, let point, let exp, let btnText, _) :
+            case .alert(let title,let text, let image, let point, let exp, let btnText, let completionHandler) :
+                if completionHandler == nil { self.buttonColor = Color.app.black }
                 self.setupAlert(title:title, text:text, image:image, point:point, exp:exp, btnText:btnText)
             case .select(let title,let text, let icon, let image, let point, let exp, let selects, _) :
                 self.setupSelect(title: title, text: text, icon:icon, image:image, point:point, exp:exp, selects: selects)
@@ -99,6 +103,7 @@ struct SceneSheetController: PageComponent{
         self.exp = nil
         self.description = nil
         self.buttons = []
+        self.buttonColor = nil
         self.currentSheet = nil
         self.isLock = false
     }
@@ -127,6 +132,7 @@ struct SceneSheetController: PageComponent{
         self.point = point
         self.exp = exp
         self.isLock = true
+        
         self.buttons = [
             SheetBtnData(title: btnText ?? String.app.confirm, index: 1)
         ]
@@ -146,6 +152,11 @@ struct SceneSheetController: PageComponent{
         self.isLock = false
         self.buttons = zip(selects, 0..<selects.count).map{title, idx in
             SheetBtnData(title: title, index: idx)
+        }
+        if self.buttons.isEmpty {
+            self.buttons = [
+                SheetBtnData(title:String.app.confirm, index: 1)
+            ]
         }
     }
     func selectedSelect(_ idx:Int, completionHandler: @escaping (Int) -> Void) {

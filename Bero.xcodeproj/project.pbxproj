@@ -11,6 +11,8 @@
 		31071C7A289E769E00F46498 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31071C79289E769E00F46498 /* Step.swift */; };
 		31071C7D289E7D9300F46498 /* PageAddDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31071C7C289E7D9300F46498 /* PageAddDog.swift */; };
 		31071C80289E80C900F46498 /* TitleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31071C7F289E80C900F46498 /* TitleSection.swift */; };
+		311204F528D6B72A00C3DBF5 /* PopupPlaceVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311204F428D6B72A00C3DBF5 /* PopupPlaceVisitor.swift */; };
+		311204F728D6BA5200C3DBF5 /* VisitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311204F628D6BA5200C3DBF5 /* VisitorView.swift */; };
 		3117485E288D486E00B96A42 /* Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3117485D288D486E00B96A42 /* Sheet.swift */; };
 		31174860288D508600B96A42 /* SceneSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3117485F288D508600B96A42 /* SceneSheetController.swift */; };
 		311DC42A2877CDEC00A3F7F5 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 311DC4292877CDEC00A3F7F5 /* FirebaseAnalyticsSwift */; };
@@ -396,6 +398,8 @@
 		31071C79289E769E00F46498 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		31071C7C289E7D9300F46498 /* PageAddDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAddDog.swift; sourceTree = "<group>"; };
 		31071C7F289E80C900F46498 /* TitleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSection.swift; sourceTree = "<group>"; };
+		311204F428D6B72A00C3DBF5 /* PopupPlaceVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupPlaceVisitor.swift; sourceTree = "<group>"; };
+		311204F628D6BA5200C3DBF5 /* VisitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorView.swift; sourceTree = "<group>"; };
 		3117485D288D486E00B96A42 /* Sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheet.swift; sourceTree = "<group>"; };
 		3117485F288D508600B96A42 /* SceneSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneSheetController.swift; sourceTree = "<group>"; };
 		311DC4362877D73800A3F7F5 /* GoogleSignManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignManager.swift; sourceTree = "<group>"; };
@@ -1830,6 +1834,7 @@
 				31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */,
 				31B311E528D528B5001B539A /* PopupWalkPlace.swift */,
 				31B311EC28D545E1001B539A /* PopupWalkMission.swift */,
+				311204F428D6B72A00C3DBF5 /* PopupPlaceVisitor.swift */,
 			);
 			path = pop;
 			sourceTree = "<group>";
@@ -1849,6 +1854,7 @@
 				31B311E828D52DD0001B539A /* UserView.swift */,
 				31B311EA28D53749001B539A /* PlaceView.swift */,
 				31B311EE28D5460E001B539A /* MissionView.swift */,
+				311204F628D6BA5200C3DBF5 /* VisitorView.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -2303,6 +2309,7 @@
 				31B311E628D528B5001B539A /* PopupWalkPlace.swift in Sources */,
 				31D92015287271C1001C2738 /* CPCircularNavigation.swift in Sources */,
 				311DC4372877D73800A3F7F5 /* GoogleSignManager.swift in Sources */,
+				311204F528D6B72A00C3DBF5 /* PopupPlaceVisitor.swift in Sources */,
 				31D91E8228725834001C2738 /* ViewUtil.swift in Sources */,
 				31BCF3CF28C59ACE004605CF /* ListItemDetail.swift in Sources */,
 				31BCF3C628C45F16004605CF /* ArcGraph.swift in Sources */,
@@ -2365,6 +2372,7 @@
 				31B0F70228C6ED4B00E86F05 /* PageMissionHistory.swift in Sources */,
 				31D92041287271C1001C2738 /* SelectButton.swift in Sources */,
 				31D6657F28CAFC3A00765625 /* UserProfileItem.swift in Sources */,
+				311204F728D6BA5200C3DBF5 /* VisitorView.swift in Sources */,
 				31D9200F287271C1001C2738 /* CPImageViewPager.swift in Sources */,
 				31D920B928729CDC001C2738 /* MissionApiData.swift in Sources */,
 				31D92004287271C1001C2738 /* fonts.swift in Sources */,
@@ -2628,7 +2636,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2672,7 +2680,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

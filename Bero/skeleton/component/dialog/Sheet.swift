@@ -19,6 +19,7 @@ extension View {
                point:Int? = nil,
                exp:Double? = nil,
                buttons:[SheetBtnData]? = nil,
+               buttonColor:Color? = nil,
                isLock:Bool = false,
                cancel: @escaping () -> Void,
                action: @escaping (_ idx:Int) -> Void
@@ -41,6 +42,7 @@ extension View {
             point: point,
             exp: exp,
             buttons:alertBtns,
+            buttonColor: buttonColor,
             isLock: isLock,
             presenting: { self },
             cancel: cancel,
@@ -67,6 +69,7 @@ struct Sheet<Presenting>: View where Presenting: View {
     var point:Int? = nil
     var exp:Double? = nil
     var buttons: [SheetBtnData] = []
+    var buttonColor:Color? = nil
     var isLock:Bool = false
     let presenting: () -> Presenting
     var cancel:() -> Void
@@ -158,9 +161,11 @@ struct Sheet<Presenting>: View where Presenting: View {
                                 icon: btn.img,
                                 text: btn.title,
                                 index: btn.index,
-                                color: Color.app.grey50,
+                                color: btn.index%2 == 1 ? (self.buttonColor ?? Color.app.white) : Color.app.grey50,
                                 textColor: btn.index%2 == 1 ? nil : Color.app.grey400,
-                                gradient: btn.index%2 == 1 ? Color.app.orangeGradient : nil
+                                gradient: btn.index%2 == 1
+                                    ? (self.buttonColor == nil ? Color.app.orangeGradient : nil)
+                                    : nil
                                 
                             ){idx in
                                 self.action(idx)

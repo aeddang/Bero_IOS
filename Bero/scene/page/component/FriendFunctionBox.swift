@@ -19,7 +19,7 @@ struct FriendFunctionBox: PageComponent{
             if self.currentStatus == .friend {
                 FillButton(
                     type: .fill,
-                    icon : Asset.icon.sms,
+                    icon : Asset.icon.chat,
                     text: String.button.chat,
                     color: Color.brand.primary,
                     isActive: true

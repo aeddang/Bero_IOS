@@ -191,7 +191,9 @@ class Mission:MapUserData{
         } else if let loc = data.geos?.last {
             self.destination = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
         }
+        self.isCompleted = data.user != nil 
         self.user = User().setData(data)
+        
         self.distance = data.distance ?? 0
         self.duration = data.duration ?? 0
         return self

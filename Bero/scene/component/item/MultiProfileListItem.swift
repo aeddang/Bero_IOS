@@ -8,62 +8,86 @@
 
 import Foundation
 import SwiftUI
-
+class MultiProfileListItemData:InfinityData{
+    private(set) var user:UserProfile? = nil
+    private(set) var pet:PetProfile? = nil
+    func setData(_ data:PlaceVisitor, idx:Int) -> MultiProfileListItemData{
+        self.index = idx
+        if let userData = data.user {
+            self.user = UserProfile().setData(data: userData)
+        }
+        if let petData = data.pet {
+            self.pet = PetProfile(data: petData)
+        }
+        return self
+    }
+}
 struct MultiProfileListItem: PageComponent{
-    var petProfile:PetProfile
-    var userProfile:UserProfile
+    @EnvironmentObject var pagePresenter:PagePresenter
+    var data:MultiProfileListItemData = MultiProfileListItemData()
     var body: some View {
         HStack(spacing:Dimen.margin.light){
-            VStack(alignment: .leading, spacing: Dimen.margin.tiny){
-                HorizontalProfile(
-                    type: .pet,
-                    imagePath: petProfile.imagePath,
-                    name: petProfile.name,
-                    gender: petProfile.gender,
-                    age: petProfile.birth?.toAge(),
-                    useBg: false
-                ){ _ in
-                    
-                }
-                if let breed = petProfile.breed, let breedValue = SystemEnvironment.breedCode[breed] {
-                    Text(breedValue)
-                        .modifier(SemiBoldTextStyle(
-                            size: Font.size.thin,
-                            color: Color.app.grey400
-                        ))
+            if let petProfile = self.data.pet {
+                VStack(alignment: .leading, spacing: Dimen.margin.tiny){
+                    HorizontalProfile(
+                        type: .pet,
+                        imagePath: petProfile.imagePath,
+                        name: petProfile.name,
+                        gender: petProfile.gender,
+                        age: petProfile.birth?.toAge(),
+                        useBg: false
+                    ){ _ in
+                        
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.dog)
+                                .addParam(key: .data, value:petProfile)
+                        )
+                    }
+                    if let breed = petProfile.breed, let breedValue = SystemEnvironment.breedCode[breed] {
+                        Text(breedValue)
+                            .modifier(SemiBoldTextStyle(
+                                size: Font.size.thin,
+                                color: Color.app.grey400
+                            ))
+                    }
                 }
             }
             Spacer().modifier(
                 LineVertical(width: Dimen.line.light,color: Color.app.grey100)
             )
-            .padding(.vertical, Dimen.margin.tiny)
-            VStack(alignment: .leading, spacing: Dimen.margin.tiny){
-                HorizontalProfile(
-                    type: .user,
-                    imagePath: userProfile.imagePath,
-                    name: userProfile.nickName,
-                    gender: userProfile.gender,
-                    age: userProfile.birth?.toAge(),
-                    useBg: false
-                ){ _ in
-                    
-                }
-                HStack(spacing:Dimen.margin.tinyExtra){
-                    Image(Lv.getLv(userProfile.lv).icon)
-                        .renderingMode(.template)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(Lv.getLv(userProfile.lv).color)
-                        .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
-                    Text(Lv.getLv(userProfile.lv).title)
-                        .modifier(SemiBoldTextStyle(
-                            size: Font.size.thin,
-                            color: Color.app.grey400
-                        ))
+
+            if let userProfile = self.data.user {
+                VStack(alignment: .leading, spacing: Dimen.margin.tiny){
+                    HorizontalProfile(
+                        type: .user,
+                        imagePath: userProfile.imagePath,
+                        name: userProfile.nickName,
+                        gender: userProfile.gender,
+                        age: userProfile.birth?.toAge(),
+                        useBg: false
+                    ){ _ in
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.user)
+                                .addParam(key: .id, value:userProfile.userId)
+                        )
+                    }
+                    HStack(spacing:Dimen.margin.tinyExtra){
+                        Image(Lv.getLv(userProfile.lv).icon)
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(Lv.getLv(userProfile.lv).color)
+                            .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                        Text(Lv.getLv(userProfile.lv).title)
+                            .modifier(SemiBoldTextStyle(
+                                size: Font.size.thin,
+                                color: Color.app.grey400
+                            ))
+                    }
                 }
             }
         }
-        .padding(.horizontal, Dimen.margin.light)
+        .padding(.all, Dimen.margin.light)
         .modifier(MatchHorizontal(height: 104))
         .background(Color.app.white )
         .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
@@ -85,8 +109,7 @@ struct MultiProfileListItem_Previews: PreviewProvider {
     static var previews: some View {
         VStack{
             MultiProfileListItem(
-                petProfile: PetProfile(),
-                userProfile: UserProfile()
+                data: MultiProfileListItemData()
             )
            
         }

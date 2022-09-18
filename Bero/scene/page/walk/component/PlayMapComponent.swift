@@ -89,7 +89,7 @@ extension PlayMap {
         let image = UIImageView(image: icon)
         marker.iconView = image
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)
-        marker.snippet = data.visitors.first?.userName
+        marker.snippet = String.pageText.walkPlaceMarkText.replace(data.visitors.count.description)
         marker.zIndex = 333
         return marker
     }

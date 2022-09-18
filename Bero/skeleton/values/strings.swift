@@ -285,10 +285,12 @@ extension String {
         
         public static let walkStartChooseDogTitle = "Start a walk?"
         public static let walkStartChooseDogText = "Choose dogs you are walking with."
-        
         public static let walkPlaceMarkText = "See who left %s marks"
-        
+        public static let walkVisitorTitle = "%s marks left"
         public static let walkMissionTitleText = "Visit %s"
+        
+        public static let walkPlaceMarkDisAbleTitle = "Seems like you’re not near the place."
+        public static let walkPlaceMarkDisAbleText = "Move closer to the place and give the GPS few more seconds to process."
         
     }
     

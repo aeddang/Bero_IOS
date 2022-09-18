@@ -19,6 +19,7 @@ struct PageSelecterble : SelecterbleProtocol{
 }
 
 struct BottomTab: PageComponent{
+    @EnvironmentObject var repository:Repository
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var sceneObserver:PageSceneObserver
@@ -26,6 +27,7 @@ struct BottomTab: PageComponent{
     @State var pages:[PageSelecterble] = []
    
     @State var currentPageIdx:Int? = nil
+    @State var isNewMessage:Bool = false
     var body: some View {
         VStack{
             Spacer().modifier(LineHorizontal())
@@ -34,6 +36,7 @@ struct BottomTab: PageComponent{
                     ImageButton(
                         isSelected:self.checkCategory(pageIdx: gnb.idx),
                         defaultImage: gnb.icon,
+                        iconText: gnb.id == .chat ? (self.isNewMessage ? "N" : "") : "",
                         text: gnb.text,
                         defaultColor: Color.app.grey200,
                         activeColor: Color.brand.primary
@@ -56,8 +59,16 @@ struct BottomTab: PageComponent{
         .modifier(MatchHorizontal(height: self.sceneObserver.safeAreaBottom + Dimen.app.bottom))
         .background(Color.brand.bg)
         .onReceive (self.pagePresenter.$currentTopPage) { page in
-            
+
             self.currentPageIdx = page?.pageIDX
+        }
+        .onReceive (self.repository.$event) { evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .messageUpdate(let isNew) :
+                self.isNewMessage = isNew
+            default : break
+            }
         }
         .onAppear(){
             pages = [

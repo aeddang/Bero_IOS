@@ -245,7 +245,7 @@ struct HorizontalProfile: PageComponent{
                     }
                 case .send :
                     CircleButton(
-                        type: .icon(Asset.icon.sms),
+                        type: .icon(Asset.icon.chat),
                         isSelected: true,
                         activeColor: self.color
                     ){ _ in

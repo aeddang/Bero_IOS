@@ -20,6 +20,7 @@ extension View {
                referenceText: String? = nil,
                imgButtons:[AlertBtnData]? = nil,
                buttons:[AlertBtnData]? = nil,
+               buttonColor:Color? = nil,
                action: @escaping (_ idx:Int) -> Void ) -> some View {
         
         var alertBtns:[AlertBtnData] = buttons ?? []
@@ -43,6 +44,7 @@ extension View {
             referenceText: referenceText,
             imgButtons : imgButtons,
             buttons: alertBtns,
+            buttonColor:buttonColor,
             action:action)
     }
     
@@ -67,6 +69,7 @@ struct Alert<Presenting>: View where Presenting: View {
     var referenceText: String?
     var imgButtons: [AlertBtnData]?
     var buttons: [AlertBtnData]
+    var buttonColor:Color? = nil
     let action: (_ idx:Int) -> Void
     
     var body: some View {
@@ -110,7 +113,7 @@ struct Alert<Presenting>: View where Presenting: View {
                                 icon: btn.img,
                                 text: btn.title,
                                 index: btn.index,
-                                color: btn.index%2 == 1 ? Color.brand.primary : Color.app.grey200
+                                color: btn.index%2 == 1 ? (self.buttonColor ?? Color.brand.primary) : Color.app.grey200
                                 
                             ){idx in
                                 self.action(idx)

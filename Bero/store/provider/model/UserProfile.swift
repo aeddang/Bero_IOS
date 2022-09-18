@@ -24,6 +24,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
     @Published private(set) var lv:Int = 1
     @Published var status:FriendStatus = .norelation
     private(set) var type:SnsType? = nil
+    private(set) var originData:UserData? = nil
     let isMine:Bool
     init(isMine:Bool = false){
         self.isMine = isMine
@@ -36,6 +37,9 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
     }
     @discardableResult
     func setData(data:UserData) -> UserProfile{
+        if self.isMine {
+            self.originData = data
+        }
         self.userId = data.userId ?? ""
         self.nickName = data.name
         self.email = data.email

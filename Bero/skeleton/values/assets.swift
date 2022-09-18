@@ -29,7 +29,7 @@ extension Asset{
         public static let chat = Asset.icon.chat
         public static let matching = Asset.icon.favorite_on
         public static let diary = Asset.icon.calendar
-        public static let my = Asset.image.profile_user_default
+        public static let my = Asset.icon.my
     }
     struct map {
         public static let pinUser = "pin_user"
@@ -153,6 +153,7 @@ extension Asset{
         public static let maximize = "maximize"
         public static let send = "send"
         public static let place = "place"
+        public static let my = "my"
     }
     
 

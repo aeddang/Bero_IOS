@@ -45,7 +45,7 @@ extension PageID{
     static let popupWalkUser:PageID = "popupWalkUser"
     static let popupWalkPlace:PageID = "popupWalkPlace"
     static let popupWalkMission:PageID = "popupWalkMission"
-    
+    static let popupPlaceVisitor:PageID = "popupPlaceVisitor"
 }
 
 struct PageProvider {
@@ -74,7 +74,7 @@ struct PageProvider {
     static func getType(_ pageID:PageID)-> PageAnimationType{
         switch pageID {
         case  .addDog, .addDogCompleted, .chooseDog,
-                .popupWalkUser, .popupWalkPlace, .popupWalkMission : return .vertical
+                .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return .vertical
         case  .missionCompleted, .walkCompleted: return .opacity
         default : return  .horizontal
         }
@@ -87,7 +87,7 @@ struct PageProvider {
     }
     static func isLayer(_ pageID:PageID)-> Bool{
         switch pageID{
-        case .chooseDog, .popupWalkUser, .popupWalkPlace, .popupWalkMission : return true
+        case .chooseDog, .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return true
         default : return false
         }
     }
@@ -203,6 +203,7 @@ struct PageFactory{
         case .popupWalkUser : return PopupWalkUser(pageObservable:pageObservable)
         case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
         case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)
+        case .popupPlaceVisitor : return PopupPlaceVisitor(pageObservable:pageObservable)
         default : return PageTest(pageObservable:pageObservable)
         }
     }

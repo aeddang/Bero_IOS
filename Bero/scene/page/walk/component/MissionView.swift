@@ -80,7 +80,14 @@ struct MissionView: PageComponent, Identifiable{
                 
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
-            
+            FillButton(
+                type: .fill,
+                text:"완료 테스트용",
+                size: Dimen.button.regular
+            ){ _ in
+                self.walkManager.forceCompleteMission()
+            }
+            .padding(.horizontal, Dimen.app.pageHorinzontal)
         }
         .background(Color.app.white)
         .onReceive(self.walkManager.$event){ evt in

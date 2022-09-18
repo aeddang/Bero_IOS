@@ -48,11 +48,13 @@ struct PlaceInfo: PageComponent{
                     Text(title)
                         .modifier(SemiBoldTextStyle(size:Font.size.medium, color: Color.app.black))
                         .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 if let desc = self.description {
                     Text(desc)
                         .modifier(RegularTextStyle(size:Font.size.thin, color: Color.app.grey400))
                         .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 if let distance = self.distance {
                     HStack( spacing: Dimen.margin.tinyExtra){

@@ -39,6 +39,7 @@ struct SceneAlertController: PageComponent{
     @State var subText:String? = nil
     @State var referenceText:String? = nil
     @State var tipText:String? = nil
+    @State var buttonColor:Color? = nil
     @State var imgButtons:[AlertBtnData]? = nil
     @State var buttons:[AlertBtnData] = []
     @State var currentAlert:SceneAlert? = nil
@@ -55,11 +56,13 @@ struct SceneAlertController: PageComponent{
             tipText: self.tipText,
             referenceText: self.referenceText,
             imgButtons: self.imgButtons,
-            buttons: self.buttons
+            buttons: self.buttons,
+            buttonColor: self.buttonColor
         ){ idx in
             switch self.currentAlert {
             case .alert(_, _, _, let completionHandler) :
                 if let handler = completionHandler { self.selectedAlert(idx, completionHandler:handler) }
+                else {self.buttonColor = Color.app.black}
             case .select(_, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
             case .confirm(_, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
             case .apiError(let data): self.selectedApi(idx, data:data)
@@ -82,7 +85,9 @@ struct SceneAlertController: PageComponent{
                     self.reset()
                 }
                 return
-            case .alert(let title,let text, let subText, _) : self.setupAlert(title:title, text:text, subText:subText)
+            case .alert(let title,let text, let subText, let completionHandler) :
+                if completionHandler == nil { self.buttonColor = Color.app.black }
+                self.setupAlert(title:title, text:text, subText:subText)
             case .select(let title,let text, let selects, _) : self.setupSelect(title: title, text: text, selects: selects)
             case .confirm(let title,let text, _) : self.setupConfirm(title:title, text:text)
             case .apiError(let data): self.setupApi(data:data)
@@ -107,6 +112,7 @@ struct SceneAlertController: PageComponent{
         self.buttons = []
         self.imgButtons = nil
         self.currentAlert = nil
+        self.buttonColor = nil
     }
 
     func setupRecivedApns(){
@@ -208,7 +214,7 @@ struct SceneAlertController: PageComponent{
         self.text = text ?? ""
         self.subText = subText
         self.buttons = [
-            AlertBtnData(title: String.app.confirm, index: 0)
+            AlertBtnData(title: String.app.confirm, index: 1)
         ]
     }
     func selectedAlert(_ idx:Int, completionHandler: @escaping () -> Void) {

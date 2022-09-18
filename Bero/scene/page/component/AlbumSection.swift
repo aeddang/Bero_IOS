@@ -76,7 +76,7 @@ struct AlbumSection: PageComponent{
         guard let datas = res.data as? [PictureData] else { return }
         var added:[AlbumListItemData] = []
         let start = 0
-        let end = min(self.pageSize, datas.count)
+        let end = min(self.pageSize-1, datas.count)
         added = zip(start...end, datas).map { idx, d in
             return AlbumListItemData().setData(d,  idx: idx)
         }

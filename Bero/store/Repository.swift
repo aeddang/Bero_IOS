@@ -16,7 +16,7 @@ enum RepositoryStatus{
 }
 
 enum RepositoryEvent{
-    case loginUpdate
+    case loginUpdate, messageUpdate(Bool)
 }
 
 class Repository:ObservableObject, PageProtocol{
@@ -34,8 +34,6 @@ class Repository:ObservableObject, PageProtocol{
     let apiCoreDataManager = ApiCoreDataManager()
     private let storage = LocalStorage()
     private let apiManager = ApiManager()
-   
-    
     private var anyCancellable = Set<AnyCancellable>()
     private var dataCancellable = Set<AnyCancellable>()
      
@@ -63,6 +61,9 @@ class Repository:ObservableObject, PageProtocol{
             self.appSceneObserver?.isApiLoading = false
             self.pagePresenter?.isLoading = false
             self.retryRegisterPushToken()
+            if self.pagePresenter?.currentPage?.pageID == .chat {
+                self.event = .messageUpdate(false)
+            }
         }).store(in: &anyCancellable)
         
         self.setupSetting()
@@ -223,6 +224,7 @@ class Repository:ObservableObject, PageProtocol{
         self.walkManager.respondApi(res)
         switch res.type {
         case .registPush(let token) : self.registedPushToken(token)
+        case .getChats(let page, _) : if page == 0 { self.onMassageUpdated(res) }
         default : break
         }
         if let coreDatakey = res.type.coreDataKey(){
@@ -290,6 +292,7 @@ class Repository:ObservableObject, PageProtocol{
         if let user = self.dataProvider.user.snsUser {
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false), isOptional: true))
+            self.dataProvider.requestData(q: .init(id: self.tag, type: .getChats(page: 0), isOptional: true))
         }
         self.retryRegisterPushToken()
         
@@ -312,6 +315,15 @@ class Repository:ObservableObject, PageProtocol{
         self.storage.walkCount = now + count.description
         WalkManager.todayWalkCount = count
     }
+    
+    //Message
+    func onMassageUpdated(_ res:ApiResultResponds){
+        if res.id != self.tag { return }
+        guard let datas = res.data as? [ChatData] else { return }
+        let find = datas.first(where: {$0.isRead == false})
+        self.event = .messageUpdate(find != nil)
+    }
+    
     
     // PushToken
     func retryRegisterPushToken(){

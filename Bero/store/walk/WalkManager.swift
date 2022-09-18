@@ -366,7 +366,7 @@ class WalkManager:ObservableObject, PageProtocol{
         guard let destination = mission.destination else {return}
         let distance = destination.distance(from: loc)
         self.currentDistenceFromMission = distance
-        if distance < 10 {
+        if distance < 20 {
             self.missionCompleted(mission)
             return
         }
