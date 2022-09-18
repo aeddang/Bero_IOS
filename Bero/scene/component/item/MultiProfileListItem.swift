@@ -88,7 +88,7 @@ struct MultiProfileListItem: PageComponent{
             }
         }
         .padding(.all, Dimen.margin.light)
-        .modifier(MatchHorizontal(height: 104))
+        .modifier(MatchHorizontal(height: 124))
         .background(Color.app.white )
         .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
         .overlay(

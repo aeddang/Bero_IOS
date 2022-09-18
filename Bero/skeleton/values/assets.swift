@@ -44,6 +44,12 @@ extension Asset{
         public static let pinSalon = "pin_salon"
         public static let pinRestaurant = "pin_restaurant"
         
+        public static let pinCafeCompleted = "pin_cafe_completed"
+        public static let pinHotelCompleted = "pin_hotel_completed"
+        public static let pinHospitalCompleted = "pin_hospital_completed"
+        public static let pinSalonCompleted = "pin_salon_completed"
+        public static let pinRestaurantCompleted = "pin_restaurant_completed"
+        
         public static let myLocation = "pin_my_location"
         public static let myLocationWalk = "pin_my_location_walk"
         public static let locator = "locator"

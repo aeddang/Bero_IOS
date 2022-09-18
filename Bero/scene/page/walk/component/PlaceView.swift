@@ -59,7 +59,8 @@ struct PlaceView: PageComponent, Identifiable{
                     if self.isMark {
                         return
                     }
-                    if self.distance > 20 {
+                    self.updateData()
+                    if self.distance > WalkManager.nearDistence {
                         self.appSceneObserver.sheet = .alert(
                             String.pageText.walkPlaceMarkDisAbleTitle,
                             String.pageText.walkPlaceMarkDisAbleText

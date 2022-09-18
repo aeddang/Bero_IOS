@@ -85,7 +85,8 @@ extension PlayMap {
         )
         marker.userData = data
         marker.title = data.name ?? "Place"
-        let icon = UIImage(named: self.walkManager.placeFilter.icon)
+        let icon = UIImage(named: data.isMark ? self.walkManager.placeFilter.iconComplete : self.walkManager.placeFilter.icon)
+        
         let image = UIImageView(image: icon)
         marker.iconView = image
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)

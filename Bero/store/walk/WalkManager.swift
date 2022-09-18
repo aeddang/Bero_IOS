@@ -12,7 +12,7 @@ import GooglePlaces
 enum WalkEvent {
     case start, end, completed(Mission), startMission(Mission), endMission(Mission), completedMission(Mission), getRoute(Route),
          changeMapStatus, updatedMissions, updatedPlaces , updatedUsers,
-         findWaypoint(index:Int, total:Int)
+         findWaypoint(index:Int, total:Int), findPlace(Place)
     
     var pushTitle:String? {
         switch self {
@@ -42,6 +42,7 @@ enum WalkStatus {
 extension WalkManager {
     static var todayWalkCount:Int = 0
     static let distenceUnit:Double = 200000
+    static let nearDistence:Double = 20
     static func viewSpeed(_ value:Double) -> String {
         return (value * 3600 / 1000).toTruncateDecimal(n:1) + String.app.kmPerH
     }
@@ -96,6 +97,17 @@ extension WalkManager {
             case .restaurant: return Asset.map.pinRestaurant
             case .hotel: return Asset.map.pinHotel
             case .shop: return Asset.map.pinSalon
+            default : return ""
+            }
+        }
+        
+        var iconComplete:String{
+            switch self {
+            case .hospital: return Asset.map.pinHospitalCompleted
+            case .cafe: return Asset.map.pinCafeCompleted
+            case .restaurant: return Asset.map.pinRestaurantCompleted
+            case .hotel: return Asset.map.pinHotelCompleted
+            case .shop: return Asset.map.pinSalonCompleted
             default : return ""
             }
         }
@@ -163,7 +175,7 @@ class WalkManager:ObservableObject, PageProtocol{
     private (set) var userFilter:Filter = .all
     private (set) var placeFilter:Filter = .shop
     private (set) var missionFilter:Filter = .all
-    
+    let nearDistence:Double = WalkManager.nearDistence
     init(
         dataProvider:DataProvider,
         locationObserver:LocationObserver){
@@ -315,6 +327,7 @@ class WalkManager:ObservableObject, PageProtocol{
     }
     private func missionCompleted(_ mission:Mission){
         //self.currentMission = nil
+        if mission.isCompleted {return}
         mission.completed(walkDistence: self.walkDistence)
         self.event = .completedMission(mission)
     }
@@ -362,17 +375,17 @@ class WalkManager:ObservableObject, PageProtocol{
             self.walkDistence += diff
         }
         self.currentLocation = loc
+        self.findPlace(loc)
+        
         guard let mission = self.currentMission else {return}
         guard let destination = mission.destination else {return}
         let distance = destination.distance(from: loc)
         self.currentDistenceFromMission = distance
-        if distance < 20 {
+        if distance < self.nearDistence {
             self.missionCompleted(mission)
-            return
         }
-        guard let waypoints = self.currentRoute?.waypoints else {return}
-        guard let find = waypoints.firstIndex(where: {$0.distance(from: loc) < 5}) else {return}
-        self.event = .findWaypoint(index: find, total:waypoints.count)
+        self.findWayPoint(loc)
+        
     }
     
     
@@ -454,7 +467,7 @@ class WalkManager:ObservableObject, PageProtocol{
         case .getPlace :
             let me = self.dataProvider.user.snsUser?.snsID ?? ""
             if let datas = res.data as? [PlaceData] {
-                self.places = datas.map{Place().setData($0, me:me)}
+                self.filterPlace(datas: datas.map{Place().setData($0, me:me)} ) 
                 self.event = .updatedPlaces
             }
         case .requestRoute(_,_,let id) :
@@ -486,5 +499,62 @@ class WalkManager:ObservableObject, PageProtocol{
             self.error = .getRoute
         default : break
         }
+    }
+    
+   
+    private func findWayPoint(_ loc:CLLocation){
+        /*
+        guard let waypoints = self.currentRoute?.waypoints else {return}
+        guard let find = waypoints.firstIndex(where: {$0.distance(from: loc) < self.nearDistence}) else {return}
+        self.event = .findWaypoint(index: find, total:waypoints.count)
+         */
+    }
+    
+    private var finalFind:Place? = nil
+    private func findPlace(_ loc:CLLocation){
+        guard let find = self.places.filter({!$0.isMark}).first(where: {$0.location!.distance(from: loc) < self.nearDistence}) else {
+            
+            DataLog.d("findPlace not find", tag: self.tag)
+            self.finalFind = nil
+            return
+        }
+        if self.finalFind != nil {
+            DataLog.d("findPlace already find", tag: self.tag)
+            return
+        }
+        self.finalFind = find
+        DataLog.d("findPlace find " + (find.name ?? ""), tag: self.tag)
+        self.event = .findPlace(find)
+    }
+    private func filterPlace(datas:[Place]){
+        var count:Int = 0
+        let completed = datas.filter{$0.isMark}
+        let new = datas.filter{!$0.isMark}
+        var fixed:[Place] = []
+        let limited = self.nearDistence*3
+        for data in new {
+            if let loc = data.location {
+                if fixed.first(where: { fix in
+                    if let fixLoc = fix.location {
+                        return fixLoc.distance(from: loc) < limited
+                    } else {
+                        return false
+                    }
+                }) == nil {
+                    fixed.append(data)
+                    count += 1
+                    //DataLog.d("added place " + (data.name ?? ""), tag: self.tag)
+                } else {
+                    //DataLog.d("near place " + (near .name ?? ""), tag: self.tag)
+                    //DataLog.d("remove place " + (data.name ?? ""), tag: self.tag)
+                }
+            }
+            if count == 10 {
+                break
+            }
+        }
+        fixed.append(contentsOf: completed)
+        self.places = fixed
+        
     }
 }

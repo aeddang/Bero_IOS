@@ -81,6 +81,15 @@ struct PageWalk: PageView {
                 self.isWalk = true
             }
         }
+        .onReceive(self.walkManager.$event){ evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .findPlace(let place) :
+                if self.pagePresenter.hasPopup(find: .popupWalkPlace) {return}
+                self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkPlace).addParam(key: .data, value: place))
+            default : break
+            }
+        }
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
