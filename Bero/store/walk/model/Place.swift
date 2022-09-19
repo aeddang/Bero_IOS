@@ -34,9 +34,9 @@ class Place:MapUserData{
             }
         }
         self.visitors = data.visitors ?? []
-        self.visitorCount = data.visitors?.count ?? 0
+        self.visitorCount = data.visitorCnt ?? 0
         self.place = data.place ?? MissionPlace()
-        self.isMark = self.visitors.first(where: {$0.user?.userId == me}) != nil
+        self.isMark = data.isVisited ?? false
         return self
     }
      

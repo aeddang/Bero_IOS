@@ -146,6 +146,7 @@ class MissionApi :Rest{
         params["exp"] = mission.exp
         params["pictureUrl"] = pictureUrl
         params["petIds"] = pets.map{$0.petId}
+        params["placeId"] = mission.place?.place_id
         var geos: [[String: Any]] = []
         if let loc = mission.departure {
             var geo :[String: Any] = [:]

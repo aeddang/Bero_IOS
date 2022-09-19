@@ -18,8 +18,7 @@ struct PageLogin: PageView {
     @EnvironmentObject var dataProvider:DataProvider
     
     @ObservedObject var pageObservable:PageObservable = PageObservable()
-   
-    
+
     var body: some View {
         VStack(spacing: Dimen.margin.medium){
             ZStack(alignment: .bottomLeading){
@@ -77,7 +76,6 @@ struct PageLogin: PageView {
                 ){_ in
                     self.snsManager.requestLogin(type: .fb)
                 }
-                
                 FillButton(
                     type: .stroke,
                     icon: SnsType.google.logo,

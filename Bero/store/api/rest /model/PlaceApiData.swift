@@ -12,6 +12,8 @@ struct PlaceData : Decodable {
     private(set) var name: String? = nil
     private(set) var googlePlaceId: String? = nil
     private(set) var createdAt: String? = nil
+    private(set) var visitorCnt:Int? = nil
+    private(set) var isVisited:Bool? = nil
     private(set) var visitors: [PlaceVisitor]? = nil
     private(set) var place:MissionPlace? = nil
 }

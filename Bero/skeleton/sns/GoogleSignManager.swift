@@ -48,7 +48,7 @@ class GoogleSignManager:ObservableObject, PageProtocol, Sns{
             guard let user = user else { return }
             let snsUser = SnsUser(
                 snsType: self.type,
-                snsID: user.authentication.clientID,
+                snsID: user.userID ?? "",
                 snsToken: user.authentication.accessToken
             )
             self.respond = SnsResponds(event: .login, type: self.type, data:snsUser)
