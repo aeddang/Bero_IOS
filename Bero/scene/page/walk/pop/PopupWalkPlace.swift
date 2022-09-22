@@ -53,7 +53,7 @@ struct PopupWalkPlace: PageView {
                         .padding(.all, Dimen.margin.regular)
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
-                    .modifier(MatchHorizontal(height: 430))
+                    .modifier(MatchHorizontal(height: 340))
                     .modifier(BottomFunctionTab(margin: 0))
                     .modifier(PageDragingSecondPriority(geometry: geometry, pageDragingModel: self.pageDragingModel))
                     

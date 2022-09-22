@@ -168,11 +168,11 @@ struct TitleTab: PageComponent{
             .padding(.bottom, Dimen.margin.thin)
             .padding(.horizontal, self.margin ?? self.type.margin)
             
-            if self.type == .page {
+            //if self.type == .page {
                 Spacer().modifier(LineHorizontal())
                     .modifier(ShadowBottom())
                     .opacity(self.isTop ? 0 : 1)
-            }
+            //}
         }
         .onReceive(self.infinityScrollModel.$event){ evt  in
             guard let evt = evt else {return}

@@ -17,6 +17,7 @@ struct UserProfileItem: PageComponent{
     @ObservedObject var data:UserProfile
     var subImagePath:String? = nil
     var date:String? = nil
+    var useBg:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
         HorizontalProfile(
@@ -31,7 +32,7 @@ struct UserProfileItem: PageComponent{
             age: self.date == nil ? self.data.birth?.toAge() : nil,
             description: self.date,
             isSelected: false,
-            useBg: false
+            useBg: self.useBg
         ){ type in
             
             switch type {

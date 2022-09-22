@@ -48,8 +48,12 @@ struct PageWalk: PageView {
                     Spacer().modifier(MatchParent())
                     if self.isInitable {
                         if !self.isWalk {
-                            StartBox()
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            StartBox(
+                                pageObservable: self.pageObservable,
+                                viewModel: self.mapModel,
+                                isFollowMe: self.$isFollowMe
+                            )
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
                         } else {
                             WalkBox(
                                 pageObservable: self.pageObservable,

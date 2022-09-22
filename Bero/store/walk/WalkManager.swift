@@ -41,7 +41,7 @@ enum WalkStatus {
 }
 extension WalkManager {
     static var todayWalkCount:Int = 0
-    static let distenceUnit:Double = 200000
+    static let distenceUnit:Double = 5000
     static let nearDistence:Double = 20
     static func viewSpeed(_ value:Double) -> String {
         return (value * 3600 / 1000).toTruncateDecimal(n:1) + String.app.kmPerH
@@ -164,7 +164,6 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private(set) var walkTime:Double = 0
     @Published private(set) var walkDistence:Double = 0
     @Published private(set) var currentMission:Mission? = nil
-    @Published private(set) var currentRoute:Route? = nil
     @Published private(set) var currentLocation:CLLocation? = nil
     @Published private(set) var isMapLoading:Bool = false
     @Published private(set) var currentDistenceFromMission:Double? = nil
@@ -298,12 +297,11 @@ class WalkManager:ObservableObject, PageProtocol{
         self.isSimpleView = false
     }
     
-    func startMission(_ mission:Mission, route:Route? = nil){
+    func startMission(_ mission:Mission){
         self.currentMission = mission
         if let loc = self.currentLocation {
             mission.start(location: loc, walkDistence:self.walkDistence)
         }
-        self.currentRoute = route
         self.currentDistenceFromMission = nil
         self.event = .startMission(mission)
     }
@@ -317,7 +315,6 @@ class WalkManager:ObservableObject, PageProtocol{
             mission.end(isCompleted:false)
         }
         self.currentMission = nil
-        self.currentRoute =  nil
         self.currentDistenceFromMission = nil
         self.event = .endMission(mission)
     }
@@ -332,27 +329,14 @@ class WalkManager:ObservableObject, PageProtocol{
         self.event = .completedMission(mission)
     }
     
-    
-    @discardableResult
-    func getRoute(mission:Mission)->Bool{
-        guard let me = self.currentLocation else {return false}
-        guard let goal = mission.destination else {return false}
-        self.dataProvider.requestData(q: .init(id: self.tag,
-                                               type: .requestRoute(departure: me, destination: goal, missionId: mission.missionId.description),
-                                               isOptional: true))
-        return true
-    }
-    
+
     @discardableResult
     func getRoute(goal:CLLocation)->Bool{
         guard let me = self.currentLocation else {return false}
         self.dataProvider.requestData(q: .init(id: self.tag, type: .requestRoute(departure: me, destination: goal), isOptional: true))
         return true
     }
-    
-    func clearRoute(){
-        self.currentRoute = nil
-    }
+   
     
     private func requestLocation() {
         let status = self.locationObserver.status
@@ -470,16 +454,12 @@ class WalkManager:ObservableObject, PageProtocol{
                 self.filterPlace(datas: datas.map{Place().setData($0, me:me)} ) 
                 self.event = .updatedPlaces
             }
-        case .requestRoute(_,_,let id) :
+        case .requestRoute :
             if let datas = res.data as? [MissionRoute] {
                 if datas.isEmpty {
                     self.error = .getRoute
                 } else {
                     let route = Route().setData(datas.first!)
-                    if self.currentMission?.missionId.description == id {
-                        self.currentRoute = route
-                        return
-                    }
                     self.event = .getRoute(route)
                 }
             } else {

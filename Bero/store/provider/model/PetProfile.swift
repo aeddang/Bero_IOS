@@ -242,8 +242,8 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     private func updatedLv(){
         self.prevExp = Double(self.lv - 1) * Self.expRange
         self.nextExp = Double(self.lv) * Self.expRange
-        DataLog.d("prevExp " + self.prevExp.description, tag: self.tag)
-        DataLog.d("nextExp " + self.nextExp.description, tag: self.tag)
-        DataLog.d("lv " + self.lv.description, tag: self.tag)
+        //DataLog.d("prevExp " + self.prevExp.description, tag: self.tag)
+        //DataLog.d("nextExp " + self.nextExp.description, tag: self.tag)
+        //DataLog.d("lv " + self.lv.description, tag: self.tag)
     }
 }

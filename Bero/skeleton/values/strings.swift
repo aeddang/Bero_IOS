@@ -104,6 +104,11 @@ extension String {
         public static var missionCancelConfirm = "Do you want to quit the mission?"
         public static var missionStartPrevMissionCancel = "The mission is already in progress. play mission quit and retry."
         public static var missionStart = "Start the mission now."
+        
+        
+        public static var friendRequest = "Friend request has been completed."
+        public static var friendAccept = "Friend has been added."
+        public static var friendDeleteConfirm = "Do you want to remove a friend?"
     }
     
     struct button {
@@ -128,6 +133,7 @@ extension String {
         public static let calendar = "Calendar"
         public static let album = "Album"
         public static let startWalking = "Start walking"
+        public static let startMission = "Start mission"
         public static let finish = "Finish"
         public static let finishTheWalk = "Finish the walk"
         public static let missionComplete = "Mission Complete"
@@ -191,6 +197,9 @@ extension String {
         public static let tag = "Tags"
         public static let physicalInformation = "Physical information"
         public static let friends = "Friends"
+        public static let friendRequest = "Friend request"
+        public static let chatRoom = "Chat room"
+
         public static let myDogs = "My dogs"
         public static let myProfile = "My Profile"
         public static let myLv = "My Heart Level"

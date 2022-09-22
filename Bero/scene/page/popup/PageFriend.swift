@@ -78,10 +78,12 @@ struct PageFriend: PageView {
             }//draging
             .onAppear{
                 guard let obj = self.pageObject  else { return }
+                self.sortType = obj.getParamValue(key: .type) as? FriendList.ListType ?? .friend
                 if let user = obj.getParamValue(key: .data) as? User{
                     self.user = user
                     return
                 }
+                
                 self.pageObservable.isInit = true
             }
         }//GeometryReader

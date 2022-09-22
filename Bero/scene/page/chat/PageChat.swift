@@ -36,7 +36,7 @@ struct PageChat: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        infinityScrollModel: self.infinityScrollModel,
+                        
                         title: String.pageTitle.chat,
                         buttons:[.setting]){ type in
                         switch type {
@@ -47,6 +47,22 @@ struct PageChat: PageView {
                         default : break
                         }
                     }
+                    FriendSection(
+                        user: self.dataProvider.user,
+                        listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2),
+                        type: .requested,
+                        pageSize: 4,
+                        rowSize:4
+                    )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    .padding(.top, Dimen.margin.mediumUltra)
+                    
+                    TitleTab(
+                        infinityScrollModel: self.infinityScrollModel,
+                        type:.section, title: String.pageTitle.chatRoom
+                    )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    .padding(.top, Dimen.margin.mediumUltra)
                     MessageList(
                         infinityScrollModel: self.infinityScrollModel,
                         isEdit: self.$isEdit)

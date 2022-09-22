@@ -16,21 +16,27 @@ import QuartzCore
 enum PlayMapUiEvent {
     case resetMap, clearViewRoute
 }
+
+
+
 class PlayMapModel:MapModel{
-    @Published var playEvent:PlayMapUiEvent? = nil{
+    @Published var playUiEvent:PlayMapUiEvent? = nil{
         didSet{
-            if playEvent != nil { self.playEvent = nil }
+            if playUiEvent != nil { self.playUiEvent = nil }
         }
     }
+    @Published var componentHidden:Bool = false
+    
 }
 extension PlayMap {
     static let uiHeight:CGFloat = 130
     static let zoomRatio:Float = 17.0
     static let zoomCloseup:Float = 18.5
     static let zoomOut:Float = 16.0
+    static let zoomFarAway:Float = 15
     static let mapMoveDuration:Double = 0.5
     static let mapMoveAngle:Double = 30
-    
+    static let routeViewDuration:Double = 3
 }
 
 struct PlayMap: PageView {
@@ -51,9 +57,7 @@ struct PlayMap: PageView {
             guard let loc = loc else {return}
             self.move(loc)
         }
-        .onReceive(self.walkManager.$currentRoute){ route in
-            self.updateMissionRoute(route)
-        }
+        
         .onReceive(self.walkManager.$status){ status in
             switch status {
             case .ready :
@@ -66,13 +70,13 @@ struct PlayMap: PageView {
         .onReceive(self.walkManager.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .changeMapStatus : self.viewModel.uiEvent = .clearAll
+            case .changeMapStatus : self.viewModel.uiEvent = .clearAll(nil)
             case .getRoute(let route) : self.viewRoute(route)
             case .updatedMissions : self.onMarkerUpdate()
             case .updatedPlaces : self.onMarkerUpdate()
             case .updatedUsers : self.onMarkerUpdate()
-            case .startMission(let mission): self.updateMission(mission)
-            case .endMission(let mission) : self.updateMission(mission)
+            case .startMission(let mission): self.onMissionStart(mission)
+            case .endMission(let mission) : self.onMissionEnd(mission)
             default: break
             }
         }
@@ -83,7 +87,7 @@ struct PlayMap: PageView {
       
             }
         }
-        .onReceive(self.viewModel.$playEvent){ evt in
+        .onReceive(self.viewModel.$playUiEvent){ evt in
             guard let evt = evt else {return}
             switch evt {
             case .resetMap : self.resetMap()
@@ -108,7 +112,7 @@ struct PlayMap: PageView {
     
     private func onMarkerUpdate(){
         let zip:[MapUiEvent] = [
-            .addMarkers(self.getMissions()),
+            .addMarkers(self.getMissions(mission: self.walkManager.currentMission)),
             .addMarkers(self.getUsers()),
             .addMarkers(self.getPlaces())
         ]
@@ -165,7 +169,7 @@ struct PlayMap: PageView {
         let petNames = pets.reduce("", {$0+", "+($1.name ?? "")}).dropFirst()
         marker.snippet = "with " + petNames
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
-        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.3)
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.iconView = icon
         marker.zIndex = 999
         let move = isMove ?? self.isFollowMe
@@ -185,27 +189,44 @@ struct PlayMap: PageView {
             follow: move ? loc : nil
         )
     }
-    private func updateMission(_ data:Mission){
-        let marker:MapMarker = .init(id:data.missionId.description, marker: self.getMissionMarker(data))
-        var zip:[MapUiEvent] = []
-        zip.append(.addMarker(marker))
-        if data.isStart {
-            if self.walkManager.currentRoute == nil {
-                self.walkManager.getRoute(mission: data)
-            }
+    
+    private func onMissionStart(_ data:Mission){
+        let clears = self.getMissions().map({$0.id})
+        self.viewModel.uiEvent = .zip([
+            .clearAll(clears),
+            .addMarkers(self.getMissions(mission: self.walkManager.currentMission))
+        ])
+        if let goal = data.destination {
+            self.walkManager.getRoute(goal: goal)
         } else {
-            zip.append(.clearAllRoute)
-            
+            self.onMissionPlay()
         }
+    }
+    private func onMissionPlay(){
+        self.viewModel.componentHidden = false
+        self.isFollowMe = true
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
+            self.resetMap()
+        }
+    }
+    private func onMissionEnd(_ data:Mission){
+        //let marker:MapMarker = .init(id:data.missionId.description, marker: self.getMissionMarker(data))
+        var zip:[MapUiEvent] = []
+        zip.append(.addMarkers(self.getMissions()))
         self.viewModel.uiEvent = .zip(zip)
     }
     
-    private func getMissions()->[MapMarker]{
+    
+    private func getMissions(mission:Mission? = nil)->[MapMarker]{
+        if let mission = mission {
+            return [.init(id:mission.missionId.description, marker: self.getMissionMarker(mission))]
+        }
         let datas = self.walkManager.missions.filter{$0.destination != nil}
         let markers:[MapMarker] = datas.map{ data in
             return .init(id:data.missionId.description, marker: self.getMissionMarker(data))
         }
         return markers
+            
     }
     
     
@@ -231,48 +252,33 @@ struct PlayMap: PageView {
             self.viewModel.uiEvent = .clearAllRoute
             return
         }
-        let lines = self.getRoutes(route, color: Color.brand.primary).map{ MapRoute(line:$0) }
+        let isMissionPlay = self.walkManager.currentMission != nil
+        let lines = self.getRoutes(route, color: isMissionPlay ? Color.brand.primary : Color.brand.secondary).map{ MapRoute(line:$0) }
         self.viewModel.uiEvent = .zip([
             .clearAllRoute,
-            .move(loc, zoom: Self.zoomOut, duration: Self.mapMoveDuration)
+            .move(isMissionPlay
+                  ? loc
+                  : self.location ?? loc,
+                  zoom: Self.zoomFarAway,
+                  duration: Self.mapMoveDuration),
+            .addRoutes(lines)
         ])
-        self.forceMoveLock(){
-            self.viewModel.uiEvent = .addRoutes(lines)
+        self.viewModel.componentHidden = true
+        self.forceMoveLock(delay: Self.routeViewDuration){
+            self.viewModel.uiEvent = .clearAllRoute
+            self.viewModel.componentHidden = false
+            if isMissionPlay {
+                self.onMissionPlay()
+            }
         }
         
     }
     
     private func clearCurrentViewRoute(){
         self.viewModel.uiEvent = .clearAllRoute
-        if let route = self.walkManager.currentRoute {
-            self.updateMissionRoute(route)
-        }
     }
     
-    private func updateMissionRoute(_ route:Route?){
-        guard let route = route else {
-            self.viewModel.uiEvent = .clearAllRoute
-            return
-        }
-        guard let loc = route.waypoints.last else {
-            self.viewModel.uiEvent = .clearAllRoute
-            return
-        }
-        let lines = self.getRoutes(route, color: Color.brand.secondary).map{ MapRoute(line:$0) }
-        self.viewModel.uiEvent = .zip([
-            .clearAllRoute,
-            .move(loc, zoom: Self.zoomOut, duration: Self.mapMoveDuration)
-        ])
-        self.forceMoveLock(delay: 1.5){
-            self.viewModel.uiEvent = .addRoutes(lines)
-            self.isFollowMe = true
-            DispatchQueue.main.async {
-                self.resetMap()
-            }
-        }
-    }
-    
-    
+
     private func forceMoveLock(delay:Double = 0, closer:(() -> Void)? = nil){
         self.isForceMove = true
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.mapMoveDuration + delay) {

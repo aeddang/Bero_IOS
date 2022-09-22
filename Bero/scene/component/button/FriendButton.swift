@@ -92,7 +92,11 @@ struct FriendButton: PageComponent{
             case .requested:
                 self.appSceneObserver.event = .toast("Already friend (write the phrase)")
             case .delete:
-                self.dataProvider.requestData(q: .init(id: id, type: .deleteFriend(userId: id)))
+                self.appSceneObserver.alert = .confirm(nil, String.alert.friendDeleteConfirm){ isOk in
+                    if isOk {
+                        self.dataProvider.requestData(q: .init(id: id, type: .deleteFriend(userId: id)))
+                    }
+                }
             case .accept:
                 self.dataProvider.requestData(q: .init(id: id, type: .acceptFriend(userId: id)))
             case .reject:

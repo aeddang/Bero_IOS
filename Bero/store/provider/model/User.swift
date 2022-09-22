@@ -37,6 +37,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var recentMission:History? = nil
     private(set) var finalGeo:GeoData? = nil
     private(set) var isMe:Bool = false
+    private(set) var characterIdx:Int = 0
     var currentPet:PetProfile? = nil
     init(isMe:Bool = false) {
         self.isMe = isMe
@@ -95,6 +96,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
                 snsToken: ""
             )
         }
+        
         self.point = data.point ?? 0
         self.lv = data.level ?? 1
         self.exp = data.exp ?? (Double(self.lv-1) * Lv.expRange)
@@ -105,6 +107,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.exerciseDuration = data.exerciseDuration ?? 0
         self.currentProfile.setData(data: data)
         self.updateExp(0)
+        self.characterIdx = Int.random(in: 0...(Asset.character.rand.count-1))
         self.event = .updatedProfile(self.currentProfile)
         return self
     }

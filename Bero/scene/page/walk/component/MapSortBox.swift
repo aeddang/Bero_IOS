@@ -31,17 +31,20 @@ struct MapSortBox: PageView {
             {
                 self.onSort(.user)
             }
-            SortButton(
-                type: .stroke,
-                sizeType: .small,
-                icon: WalkManager.SortType.mission.icon,
-                text: self.missionFilter.getTitle(type: .mission),
-                color: self.missionFilter.isActive ? Color.brand.primary :  Color.app.grey300,
-                isSort: false
-            )
-            {
-                self.onSort(.mission)
+            if self.showMissionFilter {
+                SortButton(
+                    type: .stroke,
+                    sizeType: .small,
+                    icon: WalkManager.SortType.mission.icon,
+                    text: self.missionFilter.getTitle(type: .mission),
+                    color: self.missionFilter.isActive ? Color.brand.primary :  Color.app.grey300,
+                    isSort: false
+                )
+                {
+                    self.onSort(.mission)
+                }
             }
+            
             SortButton(
                 type: .stroke,
                 sizeType: .small,
@@ -54,6 +57,12 @@ struct MapSortBox: PageView {
                 self.onSort(.place)
             }
         }
+        .onReceive(self.walkManager.$currentMission){ mission in
+            withAnimation{
+                self.showMissionFilter = mission == nil
+            }
+            
+        }
         .onAppear{
             self.userFilter = self.walkManager.userFilter
             self.placeFilter = self.walkManager.placeFilter
@@ -64,7 +73,7 @@ struct MapSortBox: PageView {
     @State var userFilter:WalkManager.Filter = .all
     @State var placeFilter:WalkManager.Filter = .shop
     @State var missionFilter:WalkManager.Filter = .all
-    
+    @State var showMissionFilter:Bool = true
     private func onSort(_ type:WalkManager.SortType){
         let datas:[String] = type.filter.map{$0.getText(type: type)}
         var changeUserFilter:WalkManager.Filter? = nil

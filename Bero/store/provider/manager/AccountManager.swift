@@ -13,7 +13,7 @@ class AccountManager : PageProtocol{
         self.user =  user
     }
     
-    func respondApi(_ res:ApiResultResponds){
+    func respondApi(_ res:ApiResultResponds, appSceneObserver:AppSceneObserver?){
         switch res.type {
         case .getUser(let user, _) :
             if user.snsID == self.user.snsUser?.snsID, let data = res.data as? UserData {
@@ -47,7 +47,12 @@ class AccountManager : PageProtocol{
             }
         case .deletePet(let petId):
             self.user.deletePet(petId: petId)
-                
+        
+        case .requestFriend:
+            appSceneObserver?.event = .toast(String.alert.friendRequest)
+        case .acceptFriend:
+            appSceneObserver?.event = .toast(String.alert.friendAccept)
+             
         default : break
         }
     }

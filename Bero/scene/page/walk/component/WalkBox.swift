@@ -43,7 +43,7 @@ struct WalkBox: PageComponent{
                     defaultColor: self.isFollowMe ? Color.app.blue : Color.app.grey500)
                 { _ in
                     self.isFollowMe.toggle()
-                    self.viewModel.playEvent = .resetMap
+                    self.viewModel.playUiEvent = .resetMap
                 }
             }
             if self.isExpand {
@@ -116,6 +116,7 @@ struct WalkBox: PageComponent{
                 .padding(.top, Dimen.icon.mediumUltra + Dimen.margin.thin)
             }
         }
+        .opacity(self.isShow ? 1 : 0)
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
@@ -148,11 +149,14 @@ struct WalkBox: PageComponent{
                 self.isExpand = !isSimple
             }
         }
+        .onReceive(self.viewModel.$componentHidden){ isHidden in
+            withAnimation{ self.isShow = !isHidden }
+        }
         .onAppear(){
             self.updatedPets()
         }
     }
-    
+    @State var isShow:Bool = true
     @State var walkTime:Double = 0
     @State var walkDistence:Double = 0
     @State var playExp:Int = 0

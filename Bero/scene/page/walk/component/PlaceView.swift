@@ -33,11 +33,14 @@ struct PlaceView: PageComponent, Identifiable{
             useTracking: true
         ){
             PlaceInfo(
+                pageObservable: self.pageObservable,
                 sortIconPath: self.place.place?.icon,
                 sortTitle: self.walkManager.placeFilter.getTitle(type: .place),
                 title: self.place.name,
                 description: self.place.place?.vicinity,
-                distance: self.distance)
+                distance: self.distance,
+                goal: self.place.location
+            )
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
             HStack(spacing:Dimen.margin.micro){
                 RewardInfo(
@@ -78,7 +81,6 @@ struct PlaceView: PageComponent, Identifiable{
                 text: String.pageText.walkPlaceMarkText.replace(self.visitorNum.description),
                 isSelected: false
             ){_ in
-                
                 self.pagePresenter.openPopup(PageProvider.getPageObject(.popupPlaceVisitor).addParam(key: .data, value: self.place))
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)

@@ -57,7 +57,7 @@ extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
                 map.move(loc)
             }
         case .clearAllRoute : map.clearAllRoute()
-        case .clearAll : map.clearAll()
+        case .clearAll(let clears) : map.clearAll(clears)
         case .clear(let id) : map.clear(id: id)
         case .move(let loc, let rotate, let zoom, let angle, let duration):
             map.move(loc, rotate:rotate, zoom:zoom, angle:angle, duration:duration)
@@ -188,17 +188,23 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     fileprivate func clear(id:String){
         if let route = self.routes[id] {
             route.map = nil
+            self.routes[id] = nil
         }
         if let marker = self.markers[id] {
             marker.map = nil
+            self.markers[id] = nil
         }
     }
     
-    fileprivate func clearAll(){
-        self.routes.forEach{$0.value.map = nil}
-        self.markers.forEach{$0.value.map = nil}
-        self.markers = [:]
-        self.routes = [:]
+    fileprivate func clearAll(_ clears:[String]? = nil){
+        if let clears = clears {
+            clears.forEach{ self.clear(id: $0) }
+        } else {
+            self.routes.forEach{$0.value.map = nil}
+            self.markers.forEach{$0.value.map = nil}
+            self.markers = [:]
+            self.routes = [:]
+        }
     }
     
     

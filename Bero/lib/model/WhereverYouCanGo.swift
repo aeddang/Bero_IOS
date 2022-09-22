@@ -102,7 +102,7 @@ class IwillGo:PageProtocol{
             ComponentLog.e("parse : pageID nil error", tag: self.tag)
             return nil
         }
-        let pageIDX = Int(dictionary[IwillGo.pageIDX] as? String ?? "0") ?? 0
+        let pageIDX = Int(dictionary[IwillGo.pageIDX] as? String ?? "9999") ?? 9999
         let params = dictionary[IwillGo.params] as? [String:Any]
         let isPopup = dictionary[IwillGo.isPopup] as? String
     

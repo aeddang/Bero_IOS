@@ -27,7 +27,7 @@ enum MapUiEvent {
     case me(MapMarker , follow:CLLocation? = nil),
          addMarker(MapMarker), addMarkers([MapMarker ]),
          addRoute(MapRoute), addRoutes([MapRoute]), clearAllRoute,
-         clearAll, clear(String),
+         clearAll([String]? = nil), clear(String),
          move(CLLocation, rotate:Double? = nil, zoom:Float? = nil, angle:Double? = nil, duration:Double? = nil)
     case zip([MapUiEvent])
 }

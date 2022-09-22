@@ -34,12 +34,15 @@ struct MissionView: PageComponent, Identifiable{
             useTracking: true
         ){
             PlaceInfo(
+                pageObservable: self.pageObservable,
                 sortIconPath: self.mission.place?.icon,
                 sortTitle: self.mission.place?.name,
                 title: self.mission.title,
                 description: self.mission.place?.vicinity,
-                distance: self.distance)
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                distance: self.distance,
+                goal: self.mission.destination
+            )
+            .padding(.horizontal, Dimen.app.pageHorinzontal)
             HStack(spacing:Dimen.margin.micro){
                 RewardInfo(
                     type: .exp,
@@ -49,12 +52,14 @@ struct MissionView: PageComponent, Identifiable{
                     type: .point,
                     value: self.mission.point
                 )
+               
+                
                 FillButton(
                     type: .fill,
                     text:
                     self.isCompleted
                     ? String.button.missionComplete
-                    : self.isPlay ? String.button.stop : String.button.hitTheArea,
+                    : self.isPlay ? String.button.stop : String.button.startMission,
                     size: Dimen.button.regular,
                     color: self.isPlay ? Color.app.black : Color.app.white,
                     gradient:self.isPlay ?nil : Color.app.orangeGradient,
@@ -64,18 +69,6 @@ struct MissionView: PageComponent, Identifiable{
                         return
                     }
                     self.start()
-                }
-                if !self.isCompleted && !self.isPlay {
-                    
-                    
-                }
-                if let path = self.imaPath {
-                    ImageView(url: path,
-                              contentMode: .fill,
-                              noImg: Asset.noImg16_9)
-                    .modifier(Ratio16_9(geometry: self.geometry, horizontalEdges: Dimen.app.pageHorinzontal))
-                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                 }
                 
             }
@@ -88,6 +81,14 @@ struct MissionView: PageComponent, Identifiable{
                 self.walkManager.forceCompleteMission()
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
+            if let path = self.imaPath {
+                ImageView(url: path,
+                          contentMode: .fill,
+                          noImg: Asset.noImg16_9)
+                .modifier(Ratio16_9(geometry: self.geometry, horizontalEdges: Dimen.app.pageHorinzontal))
+                .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
+            }
         }
         .background(Color.app.white)
         .onReceive(self.walkManager.$event){ evt in
@@ -133,11 +134,26 @@ struct MissionView: PageComponent, Identifiable{
     }
     
     private func start(){
+        if self.dataProvider.user.pets.isEmpty {
+            self.appSceneObserver.sheet = .select(
+                String.alert.addDogTitle,
+                String.alert.addDogText,
+                image:Asset.image.addDog,
+                [String.button.later,String.button.ok]){ idx in
+                    if idx == 1 {
+                        self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
+                    }
+                }
+            return
+        }
+        
         if self.walkManager.status != .walking {
             self.appSceneObserver.alert = .confirm(nil, String.alert.missionStartNeedWalkConfirm){ isOk in
                 if isOk {
                     self.walkManager.startWalk()
-                    self.startMission()
+                    DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                        self.startMission()
+                    }
                 }
             }
             return
@@ -158,7 +174,7 @@ struct MissionView: PageComponent, Identifiable{
     }
     
     private func startMission(){
-        self.walkManager.startMission(self.mission, route: self.route)
+        self.walkManager.startMission(self.mission)
         self.appSceneObserver.event = .toast(String.alert.missionStart)
         self.pagePresenter.closePopup(self.pageObservable.pageObject?.id)
     }

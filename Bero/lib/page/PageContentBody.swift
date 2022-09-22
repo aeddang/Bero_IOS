@@ -58,6 +58,7 @@ struct PageContentBody: PageView  {
                 .opacity(self.dragOpacity)
                 .opacity(self.isBelow ? 1 : 0)
         }
+        .opacity(self.opacity)
         .accessibilityElement(children: self.isVoiceOver ? .contain : .ignore)
         
         

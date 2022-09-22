@@ -15,42 +15,60 @@ struct StartBox: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
+    @ObservedObject var pageObservable:PageObservable = PageObservable()
+    @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
     
+    @Binding var isFollowMe:Bool
     var body: some View {
-        ZStack(alignment: .top){
+        VStack(spacing: Dimen.margin.thin){
             HStack(spacing:0){
                 Spacer().modifier(MatchHorizontal(height: 0))
-            }
-            VStack(alignment: .leading, spacing:Dimen.margin.thin){
-                Text(self.title)
-                    .modifier(SemiBoldTextStyle(
-                        size: Font.size.medium,
-                        color: Color.app.grey500
-                    ))
-                LocationInfo()
-                FillButton(
-                    type: .fill,
-                    text: String.button.startWalking,
-                    size: Dimen.button.regular,
-                    color:  Color.app.white,
-                    gradient:Color.app.orangeGradient,
-                    isActive: true
-                ){_ in
-                    self.startWalk()
+                CircleButton(
+                    type: .icon(Asset.icon.my_location),
+                    isSelected: false,
+                    strokeWidth: Dimen.stroke.regular,
+                    defaultColor: self.isFollowMe ? Color.app.blue : Color.app.grey500)
+                { _ in
+                    self.isFollowMe.toggle()
+                    self.viewModel.playUiEvent = .resetMap
                 }
             }
+            ZStack(alignment: .top){
+                HStack(spacing:0){
+                    Spacer().modifier(MatchHorizontal(height: 0))
+                }
+                VStack(alignment: .leading, spacing:Dimen.margin.thin){
+                    Text(self.title)
+                        .modifier(SemiBoldTextStyle(
+                            size: Font.size.medium,
+                            color: Color.app.grey500
+                        ))
+                    LocationInfo()
+                    FillButton(
+                        type: .fill,
+                        text: String.button.startWalking,
+                        size: Dimen.button.regular,
+                        color:  Color.app.white,
+                        gradient:Color.app.orangeGradient,
+                        isActive: true
+                    ){_ in
+                        self.startWalk()
+                    }
+                }
+            }
+            .padding(.all, Dimen.margin.regularExtra)
+            .background(Color.app.white )
+            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
+            .overlay(
+                RoundedRectangle(cornerRadius: Dimen.radius.light)
+                    .strokeBorder(
+                        Color.app.grey100,
+                        lineWidth: Dimen.stroke.light
+                    )
+            )
+            .modifier(ShadowLight( opacity: 0.05 ))
         }
-        .padding(.all, Dimen.margin.regularExtra)
-        .background(Color.app.white )
-        .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
-        .overlay(
-            RoundedRectangle(cornerRadius: Dimen.radius.light)
-                .strokeBorder(
-                    Color.app.grey100,
-                    lineWidth: Dimen.stroke.light
-                )
-        )
-        .modifier(ShadowLight( opacity: 0.05 ))
+        .opacity(self.isShow ? 1 : 0)
         .onReceive(self.walkManager.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
@@ -59,11 +77,15 @@ struct StartBox: PageComponent{
             default: break
             }
         }
+        .onReceive(self.viewModel.$componentHidden){ isHidden in
+            withAnimation{ self.isShow = !isHidden }
+        }
         .onAppear(){
             self.checkMissionComplete()
         }
     }
     
+    @State var isShow:Bool = true
     @State var title:String = ""
     private func checkMissionComplete(){
         if WalkManager.todayWalkCount == 0 {
@@ -100,7 +122,7 @@ struct StartBox_Previews: PreviewProvider {
     static var previews: some View {
         VStack{
             StartBox(
-            
+                isFollowMe: .constant(true)
             )
         }
         .padding(.all, 10)

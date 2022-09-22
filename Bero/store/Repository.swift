@@ -220,7 +220,7 @@ class Repository:ObservableObject, PageProtocol{
         }
     }
     private func respondApi(_ res:ApiResultResponds){
-        self.accountManager.respondApi(res)
+        self.accountManager.respondApi(res, appSceneObserver: self.appSceneObserver)
         self.walkManager.respondApi(res)
         switch res.type {
         case .registPush(let token) : self.registedPushToken(token)

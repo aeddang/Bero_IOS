@@ -92,7 +92,7 @@ struct AppLayout: PageComponent{
         
         .onReceive (self.appObserver.$page) { iwg in
             if !self.isInit { return }
-            self.appObserverMove(iwg)
+            //self.appObserverMove(iwg)
         }
         .onReceive (self.appObserver.$apns) { apns in
             if apns == nil {return}
@@ -114,14 +114,22 @@ struct AppLayout: PageComponent{
             self.sceneObserver.status = status
         }
         .onAppear(){
-            self.isLoading = true
+            //self.isLoading = true
             //UITableView.appearance().separatorStyle = .none
             /*
             for family in UIFont.familyNames.sorted() {
                 let names = UIFont.fontNames(forFamilyName: family)
                 PageLog.d("Family: \(family) Font names: \(names)")
             }*/
-            
+            if let value = WhereverYouCanGo.stringfyIwillGo(page: PageProvider.getPageObject(.my)) {
+                PageLog.d(value, tag: self.tag)
+            }
+            if let value = WhereverYouCanGo.stringfyIwillGo(page: PageProvider.getPageObject(.chat)) {
+                PageLog.d(value, tag: self.tag)
+            }
+            if let value = WhereverYouCanGo.stringfyIwillGo(page: PageProvider.getPageObject(.explore)) {
+                PageLog.d(value, tag: self.tag)
+            }
         }
     }
     

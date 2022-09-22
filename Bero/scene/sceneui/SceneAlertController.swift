@@ -92,7 +92,7 @@ struct SceneAlertController: PageComponent{
             case .confirm(let title,let text, _) : self.setupConfirm(title:title, text:text)
             case .apiError(let data): self.setupApi(data:data)
             case .requestLocation: self.setupRequestLocation()
-            case .recivedApns: self.setupRecivedApns()
+            case .recivedApns: if !self.setupRecivedApns() {return}
             default: do { return }
             }
             withAnimation{
@@ -115,12 +115,13 @@ struct SceneAlertController: PageComponent{
         self.buttonColor = nil
     }
 
-    func setupRecivedApns(){
-        guard let apns = self.appObserver.apns else { return  }
-        guard let alert = apns["alert"] as? [String:String] else { return }
+    func setupRecivedApns()->Bool{
+        guard let apns = self.appObserver.apns else { return false }
+        guard let aps = apns["aps"] as? [String:Any] else { return false }
+        guard let alert = aps["alert"] as? [String:Any] else { return false }
         self.title = String.alert.apns
-        self.text = alert["title"] as String? ?? ""
-        self.subText = alert["body"] as String? ?? ""
+        self.text = alert["title"] as? String
+        self.subText = alert["body"] as? String 
         if (self.appObserver.page?.page) != nil {
             self.buttons = [
                 AlertBtnData(title: String.app.cancel, index: 0),
@@ -131,6 +132,7 @@ struct SceneAlertController: PageComponent{
                 AlertBtnData(title: String.app.confirm, index: 1)
             ]
         }
+        return true
     }
     
     func selectedRecivedApns(_ idx:Int) {

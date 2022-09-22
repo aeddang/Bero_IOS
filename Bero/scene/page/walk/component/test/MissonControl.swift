@@ -67,10 +67,10 @@ struct MissionControl : PageComponent {
                             if self.isViewRoute {
                                 self.isViewRoute = false
                                 self.route = nil
-                                self.viewModel.playEvent = .clearViewRoute
+                                self.viewModel.playUiEvent = .clearViewRoute
                                 
                             } else {
-                                self.walkManager.getRoute(mission: data)
+                                
                             }
                     }
                 } else {
@@ -107,7 +107,7 @@ struct MissionControl : PageComponent {
         }
         .onDisappear{
             if self.isViewRoute {
-                self.viewModel.playEvent = .clearViewRoute
+                self.viewModel.playUiEvent = .clearViewRoute
             }
         }
     }//body
@@ -117,7 +117,7 @@ struct MissionControl : PageComponent {
     @State var isCompleted:Bool = false
     @State var imaPath:String? = nil
     private func startMission(){
-        self.walkManager.startMission(data, route: self.route)
+        self.walkManager.startMission(data)
         self.appSceneObserver.event = .toast("미션을 시작합니다")
         //self.close()
     }

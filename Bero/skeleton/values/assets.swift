@@ -32,11 +32,9 @@ extension Asset{
         public static let my = Asset.icon.my
     }
     struct map {
-        public static let pinUser = "pin_user"
-        public static let pinUserFriend = "pin_user_friend"
-        
+         
         public static let pinMission = "pin_mission"
-        public static let pinMissionCompleted = "pin_mission_completed"
+        public static let pinMissionCompleted = "pin_mission_on"
         
         public static let pinCafe = "pin_cafe"
         public static let pinHotel = "pin_hotel"
@@ -44,17 +42,19 @@ extension Asset{
         public static let pinSalon = "pin_salon"
         public static let pinRestaurant = "pin_restaurant"
         
-        public static let pinCafeCompleted = "pin_cafe_completed"
-        public static let pinHotelCompleted = "pin_hotel_completed"
-        public static let pinHospitalCompleted = "pin_hospital_completed"
-        public static let pinSalonCompleted = "pin_salon_completed"
-        public static let pinRestaurantCompleted = "pin_restaurant_completed"
+        public static let pinCafeCompleted = "pin_cafe_on"
+        public static let pinHotelCompleted = "pin_hotel_on"
+        public static let pinHospitalCompleted = "pin_hospital_on"
+        public static let pinSalonCompleted = "pin_salon_on"
+        public static let pinRestaurantCompleted = "pin_restaurant_on"
         
         public static let myLocation = "pin_my_location"
         public static let myLocationWalk = "pin_my_location_walk"
         public static let locator = "locator"
         
     }
+    
+   
     struct icon {
         public static let calendar = "calendar"
         public static let copy = "copy"
@@ -190,5 +190,9 @@ extension Asset{
     struct ani {
         //public static let mic:[String] = (1...27).map{ "imgSearchMic" + $0.description.toFixLength(2) }
     }
-
+    struct character {
+        public static let rand:[String] = (1...5).map{ "character_" + $0.description }
+        public static let randOn:[String] = (1...5).map{ "character_" + $0.description + "_on" }
+        
+    }
 }

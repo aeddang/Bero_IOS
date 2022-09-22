@@ -12,6 +12,12 @@ extension FriendList {
     static let row:Int = SystemEnvironment.isTablet ? 6 : 3
     enum  ListType{
         case friend, request, requested
+        var title:String {
+            switch self {
+            case .friend : return String.pageTitle.friends
+            case .request, .requested : return String.pageTitle.friendRequest
+            }
+        }
         var text:String{
             switch self {
             case .friend : return "Friend"

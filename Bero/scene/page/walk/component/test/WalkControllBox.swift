@@ -68,7 +68,7 @@ struct WalkControllBox : PageComponent {
                     CircleButton(
                         type: .icon(Asset.icon.goal),
                         isSelected: self.route != nil){ _ in
-                            self.toggleRoute(mission:mission)
+                           
                     }
                 }
                 CircleButton(
@@ -76,7 +76,7 @@ struct WalkControllBox : PageComponent {
                     isSelected: self.isFollowMe)
                 { _ in
                     self.isFollowMe.toggle()
-                    self.viewModel.playEvent = .resetMap
+                    self.viewModel.playUiEvent = .resetMap
                 }
                 .padding(.trailing, Dimen.margin.regular)
                 
@@ -121,9 +121,7 @@ struct WalkControllBox : PageComponent {
         .onReceive(self.walkManager.$currentMission){ mission in
             self.mission = mission
         }
-        .onReceive(self.walkManager.$currentRoute){ route in
-            self.route = route
-        }
+        
         .onReceive(self.walkManager.$currentDistenceFromMission){ distence in
             self.distenceFromMission = distence ?? 0
         }
@@ -191,13 +189,6 @@ struct WalkControllBox : PageComponent {
         self.walkManager.resetMapStatus(loc)
     }
     
-    private func toggleRoute(mission:Mission){
-        if self.route != nil {
-            self.walkManager.clearRoute()
-        } else {
-            self.walkManager.getRoute(mission: mission)
-        }
-    }
 }
 
 #if DEBUG

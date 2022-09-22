@@ -6,16 +6,18 @@ struct FriendSection: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     var user:User
     var listSize:CGFloat = 300
+    var type:FriendList.ListType = .friend
     var pageSize:Int = SystemEnvironment.isTablet ? 5 : 3
     var rowSize:Int = SystemEnvironment.isTablet ? 5 : 3
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.friends, buttons:[.viewMore]){ type in
+            TitleTab(type:.section, title: self.type.title, buttons:[.viewMore]){ type in
                 switch type {
                 case .viewMore :
                     self.pagePresenter.openPopup(
                         PageProvider.getPageObject(.friend)
                             .addParam(key: .data, value: self.user)
+                            .addParam(key: .type, value: self.type)
                     )
                 default : break
                 }
@@ -43,15 +45,27 @@ struct FriendSection: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
+            if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getFriend(let page , _):
-                if page == 0 {
+            case .getFriend(let page ,_):
+                if page == 0 && self.type == .friend{
+                    self.reset()
+                    self.loaded(res)
+                }
+            case .getRequestFriend(let page ,_):
+                if page == 0 && self.type == .request{
+                    self.reset()
+                    self.loaded(res)
+                }
+            case .getRequestedFriend(let page ,_):
+                if page == 0 && self.type == .requested{
                     self.reset()
                     self.loaded(res)
                 }
             default : break
             }
         }
+        
         .onAppear(){
             self.updateFriend()
         }
@@ -65,9 +79,14 @@ struct FriendSection: PageComponent{
         let r:CGFloat = CGFloat(self.rowSize)
         let w:CGFloat = (self.listSize - (Dimen.margin.regularExtra * (r-1))) / r
         self.imageSize = w
-        self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getFriend(page: 0, size: self.pageSize)))
-        
+        switch self.type {
+        case .friend :
+            self.dataProvider.requestData(q: .init(id: self.tag, type:.getFriend(page: 0, size: self.pageSize)))
+        case .requested :
+            self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0, size: self.pageSize)))
+        case .request :
+            self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestFriend(page: 0, size: self.pageSize)))
+        }
     }
     private func reset(){
         self.friends = []
@@ -80,7 +99,7 @@ struct FriendSection: PageComponent{
         let start = self.friends.count
         let end = min(self.pageSize, datas.count)
         added = zip(start...end, datas).map { idx, d in
-            return FriendListItemData().setData(d,  idx: idx, type: .friend)
+            return FriendListItemData().setData(d,  idx: idx, type: self.type.status)
         }
         self.friends.append(contentsOf: added)
         self.setupFriendDataSet(added: added)

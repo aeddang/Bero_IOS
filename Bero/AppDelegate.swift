@@ -39,13 +39,13 @@ class AppObserver: ObservableObject, PageProtocol {
         }
         
         if let aps = userInfo[apnsKey] as? [String: Any] {
-            PageLog.d("aps: \(aps)" , tag: self.tag)
+            PageLog.d("aps: \(aps.debugDescription)" , tag: self.tag)
             self.apns = userInfo
         }
         
-        if let pageJson = userInfo[pageKey] as? [String: Any] {
-            PageLog.d("pageJson : \(pageJson)" , tag: self.tag)
-            self.page = WhereverYouCanGo.parseIwillGo(json: pageJson)
+        if let jsonString = userInfo[pageKey] as? String {
+            PageLog.d("pageJson : \(jsonString)" , tag: self.tag)
+            self.page = WhereverYouCanGo.parseIwillGo(jsonString: jsonString)
         }
     }
     

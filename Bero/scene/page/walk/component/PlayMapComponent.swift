@@ -19,10 +19,10 @@ extension PlayMap {
         line.strokeWidth = Dimen.line.medium
         line.title = "Route"
         line.path = GMSPath.init(fromEncodedPath: polyLine)
+        line.zIndex = 888
+    
         return line
     }
-    
-    
     
     func getUserMarker(_ data:Mission) -> GMSMarker{
         guard let loc = data.destination else { return GMSMarker() }
@@ -37,18 +37,22 @@ extension PlayMap {
          let image = UIImageView(image: icon)
          image.tintColor = Color.brand.thirdly.uiColor()
         */
+        
+        
         marker.userData = data
         marker.title = data.user?.currentProfile.nickName ?? "User"
         var iconPath = ""
+        let characterIdx = data.user?.characterIdx ?? 0
         switch data.user?.currentProfile.status {
-        case .friend : iconPath = Asset.map.pinUserFriend
-        default : iconPath = Asset.map.pinUser
+        case .friend : iconPath = Asset.character.randOn[characterIdx]
+        default : iconPath = Asset.character.rand[characterIdx]
         }
         let icon = UIImage(named: iconPath)
         let image = UIImageView(image: icon)
         marker.iconView = image
-        marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)
-        marker.zIndex = 111
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
+        marker.zIndex = 333
         if let pets = data.user?.pets {
             let petNames = pets.reduce("", {$0+", "+($1.name ?? "")}).dropFirst()
             marker.snippet = "with " + petNames
@@ -68,9 +72,10 @@ extension PlayMap {
         let icon = UIImage(named: data.isCompleted ? Asset.map.pinMissionCompleted : Asset.map.pinMission)
         let image = UIImageView(image: icon)
         marker.iconView = image
-        marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)
+        marker.groundAnchor = CGPoint(x: 0.52, y: 0.8)
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.snippet = data.description
-        marker.zIndex = 222
+        marker.zIndex = 111
         return marker
     }
     
@@ -89,9 +94,10 @@ extension PlayMap {
         
         let image = UIImageView(image: icon)
         marker.iconView = image
-        marker.groundAnchor = CGPoint(x: 0.5, y: 0.1)
+        marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.snippet = String.pageText.walkPlaceMarkText.replace(data.visitors.count.description)
-        marker.zIndex = 333
+        marker.zIndex = 222
         return marker
     }
    

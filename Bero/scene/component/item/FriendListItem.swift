@@ -96,7 +96,7 @@ struct FriendListItem: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
+
             switch res.type {
             case .requestFriend(let userId) :
                 if self.data.userId == userId {

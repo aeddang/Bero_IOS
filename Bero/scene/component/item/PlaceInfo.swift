@@ -8,13 +8,17 @@
 
 import Foundation
 import SwiftUI
-
+import CoreLocation
+import GooglePlaces
 struct PlaceInfo: PageComponent{
+    @EnvironmentObject var walkManager:WalkManager
+    var pageObservable:PageObservable = PageObservable()
     var sortIconPath:String? = nil
     var sortTitle:String? = nil
     var title:String? = nil
     var description:String? = nil
     var distance:Double? = nil
+    var goal:CLLocation? = nil
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             Spacer().modifier(MatchHorizontal(height: 0))
@@ -66,8 +70,28 @@ struct PlaceInfo: PageComponent{
                             .frame(width: Dimen.icon.thin, height: Dimen.icon.thin)
                         Text(WalkManager.viewDistance(distance))
                             .modifier(RegularTextStyle(size:Font.size.thin, color: Color.app.grey300))
+                        if let goal = self.goal {
+                            ImageButton(
+                                defaultImage: Asset.icon.goal,
+                                defaultColor: Color.brand.secondary
+                            ){ _ in
+                                withAnimation{
+                                    //self.pageObservable.pageOpacity = 0.5
+                                    self.pageObservable.pagePosition = .init(x: 0, y: 200)
+                                }
+                                self.walkManager.getRoute(goal: goal)
+                                DispatchQueue.main.asyncAfter(deadline: .now()+PlayMap.routeViewDuration){
+                                    withAnimation{
+                                        //self.pageObservable.pageOpacity = 1
+                                        self.pageObservable.pagePosition = .zero
+                                    }
+                                }
+                            }
+                        }
                     }
                     .padding(.top, Dimen.margin.tiny)
+                    
+                    
                 }
             }
         }

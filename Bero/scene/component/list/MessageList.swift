@@ -16,6 +16,7 @@ struct MessageList: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     @Binding var isEdit:Bool
+    var marginTop:CGFloat = Dimen.margin.regular
     @State var isCheckAll:Bool = false
     var body: some View {
         VStack(spacing:0){
@@ -29,7 +30,8 @@ struct MessageList: PageComponent{
                     viewModel: self.infinityScrollModel,
                     axes: .vertical,
                     showIndicators : false,
-                    marginVertical: Dimen.margin.medium,
+                    marginTop: marginTop,
+                    marginBottom: Dimen.margin.medium,
                     marginHorizontal: Dimen.app.pageHorinzontal,
                     spacing:Dimen.margin.tiny,
                     isRecycle: true,
