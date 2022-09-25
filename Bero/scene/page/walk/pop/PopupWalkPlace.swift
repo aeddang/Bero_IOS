@@ -31,12 +31,8 @@ struct PopupWalkPlace: PageView {
                 axis:.vertical
             ) {
                 ZStack(alignment: .bottom){
-                    Button(action: {
-                        self.pagePresenter.closePopup(self.pageObject?.id)
-                    }) {
-                       Spacer().modifier(MatchParent())
-                           .background(Color.transparent.clearUi)
-                    }
+                    Spacer().modifier(MatchParent())
+                        .background(Color.transparent.clear)
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
                         CPPageViewPager(
@@ -47,16 +43,27 @@ struct PopupWalkPlace: PageView {
                             self.move(idx: idx)
                             
                         }
-                        ImageButton( defaultImage: Asset.icon.close){ _ in
+                        ImageButton( defaultImage: Asset.icon.close, padding: Dimen.margin.tiny){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
-                        .padding(.all, Dimen.margin.regular)
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
                     .modifier(MatchHorizontal(height: 340))
                     .modifier(BottomFunctionTab(margin: 0))
                     .modifier(PageDragingSecondPriority(geometry: geometry, pageDragingModel: self.pageDragingModel))
                     
+                }
+            }
+            .onReceive(self.pagePresenter.$event){ evt in
+                guard let evt = evt else {return}
+                switch evt.type {
+                case .pageChange :
+                    if evt.id == PageID.popupWalkPlace , let place = evt.data as? Place {
+                        if let idx = self.walkManager.places.firstIndex(where: {place.placeId == $0.placeId}) {
+                            self.viewPagerModel.request = .move(idx)
+                        }
+                    }
+                default : break
                 }
             }
             .onAppear{

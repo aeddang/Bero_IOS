@@ -87,6 +87,7 @@ struct HorizontalProfile: PageComponent{
     var isSelected:Bool = false
     var isEmpty:Bool = false
     var useBg:Bool = true
+    var bgColor:Color = Color.app.white
     var action: ((FuncType?) -> Void)? = nil
     
     var body: some View {
@@ -272,7 +273,10 @@ struct HorizontalProfile: PageComponent{
             }
         }
         .padding(.all, self.useBg ? self.type.padding : 0)
-        .background(self.isSelected && !self.isEmpty ? self.color : Color.app.white )
+        .background(self.useBg
+                    ? self.isSelected && !self.isEmpty ? self.color : self.bgColor
+                    : Color.transparent.clearUi
+        )
         .clipShape(RoundedRectangle(cornerRadius: self.useBg ? self.type.radius : 0))
         .overlay(
             RoundedRectangle(cornerRadius: self.type.radius)

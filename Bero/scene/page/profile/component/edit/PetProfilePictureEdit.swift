@@ -31,8 +31,16 @@ struct PetProfilePictureEdit: PageComponent{
                     if self.imagePath == nil && self.image == nil {
                         self.onPick()
                     } else {
-                        self.onEdit(img: nil)
+                        self.appSceneObserver.sheet = .select(
+                            String.alert.profileDeleteConfirm,
+                            String.alert.profileDeleteConfirmText,
+                            [String.app.cancel,String.button.delete]){ idx in
+                                if idx == 1 {
+                                    self.onEdit(img: nil)
+                                }
+                        }
                     }
+                    
                 }
             )
         }

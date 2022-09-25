@@ -27,7 +27,7 @@ struct AlbumSection: PageComponent{
                     HStack(spacing: Dimen.margin.regularExtra){
                         ForEach(dataSet.datas) { data in
                             AlbumListItem(
-                                data: data, user:self.user, imgSize: self.albumSize
+                                data: data, user:self.user, imgSize: self.albumSize, isEdit: .constant(false)
                             )
                         }
                         if !dataSet.isFull , let count = self.rowSize-dataSet.datas.count {

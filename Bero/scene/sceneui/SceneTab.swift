@@ -25,7 +25,7 @@ struct SceneTab: PageComponent{
     @State var safeAreaTop:CGFloat = 0
     @State var safeAreaBottom:CGFloat = 0
     @State var useBottom:Bool = false
-
+    @State var isActiveChat:Bool = false
     @State var toastMsg:String = ""
     @State var isToastShowing:Bool = false
     
@@ -50,7 +50,8 @@ struct SceneTab: PageComponent{
                 }
                 SimpleWalkBox()
                     .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
-                    .padding(.bottom, Dimen.margin.thin)
+                    .padding(.bottom, Dimen.margin.thin
+                             + (self.isActiveChat ? (Dimen.app.chatBox + self.sceneObserver.safeAreaBottom) : 0))
                 BottomTab()
                     .padding(.bottom, self.positionBottom)
                     .opacity(self.useBottom ? 1 : 0)
@@ -98,7 +99,7 @@ struct SceneTab: PageComponent{
                     }
                 }
             }
-            ChatBox()
+            ChatBox(isActive :self.$isActiveChat)
             Spacer().modifier(MatchParent())
                 .check(isShowing: self.$isCheckShowing , text: self.checkMsg,
                        isAuto: self.isAutoCheck, action: self.checked)

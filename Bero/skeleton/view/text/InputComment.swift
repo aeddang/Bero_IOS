@@ -3,6 +3,7 @@ import SwiftUI
 
 
 struct InputComment: PageView {
+    @EnvironmentObject var sceneObserver:PageSceneObserver
     var title:String? = nil
     @Binding var input:String
     var placeHolder:String = ""
@@ -12,27 +13,56 @@ struct InputComment: PageView {
     var onChange:((String) -> Void)? = nil
     var onAction:(() -> Void)? = nil
     
-    @State private var isInputLimited:Bool = false
     var body: some View {
+       
         HStack(alignment: .center, spacing:Dimen.margin.thin){
-            HStack(spacing:Dimen.margin.micro){
-                FocusableTextField(
+            HStack(alignment: .center, spacing:Dimen.margin.micro){
+                /*
+                 ZStack(alignment: .trailing){
+                 FocusableTextField(
+                 text:self.$input,
+                 keyboardType: .default,
+                 returnVal: .done,
+                 placeholder: self.placeHolder,
+                 textAlignment: .left,
+                 maxLength: 50,
+                 textModifier:self.textModifier,
+                 isfocus: self.isFocus,
+                 inputChanged: self.onChange,
+                 inputCopmpleted: { _ in
+                 self.onAction?()
+                 }
+                 )
+                 }
+                 .modifier(MatchParent())
+                 .clipped()
+                 .onTapGesture {
+                 self.onFocus?()
+                 }
+                 */
+                FocusableTextView(
                     text:self.$input,
-                    keyboardType: .default,
-                    returnVal: .done,
                     placeholder: self.placeHolder,
-                    textAlignment: .left,
-                    maxLength: 30,
-                    textModifier:self.textModifier,
                     isfocus: self.isFocus,
-                    inputChanged: self.onChange,
+                    keyboardType: .default,
+                    returnKeyType: .default,
+                    textAlignment: .left,
+                    textModifier:self.textModifier,
+                    limitedLine: self.limitedLine,
+                    limitedTextLength: 100,
+                    inputChanged: { text, _ in
+                        self.onResize()
+                        self.onChange?(text)
+                    },
                     inputCopmpleted: { _ in
                         self.onAction?()
                     }
                 )
+                .background(Color.transparent.clearUi)
                 .onTapGesture {
                     self.onFocus?()
                 }
+                
                 if !self.input.isEmpty {
                     Button(action: {
                         self.input = ""
@@ -44,6 +74,7 @@ struct InputComment: PageView {
                             .frame(width: Dimen.icon.light,
                                    height: Dimen.icon.light)
                     }
+                    .fixedSize()
                 }
                 Button(action: {
                     self.onAction?()
@@ -56,18 +87,41 @@ struct InputComment: PageView {
                         .frame(width: Dimen.icon.light,
                                height: Dimen.icon.light)
                 }
+                .fixedSize()
             }
-            .padding(.horizontal, Dimen.margin.tiny)
-            .modifier(MatchHorizontal(height: Dimen.tab.medium))
+            .padding(.all, Dimen.margin.tiny)
+            .modifier(MatchParent())
             .background(Color.app.grey50)
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.heavy))
             .overlay(
                 RoundedRectangle(
                     cornerRadius: Dimen.radius.heavy, style: .circular)
-                    .stroke( Color.app.grey200 , lineWidth: Dimen.stroke.light )
+                .stroke( Color.app.grey200 , lineWidth: Dimen.stroke.light )
             )
+            .padding(.vertical, Dimen.margin.tiny)
+            .modifier(MatchHorizontal(height:max( Dimen.app.chatBox, self.height) ))
+        }
+        .onReceive( [self.input].publisher ) { input in
+            if !self.input.isEmpty {return}
+            if self.height == 0  { return }
+            DispatchQueue.main.async {
+                self.height = 0
+            }
         }
         
+    }
+    @State var limitedLine:Int = 0
+    @State var isInputLimited:Bool = false
+    @State var height:CGFloat = 0
+    private func onResize(){
+        let w = self.sceneObserver.screenSize.width
+            - (Dimen.icon.light * 2) - (Dimen.margin.micro * 2) - (Dimen.margin.tiny * 2) - (Dimen.app.pageHorinzontal * 2)
+        let h = self.textModifier.getTextLineHeight()
+        let textH = self.textModifier.getTextHeight(self.input, screenWidth: w)
+        let line = textH / h
+        DataLog.d("line " + line.description)
+        self.limitedLine = Int(line)
+        self.height = textH + (Dimen.margin.tiny * 2) + (Dimen.margin.tiny * 2)
     }
     
 }

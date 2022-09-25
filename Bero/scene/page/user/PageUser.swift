@@ -40,14 +40,15 @@ struct PageUser: PageView {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
-                        useBack:true
-                    ){ type in
-                        switch type {
-                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
-                        }
-                    }
+                        useBack:true,
+                        action: { type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
+                        })
                     if let user = self.user {
+                        /*
                         ZStack{
                             UserProfileTopInfo(profile: user.currentProfile)
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
@@ -57,11 +58,7 @@ struct PageUser: PageView {
                         .frame(height: self.topHeight)
                         .padding(.top, Dimen.margin.medium * (self.topHeight/self.originTopHeight))
                         .opacity(self.topHeight/self.originTopHeight)
-                        if !self.dataProvider.user.isSameUser(user) {
-                            FriendFunctionBox(user: user)
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .padding(.top, Dimen.margin.regular)
-                        }
+                        */
                         InfinityScrollView(
                             viewModel: self.infinityScrollModel,
                             axes: .vertical,
@@ -72,6 +69,17 @@ struct PageUser: PageView {
                             isRecycle: false,
                             useTracking: true
                         ){
+                            
+                            UserProfileTopInfo(profile: user.currentProfile)
+                                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                               // .frame(height: self.originTopHeight)
+                            
+                            if !self.dataProvider.user.isSameUser(user) {
+                                FriendFunctionBox(user: user)
+                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                    .padding(.top, Dimen.margin.regular)
+                            }
+                            
                             UsersDogSection( user:user )
                             .padding(.top, Dimen.margin.regular)
                             
@@ -107,9 +115,11 @@ struct PageUser: PageView {
                 
             }//draging
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
+                /*
                 if SystemEnvironment.isTablet {return}
                 if scrollPos > 0 {return}
                 self.topHeight = max(self.originTopHeight + scrollPos, 0)
+                */
             }
             .onReceive(self.dataProvider.$result){res in
                 guard let res = res else { return }
@@ -137,6 +147,10 @@ struct PageUser: PageView {
             }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
+                if let data = obj.getParamValue(key: .subData) as? ChatRoomListItemData{
+                    self.fromChatRoom = true
+                    self.roomData = data
+                }
                 if let user = obj.getParamValue(key: .data) as? User{
                     self.user = user
                     self.userId = user.snsUser?.snsID
@@ -153,12 +167,14 @@ struct PageUser: PageView {
             }
         }//GeometryReader
     }//body
+    @State var fromChatRoom:Bool = false
     @State var userId:String? = nil
     @State var user:User? = nil
     @State var menuIdx:Int = 0
     @State var topHeight:CGFloat = Self.userProfileHeight
     @State var originTopHeight:CGFloat = Self.userProfileHeight
-
+    @State var roomData:ChatRoomListItemData? = nil
+    
     private func setupTopHeight(geometry:GeometryProxy){
         guard let text = self.user?.currentProfile.introduction else {
             self.originTopHeight = Self.userProfileHeight

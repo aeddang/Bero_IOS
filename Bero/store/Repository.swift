@@ -224,7 +224,7 @@ class Repository:ObservableObject, PageProtocol{
         self.walkManager.respondApi(res)
         switch res.type {
         case .registPush(let token) : self.registedPushToken(token)
-        case .getChats(let page, _) : if page == 0 { self.onMassageUpdated(res) }
+        case .getChatRooms(let page, _) : if page == 0 { self.onMassageUpdated(res) }
         default : break
         }
         if let coreDatakey = res.type.coreDataKey(){
@@ -292,7 +292,7 @@ class Repository:ObservableObject, PageProtocol{
         if let user = self.dataProvider.user.snsUser {
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false), isOptional: true))
-            self.dataProvider.requestData(q: .init(id: self.tag, type: .getChats(page: 0), isOptional: true))
+            self.dataProvider.requestData(q: .init(id: self.tag, type: .getChatRooms(page: 0), isOptional: true))
         }
         self.retryRegisterPushToken()
         

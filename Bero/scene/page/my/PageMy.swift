@@ -51,7 +51,7 @@ struct PageMy: PageView {
                         axes: .vertical,
                         showIndicators : false,
                         marginTop: Dimen.margin.medium,
-                        marginBottom: Dimen.app.bottom + Dimen.margin.medium,
+                        marginBottom: Dimen.app.bottom + Dimen.margin.mediumUltra,
                         marginHorizontal: 0,
                         spacing:0,
                         isRecycle: false,
@@ -104,6 +104,7 @@ struct PageMy: PageView {
                         MyHistorySection()
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                             .padding(.top, Dimen.margin.mediumUltra)
+                       
                             
                     }
                 }

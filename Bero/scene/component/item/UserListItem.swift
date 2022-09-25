@@ -60,7 +60,7 @@ struct UserListItem: PageComponent{
                 WalkListDetailItem(data: walkData, imgSize: self.imgSize)
             }
             if let albumData = self.data.albumData{
-                AlbumListDetailItem(data: albumData, imgSize: self.imgSize)
+                AlbumListDetailItem(data: albumData, imgSize: self.imgSize, isEdit: .constant(false))
             }
         }
         

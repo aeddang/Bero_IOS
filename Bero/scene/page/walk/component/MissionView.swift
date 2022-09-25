@@ -73,14 +73,16 @@ struct MissionView: PageComponent, Identifiable{
                 
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
-            FillButton(
-                type: .fill,
-                text:"완료 테스트용",
-                size: Dimen.button.regular
-            ){ _ in
-                self.walkManager.forceCompleteMission()
+            if self.isPlay {
+                FillButton(
+                    type: .fill,
+                    text:"완료 테스트용",
+                    size: Dimen.button.regular
+                ){ _ in
+                    self.walkManager.forceCompleteMission()
+                }
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
             }
-            .padding(.horizontal, Dimen.app.pageHorinzontal)
             if let path = self.imaPath {
                 ImageView(url: path,
                           contentMode: .fill,
@@ -176,7 +178,7 @@ struct MissionView: PageComponent, Identifiable{
     private func startMission(){
         self.walkManager.startMission(self.mission)
         self.appSceneObserver.event = .toast(String.alert.missionStart)
-        self.pagePresenter.closePopup(self.pageObservable.pageObject?.id)
+       // self.pagePresenter.closePopup(self.pageObservable.pageObject?.id)
     }
 }
 

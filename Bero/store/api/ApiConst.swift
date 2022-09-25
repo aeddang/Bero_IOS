@@ -82,11 +82,13 @@ enum ApiType{
     
     case getRewardHistory(userId:String, page:Int? = nil, size:Int? = nil)
     
-    case getChats (page:Int? = nil, size:Int? = nil),
-         readChat(chatId:Int),
+    case getChats (userId:String, page:Int? = nil, size:Int? = nil),
          deleteChat(chatId:Int),
          deleteAllChat(chatIds:String),
-         sendChat(userId:String, contents:String)
+         sendChat(userId:String, contents:String),
+         getChatRooms (page:Int? = nil, size:Int? = nil),
+         readChatRoom(roomId:Int),
+         deleteChatRoom(roomId:Int)
     
     func coreDataKey() -> String? {
         switch self {

@@ -32,6 +32,7 @@ extension AlbumList {
 struct AlbumList: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     var type:ListType = .normal
@@ -39,6 +40,9 @@ struct AlbumList: PageComponent{
     var profile:PetProfile? = nil
     var listSize:CGFloat = 300
     var marginBottom:CGFloat = Dimen.margin.medium
+    @Binding var isEdit:Bool
+    @State var isCheckAll:Bool = false
+   
     var body: some View {
         VStack(spacing:0){
             if self.isEmpty {
@@ -63,7 +67,7 @@ struct AlbumList: PageComponent{
                         ForEach(self.albumDataSets) { dataSet in
                             HStack(spacing: Dimen.margin.regularExtra){
                                 ForEach(dataSet.datas) { data in
-                                    AlbumListItem(data: data, user: self.user, imgSize: self.albumSize)
+                                    AlbumListItem(data: data, user: self.user, imgSize: self.albumSize, isEdit: self.$isEdit)
                                 }
                                 if !dataSet.isFull {
                                     Spacer().frame(width: self.albumSize.width, height: self.albumSize.height)
@@ -77,7 +81,7 @@ struct AlbumList: PageComponent{
                         }
                     case .detail :
                         ForEach(self.albums) { data in
-                            AlbumListDetailItem(data: data, imgSize: self.albumSize)
+                            AlbumListDetailItem(data: data, imgSize: self.albumSize, isEdit: self.$isEdit)
                             .onAppear{
                                 if data.index == (self.albums.count-1) {
                                     self.infinityScrollModel.event = .bottom
@@ -87,6 +91,31 @@ struct AlbumList: PageComponent{
                     }
                     
                 }
+            }
+            if self.isEdit {
+                HStack(spacing:Dimen.margin.micro){
+                    FillButton(
+                        type: .fill,
+                        text: String.button.checkAll,
+                        color: Color.app.black,
+                        isActive: self.isCheckAll
+                    ){_ in
+                        withAnimation{
+                            self.isCheckAll.toggle()
+                        }
+                        self.albums.forEach{$0.isDelete = self.isCheckAll}
+                    }
+                    FillButton(
+                        type: .fill,
+                        text: String.button.delete,
+                        color: Color.brand.primary,
+                        isActive: true
+                    ){_ in
+                        self.deleteAlbum()
+                    }
+                }
+                .padding(.vertical, Dimen.margin.thin)
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
             }
         }
         .onReceive(self.infinityScrollModel.$event){ evt in
@@ -115,6 +144,9 @@ struct AlbumList: PageComponent{
                     self.loaded(res)
                     self.pageObservable.isInit = true
                 }
+            case .deleteAlbumPictures :
+                self.resetScroll()
+                self.loadAlbum()
             default : break
             }
         }
@@ -150,6 +182,7 @@ struct AlbumList: PageComponent{
     
     private func resetScroll(){
         withAnimation{ self.isEmpty = false }
+        self.isCheckAll = false
         self.albums = []
         self.albumDataSets = []
         self.infinityScrollModel.reload()
@@ -180,7 +213,12 @@ struct AlbumList: PageComponent{
         self.albums.append(contentsOf: added)
         self.setupAlbumDataSet(added: added)
         if self.albums.isEmpty {
-            withAnimation{ self.isEmpty = true }
+            withAnimation{
+                self.isEmpty = true
+                self.isEdit = false
+                
+            }
+            
         }
         self.infinityScrollModel.onComplete(itemCount: added.count)
     }
@@ -208,6 +246,19 @@ struct AlbumList: PageComponent{
             )
         }
         self.albumDataSets.append(contentsOf: rows)
+    }
+    
+    private func deleteAlbum(){
+        let selects = self.albums.filter{$0.isDelete}
+        if selects.isEmpty {
+            self.appSceneObserver.event = .toast(String.alert.noItemsSelected)
+            return
+        }
+        let del = selects.reduce("", {$0 + "," + $1.pictureId.description}).dropFirst()
+        self.dataProvider.requestData(q: .init(id: self.tag, type:
+                .deleteAlbumPictures(ids: String(del))
+        ))
+        
     }
 }
 

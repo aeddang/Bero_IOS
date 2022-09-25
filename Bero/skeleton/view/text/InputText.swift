@@ -210,7 +210,7 @@ struct InputText_Previews: PreviewProvider {
         Form{
             InputText(
                 title: "title",
-                input: .constant("ATtestsdssdsdsddsdsdsdssdsdㅊㅇㅊㅇㅊㅇㅊㅇㅊㅇㅇㅊㅇㅊㅇㅊㅇd"),
+                input: .constant("ATtestsdssdsdsd"),
                 tip: "tip",
                 info: "info",
                 isFocus: true,

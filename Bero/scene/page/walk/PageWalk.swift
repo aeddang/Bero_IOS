@@ -39,6 +39,11 @@ struct PageWalk: PageView {
                     bottomMargin: self.appSceneObserver.safeBottomHeight
                 )
                 .modifier(MatchParent())
+                PlayEffect(
+                    pageObservable: self.pageObservable,
+                    viewModel: self.mapModel
+                )
+                .modifier(MatchParent())
                 VStack(alignment: .trailing, spacing: Dimen.margin.thin){
                     MapSortBox(
                         pageObservable:self.pageObservable,

@@ -43,12 +43,12 @@ struct FocusableTextField: UIViewRepresentable{
         textField.placeholder = self.placeholder
         textField.autocorrectionType = .no
         //textField.clearButtonMode = .whileEditing
-        //textField.adjustsFontSizeToFitWidth = true
+        textField.adjustsFontSizeToFitWidth = true
         textField.textAlignment = self.textAlignment
         let color = textModifier.color == Color.app.white ? UIColor.white : textModifier.color.uiColor()
         textField.textColor = color
         textField.isSecureTextEntry = self.isSecureTextEntry
-//        textField.autoresizingMask = .flexibleWidth
+        textField.autoresizingMask = .flexibleWidth
         textField.defaultTextAttributes.updateValue(self.kern, forKey: .kern)
         textField.font = font
         let fontPlaceholder =  UIFont(name: self.placeholderModifier?.family ?? self.textModifier.family ,

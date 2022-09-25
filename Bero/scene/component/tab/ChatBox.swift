@@ -17,17 +17,20 @@ struct ChatBox: PageComponent{
     @EnvironmentObject var sceneObserver:PageSceneObserver
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var dataProvider:DataProvider
+    @Binding var isActive:Bool
     @State var input = ""
     @State var isFocus:Bool = false
+    @State var isShow:Bool = false
     @State var paddingBottom:CGFloat = 0
     @State var sendUser:String = ""
     var body: some View {
-        VStack(spacing:0){
-            Spacer().modifier(MatchParent()).background(Color.transparent.clearUi)
+        ZStack(alignment: .bottom){
+            Spacer().modifier(MatchParent())
+                .background(self.isFocus ? Color.transparent.clearUi : Color.transparent.clear)
                 .onTapGesture {
-                    withAnimation{self.isFocus = false}
-                    AppUtil.hideKeyboard()
+                    self.sendMessageCompleted()
                 }
+            
             ZStack(alignment: .top){
                 InputComment(
                     input: self.$input,
@@ -41,11 +44,10 @@ struct ChatBox: PageComponent{
                 )
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
-            .modifier(MatchHorizontal(height: 60))
             .background(Color.app.white)
         }
         .padding(.bottom, self.paddingBottom)
-        .opacity(self.isFocus ? 1 : 0)
+        .opacity(self.isShow ? 1 : 0)
         .onReceive (self.sceneObserver.$safeAreaBottom) { bottom in
             withAnimation{
                 self.paddingBottom = bottom
@@ -54,9 +56,27 @@ struct ChatBox: PageComponent{
         .onReceive (self.appSceneObserver.$event) { evt in
             guard let evt = evt else {return}
             switch evt {
+            case .setupChat(let userId, let isFocus, let isActive) :
+                self.input = ""
+                withAnimation{self.isActive = isActive}
+
+                if isActive {
+                    self.sendUser = userId
+                    self.isFocus  = isFocus
+                } else {
+                    self.sendUser = ""
+                    self.isFocus = false
+                    AppUtil.hideKeyboard()
+                }
+                withAnimation{self.isShow = isActive}
+                
             case .sendChat(let userId) :
+                self.input = ""
                 self.sendUser = userId
                 self.isFocus  = true
+                withAnimation{self.isActive = false}
+                withAnimation{self.isShow = true}
+                
             default : break
             }
         }
@@ -65,8 +85,8 @@ struct ChatBox: PageComponent{
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
             case .sendChat:
-                withAnimation{self.isFocus = false}
-                AppUtil.hideKeyboard()
+                self.input = ""
+                self.sendMessageCompleted()
             default : break
             }
         }
@@ -77,6 +97,14 @@ struct ChatBox: PageComponent{
         self.dataProvider.requestData(q: .init(id: self.tag, type: .sendChat(userId: self.sendUser, contents: self.input)))
     }
     
+    private func sendMessageCompleted(){
+        
+        self.isFocus = false
+        AppUtil.hideKeyboard()
+        if !self.isActive {
+            withAnimation{self.isShow = false}
+        }
+    }
 }
 
 

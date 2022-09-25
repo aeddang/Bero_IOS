@@ -47,25 +47,23 @@ struct PageChat: PageView {
                         default : break
                         }
                     }
-                    FriendSection(
+                    ChatRoomList(
+                        infinityScrollModel: self.infinityScrollModel,
+                        isEdit: self.$isEdit)
+                    
+                    Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+            
+                    let extractedExpr: FriendSection = FriendSection(
                         user: self.dataProvider.user,
                         listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2),
                         type: .requested,
                         pageSize: 4,
                         rowSize:4
                     )
+                    extractedExpr
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    .padding(.top, Dimen.margin.mediumUltra)
-                    
-                    TitleTab(
-                        infinityScrollModel: self.infinityScrollModel,
-                        type:.section, title: String.pageTitle.chatRoom
-                    )
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    .padding(.top, Dimen.margin.mediumUltra)
-                    MessageList(
-                        infinityScrollModel: self.infinityScrollModel,
-                        isEdit: self.$isEdit)
+                    .padding(.top, Dimen.margin.regular)
+                    .padding(.bottom, Dimen.app.bottom + Dimen.margin.regular)
                 }
                 .modifier(PageVertical())
                 .modifier(MatchParent())

@@ -107,9 +107,6 @@ struct PageMissionCompleted: PageView {
             self.walkManager.endMission(missionId: self.resultMissionId)
             self.dataProvider.user.missionCompleted(mission)
         }
-        if self.resultMissionId != nil {
-            self.appSceneObserver.event = .toast(String.pageText.missionCompletedSaved)
-        }
         self.pagePresenter.closePopup(self.pageObject?.id)
     }
 

@@ -42,10 +42,14 @@ struct PageAlbum: PageView {
                         type:.section,
                         title:String.button.album,
                         alignment: .center,
-                        useBack:true
-                    ){ type in
+                        useBack:true,
+                        buttons: self.user?.isMe == true ? [.setting] : []){ type in
                         switch type {
                         case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                        case .setting :
+                            withAnimation{
+                                self.isEdit.toggle()
+                            }
                         default : break
                         }
                     }
@@ -56,7 +60,8 @@ struct PageAlbum: PageView {
                             infinityScrollModel: self.infinityScrollModel,
                             type:.detail,
                             user:user,
-                            listSize: geometry.size.width
+                            listSize: geometry.size.width,
+                            isEdit: self.$isEdit
                         )
                     }
                 }
@@ -76,6 +81,7 @@ struct PageAlbum: PageView {
         }//GeometryReader
     }//body
     @State var user:User? = nil
+    @State var isEdit:Bool = false
 }
 
 

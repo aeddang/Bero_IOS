@@ -109,6 +109,13 @@ extension String {
         public static var friendRequest = "Friend request has been completed."
         public static var friendAccept = "Friend has been added."
         public static var friendDeleteConfirm = "Do you want to remove a friend?"
+        
+        public static var profileDeleteConfirm = "Do you want to delete your profile?"
+        public static var profileDeleteConfirmText = "You can’t restore once you delete it."
+        
+        public static var chatRoomDeleteConfirm = "Do you want to delete room?"
+        public static var chatDeleteConfirm = "Do you want to delete message?"
+        public static var chatRoomDeleteConfirmText = "You can’t restore once you delete it."
     }
     
     struct button {
@@ -118,6 +125,7 @@ extension String {
         public static let next = "Next"
         public static let skipNow = "Skip for now"
         public static let close = "Close"
+        public static let complete = "Complete"
         public static let goBack = "Go back"
         public static let save = "Save"
         public static let retry = "Retry"
@@ -273,10 +281,6 @@ extension String {
         public static let introductionDefault = "Hello, I am @%s. Let’s be friends!"
         public static let historyCompleted = "%s completed"
         
-        
-        public static let missionCompletedSaved = "Mission saved."
-        public static let walkCompletedSaved = "Mission saved."
-        
         public static let walkLocationNotFound = "Where Are You?"
         public static let walkNoWalksText = "No walks today"
         public static let walkStartWalksText = "Start walking with your dog!"
@@ -300,6 +304,9 @@ extension String {
         
         public static let walkPlaceMarkDisAbleTitle = "Seems like you’re not near the place."
         public static let walkPlaceMarkDisAbleText = "Move closer to the place and give the GPS few more seconds to process."
+        
+        public static let chatRoomText = "Welcome! Say hello to your new friend. Ask them more about thier dogs!"
+        public static let chatRoomDeletedMessage = "Deleted message"
         
     }
     

@@ -59,6 +59,13 @@ final class PagePresenter:ObservableObject{
         guard let pageKey = id else { return }
         PageSceneDelegate.instance?.closePopup(id:pageKey, animationType:animationType  )
     }
+    
+    func hiddenAllPopup(exception pageKey:String? = nil, exceptions:[PageID]? = nil){
+        PageSceneDelegate.instance?.hiddenAllPopup(exception: pageKey ?? "", exceptions:exceptions)
+    }
+    func viewAllPopup(exception pageKey:String? = nil, exceptions:[PageID]? = nil){
+        PageSceneDelegate.instance?.viewAllPopup(exception: pageKey ?? "", exceptions:exceptions)
+    }
     func closeAllPopup(exception pageKey:String? = nil, exceptions:[PageID]? = nil){
         PageSceneDelegate.instance?.closeAllPopup(exception: pageKey ?? "", exceptions:exceptions)
     }
@@ -509,6 +516,30 @@ class PageSceneDelegate: UIResponder, UIWindowSceneDelegate, PageProtocol {
         return removePops.count
     }
     
+    final func hiddenAllPopup(exception pageKey:String = "", exceptions:[PageID]? = nil){
+        PageLog.d("hiddenAllPopup", tag: self.tag)
+        if popups.isEmpty { return }
+        popups.forEach { pop in
+            if pop.id == pageKey {return}
+            if pop.isCloseException {return}
+            if let exps = exceptions {
+                if let _ = exps.first(where: { pop.pageID == $0 }) { return }
+            }
+            self.contentController?.hiddenPopup(pop.id)
+        }
+    }
+    final func viewAllPopup(exception pageKey:String = "", exceptions:[PageID]? = nil){
+        PageLog.d("viewAllPopup", tag: self.tag)
+        if popups.isEmpty { return }
+        popups.forEach { pop in
+            if pop.id == pageKey {return}
+            if pop.isCloseException {return}
+            if let exps = exceptions {
+                if let _ = exps.first(where: { pop.pageID == $0 }) { return }
+            }
+            self.contentController?.viewPopup(pop.id)
+        }
+    }
     final func goBack(){
         var popups:[PageObject] = []
         if let exps = pageModel.getCloseExceptions() {

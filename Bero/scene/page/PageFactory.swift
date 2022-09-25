@@ -20,6 +20,7 @@ extension PageID{
     static let my:PageID = "my"
     static let chooseDog:PageID = "chooseDog"
    
+    static let chatRoom:PageID = "chatRoom"
     static let walkHistory:PageID = "walkHistory"
     static let walkReport:PageID = "walkReport"
     static let walkInfo:PageID = "walkInfo"
@@ -87,7 +88,8 @@ struct PageProvider {
     }
     static func isLayer(_ pageID:PageID)-> Bool{
         switch pageID{
-        case .chooseDog, .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return true
+        case .chooseDog, .missionCompleted, .walkCompleted : return true
+        case .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return true
         default : return false
         }
     }
@@ -182,7 +184,7 @@ struct PageFactory{
         case .dog : return PageDog(pageObservable:pageObservable)
         case .user : return PageUser(pageObservable:pageObservable)
         case .chooseDog : return PageChooseDog(pageObservable:pageObservable)
-        
+        case .chatRoom : return PageChatRoom(pageObservable:pageObservable)
         case .walkHistory : return PageWalkHistory(pageObservable:pageObservable)
         case .walkReport : return PageWalkReport(pageObservable:pageObservable)
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)

@@ -30,15 +30,6 @@ struct PlaceInfo: PageComponent{
                                       contentMode: .fill,
                                       noImg: Asset.noImg1_1)
                             .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
-                            /*
-                            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.micro))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: Dimen.radius.micro)
-                                    .strokeBorder(
-                                        Color.app.orangeSub2,
-                                        lineWidth: Dimen.stroke.light
-                                    )
-                            )*/
                         }
                         if let title = self.sortTitle {
                             Text(title)
@@ -75,17 +66,7 @@ struct PlaceInfo: PageComponent{
                                 defaultImage: Asset.icon.goal,
                                 defaultColor: Color.brand.secondary
                             ){ _ in
-                                withAnimation{
-                                    //self.pageObservable.pageOpacity = 0.5
-                                    self.pageObservable.pagePosition = .init(x: 0, y: 200)
-                                }
                                 self.walkManager.getRoute(goal: goal)
-                                DispatchQueue.main.asyncAfter(deadline: .now()+PlayMap.routeViewDuration){
-                                    withAnimation{
-                                        //self.pageObservable.pageOpacity = 1
-                                        self.pageObservable.pagePosition = .zero
-                                    }
-                                }
                             }
                         }
                     }

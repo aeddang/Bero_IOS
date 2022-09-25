@@ -84,6 +84,16 @@ struct PlaceView: PageComponent, Identifiable{
                 self.pagePresenter.openPopup(PageProvider.getPageObject(.popupPlaceVisitor).addParam(key: .data, value: self.place))
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
+            if !self.isMark {
+                FillButton(
+                    type: .fill,
+                    text:"완료 테스트용",
+                    size: Dimen.button.regular
+                ){ _ in
+                    self.dataProvider.requestData(q: .init(type: .registVisit(self.place)))
+                }
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
+            }
         }
         .background(Color.app.white)
         .onReceive(self.dataProvider.$result){ res in

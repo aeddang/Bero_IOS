@@ -41,7 +41,7 @@ struct RectButton: View, SelecterbleProtocol{
         
         var radius:CGFloat{
             switch self {
-            case .tiny : return Dimen.radius.tiny
+            case .tiny : return Dimen.radius.thin
             case .medium : return Dimen.radius.regular
             }
         }

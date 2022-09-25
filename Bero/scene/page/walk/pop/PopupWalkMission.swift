@@ -31,12 +31,8 @@ struct PopupWalkMission: PageView {
                 axis:.vertical
             ) {
                 ZStack(alignment: .bottom){
-                    Button(action: {
-                        self.pagePresenter.closePopup(self.pageObject?.id)
-                    }) {
-                       Spacer().modifier(MatchParent())
-                           .background(Color.transparent.clearUi)
-                    }
+                    Spacer().modifier(MatchParent())
+                        .background(Color.transparent.clear)
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
                         CPPageViewPager(
@@ -47,10 +43,9 @@ struct PopupWalkMission: PageView {
                             self.move(idx: idx)
                             
                         }
-                        ImageButton( defaultImage: Asset.icon.close){ _ in
+                        ImageButton( defaultImage: Asset.icon.close, padding: Dimen.margin.tiny){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
-                        .padding(.all, Dimen.margin.regular)
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
                     .modifier(MatchHorizontal(height: 340))
@@ -59,27 +54,50 @@ struct PopupWalkMission: PageView {
                     
                 }
             }
+            .onReceive(self.pagePresenter.$event){ evt in
+                guard let evt = evt else {return}
+                switch evt.type {
+                case .pageChange :
+                    if self.walkManager.currentMission != nil {return}
+                    if evt.id == PageID.popupWalkMission , let mission = evt.data as? Mission {
+                        if let idx = self.walkManager.missions.firstIndex(where: {mission.missionId == $0.missionId}) {
+                            self.viewPagerModel.request = .move(idx)
+                        }
+                    }
+                default : break
+                }
+            }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
-                let selectMission = obj.getParamValue(key: .data) as? Mission
-                var selected:Int = 0
-                var idx:Int = 0
-                let pages = self.walkManager.missions.map{ mission in
-                    if mission.missionId == selectMission?.missionId{
-                        selected = idx
-                    }
-                    idx += 1
-                    return MissionView(
+                if let mission = self.walkManager.currentMission {
+                    let view = MissionView(
                         pageObservable:self.pageObservable,
                         pageDragingModel: self.pageDragingModel,
                         geometry:geometry,
                         infinityScrollModel: self.infinityScrollModel,
                         mission:mission
                     )
+                    self.pages = [view]
+                } else {
+                    let selectMission = obj.getParamValue(key: .data) as? Mission
+                    var selected:Int = 0
+                    var idx:Int = 0
+                    let pages = self.walkManager.missions.map{ mission in
+                        if mission.missionId == selectMission?.missionId{
+                            selected = idx
+                        }
+                        idx += 1
+                        return MissionView(
+                            pageObservable:self.pageObservable,
+                            pageDragingModel: self.pageDragingModel,
+                            geometry:geometry,
+                            infinityScrollModel: self.infinityScrollModel,
+                            mission:mission
+                        )
+                    }
+                    self.viewPagerModel.index = selected
+                    self.pages = pages
                 }
-                self.viewPagerModel.index = selected
-                self.pages = pages
-                
             }
             
         }//geo

@@ -227,7 +227,24 @@ struct PageContentController: View{
             pageControllerObservable.updatePageIndex()
         }
     }
-    
+    func hiddenPopup(_ key:String){
+        guard let pop = pageControllerObservable.popups.first(where: { $0.id == key }) else { return }
+        
+        withAnimation{
+            switch pop.pageObject?.animationType {
+            case .horizontal :
+                pop.pageObservable.pagePosition = .init(x: UIScreen.main.bounds.width, y: 0)
+            default :
+                pop.pageObservable.pagePosition = .init(x: 0, y: UIScreen.main.bounds.height)
+            }
+        }
+    }
+    func viewPopup(_ key:String){
+        guard let pop = pageControllerObservable.popups.first(where: { $0.id == key }) else { return }
+        withAnimation{
+            pop.pageObservable.pagePosition = .zero
+        }
+    }
     func removeAllPopup(removePops:[String]){
         DispatchQueue.main.async {
             pageControllerObservable.popups.removeAll( where: { pop in

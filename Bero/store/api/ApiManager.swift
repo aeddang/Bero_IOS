@@ -329,16 +329,12 @@ class ApiManager :PageProtocol, ObservableObject{
                                       completion: {res in self.complated(id: apiID, type: type, res: res)},
                                       error:error)
             
-        case .getChats(let page, let size) :
-            self.chat.get(page: page, size: size,
+        case .getChats(let userId, let page, let size) :
+            self.chat.get(userId:userId, page: page, size: size,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
         case .sendChat(let userId, let contents) :
             self.chat.post(userId: userId, contents: contents,
-                          completion: {res in self.complated(id: apiID, type: type, res: res)},
-                          error:error)
-        case .readChat(let chatId) :
-            self.chat.put(chatId: chatId,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
         case .deleteChat(let chatId) :
@@ -347,6 +343,18 @@ class ApiManager :PageProtocol, ObservableObject{
                           error:error)
         case .deleteAllChat(let chatIds) :
             self.chat.deleteAll(chatIds: chatIds,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .getChatRooms(let page, let size) :
+            self.chat.getRoom(page: page, size: size,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .deleteChatRoom(let roomId) :
+            self.chat.deleteRoom(roomId: roomId,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .readChatRoom(let roomId) :
+            self.chat.putRoom(roomId: roomId,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
         default: break

@@ -112,6 +112,7 @@ struct Dimen{
     struct app {
         public static let bottom:CGFloat = 64
         public static let top:CGFloat = 50
+        public static let chatBox:CGFloat = 64
         public static let pageHorinzontal:CGFloat = Dimen.margin.regular
     }
     

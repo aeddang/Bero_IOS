@@ -19,7 +19,7 @@ struct ImageButton: View, SelecterbleProtocol{
   
     var defaultColor:Color = Color.app.black
     var activeColor:Color = Color.brand.primary
-  
+    var padding:CGFloat = 0
     let action: (_ idx:Int) -> Void
    
     var body: some View {
@@ -36,7 +36,6 @@ struct ImageButton: View, SelecterbleProtocol{
                     .scaledToFit()
                     .foregroundColor(self.isSelected ?  self.activeColor : self.defaultColor)
                     .frame(width: size.width, height: size.height)
-                    
                     
                     if let text = self.text {
                         Text(text)
@@ -64,7 +63,7 @@ struct ImageButton: View, SelecterbleProtocol{
                         )
                 }
             }
-            
+            .padding(.all, self.padding)
             .background(Color.transparent.clearUi)
         }
     }

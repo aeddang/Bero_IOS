@@ -171,6 +171,7 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private (set) var playExp:Double = 0
     @Published private (set) var isSimpleView:Bool = false
     
+    private (set) var finalPlaceDatas:[PlaceData]? = nil
     private (set) var userFilter:Filter = .all
     private (set) var placeFilter:Filter = .shop
     private (set) var missionFilter:Filter = .all
@@ -368,12 +369,10 @@ class WalkManager:ObservableObject, PageProtocol{
         if distance < self.nearDistence {
             self.missionCompleted(mission)
         }
-        self.findWayPoint(loc)
+        //self.findWayPoint(loc)
         
     }
-    
-    
-    
+
     private func requestMapStatus(_ location:CLLocation){
         self.isMapLoading = true
         switch self.missionFilter {
@@ -393,6 +392,7 @@ class WalkManager:ObservableObject, PageProtocol{
             case .restaurant : searchKeyward = "restaurant"
             case .cafe : searchKeyward = "cafe"
             case .hospital : searchKeyward = "hospital"
+            case .hotel : searchKeyward = "hotel"
             case .notUsed :
                 self.event = .updatedPlaces
                 return
@@ -449,11 +449,19 @@ class WalkManager:ObservableObject, PageProtocol{
                 self.event = .updatedUsers
             }
         case .getPlace :
-            let me = self.dataProvider.user.snsUser?.snsID ?? ""
             if let datas = res.data as? [PlaceData] {
+                let me = self.dataProvider.user.snsUser?.snsID ?? ""
+                self.finalPlaceDatas = datas
                 self.filterPlace(datas: datas.map{Place().setData($0, me:me)} ) 
                 self.event = .updatedPlaces
             }
+        case .registVisit :
+            if let datas = self.finalPlaceDatas {
+                let me = self.dataProvider.user.snsUser?.snsID ?? ""
+                self.filterPlace(datas: datas.map{Place().setData($0, me:me)} )
+                self.event = .updatedPlaces
+            }
+            
         case .requestRoute :
             if let datas = res.data as? [MissionRoute] {
                 if datas.isEmpty {
@@ -493,7 +501,6 @@ class WalkManager:ObservableObject, PageProtocol{
     private var finalFind:Place? = nil
     private func findPlace(_ loc:CLLocation){
         guard let find = self.places.filter({!$0.isMark}).first(where: {$0.location!.distance(from: loc) < self.nearDistence}) else {
-            
             DataLog.d("findPlace not find", tag: self.tag)
             self.finalFind = nil
             return
@@ -523,11 +530,7 @@ class WalkManager:ObservableObject, PageProtocol{
                 }) == nil {
                     fixed.append(data)
                     count += 1
-                    //DataLog.d("added place " + (data.name ?? ""), tag: self.tag)
-                } else {
-                    //DataLog.d("near place " + (near .name ?? ""), tag: self.tag)
-                    //DataLog.d("remove place " + (data.name ?? ""), tag: self.tag)
-                }
+                } 
             }
             if count == 10 {
                 break

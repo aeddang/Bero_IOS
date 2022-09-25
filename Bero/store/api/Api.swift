@@ -81,6 +81,7 @@ protocol ApiRoute : NetworkRoute {
     var command:String { get set }
     var commandId:String? { get set }
     var action:ApiAction? { get set }
+    var actionId:String? { get set }
     func defaultSetup() -> ApiRoute
     
 }
@@ -95,10 +96,14 @@ extension ApiRoute  {
         if let ac = action {
             value = value + "/" + ac.rawValue
         }
+        if let id = actionId {
+            value = value + "/" + id
+        }
         return value
     }}
     var commandId:String? { get{ nil } set{ commandId = nil }}
     var action:ApiAction? { get{ nil } set{ action = nil }}
+    var actionId:String? { get{ nil } set{ actionId = nil }}
     func defaultSetup() -> ApiRoute { return self}
 }
 

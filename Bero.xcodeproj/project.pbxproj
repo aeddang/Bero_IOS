@@ -59,10 +59,10 @@
 		3151DD1528CDBCE100641BCC /* WithPetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD1428CDBCE100641BCC /* WithPetItem.swift */; };
 		3151DD1728CDC00500641BCC /* RewardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD1628CDC00500641BCC /* RewardInfo.swift */; };
 		3151DD1928CDCF8600641BCC /* SimpleWalkBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD1828CDCF8600641BCC /* SimpleWalkBox.swift */; };
-		3151DD1B28CDD72100641BCC /* MessageListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD1A28CDD72100641BCC /* MessageListItem.swift */; };
+		3151DD1B28CDD72100641BCC /* ChatRoomListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD1A28CDD72100641BCC /* ChatRoomListItem.swift */; };
 		3151DD1D28CDDEF500641BCC /* ChatApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD1C28CDDEF500641BCC /* ChatApi.swift */; };
 		3151DD1F28CDE0B900641BCC /* ChatApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD1E28CDE0B900641BCC /* ChatApiData.swift */; };
-		3151DD2128CDEF1400641BCC /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2028CDEF1400641BCC /* MessageList.swift */; };
+		3151DD2128CDEF1400641BCC /* ChatRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2028CDEF1400641BCC /* ChatRoomList.swift */; };
 		3151DD2428CDF06E00641BCC /* PageChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2328CDF06E00641BCC /* PageChat.swift */; };
 		3151DD2628CE995900641BCC /* InputComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2528CE995900641BCC /* InputComment.swift */; };
 		3151DD2928CE9AC000641BCC /* ChatBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2828CE9AC000641BCC /* ChatBox.swift */; };
@@ -166,6 +166,9 @@
 		31C7A91028C2BB9D0010D045 /* PageUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C7A90F28C2BB9D0010D045 /* PageUser.swift */; };
 		31C7A91328C2BCB80010D045 /* UsersDogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C7A91228C2BCB80010D045 /* UsersDogSection.swift */; };
 		31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */; };
+		31CA21BA28DFE61200A6CFBB /* PageChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CA21B928DFE61200A6CFBB /* PageChatRoom.swift */; };
+		31CA21BD28DFE65A00A6CFBB /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CA21BC28DFE65A00A6CFBB /* ChatItem.swift */; };
+		31CA21BF28DFEF4A00A6CFBB /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CA21BE28DFEF4A00A6CFBB /* ChatList.swift */; };
 		31D0E95128AA3B7B0076D971 /* WalkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95028AA3B7B0076D971 /* WalkManager.swift */; };
 		31D0E95628AA4DF50076D971 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95528AA4DF50076D971 /* Route.swift */; };
 		31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */; };
@@ -343,6 +346,8 @@
 		31D920D028729FB5001C2738 /* PageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920CF28729FB5001C2738 /* PageFactory.swift */; };
 		31D920D22872A02E001C2738 /* PageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920D12872A02E001C2738 /* PageTest.swift */; };
 		31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31D920D72872B573001C2738 /* GoogleService-Info.plist */; };
+		31E1AA7F28DD74EC00E41FE6 /* PlayEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */; };
+		31E1AA8228DDC66F00E41FE6 /* sample.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31E1AA8128DDC66F00E41FE6 /* sample.mp3 */; };
 		31E5B5BE28D300B000834A56 /* PageWalkPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */; };
 		31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5C028D3FA3100834A56 /* MapSortBox.swift */; };
 		31EA348E28AEE84E006A2C0A /* PlaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348D28AEE84E006A2C0A /* PlaceApi.swift */; };
@@ -442,10 +447,10 @@
 		3151DD1428CDBCE100641BCC /* WithPetItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithPetItem.swift; sourceTree = "<group>"; };
 		3151DD1628CDC00500641BCC /* RewardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardInfo.swift; sourceTree = "<group>"; };
 		3151DD1828CDCF8600641BCC /* SimpleWalkBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleWalkBox.swift; sourceTree = "<group>"; };
-		3151DD1A28CDD72100641BCC /* MessageListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListItem.swift; sourceTree = "<group>"; };
+		3151DD1A28CDD72100641BCC /* ChatRoomListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListItem.swift; sourceTree = "<group>"; };
 		3151DD1C28CDDEF500641BCC /* ChatApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatApi.swift; sourceTree = "<group>"; };
 		3151DD1E28CDE0B900641BCC /* ChatApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatApiData.swift; sourceTree = "<group>"; };
-		3151DD2028CDEF1400641BCC /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
+		3151DD2028CDEF1400641BCC /* ChatRoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomList.swift; sourceTree = "<group>"; };
 		3151DD2328CDF06E00641BCC /* PageChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageChat.swift; sourceTree = "<group>"; };
 		3151DD2528CE995900641BCC /* InputComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComment.swift; sourceTree = "<group>"; };
 		3151DD2828CE9AC000641BCC /* ChatBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBox.swift; sourceTree = "<group>"; };
@@ -549,6 +554,9 @@
 		31C7A90F28C2BB9D0010D045 /* PageUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageUser.swift; sourceTree = "<group>"; };
 		31C7A91228C2BCB80010D045 /* UsersDogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersDogSection.swift; sourceTree = "<group>"; };
 		31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		31CA21B928DFE61200A6CFBB /* PageChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageChatRoom.swift; sourceTree = "<group>"; };
+		31CA21BC28DFE65A00A6CFBB /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
+		31CA21BE28DFEF4A00A6CFBB /* ChatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
 		31D0E95028AA3B7B0076D971 /* WalkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkManager.swift; sourceTree = "<group>"; };
 		31D0E95528AA4DF50076D971 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMapComponent.swift; sourceTree = "<group>"; };
@@ -725,6 +733,8 @@
 		31D920D62872AA8B001C2738 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		31D920D72872B573001C2738 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Bero/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31D920D92872BB17001C2738 /* Bero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bero.entitlements; sourceTree = "<group>"; };
+		31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEffect.swift; sourceTree = "<group>"; };
+		31E1AA8128DDC66F00E41FE6 /* sample.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sample.mp3; sourceTree = "<group>"; };
 		31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkPopup.swift; sourceTree = "<group>"; };
 		31E5B5C028D3FA3100834A56 /* MapSortBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSortBox.swift; sourceTree = "<group>"; };
 		31EA348D28AEE84E006A2C0A /* PlaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApi.swift; sourceTree = "<group>"; };
@@ -827,7 +837,7 @@
 				31C6373928A8804D008EA54C /* PetProfileItem.swift */,
 				316B77A628BB19660090E924 /* PetProfileTopInfo.swift */,
 				3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */,
-				3151DD1A28CDD72100641BCC /* MessageListItem.swift */,
+				3151DD1A28CDD72100641BCC /* ChatRoomListItem.swift */,
 				31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */,
 				31BCF3D028C5B710004605CF /* UserListItem.swift */,
 				31D6657E28CAFC3A00765625 /* UserProfileItem.swift */,
@@ -932,7 +942,9 @@
 		3151DD2228CDF05200641BCC /* chat */ = {
 			isa = PBXGroup;
 			children = (
+				31CA21BB28DFE64100A6CFBB /* component */,
 				3151DD2328CDF06E00641BCC /* PageChat.swift */,
+				31CA21B928DFE61200A6CFBB /* PageChatRoom.swift */,
 			);
 			path = chat;
 			sourceTree = "<group>";
@@ -981,12 +993,12 @@
 			isa = PBXGroup;
 			children = (
 				316B77B528BB31370090E924 /* AlbumList.swift */,
+				3151DD2028CDEF1400641BCC /* ChatRoomList.swift */,
 				31BCF3B528C41FC2004605CF /* LvHistoryList.swift */,
 				31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */,
 				31BCF3D228C5C147004605CF /* UserWalkList.swift */,
 				3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */,
 				31C3F2C228C7986300EFF7F4 /* FriendList.swift */,
-				3151DD2028CDEF1400641BCC /* MessageList.swift */,
 			);
 			path = list;
 			sourceTree = "<group>";
@@ -1160,6 +1172,15 @@
 			path = component;
 			sourceTree = "<group>";
 		};
+		31CA21BB28DFE64100A6CFBB /* component */ = {
+			isa = PBXGroup;
+			children = (
+				31CA21BC28DFE65A00A6CFBB /* ChatItem.swift */,
+				31CA21BE28DFEF4A00A6CFBB /* ChatList.swift */,
+			);
+			path = component;
+			sourceTree = "<group>";
+		};
 		31D0E95228AA3B810076D971 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1189,6 +1210,7 @@
 		31D91D2C287257B3001C2738 = {
 			isa = PBXGroup;
 			children = (
+				31E1AA8028DDC65A00E41FE6 /* sound */,
 				314E5ECB2882BE63000EB910 /* font */,
 				31D920D72872B573001C2738 /* GoogleService-Info.plist */,
 				31D91D6728725833001C2738 /* lib */,
@@ -1827,6 +1849,14 @@
 			path = storage;
 			sourceTree = "<group>";
 		};
+		31E1AA8028DDC65A00E41FE6 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				31E1AA8128DDC66F00E41FE6 /* sample.mp3 */,
+			);
+			path = sound;
+			sourceTree = "<group>";
+		};
 		31E5B5BF28D300C300834A56 /* pop */ = {
 			isa = PBXGroup;
 			children = (
@@ -1845,6 +1875,7 @@
 				31B311E728D52D9D001B539A /* test */,
 				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
 				31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */,
+				31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */,
 				31D6658028CD64EB00765625 /* StartBox.swift */,
 				31D6658428CDAE9D00765625 /* WalkBox.swift */,
 				3151DD1828CDCF8600641BCC /* SimpleWalkBox.swift */,
@@ -2026,6 +2057,7 @@
 				314E5EE52882BE63000EB910 /* Poppins-ExtraLightItalic.ttf in Resources */,
 				314E5EF52882BE63000EB910 /* Poppins-MediumItalic.ttf in Resources */,
 				314E5EF22882BE63000EB910 /* Poppins-Thin.ttf in Resources */,
+				31E1AA8228DDC66F00E41FE6 /* sample.mp3 in Resources */,
 				314E5EEE2882BE63000EB910 /* Poppins-LightItalic.ttf in Resources */,
 				314E5EE22882BE63000EB910 /* Roboto-Light.ttf in Resources */,
 				31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */,
@@ -2177,6 +2209,7 @@
 				31C3F2C528C7A1B200EFF7F4 /* PageFriend.swift in Sources */,
 				31D920BB28729CDC001C2738 /* VisionApi.swift in Sources */,
 				31D9202A287271C1001C2738 /* RoundedCorner.swift in Sources */,
+				31CA21BF28DFEF4A00A6CFBB /* ChatList.swift in Sources */,
 				31D920B728729CDC001C2738 /* UserApiData.swift in Sources */,
 				31D91FFD287271C1001C2738 /* KeychainItem.swift in Sources */,
 				3143CD4728879A6500F1C88A /* PageIntro.swift in Sources */,
@@ -2191,7 +2224,7 @@
 				31BBE44428C2F3F0006C3C84 /* FriendFunctionBox.swift in Sources */,
 				31D91E7B28725834001C2738 /* PageProtocol.swift in Sources */,
 				31D6658528CDAE9D00765625 /* WalkBox.swift in Sources */,
-				3151DD2128CDEF1400641BCC /* MessageList.swift in Sources */,
+				3151DD2128CDEF1400641BCC /* ChatRoomList.swift in Sources */,
 				31D91E8428725834001C2738 /* ImageLoader.swift in Sources */,
 				316B77B328BB2C320090E924 /* PetProfilePictureEdit.swift in Sources */,
 				31BCF3BD28C445FD004605CF /* TotalWalkSection.swift in Sources */,
@@ -2246,6 +2279,7 @@
 				31C17FB3289FB1C2009B5EA1 /* SelectDateStep.swift in Sources */,
 				31BCF3D628C5CD3D004605CF /* PageExplore.swift in Sources */,
 				31D9203B287271C1001C2738 /* Alert.swift in Sources */,
+				31CA21BD28DFE65A00A6CFBB /* ChatItem.swift in Sources */,
 				31D92039287271C1001C2738 /* ImageView.swift in Sources */,
 				31D91E7E28725834001C2738 /* UnitUtil.swift in Sources */,
 				316B778928B9EB7B0090E924 /* FriendApiData.swift in Sources */,
@@ -2296,6 +2330,7 @@
 				31D0E95128AA3B7B0076D971 /* WalkManager.swift in Sources */,
 				31174860288D508600B96A42 /* SceneSheetController.swift in Sources */,
 				3151DD1528CDBCE100641BCC /* WithPetItem.swift in Sources */,
+				31E1AA7F28DD74EC00E41FE6 /* PlayEffect.swift in Sources */,
 				31D9203D287271C1001C2738 /* Select.swift in Sources */,
 				31D91E9128725834001C2738 /* KeyboardObserver.swift in Sources */,
 				31D9204D287271C1001C2738 /* InputAccssory.swift in Sources */,
@@ -2315,6 +2350,7 @@
 				31BCF3C628C45F16004605CF /* ArcGraph.swift in Sources */,
 				31D920BE28729CDC001C2738 /* AccountManager.swift in Sources */,
 				31D4E2EA28B07C7600C3BA75 /* SelectControlBox.swift in Sources */,
+				31CA21BA28DFE61200A6CFBB /* PageChatRoom.swift in Sources */,
 				31D4E2EC28B0B13B00C3BA75 /* MissonControl.swift in Sources */,
 				31D9205A287271CD001C2738 /* ScenePickerController.swift in Sources */,
 				31BCF3CA28C463EF004605CF /* CompareGraph.swift in Sources */,
@@ -2331,7 +2367,7 @@
 				31D92043287271C1001C2738 /* ImageButton.swift in Sources */,
 				31937F1228ACFA8F00AA5473 /* ValueBox.swift in Sources */,
 				31D91E7628725834001C2738 /* PageContentController.swift in Sources */,
-				3151DD1B28CDD72100641BCC /* MessageListItem.swift in Sources */,
+				3151DD1B28CDD72100641BCC /* ChatRoomListItem.swift in Sources */,
 				31D92030287271C1001C2738 /* SwipperView.swift in Sources */,
 				31F3BD2F28967CBA0025223B /* VerticalProfile.swift in Sources */,
 				31D91E8B28725834001C2738 /* AnimateDrawView.swift in Sources */,
@@ -2636,7 +2672,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2665,9 +2701,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = bero_dev;
 				REST_API_PATH = "http://acf14fe3f33d448ed863b0965826ef23-882930440.ap-northeast-2.elb.amazonaws.com/";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2680,7 +2719,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2709,9 +2748,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = bero_des;
 				REST_API_PATH = "http://acf14fe3f33d448ed863b0965826ef23-882930440.ap-northeast-2.elb.amazonaws.com/";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -16,7 +16,7 @@ enum SceneUpdateType {
 enum SceneEvent {
     case initate, toast(String), check(String, (() -> Void)? = nil), update(SceneUpdateType),
          debug(String), openImagePicker(String, type:UIImagePickerController.SourceType = .photoLibrary, pick:((UIImage?) -> Void)? = nil),
-         sendChat(userId:String)
+         setupChat(userId:String, isFocus:Bool = true, isActive:Bool = true), sendChat(userId:String)
 }
 
 enum SceneRequest:String {

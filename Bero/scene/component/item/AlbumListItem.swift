@@ -22,6 +22,7 @@ class AlbumListItemData:InfinityData, ObservableObject{
     private(set) var thumbIagePath:String? = nil
     @Published private(set) var isLike:Bool = false
     @Published private(set) var likeCount:Double = 0
+    @Published var isDelete:Bool = false
     private(set) var pictureId:Int = -1
     func setData(_ data:PictureData, idx:Int) -> AlbumListItemData{
         self.index = idx
@@ -49,34 +50,50 @@ struct AlbumListItem: PageComponent{
     @ObservedObject var data:AlbumListItemData
     var user:User? = nil
     let imgSize:CGSize
-    
+    @Binding var isEdit:Bool
+    @State var isDelete:Bool = false
     @State var isLike:Bool = false
     @State var likeCount:Double = 0
     var body: some View {
-        ListItem(
-            id: self.data.id,
-            imagePath: self.data.thumbIagePath,
-            imgSize: self.imgSize,
-            likeCount: self.likeCount,
-            isLike: self.isLike,
-            likeSize: .small,
-            action:{
-                self.dataProvider.requestData(
-                    q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
-            },
-            move: {
-                self.pagePresenter.openPopup( 
-                    PageProvider.getPageObject(.album)
-                        .addParam(key: .data, value: self.user)
-                        .addParam(key: .id, value: self.data.pictureId)
-                )
+        ZStack(alignment: .topTrailing){
+            ListItem(
+                id: self.data.id,
+                imagePath: self.data.thumbIagePath,
+                imgSize: self.imgSize,
+                likeCount: self.likeCount,
+                isLike: self.isLike,
+                likeSize: .small,
+                action:{
+                    self.dataProvider.requestData(
+                        q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+                },
+                move: {
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.album)
+                            .addParam(key: .data, value: self.user)
+                            .addParam(key: .id, value: self.data.pictureId)
+                    )
+                }
+            )
+            if self.isEdit {
+                CircleButton(
+                    type: .icon(Asset.icon.delete),
+                    isSelected: self.isDelete,
+                    activeColor: Color.brand.primary
+                ){ _ in
+                    self.data.isDelete.toggle()
+                }
+                .padding(.all, Dimen.margin.thin)
             }
-        )
+        }
         .onReceive(self.data.$isLike) { isLike in
             self.isLike = isLike
         }
         .onReceive(self.data.$likeCount) { value in
             self.likeCount = value
+        }
+        .onReceive(self.data.$isDelete) { isDelete in
+            self.isDelete = isDelete
         }
         .onReceive(self.dataProvider.$result){ res in
             guard let res = res else { return }
@@ -97,27 +114,43 @@ struct AlbumListDetailItem: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var data:AlbumListItemData
     let imgSize:CGSize
-    
+    @Binding var isEdit:Bool
+    @State var isDelete:Bool = false
     @State var isLike:Bool = false
     @State var likeCount:Double = 0
     var body: some View {
-        ListDetailItem(
-            id: self.data.id,
-            imagePath: self.data.imagePath,
-            imgSize: self.imgSize,
-            likeCount: self.likeCount,
-            isLike: self.isLike,
-            likeSize: .small,
-            action:{
-                self.dataProvider.requestData(
-                    q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+        ZStack(alignment: .topTrailing){
+            ListDetailItem(
+                id: self.data.id,
+                imagePath: self.data.imagePath,
+                imgSize: self.imgSize,
+                likeCount: self.likeCount,
+                isLike: self.isLike,
+                likeSize: .small,
+                action:{
+                    self.dataProvider.requestData(
+                        q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+                }
+            )
+            if self.isEdit {
+                CircleButton(
+                    type: .icon(Asset.icon.delete),
+                    isSelected: self.isDelete,
+                    activeColor: Color.brand.primary
+                ){ _ in
+                    self.data.isDelete.toggle()
+                }
+                .padding(.all, Dimen.margin.thin)
             }
-        )
+        }
         .onReceive(self.data.$isLike) { isLike in
             self.isLike = isLike
         }
         .onReceive(self.data.$likeCount) { value in
             self.likeCount = value
+        }
+        .onReceive(self.data.$isDelete) { isDelete in
+            self.isDelete = isDelete
         }
         .onReceive(self.dataProvider.$result){ res in
             guard let res = res else { return }
@@ -129,6 +162,7 @@ struct AlbumListDetailItem: PageComponent{
         .onAppear(){
             self.isLike = self.data.isLike
             self.likeCount = self.data.likeCount
+            self.isDelete = self.data.isDelete
         }
     }
     private func updated(_ id:Int, isLike:Bool){

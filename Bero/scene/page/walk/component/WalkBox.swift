@@ -94,6 +94,16 @@ struct WalkBox: PageComponent{
                                     color: Color.brand.primary
                                     ){_ in
                                     
+                                        self.pagePresenter.closePopup(pageId: .popupWalkPlace)
+                                        self.pagePresenter.closePopup(pageId: .popupWalkUser)
+                                        
+                                        if self.pagePresenter.hasPopup(find: .popupWalkMission) {
+                                            self.pagePresenter.onPageEvent(
+                                                self.pageObject,
+                                                event: .init(id: PageID.popupWalkMission ,type: .pageChange, data: mission)
+                                            )
+                                            return
+                                        }
                                         self.isFollowMe = false
                                         self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkMission).addParam(key: .data, value: mission))
                                 }
@@ -165,15 +175,29 @@ struct WalkBox: PageComponent{
     @State var mission:Mission? = nil
     @State var distenceFromMission:Double = 0
     private func finishWalk(){
+        
         self.appSceneObserver.sheet = .select(
             String.pageText.walkFinishConfirm,
-            nil,
+            String.alert.completedNeedPicture,
             [String.app.cancel,String.button.finish]){ idx in
                 if idx == 1 {
                     self.walkManager.endMission()
                     self.walkManager.completeWalk()
+                } else {
+                    self.cancelWalk()
                 }
             }
+    }
+    
+    private func cancelWalk(){
+        
+        self.appSceneObserver.alert  = .confirm(nil, String.alert.completedExitConfirm){ isOk in
+            
+            self.walkManager.endMission()
+            if isOk {
+                self.walkManager.endWalk()
+            } 
+        }
     }
     
     private func updatedPets(){

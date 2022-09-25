@@ -17,12 +17,20 @@ enum PlayMapUiEvent {
     case resetMap, clearViewRoute
 }
 
+enum PlayMapEffectEvent {
+    case missionPlayStart
+}
 
 
 class PlayMapModel:MapModel{
     @Published var playUiEvent:PlayMapUiEvent? = nil{
         didSet{
             if playUiEvent != nil { self.playUiEvent = nil }
+        }
+    }
+    @Published var playEffectEvent:PlayMapEffectEvent? = nil{
+        didSet{
+            if playEffectEvent != nil { self.playEffectEvent = nil }
         }
     }
     @Published var componentHidden:Bool = false
@@ -40,6 +48,7 @@ extension PlayMap {
 }
 
 struct PlayMap: PageView {
+    @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var pageObservable:PageObservable = PageObservable()
@@ -112,6 +121,7 @@ struct PlayMap: PageView {
     
     private func onMarkerUpdate(){
         let zip:[MapUiEvent] = [
+            .clearAll(),
             .addMarkers(self.getMissions(mission: self.walkManager.currentMission)),
             .addMarkers(self.getUsers()),
             .addMarkers(self.getPlaces())
@@ -203,6 +213,7 @@ struct PlayMap: PageView {
         }
     }
     private func onMissionPlay(){
+        self.viewModel.playEffectEvent = .missionPlayStart
         self.viewModel.componentHidden = false
         self.isFollowMe = true
         DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
@@ -264,9 +275,11 @@ struct PlayMap: PageView {
             .addRoutes(lines)
         ])
         self.viewModel.componentHidden = true
+        self.pagePresenter.hiddenAllPopup()
         self.forceMoveLock(delay: Self.routeViewDuration){
             self.viewModel.uiEvent = .clearAllRoute
             self.viewModel.componentHidden = false
+            self.pagePresenter.viewAllPopup()
             if isMissionPlay {
                 self.onMissionPlay()
             }

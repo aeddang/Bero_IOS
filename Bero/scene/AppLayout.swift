@@ -92,11 +92,20 @@ struct AppLayout: PageComponent{
         
         .onReceive (self.appObserver.$page) { iwg in
             if !self.isInit { return }
+            
             //self.appObserverMove(iwg)
         }
         .onReceive (self.appObserver.$apns) { apns in
             if apns == nil {return}
             if !self.isInit { return }
+            if let pageId = self.appObserver.page?.page?.pageID {
+                let current = self.pagePresenter.currentTopPage?.pageID
+                switch pageId {
+                case .chat :
+                    if current == .chatRoom || current == .chat { return }
+                default: break
+                }
+            }
             self.appSceneObserver.alert = .recivedApns
         }
         .onReceive (self.appObserver.$pushToken) { token in

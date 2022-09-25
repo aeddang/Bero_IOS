@@ -10,14 +10,14 @@ import Foundation
 import SwiftUI
 
 
-struct MessageList: PageComponent{
+struct ChatRoomList: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     @Binding var isEdit:Bool
     var marginTop:CGFloat = Dimen.margin.regular
-    @State var isCheckAll:Bool = false
+
     var body: some View {
         VStack(spacing:0){
             if self.isEmpty {
@@ -37,46 +37,22 @@ struct MessageList: PageComponent{
                     isRecycle: true,
                     useTracking: true
                 ){
-                    ForEach(self.messages) { data in
-                        MessageListItem(data: data, isEdit: self.$isEdit)
+                    ForEach(self.rooms) { data in
+                        ChatRoomListItem(data: data, isEdit: self.$isEdit)
                             .onAppear{
-                                if data.index == (self.messages.count-1) {
+                                if data.index == (self.rooms.count-1) {
                                     self.infinityScrollModel.event = .bottom
                                 }
                             }
                     }
                 }
             }
-            if self.isEdit {
-                HStack(spacing:Dimen.margin.micro){
-                    FillButton(
-                        type: .fill,
-                        text: String.button.checkAll,
-                        color: Color.app.black,
-                        isActive: self.isCheckAll
-                    ){_ in
-                        withAnimation{
-                            self.isCheckAll.toggle()
-                        }
-                        self.messages.forEach{$0.isDelete = self.isCheckAll}
-                    }
-                    FillButton(
-                        type: .fill,
-                        text: String.button.delete,
-                        color: Color.brand.primary,
-                        isActive: true
-                    ){_ in
-                        self.deleteMessage()
-                    }
-                }
-                .padding(.bottom, Dimen.app.bottom + Dimen.margin.thin)
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
-            }
+            
         }
         .onReceive(self.infinityScrollModel.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .bottom : self.loadMessage()
+            case .bottom : self.loadChatRoom()
             default : break
             }
         }
@@ -85,78 +61,69 @@ struct MessageList: PageComponent{
             switch evt {
             case .reload :
                 self.resetScroll()
-                self.loadMessage()
+                self.loadChatRoom()
             default : break
             }
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
+            //if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getChats:
+            case .getChatRooms:
                 self.loaded(res)
-            case .deleteChat, .deleteAllChat :
+            case .deleteChatRoom :
                 self.resetScroll()
-                self.loadMessage()
+                self.loadChatRoom()
             default : break
             }
             
         }
         .onAppear(){
-            self.loadMessage()
+            self.loadChatRoom()
         }
     }
     
     @State var isEmpty:Bool = false
-    @State var messages:[MessageListItemData] = []
+    @State var rooms:[ChatRoomListItemData] = []
     
     private func resetScroll(){
         withAnimation{ self.isEmpty = false }
-        self.messages = []
+        self.rooms = []
         self.infinityScrollModel.reload()
     }
         
-    private func loadMessage(){
+    private func loadChatRoom(){
         if self.infinityScrollModel.isLoading {return}
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getChats(page: self.infinityScrollModel.page)
+                .getChatRooms(page: self.infinityScrollModel.page)
         ))
         
     }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let datas = res.data as? [ChatData] else { return }
-        self.loadedMessage(datas: datas)
+        guard let datas = res.data as? [ChatRoomData] else { return }
+        self.loadedChatRoom(datas: datas)
     }
     
-    private func loadedMessage(datas:[ChatData]){
-        var added:[MessageListItemData] = []
-        let start = self.messages.count
+    private func loadedChatRoom(datas:[ChatRoomData]){
+        var added:[ChatRoomListItemData] = []
+        let start = self.rooms.count
         let end = start + datas.count
         added = zip(start...end, datas).map { idx, d in
-            return MessageListItemData().setData(d,  idx: idx)
+            return ChatRoomListItemData().setData(d,  idx: idx)
         }
-        self.messages.append(contentsOf: added)
-        if self.messages.isEmpty {
-            withAnimation{ self.isEmpty = true }
+        self.rooms.append(contentsOf: added)
+        if self.rooms.isEmpty {
+            withAnimation{
+                self.isEmpty = true
+                self.isEdit = false
+            }
         }
         self.infinityScrollModel.onComplete(itemCount: added.count)
     }
-    
-    private func deleteMessage(){
-        let selets = self.messages.filter{$0.isDelete}
-        if selets.isEmpty {
-            self.appSceneObserver.event = .toast(String.alert.noItemsSelected)
-            return
-        }
-        let del = selets.reduce("", {$0 + "," + $1.chatId.description}).dropFirst()
-        self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .deleteAllChat(chatIds: String(del))
-        ))
-        
-    }
+
 }
 
 

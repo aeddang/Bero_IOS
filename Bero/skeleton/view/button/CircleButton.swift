@@ -10,11 +10,12 @@ import Foundation
 import SwiftUI
 struct CircleButton: View, SelecterbleProtocol {
     enum ButtonType{
-        case tiny, icon(String), text(String), image(String?, size:CGFloat? = nil)
+        case tiny, icon(String, size:CGFloat? = nil), text(String), image(String?, size:CGFloat? = nil)
         var size:CGFloat{
             switch self {
             case .tiny : return Dimen.icon.micro
             case .image(_, let size) : return  size ?? Dimen.icon.mediumUltra
+            case .icon(_, let size) : return  size ?? Dimen.icon.mediumUltra
             default : return Dimen.icon.mediumUltra
             }
         }
@@ -35,13 +36,14 @@ struct CircleButton: View, SelecterbleProtocol {
             ZStack{
                 switch self.type {
                 case .tiny : Spacer().modifier(MatchParent())
-                case .icon(let path) :
+                case .icon(let path, _) :
                     Image(path)
                         .renderingMode(.template)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(self.isSelected ? Color.app.white : self.defaultColor)
-                        .frame(width: Dimen.icon.light, height: Dimen.icon.light)
+                        .modifier(MatchParent())
+                        .padding(.all, Dimen.margin.tinyExtra)
                 case .text(let title) :
                     Text(title)
                         .modifier(MediumTextStyle(

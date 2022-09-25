@@ -35,7 +35,7 @@ struct PopupPlaceVisitor: PageView {
                         self.pagePresenter.closePopup(self.pageObject?.id)
                     }) {
                        Spacer().modifier(MatchParent())
-                           .background(Color.transparent.clearUi)
+                           .background(Color.transparent.black45)
                     }
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
