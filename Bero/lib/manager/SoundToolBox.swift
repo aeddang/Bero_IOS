@@ -11,6 +11,8 @@ import UIKit
 import AudioToolbox
 
 class SoundToolBox {
+    
+    
     private static var registSound:[String: SystemSoundID] = [:]
     
     func play(snd:String, ext:String = "mp3") {

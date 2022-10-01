@@ -6,13 +6,12 @@ struct MyHistorySection: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.history){ type in }
+            TitleTab(
+                type:.section, title: String.pageTitle.history,
+                action: { type in }
+            )
             Button(action: {
-                self.dataProvider.user.currentPet = nil
-                self.pagePresenter.openPopup(
-                    PageProvider.getPageObject(.walkHistory)
-                        .addParam(key: .data, value: self.dataProvider.user)
-                )
+                self.moveHistory()
             }) {
                 HorizontalProfile(
                     id: "",
@@ -21,15 +20,14 @@ struct MyHistorySection: PageComponent{
                     funcType: .more,
                     name: MissionType.walk.text + " " + String.pageTitle.history,
                     description: self.walkDescription,
-                    distance: self.walkDistance
+                    distance: self.walkDistance,
+                    action: { _ in
+                        self.moveHistory()
+                    }
                 )
             }
             Button(action: {
-                self.dataProvider.user.currentPet = nil
-                self.pagePresenter.openPopup(
-                    PageProvider.getPageObject(.missionHistory)
-                        .addParam(key: .data, value: self.dataProvider.user)
-                )
+                self.moveMissionHistory()
             }) {
                 HorizontalProfile(
                     id: "",
@@ -38,7 +36,10 @@ struct MyHistorySection: PageComponent{
                     funcType: .more,
                     name: MissionType.history.text + " " + String.pageTitle.history,
                     description: self.missionDescription,
-                    distance: self.missionDistance
+                    distance: self.missionDistance,
+                    action: { _ in
+                        self.moveMissionHistory()
+                    }
                 )
             }
         }
@@ -64,6 +65,22 @@ struct MyHistorySection: PageComponent{
         self.missionDistance = user.totalMissionDistance
         self.walkDescription = String.pageText.historyCompleted.replace(user.totalWalkCount.description)
         self.missionDescription = String.pageText.historyCompleted.replace(user.totalMissionCount.description)
+    }
+    
+    private func moveHistory(){
+        self.dataProvider.user.currentPet = nil
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.walkHistory)
+                .addParam(key: .data, value: self.dataProvider.user)
+        )
+    }
+    
+    private func moveMissionHistory(){
+        self.dataProvider.user.currentPet = nil
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.missionHistory)
+                .addParam(key: .data, value: self.dataProvider.user)
+        )
     }
 }
 

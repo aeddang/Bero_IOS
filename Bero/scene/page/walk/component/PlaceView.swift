@@ -35,7 +35,7 @@ struct PlaceView: PageComponent, Identifiable{
             PlaceInfo(
                 pageObservable: self.pageObservable,
                 sortIconPath: self.place.place?.icon,
-                sortTitle: self.walkManager.placeFilter.getTitle(type: .place),
+                sortTitle: self.place.sortType?.getTitle(type: .place),
                 title: self.place.name,
                 description: self.place.place?.vicinity,
                 distance: self.distance,
@@ -78,11 +78,13 @@ struct PlaceView: PageComponent, Identifiable{
             SelectButton(
                 type: .small,
                 icon: Asset.icon.beenhere,
-                text: String.pageText.walkPlaceMarkText.replace(self.visitorNum.description),
+                text: self.visitorNum == 0 ?  String.pageText.walkPlaceNoMarkText : String.pageText.walkPlaceMarkText.replace(self.visitorNum.description),
                 isSelected: false
             ){_ in
+                if self.visitorNum == 0 {return}
                 self.pagePresenter.openPopup(PageProvider.getPageObject(.popupPlaceVisitor).addParam(key: .data, value: self.place))
             }
+            .opacity(self.visitorNum == 0 ? 0.4 : 1)
             .padding(.horizontal, Dimen.app.pageHorinzontal)
             if !self.isMark {
                 FillButton(
@@ -116,6 +118,7 @@ struct PlaceView: PageComponent, Identifiable{
     private func onMark(){
         self.place.addMark(user: self.dataProvider.user)
         self.updateData()
+        self.walkManager.registPlace()
     }
     
     private func updateData(){

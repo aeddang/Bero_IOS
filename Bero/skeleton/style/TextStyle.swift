@@ -55,7 +55,7 @@ struct BlackTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
-            .lineSpacing(Font.spacing.medium)
+            .lineSpacing(Font.spacing.regular)
             .foregroundColor(textModifier.color)
             
     }
@@ -77,7 +77,7 @@ struct BoldTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
-            .lineSpacing(Font.spacing.regular)
+            .lineSpacing(Font.spacing.thin)
             .foregroundColor(textModifier.color)
             
             
@@ -100,7 +100,7 @@ struct SemiBoldTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
-            .lineSpacing(Font.spacing.regular)
+            .lineSpacing(Font.spacing.thin)
             .foregroundColor(textModifier.color)
            
             
@@ -123,7 +123,7 @@ struct MediumTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
-            .lineSpacing(Font.spacing.regular)
+            .lineSpacing(Font.spacing.thin)
             .foregroundColor(textModifier.color)
            
     }
@@ -145,7 +145,7 @@ struct RegularTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .font(.custom(textModifier.family, size: textModifier.size))
-            .lineSpacing(Font.spacing.regular)
+            .lineSpacing(Font.spacing.thin)
             .foregroundColor(textModifier.color)
             
     }

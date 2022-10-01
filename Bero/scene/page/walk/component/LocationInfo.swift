@@ -25,7 +25,8 @@ struct LocationInfo: PageComponent{
                         size: Font.size.light,
                         color: Color.app.grey400
                     ))
-                    .frame(width: 45)
+                    .lineLimit(1)
+                    .frame(width: 47)
             } else {
                 Text(self.location ?? String.pageText.walkLocationNotFound)
                     .modifier(RegularTextStyle(

@@ -20,7 +20,6 @@ struct SceneTab: PageComponent{
     @ObservedObject var imagePickerModel = ImagePickerModel()
     @State var positionBottom:CGFloat = -Dimen.app.bottom
     @State var isDimed:Bool = false
-    @State var isLoading:Bool = false
     @State var isSimpleWalkView:Bool = false
     @State var safeAreaTop:CGFloat = 0
     @State var safeAreaBottom:CGFloat = 0
@@ -41,13 +40,6 @@ struct SceneTab: PageComponent{
         ZStack{
             VStack(alignment: .leading, spacing:0){
                 Spacer()
-                if self.isLoading {
-                    ZStack{
-                        Spacer().modifier(MatchHorizontal(height: 0))
-                        ActivityIndicator(isAnimating: self.$isLoading)
-                            .padding(.bottom, Dimen.margin.regular)
-                    }
-                }
                 SimpleWalkBox()
                     .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
                     .padding(.bottom, Dimen.margin.thin
@@ -120,13 +112,6 @@ struct SceneTab: PageComponent{
             default :self.walkManager.updateSimpleView(true)
             }
             
-        }
-        .onReceive (self.appSceneObserver.$isApiLoading) { loading in
-            DispatchQueue.main.async {
-                withAnimation{
-                    self.isLoading = loading
-                }
-            }
         }
         .onReceive (self.sceneObserver.$safeAreaTop){ pos in
             if self.safeAreaTop != pos {

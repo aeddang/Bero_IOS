@@ -37,14 +37,18 @@ extension Asset{
         public static let pinMissionCompleted = "pin_mission_on"
         
         public static let pinCafe = "pin_cafe"
-        public static let pinHotel = "pin_hotel"
-        public static let pinHospital = "pin_hospital"
         public static let pinSalon = "pin_salon"
         public static let pinRestaurant = "pin_restaurant"
         
+        public static let pinCafeGray = "pin_cafe_gray"
+        public static let pinSalonGray = "pin_salon_gray"
+        public static let pinRestaurantGray = "pin_restaurant_gray"
+        
+        public static let pinCafeSort = "pin_cafe_icon"
+        public static let pinSalonSort = "pin_salon_icon"
+        public static let pinRestaurantSort = "pin_restaurant_icon"
+        
         public static let pinCafeCompleted = "pin_cafe_on"
-        public static let pinHotelCompleted = "pin_hotel_on"
-        public static let pinHospitalCompleted = "pin_hospital_on"
         public static let pinSalonCompleted = "pin_salon_on"
         public static let pinRestaurantCompleted = "pin_restaurant_on"
         
@@ -164,14 +168,6 @@ extension Asset{
     
 
     struct image {
-        public static let dog1 = "dog1"
-        public static let dog2 = "dog2"
-        public static let dog3 = "dog3"
-        public static let dog4 = "dog4"
-        public static let manWithDog = "manWithDog"
-        public static let womanWithDog = "womanWithDog"
-        public static let man = "man"
-        public static let woman = "woman"
         public static let present = "present"
         public static let addDog = "add_dog"
         
@@ -179,6 +175,14 @@ extension Asset{
         public static let profile_user_default = "profile_user_default"
         public static let profile_deco = "profile_deco"
         public static let hands_heart = "hands_heart"
+        
+    }
+    
+    struct intro {
+        public static let onboarding_img_0 = "onboarding_img_0"
+        public static let onboarding_img_1 = "onboarding_img_1"
+        public static let onboarding_img_2 = "onboarding_img_2"
+        public static let onboarding_img_3 = "onboarding_img_3"
         
     }
     struct shape {
@@ -194,5 +198,14 @@ extension Asset{
         public static let rand:[String] = (1...5).map{ "character_" + $0.description }
         public static let randOn:[String] = (1...5).map{ "character_" + $0.description + "_on" }
         
+    }
+    
+    struct sound {
+        public static let start:String = "start"
+        public static let end:String = "end"
+        public static let push:String = "push"
+        public static let reward:String = "reward"
+        public static let success:String = "success"
+        public static let ready:String = "ready"
     }
 }

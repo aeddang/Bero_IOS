@@ -17,7 +17,7 @@ struct CPImageViewPager: PageComponent {
     @State var index: Int = 0
     var action:((_ idx:Int) -> Void)? = nil
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
+        ZStack(alignment: .bottom) {
             SwipperView(
                 viewModel:self.viewModel,
                 pages: self.pages) {
@@ -25,7 +25,6 @@ struct CPImageViewPager: PageComponent {
                 guard let action = self.action else {return}
                 action(self.index)
             }
-            .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
             if self.useButton && self.pages.count > 1 {
                 HStack(spacing: Dimen.margin.tiny) {
                     ForEach(0..<self.pages.count, id: \.self) { index in
@@ -38,7 +37,7 @@ struct CPImageViewPager: PageComponent {
                     }
                 }
                 .padding(.horizontal, Dimen.margin.medium)
-                .padding(.vertical, Dimen.margin.thin)
+                .padding(.bottom, Dimen.margin.thin)
             }
         }
         .onReceive( self.viewModel.$index ){ idx in

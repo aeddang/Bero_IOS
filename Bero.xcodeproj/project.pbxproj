@@ -140,6 +140,13 @@
 		31BCF3D128C5B710004605CF /* UserListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D028C5B710004605CF /* UserListItem.swift */; };
 		31BCF3D328C5C147004605CF /* UserWalkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D228C5C147004605CF /* UserWalkList.swift */; };
 		31BCF3D628C5CD3D004605CF /* PageExplore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D528C5CD3D004605CF /* PageExplore.swift */; };
+		31BF82A628E8011900F9604C /* PlaceSortBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BF82A528E8011900F9604C /* PlaceSortBox.swift */; };
+		31BF82C328E823EA00F9604C /* start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82BD28E823E900F9604C /* start.mp3 */; };
+		31BF82C428E823EA00F9604C /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82BE28E823E900F9604C /* success.mp3 */; };
+		31BF82C528E823EA00F9604C /* end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82BF28E823E900F9604C /* end.mp3 */; };
+		31BF82C628E823EA00F9604C /* ready.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82C028E823E900F9604C /* ready.mp3 */; };
+		31BF82C728E823EA00F9604C /* push.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82C128E823E900F9604C /* push.mp3 */; };
+		31BF82C828E823EA00F9604C /* reward.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82C228E823EA00F9604C /* reward.mp3 */; };
 		31C17FAD289F87AE009B5EA1 /* InputTextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FAC289F87AE009B5EA1 /* InputTextStep.swift */; };
 		31C17FAF289F89FA009B5EA1 /* SelectPictureStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FAE289F89FA009B5EA1 /* SelectPictureStep.swift */; };
 		31C17FB1289FAB25009B5EA1 /* SelectGenderStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */; };
@@ -528,6 +535,13 @@
 		31BCF3D028C5B710004605CF /* UserListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListItem.swift; sourceTree = "<group>"; };
 		31BCF3D228C5C147004605CF /* UserWalkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWalkList.swift; sourceTree = "<group>"; };
 		31BCF3D528C5CD3D004605CF /* PageExplore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageExplore.swift; sourceTree = "<group>"; };
+		31BF82A528E8011900F9604C /* PlaceSortBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSortBox.swift; sourceTree = "<group>"; };
+		31BF82BD28E823E900F9604C /* start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = start.mp3; sourceTree = "<group>"; };
+		31BF82BE28E823E900F9604C /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = success.mp3; sourceTree = "<group>"; };
+		31BF82BF28E823E900F9604C /* end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = end.mp3; sourceTree = "<group>"; };
+		31BF82C028E823E900F9604C /* ready.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ready.mp3; sourceTree = "<group>"; };
+		31BF82C128E823E900F9604C /* push.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = push.mp3; sourceTree = "<group>"; };
+		31BF82C228E823EA00F9604C /* reward.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = reward.mp3; sourceTree = "<group>"; };
 		31C17FAC289F87AE009B5EA1 /* InputTextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextStep.swift; sourceTree = "<group>"; };
 		31C17FAE289F89FA009B5EA1 /* SelectPictureStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPictureStep.swift; sourceTree = "<group>"; };
 		31C17FB0289FAB25009B5EA1 /* SelectGenderStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderStep.swift; sourceTree = "<group>"; };
@@ -882,7 +896,6 @@
 			children = (
 				31EA349528AF8D37006A2C0A /* component */,
 				31E5B5BF28D300C300834A56 /* pop */,
-				31D0E95228AA3B810076D971 /* model */,
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
 				31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */,
 				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
@@ -1007,6 +1020,7 @@
 			isa = PBXGroup;
 			children = (
 				31EA349628AF8D57006A2C0A /* WalkControllBox.swift */,
+				31E5B5C028D3FA3100834A56 /* MapSortBox.swift */,
 				31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */,
 				31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */,
 				31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */,
@@ -1179,13 +1193,6 @@
 				31CA21BE28DFEF4A00A6CFBB /* ChatList.swift */,
 			);
 			path = component;
-			sourceTree = "<group>";
-		};
-		31D0E95228AA3B810076D971 /* model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = model;
 			sourceTree = "<group>";
 		};
 		31D0E95328AA3DC30076D971 /* walk */ = {
@@ -1852,6 +1859,12 @@
 		31E1AA8028DDC65A00E41FE6 /* sound */ = {
 			isa = PBXGroup;
 			children = (
+				31BF82BF28E823E900F9604C /* end.mp3 */,
+				31BF82C128E823E900F9604C /* push.mp3 */,
+				31BF82C028E823E900F9604C /* ready.mp3 */,
+				31BF82C228E823EA00F9604C /* reward.mp3 */,
+				31BF82BD28E823E900F9604C /* start.mp3 */,
+				31BF82BE28E823E900F9604C /* success.mp3 */,
 				31E1AA8128DDC66F00E41FE6 /* sample.mp3 */,
 			);
 			path = sound;
@@ -1876,12 +1889,12 @@
 				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
 				31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */,
 				31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */,
+				31BF82A528E8011900F9604C /* PlaceSortBox.swift */,
 				31D6658028CD64EB00765625 /* StartBox.swift */,
 				31D6658428CDAE9D00765625 /* WalkBox.swift */,
 				3151DD1828CDCF8600641BCC /* SimpleWalkBox.swift */,
 				31D6658228CDAC2A00765625 /* LocationInfo.swift */,
 				3151DD1428CDBCE100641BCC /* WithPetItem.swift */,
-				31E5B5C028D3FA3100834A56 /* MapSortBox.swift */,
 				31B311E828D52DD0001B539A /* UserView.swift */,
 				31B311EA28D53749001B539A /* PlaceView.swift */,
 				31B311EE28D5460E001B539A /* MissionView.swift */,
@@ -2048,6 +2061,7 @@
 				314E5EE12882BE63000EB910 /* Roboto-Medium.ttf in Resources */,
 				314E5EEB2882BE63000EB910 /* Poppins-ExtraBold.ttf in Resources */,
 				314E5EE42882BE63000EB910 /* Poppins-ThinItalic.ttf in Resources */,
+				31BF82C728E823EA00F9604C /* push.mp3 in Resources */,
 				31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */,
 				314E5EF02882BE63000EB910 /* Poppins-Black.ttf in Resources */,
 				314E5EE92882BE63000EB910 /* Poppins-SemiBoldItalic.ttf in Resources */,
@@ -2057,13 +2071,18 @@
 				314E5EE52882BE63000EB910 /* Poppins-ExtraLightItalic.ttf in Resources */,
 				314E5EF52882BE63000EB910 /* Poppins-MediumItalic.ttf in Resources */,
 				314E5EF22882BE63000EB910 /* Poppins-Thin.ttf in Resources */,
+				31BF82C828E823EA00F9604C /* reward.mp3 in Resources */,
 				31E1AA8228DDC66F00E41FE6 /* sample.mp3 in Resources */,
 				314E5EEE2882BE63000EB910 /* Poppins-LightItalic.ttf in Resources */,
+				31BF82C528E823EA00F9604C /* end.mp3 in Resources */,
 				314E5EE22882BE63000EB910 /* Roboto-Light.ttf in Resources */,
+				31BF82C628E823EA00F9604C /* ready.mp3 in Resources */,
 				31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */,
 				31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */,
 				314E5EF12882BE63000EB910 /* Roboto-Bold.ttf in Resources */,
+				31BF82C428E823EA00F9604C /* success.mp3 in Resources */,
 				314E5EE32882BE63000EB910 /* Poppins-ExtraLight.ttf in Resources */,
+				31BF82C328E823EA00F9604C /* start.mp3 in Resources */,
 				314E5EEA2882BE63000EB910 /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				314E5EF42882BE63000EB910 /* Poppins-Italic.ttf in Resources */,
 				314E5EEC2882BE63000EB910 /* Poppins-BlackItalic.ttf in Resources */,
@@ -2205,6 +2224,7 @@
 				31D91E7C28725834001C2738 /* PageComponentProtocol.swift in Sources */,
 				31D92028287271C1001C2738 /* ListStyle.swift in Sources */,
 				31D92051287271C1001C2738 /* SpanText.swift in Sources */,
+				31BF82A628E8011900F9604C /* PlaceSortBox.swift in Sources */,
 				31BCF3BF28C459D1004605CF /* PageWalkReport.swift in Sources */,
 				31C3F2C528C7A1B200EFF7F4 /* PageFriend.swift in Sources */,
 				31D920BB28729CDC001C2738 /* VisionApi.swift in Sources */,
@@ -2672,7 +2692,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2719,7 +2739,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

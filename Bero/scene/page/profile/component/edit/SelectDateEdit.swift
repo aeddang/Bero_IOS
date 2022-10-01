@@ -36,7 +36,7 @@ struct SelectDateEdit: PageComponent{
                     .lineLimit(1)
                     .padding(.top, Dimen.margin.regularUltra)
             }
-            VStack(spacing:Dimen.margin.medium){
+            VStack(spacing:0){
                 DatePicker(
                     "",
                     selection: self.$selectDate,
@@ -46,6 +46,7 @@ struct SelectDateEdit: PageComponent{
                 .labelsHidden()
                 .exChangeTextColor(Color.brand.primary)
                 .datePickerStyle(WheelDatePickerStyle())
+                
                 SortButton(
                     type: .strokeFill,
                     sizeType: .small,
@@ -56,6 +57,8 @@ struct SelectDateEdit: PageComponent{
                 ){
                     self.selectDate = Date()
                 }
+                .padding(.top, Dimen.margin.medium)
+                Spacer().modifier(MatchHorizontal(height: 0))
             }
             FillButton(
                 type: .fill,

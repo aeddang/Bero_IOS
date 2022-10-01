@@ -18,10 +18,12 @@ class Place:MapUserData{
     private(set) var playExp:Double = 0
     private(set) var playPoint:Int = 0
     private(set) var place:MissionPlace? = nil
+    private(set) var sortType:WalkManager.Filter? = nil
     private(set) var isMark:Bool = false
     @discardableResult
-    func setData(_ data:PlaceData, me:String)->Place{
+    func setData(_ data:PlaceData, me:String, sortType:WalkManager.Filter?)->Place{
         self.name = data.name
+        self.sortType = sortType
         self.googlePlaceId = data.googlePlaceId
         self.placeId = data.googlePlaceId ?? ""
         if let locs = data.location?.components(separatedBy: " ") {

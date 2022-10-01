@@ -67,7 +67,7 @@ struct SortButton: View{
         }
         var marginHorizontal:CGFloat{
             switch self {
-            case .small : return Dimen.radius.light
+            case .small : return Dimen.margin.tiny
             case .big : return Dimen.margin.regularExtra
             }
         }

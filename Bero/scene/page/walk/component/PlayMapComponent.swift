@@ -52,7 +52,7 @@ extension PlayMap {
         marker.iconView = image
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
-        marker.zIndex = 333
+        marker.zIndex = 300
         if let pets = data.user?.pets {
             let petNames = pets.reduce("", {$0+", "+($1.name ?? "")}).dropFirst()
             marker.snippet = "with " + petNames
@@ -75,12 +75,13 @@ extension PlayMap {
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.8)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.snippet = data.description
-        marker.zIndex = 111
+        marker.zIndex = data.isCompleted ? 110 : 210
         return marker
     }
     
     func getPlaceMarker(_ data:Place) -> GMSMarker{
         guard let loc = data.location else { return GMSMarker() }
+        guard let type = data.sortType else { return GMSMarker() }
         let marker = GMSMarker()
         let latitude = loc.coordinate.latitude
         let longitude = loc.coordinate.longitude
@@ -90,14 +91,15 @@ extension PlayMap {
         )
         marker.userData = data
         marker.title = data.name ?? "Place"
-        let icon = UIImage(named: data.isMark ? self.walkManager.placeFilter.iconComplete : self.walkManager.placeFilter.icon)
+        
+        let icon = UIImage(named: data.isMark ? type.iconComplete : type.icon)
         
         let image = UIImageView(image: icon)
         marker.iconView = image
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
-        marker.snippet = String.pageText.walkPlaceMarkText.replace(data.visitors.count.description)
-        marker.zIndex = 222
+        marker.snippet = String.pageText.walkMapMarkText.replace(data.visitors.count.description)
+        marker.zIndex = data.isMark ?  100 : 200
         return marker
     }
    

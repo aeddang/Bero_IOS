@@ -38,6 +38,12 @@ extension TitleTab{
             case .section : return 0
             }
         }
+        var marginBottom:CGFloat {
+            switch self {
+            case .page : return Dimen.margin.thin
+            case .section : return 0
+            }
+        }
     }
     
     enum ButtonType:String{
@@ -162,10 +168,9 @@ struct TitleTab: PageComponent{
                             }
                         }
                     }
-                    
                 }
             }
-            .padding(.bottom, Dimen.margin.thin)
+            .padding(.bottom, self.type.margin)
             .padding(.horizontal, self.margin ?? self.type.margin)
             
             //if self.type == .page {

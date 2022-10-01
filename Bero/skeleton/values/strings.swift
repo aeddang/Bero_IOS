@@ -224,11 +224,11 @@ extension String {
     struct pageText {
         //for page
         public static let introText1_1 = "Walk your dog\nwith fun missions."
-        public static let introText1_2 = "Walking dogs never been this\nfun! Explore new routes with\nthe daily and monthly missions."
-        public static let introText2_1 = "Earn Encrypted\nCoins as you walk."
-        public static let introText2_2 = "Walk your dog and earn\nfinancial rewards. The coins are\ndesignated to your dog!"
-        public static let introText3_1 = "Make a local dog\ncommunity."
-        public static let introText3_2 = "Find new local dog friends to\nwalk with and share\ninformation."
+        public static let introText1_2 = "Meet other friends on the walk and\nget rewards from daily missions."
+        public static let introText2_1 = "Save the\nunforgettable walk."
+        public static let introText2_2 = "Capture the moments with your\ndog on the calendar."
+        public static let introText3_1 = "Find dog-friendly\nplaces near you."
+        public static let introText3_2 = "Filter places for your dog and leave\ntraces of your visits."
         public static let introComplete = "Let’s explore!"
         
         public static let loginText = "Let’s walk\nour dogs together!"
@@ -299,6 +299,8 @@ extension String {
         public static let walkStartChooseDogTitle = "Start a walk?"
         public static let walkStartChooseDogText = "Choose dogs you are walking with."
         public static let walkPlaceMarkText = "See who left %s marks"
+        public static let walkPlaceNoMarkText = "No marks left yet"
+        public static let walkMapMarkText = "%s marks"
         public static let walkVisitorTitle = "%s marks left"
         public static let walkMissionTitleText = "Visit %s"
         

@@ -21,44 +21,13 @@ struct PageLogin: PageView {
 
     var body: some View {
         VStack(spacing: Dimen.margin.medium){
-            ZStack(alignment: .bottomLeading){
-                Spacer().modifier(MatchParent())
-                    .background(Color.app.orangeSub)
-                    .padding(.bottom, 109)
-                Image(Asset.shape.ellipse)
-                    .renderingMode(.original)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .modifier(MatchHorizontal(height: 218))
-                ZStack{
-                    VStack(alignment: .leading, spacing: Dimen.margin.heavy){
-                        Text(String.pageText.loginText)
-                            .kerning(Font.kern.thin)
-                            .modifier(SemiBoldTextStyle(size: Font.size.bold, color: Color.app.black))
-                            .fixedSize(horizontal: false, vertical: true)
-                            .multilineTextAlignment(.leading)
-                            .padding(.leading, Dimen.margin.regular)
-                        
-                        HStack(){
-                            Image(Asset.image.woman)
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .padding(.leading, 7)
-                            Spacer()
-                            Image(Asset.image.man)
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .padding(.trailing, 2)
-                                
-                        }
-                        .frame(height: 226)
-                    }
-                }
+            Image(Asset.intro.onboarding_img_0)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .modifier(MatchParent())
-            }
-            .modifier(MatchParent())
+                .frame(alignment: .top)
+            
             VStack(spacing: Dimen.margin.thin){
                 FillButton(
                     type: .fill,
@@ -86,6 +55,7 @@ struct PageLogin: PageView {
                 }
             }
             .padding(.horizontal, Dimen.margin.regular)
+            .padding(.top, Dimen.margin.mediumUltra)
             .padding(.bottom, Dimen.margin.medium)
         }
         .padding(.bottom, self.sceneObserver.safeAreaBottom)

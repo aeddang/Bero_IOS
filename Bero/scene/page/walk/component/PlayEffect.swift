@@ -21,7 +21,7 @@ class PlayEffectItem:Identifiable{
     fileprivate var type:PlayEffectType = .image
     fileprivate var value:String = ""
     fileprivate var duration:Int = 3
-    fileprivate var snd:String = "sample"
+    fileprivate var snd:String? = nil
     fileprivate var font:TextModifier = .init(family: Font.family.bold, size: 60, color: Color.brand.primary)
     fileprivate var size:CGSize = .init(width: 100, height: 100)
     fileprivate var position:CGPoint = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
@@ -64,6 +64,7 @@ struct PlayEffect: PageView {
                 eff.type = .text
                 eff.duration = 3
                 eff.value = "STaRT!!"
+                eff.snd = Asset.sound.start
                 self.add(effect: eff)
             }
         }
@@ -75,6 +76,7 @@ struct PlayEffect: PageView {
                 eff.type = .count
                 eff.duration = 4
                 eff.value = "WaLk StART"
+                eff.snd = Asset.sound.start
                 self.add(effect: eff)
                 
             case .getRoute :
@@ -89,6 +91,7 @@ struct PlayEffect: PageView {
                 eff.type = .text
                 eff.duration = 3
                 eff.value = "ReAdy~"
+                eff.snd = Asset.sound.ready
                 self.add(effect: eff)
     
             case .completedMission:
@@ -96,6 +99,7 @@ struct PlayEffect: PageView {
                 eff.type = .text
                 eff.duration = 3
                 eff.value = "CoMPlET!!"
+                eff.snd = Asset.sound.end
                 self.add(effect: eff)
                 
             case .findPlace :
@@ -103,6 +107,7 @@ struct PlayEffect: PageView {
                 eff.type = .text
                 eff.duration = 3
                 eff.value = "FiND pLACE!!"
+                eff.snd = Asset.sound.success
                 self.add(effect: eff)
             default: break
             }
@@ -143,6 +148,9 @@ struct PlayEffectImage: PageView {
     @State var isShow:Bool = false
     @State var progressSubscription:AnyCancellable?
     func progress() {
+        if let snd = self.data.snd {
+            SoundToolBox().play(snd:snd)
+        }
         self.progressSubscription?.cancel()
         let end = self.data.duration
         var count = 0
@@ -187,6 +195,9 @@ struct PlayEffectText: PageView {
     @State var isShow:Bool = false
     @State var progressSubscription:AnyCancellable?
     func progress() {
+        if let snd = self.data.snd {
+            SoundToolBox().play(snd:snd)
+        }
         self.progressSubscription?.cancel()
         let end = self.data.duration
         var count = 0
@@ -232,7 +243,9 @@ struct PlayEffectCount: PageView {
     @State var isShow:Bool = false
     @State var progressSubscription:AnyCancellable?
     func progress() {
-        SoundToolBox().play(snd:self.data.snd)
+        if let snd = self.data.snd {
+            SoundToolBox().play(snd:snd)
+        }
         self.progressSubscription?.cancel()
         let end = self.data.duration
         var count = 0
@@ -243,7 +256,7 @@ struct PlayEffectCount: PageView {
             every: 1, on: .main, in: .common)
             .autoconnect()
             .sink() {_ in
-
+                SoundToolBox().play(snd:"sample") //Asset.sound.ready)
                 if count == end {
                     self.progressSubscription?.cancel()
                     self.complete()

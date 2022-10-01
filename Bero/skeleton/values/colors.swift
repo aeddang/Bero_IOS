@@ -38,9 +38,10 @@ extension Color {
         ])
         
         public static let green = Color.init(rgb:0x13CEA1)
-        
         public static let red = Color.init(rgb:0xF2270B)
         public static let blue = Color.init(rgb:0x88A1FB)
+        public static let brown = Color.init(rgb:0x965F36)
+        public static let pink = Color.init(rgb:0xFA7598)
         public static let yellow = Color.init(rgb:0xFFE749)
         public static let yellowSub = Color.init(rgb:0xFFF4D7)
         

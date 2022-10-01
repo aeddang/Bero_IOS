@@ -35,22 +35,24 @@ struct AppLayout: PageComponent{
                 SceneSheetController()
             }
             if self.isLoading {
-                if self.isLock {
-                    Spacer().modifier(MatchParent()).background(Color.transparent.black70)
-                }
-                if self.loadingInfo != nil {
-                    VStack(spacing:0){
-                        ForEach(self.loadingInfo!, id: \.self ) { text in
-                            Text( text )
-                                .modifier(MediumTextStyle( size: Font.size.medium, color:Color.app.white ))
-                        }
-                        Spacer().modifier(MatchParent())
+                ZStack{
+                    if self.isLock {
+                        Spacer().modifier(MatchParent()).background(Color.transparent.black70)
                     }
-                    .padding(.horizontal, Dimen.margin.regular)
-                    .frame(height: 300)
-                    
+                    VStack(spacing:Dimen.margin.regular){
+                        Spacer().modifier(MatchParent())
+                        if self.loadingInfo != nil {
+                            ForEach(self.loadingInfo!, id: \.self ) { text in
+                                Text( text )
+                                    .modifier(MediumTextStyle( size: Font.size.medium, color:Color.app.white ))
+                                    .padding(.horizontal, Dimen.margin.regular)
+                            }
+                            
+                        }
+                        ActivityIndicator(isAnimating: self.$isLoading, style: .large)
+                            .padding(.bottom, Dimen.margin.medium + self.appSceneObserver.safeBottomHeight)
+                    }
                 }
-                ActivityIndicator(isAnimating: self.$isLoading, style: .large)
             }
         }
         .onReceive(self.appSceneObserver.$isApiLoading){ loading in
@@ -92,7 +94,6 @@ struct AppLayout: PageComponent{
         
         .onReceive (self.appObserver.$page) { iwg in
             if !self.isInit { return }
-            
             //self.appObserverMove(iwg)
         }
         .onReceive (self.appObserver.$apns) { apns in
@@ -102,6 +103,7 @@ struct AppLayout: PageComponent{
                 let current = self.pagePresenter.currentTopPage?.pageID
                 switch pageId {
                 case .chat :
+                    SoundToolBox().play(snd:Asset.sound.push)
                     if current == .chatRoom || current == .chat { return }
                 default: break
                 }
@@ -125,11 +127,12 @@ struct AppLayout: PageComponent{
         .onAppear(){
             //self.isLoading = true
             //UITableView.appearance().separatorStyle = .none
-            /*
+            /* 폰트보기
             for family in UIFont.familyNames.sorted() {
                 let names = UIFont.fontNames(forFamilyName: family)
                 PageLog.d("Family: \(family) Font names: \(names)")
             }*/
+            /* 푸시 만들기
             if let value = WhereverYouCanGo.stringfyIwillGo(page: PageProvider.getPageObject(.my)) {
                 PageLog.d(value, tag: self.tag)
             }
@@ -139,6 +142,8 @@ struct AppLayout: PageComponent{
             if let value = WhereverYouCanGo.stringfyIwillGo(page: PageProvider.getPageObject(.explore)) {
                 PageLog.d(value, tag: self.tag)
             }
+             
+            */
         }
     }
     
@@ -147,6 +152,7 @@ struct AppLayout: PageComponent{
     func onStoreInit(){
         if SystemEnvironment.firstLaunch && !self.isLaunching{
             self.isLaunching = true
+            self.isLoading = false
             self.pagePresenter.changePage(
                 PageProvider.getPageObject(.intro)
             )
@@ -157,7 +163,6 @@ struct AppLayout: PageComponent{
     func onPageInit(){
         self.isLoading = false
         PageLog.d("onPageInit", tag: self.tag)
-        
         if !self.repository.isLogin {
             self.isInit = false
             if self.pagePresenter.currentPage?.pageID != .login {

@@ -208,8 +208,8 @@ class Mission:MapUserData{
         self.distance = data.walkDistence
         self.duration = data.walkTime
         self.completedMissions = data.completedMissions
-        self.point = data.playPoint
-        self.exp = data.playExp
+        self.point = WalkManager.getPoint(data.walkDistence)
+        self.exp = WalkManager.getExp(data.walkDistence)
         return self
     }
 }

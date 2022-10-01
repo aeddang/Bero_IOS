@@ -13,10 +13,11 @@ struct ImageButton: View, SelecterbleProtocol{
     var index: Int = -1
     var defaultImage:String = Asset.noImg1_1
     var activeImage:String? = nil
+    var type:Image.TemplateRenderingMode = .template
     var size:CGSize = CGSize(width: Dimen.icon.light, height: Dimen.icon.light)
     var iconText:String? = nil
     var text:String? = nil
-  
+    
     var defaultColor:Color = Color.app.black
     var activeColor:Color = Color.brand.primary
     var padding:CGFloat = 0
@@ -31,7 +32,7 @@ struct ImageButton: View, SelecterbleProtocol{
                     Image(self.isSelected
                           ? (self.activeImage ?? self.defaultImage)
                           : self.defaultImage)
-                    .renderingMode(.template)
+                    .renderingMode(self.type)
                     .resizable()
                     .scaledToFit()
                     .foregroundColor(self.isSelected ?  self.activeColor : self.defaultColor)

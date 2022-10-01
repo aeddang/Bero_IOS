@@ -87,7 +87,7 @@ class Repository:ObservableObject, PageProtocol{
             guard let apiQ = req else { return }
             if apiQ.isLock {
                 self.pagePresenter?.isLoading = true
-            }else{
+            }else if !apiQ.isOptional {
                 self.appSceneObserver?.isApiLoading = true
             }
             if self.status != .initate, let coreDatakey = apiQ.type.coreDataKey() {
@@ -152,14 +152,17 @@ class Repository:ObservableObject, PageProtocol{
             case .exp(let score) :
                 self.dataProvider.user.updateExp(score)
                 self.appSceneObserver?.event = .check("+ exp " + score.toInt().description)
+                SoundToolBox().play(snd:Asset.sound.reward)
                 self.walkManager.updateReward(score, point: 0)
             case .point(let score) :
                 self.dataProvider.user.updatePoint(score)
                 self.appSceneObserver?.event = .check("+ point " + score.description)
+                SoundToolBox().play(snd:Asset.sound.reward)
                 self.walkManager.updateReward(0, point: score)
             case .reward(let exp, let point) :
                 self.dataProvider.user.updateReward(exp, point: point)
                 self.appSceneObserver?.event = .check("+ point " + point.description + "\n" + "+ exp " + exp.toInt().description)
+                SoundToolBox().play(snd:Asset.sound.reward)
                 self.walkManager.updateReward(exp, point: point)
             default: break
             }

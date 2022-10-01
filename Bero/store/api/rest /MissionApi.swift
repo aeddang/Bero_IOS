@@ -138,7 +138,6 @@ class MissionApi :Rest{
             params["title"] = mission.title
             params["description"] = mission.description
             params["difficulty"] = mission.difficulty
-           
         }
         params["duration"] = mission.duration
         params["distance"] = mission.distance

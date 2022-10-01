@@ -60,6 +60,12 @@ struct PageManageDogs: PageView {
                             PetProfileEditable(profile: pet){
                                 self.deletePet(pet)
                             }
+                            .onTapGesture {
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.dog)
+                                        .addParam(key: .data, value: pet)
+                                )
+                            }
                         }
                         if self.pets.count < 3 {
                             PetProfileEmpty(

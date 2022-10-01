@@ -19,66 +19,63 @@ struct PageIntro: PageView {
         IntroItem2(),
         IntroItem3()
     ]
+    let titles: [String] =
+    [
+        String.pageText.introText1_1,
+        String.pageText.introText2_1,
+        String.pageText.introText3_1
+    ]
+    let texts: [String] =
+    [
+        String.pageText.introText1_2,
+        String.pageText.introText2_2,
+        String.pageText.introText3_2
+    ]
     @State var index: Int = 0
     @State var leading:CGFloat = 0
     @State var trailing:CGFloat = 0
     @State var sceneOrientation: SceneOrientation = .portrait
+    @State var isComplete:Bool = false
     var body: some View {
-        ZStack(alignment: .bottom){
+        VStack(alignment: .leading, spacing:0){
             CPImageViewPager(
                 viewModel : self.viewModel,
-                pages: self.pages
+                pages: self.pages,
+                useButton: true
             )
-            if self.index < (self.pages.count - 1) {
-                Button(action: {
-                    self.viewModel.request = .move(self.index + 1)
-                }) {
-                    ZStack{
-                        Image(Asset.icon.arrow_right)
-                            .renderingMode(.original)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: Dimen.icon.light,
-                                   height: Dimen.icon.light)
-                        
-                    }
-                    .frame(width: 76, height: 57)
-                    .background(Color.app.white)
-                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
-                    .modifier(Shadow())
-                    .padding(.bottom, Dimen.margin.heavy)
-                }
-            } else {
-                Button(action: {
+            Text(self.titles[self.index])
+                .modifier(BoldTextStyle(size: Font.size.bold, color: Color.app.black))
+                .padding(.top, Dimen.margin.medium)
+                .fixedSize()
+                .padding(.horizontal, Dimen.margin.regular)
+            Text(self.texts[self.index])
+                .modifier(MediumTextStyle(size: Font.size.light, color: Color.app.black))
+                .padding(.top, Dimen.margin.thin)
+                .fixedSize()
+                .padding(.horizontal, Dimen.margin.regular)
+            FillButton(
+                type: .fill,
+                text: self.isComplete
+                ? String.pageText.introComplete
+                : String.button.next,
+                color: self.isComplete ? Color.app.white : Color.app.black,
+                gradient:  self.isComplete ? Color.app.orangeGradient : nil
+            ){_ in
+                if self.isComplete {
                     self.appSceneObserver.event = .initate
-                    
-                }) {
-                    ZStack(alignment: .top){
-                        Text(String.pageText.introComplete)
-                            .modifier(BoldTextStyle(
-                                size: Font.size.regular,
-                                color: Color.app.grey500
-                            ))
-                            .modifier(MatchParent())
-                            .background(Color.app.white)
-                            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.lightExtra))
-                            .modifier(Shadow())
-                        Image(Asset.shape.point)
-                            .renderingMode(.original)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20,
-                                   height: 20)
-                            .padding(.top,-20 )
-                            .padding(.leading,-20 )
-                    }
-                    .frame(width: 226, height: 57)
-                    .padding(.bottom, Dimen.margin.heavy)
+                } else {
+                    self.viewModel.request = .move(self.index + 1)
                 }
             }
+            .padding(.top, Dimen.margin.mediumUltra)
+            .padding(.bottom, Dimen.margin.medium)
+            .padding(.horizontal, Dimen.margin.regular)
         }
         .onReceive( self.viewModel.$index ){ idx in
-            self.index = idx
+            withAnimation{
+                self.index = idx
+                self.isComplete = idx >= (self.pages.count - 1)
+            }
         }
         .onAppear{
            // self.setBar(idx:self.index)

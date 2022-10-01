@@ -78,6 +78,7 @@ struct PageAddDogCompleted: PageView {
                     }
                     .modifier(Shadow())
                 }
+                .padding(.bottom, Dimen.margin.thin)
                 .modifier(PageAll())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)

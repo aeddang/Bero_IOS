@@ -69,14 +69,17 @@ struct ChatRoomList: PageComponent{
             guard let res = res else { return }
             //if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getChatRooms:
+            case .getChatRooms(let page, let size):
+                if size != nil {return}
+                if page == 0 {
+                    self.resetScroll()
+                }
                 self.loaded(res)
             case .deleteChatRoom :
                 self.resetScroll()
                 self.loadChatRoom()
             default : break
             }
-            
         }
         .onAppear(){
             self.loadChatRoom()

@@ -13,7 +13,7 @@ struct CircleButton: View, SelecterbleProtocol {
         case tiny, icon(String, size:CGFloat? = nil), text(String), image(String?, size:CGFloat? = nil)
         var size:CGFloat{
             switch self {
-            case .tiny : return Dimen.icon.micro
+            case .tiny : return Dimen.icon.microUltra
             case .image(_, let size) : return  size ?? Dimen.icon.mediumUltra
             case .icon(_, let size) : return  size ?? Dimen.icon.mediumUltra
             default : return Dimen.icon.mediumUltra
@@ -35,7 +35,9 @@ struct CircleButton: View, SelecterbleProtocol {
         }) {
             ZStack{
                 switch self.type {
-                case .tiny : Spacer().modifier(MatchParent())
+                case .tiny :
+                    Spacer().modifier(MatchParent())
+                        .background(self.isSelected ?  self.activeColor : self.defaultColor)
                 case .icon(let path, _) :
                     Image(path)
                         .renderingMode(.template)

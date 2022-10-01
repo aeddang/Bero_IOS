@@ -85,8 +85,9 @@ extension PageEditProfile{
 
 
 struct PageEditProfile: PageView {
-    @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
+    @EnvironmentObject var pagePresenter:PagePresenter
+    @EnvironmentObject var sceneObserver:PageSceneObserver
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
@@ -182,7 +183,12 @@ struct PageEditProfile: PageView {
                         Spacer().modifier(MatchParent())
                     }
                 }
-                .modifier(PageAll())
+                .padding(.bottom, self.bottomMargin)
+                .onReceive(self.sceneObserver.$safeAreaBottom){ bottom in
+                    withAnimation{self.bottomMargin = bottom + Dimen.margin.thin }
+                }
+                .modifier(PageTop())
+                .modifier(PageHorizontal())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
@@ -219,6 +225,7 @@ struct PageEditProfile: PageView {
             }
         }
     }//body
+    @State var bottomMargin:CGFloat = 0
     @State var user:User? = nil
     @State var profile:PetProfile? = nil
     @State var currentType:EditType? = nil

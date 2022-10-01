@@ -81,6 +81,7 @@ extension PageAddDog{
 struct PageAddDog: PageView {
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appObserver:AppObserver
+    @EnvironmentObject var sceneObserver:PageSceneObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
@@ -168,7 +169,12 @@ struct PageAddDog: PageView {
                     }
                     
                 }
-                .modifier(PageAll())
+                .padding(.bottom, self.bottomMargin)
+                .onReceive(self.sceneObserver.$safeAreaBottom){ bottom in
+                    withAnimation{self.bottomMargin = bottom + Dimen.margin.thin }
+                }
+                .modifier(PageTop())
+                .modifier(PageHorizontal())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
@@ -180,7 +186,7 @@ struct PageAddDog: PageView {
              
         }
     }//body
-    
+    @State var bottomMargin:CGFloat = 0
     @State var profile:ModifyPetProfileData = ModifyPetProfileData()
     @State var currentStep:Step = .name
     @State var currentCount:Int = 0

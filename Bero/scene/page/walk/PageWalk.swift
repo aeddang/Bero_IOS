@@ -45,7 +45,7 @@ struct PageWalk: PageView {
                 )
                 .modifier(MatchParent())
                 VStack(alignment: .trailing, spacing: Dimen.margin.thin){
-                    MapSortBox(
+                    PlaceSortBox(
                         pageObservable:self.pageObservable,
                         viewModel:self.mapModel
                     )
