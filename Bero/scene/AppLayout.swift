@@ -172,7 +172,7 @@ struct AppLayout: PageComponent{
             }
             return
         }
-        if self.isInit {
+        if self.isInit && self.pagePresenter.currentPage?.pageID != .login {
             PageLog.d("onPageInit already init", tag: self.tag)
             return
         }

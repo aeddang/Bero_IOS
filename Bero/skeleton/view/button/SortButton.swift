@@ -15,7 +15,7 @@ struct SortButton: View{
         func strokeColor(_ color:Color) ->Color{
             switch self {
             case .fill : return Color.app.white
-            case .stroke : return color
+            case .stroke : return color.opacity(0.3)
             case .strokeFill : return color.opacity(0.5)
             }
         }
@@ -55,14 +55,14 @@ struct SortButton: View{
         var radius:CGFloat{
             switch self {
             case .small : return Dimen.radius.light
-            case .big : return Dimen.radius.regular
+            case .big : return Dimen.radius.medium
             }
         }
         
         var marginVertical:CGFloat{
             switch self {
             case .small : return Dimen.radius.micro
-            case .big : return Dimen.margin.tinyExtra
+            case .big : return Dimen.margin.microUltra
             }
         }
         var marginHorizontal:CGFloat{
@@ -84,6 +84,7 @@ struct SortButton: View{
     var userProgile:UserProfile? = nil
     var petProgile:PetProfile? = nil
     var icon:String? = nil
+    var iconType:Image.TemplateRenderingMode = .template
     var text:String
     var color:Color = Color.app.black
     var isSort:Bool = true
@@ -115,12 +116,24 @@ struct SortButton: View{
                         )
                     }
                     if let icon = self.icon {
-                        Image(icon)
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(self.type.textColor(self.color))
-                            .frame(width:self.sizeType.iconSize,height: self.sizeType.iconSize)
+                        switch self.iconType {
+                        case .template :
+                            Image(icon)
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(self.type.textColor(self.color))
+                                .frame(width:self.sizeType.iconSize,height: self.sizeType.iconSize)
+                        default :
+                            Image(icon)
+                                .renderingMode(.original)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width:self.sizeType.iconSize,height: self.sizeType.iconSize)
+                                .padding(.all, Dimen.margin.micro)
+                                .background(Color.app.white)
+                                .clipShape(Circle())
+                        }
                     }
                     if !self.text.isEmpty {
                         Text(self.text)
@@ -141,7 +154,10 @@ struct SortButton: View{
                     }
                     
                 }
-                .padding(.horizontal, self.text.isEmpty ? self.sizeType.marginVertical : self.sizeType.marginHorizontal)
+                .padding(.leading, self.text.isEmpty || self.iconType == .original
+                         ? self.sizeType.marginVertical : self.sizeType.marginHorizontal)
+                .padding(.trailing, self.text.isEmpty || self.isSort
+                         ? self.sizeType.marginVertical : self.sizeType.marginHorizontal)
                 .padding(.vertical, self.sizeType.marginVertical)
             }
             .background(self.type.bgColor(color))
@@ -155,6 +171,7 @@ struct SortButton: View{
             )
             
         }
+        .buttonStyle(BorderlessButtonStyle())
     }
 }
 #if DEBUG
@@ -169,6 +186,18 @@ struct SortButtonButton_Previews: PreviewProvider {
                 text: "Chip",
                 color: Color.app.orange,
                 isSelected: true
+            )
+            {
+                
+            }
+            SortButton(
+                type: .fill,
+                sizeType: .big,
+                icon: Asset.icon.paw,
+                iconType: .original,
+                text: "Chip",
+                color: Color.app.orange,
+                isSort: false
             )
             {
                 

@@ -105,7 +105,10 @@ struct PageAddDog: PageView {
                     { type in
                         switch type {
                         case .close :
-                            self.appSceneObserver.alert = .confirm("닫을래?", "정보사라짐"){ isOk in
+                            self.appSceneObserver.alert = .confirm(
+                                String.alert.closeConfirm,
+                                String.alert.closeConfirmText){ isOk in
+                                    
                                 if isOk {
                                     self.pagePresenter.goBack()
                                 }

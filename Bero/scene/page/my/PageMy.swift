@@ -37,10 +37,13 @@ struct PageMy: PageView {
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.my,
-                        buttons:[]){ type in
+                        buttons:[.setting]){ type in
                         switch type {
                         case .alram : break
-                        case .setting :break
+                        case .setting :
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.setup)
+                            )
                         default : break
                         }
                     }

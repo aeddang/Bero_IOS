@@ -258,32 +258,32 @@ enum Lv {
     
     var title : String {
         switch self {
-        case .purple : return "Heart Lv.1"
-        case .blue : return "Heart Lv.2"
-        case .lightBlue : return "Heart Lv.3"
-        case .sky : return "Heart Lv.4"
-        case .lightSky : return "Heart Lv.5"
-        case .green : return "Heart Lv.6"
-        case .lightGreen : return "Heart Lv.7"
-        case .yellow : return "Heart Lv.8"
-        case .orange : return "Heart Lv.9"
-        case .red : return "Heart Lv.10"
+        case .purple : return "Heart Lv.10"
+        case .blue : return "Heart Lv.9"
+        case .lightBlue : return "Heart Lv.8"
+        case .sky : return "Heart Lv.7"
+        case .lightSky : return "Heart Lv.6"
+        case .green : return "Heart Lv.5"
+        case .lightGreen : return "Heart Lv.4"
+        case .yellow : return "Heart Lv.3"
+        case .orange : return "Heart Lv.2"
+        case .red : return "Heart Lv.1"
         }
     }
         
     static func getLv(_ value:Int) -> Lv{
         switch value{
-        case 0...10 : return .purple
-        case 10...20 : return .blue
-        case 20...30 : return .lightBlue
-        case 30...40 : return .sky
-        case 40...50 : return .lightSky
-        case 50...60 : return .green
-        case 60...70 : return .lightGreen
-        case 70...80 : return .yellow
-        case 80...90 : return .orange
-        case 90...100 : return .red
-        default : return .red
+        case 0...10 : return .red
+        case 10...20 : return .orange
+        case 20...30 : return .yellow
+        case 30...40 : return .lightGreen
+        case 40...50 : return .green
+        case 50...60 : return .lightSky
+        case 60...70 : return .sky
+        case 70...80 : return .lightBlue
+        case 80...90 : return .blue
+        case 90...100 : return .purple
+        default : return .purple
         }
     }
 }
@@ -308,7 +308,7 @@ enum FriendStatus{
     }
     var buttons:[FriendButton.ButtonType]{
         switch self {
-        case .requestFriend : return [.requested]
+        case .requestFriend : return []
         case .friend : return [.delete]
         case .recieveFriend : return [.reject, .accept]
         default : return [.request]

@@ -29,7 +29,7 @@ struct PlaceInfo: PageComponent{
                             ImageView(url: path,
                                       contentMode: .fill,
                                       noImg: Asset.noImg1_1)
-                            .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                            .frame(width: Dimen.icon.light, height: Dimen.icon.light)
                         }
                         if let title = self.sortTitle {
                             Text(title)

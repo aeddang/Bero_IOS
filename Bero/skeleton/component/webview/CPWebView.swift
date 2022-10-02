@@ -64,16 +64,19 @@ struct CustomWebView : UIViewRepresentable, WebViewProtocol, PageProtocol {
         let uiView = creatWebView()
         uiView.navigationDelegate = context.coordinator
         uiView.uiDelegate = context.coordinator
+        uiView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         return uiView
     }
     func updateUIView(_ uiView: WKWebView, context: Context) {
         if self.viewModel.status != .update { return }
-        if uiView.isLoading {
-            self.viewModel.status = .error
-            self.viewModel.error = .busy
-            return
+        DispatchQueue.main.async {
+            if uiView.isLoading {
+                self.viewModel.status = .error
+                self.viewModel.error = .busy
+                return
+            }
+            if let e = self.viewModel.request { update(uiView , evt:e) }
         }
-        if let e = self.viewModel.request { update(uiView , evt:e) }
     }
     
     private func checkLoading(_ uiView: WKWebView){
@@ -168,6 +171,8 @@ struct CustomWebView : UIViewRepresentable, WebViewProtocol, PageProtocol {
                      decidePolicyFor navigationAction: WKNavigationAction,
                      preferences: WKWebpagePreferences,
                      decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+            
+            decisionHandler(.allow, preferences)
         }
         
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {}

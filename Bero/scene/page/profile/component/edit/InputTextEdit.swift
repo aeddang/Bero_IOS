@@ -20,11 +20,13 @@ struct InputTextEdit: PageComponent{
     @EnvironmentObject var keyboardObserver:KeyboardObserver
     var prevData:String = ""
     let type:PageEditProfile.EditType
+    var needAgree:Bool = false
     let edit: ((PageEditProfile.EditData) -> Void)
     @State var tip:String? = nil
     @State var input:String = ""
     @State var inputTypeIndex:Int = 0
     @State var isEditing:Bool = false
+    @State var isAgree:Bool = true
     @State var limitedLine:Int = 1
     @State var limitedTextLength:Int = 100
     var body: some View {
@@ -50,16 +52,38 @@ struct InputTextEdit: PageComponent{
                     self.onAction()
                 }
             )
-            FillButton(
-                type: .fill,
-                text: String.button.save,
-                color: Color.app.white,
-                gradient: Color.app.orangeGradient
-            ){_ in
-                self.onAction()
+            VStack(spacing: Dimen.margin.regular){
+                if self.needAgree {
+                    HStack(spacing:0){
+                        RadioButton(
+                            type: .checkOn,
+                            isChecked: self.isAgree,
+                            text:String.button.privacyAgreement
+                        ){ _ in
+                            self.isAgree.toggle()
+                        }
+                        TextButton(
+                            defaultText: String.button.terms,
+                            isUnderLine: true
+                        ){_ in
+                            
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.privacy)
+                            )
+                        }
+                    }
+                }
+                FillButton(
+                    type: .fill,
+                    text: String.button.save,
+                    color: Color.app.white,
+                    gradient: Color.app.orangeGradient
+                ){_ in
+                    self.onAction()
+                }
+                .modifier(Shadow())
+                .opacity(self.input.isEmpty || self.input == self.prevData || !self.isAgree ? 0.3 : 1)
             }
-            .modifier(Shadow())
-            .opacity(self.input.isEmpty || self.input == self.prevData ? 0.3 : 1)
             Spacer().modifier(MatchParent())
         }
         .onReceive(self.keyboardObserver.$isOn){ on in
@@ -86,6 +110,9 @@ struct InputTextEdit: PageComponent{
                 self.limitedLine = 1
             }
             self.input = self.prevData
+            if self.needAgree {
+                self.isAgree = false
+            }
             DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
                  self.isEditing = true
             }
@@ -94,6 +121,7 @@ struct InputTextEdit: PageComponent{
     
     private func onAction(){
         if self.input.isEmpty {return}
+        if !self.isAgree {return}
         if self.input == self.prevData {return}
         switch self.type {
         case .name :

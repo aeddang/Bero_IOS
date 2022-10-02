@@ -39,17 +39,14 @@ struct PageWalk: PageView {
                     bottomMargin: self.appSceneObserver.safeBottomHeight
                 )
                 .modifier(MatchParent())
-                PlayEffect(
-                    pageObservable: self.pageObservable,
-                    viewModel: self.mapModel
-                )
-                .modifier(MatchParent())
+                
                 VStack(alignment: .trailing, spacing: Dimen.margin.thin){
+                    
                     PlaceSortBox(
                         pageObservable:self.pageObservable,
                         viewModel:self.mapModel
                     )
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    
                     Spacer().modifier(MatchParent())
                     if self.isInitable {
                         if !self.isWalk {
@@ -71,6 +68,13 @@ struct PageWalk: PageView {
                 }
                 .padding(.bottom, Dimen.app.bottom + Dimen.margin.thin)
                 .modifier(PageVertical())
+                
+                PlayEffect(
+                    pageObservable: self.pageObservable,
+                    viewModel: self.mapModel,
+                    isFollowMe: self.$isFollowMe
+                )
+                .modifier(MatchParent())
             }
             .modifier(MatchParent())
             .background(Color.brand.bg)
@@ -114,6 +118,7 @@ struct PageWalk: PageView {
             guard let evt = evt else {return}
             switch evt {
             case .tabMarker(let marker) : self.onMapMarkerSelect(marker)
+            case .tabOffMarker(let marker) : self.onMapMarkerDisSelect(marker)
             case .move(let isUser) :
                 if isUser {
                     self.isFollowMe = false
@@ -121,14 +126,13 @@ struct PageWalk: PageView {
             }
         }
         .onAppear{
-            self.isFollowMe = Self.isFollowMe
+            
             self.walkManager.startMap()
             withAnimation{
                 self.isInitable = !self.dataProvider.user.pets.isEmpty
             }
         }
         .onDisappear{
-            Self.isFollowMe = self.isFollowMe
             self.walkManager.endMap()
         }
     }//body

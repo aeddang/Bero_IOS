@@ -90,10 +90,11 @@ struct PageWalkCompleted: PageView {
     }
     
     private func pictureCheckSuccess(imgPath:String?, isRetry:Bool = false){
+        guard let mission = self.mission else { return }
         self.resultImage = imgPath
         let firstPet = self.dataProvider.user.pets.filter{$0.isWith}.first
-        let point = self.walkManager.playPoint
-        let exp = self.walkManager.playExp
+        let point = mission.point
+        let exp = mission.exp
         if isRetry {
             self.appSceneObserver.sheet = .confirm(
                 String.pageText.walkFinishSuccessTitle,

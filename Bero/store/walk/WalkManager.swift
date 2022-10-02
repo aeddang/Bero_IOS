@@ -90,13 +90,14 @@ extension WalkManager {
     
     enum Filter{
         case all, friends, notUsed, complete, new,
-             cafe, restaurant, petShop
+             cafe, restaurant, petShop, vet
         
         static func getSortType(keyward:String)->Filter?{
             switch keyward {
             case "restaurant": return Filter.restaurant
             case "cafe": return Filter.cafe
             case "pet_store": return Filter.petShop
+            case "hospital": return Filter.vet
             default : return nil
             }
         }
@@ -112,38 +113,43 @@ extension WalkManager {
             case .cafe: return Asset.map.pinCafe
             case .restaurant: return Asset.map.pinRestaurant
             case .petShop: return Asset.map.pinSalon
+            case .vet: return Asset.map.pinVet
             default : return ""
             }
         }
-        var iconGray:String{
+        var iconOn:String{
             switch self {
-            case .cafe: return Asset.map.pinCafeGray
-            case .restaurant: return Asset.map.pinRestaurantGray
-            case .petShop: return Asset.map.pinSalonGray
+            case .cafe: return Asset.map.pinCafeOn
+            case .restaurant: return Asset.map.pinRestaurantOn
+            case .petShop: return Asset.map.pinSalonOn
+            case .vet: return Asset.map.pinVetOn
             default : return ""
             }
         }
         var iconSort:String{
             switch self {
-            case .cafe: return Asset.map.pinCafeSort
-            case .restaurant: return Asset.map.pinRestaurantSort
-            case .petShop: return Asset.map.pinSalonSort
+            case .cafe: return Asset.map.pinCafeIcon
+            case .restaurant: return Asset.map.pinRestaurantIcon
+            case .petShop: return Asset.map.pinSalonIcon
+            case .vet: return Asset.map.pinVetIcon
             default : return ""
             }
         }
-        var iconComplete:String{
+        var iconMark:String{
             switch self {
-            case .cafe: return Asset.map.pinCafeCompleted
-            case .restaurant: return Asset.map.pinRestaurantCompleted
-            case .petShop: return Asset.map.pinSalonCompleted
+            case .cafe: return Asset.map.pinCafeMark
+            case .restaurant: return Asset.map.pinRestaurantMark
+            case .petShop: return Asset.map.pinSalonMark
+            case .vet: return Asset.map.pinVetMark
             default : return ""
             }
         }
         var color:Color{
             switch self {
             case .cafe: return Color.app.brown
-            case .restaurant: return Color.app.yellow
+            case .restaurant: return Color.app.yellowDeep
             case .petShop: return Color.app.pink
+            case .vet: return Color.app.greenDeep
             default : return Color.brand.primary
             }
         }
@@ -153,6 +159,7 @@ extension WalkManager {
             case .restaurant : return "restaurant"
             case .cafe : return "cafe"
             case .petShop : return "pet_store"
+            case .vet : return "hospital"
             default : return ""
             }
         }
@@ -166,7 +173,8 @@ extension WalkManager {
             case .notUsed: return type.title
             case .cafe: return String.sort.cafe
             case .restaurant: return String.sort.restaurant
-            case .petShop: return String.sort.shop
+            case .petShop: return String.sort.salon
+            case .vet: return String.sort.vet
             }
         }
         
@@ -179,7 +187,8 @@ extension WalkManager {
             case .notUsed: return String.sort.notUsedText
             case .cafe: return String.sort.cafeText
             case .restaurant: return String.sort.restaurantText
-            case .petShop: return String.sort.shopText
+            case .petShop: return String.sort.salonText
+            case .vet: return String.sort.vetText
             }
         }
         
@@ -215,7 +224,7 @@ class WalkManager:ObservableObject, PageProtocol{
     
     private (set) var placeDatas:[String:[Place]] = [:]
     private (set) var userFilter:Filter = .all
-    private (set) var placeFilters:[Filter] = [.petShop, .cafe, .restaurant]
+    private (set) var placeFilters:[Filter] = [.vet, .restaurant, .cafe, .petShop]
     private (set) var missionFilter:Filter = .all
     let nearDistence:Double = WalkManager.nearDistence
     init(
@@ -266,6 +275,13 @@ class WalkManager:ObservableObject, PageProtocol{
             self.placeFilters.remove(at: find)
         } else {
             return
+        }
+        self.resetMapPlace(location)
+    }
+    
+    func resetMapPlace(_ location:CLLocation, isAllShow:Bool = false){
+        if isAllShow {
+            self.placeFilters = [.vet, .restaurant, .cafe, .petShop]
         }
         self.places = []
         self.event = .changeMapStatus
@@ -390,7 +406,7 @@ class WalkManager:ObservableObject, PageProtocol{
     
     func registPlace(){
         self.filterPlace()
-        self.event = .updatedPlaces
+       
     }
     
     private func missionCompleted(_ mission:Mission){
@@ -423,6 +439,9 @@ class WalkManager:ObservableObject, PageProtocol{
     private func updateLocation(_ loc:CLLocation) {
         if self.status == .ready {
             self.currentLocation = loc
+            if self.places.isEmpty {
+                self.filterPlace()
+            }
             return
         }
         if let prev = self.currentLocation {
@@ -576,7 +595,7 @@ class WalkManager:ObservableObject, PageProtocol{
     private var finalFind:Place? = nil
     private func findPlace(_ loc:CLLocation){
         guard let find = self.places.filter({!$0.isMark}).first(where: {$0.location!.distance(from: loc) < self.nearDistence}) else {
-            DataLog.d("findPlace not find", tag: self.tag)
+            //DataLog.d("findPlace not find", tag: self.tag)
             self.finalFind = nil
             return
         }
@@ -589,12 +608,19 @@ class WalkManager:ObservableObject, PageProtocol{
         self.event = .findPlace(find)
     }
     private func filterPlace(){
-        guard let loc = self.currentLocation else {return}
+        guard let loc = self.currentLocation else {
+            DataLog.d("filterPlace error notfound me", tag: self.tag)
+            return
+            
+        }
+        DataLog.d("filterPlace start", tag: self.tag)
         let initDatas:[Place] = []
         let datas:[Place] = self.placeFilters.reduce(initDatas, { prev, filter in
             var addDatas:[Place] = self.placeDatas[filter.keyward] ?? []
-            addDatas.append(contentsOf: prev)
-            return addDatas
+            addDatas.shuffle()
+            var add:[Place] = Array(addDatas.prefix(10))
+            add.append(contentsOf: prev)
+            return add
         })
         .sorted(by: { p1, p2 in
             let distance1 = p1.location?.distance(from: loc) ?? 0
@@ -625,7 +651,10 @@ class WalkManager:ObservableObject, PageProtocol{
             }
         }
         fixed.append(contentsOf: completed)
+        DataLog.d("filterPlace end " + fixed.count.description, tag: self.tag)
         self.places = fixed
-        
+        DispatchQueue.main.async {
+            self.event = .updatedPlaces
+        }
     }
 }

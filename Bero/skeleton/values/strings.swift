@@ -85,7 +85,7 @@ extension String {
         public static var addDogTitle = "Add your dog"
         public static var addDogText = "Start with telling more about your dog."
         
-        public static var deleteDogTitle = "Are you sure you want to delete Bero’s profile?"
+        public static var deleteDogTitle = "Are you sure you want to delete %s’s profile?"
         public static var deleteDogText = "The data, information, and history of the dog will be permanently deleted."
         public static var deleteDogConfirm = "Yes, delete"
         
@@ -116,6 +116,9 @@ extension String {
         public static var chatRoomDeleteConfirm = "Do you want to delete room?"
         public static var chatDeleteConfirm = "Do you want to delete message?"
         public static var chatRoomDeleteConfirmText = "You can’t restore once you delete it."
+        
+        public static var closeConfirm = "Do you want to quit?"
+        public static var closeConfirmText = "Information will be disappeared as you confrim"
     }
     
     struct button {
@@ -148,9 +151,12 @@ extension String {
         public static let walkComplete = "Walk Complete"
         public static let information = "Information"
         public static let unregistered = "Unregistered"
+        public static let logOut = "Sign out"
+        public static let push = "Push"
         
         public static let edit = "Edit"
         public static let viewMore = "View more"
+        public static let terms = "Terms"
         public static let manageDogs = "Manage dogs"
         public static let addFriend = "Add friend"
         public static let requestFriend = "Request friend"
@@ -170,6 +176,7 @@ extension String {
         public static let hitTheArea = "Hit the area"
         public static let stop = "Stop"
         public static let redeemReward = "Redeem reward"
+        public static let privacyAgreement = "Privacy usage agreement"
     }
     
     struct sort {
@@ -183,7 +190,8 @@ extension String {
         public static let hospital = "Hospital"
         public static let hotel = "Hotel"
         public static let shop = "Shop"
-        
+        public static let vet = "Vet"
+        public static let salon = "Salon"
         public static let friendsText = "My friends’ posts only"
         public static let notUsedText = "invisible"
         public static let restaurantText = "Restaurant"
@@ -191,12 +199,14 @@ extension String {
         public static let hospitalText = "Hospital"
         public static let hotelText = "Hotel"
         public static let shopText = "Shop"
-        
+        public static let vetText = "Vet"
+        public static let salonText = "Salon"
         
     }
     
     struct pageTitle {
         public static let my = "My"
+        public static let setup = "Setup"
         public static let explore = "Explore"
         public static let chat = "Chat"
         public static let addDog = "Add a dog"
@@ -309,6 +319,8 @@ extension String {
         
         public static let chatRoomText = "Welcome! Say hello to your new friend. Ask them more about thier dogs!"
         public static let chatRoomDeletedMessage = "Deleted message"
+        
+        public static let setupNotification = "Receive notifications?"
         
     }
     

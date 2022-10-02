@@ -20,8 +20,9 @@ struct SelectDateEdit: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     var prevData:Date = Date()
     let type:PageEditProfile.EditType
+    var needAgree:Bool = false
     let edit: ((PageEditProfile.EditData) -> Void)
-    
+    @State var isAgree:Bool = true
     var dateClosedRange: ClosedRange<Date> {
         let startDay = Calendar.current.date(byAdding: .year, value: -100, to: Date())!
         let now = Date()
@@ -60,24 +61,50 @@ struct SelectDateEdit: PageComponent{
                 .padding(.top, Dimen.margin.medium)
                 Spacer().modifier(MatchHorizontal(height: 0))
             }
-            FillButton(
-                type: .fill,
-                text: String.button.save,
-                color: Color.app.white,
-                gradient: Color.app.orangeGradient
-            ){_ in
-                self.onAction()
+            VStack(spacing: Dimen.margin.regular){
+                if self.needAgree {
+                    HStack(spacing:0){
+                        RadioButton(
+                            type: .checkOn,
+                            isChecked: self.isAgree,
+                            text:String.button.privacyAgreement
+                        ){ _ in
+                            self.isAgree.toggle()
+                        }
+                        TextButton(
+                            defaultText: String.button.terms,
+                            isUnderLine: true
+                        ){_ in
+                            
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.privacy)
+                            )
+                        }
+                    }
+                }
+                FillButton(
+                    type: .fill,
+                    text: String.button.save,
+                    color: Color.app.white,
+                    gradient: Color.app.orangeGradient
+                ){_ in
+                    self.onAction()
+                }
+                .modifier(Shadow())
+                .opacity(self.selectDate == self.prevData || !self.isAgree ? 0.3 : 1)
             }
-            .modifier(Shadow())
-            .opacity(self.selectDate == self.prevData ? 0.3 : 1)
             Spacer().modifier(MatchParent())
         }
         .onAppear{
             self.selectDate = self.prevData
+            if self.needAgree {
+                self.isAgree = false
+            }
         }
     }
     
     private func onAction(){
+        if !self.isAgree {return}
         if self.selectDate == self.prevData {return}
         self.edit(.init(birth:self.selectDate))
     }

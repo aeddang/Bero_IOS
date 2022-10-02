@@ -48,7 +48,7 @@ struct PopupWalkUser: PageView {
                         }
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
-                    .modifier(MatchHorizontal(height: 430))
+                    .modifier(MatchHorizontal(height:380))
                     .modifier(BottomFunctionTab(margin: 0))
                     .modifier(PageDragingSecondPriority(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 }

@@ -12,6 +12,7 @@ class LocalStorage {
     struct Keys {
         static let VS = "1.000"
         static let initate = "initate" + VS
+        static let isReceivePush = "isReceivePush" + VS
         static let retryPushToken = "retryPushToken" + VS
         static let registPushToken = "registPushToken" + VS
         static let loginType = "loginType" + VS
@@ -93,4 +94,14 @@ class LocalStorage {
             return defaults.string(forKey: Keys.walkCount)
         }
     }
+    
+    var isReceivePush:Bool{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.isReceivePush)
+        }
+        get{
+            return defaults.bool(forKey: Keys.isReceivePush)
+        }
+    }
+    
 }

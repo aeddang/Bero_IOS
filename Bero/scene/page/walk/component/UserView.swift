@@ -35,10 +35,10 @@ struct UserView: PageComponent, Identifiable{
             useTracking: true
         ){
             if let user  = self.mission.user {
-                HStack(alignment: .bottom, spacing:Dimen.margin.thin){
+                HStack(alignment: .center, spacing:Dimen.margin.thin){
                     UserProfileTopInfo(profile: user.currentProfile, isSimple: true)
-                        .frame(width:120)
-                    VStack(spacing:Dimen.margin.regularExtra){
+                        .frame(width:110)
+                    VStack(spacing:Dimen.margin.tiny){
                         FriendFunctionBox(user: user)
                         FillButton(
                             type: .stroke,
@@ -54,6 +54,8 @@ struct UserView: PageComponent, Identifiable{
                     }
                 }
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
+                .padding(.top, Dimen.margin.thin)
+                
                 UsersDogSection( user:user , isSimple: true)
                 
             }

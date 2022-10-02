@@ -44,7 +44,7 @@ extension PlayMap {
     static let zoomFarAway:Float = 15
     static let mapMoveDuration:Double = 0.5
     static let mapMoveAngle:Double = 30
-    static let routeViewDuration:Double = 3
+    static let routeViewDuration:Double = 4
 }
 
 struct PlayMap: PageView {
@@ -150,7 +150,7 @@ struct PlayMap: PageView {
         self.viewModel.zoom = self.isFollowMe ? Self.zoomCloseup : Self.zoomRatio
         if let loc = self.location {
             self.isInit = true
-            self.viewModel.uiEvent = .move(loc, duration:Self.mapMoveDuration)
+            self.viewModel.uiEvent = .move(loc, rotate: 0 , duration:Self.mapMoveDuration)
             self.forceMoveLock(){
                 self.moveMe(loc, isMove: true)
             }
@@ -200,6 +200,7 @@ struct PlayMap: PageView {
         )
     }
     
+    @State var isMissionStart:Bool = false
     private func onMissionStart(_ data:Mission){
         let clears = self.getMissions().map({$0.id})
         self.viewModel.uiEvent = .zip([
@@ -213,7 +214,10 @@ struct PlayMap: PageView {
         }
     }
     private func onMissionPlay(){
-        self.viewModel.playEffectEvent = .missionPlayStart
+        if !self.isMissionStart {
+            self.isMissionStart = true
+            self.viewModel.playEffectEvent = .missionPlayStart
+        }
         self.viewModel.componentHidden = false
         self.isFollowMe = true
         DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
@@ -222,6 +226,7 @@ struct PlayMap: PageView {
     }
     private func onMissionEnd(_ data:Mission){
         //let marker:MapMarker = .init(id:data.missionId.description, marker: self.getMissionMarker(data))
+        self.isMissionStart = false
         var zip:[MapUiEvent] = []
         zip.append(.addMarkers(self.getMissions()))
         self.viewModel.uiEvent = .zip(zip)
@@ -263,24 +268,38 @@ struct PlayMap: PageView {
             self.viewModel.uiEvent = .clearAllRoute
             return
         }
+        var focus:CLLocation = loc
+        var scale:Float = Self.zoomOut
+        if let me = self.walkManager.currentLocation {
+            focus = .init(
+                latitude: (loc.coordinate.latitude + me.coordinate.latitude) / 2.0 ,
+                longitude: (loc.coordinate.longitude + me.coordinate.longitude) / 2.0
+            )
+            let dis = me.distance(from: loc) / 20000  // 거리당 배율
+            let factor = Float(20 * dis)
+            scale = max(scale - factor, 10)
+            DataLog.d("dis " + dis.description, tag: self.tag)
+            DataLog.d("scale " + scale.description, tag: self.tag)
+        }
+        
         let isMissionPlay = self.walkManager.currentMission != nil
         let lines = self.getRoutes(route, color: isMissionPlay ? Color.brand.primary : Color.brand.secondary).map{ MapRoute(line:$0) }
         self.viewModel.uiEvent = .zip([
             .clearAllRoute,
-            .move(isMissionPlay
-                  ? loc
-                  : self.location ?? loc,
-                  zoom: Self.zoomFarAway,
+            .move(focus,
+                  zoom: scale,
                   duration: Self.mapMoveDuration),
             .addRoutes(lines)
         ])
         self.viewModel.componentHidden = true
         self.pagePresenter.hiddenAllPopup()
+        SoundToolBox().play(snd:Asset.sound.shot)
         self.forceMoveLock(delay: Self.routeViewDuration){
             self.viewModel.uiEvent = .clearAllRoute
             self.viewModel.componentHidden = false
             self.pagePresenter.viewAllPopup()
             if isMissionPlay {
+                SoundToolBox().play(snd:Asset.sound.shotLong)
                 self.onMissionPlay()
             }
         }
@@ -294,6 +313,7 @@ struct PlayMap: PageView {
 
     private func forceMoveLock(delay:Double = 0, closer:(() -> Void)? = nil){
         self.isForceMove = true
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.mapMoveDuration + delay) {
             self.isForceMove = false
             closer?()

@@ -86,15 +86,17 @@ struct PlaceView: PageComponent, Identifiable{
             }
             .opacity(self.visitorNum == 0 ? 0.4 : 1)
             .padding(.horizontal, Dimen.app.pageHorinzontal)
-            if !self.isMark {
-                FillButton(
-                    type: .fill,
-                    text:"완료 테스트용",
-                    size: Dimen.button.regular
-                ){ _ in
-                    self.dataProvider.requestData(q: .init(type: .registVisit(self.place)))
+            if SystemEnvironment.isTestMode {
+                if !self.isMark {
+                    FillButton(
+                        type: .fill,
+                        text:"완료 테스트용",
+                        size: Dimen.button.regular
+                    ){ _ in
+                        self.dataProvider.requestData(q: .init(type: .registVisit(self.place)))
+                    }
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                 }
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
             }
         }
         .background(Color.app.white)

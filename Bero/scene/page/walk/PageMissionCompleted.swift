@@ -70,7 +70,6 @@ struct PageMissionCompleted: PageView {
     @State var resultMissionId:Int? = nil
     
     private func openSheet(isRetry:Bool = false){
-        let totalComplete = self.walkManager.completedMissions.count + 1
         if isRetry {
             self.appSceneObserver.sheet = .confirm(
                 String.pageText.missionSuccessTitle,

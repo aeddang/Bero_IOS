@@ -228,6 +228,8 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
         userData.isSelected.toggle()
         if userData.isSelected {
             self.viewModel.event = .tabMarker(marker)
+        } else {
+            self.viewModel.event = .tabOffMarker(marker)
         }
         return false
     }

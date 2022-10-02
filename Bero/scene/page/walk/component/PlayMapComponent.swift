@@ -92,7 +92,7 @@ extension PlayMap {
         marker.userData = data
         marker.title = data.name ?? "Place"
         
-        let icon = UIImage(named: data.isMark ? type.iconComplete : type.icon)
+        let icon = UIImage(named: data.isMark ? type.iconMark : type.icon)
         
         let image = UIImageView(image: icon)
         marker.iconView = image

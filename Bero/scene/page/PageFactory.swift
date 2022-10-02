@@ -18,6 +18,7 @@ extension PageID{
     static let matching:PageID = "matching"
     static let diary:PageID = "diary"
     static let my:PageID = "my"
+    static let setup:PageID = "setup"
     static let chooseDog:PageID = "chooseDog"
    
     static let chatRoom:PageID = "chatRoom"
@@ -34,8 +35,9 @@ extension PageID{
     static let modifyUser:PageID = "modifyUser"
     static let modifyPet:PageID = "modifyPet"
     static let modifyPetHealth:PageID = "modifyPetHealth"
-
     static let editProfile:PageID = "editProfile"
+    static let privacy:PageID = "privacy"
+    
     
     static let missionCompleted:PageID = "missionCompleted"
     static let walkCompleted:PageID = "walkCompleted"
@@ -47,6 +49,7 @@ extension PageID{
     static let popupWalkPlace:PageID = "popupWalkPlace"
     static let popupWalkMission:PageID = "popupWalkMission"
     static let popupPlaceVisitor:PageID = "popupPlaceVisitor"
+    
 }
 
 struct PageProvider {
@@ -181,6 +184,7 @@ struct PageFactory{
         case .explore : return PageExplore(pageObservable:pageObservable)
         case .chat : return PageChat(pageObservable:pageObservable)
         case .my : return PageMy(pageObservable:pageObservable)
+        case .setup : return PageSetup(pageObservable:pageObservable)
         case .dog : return PageDog(pageObservable:pageObservable)
         case .user : return PageUser(pageObservable:pageObservable)
         case .chooseDog : return PageChooseDog(pageObservable:pageObservable)
@@ -201,7 +205,7 @@ struct PageFactory{
         case .modifyPet : return PageModifyPet(pageObservable:pageObservable)
         case .modifyPetHealth : return PageModifyPetHealth(pageObservable:pageObservable)
         case .editProfile : return PageEditProfile(pageObservable:pageObservable)
-            
+        case .privacy : return PagePrivacy(pageObservable:pageObservable)
         case .popupWalkUser : return PopupWalkUser(pageObservable:pageObservable)
         case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
         case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)

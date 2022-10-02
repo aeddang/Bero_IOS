@@ -32,7 +32,7 @@ class Repository:ObservableObject, PageProtocol{
     let accountManager:AccountManager
     let walkManager:WalkManager
     let apiCoreDataManager = ApiCoreDataManager()
-    private let storage = LocalStorage()
+    let storage = LocalStorage()
     private let apiManager = ApiManager()
     private var anyCancellable = Set<AnyCancellable>()
     private var dataCancellable = Set<AnyCancellable>()
@@ -115,7 +115,9 @@ class Repository:ObservableObject, PageProtocol{
     private func setupSetting(){
         if !self.storage.initate {
             self.storage.initate = true
+            self.storage.isReceivePush = true
             SystemEnvironment.firstLaunch = true
+            
             DataLog.d("initate APP", tag:self.tag)
         }
         self.dataProvider.user.registUser(
@@ -286,7 +288,14 @@ class Repository:ObservableObject, PageProtocol{
     private func loginCompleted() {
         self.storage.authToken = ApiNetwork.accesstoken
         self.event = .loginUpdate
-        self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .breed)))
+        if SystemEnvironment.breedCode.isEmpty {
+            self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .breed)))
+        } else {
+            self.status = .initate
+            DispatchQueue.main.async {
+                self.onReady()
+            }
+        }
  
     }
     private func onReady() {
@@ -329,13 +338,34 @@ class Repository:ObservableObject, PageProtocol{
     
     
     // PushToken
+    
+    func setupPush(_ isOn:Bool){
+        self.storage.isReceivePush = isOn
+        if isOn {
+            self.retryRegisterPushToken()
+        } else {
+            let token = self.storage.registPushToken
+            self.storage.registPushToken = ""
+            self.storage.retryPushToken = token
+            self.dataProvider.requestData(q: .init(type: .registPush(token: ""), isOptional: true))
+            DataLog.d("clear RegisterPushToken " + token, tag:self.tag)
+        }
+    }
+    
     func retryRegisterPushToken(){
+        if !self.storage.isReceivePush {
+            return
+        }
         if !self.storage.retryPushToken.isEmpty{
             DataLog.d("retryRegisterPushToken " + self.storage.retryPushToken, tag:self.tag)
             self.registPushToken(self.storage.retryPushToken)
         }
     }
     func onCurrentPushToken(_ token:String) {
+        if !self.storage.isReceivePush {
+            self.storage.retryPushToken = token
+            return
+        }
         if self.storage.registPushToken == token {return}
         DataLog.d("onCurrentPushToken", tag:self.tag)
         switch self.status {

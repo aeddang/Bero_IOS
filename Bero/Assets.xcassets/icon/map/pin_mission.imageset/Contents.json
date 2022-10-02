@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Property 1=Default.svg",
+      "filename" : "Type=mission, Property=mission, Status=default.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },

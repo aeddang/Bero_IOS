@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "pin_cafe.svg",
+      "filename" : "Type=place, Property=cafe, Status=default.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },

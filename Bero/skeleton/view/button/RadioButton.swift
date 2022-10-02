@@ -10,10 +10,10 @@ import Foundation
 import SwiftUI
 struct RadioButton: View, SelecterbleProtocol {
     enum ButtonType{
-        case blank, stroke
+        case blank, stroke, switchOn, checkOn
         var strokeWidth:CGFloat{
             switch self {
-            case .blank : return 0
+            case .blank, .switchOn, .checkOn : return 0
             case .stroke : return Dimen.stroke.light
             }
         }
@@ -21,25 +21,40 @@ struct RadioButton: View, SelecterbleProtocol {
         var icon:String{
             switch self {
             case .blank : return Asset.icon.check
-            case .stroke : return Asset.icon.checked_circle
+            case .stroke, .checkOn : return Asset.icon.checked_circle
+            default: return ""
+            }
+        }
+        
+        var useFill:Bool{
+            switch self {
+            case .checkOn : return false
+            default: return true
             }
         }
         
         var iconSize:CGFloat{
             switch self {
             case .blank : return Dimen.icon.light
-            case .stroke : return Dimen.icon.medium
+            case .stroke, .checkOn : return Dimen.icon.medium
+            default: return 0
             }
         }
         var spacing:CGFloat{
             switch self {
-            case .blank : return 0
+            case .blank, .switchOn, .checkOn: return 0
             case .stroke : return Dimen.margin.tinyExtra
+            }
+        }
+        var horizontalMargin:CGFloat{
+            switch self {
+            case .blank, .switchOn, .checkOn : return 0
+            case .stroke : return Dimen.margin.thin
             }
         }
         var bgColor:Color{
             switch self {
-            case .blank : return Color.transparent.clearUi
+            case .blank, .switchOn, .checkOn : return Color.transparent.clearUi
             case .stroke : return Color.app.white
             }
         }
@@ -53,27 +68,41 @@ struct RadioButton: View, SelecterbleProtocol {
         Button(action: {
             action(!self.isChecked)
         }) {
-            HStack(alignment: .center, spacing: 0){
+            HStack(alignment: .center, spacing: Dimen.margin.thin){
                 if self.text != nil {
                     VStack(alignment: .leading, spacing: 0){
-                        Spacer().modifier(MatchHorizontal(height: 0))
+                        if self.type.useFill {
+                            Spacer().modifier(MatchHorizontal(height: 0))
+                        }
                         Text(self.text!)
                             .modifier( RegularTextStyle(
                                 size: Font.size.light,
                                 color: self.isChecked ? self.color : Color.app.grey400
                             ))
+                            .fixedSize()
                     }
                 }
-                if self.isChecked || self.type != .blank{
-                    Image(self.type.icon)
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(self.isChecked ? self.color : Color.app.grey400)
-                        .frame(width: self.type.iconSize, height: self.type.iconSize)
+                switch self.type {
+                case .switchOn :
+                    Switch(isOn: self.isChecked){ isOn in
+                        action(!self.isChecked)
+                    }
+                default :
+                    if self.isChecked || self.type != .blank{
+                        Image(self.type.icon)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(self.isChecked ? self.color : Color.app.grey400)
+                            .frame(width: self.type.iconSize, height: self.type.iconSize)
+                    }
                 }
+                if !self.type.useFill {
+                    Spacer().modifier(MatchHorizontal(height: 0))
+                }
+                
             }
-            .padding(.horizontal, self.type == .blank ? 0 : Dimen.margin.thin)
+            .padding(.horizontal, self.type.horizontalMargin)
             .frame(height: Dimen.button.medium)
             .background(self.type.bgColor)
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.thinExtra))
@@ -97,6 +126,21 @@ struct RadioButton_Previews: PreviewProvider {
                 type: .blank,
                 isChecked: true,
                 text:"RadioButton"
+            ){ _ in
+                
+            }
+            RadioButton(
+                type: .checkOn,
+                isChecked: true,
+                text:"RadioButton"
+            ){ _ in
+                
+            }
+            RadioButton(
+                type: .switchOn,
+                isChecked: true,
+                text:"RadioButton",
+                color: Color.app.black
             ){ _ in
                 
             }

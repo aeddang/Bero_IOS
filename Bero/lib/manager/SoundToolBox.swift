@@ -11,22 +11,22 @@ import UIKit
 import AudioToolbox
 
 class SoundToolBox {
-    
-    
     private static var registSound:[String: SystemSoundID] = [:]
     
     func play(snd:String, ext:String = "mp3") {
-        if let sid = Self.registSound[snd] {
-            AudioServicesPlayAlertSoundWithCompletion(sid){}
+        if let sound = Self.registSound[snd] {
             
+            AudioServicesPlayAlertSoundWithCompletion(sound, {
+                
+            })
         } else {
-           
             guard let url = Bundle.main.url(forResource: snd, withExtension: ext) else {return}
             var sound: SystemSoundID = SystemSoundID(Self.registSound.count)
-            let result = AudioServicesCreateSystemSoundID(url as CFURL, &sound)
-           
+            AudioServicesCreateSystemSoundID(url as CFURL, &sound)
             Self.registSound[snd] = sound
-            AudioServicesPlayAlertSound(sound)
+            AudioServicesPlayAlertSoundWithCompletion(sound, {
+                
+            })
         }
         
     }

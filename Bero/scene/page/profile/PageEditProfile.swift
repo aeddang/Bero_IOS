@@ -119,7 +119,8 @@ struct PageEditProfile: PageView {
                         case .name :
                             InputTextEdit(
                                 prevData: self.name,
-                                type: type){data in
+                                type: type,
+                                needAgree:self.needAgree){data in
                                     self.onEdit(data: data)
                                 }
                         case .microchip :
@@ -149,13 +150,15 @@ struct PageEditProfile: PageView {
                         case .gender :
                             SelectGenderEdit(
                                 prevData: self.gender,
-                                type: type){data in
+                                type: type,
+                                needAgree:self.needAgree){data in
                                     self.onEdit(data: data)
                                 }
                         case .birth :
                             SelectDateEdit(
                                 prevData: self.birth,
-                                type: type){data in
+                                type: type,
+                                needAgree:self.needAgree){data in
                                     self.onEdit(data: data)
                                 }
                         case .introduction :
@@ -209,6 +212,7 @@ struct PageEditProfile: PageView {
                 self.hashStatus = profile.hashStatus ?? ""
                 self.microchip = profile.microchip ?? ""
                 self.animalId = profile.animalId ?? ""
+                self.needAgree = false
             }
             if let user = obj.getParamValue(key: .data) as? User{
                 self.user = user
@@ -216,6 +220,7 @@ struct PageEditProfile: PageView {
                 self.birth = user.currentProfile.birth ?? Date()
                 self.gender = user.currentProfile.gender
                 self.introduction = user.currentProfile.introduction ?? ""
+                self.needAgree = true
             }
             if let type = obj.getParamValue(key: .type) as?  PageEditProfile.EditType{
                 self.currentType = type
@@ -225,6 +230,7 @@ struct PageEditProfile: PageView {
             }
         }
     }//body
+    @State var needAgree:Bool = false
     @State var bottomMargin:CGFloat = 0
     @State var user:User? = nil
     @State var profile:PetProfile? = nil

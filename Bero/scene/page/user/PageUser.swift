@@ -178,6 +178,7 @@ struct PageUser: PageView {
     private func setupTopHeight(geometry:GeometryProxy){
         guard let text = self.user?.currentProfile.introduction else {
             self.originTopHeight = Self.userProfileHeight
+            self.pageObservable.isInit = true
             return
         }
         let w = geometry.size.width - 2*(Dimen.app.pageHorinzontal + VerticalProfile.descriptionPadding)

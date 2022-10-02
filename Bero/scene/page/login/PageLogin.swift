@@ -37,13 +37,16 @@ struct PageLogin: PageView {
                 ){_ in
                     self.snsManager.requestLogin(type: .apple)
                 }
-                FillButton(
-                    type: .fill,
-                    icon: SnsType.fb.logo,
-                    text: String.pageText.loginButtonText + SnsType.fb.title,
-                    color: SnsType.fb.color
-                ){_ in
-                    self.snsManager.requestLogin(type: .fb)
+                
+                if SystemEnvironment.isTestMode {
+                    FillButton(
+                        type: .fill,
+                        icon: SnsType.fb.logo,
+                        text: String.pageText.loginButtonText + SnsType.fb.title,
+                        color: SnsType.fb.color
+                    ){_ in
+                        self.snsManager.requestLogin(type: .fb)
+                    }
                 }
                 FillButton(
                     type: .stroke,
@@ -58,7 +61,9 @@ struct PageLogin: PageView {
             .padding(.top, Dimen.margin.mediumUltra)
             .padding(.bottom, Dimen.margin.medium)
         }
-        .padding(.bottom, self.sceneObserver.safeAreaBottom)
+        .padding(.bottom, self.appSceneObserver.safeBottomHeight)
+        .modifier(MatchParent())
+        .background(Color.brand.bg)
 
         .onReceive(self.snsManager.$error){err in
             guard let err  = err  else { return }

@@ -191,9 +191,16 @@ class Mission:MapUserData{
         } else if let loc = data.geos?.last {
             self.destination = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
         }
+        switch self.type {
+        case .user :
+            if let origin = self.destination {
+                let rand = Double.random(in: -0.0005...0.0005)
+                self.destination = CLLocation(latitude: origin.coordinate.latitude + rand , longitude: origin.coordinate.longitude + rand)
+            }
+        default : break
+        }
         self.isCompleted = data.user != nil 
         self.user = User().setData(data)
-        
         self.distance = data.distance ?? 0
         self.duration = data.duration ?? 0
         return self

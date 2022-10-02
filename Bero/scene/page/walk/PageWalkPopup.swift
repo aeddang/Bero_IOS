@@ -51,7 +51,20 @@ extension PageWalk {
         }
         
     }
-   
+    func onMapMarkerDisSelect(_ marker:GMSMarker){
+    
+        if let mission = marker.userData as? Mission {
+            switch mission.type {
+            case .user :
+                self.pagePresenter.closePopup(pageId: .popupWalkUser)
+            default :
+                self.pagePresenter.closePopup(pageId: .popupWalkMission)
+            }
+        } else if let place = marker.userData as? Place {
+            self.pagePresenter.closePopup(pageId: .popupWalkPlace)
+        }
+        
+    }
 }
 
 

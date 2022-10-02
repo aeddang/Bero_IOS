@@ -11,7 +11,7 @@ struct UserProfileTopInfo: PageComponent{
         VerticalProfile(
             id: self.profile.id,
             type: .user,
-            alignment: self.isSimple ? .leading : .center,
+            alignment: .center,//self.isSimple ? .leading : .center,
             sizeType: .medium,
             isSelected: true,
             image: self.image,

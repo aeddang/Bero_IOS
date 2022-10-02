@@ -21,6 +21,7 @@ struct Dimen{
         public static let thin:CGFloat = 12
         public static let tiny:CGFloat = 10
         public static let tinyExtra:CGFloat = 8
+        public static let microUltra:CGFloat = 6
         public static let micro:CGFloat = 4
         public static let microExtra:CGFloat = 2
     }

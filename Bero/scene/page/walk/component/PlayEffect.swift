@@ -22,18 +22,22 @@ class PlayEffectItem:Identifiable{
     fileprivate var value:String = ""
     fileprivate var duration:Int = 3
     fileprivate var snd:String? = nil
-    fileprivate var font:TextModifier = .init(family: Font.family.bold, size: 60, color: Color.brand.primary)
+    fileprivate var isFind:Bool? = nil
+    fileprivate var font:TextModifier = .init(family: Font.family.bold, size: 48, color: Color.brand.primary)
     fileprivate var size:CGSize = .init(width: 100, height: 100)
-    fileprivate var position:CGPoint = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
+    fileprivate var position:CGPoint = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/3)
 }
 
 struct PlayEffect: PageView {
+    @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
+    @Binding var isFollowMe:Bool
     @State var effects:[PlayEffectItem] = []
+    @State var isFindEffect:Bool = false
     var body: some View {
         ZStack(alignment: .center){
             ForEach(self.effects) { effect in
@@ -43,17 +47,46 @@ struct PlayEffect: PageView {
                         self.remove(id: effect.id)
                     }
                     .position(effect.position)
+                    Spacer().modifier(MatchParent()).background(Color.transparent.clearUi)
                 case .image :
                     PlayEffectImage(data:effect){
                         self.remove(id: effect.id)
                     }
                     .position(effect.position)
+                    .onAppear{
+                        if let find = effect.isFind {
+                            if find {
+                                self.findShow()
+                            } else {
+                                self.findShowCancel()
+                            }
+                        }
+                    }
                 case .text :
                     PlayEffectText(data:effect){
                         self.remove(id: effect.id)
                     }
+                    .onAppear{
+                        if let find = effect.isFind {
+                            if find {
+                                self.findShow()
+                            } else {
+                                self.findShowCancel()
+                            }
+                        }
+                    }
                     .position(effect.position)
                 }
+            }
+            
+            if self.isFindEffect {
+                CircleWave()
+                    .position(.init(
+                        x: UIScreen.main.bounds.width/2,
+                        y: UIScreen.main.bounds.height/2 - 40
+                    ))
+            } else  if self.isFollowMe {
+                CircleWave(color: Color.app.blue)
             }
         }
         .onReceive(self.viewModel.$playEffectEvent){ evt in
@@ -63,7 +96,7 @@ struct PlayEffect: PageView {
                 let eff = PlayEffectItem()
                 eff.type = .text
                 eff.duration = 3
-                eff.value = "STaRT!!"
+                eff.value = "Start!"
                 eff.snd = Asset.sound.start
                 self.add(effect: eff)
             }
@@ -73,16 +106,17 @@ struct PlayEffect: PageView {
             switch evt {
             case .start :
                 let eff = PlayEffectItem()
-                eff.type = .count
-                eff.duration = 4
-                eff.value = "WaLk StART"
+                eff.type = .text
+                eff.duration = 3
+                eff.value = "Enjoy walk!"
                 eff.snd = Asset.sound.start
                 self.add(effect: eff)
                 
             case .getRoute :
                 let eff = PlayEffectItem()
                 eff.type = .count
-                eff.duration = 3
+                eff.duration = 4
+                eff.value = "1"
                 eff.position = .init(x: UIScreen.main.bounds.width - 60, y: UIScreen.main.bounds.height - 60 )
                 self.add(effect: eff)
      
@@ -90,7 +124,7 @@ struct PlayEffect: PageView {
                 let eff = PlayEffectItem()
                 eff.type = .text
                 eff.duration = 3
-                eff.value = "ReAdy~"
+                eff.value = "Ready"
                 eff.snd = Asset.sound.ready
                 self.add(effect: eff)
     
@@ -98,16 +132,18 @@ struct PlayEffect: PageView {
                 let eff = PlayEffectItem()
                 eff.type = .text
                 eff.duration = 3
-                eff.value = "CoMPlET!!"
+                eff.value = "Mission\nComplete!"
                 eff.snd = Asset.sound.end
+
                 self.add(effect: eff)
                 
             case .findPlace :
                 let eff = PlayEffectItem()
                 eff.type = .text
                 eff.duration = 3
-                eff.value = "FiND pLACE!!"
-                eff.snd = Asset.sound.success
+                eff.value = "Find place!"
+                eff.snd = Asset.sound.find
+                eff.isFind = true
                 self.add(effect: eff)
             default: break
             }
@@ -123,6 +159,28 @@ struct PlayEffect: PageView {
             self.effects.remove(at: find)
         }
         ComponentLog.d("self.effects " + self.effects.count.description, tag: self.tag)
+    }
+    
+    @State var findShowSubscription:AnyCancellable?
+    func findShow() {
+        withAnimation{
+            self.isFindEffect = true
+        }
+        self.findShowSubscription?.cancel()
+        self.findShowSubscription = Timer.publish(
+            every: 2, on: .main, in: .common)
+            .autoconnect()
+            .sink() {_ in
+                self.findShowCancel()
+        }
+    }
+    
+    func findShowCancel() {
+        self.findShowSubscription?.cancel()
+        self.findShowSubscription = nil
+        withAnimation{
+            self.isFindEffect = false
+        }
     }
 }
 
@@ -151,12 +209,14 @@ struct PlayEffectImage: PageView {
         if let snd = self.data.snd {
             SoundToolBox().play(snd:snd)
         }
+        
         self.progressSubscription?.cancel()
         let end = self.data.duration
         var count = 0
         withAnimation{
             self.isShow = true
         }
+        
         self.progressSubscription = Timer.publish(
             every: 0.5, on: .main, in: .common)
             .autoconnect()
@@ -182,6 +242,17 @@ struct PlayEffectText: PageView {
     var body: some View {
         Text(self.data.value)
             .modifier(CustomTextStyle(textModifier: self.data.font))
+            .padding(.all,Dimen.margin.regular)
+            .background(Color.app.orange.opacity(0.2))
+            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.medium))
+            .overlay(
+                RoundedRectangle(cornerRadius:Dimen.radius.medium)
+                    .strokeBorder(
+                        Color.app.white,
+                        lineWidth: Dimen.stroke.medium
+                    )
+            )
+            .modifier(Shadow())
             .opacity(self.isShow ? 1 : 0)
             .offset(y: self.isShow ? 0 : -50)
             .onAppear(){
@@ -198,6 +269,7 @@ struct PlayEffectText: PageView {
         if let snd = self.data.snd {
             SoundToolBox().play(snd:snd)
         }
+        
         self.progressSubscription?.cancel()
         let end = self.data.duration
         var count = 0
@@ -228,8 +300,19 @@ struct PlayEffectCount: PageView {
     var body: some View {
         Text(self.viewText)
             .modifier(CustomTextStyle(textModifier: self.data.font))
+            .padding(.horizontal,Dimen.margin.regular)
+            .background(Color.app.orange.opacity(0.2))
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .strokeBorder(
+                        Color.app.white,
+                        lineWidth: Dimen.stroke.medium
+                    )
+            )
             .opacity(self.isShow ? 1 : 0)
             .offset(y: self.isShow ? 0 : -50)
+        
             .onAppear(){
                 self.progress()
                 
@@ -256,19 +339,21 @@ struct PlayEffectCount: PageView {
             every: 1, on: .main, in: .common)
             .autoconnect()
             .sink() {_ in
-                SoundToolBox().play(snd:"sample") //Asset.sound.ready)
+               
                 if count == end {
                     self.progressSubscription?.cancel()
                     self.complete()
+                } else {
+                    SoundToolBox().play(snd:Asset.sound.tick)
                 }
                 count += 1
                 if count == end {
                     withAnimation{
                         self.isShow = false
                     }
-                    self.viewText = self.data.value.isEmpty ? count.description : self.data.value
+                    self.viewText = self.data.value.isEmpty ? (end-count).description : self.data.value
                 } else {
-                    self.viewText = count.description
+                    self.viewText = (end-count).description
                 }
                
         }

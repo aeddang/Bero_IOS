@@ -34,23 +34,28 @@ extension Asset{
     struct map {
          
         public static let pinMission = "pin_mission"
-        public static let pinMissionCompleted = "pin_mission_on"
+        public static let pinMissionOn = "pin_mission_on"
+        public static let pinMissionCompleted = "pin_mission_mark"
         
         public static let pinCafe = "pin_cafe"
         public static let pinSalon = "pin_salon"
         public static let pinRestaurant = "pin_restaurant"
+        public static let pinVet = "pin_vet"
         
-        public static let pinCafeGray = "pin_cafe_gray"
-        public static let pinSalonGray = "pin_salon_gray"
-        public static let pinRestaurantGray = "pin_restaurant_gray"
+        public static let pinCafeOn = "pin_cafe_on"
+        public static let pinSalonOn = "pin_salon_on"
+        public static let pinRestaurantOn = "pin_restaurant_on"
+        public static let pinVetOn = "pin_vet_on"
         
-        public static let pinCafeSort = "pin_cafe_icon"
-        public static let pinSalonSort = "pin_salon_icon"
-        public static let pinRestaurantSort = "pin_restaurant_icon"
+        public static let pinCafeIcon = "pin_cafe_icon"
+        public static let pinSalonIcon = "pin_salon_icon"
+        public static let pinRestaurantIcon = "pin_restaurant_icon"
+        public static let pinVetIcon = "pin_vet_icon"
         
-        public static let pinCafeCompleted = "pin_cafe_on"
-        public static let pinSalonCompleted = "pin_salon_on"
-        public static let pinRestaurantCompleted = "pin_restaurant_on"
+        public static let pinCafeMark = "pin_cafe_mark"
+        public static let pinSalonMark = "pin_salon_mark"
+        public static let pinRestaurantMark = "pin_restaurant_mark"
+        public static let pinVetMark = "pin_vet_mark"
         
         public static let myLocation = "pin_my_location"
         public static let myLocationWalk = "pin_my_location_walk"
@@ -205,7 +210,11 @@ extension Asset{
         public static let end:String = "end"
         public static let push:String = "push"
         public static let reward:String = "reward"
+        public static let find:String = "find"
         public static let success:String = "success"
         public static let ready:String = "ready"
+        public static let tick:String = "tick"
+        public static let shotLong:String = "shot_long"
+        public static let shot:String = "shot"
     }
 }

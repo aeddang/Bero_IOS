@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "pin_salon.svg",
+      "filename" : "Type=place, Property=salon, Status=default.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },

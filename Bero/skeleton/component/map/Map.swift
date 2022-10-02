@@ -33,7 +33,7 @@ enum MapUiEvent {
 }
 
 enum MapViewEvent {
-    case tabMarker(GMSMarker), move(isUser:Bool)
+    case tabMarker(GMSMarker), tabOffMarker(GMSMarker), move(isUser:Bool)
 }
 
 protocol MapUserDataProtocal: Identifiable, Equatable{
