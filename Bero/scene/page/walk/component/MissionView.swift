@@ -40,7 +40,9 @@ struct MissionView: PageComponent, Identifiable{
                 title: self.mission.title,
                 description: self.mission.place?.vicinity,
                 distance: self.distance,
-                goal: self.mission.destination
+                action: {
+                    self.walkManager.viewRoute(mission: self.mission)
+                }
             )
             .padding(.horizontal, Dimen.app.pageHorinzontal)
             HStack(spacing:Dimen.margin.micro){
@@ -98,9 +100,7 @@ struct MissionView: PageComponent, Identifiable{
         .onReceive(self.walkManager.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .getRoute(let route) :
-                self.route = route
-                self.isViewRoute = true
+           
             case .startMission(let mission):
                 if self.mission.missionId == mission.missionId {
                     self.updateMission()
@@ -115,13 +115,9 @@ struct MissionView: PageComponent, Identifiable{
         .onAppear{
             self.updateMission()
         }
-        .onDisappear{
-            if self.isViewRoute {
-                //self.viewModel.playEvent = .clearViewRoute
-            }
-        }
+        
     }
-    @State var route:Route? = nil
+   
     @State var isViewRoute:Bool = false
     @State var isCompleted:Bool = false
     @State var distance:Double = 0
@@ -155,7 +151,7 @@ struct MissionView: PageComponent, Identifiable{
             self.appSceneObserver.alert = .confirm(nil, String.alert.missionStartNeedWalkConfirm){ isOk in
                 if isOk {
                     self.walkManager.startWalk()
-                    DispatchQueue.main.asyncAfter(deadline: .now()+3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now()+2) {
                         self.startMission()
                     }
                 }
@@ -179,8 +175,6 @@ struct MissionView: PageComponent, Identifiable{
     
     private func startMission(){
         self.walkManager.startMission(self.mission)
-        //self.appSceneObserver.event = .toast(String.alert.missionStart)
-        // self.pagePresenter.closePopup(self.pageObservable.pageObject?.id)
     }
 }
 

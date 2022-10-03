@@ -18,7 +18,8 @@ struct PlaceInfo: PageComponent{
     var title:String? = nil
     var description:String? = nil
     var distance:Double? = nil
-    var goal:CLLocation? = nil
+    var action: (() -> Void)? = nil
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             Spacer().modifier(MatchHorizontal(height: 0))
@@ -61,12 +62,12 @@ struct PlaceInfo: PageComponent{
                             .frame(width: Dimen.icon.thin, height: Dimen.icon.thin)
                         Text(WalkManager.viewDistance(distance))
                             .modifier(RegularTextStyle(size:Font.size.thin, color: Color.app.grey300))
-                        if let goal = self.goal {
+                        if let action = self.action {
                             ImageButton(
                                 defaultImage: Asset.icon.goal,
                                 defaultColor: Color.brand.secondary
                             ){ _ in
-                                self.walkManager.getRoute(goal: goal)
+                                action()
                             }
                         }
                     }

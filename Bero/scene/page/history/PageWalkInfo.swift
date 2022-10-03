@@ -35,16 +35,14 @@ struct PageWalkInfo: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        type:.section,
+                        infinityScrollModel: self.infinityScrollModel,
                         title: self.title ,
-                        alignment: .center,
-                        useBack: true){ type in
-                        switch type {
-                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
-                        }
-                    }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        useBack: true, action: { type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
+                        })
                     ZStack(alignment: .top){
                         ZStack(alignment: .topTrailing){
                             if let path = self.mission?.pictureUrl {

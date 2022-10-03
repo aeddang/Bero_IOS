@@ -72,9 +72,10 @@ struct PlaceSortBox: PageView {
                 }
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
             }
-            
-            
-        
+        }
+        .opacity(self.isShow ? 1 : 0)
+        .onReceive(self.viewModel.$componentHidden){ isHidden in
+            withAnimation{ self.isShow = !isHidden }
         }
         .onAppear{
             self.showShop = self.walkManager.placeFilters.first(where: {$0 == .petShop}) != nil
@@ -82,7 +83,7 @@ struct PlaceSortBox: PageView {
             self.showRestaurant = self.walkManager.placeFilters.first(where: {$0 == .restaurant}) != nil
         }
     }//body
-  
+    @State var isShow:Bool = true
     @State var showShop:Bool = true
     @State var showCafe:Bool = true
     @State var showVet:Bool = true

@@ -83,6 +83,8 @@ class LocationObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
             if let desiredAccuracy = desiredAccuracy {
                 locationManager.desiredAccuracy = desiredAccuracy
             }
+            locationManager.distanceFilter = 1
+            locationManager.activityType = .fitness
             locationManager.startUpdatingLocation()
         } else {
             if !self.isSearch { return }

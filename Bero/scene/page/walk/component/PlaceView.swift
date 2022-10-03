@@ -39,7 +39,9 @@ struct PlaceView: PageComponent, Identifiable{
                 title: self.place.name,
                 description: self.place.place?.vicinity,
                 distance: self.distance,
-                goal: self.place.location
+                action: {
+                    self.walkManager.viewRoute(place: self.place)
+                }
             )
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
             HStack(spacing:Dimen.margin.micro){

@@ -39,9 +39,8 @@ struct PageAlbum: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        type:.section,
+                        infinityScrollModel: self.infinityScrollModel,
                         title:String.button.album,
-                        alignment: .center,
                         useBack:true,
                         buttons: self.user?.isMe == true ? [.setting] : []){ type in
                         switch type {
@@ -53,7 +52,6 @@ struct PageAlbum: PageView {
                         default : break
                         }
                     }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     if let user = self.user {
                         AlbumList(
                             pageObservable: self.pageObservable,

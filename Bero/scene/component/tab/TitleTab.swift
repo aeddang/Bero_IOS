@@ -181,10 +181,12 @@ struct TitleTab: PageComponent{
         }
         .onReceive(self.infinityScrollModel.$event){ evt  in
             guard let evt = evt else {return}
+            
             withAnimation{
                 switch evt {
+                case .up, .down : self.isTop = false
                 case .top : self.isTop = true
-                default : self.isTop = false
+                default : break
                 }
             }
         }

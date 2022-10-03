@@ -38,8 +38,10 @@ struct PlayEffect: PageView {
     @Binding var isFollowMe:Bool
     @State var effects:[PlayEffectItem] = []
     @State var isFindEffect:Bool = false
+
     var body: some View {
         ZStack(alignment: .center){
+            
             ForEach(self.effects) { effect in
                 switch effect.type {
                 case .count :
@@ -99,6 +101,13 @@ struct PlayEffect: PageView {
                 eff.value = "Start!"
                 eff.snd = Asset.sound.start
                 self.add(effect: eff)
+            case .viewRoute(let duration) :
+                let eff = PlayEffectItem()
+                eff.type = .count
+                eff.duration = duration.toInt()
+                eff.value = "1"
+                eff.position = .init(x: UIScreen.main.bounds.width - 60, y: UIScreen.main.bounds.height - 60 )
+                self.add(effect: eff)
             }
         }
         .onReceive(self.walkManager.$event){ evt in
@@ -111,15 +120,7 @@ struct PlayEffect: PageView {
                 eff.value = "Enjoy walk!"
                 eff.snd = Asset.sound.start
                 self.add(effect: eff)
-                
-            case .getRoute :
-                let eff = PlayEffectItem()
-                eff.type = .count
-                eff.duration = 4
-                eff.value = "1"
-                eff.position = .init(x: UIScreen.main.bounds.width - 60, y: UIScreen.main.bounds.height - 60 )
-                self.add(effect: eff)
-     
+           
             case .startMission:
                 let eff = PlayEffectItem()
                 eff.type = .text
@@ -168,7 +169,7 @@ struct PlayEffect: PageView {
         }
         self.findShowSubscription?.cancel()
         self.findShowSubscription = Timer.publish(
-            every: 2, on: .main, in: .common)
+            every: 4, on: .main, in: .common)
             .autoconnect()
             .sink() {_ in
                 self.findShowCancel()
@@ -240,29 +241,35 @@ struct PlayEffectText: PageView {
     let data:PlayEffectItem
     let complete: (() -> Void)
     var body: some View {
-        Text(self.data.value)
-            .modifier(CustomTextStyle(textModifier: self.data.font))
-            .padding(.all,Dimen.margin.regular)
-            .background(Color.app.orange.opacity(0.2))
-            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.medium))
-            .overlay(
-                RoundedRectangle(cornerRadius:Dimen.radius.medium)
-                    .strokeBorder(
-                        Color.app.white,
-                        lineWidth: Dimen.stroke.medium
-                    )
-            )
-            .modifier(Shadow())
-            .opacity(self.isShow ? 1 : 0)
-            .offset(y: self.isShow ? 0 : -50)
-            .onAppear(){
-                self.progress()
-            }
-            .onDisappear{
-                self.progressSubscription?.cancel()
-                self.progressSubscription = nil
-            }
+        ZStack{
+            Spacer().modifier(MatchHorizontal(height: 0))
+            Text(self.data.value)
+                .modifier(CustomTextStyle(textModifier: self.data.font))
+                .padding(.all,Dimen.margin.regular)
+        }
+        .background(Color.app.orange.opacity(0.2))
+        /*
+        .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.medium))
+        .overlay(
+            RoundedRectangle(cornerRadius:Dimen.radius.medium)
+                .strokeBorder(
+                    Color.app.white,
+                    lineWidth: Dimen.stroke.medium
+                )
+        )
+        .modifier(Shadow())
+        */
+        .opacity(self.isShow ? 1 : 0)
+        .offset(x: self.isShow ? 0 : self.isStart ? -200 : 200)
+        .onAppear(){
+            self.progress()
+        }
+        .onDisappear{
+            self.progressSubscription?.cancel()
+            self.progressSubscription = nil
+        }
     }//body
+    @State var isStart:Bool = true
     @State var isShow:Bool = false
     @State var progressSubscription:AnyCancellable?
     func progress() {
@@ -281,6 +288,7 @@ struct PlayEffectText: PageView {
             .autoconnect()
             .sink() {_ in
                 if count == end-1 {
+                    self.isStart = false
                     withAnimation{
                         self.isShow = false
                     }

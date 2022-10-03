@@ -5,8 +5,23 @@ import GooglePlaces
 import QuartzCore
 
 extension PlayMap {
-    
-    
+    func getMe(_ loc:CLLocation) -> GMSMarker {
+        let icon = self.meIcon
+        let user = self.dataProvider.user
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(
+            latitude: loc.coordinate.latitude,
+            longitude: loc.coordinate.longitude)
+        marker.title = "Me"
+        let pets = user.pets.filter{$0.isWith}
+        let petNames = pets.reduce("", {$0+", "+($1.name ?? "")}).dropFirst()
+        marker.snippet = "with " + petNames
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
+        marker.iconView = icon
+        marker.zIndex = 999
+        return marker
+    }
     
     func getRoutes(_ route:Route, color:Color) -> [GMSPolyline] {
         let lines =  route.polyLines.map{ self.getRoute($0, color: color) }

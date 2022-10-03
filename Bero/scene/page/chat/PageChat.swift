@@ -36,7 +36,7 @@ struct PageChat: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        
+                        infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.chat,
                         buttons:[.setting]){ type in
                         switch type {

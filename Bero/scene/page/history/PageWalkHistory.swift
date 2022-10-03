@@ -35,16 +35,14 @@ struct PageWalkHistory: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        type:.section,
+                        infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.walkHistory,
-                        alignment: .center,
-                        useBack: true){ type in
-                        switch type {
-                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
-                        }
-                    }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        useBack: true, action: { type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
+                        })
                     InfinityScrollView(
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
@@ -53,7 +51,7 @@ struct PageWalkHistory: PageView {
                         marginHorizontal: 0,
                         spacing:0,
                         isRecycle: false,
-                        useTracking: false
+                        useTracking: true
                     ){
                         if let user = self.user {
                             TotalWalkSection(user: user)

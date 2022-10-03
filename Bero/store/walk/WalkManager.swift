@@ -13,7 +13,7 @@ import GooglePlaces
 enum WalkEvent {
     case start, end, completed(Mission),
          startMission(Mission), endMission(Mission), completedMission(Mission),
-         getRoute(Route),
+         getRoute(Route), endRoute,
          changeMapStatus, updatedMissions, updatedPlaces , updatedUsers,
          findWaypoint(index:Int, total:Int), findPlace(Place)
     
@@ -34,7 +34,7 @@ enum WalkEvent {
 }
 
 enum WalkUiEvent {
-    case moveMap(CLLocation)
+    case moveMap(CLLocation), hiddenRoute
 }
 enum WalkError {
     case accessDenied, getRoute, updatedMissions
@@ -215,6 +215,9 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private(set) var walkTime:Double = 0
     @Published private(set) var walkDistence:Double = 0
     @Published private(set) var currentMission:Mission? = nil
+    @Published private(set) var viewMission:Mission? = nil
+    @Published private(set) var viewPlace:Place? = nil
+    
     @Published private(set) var currentLocation:CLLocation? = nil
     @Published private(set) var isMapLoading:Bool = false
     @Published private(set) var currentDistenceFromMission:Double? = nil
@@ -346,7 +349,7 @@ class WalkManager:ObservableObject, PageProtocol{
         }
         self.currentMission?.isSelected = false
         if self.status == .ready {
-            self.locationObserver.requestMe(false, id:self.tag)
+            self.locationObserver.requestMe(false, id:self.tag, desiredAccuracy:.greatestFiniteMagnitude)
         }
     }
     
@@ -416,11 +419,26 @@ class WalkManager:ObservableObject, PageProtocol{
         self.event = .completedMission(mission)
     }
     
-
+    func viewRoute(mission:Mission){
+        guard let goal = mission.destination else { return }
+        self.viewMission = mission
+        self.getRoute(goal: goal)
+    }
+    func viewRoute(place:Place){
+        guard let goal = place.location else { return }
+        self.viewPlace = place
+        self.getRoute(goal: goal)
+    }
+    func viewRouteEnd(){
+        self.viewMission = nil
+        self.viewPlace = nil
+        self.event = .endRoute
+    }
+    
     @discardableResult
     func getRoute(goal:CLLocation)->Bool{
         guard let me = self.currentLocation else {return false}
-        self.dataProvider.requestData(q: .init(id: self.tag, type: .requestRoute(departure: me, destination: goal), isOptional: true))
+        self.dataProvider.requestData(q: .init(id: self.tag, type: .requestRoute(departure: me, destination: goal), isOptional: false))
         return true
     }
    
@@ -545,12 +563,14 @@ class WalkManager:ObservableObject, PageProtocol{
             if let datas = res.data as? [MissionRoute] {
                 if datas.isEmpty {
                     self.error = .getRoute
+                    self.viewRouteEnd()
                 } else {
                     let route = Route().setData(datas.first!)
                     self.event = .getRoute(route)
                 }
             } else {
                 self.error = .getRoute
+                self.viewRouteEnd()
             }
        
         default : break
@@ -564,6 +584,8 @@ class WalkManager:ObservableObject, PageProtocol{
             self.error = .updatedMissions
         case .requestRoute :
             self.error = .getRoute
+            self.viewRouteEnd()
+            
         case .getPlace(_, _ , let searchType) :
             if let key = searchType {
                 self.placeDatas[key] = []
