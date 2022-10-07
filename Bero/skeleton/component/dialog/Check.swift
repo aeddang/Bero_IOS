@@ -28,7 +28,7 @@ struct Check<Presenting>: View where Presenting: View {
     let presenting: () -> Presenting
     var text: String
     var isAuto: Bool
-    var duration:Double = 1.5
+    var duration:Double = 2.5
     var action: (() -> Void)? = nil
     @State var safeAreaBottom:CGFloat = 0
     @State var isChecked = false

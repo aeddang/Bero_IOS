@@ -24,7 +24,8 @@ struct PetProfileEdit: PageComponent{
                 type: .medium,
                 title: String.app.name,
                 text: self.name,
-                useStroke: false
+                useStroke: false,
+                useMargin: false
             ){_ in
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.editProfile)
@@ -37,7 +38,8 @@ struct PetProfileEdit: PageComponent{
                 type: .medium,
                 title: String.app.gender,
                 text: self.gender,
-                useStroke: false
+                useStroke: false,
+                useMargin: false
             ){_ in
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.editProfile)
@@ -50,7 +52,8 @@ struct PetProfileEdit: PageComponent{
                 type: .medium,
                 title: String.app.age,
                 text: self.age,
-                useStroke: false
+                useStroke: false,
+                useMargin: false
             ){_ in
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.editProfile)
@@ -63,7 +66,8 @@ struct PetProfileEdit: PageComponent{
                 type: .medium,
                 title: String.app.introduction,
                 text: self.introduction,
-                useStroke: false
+                useStroke: false,
+                useMargin: false
             ){_ in
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.editProfile)

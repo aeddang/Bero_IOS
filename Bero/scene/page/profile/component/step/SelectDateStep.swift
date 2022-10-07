@@ -50,7 +50,7 @@ struct SelectDateStep: PageComponent{
                 SortButton(
                     type: .strokeFill,
                     sizeType: .small,
-                    text: self.selectDate.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy"),
+                    text: self.selectDate.toAge(trailing:String.app.years),
                     color: Color.app.orange,
                     isSort: false,
                     isSelected: true

@@ -54,23 +54,11 @@ struct InputTextEdit: PageComponent{
             )
             VStack(spacing: Dimen.margin.regular){
                 if self.needAgree {
-                    HStack(spacing:0){
-                        RadioButton(
-                            type: .checkOn,
-                            isChecked: self.isAgree,
-                            text:String.button.privacyAgreement
-                        ){ _ in
-                            self.isAgree.toggle()
-                        }
-                        TextButton(
-                            defaultText: String.button.terms,
-                            isUnderLine: true
-                        ){_ in
-                            
-                            self.pagePresenter.openPopup(
-                                PageProvider.getPageObject(.privacy)
-                            )
-                        }
+                    AgreeButton(
+                        type: .privacy,
+                        isChecked: self.isAgree
+                    ){ _ in
+                        self.isAgree.toggle()
                     }
                 }
                 FillButton(

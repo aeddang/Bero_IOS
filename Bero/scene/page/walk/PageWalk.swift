@@ -111,6 +111,7 @@ struct PageWalk: PageView {
                     self.isInitable = !self.dataProvider.user.pets.isEmpty
                 }
                 self.needDog()
+            
             default : break
             }
         }

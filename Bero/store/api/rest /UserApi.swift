@@ -47,13 +47,21 @@ class UserApi :Rest{
             data.log()
         }, completion: completion, error:error)
     }
+    
+    func block(userId:String, isBlock:Bool, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["isBlock"] = isBlock ? "true" : "false"
+        fetch(route: UserApiRoute (method: .post, action: .block, actionId: userId, query: params), completion: completion, error:error)
+    }
 }
 
 struct UserApiRoute : ApiRoute{
     var method:HTTPMethod = .get
     var command: String = "users"
-    var action: ApiAction? = nil
     var commandId: String? = nil
+    var action: ApiAction? = nil
+    var actionId: String? = nil
+   
     var query:[String: String]? = nil
     var body:[String: Any]? = nil
 }

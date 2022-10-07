@@ -194,7 +194,10 @@ class ApiManager :PageProtocol, ObservableObject{
             self.userUpdate.put(user: user, image: img,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
                                 error:error)
-            
+        case .blockUser(let userId, let isBlock) :
+            self.userUpdate.block(userId: userId, isBlock: isBlock,
+                                completion: {res in self.complated(id: apiID, type: type, res: res)},
+                                error:error)
         case .registPet(let user, let pet) :
             self.petUpdate.post(user: user, pet: pet,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
@@ -288,6 +291,11 @@ class ApiManager :PageProtocol, ObservableObject{
             self.misc.getCode(category: category, searchKeyword: searchKeyword,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
+        case .sendReport(let reportType, let postId, let userId) :
+            self.misc.postReport(type: reportType, postId:postId, userId:userId,
+                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
+                                 error:error)
+        
         case .getPlace(let location, let distance, let searchType) :
             self.place.get(location: location, distance: distance, searchType: searchType,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},

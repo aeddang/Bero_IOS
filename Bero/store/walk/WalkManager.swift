@@ -237,7 +237,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.dataProvider = dataProvider
     }
     
-    func resetMapStatus(_ location:CLLocation, userFilter:Filter?=nil,  missionFilter:Filter?=nil, placeFilters:[Filter]?=nil, isAll:Bool = false){
+    func resetMapStatus(_ location:CLLocation? = nil, userFilter:Filter?=nil,  missionFilter:Filter?=nil, placeFilters:[Filter]?=nil, isAll:Bool = false){
         if let filter = userFilter {
             self.userFilter = filter
             self.missionUsers = []
@@ -263,10 +263,12 @@ class WalkManager:ObservableObject, PageProtocol{
             self.missions = []
         }
         self.event = .changeMapStatus
-        self.updateMapStatus(location)
+        if let loc = location ?? self.currentLocation {
+            self.updateMapStatus(loc)
+        }
     }
     
-    func resetMapFilter(_ location:CLLocation, placeFilter:Filter, use:Bool){
+    func resetMapFilter(_ location:CLLocation? = nil, placeFilter:Filter, use:Bool){
         if use && self.placeFilters.contains(placeFilter){
             return
         } else if !use && !self.placeFilters.contains(placeFilter) {
@@ -279,7 +281,10 @@ class WalkManager:ObservableObject, PageProtocol{
         } else {
             return
         }
-        self.resetMapPlace(location)
+        if let loc = location ?? self.currentLocation {
+            self.resetMapPlace(loc)
+        }
+        
     }
     
     func resetMapPlace(_ location:CLLocation, isAllShow:Bool = false){

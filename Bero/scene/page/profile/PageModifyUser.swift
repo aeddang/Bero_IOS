@@ -56,6 +56,7 @@ struct PageModifyUser: PageView {
                             UserProfilePictureEdit(
                                 profile: user.currentProfile,
                                 user: user.snsUser)
+                            
                             UserProfileEdit(
                                 profile: user.currentProfile,
                                 user: user.snsUser)

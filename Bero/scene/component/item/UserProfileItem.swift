@@ -15,6 +15,7 @@ struct UserProfileItem: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var data:UserProfile
+    var postId:String? = nil
     var subImagePath:String? = nil
     var date:String? = nil
     var useBg:Bool = false
@@ -25,7 +26,7 @@ struct UserProfileItem: PageComponent{
             sizeType: .small,
             funcType: self.dataProvider.user.isSameUser(self.data)
                 ? nil
-                : self.status == .friend ? .send : .addFriend ,
+            : .moreFunc ,
             imagePath: self.data.imagePath,
             name: self.data.nickName,
             gender: self.date == nil ? self.data.gender : nil,
@@ -36,8 +37,7 @@ struct UserProfileItem: PageComponent{
         ){ type in
             
             switch type {
-            case .addFriend : self.requestFriend()
-            case .send : self.appSceneObserver.event = .sendChat(userId: self.data.userId)
+            case .moreFunc : self.more()
             default : self.action?()
             }
         }
@@ -64,9 +64,69 @@ struct UserProfileItem: PageComponent{
     }
     
     @State var status:FriendStatus = .norelation
+    private func more(){
+        
+        let datas:[String] = [
+            self.status == .friend ? String.button.chat : String.button.addFriend,
+            //String.button.share,
+            String.button.accuse
+        ]
+        let icons:[String?] = [
+            self.status == .friend ? Asset.icon.chat : Asset.icon.add_friend,
+            //Asset.icon.share,
+            Asset.icon.notice
+        ]
+       
+        self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+            guard let idx = idx else {return}
+            switch idx {
+            case 0 :
+                if self.status == .friend {
+                    self.sendMessage()
+                } else {
+                    self.requestFriend()
+                }
+                
+            case 1 : self.accuse()
+            default : break
+            }
+        }
+    }
+    
     private func requestFriend(){
         let id = self.data.userId
         self.dataProvider.requestData(q: .init(id: id, type: .requestFriend(userId: id)))
+    }
+    private func sendMessage(){
+        let id = self.data.userId
+        self.appSceneObserver.event = .sendChat(userId: id)
+    }
+    private func accuse(){
+        if let post = self.postId {
+            self.appSceneObserver.sheet = .select(
+                String.alert.accuseAlbumConfirm,
+                String.alert.accuseAlbumConfirmText,
+                [String.app.cancel,String.button.accuse],
+                isNegative: true){ idx in
+                    if idx == 1 {
+                        self.dataProvider.requestData(q: .init(type: .sendReport(
+                            reportType: .user, postId: post , userId: self.data.userId
+                        )))
+                    }
+                }
+        } else {
+            self.appSceneObserver.sheet = .select(
+                String.alert.accuseUserConfirm,
+                String.alert.accuseUserConfirmText,
+                [String.app.cancel,String.button.accuseUser],
+                isNegative: true){ idx in
+                    if idx == 1 {
+                        self.dataProvider.requestData(q: .init(type: .sendReport(
+                            reportType: .user, postId: nil , userId: self.data.userId
+                        )))
+                    }
+                }
+        }
     }
 }
 

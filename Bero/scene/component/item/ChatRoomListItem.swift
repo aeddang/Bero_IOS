@@ -19,6 +19,7 @@ class ChatRoomListItemData:InfinityData, ObservableObject{
     fileprivate(set) var isRead:Bool = false
     @Published var isDelete:Bool = false
     func setData(_ data:ChatRoomData, idx:Int) -> ChatRoomListItemData {
+        self.index = idx
         self.profileImagePath = data.receiverProfile
         self.roomId = data.chatRoomId ?? -1
         self.title = data.title
@@ -44,7 +45,7 @@ struct ChatRoomListItem: PageComponent{
                 HorizontalProfile(
                     type: .user,
                     sizeType: .small,
-                    funcType: self.isRead ? nil : .view(self.data.unreadCount.description),
+                    funcType: self.isRead ? nil : .view("N"),   // .view(self.data.unreadCount.description),
                     imagePath: self.data.profileImagePath,
                     name: self.data.title,
                     date: self.data.date,

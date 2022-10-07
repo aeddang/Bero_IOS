@@ -289,9 +289,10 @@ enum Lv {
 }
 
 enum FriendStatus{
-    case norelation, requestFriend, friend, recieveFriend
+    case norelation, requestFriend, friend, recieveFriend, chat
     var icon:String{
         switch self {
+        case .chat : return Asset.icon.chat
         case .requestFriend : return Asset.icon.check
         case .friend : return Asset.icon.remove_friend
         case .recieveFriend : return Asset.icon.add_friend
@@ -300,14 +301,16 @@ enum FriendStatus{
     }
     var text:String{
         switch self {
+        case .chat : return String.button.chat
         case .requestFriend : return String.button.requestSent
-        case .friend : return String.button.remopveFriend
+        case .friend : return String.button.removeFriend
         case .recieveFriend : return String.button.addFriend
         default : return String.button.addFriend
         }
     }
     var buttons:[FriendButton.ButtonType]{
         switch self {
+        case .chat : return [.chat]
         case .requestFriend : return []
         case .friend : return [.delete]
         case .recieveFriend : return [.reject, .accept]

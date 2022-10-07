@@ -53,20 +53,13 @@ struct PlaceSortBox: PageView {
                     
                     CircleButton(
                         type: .icon(Asset.icon.refresh),
-                        isSelected: self.showRestaurant && self.showCafe && self.showShop && self.showVet ,
+                        isSelected: false ,
                         strokeWidth: Dimen.stroke.regular,
                         activeColor: Color.brand.primary.opacity(0.5)
                     )
                     { _ in
                         guard let loc = self.walkManager.currentLocation else {return}
-                        let toggle = self.showRestaurant && self.showCafe && self.showShop && self.showVet
-                        withAnimation{
-                            self.showRestaurant = !toggle
-                            self.showCafe = !toggle
-                            self.showShop = !toggle
-                            self.showVet = !toggle
-                        }
-                        self.walkManager.resetMapPlace(loc, isAllShow: true)
+                        self.walkManager.resetMapPlace(loc)
                         self.pagePresenter.closePopup(pageId: .popupWalkPlace)
                     }
                 }

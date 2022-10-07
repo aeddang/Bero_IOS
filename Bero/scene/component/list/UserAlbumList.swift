@@ -88,6 +88,8 @@ struct UserAlbumList: PageComponent{
                     }
                     self.loaded(res)
                 }
+            case .blockUser :
+                self.updateUser()
             default : break
             }
         }

@@ -78,7 +78,7 @@ struct WalkBox: PageComponent{
                             )
                             FillButton(
                                 type: .fill,
-                                text: String.button.finishTheWalk,
+                                text: String.button.finish,
                                 size: Dimen.button.regularExtra,
                                 color: Color.app.black,
                                 isActive: true

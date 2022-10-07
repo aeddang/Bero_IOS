@@ -33,6 +33,7 @@ extension String {
         public static let kg = "kg"
         public static let inch = "”"
         public static let exp = "EXP"
+        public static let years = "Years"
         public static let weight = "Weight"
         public static let height = "Height"
         public static let immunization = "Immunization"
@@ -113,13 +114,35 @@ extension String {
         public static var profileDeleteConfirm = "Do you want to delete your profile?"
         public static var profileDeleteConfirmText = "You can’t restore once you delete it."
         
-        public static var chatRoomDeleteConfirm = "Do you want to delete room?"
+        public static var chatRoomDeleteConfirm = "Do you want to leave the chat?"
+        public static var chatRoomDeleteConfirmText = "The chat history will still remain on the other user’s chat room."
+
         public static var chatDeleteConfirm = "Do you want to delete message?"
-        public static var chatRoomDeleteConfirmText = "You can’t restore once you delete it."
+        public static var chatDeleteConfirmText = "You can’t restore once you delete it."
         
         public static var closeConfirm = "Do you want to quit?"
         public static var closeConfirmText = "Information will be disappeared as you confrim"
+        
+        public static var accuseUserConfirm = "Do you want to report this user?"
+        public static var accuseUserConfirmText = "Reported user will be taken action after the reviewing process and can’t join the chats."
+        public static var accuseUserCompleted = "It have been reported."
+        
+        public static var accuseAlbumConfirm = "Do you want to report this photo?"
+        public static var accuseAlbumConfirmText = "Reported photo will be deleted after the reviewing process."
+        public static var accuseAlbumCompleted = "It have been reported."
+        
+        public static var firstChatMessage = "In the case of using inappropriate post or language, i agree that account suspension and use of Bero app may not be possible according to the terms and conditions."
+        
+        public static var needAgreement = "You should agree to the terms and conditions before using it."
+        
+        public static var blockUserConfirm = "Do you want to block?"
+        public static var blockUserCompleted = "Blocked."
+        
+        public static var unblockUserConfirm = "Do you want to unblock?"
+        public static var unblockUserCompleted = "Unblocked."
     }
+    
+   
     
     struct button {
         public static let later = "Later"
@@ -160,7 +183,7 @@ extension String {
         public static let manageDogs = "Manage dogs"
         public static let addFriend = "Add friend"
         public static let requestFriend = "Request friend"
-        public static let remopveFriend = "Remove friend"
+        public static let removeFriend = "Remove friend"
         public static let chat = "Chat"
         public static let requestSent = "Request sent"
         public static let all = "All"
@@ -177,6 +200,12 @@ extension String {
         public static let stop = "Stop"
         public static let redeemReward = "Redeem reward"
         public static let privacyAgreement = "Privacy usage agreement"
+        public static let accuse = "Report"
+        public static let share = "Share"
+        public static let deleteRoom = "Delete room"
+        public static let accuseUser = "Report user"
+        public static let block = "Block"
+        public static let unblock = "Unblock"
     }
     
     struct sort {
@@ -228,6 +257,10 @@ extension String {
         public static let walkReport = "Walk Report"
         public static let missionHistory = "Mission History"
         public static let completedMissions = "Completed missions"
+        
+        public static let privacy = "Privacy usage agreement"
+        public static let service = "Terms of service agreement"
+        public static let blockUser = "Manage block list"
     }
     
 

@@ -138,7 +138,7 @@ struct SortButton: View{
                     if !self.text.isEmpty {
                         Text(self.text)
                             .lineLimit(1)
-                            .modifier(SemiBoldTextStyle(
+                            .modifier(MediumTextStyle(
                                 size: self.sizeType.textSize,
                                 color: self.type.textColor(self.color)
                             ))

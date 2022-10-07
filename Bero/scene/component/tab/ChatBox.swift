@@ -13,6 +13,7 @@ import GoogleMaps
 
 
 struct ChatBox: PageComponent{
+    @EnvironmentObject var repository:Repository
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var sceneObserver:PageSceneObserver
     @EnvironmentObject var walkManager:WalkManager
@@ -76,6 +77,10 @@ struct ChatBox: PageComponent{
                 self.isFocus  = true
                 withAnimation{self.isActive = false}
                 withAnimation{self.isShow = true}
+                if self.repository.storage.isFirstChat {
+                    self.repository.storage.isFirstChat = false
+                    self.appSceneObserver.alert = .alert(nil, String.alert.firstChatMessage)
+                }
                 
             default : break
             }

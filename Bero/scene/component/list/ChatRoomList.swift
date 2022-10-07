@@ -78,6 +78,9 @@ struct ChatRoomList: PageComponent{
             case .deleteChatRoom :
                 self.resetScroll()
                 self.loadChatRoom()
+            case .blockUser :
+                self.resetScroll()
+                self.loadChatRoom()
             default : break
             }
         }
@@ -106,7 +109,15 @@ struct ChatRoomList: PageComponent{
     }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let datas = res.data as? [ChatRoomData] else { return }
+        guard let datas = res.data as? [ChatRoomData] else {
+            if self.rooms.isEmpty {
+                withAnimation{
+                    self.isEmpty = true
+                    self.isEdit = false
+                }
+            }
+            return
+        }
         self.loadedChatRoom(datas: datas)
     }
     

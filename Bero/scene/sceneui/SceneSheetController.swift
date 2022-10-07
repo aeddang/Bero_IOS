@@ -11,9 +11,9 @@ import SwiftUI
 import Combine
 
 enum SceneSheet {
-    case confirm(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, (Bool) -> Void),
-         alert(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, confirm:String? = nil, (() -> Void)? = nil),
-         select(String?, String?, icon:String? = nil, image:String?=nil, point:Int? = nil, exp:Double? = nil, [String], (Int) -> Void)
+    case confirm(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, isNegative:Bool? = nil, (Bool) -> Void),
+         alert(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, confirm:String? = nil, isNegative:Bool? = nil , (() -> Void)? = nil),
+         select(String?, String?, icon:String? = nil, image:String?=nil, point:Int? = nil, exp:Double? = nil, [String], isNegative:Bool? = nil, (Int) -> Void)
 }
 
 enum SceneSheetResult {
@@ -63,11 +63,11 @@ struct SceneSheetController: PageComponent{
             }
         ){ idx in
             switch self.currentSheet {
-            case .alert(_, _, _, _, _, _, let completionHandler) :
+            case .alert(_, _, _, _, _, _, _, let completionHandler) :
                 if let handler = completionHandler { self.selectedAlert(idx, completionHandler:handler) }
                
-            case .select(_, _, _, _, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
-            case .confirm(_, _, _, _, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
+            case .select(_, _, _, _, _, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
+            case .confirm(_, _, _, _, _, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
             default: return
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -79,12 +79,22 @@ struct SceneSheetController: PageComponent{
             self.reset()
             self.currentSheet = sheet
             switch sheet{
-            case .alert(let title,let text, let image, let point, let exp, let btnText, let completionHandler) :
-                if completionHandler == nil { self.buttonColor = Color.app.black }
+            case .alert(let title,let text, let image, let point, let exp, let btnText, let isNegative, let completionHandler) :
+                if let negative = isNegative {
+                    self.buttonColor = negative ? Color.app.black : nil
+                } else {
+                    if completionHandler == nil { self.buttonColor = Color.app.black }
+                }
                 self.setupAlert(title:title, text:text, image:image, point:point, exp:exp, btnText:btnText)
-            case .select(let title,let text, let icon, let image, let point, let exp, let selects, _) :
+            case .select(let title,let text, let icon, let image, let point, let exp, let selects, let isNegative, _) :
+                if let negative = isNegative {
+                    self.buttonColor = negative ? Color.app.black : nil
+                }
                 self.setupSelect(title: title, text: text, icon:icon, image:image, point:point, exp:exp, selects: selects)
-            case .confirm(let title,let text,let image, let point, let exp,  _) :
+            case .confirm(let title,let text,let image, let point, let exp, let isNegative,  _) :
+                if let negative = isNegative {
+                    self.buttonColor = negative ? Color.app.black : nil
+                }
                 self.setupConfirm(title:title, text:text, image:image, point:point, exp:exp)
             default: return
             }

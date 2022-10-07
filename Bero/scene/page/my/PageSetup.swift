@@ -64,7 +64,38 @@ struct PageSetup: PageView {
                             self.repository.setupPush(self.isReceivePush)
                         }
                         Spacer().modifier(LineHorizontal())
-                           
+                        SelectButton(
+                            type: .medium,
+                            text: String.pageTitle.service,
+                            useStroke: false,
+                            useMargin: false
+                        ){_ in
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.serviceTerms)
+                            )
+                        }
+                        SelectButton(
+                            type: .medium,
+                            text: String.pageTitle.privacy,
+                            useStroke: false,
+                            useMargin: false
+                        ){_ in
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.privacy)
+                            )
+                        }
+                        SelectButton(
+                            type: .medium,
+                            text: String.pageTitle.blockUser,
+                            useStroke: false,
+                            useMargin: false
+                        ){_ in
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.blockUser)
+                            )
+                        }
+                        Spacer().modifier(LineHorizontal())
+                        Spacer()
                         FillButton(
                             type: .fill,
                             text: String.button.logOut

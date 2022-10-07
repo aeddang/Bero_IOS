@@ -53,52 +53,87 @@ struct FriendList: PageComponent{
     var user:User? = nil
     var listSize:CGFloat = 300
     var marginBottom:CGFloat = Dimen.margin.medium
+    var isHorizontal:Bool = false
     var body: some View {
         VStack(spacing:0){
             if self.isEmpty {
                 EmptyItem(type: .myList)
-                    .padding(.top, Dimen.margin.regularUltra)
+                    .padding(.top, self.isHorizontal ? 0 : Dimen.margin.regularUltra)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                 Spacer().modifier(MatchParent())
             } else {
-                InfinityScrollView(
-                    viewModel: self.infinityScrollModel,
-                    axes: .vertical,
-                    showIndicators : false,
-                    marginTop: Dimen.margin.regularUltra,
-                    marginBottom: self.marginBottom,
-                    marginHorizontal: Dimen.app.pageHorinzontal,
-                    spacing:Dimen.margin.regularUltra,
-                    isRecycle: true,
-                    useTracking: true
-                ){
-                    ForEach(self.friendDataSets) { dataSet in
-                        HStack(spacing: Dimen.margin.regularExtra){
-                            ForEach(dataSet.datas) { data in
-                                FriendListItem(
-                                    data: data,
-                                    imgSize: self.imageSize,
-                                    status: self.type.status
-                                ){
-                                    self.pagePresenter.openPopup(
-                                        PageProvider.getPageObject(.user)
-                                            .addParam(key: .id, value:data.userId)
-                                    )
-                                }
+                if self.isHorizontal {
+                    InfinityScrollView(
+                        viewModel: self.infinityScrollModel,
+                        axes: .horizontal,
+                        showIndicators : false,
+                        marginTop: 0,
+                        marginBottom: 0,
+                        marginHorizontal: Dimen.app.pageHorinzontal,
+                        spacing:Dimen.margin.regularUltra,
+                        isRecycle: true,
+                        useTracking: true
+                    ){
+                        ForEach(self.friends) { data in
+                            FriendListItem(
+                                data: data,
+                                imgSize: self.imageSize,
+                                status: self.type.status == .friend ? .chat : self.type.status
+                            ){
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.user)
+                                        .addParam(key: .id, value:data.userId)
+                                )
                             }
-                            if !dataSet.isFull , let count = Self.row-dataSet.datas.count {
-                                ForEach(0..<count, id: \.self) { _ in
-                                    Spacer().frame(width: self.imageSize, height: self.imageSize)
+                            .onAppear{
+                                if  data.index == (self.friends.count-1) {
+                                    self.infinityScrollModel.event = .bottom
                                 }
                             }
                         }
-                        .onAppear{
-                            if  dataSet.index == (self.friendDataSets.count-1) {
-                                self.infinityScrollModel.event = .bottom
+                            
+                    }
+                } else {
+                    InfinityScrollView(
+                        viewModel: self.infinityScrollModel,
+                        axes: .vertical,
+                        showIndicators : true,
+                        marginTop: Dimen.margin.regularUltra,
+                        marginBottom: self.marginBottom,
+                        marginHorizontal: Dimen.app.pageHorinzontal,
+                        spacing:Dimen.margin.regularUltra,
+                        isRecycle: true,
+                        useTracking: true
+                    ){
+                        ForEach(self.friendDataSets) { dataSet in
+                            HStack(spacing: Dimen.margin.regularExtra){
+                                ForEach(dataSet.datas) { data in
+                                    FriendListItem(
+                                        data: data,
+                                        imgSize: Dimen.profile.mediumUltra,
+                                        status: self.type.status
+                                    ){
+                                        self.pagePresenter.openPopup(
+                                            PageProvider.getPageObject(.user)
+                                                .addParam(key: .id, value:data.userId)
+                                        )
+                                    }
+                                }
+                                if !dataSet.isFull , let count = Self.row-dataSet.datas.count {
+                                    ForEach(0..<count, id: \.self) { _ in
+                                        Spacer().frame(width: self.imageSize, height: self.imageSize)
+                                    }
+                                }
+                            }
+                            .onAppear{
+                                if  dataSet.index == (self.friendDataSets.count-1) {
+                                    self.infinityScrollModel.event = .bottom
+                                }
                             }
                         }
                     }
                 }
+                
             }
         }
         .onReceive(self.infinityScrollModel.$event){ evt in

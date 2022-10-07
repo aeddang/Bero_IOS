@@ -37,7 +37,7 @@ enum ApiAction:String{
     case detecthumanwithdog, thumbsup, cities
     case search, summary, newMissions, directions, visit, monthlyList
     case isRequested, requesting, request, accept, reject
-    case read, send
+    case read, send, block
     case histories
 }
 
@@ -47,7 +47,8 @@ enum ApiValue:String{
       
 enum ApiType{
     case registPush(token:String), getUser(SnsUser, isCanelAble:Bool? = true), getUserDetail(userId:String),
-         updateUser(SnsUser, ModifyUserProfileData), updateUserImage(SnsUser, UIImage?)
+         updateUser(SnsUser, ModifyUserProfileData), updateUserImage(SnsUser, UIImage?),
+         blockUser(userId:String, isBlock:Bool)
     case joinAuth(SnsUser, SnsUserInfo?), reflashAuth
     case registPet(SnsUser, ModifyPetProfileData), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),
          updatePet(petId:Int, ModifyPetProfileData), updatePetImage(petId:Int, UIImage?),
@@ -69,7 +70,8 @@ enum ApiType{
     
     case getWeather(CLLocation),
          getWeatherCity(id:String, type:ApiAction = .cities),
-         getCode(category:MiscApi.Category, searchKeyword:String? = nil)
+         getCode(category:MiscApi.Category, searchKeyword:String? = nil),
+         sendReport(reportType:MiscApi.ReportType, postId:String? = nil, userId : String? = nil)
    
     case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil),
          registVisit(Place)

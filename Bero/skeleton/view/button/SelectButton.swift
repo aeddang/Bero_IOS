@@ -38,6 +38,7 @@ struct SelectButton: View, SelecterbleProtocol{
     var index: Int = 0
     var isMore: Bool = true
     var useStroke: Bool = true
+    var useMargin: Bool = true
     var isSelected: Bool = false
     
     let action: (_ idx:Int) -> Void
@@ -102,10 +103,11 @@ struct SelectButton: View, SelecterbleProtocol{
                         .foregroundColor(
                             self.isSelected ? Color.brand.primary : Color.app.black)
                         .frame(width:Dimen.icon.light, height:Dimen.icon.light)
+                        .padding(.trailing, -8)
                 }
                 
             }
-            .padding(.horizontal, Dimen.margin.light)
+            .padding(.horizontal, self.useMargin ? Dimen.margin.light : 0)
             .modifier( MatchHorizontal(height: self.type.height) )
             .background(self.bgColor)
             .clipShape(RoundedRectangle(cornerRadius:  self.type.radius))

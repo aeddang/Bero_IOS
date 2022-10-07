@@ -59,8 +59,8 @@ struct HorizontalProfile: PageComponent{
         }
     }
     enum FuncType{
-        case addFriend, button(String), more, delete, send, check(Bool),
-             view(String, color:Color = Color.brand.primary)
+        case addFriend, button(String), more, moreFunc, delete, send, check(Bool),
+             view(String, color:Color = Color.brand.primary), block(Bool)
         
         var strokeColor:Color? {
             switch self {
@@ -226,6 +226,21 @@ struct HorizontalProfile: PageComponent{
                     ){ _ in
                         self.action?(funcType)
                     }
+                case .moreFunc :
+                    ImageButton(
+                        defaultImage: Asset.icon.more_vert,
+                        defaultColor: self.isSelected ? Color.app.white : Color.app.grey400
+                    ){ _ in
+                        self.action?(funcType)
+                    }
+                case .block(let isBlock) :
+                    ImageButton(
+                        defaultImage: Asset.icon.block,
+                        defaultColor: self.isSelected ? Color.app.white : Color.app.grey400
+                    ){ _ in
+                        self.action?(funcType)
+                    }
+                    .opacity(isBlock ? 1 : 0.5)
                 case .button(let text) :
                     SortButton(
                         type: .fill,

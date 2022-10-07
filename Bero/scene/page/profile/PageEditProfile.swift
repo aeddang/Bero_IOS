@@ -106,14 +106,14 @@ struct PageEditProfile: PageView {
                         type:.section,
                         title: self.currentType?.title ?? "",
                         alignment: .center,
-                        useBack: true)
-                    { type in
-                        switch type {
-                        case .back :
-                            self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
-                        }
-                    }
+                        useBack: true, action:
+                            { type in
+                                switch type {
+                                case .back :
+                                    self.pagePresenter.closePopup(self.pageObject?.id)
+                                default : break
+                                }
+                            })
                     if let type = self.currentType {
                         switch type {
                         case .name :

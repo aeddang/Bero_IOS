@@ -21,6 +21,8 @@ class LocalStorage {
         
         static let authToken = "authToken" + VS
         static let walkCount = "walkCount" + VS
+        
+        static let isFirstChat = "isFirstChat" + VS
        
     }
     let defaults = UserDefaults.standard
@@ -101,6 +103,15 @@ class LocalStorage {
         }
         get{
             return defaults.bool(forKey: Keys.isReceivePush)
+        }
+    }
+    
+    var isFirstChat:Bool{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.isFirstChat)
+        }
+        get{
+            return defaults.bool(forKey: Keys.isFirstChat)
         }
     }
     

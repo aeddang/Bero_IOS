@@ -26,7 +26,10 @@ class Place:MapUserData{
         self.sortType = sortType
         self.googlePlaceId = data.googlePlaceId
         self.placeId = data.googlePlaceId ?? ""
-        if let locs = data.location?.components(separatedBy: " ") {
+        if let loc = data.place?.geometry?.location {
+            self.location =  CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
+        }
+        if self.location == nil, let locs = data.location?.components(separatedBy: " ") {
             let latitude = locs[0].onlyNumric().toDouble()
             let longitude = locs[1].onlyNumric().toDouble()
             if locs.count == 2 {

@@ -84,7 +84,7 @@ struct ChatItem: PageComponent{
     private func delete(){
         self.appSceneObserver.sheet = .select(
             String.alert.chatDeleteConfirm,
-            String.alert.chatRoomDeleteConfirmText,
+            String.alert.chatDeleteConfirmText,
             [String.app.cancel,String.button.delete]){ idx in
                 if idx == 1 {
                     self.dataProvider.requestData(q: .init(type: .deleteChat(chatId:self.data.chatId)))

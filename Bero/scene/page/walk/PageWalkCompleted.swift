@@ -80,7 +80,7 @@ struct PageWalkCompleted: PageView {
     }//body
     
     private func openPicker(){
-        self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera){ img in
+        self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera, cameraDevice: .rear){ img in
             guard let img = img else {
                 self.pagePresenter.closePopup(self.pageObject?.id)
                 return

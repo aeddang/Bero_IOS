@@ -19,6 +19,7 @@ class UserListItemData:InfinityData{
     private(set) var date:String? = nil
    
     func setData(_ data:MissionData, idx:Int) -> UserListItemData {
+        self.index = idx
         self.walkData = WalkListItemData().setData(data, idx: 0)
         if let user = data.user {
             self.userProfile = UserProfile().setData(data: user)
@@ -29,6 +30,7 @@ class UserListItemData:InfinityData{
     }
     
     func setData(_ data:PictureData, idx:Int) -> UserListItemData {
+        self.index = idx
         self.albumData = AlbumListItemData().setData(data, idx: 0)
         if let user = data.user {
             self.userProfile = UserProfile().setData(data: user)
@@ -36,6 +38,12 @@ class UserListItemData:InfinityData{
         self.subImagePath = data.pets?.first?.pictureUrl
         self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         return self
+    }
+    
+    var postId:String? {
+        get {
+            return (self.albumData?.pictureId ?? self.walkData?.originData?.missionId)?.description
+        }
     }
 }
 
@@ -49,6 +57,7 @@ struct UserListItem: PageComponent{
             if let user = self.data.userProfile {
                 UserProfileItem(
                     data: user,
+                    postId: self.data.postId,
                     subImagePath: self.data.subImagePath,
                     date: self.data.date,
                     action:self.moveUser

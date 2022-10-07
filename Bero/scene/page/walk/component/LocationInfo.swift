@@ -26,7 +26,8 @@ struct LocationInfo: PageComponent{
                         color: Color.app.grey400
                     ))
                     .lineLimit(1)
-                    .frame(width: 47)
+                    .multilineTextAlignment(.leading)
+                    .frame(width: 47, alignment: .leading)
             } else {
                 Text(self.location ?? String.pageText.walkLocationNotFound)
                     .modifier(RegularTextStyle(

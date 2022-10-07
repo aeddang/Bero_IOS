@@ -16,6 +16,7 @@ import FirebaseCore
 import GoogleSignInSwift
 
 struct PageChat: PageView {
+    @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -26,6 +27,7 @@ struct PageChat: PageView {
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
+    @ObservedObject var friendScrollModel: InfinityScrollModel = InfinityScrollModel()
    
     var body: some View {
         GeometryReader { geometry in
@@ -47,36 +49,51 @@ struct PageChat: PageView {
                         default : break
                         }
                     }
+                    
                     ChatRoomList(
                         infinityScrollModel: self.infinityScrollModel,
                         isEdit: self.$isEdit)
                     
                     Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-            
-                    let extractedExpr: FriendSection = FriendSection(
-                        user: self.dataProvider.user,
-                        listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2),
-                        type: .requested,
-                        pageSize: 4,
-                        rowSize:4
+                    FriendListSection(
+                        pageObservable:self.pageObservable,
+                        infinityScrollModel : self.friendScrollModel,
+                        user:self.dataProvider.user
                     )
-                    extractedExpr
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     .padding(.top, Dimen.margin.regular)
-                    .padding(.bottom, Dimen.app.bottom + Dimen.margin.regular)
+                    .padding(.bottom, self.bottomMargin)
                 }
+                .padding(.bottom, Dimen.app.bottom)
                 .modifier(PageVertical())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
+            .onReceive(self.dataProvider.$result){res in
+                guard let res = res else { return }
+               
+                switch res.type {
+                case .sendChat :
+                    if self.pagePresenter.currentTopPage == self.pageObject {
+                        self.infinityScrollModel.uiEvent = .reload
+                    }
+                default : break
+                }
+            }
+            .onReceive(self.walkManager.$status) { status in
+                switch status {
+                case .walking : self.bottomMargin = Dimen.app.bottom
+                case .ready : self.bottomMargin = 0
+                }
+            }
             .onAppear{
                 
             }
         }//GeometryReader
     }//body
     @State var isEdit:Bool = false
+    @State var bottomMargin:CGFloat = 0
 }
 
 

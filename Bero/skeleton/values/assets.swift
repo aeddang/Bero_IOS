@@ -169,6 +169,9 @@ extension Asset{
         public static let send = "send"
         public static let place = "place"
         public static let my = "my"
+        public static let share = "share"
+        public static let block = "block"
+        public static let notice = "notice"
     }
     
 

@@ -35,6 +35,7 @@ struct SceneTab: PageComponent{
    
     @State var isShowCamera:Bool = false
     @State var cameraType:UIImagePickerController.SourceType = .camera
+    @State var cameraDevice:UIImagePickerController.CameraDevice = .front
     @State var imagePick:((UIImage?)->Void)? = nil
     var body: some View {
         ZStack{
@@ -60,7 +61,7 @@ struct SceneTab: PageComponent{
                 CustomImagePicker(
                     viewModel:self.imagePickerModel,
                     sourceType: self.cameraType,
-                    cameraDevice: .front
+                    cameraDevice: self.cameraDevice
                 )
                 .edgesIgnoringSafeArea(.all)
                 .onReceive(self.imagePickerModel.$event){ evt in
@@ -140,10 +141,11 @@ struct SceneTab: PageComponent{
             switch result {
                 case .complete(let type, let idx) : do {
                     switch type {
-                    case .imgPicker(let id, _):
+                    case .imgPicker(let id, let cameraDevice,  _):
                         if type.check(key: SceneRequest.imagePicker.rawValue) {
                             if idx != 2 {
                                 self.imagePickerModel.pickId = id
+                                self.cameraDevice = cameraDevice
                                 self.cameraType = idx == 0 ? .savedPhotosAlbum : .camera
                                 withAnimation{
                                     self.isShowCamera = true
@@ -181,9 +183,10 @@ struct SceneTab: PageComponent{
                     }
                 #endif
                 break
-            case .openImagePicker(let pickId, let type, let pick) :
+            case .openImagePicker(let pickId, let type, let cameraDevice, let pick) :
                 self.imagePickerModel.pickId = pickId
                 self.cameraType = type
+                self.cameraDevice = cameraDevice
                 self.imagePick = pick
                 withAnimation{
                     self.isShowCamera = true

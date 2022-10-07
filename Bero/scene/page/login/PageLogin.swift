@@ -18,7 +18,7 @@ struct PageLogin: PageView {
     @EnvironmentObject var dataProvider:DataProvider
     
     @ObservedObject var pageObservable:PageObservable = PageObservable()
-
+    @State var isAgree:Bool = false
     var body: some View {
         VStack(spacing: Dimen.margin.medium){
             Image(Asset.intro.onboarding_img_0)
@@ -29,14 +29,23 @@ struct PageLogin: PageView {
                 .frame(alignment: .top)
             
             VStack(spacing: Dimen.margin.thin){
+                AgreeButton(
+                    type: .service,
+                    isChecked: self.isAgree
+                ){ _ in
+                    self.isAgree.toggle()
+                }
                 FillButton(
                     type: .fill,
                     icon: SnsType.apple.logo,
                     text: String.pageText.loginButtonText + SnsType.apple.title,
                     color: SnsType.apple.color
                 ){_ in
+                    
+                    if !self.isAgree {return}
                     self.snsManager.requestLogin(type: .apple)
                 }
+                .opacity(self.isAgree ? 1 : 0.5)
                 
                 if SystemEnvironment.isTestMode {
                     FillButton(
@@ -45,8 +54,14 @@ struct PageLogin: PageView {
                         text: String.pageText.loginButtonText + SnsType.fb.title,
                         color: SnsType.fb.color
                     ){_ in
+                        if !self.isAgree {
+                            self.appSceneObserver.event = .toast(String.alert.needAgreement)
+                            return
+                            
+                        }
                         self.snsManager.requestLogin(type: .fb)
                     }
+                    .opacity(self.isAgree ? 1 : 0.5)
                 }
                 FillButton(
                     type: .stroke,
@@ -54,8 +69,13 @@ struct PageLogin: PageView {
                     text: String.pageText.loginButtonText + SnsType.google.title,
                     color: SnsType.google.color
                 ){_ in
+                    if !self.isAgree {
+                        self.appSceneObserver.event = .toast(String.alert.needAgreement)
+                        return
+                    }
                     self.snsManager.requestLogin(type: .google)
                 }
+                .opacity(self.isAgree ? 1 : 0.5)
             }
             .padding(.horizontal, Dimen.margin.regular)
             .padding(.top, Dimen.margin.mediumUltra)

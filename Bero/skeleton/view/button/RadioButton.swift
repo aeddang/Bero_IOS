@@ -61,6 +61,7 @@ struct RadioButton: View, SelecterbleProtocol {
     }
     var type:ButtonType = .stroke
     var isChecked: Bool
+    var icon:String? = nil
     var text:String? = nil
     var color:Color = Color.brand.primary
     var action: (_ check:Bool) -> Void
@@ -69,6 +70,14 @@ struct RadioButton: View, SelecterbleProtocol {
             action(!self.isChecked)
         }) {
             HStack(alignment: .center, spacing: Dimen.margin.thin){
+                if let icon = self.icon {
+                    Image(icon)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(self.isChecked ? self.color : Color.app.grey200)
+                        .frame(width:Dimen.icon.light, height:Dimen.icon.light)
+                }
                 if self.text != nil {
                     VStack(alignment: .leading, spacing: 0){
                         if self.type.useFill {
@@ -93,7 +102,7 @@ struct RadioButton: View, SelecterbleProtocol {
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
-                            .foregroundColor(self.isChecked ? self.color : Color.app.grey400)
+                            .foregroundColor(self.isChecked ? self.color : Color.app.grey200)
                             .frame(width: self.type.iconSize, height: self.type.iconSize)
                     }
                 }

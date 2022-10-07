@@ -38,9 +38,10 @@ struct PageChatRoom: PageView {
                         infinityScrollModel: self.infinityScrollModel,
                         title: self.title,
                         useBack: true,
-                        buttons:[]){ type in
+                        buttons:[.more]){ type in
                             switch type {
                             case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            case .more : self.more()
                             default : break
                             }
                     }
@@ -85,6 +86,17 @@ struct PageChatRoom: PageView {
                 }
                 
             }
+            .onReceive(self.dataProvider.$result){res in
+                guard let res = res else { return }
+                //if !res.id.hasPrefix(self.tag) {return}
+                switch res.type {
+                case .deleteChatRoom :
+                    self.pagePresenter.closePopup(self.pageObject?.id)
+                case .blockUser :
+                    self.pagePresenter.closePopup(self.pageObject?.id)
+                default : break
+                }
+            }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 if let data = obj.getParamValue(key: .data) as? ChatRoomListItemData{
@@ -104,6 +116,72 @@ struct PageChatRoom: PageView {
     @State var userId:String? = nil
     @State var title:String? = nil
    
+    private func more(){
+        
+        let datas:[String] = [
+            String.button.deleteRoom,
+            String.button.block,
+            String.button.accuseUser
+        ]
+        let icons:[String?] = [
+            Asset.icon.delete,
+            Asset.icon.block,
+            Asset.icon.notice
+        ]
+       
+        self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+            guard let idx = idx else {return}
+            switch idx {
+            case 0 :self.delete()
+            case 1 : self.block()
+            case 2 : self.accuse()
+            default : break
+            }
+        }
+    }
+    
+    private func delete(){
+        guard let roomId = self.roomData?.roomId else {return}
+        self.appSceneObserver.sheet = .select(
+            String.alert.chatRoomDeleteConfirm,
+            String.alert.chatRoomDeleteConfirmText,
+            [String.app.cancel,String.button.delete],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .deleteChatRoom(roomId:roomId)))
+                }
+        }
+    }
+    private func block(){
+        
+        self.appSceneObserver.sheet = .select(
+            String.alert.blockUserConfirm,
+            nil,
+            [String.app.cancel,String.button.block],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .blockUser(userId: self.userId ?? "", isBlock: true)))
+                }
+        }
+    }
+    
+    private func accuse(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.accuseUserConfirm,
+            String.alert.accuseUserConfirmText,
+            [String.app.cancel,String.button.accuseUser],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.sendReport()
+                }
+            }
+    }
+    
+    private func sendReport(){
+        self.dataProvider.requestData(q: .init(type: .sendReport(
+            reportType: .user, postId: self.roomData?.roomId.description, userId: self.userId
+        )))
+    }
 }
 
 #if DEBUG

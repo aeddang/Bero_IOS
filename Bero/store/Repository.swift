@@ -116,8 +116,8 @@ class Repository:ObservableObject, PageProtocol{
         if !self.storage.initate {
             self.storage.initate = true
             self.storage.isReceivePush = true
+            self.storage.isFirstChat = true
             SystemEnvironment.firstLaunch = true
-            
             DataLog.d("initate APP", tag:self.tag)
         }
         self.dataProvider.user.registUser(
@@ -230,6 +230,11 @@ class Repository:ObservableObject, PageProtocol{
         switch res.type {
         case .registPush(let token) : self.registedPushToken(token)
         case .getChatRooms(let page, _) : if page == 0 { self.onMassageUpdated(res) }
+        case .sendReport(let reportType, _, _) :
+            self.appSceneObserver?.event = .toast(reportType.completeMessage)
+        case .blockUser(_, let isBlock) :
+            self.appSceneObserver?.event = .toast(isBlock ? String.alert.blockUserCompleted : String.alert.unblockUserCompleted)
+            self.walkManager.resetMapStatus(userFilter: .all)
         default : break
         }
         if let coreDatakey = res.type.coreDataKey(){

@@ -37,8 +37,8 @@ extension PageID{
     static let modifyPetHealth:PageID = "modifyPetHealth"
     static let editProfile:PageID = "editProfile"
     static let privacy:PageID = "privacy"
-    
-    
+    static let serviceTerms:PageID = "serviceTerms"
+    static let blockUser:PageID = "blockUser"
     static let missionCompleted:PageID = "missionCompleted"
     static let walkCompleted:PageID = "walkCompleted"
     
@@ -197,6 +197,7 @@ struct PageFactory{
         case .friend : return PageFriend(pageObservable:pageObservable)
         case .myLv : return PageMyLv(pageObservable:pageObservable)
         case .manageDogs : return PageManageDogs(pageObservable:pageObservable)
+        case .blockUser : return PageBlockUser(pageObservable:pageObservable)
         case .addDog : return PageAddDog(pageObservable:pageObservable)
         case .addDogCompleted : return PageAddDogCompleted(pageObservable:pageObservable)
         case .missionCompleted : return PageMissionCompleted(pageObservable:pageObservable)
@@ -206,6 +207,7 @@ struct PageFactory{
         case .modifyPetHealth : return PageModifyPetHealth(pageObservable:pageObservable)
         case .editProfile : return PageEditProfile(pageObservable:pageObservable)
         case .privacy : return PagePrivacy(pageObservable:pageObservable)
+        case .serviceTerms : return PageServiceTerms(pageObservable:pageObservable)
         case .popupWalkUser : return PopupWalkUser(pageObservable:pageObservable)
         case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
         case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)

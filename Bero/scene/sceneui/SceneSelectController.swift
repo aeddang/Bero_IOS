@@ -11,14 +11,15 @@ import SwiftUI
 enum SceneSelect:Equatable {
     case select((String,[String]),Int, ((Int) -> Void)? = nil),
          selectBtn((String,[SelectBtnData]),Int, ((Int) -> Void)? = nil),
-         picker((String,[String]),Int, pick:((Int) -> Void)? = nil), imgPicker(String, pick:((UIImage?) -> Void)? = nil)
+         picker((String,[String]),Int, pick:((Int) -> Void)? = nil),
+         imgPicker(String, cameraDevice:UIImagePickerController.CameraDevice = .front, pick:((UIImage?) -> Void)? = nil)
     
     func check(key:String)-> Bool{
         switch (self) {
         case let .selectBtn(v, _, _): return v.0 == key
         case let .select(v, _, _): return v.0 == key
         case let .picker(v, _, _): return v.0 == key
-        case let .imgPicker(v, _): return v.hasPrefix(key)
+        case let .imgPicker(v, _, _): return v.hasPrefix(key)
         }
     }
     
@@ -27,7 +28,7 @@ enum SceneSelect:Equatable {
         case (let .selectBtn(lh,_, _), let .selectBtn(rh,_, _)): return lh.0 == rh.0
         case (let .select(lh,_, _), let .select(rh,_, _)): return lh.0 == rh.0
         case (let .picker(lh,_, _), let .picker(rh,_, _)): return lh.0 == rh.0
-        case (let .imgPicker(lv, _), let .imgPicker(rv, _)): return lv == rv
+        case (let .imgPicker(lv,_, _), let .imgPicker(rv,_, _)): return lv == rv
         default : return false
         }
     }
@@ -71,13 +72,13 @@ struct SceneSelectController: PageComponent{
                     self.selectedSelect(idx ,data:self.currentSelect!)
                 }
                 
-            case .imgPicker(_,let handler):
+            case .imgPicker(_, let cameraDevice , let handler):
                 if let handler = handler {
                     switch idx {
                     case 0 :
-                        self.appSceneObserver.event = .openImagePicker(self.tag, type: .photoLibrary, pick:handler)
+                        self.appSceneObserver.event = .openImagePicker(self.tag, type: .photoLibrary, cameraDevice: cameraDevice, pick:handler)
                     case 1 :
-                        self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera, pick:handler)
+                        self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera, cameraDevice: cameraDevice, pick:handler)
                     default: handler(nil)
                     }
                 } else {
@@ -98,7 +99,7 @@ struct SceneSelectController: PageComponent{
             switch select{
                 case .select(let data, let idx, _): self.setupSelect(data:data, idx: idx)
                 case .selectBtn(let data, let idx, _): self.setupSelect(data:data, idx: idx)
-                case .imgPicker(let key, _): self.setupImagePicker(key: key)
+                case .imgPicker(let key,_ ,_): self.setupImagePicker(key: key)
                 default: return
             }
             withAnimation{

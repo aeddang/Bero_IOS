@@ -41,12 +41,14 @@ struct PageUser: PageView {
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
                         useBack:true,
-                        action: { type in
+                        buttons:[.more]){ type in
                             switch type {
                             case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            case .more : self.more()
                             default : break
                             }
-                        })
+                        }
+                    
                     if let user = self.user {
                         /*
                         ZStack{
@@ -190,7 +192,89 @@ struct PageUser: PageView {
             self.pageObservable.isInit = true
         }
     }
+    private func more(){
+        if self.user?.currentProfile.status == .friend {
+            let datas:[String] = [
+                String.button.removeFriend,
+                String.button.block,
+                String.button.accuseUser
+            ]
+            let icons:[String?] = [
+                Asset.icon.remove_friend,
+                Asset.icon.block,
+                Asset.icon.notice
+            ]
+           
+            self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+                guard let idx = idx else {return}
+                switch idx {
+                case 0 :self.removeFriend()
+                case 1 :self.block()
+                case 2 :self.accuse()
+                default : break
+                }
+            }
+        } else {
+            let datas:[String] = [
+                String.button.block,
+                String.button.accuseUser
+            ]
+            let icons:[String?] = [
+                Asset.icon.block,
+                Asset.icon.notice
+            ]
+           
+            self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+                guard let idx = idx else {return}
+                switch idx {
+                case 0 :self.block()
+                case 1 :self.accuse()
+                default : break
+                }
+            }
+        }
+        
+        
+    }
+    private func removeFriend(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.friendDeleteConfirm,
+            nil,
+            [String.app.cancel,String.button.removeFriend],
+            isNegative: true
+        ){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .deleteFriend(userId: self.userId ?? "")))
+                }
+        }
+    }
+  
     
+    private func block(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.blockUserConfirm,
+            nil,
+            [String.app.cancel,String.button.block],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .blockUser(userId: self.userId ?? "", isBlock: true)))
+                }
+        }
+    }
+    
+    private func accuse(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.accuseUserConfirm,
+            String.alert.accuseUserConfirmText,
+            [String.app.cancel,String.button.accuse],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .sendReport(
+                        reportType: .user , userId: self.userId
+                    )))
+                }
+        }
+    }
 }
 
 

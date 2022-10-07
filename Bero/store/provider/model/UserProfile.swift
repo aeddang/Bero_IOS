@@ -26,6 +26,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
     private(set) var type:SnsType? = nil
     private(set) var originData:UserData? = nil
     let isMine:Bool
+   
     init(isMine:Bool = false){
         self.isMine = isMine
     }

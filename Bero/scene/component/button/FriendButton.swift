@@ -10,12 +10,13 @@ import SwiftUI
 
 extension FriendButton {
     enum ButtonType:String{
-        case request, requested, accept, reject, delete
+        case request, requested, accept, reject, delete, chat
         var icon:String?{
             switch self {
             case .request : return Asset.icon.add_friend
             case .requested : return Asset.icon.check
             case .delete: return Asset.icon.remove_friend
+            case .chat: return Asset.icon.chat
             default : return nil
             }
         }
@@ -26,6 +27,7 @@ extension FriendButton {
             case .delete : return Color.app.grey300
             case .accept : return Color.app.white
             case .reject : return Color.app.grey300
+            case .chat : return Color.app.grey500
             }
         }
         
@@ -50,6 +52,7 @@ extension FriendButton {
             case .delete : return String.button.remove
             case .accept : return String.button.accept
             case .reject : return String.button.reject
+            case .chat : return String.button.chat
             }
         }
         var buttonType:FillButton.ButtonType{
@@ -92,15 +95,22 @@ struct FriendButton: PageComponent{
             case .requested:
                 self.appSceneObserver.event = .toast("Already friend (write the phrase)")
             case .delete:
-                self.appSceneObserver.alert = .confirm(nil, String.alert.friendDeleteConfirm){ isOk in
-                    if isOk {
-                        self.dataProvider.requestData(q: .init(id: id, type: .deleteFriend(userId: id)))
-                    }
+                self.appSceneObserver.sheet = .select(
+                    String.alert.friendDeleteConfirm,
+                    nil,
+                    [String.app.cancel,String.button.removeFriend],
+                    isNegative: true){ idx in
+                        if idx == 1 {
+                            self.dataProvider.requestData(q: .init(id: id, type: .deleteFriend(userId: id)))
+                        }
                 }
+                
             case .accept:
                 self.dataProvider.requestData(q: .init(id: id, type: .acceptFriend(userId: id)))
             case .reject:
                 self.dataProvider.requestData(q: .init(id: id, type: .rejectFriend(userId: id)))
+            case .chat:
+                self.appSceneObserver.event = .sendChat(userId: self.userId ?? "")
             }
         }
     }

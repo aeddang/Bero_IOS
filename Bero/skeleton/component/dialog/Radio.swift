@@ -62,16 +62,19 @@ extension View {
 }
 class RadioBtnData:Identifiable{
     let id = UUID.init()
+    let icon:String?
     let title:String
     var value:String? = nil
     var index:Int
     var isSelected:Bool
     init(
+        icon:String? = nil,
         title:String,
         value:String? = nil,
         index:Int,
         isSelected:Bool = false
     ){
+        self.icon = icon
         self.title = title
         self.value = value
         self.index = index
@@ -134,6 +137,7 @@ struct Radio<Presenting>: View where Presenting: View {
                                 RadioButton(
                                     type: .blank,
                                     isChecked: btn.isSelected,
+                                    icon: btn.icon,
                                     text: btn.title
                                 ){isSelect in
                                     self.update(btn: btn, isSelect: isSelect)

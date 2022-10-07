@@ -17,6 +17,23 @@ extension MiscApi {
             return "Status" + self.rawValue
         }
     }
+    
+    enum ReportType:String {
+        case mission, user
+        var apiCoreKey : String {
+            switch self {
+            case .mission : return "MISSION"
+            case .user : return "USER"
+            }
+        }
+        var completeMessage : String {
+            switch self {
+            case .mission : return String.alert.accuseAlbumCompleted
+            case .user : return String.alert.accuseUserCompleted
+            }
+        }
+        
+    }
 }
 
 class MiscApi :Rest{
@@ -37,6 +54,15 @@ class MiscApi :Rest{
         params["searchText"] = searchKeyword ?? ""
         fetch(route: CodeApiRoute(query:params), completion: completion, error:error)
     }
+    
+    func postReport(type:MiscApi.ReportType, postId:String? = nil, userId : String? = nil, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: Any]()
+        params["reportType"] = type.apiCoreKey
+        params["postId"] = postId
+        params["refUserId"] = userId
+        fetch(route: ReportApiRoute(method:.post, body:params), completion: completion, error:error)
+    }
+    
 }
 
 struct WeatherApiRoute : ApiRoute{
@@ -52,6 +78,16 @@ struct WeatherApiRoute : ApiRoute{
 struct CodeApiRoute : ApiRoute{
     var method:HTTPMethod = .get
     var command: String = "misc/codes"
+    var action: ApiAction? = nil
+    var commandId: String? = nil
+    var query:[String: String]? = nil
+    var body:[String: Any]? = nil
+    var overrideHeaders: [String : String]? = nil
+}
+
+struct ReportApiRoute : ApiRoute{
+    var method:HTTPMethod = .get
+    var command: String = "misc/report/things"
     var action: ApiAction? = nil
     var commandId: String? = nil
     var query:[String: String]? = nil

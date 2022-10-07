@@ -53,6 +53,7 @@ struct SimpleWalkBox: PageComponent{
             self.walkDistence = distence
         }
         
+        
     }
     @State var walkDistence:Double = 0
     private func finishWalk(){
