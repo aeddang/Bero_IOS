@@ -194,10 +194,18 @@ class ApiManager :PageProtocol, ObservableObject{
             self.userUpdate.put(user: user, image: img,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
                                 error:error)
+        case .getBlockedUser(let page, let size) :
+            self.user.getBlocks(page:page, size: size,
+                             completion: {res in self.complated(id: apiID, type: type, res: res)},
+                             error:error)
         case .blockUser(let userId, let isBlock) :
             self.userUpdate.block(userId: userId, isBlock: isBlock,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
                                 error:error)
+        case .deleteUser :
+            self.userUpdate.delete(
+                completion: {res in self.complated(id: apiID, type: type, res: res)},
+                error:error)
         case .registPet(let user, let pet) :
             self.petUpdate.post(user: user, pet: pet,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},

@@ -23,6 +23,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
     @Published private(set) var email:String? =  nil
     @Published private(set) var lv:Int = 1
     @Published var status:FriendStatus = .norelation
+    private(set) var date:String? = nil
     private(set) var type:SnsType? = nil
     private(set) var originData:UserData? = nil
     let isMine:Bool
@@ -57,6 +58,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
         }
         self.image = nil
         self.status = data.isFriend == true ? .friend : .norelation
+        self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         return self
     }
     func setLv(_ lv:Int){

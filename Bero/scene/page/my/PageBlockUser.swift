@@ -91,9 +91,8 @@ struct PageBlockUser: PageView {
             }
             .onReceive(self.dataProvider.$result){res in
                 guard let res = res else { return }
-                if !res.id.hasPrefix(self.tag) {return}
                 switch res.type {
-                case .getAlbumPictures(_, _ , let type, let page, _):
+                case .getBlockedUser(let page, _):
                     if page == 0 {
                         self.resetScroll()
                     }
@@ -136,21 +135,21 @@ struct PageBlockUser: PageView {
         self.infinityScrollModel.onLoad()
         
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getAlbumPictures(id: nil, .all, searchType: .all, page: self.infinityScrollModel.page) ))
+                .getBlockedUser(page: self.infinityScrollModel.page) ))
         
     }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let datas = res.data as? [PictureData] else { return }
+        guard let datas = res.data as? [UserData] else { return }
         self.loadedUser(datas: datas)
     }
     
-    private func loadedUser(datas:[PictureData]){
+    private func loadedUser(datas:[UserData]){
         var added:[BlockUserItemData] = []
         let start = self.users.count
         let end = start + datas.count
         added = zip(start...end, datas).map{ idx, d in
-            return BlockUserItemData().setData(d.user!,  idx: idx)
+            return BlockUserItemData().setData(d,  idx: idx)
         }
         self.users.append(contentsOf: added)
         if self.users.isEmpty {

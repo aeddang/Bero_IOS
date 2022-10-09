@@ -9,6 +9,7 @@ import Foundation
 
 struct UserData : Decodable {
     private(set) var userId: String? = nil
+    private(set) var refUserId: String? = nil
     private(set) var password: String? = nil
     private(set) var name: String? = nil
     private(set) var email: String? = nil
@@ -29,4 +30,5 @@ struct UserData : Decodable {
     private(set) var level: Int? = nil
     private(set) var isChecked: Bool? = nil
     private(set) var isFriend: Bool? = nil
+    private(set) var createdAt: String? = nil
 }

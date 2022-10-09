@@ -79,9 +79,9 @@ struct UserAlbumList: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
             case .getAlbumPictures(_, _ , let type, let page, _):
+                if !res.id.hasPrefix(self.tag) {return}
                 if self.type == type {
                     if page == 0 {
                         self.resetScroll()

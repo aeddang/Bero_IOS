@@ -57,6 +57,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     func clearUser(){
         self.snsUser = nil
+        self.currentProfile = UserProfile(isMine: true)
     }
     func registUser(id:String?, token:String?, code:String?){
         DataLog.d("id " + (id ?? ""), tag: self.tag)

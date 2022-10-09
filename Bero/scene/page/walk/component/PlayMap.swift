@@ -179,7 +179,7 @@ struct PlayMap: PageView {
         if !self.isInit {return}
         if self.isForceMove {return}
         if self.meIcon == nil {
-            let icon = UIImage(named: self.isWalk ? Asset.map.myLocationWalk : Asset.map.myLocation)
+            let icon = UIImage(named: Asset.map.myLocationWalk)
             let imgv = UIImageView(image: icon)
             self.meIcon = imgv
         }

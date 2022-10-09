@@ -11,11 +11,13 @@ import SwiftUI
 
 class BlockUserItemData:InfinityData, ObservableObject{
     private(set) var user:UserProfile = UserProfile()
+    private(set) var refUserId:String = ""
     fileprivate(set) var isBlock:Bool = true
    
     func setData(_ data:UserData, idx:Int) -> BlockUserItemData {
         self.index = idx
         self.user = UserProfile().setData(data: data)
+        self.refUserId = data.refUserId ?? ""
         return self
     }
 }
@@ -32,9 +34,8 @@ struct BlockUserItem: PageComponent{
             sizeType: .small,
             funcType: .block(self.isBlock) ,
             imagePath: self.data.user.imagePath,
-            name: self.data.user.nickName,
-            gender: self.data.user.gender,
-            age: self.data.user.birth?.toAge(),
+            name: self.data.user.nickName ?? self.data.refUserId,
+            description: self.data.user.date,
             isSelected: false,
             useBg: true
         ){ type in
@@ -50,7 +51,7 @@ struct BlockUserItem: PageComponent{
             guard let res = res else { return }
             switch res.type {
             case .blockUser(let userId, let isBlock) :
-                if self.data.user.userId == userId {
+                if self.data.refUserId == userId {
                     withAnimation{ self.isBlock = isBlock }
                     self.data.isBlock = isBlock
                 }
@@ -74,7 +75,7 @@ struct BlockUserItem: PageComponent{
             isNegative: value 
         ){ idx in
                 if idx == 1 {
-                    self.dataProvider.requestData(q: .init(type: .blockUser(userId: self.data.user.userId, isBlock: value)))
+                    self.dataProvider.requestData(q: .init(type: .blockUser(userId: self.data.refUserId, isBlock: value)))
                 }
             }
     }

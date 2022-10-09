@@ -15,6 +15,7 @@ import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
 struct PageSetup: PageView {
+    @EnvironmentObject var snsManager:SnsManager
     @EnvironmentObject var repository:Repository
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -100,8 +101,20 @@ struct PageSetup: PageView {
                             type: .fill,
                             text: String.button.logOut
                         ){_ in
-                            self.walkManager.endWalk()
-                            self.repository.clearLogin()
+                            self.signout()
+                        }
+                        FillButton(
+                            type: .fill,
+                            text: String.button.deleteAccount
+                        ){_ in
+                            guard let type = self.dataProvider.user.snsUser?.snsType else {
+                                self.deleteAccount()
+                                return
+                            }
+                            self.appSceneObserver.alert = .alert(nil, String.alert.deleteAccountCheck) {
+                                self.isRequestDelete = true
+                                self.repository.snsManager.requestLogin(type: type)
+                            }
                         }
                     }
                 }
@@ -110,6 +123,33 @@ struct PageSetup: PageView {
                 .background(Color.brand.bg)
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
             }//draging
+            .onReceive(self.snsManager.$error){err in
+                if !self.isRequestDelete { return }
+                guard let err  = err  else { return }
+                switch err.event {
+                    case .login :
+                        self.isRequestDelete = false
+                        self.appSceneObserver.alert = .alert(nil, String.alert.snsLoginError)
+                    default : break
+                }
+            }
+            .onReceive(self.snsManager.$user){user in
+                if user == nil { return }
+                if !self.isRequestDelete { return }
+                self.isRequestDelete = false
+                if user?.snsID == self.dataProvider.user.snsUser?.snsID {
+                    self.deleteAccount()
+                } else {
+                    self.appSceneObserver.alert = .alert(nil, String.alert.deleteAccounErrorAnotherSns)
+                }
+            }
+            .onReceive(self.dataProvider.$result){res in
+                guard let res = res else { return }
+                switch res.type {
+                case .deleteUser : self.signout()
+                default : break
+                }
+            }
             .onAppear(){
                 self.isReceivePush = self.repository.storage.isReceivePush
             }
@@ -117,8 +157,24 @@ struct PageSetup: PageView {
         }//GeometryReader
        
     }//body
+    
+    @State var isRequestDelete:Bool = false
     @State var isReceivePush:Bool = false
+    private func deleteAccount(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.deleteAccountConfirm,
+            String.alert.deleteAccountConfirmText,
+            [String.app.cancel,String.alert.deleteConfirm]){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .deleteUser))
+                }
+        }
+    }
    
+    private func signout(){
+        self.walkManager.endWalk()
+        self.repository.clearLogin()
+    }
 }
 
 

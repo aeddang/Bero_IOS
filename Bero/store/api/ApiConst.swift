@@ -37,8 +37,8 @@ enum ApiAction:String{
     case detecthumanwithdog, thumbsup, cities
     case search, summary, newMissions, directions, visit, monthlyList
     case isRequested, requesting, request, accept, reject
-    case read, send, block
-    case histories
+    case read, send
+    case histories, list
 }
 
 enum ApiValue:String{
@@ -48,7 +48,9 @@ enum ApiValue:String{
 enum ApiType{
     case registPush(token:String), getUser(SnsUser, isCanelAble:Bool? = true), getUserDetail(userId:String),
          updateUser(SnsUser, ModifyUserProfileData), updateUserImage(SnsUser, UIImage?),
-         blockUser(userId:String, isBlock:Bool)
+         getBlockedUser(page:Int? = nil, size:Int? = nil), blockUser(userId:String, isBlock:Bool),
+         deleteUser
+    
     case joinAuth(SnsUser, SnsUserInfo?), reflashAuth
     case registPet(SnsUser, ModifyPetProfileData), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),
          updatePet(petId:Int, ModifyPetProfileData), updatePetImage(petId:Int, UIImage?),

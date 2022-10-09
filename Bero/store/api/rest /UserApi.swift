@@ -17,6 +17,10 @@ class UserApi :Rest{
         params["platform"] = "IOS"
         fetch(route: UserApiRoute (method: .post, action: .pushToken, body: params), completion: completion, error:error)
     }
+    
+    func delete( completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        fetch(route: UserApiRoute (method: .delete), completion: completion, error:error)
+    }
     func get(user:SnsUser, completion: @escaping (ApiContentResponse<UserData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: UserApiRoute (method: .get, commandId: user.snsID), completion: completion, error:error)
     }
@@ -48,10 +52,17 @@ class UserApi :Rest{
         }, completion: completion, error:error)
     }
     
+    func getBlocks(page:Int?, size:Int?, completion: @escaping (ApiItemResponse<UserData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["page"] = page?.description ?? "0"
+        params["size"] = size?.description ?? ApiConst.pageSize.description
+        fetch(route: UserBlockApiRoute (method: .get, action: .list, query: params), completion: completion, error:error)
+    }
+    
     func block(userId:String, isBlock:Bool, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["isBlock"] = isBlock ? "true" : "false"
-        fetch(route: UserApiRoute (method: .post, action: .block, actionId: userId, query: params), completion: completion, error:error)
+        fetch(route: UserBlockApiRoute (method: .post, commandId: userId, query: params), completion: completion, error:error)
     }
 }
 
@@ -66,3 +77,13 @@ struct UserApiRoute : ApiRoute{
     var body:[String: Any]? = nil
 }
 
+struct UserBlockApiRoute : ApiRoute{
+    var method:HTTPMethod = .get
+    var command: String = "users/block"
+    var commandId: String? = nil
+    var action: ApiAction? = nil
+    var actionId: String? = nil
+   
+    var query:[String: String]? = nil
+    var body:[String: Any]? = nil
+}

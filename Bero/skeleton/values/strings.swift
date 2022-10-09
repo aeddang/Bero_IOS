@@ -86,9 +86,7 @@ extension String {
         public static var addDogTitle = "Add your dog"
         public static var addDogText = "Start with telling more about your dog."
         
-        public static var deleteDogTitle = "Are you sure you want to delete %s’s profile?"
-        public static var deleteDogText = "The data, information, and history of the dog will be permanently deleted."
-        public static var deleteDogConfirm = "Yes, delete"
+        
         
         public static var completedError = "Save fail. retry."
         public static var completedNeedPicture = "Need picture with your Dog."
@@ -140,6 +138,16 @@ extension String {
         
         public static var unblockUserConfirm = "Do you want to unblock?"
         public static var unblockUserCompleted = "Unblocked."
+        
+        public static var deleteAccountCheck = "Available after subscriber authentication."
+        public static var deleteAccountConfirm = "Are you sure you want to delete account?"
+        public static var deleteAccountConfirmText = "The data, information, and history of the account will be permanently deleted."
+        public static var deleteAccounErrorAnotherSns = "The signed in account is different from the linked account"
+        
+        public static var deleteDogTitle = "Are you sure you want to delete %s’s profile?"
+        public static var deleteDogText = "The data, information, and history of the dog will be permanently deleted."
+        public static var deleteConfirm = "Yes, delete"
+  
     }
     
    
@@ -206,6 +214,7 @@ extension String {
         public static let accuseUser = "Report user"
         public static let block = "Block"
         public static let unblock = "Unblock"
+        public static let deleteAccount = "Delete account"
     }
     
     struct sort {
