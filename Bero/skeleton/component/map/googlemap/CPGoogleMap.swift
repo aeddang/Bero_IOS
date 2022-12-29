@@ -221,6 +221,7 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     }
     public func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         //ComponentLog.d("didChange CameraPosition", tag: "CustomGoogleMapController")
+        self.viewModel.position = position
     }
     
     public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {

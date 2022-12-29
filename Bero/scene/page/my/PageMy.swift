@@ -54,18 +54,30 @@ struct PageMy: PageView {
                         axes: .vertical,
                         showIndicators : false,
                         marginTop: Dimen.margin.medium,
-                        marginBottom: Dimen.app.bottom + Dimen.margin.mediumUltra,
+                        marginBottom: Dimen.app.bottom + Dimen.margin.heavyExtra,
                         marginHorizontal: 0,
                         spacing:0,
                         isRecycle: false,
                         useTracking: true
                     ){
-                        UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){
-                            self.pagePresenter.openPopup(
-                                PageProvider.getPageObject(.modifyUser)
-                            )
+                        if let pet = self.dataProvider.user.representativePet {
+                            PetProfileTopInfo(profile:pet){
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.modifyPet)
+                                        .addParam(key: .data, value: pet)
+                                )
+                            }
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            
+                        } else {
+                            UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.modifyUser)
+                                )
+                            }
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
                         }
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        
                         MyPlayInfo(){ type in
                             switch type {
                             case .value(let valueType, _) :
@@ -80,8 +92,8 @@ struct PageMy: PageView {
                             }
                             
                         }
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.regular)
+                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        .padding(.top, Dimen.margin.regular)
                         
                         Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                             .padding(.top, Dimen.margin.medium)
@@ -93,7 +105,7 @@ struct PageMy: PageView {
                             listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                         )
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        .padding(.top, Dimen.margin.mediumUltra)
+                        .padding(.top, Dimen.margin.heavyExtra)
                         
                             
                         AlbumSection(
@@ -102,11 +114,11 @@ struct PageMy: PageView {
                             pageSize: 2
                         )
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        .padding(.top, Dimen.margin.mediumUltra)
+                        .padding(.top, Dimen.margin.heavyExtra)
                         
                         MyHistorySection()
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.mediumUltra)
+                            .padding(.top, Dimen.margin.heavyExtra)
                        
                             
                     }
@@ -117,7 +129,7 @@ struct PageMy: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
-            
+
             .onReceive(self.dataProvider.user.$event){ evt in
                 guard let evt = evt else {return}
                 switch evt {
@@ -126,6 +138,8 @@ struct PageMy: PageView {
                 }
             }
             .onAppear{
+                
+                
             
             }
         }//GeometryReader

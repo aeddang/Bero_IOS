@@ -99,7 +99,7 @@ struct InputTextEdit: PageComponent{
             }
             self.input = self.prevData
             if self.needAgree {
-                self.isAgree = false
+                self.isAgree = !self.prevData.isEmpty
             }
             DispatchQueue.main.asyncAfter(deadline: .now()+0.1){
                  self.isEditing = true

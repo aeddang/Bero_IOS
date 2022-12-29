@@ -36,6 +36,16 @@ struct SelectGenderEdit: PageComponent{
                     
                     withAnimation{self.selectGender = .male}
                 }
+                if self.needAgree {
+                    RectButton(
+                        icon: Gender.neutral.icon,
+                        text: Gender.neutral.title,
+                        isSelected: self.selectGender == Gender.neutral,
+                        color: Gender.neutral.color
+                    ){_ in
+                        withAnimation{self.selectGender = .neutral}
+                    }
+                }
                 RectButton(
                     icon: Gender.female.icon,
                     text: Gender.female.title,
@@ -72,7 +82,7 @@ struct SelectGenderEdit: PageComponent{
         .onAppear{
             self.selectGender = self.prevData
             if self.needAgree {
-                self.isAgree = false
+                self.isAgree = self.prevData != nil
             }
         }
     }
@@ -80,6 +90,7 @@ struct SelectGenderEdit: PageComponent{
     private func onAction(){
         if !self.isAgree {return}
         if self.selectGender?.rawValue == self.prevData?.rawValue || self.selectGender == nil {return}
+      
         self.edit(.init(gender: self.selectGender))
     }
 }

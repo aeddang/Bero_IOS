@@ -15,7 +15,8 @@ class UserListItemData:InfinityData{
     private(set) var walkData:WalkListItemData? = nil
     private(set) var albumData:AlbumListItemData? = nil
     private(set) var userProfile:UserProfile? = nil
-    private(set) var subImagePath:String? = nil
+    private(set) var title:String? = nil
+    private(set) var imagePath:String? = nil
     private(set) var date:String? = nil
    
     func setData(_ data:MissionData, idx:Int) -> UserListItemData {
@@ -24,7 +25,10 @@ class UserListItemData:InfinityData{
         if let user = data.user {
             self.userProfile = UserProfile().setData(data: user)
         }
-        self.subImagePath = data.pets?.first?.pictureUrl
+        if let pet = data.pets?.first {
+            self.title = pet.name
+            self.imagePath = pet.pictureUrl
+        }
         self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         return self
     }
@@ -35,7 +39,10 @@ class UserListItemData:InfinityData{
         if let user = data.user {
             self.userProfile = UserProfile().setData(data: user)
         }
-        self.subImagePath = data.pets?.first?.pictureUrl
+        if let pet = data.pets?.first {
+            self.title = pet.name
+            self.imagePath = pet.pictureUrl
+        }
         self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         return self
     }
@@ -58,7 +65,9 @@ struct UserListItem: PageComponent{
                 UserProfileItem(
                     data: user,
                     postId: self.data.postId,
-                    subImagePath: self.data.subImagePath,
+                    title: self.data.title,
+                    imagePath: self.data.imagePath,
+                    subImagePath: user.imagePath,
                     date: self.data.date,
                     action:self.moveUser
                 )

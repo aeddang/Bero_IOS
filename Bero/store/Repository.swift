@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftUI
 import Combine
-
+import FirebaseAnalytics
 enum RepositoryStatus{
     case initate, ready
 }
@@ -56,14 +56,44 @@ class Repository:ObservableObject, PageProtocol{
         self.locationObserver = locationObserver ?? LocationObserver()
         self.walkManager = walkManager ?? WalkManager(dataProvider: self.dataProvider, locationObserver: self.locationObserver)
         self.accountManager = AccountManager(user: self.dataProvider.user)
-        self.pagePresenter?.$currentPage.sink(receiveValue: { evt in
+        self.pagePresenter?.$currentPage.sink(receiveValue: { page in
+            guard let pageID = page?.pageID else {return}
+            //guard let pageIdx = page?.pageIDX else {return}
             self.apiManager.clear()
             self.appSceneObserver?.isApiLoading = false
             self.pagePresenter?.isLoading = false
             self.retryRegisterPushToken()
-            if self.pagePresenter?.currentPage?.pageID == .chat {
-                self.event = .messageUpdate(false)
+            switch pageID {
+            case .chat :  self.event = .messageUpdate(false)
+            default : break
             }
+            let alreadyUpdate = self.storage.isDailyBannerCheck(id: pageID)
+            if alreadyUpdate {return}
+            self.apiManager.misc.getBanner(
+                id: pageID,
+                completion: { res in
+                    let data = res.contents
+                    guard let url = data.url else {return}
+                    let value = data.updatedAt ?? url
+                    if self.storage.isSameBannerCheck(id: pageID, value: value) {return}
+                    self.storage.updatedPageBannerValue(id: pageID, value: value)
+                    self.pagePresenter?.openPopup(
+                        PageProvider.getPageObject(.webview)
+                            .addParam(key: .link, value: url)
+                    )
+                },
+                error: { err in
+                    DataLog.e(err.localizedDescription, tag: self.tag)
+                })
+            
+        }).store(in: &anyCancellable)
+        
+        self.pagePresenter?.$currentTopPage.sink(receiveValue: { page in
+            guard let page = page else {return}
+            let parameters = [
+                "pageId": page.pageID
+            ]
+            Analytics.logEvent(AnalyticsEventScreenView, parameters:parameters)
         }).store(in: &anyCancellable)
         
         self.setupSetting()
@@ -151,21 +181,26 @@ class Repository:ObservableObject, PageProtocol{
         }).store(in: &dataCancellable)
         self.apiManager.$rewardEvent.sink(receiveValue: { evt in
             switch evt {
-            case .exp(let score) :
+            case .exp(let score, let lvData) :
+                self.checkLevelUp(lvData:lvData)
                 self.dataProvider.user.updateExp(score)
                 self.appSceneObserver?.event = .check("+ exp " + score.toInt().description)
                 SoundToolBox().play(snd:Asset.sound.reward)
                 self.walkManager.updateReward(score, point: 0)
-            case .point(let score) :
+            case .point(let score, let lvData) :
+                self.checkLevelUp(lvData:lvData)
                 self.dataProvider.user.updatePoint(score)
                 self.appSceneObserver?.event = .check("+ point " + score.description)
                 SoundToolBox().play(snd:Asset.sound.reward)
                 self.walkManager.updateReward(0, point: score)
-            case .reward(let exp, let point) :
+               
+            case .reward(let exp, let point, let lvData) :
+                self.checkLevelUp(lvData:lvData)
                 self.dataProvider.user.updateReward(exp, point: point)
                 self.appSceneObserver?.event = .check("+ point " + point.description + "\n" + "+ exp " + exp.toInt().description)
                 SoundToolBox().play(snd:Asset.sound.reward)
                 self.walkManager.updateReward(exp, point: point)
+                
             default: break
             }
         }).store(in: &dataCancellable)
@@ -201,6 +236,12 @@ class Repository:ObservableObject, PageProtocol{
             
         }).store(in: &dataCancellable)
         
+    }
+    private func checkLevelUp(lvData:MetaData?){
+       
+        if self.dataProvider.user.isLevelUp(lvData:lvData) {
+            self.pagePresenter?.openPopup(PageProvider.getPageObject(.levelUp))
+        }
     }
     
     private func requestApi(_ apiQ:ApiQ, coreDatakey:String){
@@ -280,6 +321,7 @@ class Repository:ObservableObject, PageProtocol{
         self.event = .loginUpdate
         self.status = .ready
         self.retryRegisterPushToken()
+        Analytics.setUserID(nil)
     }
     
     private func autoSnsLogin() {
@@ -310,6 +352,9 @@ class Repository:ObservableObject, PageProtocol{
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(id: self.tag, type: .getChatRooms(page: 0), isOptional: true))
+            Analytics.setUserID(user.snsID)
+            Analytics.setUserProperty("type", forName: user.snsType.title)
+           
         }
         self.retryRegisterPushToken()
         
@@ -392,5 +437,10 @@ class Repository:ObservableObject, PageProtocol{
         self.storage.retryPushToken = token
         self.storage.registPushToken = ""
         DataLog.d("registFailPushToken", tag:self.tag)
+    }
+    
+    func setupExpose(_ isOn:Bool){
+        self.storage.isExposeSetup = true
+        self.storage.isExpose = isOn
     }
 }

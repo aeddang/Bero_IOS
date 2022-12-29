@@ -90,7 +90,7 @@ struct PageDog: PageView {
                                 profile: profile
                             )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.mediumUltra)
+                            .padding(.top, Dimen.margin.heavyExtra)
                             Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                 .padding(.top, Dimen.margin.medium)
                             if let user = self.user {
@@ -102,21 +102,21 @@ struct PageDog: PageView {
                                 
                                 AlbumSection(
                                     user: user,
+                                    pet: profile,
                                     listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .padding(.top, Dimen.margin.mediumUltra)
+                                .padding(.top, Dimen.margin.heavyExtra)
                                 
                                 if !self.dataProvider.user.isSameUser(self.user) && !self.fromUserPage ,
                                     let user = self.user?.currentProfile {
                                     UserProfileItem(
                                         data: user,
-                                        subImagePath: self.profile?.imagePath,
                                         useBg: false,
                                         action:self.moveUser
                                     )
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                    .padding(.vertical, Dimen.margin.mediumUltra)
+                                    .padding(.vertical, Dimen.margin.heavyExtra)
                                 }
                             }
                         }

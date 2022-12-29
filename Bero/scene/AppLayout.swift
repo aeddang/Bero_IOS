@@ -11,6 +11,7 @@ import SwiftUI
 struct AppLayout: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var repository:Repository
+    @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var sceneObserver:PageSceneObserver
@@ -54,6 +55,10 @@ struct AppLayout: PageComponent{
                     }
                 }
             }
+            /*
+            
+            .padding(.top, 200)
+             */
         }
         .onReceive(self.appSceneObserver.$isApiLoading){ loading in
             withAnimation{ self.isLoading = loading }
@@ -123,6 +128,13 @@ struct AppLayout: PageComponent{
         }
         .onReceive(self.pageObservable.$status){status in
             self.sceneObserver.status = status
+            switch status {
+            case .enterBackground :
+                self.walkManager.isBackGround = true
+            case .enterForeground :
+                self.walkManager.isBackGround = false
+            default : break
+            }
         }
         .onAppear(){
             //self.isLoading = true

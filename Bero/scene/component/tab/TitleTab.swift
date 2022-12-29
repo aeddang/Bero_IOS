@@ -47,7 +47,8 @@ extension TitleTab{
     }
     
     enum ButtonType:String{
-        case more, add, edit, close, back, setting, alramOn, alram
+        case more, add, edit, close, back, setting, alramOn, alram, block
+        case addFriend,friend
         case viewMore, manageDogs
         var icon:String? {
             switch self {
@@ -60,6 +61,9 @@ extension TitleTab{
             case .alramOn : return Asset.icon.notification_on
             case .setting : return Asset.icon.settings
             case .viewMore, .manageDogs : return Asset.icon.direction_right
+            case .addFriend : return Asset.icon.add_friend
+            case .friend : return Asset.icon.my
+            case .block : return Asset.icon.block
             }
         }
         var text:String? {
@@ -78,7 +82,6 @@ extension TitleTab{
             default : return Color.app.grey500 
             }
         }
-        
     }
 }
 
@@ -95,6 +98,7 @@ struct TitleTab: PageComponent{
     var sortButton:String? = nil
     var sort:(() -> Void)? = nil
     var buttons:[ButtonType] = []
+    var icons:[String?] = []
     var action: ((ButtonType) -> Void)? = nil
    
     @State private var isTop:Bool = true
@@ -149,7 +153,7 @@ struct TitleTab: PageComponent{
                                 self.sort?()
                             }
                     }
-                    ForEach(self.buttons, id: \.self) { btn in
+                    ForEach( Array(self.buttons.enumerated()), id: \.1){ idx,  btn in
                         HStack(spacing:Dimen.margin.microExtra){
                             if let text = btn.text {
                                 Text(text)
@@ -159,11 +163,21 @@ struct TitleTab: PageComponent{
                                     }
                             }
                             if let icon = btn.icon {
-                                ImageButton(
-                                    defaultImage: icon,
-                                    defaultColor: btn.color
-                                ){ _ in
-                                    self.action?(btn)
+                                if self.icons.count > idx, let iconText = self.icons[idx] {
+                                    ImageButton(
+                                        defaultImage: icon,
+                                        iconText:iconText,
+                                        defaultColor: btn.color
+                                    ){ _ in
+                                        self.action?(btn)
+                                    }
+                                } else {
+                                    ImageButton(
+                                        defaultImage: icon,
+                                        defaultColor: btn.color
+                                    ){ _ in
+                                        self.action?(btn)
+                                    }
                                 }
                             }
                         }

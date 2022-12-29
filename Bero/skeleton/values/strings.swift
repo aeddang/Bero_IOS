@@ -24,7 +24,7 @@ extension String {
         public static let introduction = "Introduction"
         public static let male = "Male"
         public static let female = "Female"
-        
+        public static let neutral = "Nonbinary"
         public static let kmPerH = "kmPerH"
         public static let km = "km"
         public static let m = "m"
@@ -148,6 +148,9 @@ extension String {
         public static var deleteDogText = "The data, information, and history of the dog will be permanently deleted."
         public static var deleteConfirm = "Yes, delete"
   
+        public static var exposeConfirm = "전채공개? 설정에서 설정하면 더묻지않음"
+        public static var exposed = "전채 공개됨"
+        public static var unExposed = "친구만 공개됨"
     }
     
    
@@ -228,7 +231,7 @@ extension String {
         public static let hospital = "Hospital"
         public static let hotel = "Hotel"
         public static let shop = "Shop"
-        public static let vet = "Vet"
+        public static let vet = "Hospital"
         public static let salon = "Salon"
         public static let friendsText = "My friends’ posts only"
         public static let notUsedText = "invisible"
@@ -237,7 +240,7 @@ extension String {
         public static let hospitalText = "Hospital"
         public static let hotelText = "Hotel"
         public static let shopText = "Shop"
-        public static let vetText = "Vet"
+        public static let vetText = "Hospital"
         public static let salonText = "Salon"
         
     }
@@ -256,12 +259,12 @@ extension String {
         public static let friendRequest = "Friend request"
         public static let chatRoom = "Chat room"
 
-        public static let myDogs = "My dogs"
+        public static let myDogs = "My family"
         public static let myProfile = "My Profile"
         public static let myLv = "My Heart Level"
         public static let dogProfile = "Dog Profile"
         public static let healthInformation = "Health Information"
-        public static let usersDogs = "%s’s dogs"
+        public static let usersDogs = "%s’s family"
         public static let walkHistory = "Walk History"
         public static let walkReport = "Walk Report"
         public static let missionHistory = "Mission History"
@@ -363,6 +366,9 @@ extension String {
         public static let chatRoomDeletedMessage = "Deleted message"
         
         public static let setupNotification = "Receive notifications?"
+        public static let levelUpText = "Level up!"
+        
+        public static let setupExpose = "auto expose?"
         
     }
     

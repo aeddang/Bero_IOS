@@ -26,11 +26,45 @@ struct ChatList: PageComponent{
     var roomData:ChatRoomListItemData? = nil
     var body: some View {
         VStack(spacing:0){
+            ZStack{
+                if let pet = self.pet {
+                    HorizontalProfile(
+                        type: .pet,
+                        sizeType: .small,
+                        funcType: .more,
+                        imagePath: pet.imagePath,
+                        name: pet.name,
+                        gender: pet.gender,
+                        age: pet.birth?.toAge(),
+                        breed: pet.breed,
+                        useBg: false
+                    )
+                    
+                } else if let user = self.user?.currentProfile {
+                    HorizontalProfile(
+                        type: .user,
+                        sizeType: .small,
+                        funcType: .more,
+                        imagePath: user.imagePath,
+                        name: user.nickName,
+                        gender: user.gender,
+                        age: user.birth?.toAge(),
+                        useBg: false
+                    )
+                }
+            }
+            .padding(.horizontal, Dimen.app.pageHorinzontal)
+            .padding(.vertical, Dimen.margin.thin)
+            .background(Color.app.orangeSub)
+            .onTapGesture {
+                self.move()
+            }
             if self.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.top, Dimen.margin.regularUltra)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                 Spacer().modifier(MatchParent())
+                
             } else {
                 InfinityScrollView(
                     viewModel: self.infinityScrollModel,
@@ -43,55 +77,7 @@ struct ChatList: PageComponent{
                     isRecycle: true,
                     useTracking: true
                 ){
-                    if let user = self.user?.currentProfile {
-                        ZStack{
-                            HorizontalProfile(
-                                type: .user,
-                                sizeType: .small,
-                                funcType: .more,
-                                imagePath: user.imagePath,
-                                name: user.nickName,
-                                gender: user.gender,
-                                age: user.birth?.toAge(),
-                                useBg: false
-                            ){_ in 
-                                
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.user)
-                                        .addParam(key: .data, value:self.user)
-                                        .addParam(key: .subData, value: self.roomData)
-                                )
-                            }
-                        }
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        .padding(.vertical, Dimen.margin.thin)
-                       
-                    }
-                    if let pet = self.pet {
-                        ZStack{
-                            HorizontalProfile(
-                                type: .pet,
-                                sizeType: .small,
-                                funcType: .more,
-                                imagePath: pet.imagePath,
-                                name: pet.name,
-                                gender: pet.gender,
-                                age: pet.birth?.toAge(),
-                                breed: pet.breed,
-                                useBg: false
-                            ){ _ in
-                                
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.dog)
-                                        .addParam(key: .data, value:pet)
-                                        .addParam(key: .subData, value:self.user)
-                                )
-                            }
-                        }
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        .padding(.vertical, Dimen.margin.thin)
-                        .background(Color.app.orangeSub)
-                    }
+                    
                     ForEach(self.chats) { data in
                         VStack(alignment: .center, spacing:0){
                             if let date = data.date {
@@ -119,13 +105,14 @@ struct ChatList: PageComponent{
                                     useBg: false
                                 )
                             }
-                            ForEach(data.datas ) { chat in
+                            ForEach(data.datas.reversed() ) { chat in
                                 ChatItem(data:chat)
                                     .padding(.bottom, Dimen.margin.tiny)
                             }
                         }
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                         .padding(.top, Dimen.margin.regular)
+                        .id(data.hashId)
                         .onAppear{
                             if data.index == (self.chats.count-1) {
                                 self.infinityScrollModel.event = .bottom
@@ -139,7 +126,8 @@ struct ChatList: PageComponent{
         .onReceive(self.infinityScrollModel.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .bottom : self.loadChat()
+            case .top : self.loadChat()
+            //case .bottom : self.loadChat()
             default : break
             }
         }
@@ -179,9 +167,7 @@ struct ChatList: PageComponent{
                     sender: self.dataProvider.user.snsUser?.snsID
                 )
                 self.insertChat(data: data)
-                DispatchQueue.main.async {
-                    self.infinityScrollModel.uiEvent = .scrollMove(self.infinityScrollModel.topIdx, .top)
-                }
+                
             default : break
             }
             
@@ -196,6 +182,13 @@ struct ChatList: PageComponent{
     @State var user:User? = nil
     @State var pet:PetProfile? = nil
     
+    private func move(){
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.user)
+                .addParam(key: .data, value:self.user)
+                .addParam(key: .subData, value: self.roomData)
+        )
+    }
     private func resetScroll(){
         withAnimation{ self.isEmpty = false }
         self.chats = []
@@ -227,7 +220,7 @@ struct ChatList: PageComponent{
         let me = self.dataProvider.user.snsUser?.snsID ?? ""
         let add = ChatItemData().setData(data, me:me, idx:0)
         var isFirst:Bool = self.chats.count == 0
-        var currentDataSet = self.chats.first ?? ChatListDataSet()
+        var currentDataSet = self.chats.last ?? ChatListDataSet()
         let ymd = currentDataSet.originDate?.toDateFormatter(dateFormat: "yyyyMMdd")
         let chatYmd = add.date?.toDateFormatter(dateFormat: "yyyyMMdd")
         let isMe = currentDataSet.isMe
@@ -251,12 +244,15 @@ struct ChatList: PageComponent{
             }
             currentDataSet.isMe = add.isMe
             currentDataSet.datas.append(add)
-            self.chats.insert(currentDataSet, at: 0)
+            self.chats.append(currentDataSet)
         } else {
             currentDataSet.datas.insert(add, at: 0)
-            self.chats.removeFirst()
-            self.chats.insert(currentDataSet, at: 0)
+            self.chats.removeLast()
+            self.chats.append(currentDataSet)
         }
+        
+        self.infinityScrollModel.uiEvent = .scrollTo(currentDataSet.hashId)
+
     }
     
     private func loadedChatRoom(datas:[ChatData]){
@@ -301,14 +297,17 @@ struct ChatList: PageComponent{
                 currentDataSet.datas.append(add)
             }
         }
-        self.chats.append(contentsOf: addedChat)
-        
+        self.chats.insert(contentsOf: addedChat.reversed(), at: 0)
+     
         if self.chats.isEmpty {
             withAnimation{
                 self.isEmpty = true
             }
         }
         self.infinityScrollModel.onComplete(itemCount: added.count)
+        if self.self.infinityScrollModel.page == 1 , let last = self.chats.last{
+            self.infinityScrollModel.uiEvent = .scrollTo(last.hashId, .center)
+        }
     }
 
 }

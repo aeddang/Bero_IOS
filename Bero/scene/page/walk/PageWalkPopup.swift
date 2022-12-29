@@ -8,7 +8,6 @@ extension PageWalk {
     
     func onMapMarkerSelect(_ marker:GMSMarker){
        
-        
         if let mission = marker.userData as? Mission {
             switch mission.type {
             case .user :
@@ -60,7 +59,7 @@ extension PageWalk {
             default :
                 self.pagePresenter.closePopup(pageId: .popupWalkMission)
             }
-        } else if let place = marker.userData as? Place {
+        } else if marker.userData is Place {
             self.pagePresenter.closePopup(pageId: .popupWalkPlace)
         }
         

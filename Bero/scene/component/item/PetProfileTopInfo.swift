@@ -5,11 +5,13 @@ struct PetProfileTopInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var profile:PetProfile
-    var action: (() -> Void)
+    var isSimple:Bool = false
+    var action: (() -> Void)? = nil
     var body: some View {
         VerticalProfile(
             id: self.profile.id,
-            type: .user,
+            type: .pet,
+            alignment: .center,//self.isSimple ? .leading : .center,
             sizeType: .medium,
             isSelected: true,
             image: self.image,
@@ -18,7 +20,7 @@ struct PetProfileTopInfo: PageComponent{
             gender: self.gender,
             age: self.age,
             breed: self.breed,
-            description: self.description,
+            description: self.isSimple ? nil : self.description,
             editProfile: self.profile.isMypet ? self.action : nil
         )
         .onReceive(self.profile.$name){value in

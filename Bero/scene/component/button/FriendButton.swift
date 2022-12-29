@@ -9,15 +9,20 @@ import Foundation
 import SwiftUI
 
 extension FriendButton {
-    enum ButtonType:String{
+    enum ButtonType{
+       case fill, icon
+    }
+    
+    enum FuncType:String{
         case request, requested, accept, reject, delete, chat
-        var icon:String?{
+        var icon:String{
             switch self {
             case .request : return Asset.icon.add_friend
-            case .requested : return Asset.icon.check
+            case .requested : return Asset.icon.add_friend
             case .delete: return Asset.icon.remove_friend
             case .chat: return Asset.icon.chat
-            default : return nil
+            case .accept: return Asset.icon.check
+            case .reject: return Asset.icon.close
             }
         }
         var bgColor:Color{
@@ -38,7 +43,13 @@ extension FriendButton {
             default : return nil
             }
         }
-        
+        var iconColor:Color{
+            switch self {
+            case .accept, .request, .chat : return Color.brand.primary
+            case .reject, .delete : return Color.app.black
+            default : return Color.app.grey300
+            }
+        }
         var textColor:Color{
             switch self {
             case .delete : return Color.app.grey300
@@ -68,50 +79,68 @@ struct FriendButton: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    var type:FriendButton.ButtonType = .fill
     var userId:String? = nil
-    var type:FriendButton.ButtonType
+    var funcType:FriendButton.FuncType
     var size:CGFloat = Dimen.button.mediumExtra
     var radius:CGFloat = Dimen.radius.thin
     var textSize:CGFloat = Font.size.light
     var body: some View {
-        FillButton(
-            type: self.type.buttonType,
-            icon: self.type.icon,
-            text: self.type.text,
-            size:self.size,
-            radius: self.radius,
-            color: self.type.bgColor,
-            textColor: self.type.textColor,
-            gradient:self.type.bgGradient,
-            textSize: self.textSize
-        ){_ in
-            
-            guard let id = userId else {return}
-            if id == self.dataProvider.user.snsUser?.snsID {return}
-            
-            switch type {
-            case .request:
-                self.dataProvider.requestData(q: .init(id: id, type: .requestFriend(userId: id)))
-            case .requested:
-                self.appSceneObserver.event = .toast("Already friend (write the phrase)")
-            case .delete:
-                self.appSceneObserver.sheet = .select(
-                    String.alert.friendDeleteConfirm,
-                    nil,
-                    [String.app.cancel,String.button.removeFriend],
-                    isNegative: true){ idx in
-                        if idx == 1 {
-                            self.dataProvider.requestData(q: .init(id: id, type: .deleteFriend(userId: id)))
-                        }
-                }
+        switch self.type {
+        case .fill :
+            FillButton(
+                type: self.funcType.buttonType,
+                icon: self.funcType.icon,
+                text: self.funcType.text,
+                size:self.size,
+                radius: self.radius,
+                color: self.funcType.bgColor,
+                textColor: self.funcType.textColor,
+                gradient:self.funcType.bgGradient,
+                textSize: self.textSize
+            ){_ in
                 
-            case .accept:
-                self.dataProvider.requestData(q: .init(id: id, type: .acceptFriend(userId: id)))
-            case .reject:
-                self.dataProvider.requestData(q: .init(id: id, type: .rejectFriend(userId: id)))
-            case .chat:
-                self.appSceneObserver.event = .sendChat(userId: self.userId ?? "")
+                self.action()
             }
+        case .icon :
+            CircleButton(
+                type: .icon(self.funcType.icon),
+                isSelected: true,
+                strokeWidth: 2,
+                activeColor: self.funcType.iconColor
+            ){_ in
+                self.action()
+            }
+        }
+        
+    }
+    
+    private func action(){
+        guard let id = userId else {return}
+        if id == self.dataProvider.user.snsUser?.snsID {return}
+        
+        switch funcType {
+        case .request:
+            self.dataProvider.requestData(q: .init(id: id, type: .requestFriend(userId: id)))
+        case .requested:
+            self.appSceneObserver.event = .toast("Already friend (write the phrase)")
+        case .delete:
+            self.appSceneObserver.sheet = .select(
+                String.alert.friendDeleteConfirm,
+                nil,
+                [String.app.cancel,String.button.removeFriend],
+                isNegative: true){ idx in
+                    if idx == 1 {
+                        self.dataProvider.requestData(q: .init(id: id, type: .deleteFriend(userId: id)))
+                    }
+            }
+            
+        case .accept:
+            self.dataProvider.requestData(q: .init(id: id, type: .acceptFriend(userId: id)))
+        case .reject:
+            self.dataProvider.requestData(q: .init(id: id, type: .rejectFriend(userId: id)))
+        case .chat:
+            self.appSceneObserver.event = .sendChat(userId: self.userId ?? "")
         }
     }
 }

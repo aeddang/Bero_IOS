@@ -68,7 +68,7 @@ class LocationObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     public let kCLLocationAccuracyKilometer: CLLocationAccuracy
     public let kCLLocationAccuracyThreeKilometers: CLLocationAccuracy
     */
-    func requestMe(_ isStart:Bool, id:String? = nil, desiredAccuracy:CLLocationAccuracy? = nil ){
+    func requestMe(_ isStart:Bool, id:String? = nil, desiredAccuracy:CLLocationAccuracy? = nil, allowsBackground:Bool = true ){
         if isStart {
             if self.isSearch {
                 if let loc = self.finalLocation {
@@ -85,6 +85,8 @@ class LocationObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
             locationManager.distanceFilter = 1
             locationManager.activityType = .fitness
+            locationManager.allowsBackgroundLocationUpdates = allowsBackground
+            locationManager.showsBackgroundLocationIndicator = allowsBackground
             locationManager.startUpdatingLocation()
         } else {
             if !self.isSearch { return }

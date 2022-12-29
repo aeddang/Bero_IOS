@@ -9,7 +9,9 @@
 import Foundation
 import SwiftUI
 import MapKit
-struct SelectButton: View, SelecterbleProtocol{
+import FirebaseAnalytics
+
+struct SelectButton: View, SelecterbleProtocol, PageProtocol{
     enum ButtonType{
         case tiny, small, medium
         var height:CGFloat{
@@ -46,6 +48,11 @@ struct SelectButton: View, SelecterbleProtocol{
     var body: some View {
         Button(action: {
             self.action(self.index)
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": text
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             HStack(spacing:Dimen.margin.light){
                 if let icon = self.icon {

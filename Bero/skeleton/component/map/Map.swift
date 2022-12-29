@@ -36,14 +36,49 @@ enum MapViewEvent {
     case tabMarker(GMSMarker), tabOffMarker(GMSMarker), move(isUser:Bool)
 }
 
-protocol MapUserDataProtocal: Identifiable, Equatable{
+protocol MapUserDataProtocal {
     var isSelected:Bool { get }
+    var startPos:CGFloat { get }
+    var midPos:CGFloat { get }
+    var endPos:CGFloat { get }
 }
-open class MapUserData: MapUserDataProtocal, PageProtocol{
-    public let id:String = UUID().uuidString
+open class MapUserData: InfinityData, MapUserDataProtocal, PageProtocol, Comparable{
     var isSelected:Bool = false
-    public static func == (l:MapUserData, r:MapUserData)-> Bool {
-        return l.id == r.id
+    private(set) var startPos:CGFloat = 0
+    private(set) var midPos:CGFloat = 0
+    private(set) var endPos:CGFloat = 0
+    func setPosition(pos:CGFloat)->MapUserData{
+        self.midPos = pos 
+        return self
+    }
+    
+    @discardableResult
+    func setRange(idx:Int, width:CGFloat)->MapUserData{
+        self.index = idx
+        let sPos = CGFloat(idx) * width
+        let range = (width / 2)
+        self.startPos = sPos
+        self.endPos = sPos + width
+        self.midPos = sPos + range
+        return self
+    }
+    func isBelong(pos:CGFloat)->Bool{
+        if self.startPos <= pos && self.endPos > pos {
+            return true
+        }
+        return false
+    }
+    public static func == (lhs: MapUserData, rhs: MapUserData) -> Bool {
+        return rhs.isBelong(pos: lhs.midPos) || lhs.isBelong(pos: rhs.midPos)
+    }
+    
+    public static func < (lhs: MapUserData, rhs: MapUserData) -> Bool {
+        if lhs == rhs {return false}
+        return lhs.midPos < rhs.midPos
+    }
+    public static func > (lhs: MapUserData, rhs: MapUserData) -> Bool {
+        if lhs == rhs {return false}
+        return lhs.midPos > rhs.midPos
     }
 }
 
@@ -52,6 +87,9 @@ open class MapModel: ComponentObservable {
     var startLocation:CLLocation = CLLocation()
     var zoom:Float = 6.0
     var angle:Double = 0.0
+    
+    @Published var position: GMSCameraPosition? = nil
+    
     @Published var uiEvent:MapUiEvent? = nil{
         willSet{
             self.status = .update

@@ -8,8 +8,8 @@
 
 import Foundation
 import SwiftUI
-
-struct TextButton: View, SelecterbleProtocol{
+import FirebaseAnalytics
+struct TextButton: View, SelecterbleProtocol, PageProtocol{
     var defaultText:String
     var isSelected: Bool = false
     var index: Int = 0
@@ -29,6 +29,11 @@ struct TextButton: View, SelecterbleProtocol{
     var body: some View {
         Button(action: {
             self.action(self.index)
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": defaultText
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             HStack(alignment:.center, spacing: spacing){
                 if self.isUnderLine {

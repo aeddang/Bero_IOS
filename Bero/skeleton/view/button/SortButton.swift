@@ -1,7 +1,8 @@
 
 import Foundation
 import SwiftUI
-struct SortButton: View{
+import FirebaseAnalytics
+struct SortButton: View, PageProtocol{
     enum ButtonType{
         case fill, stroke, strokeFill
         var strokeWidth:CGFloat{
@@ -94,6 +95,11 @@ struct SortButton: View{
     var body: some View {
         Button(action: {
             self.action()
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": text
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             ZStack{
                 HStack(spacing:self.sizeType.spacing){

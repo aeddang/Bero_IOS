@@ -195,15 +195,16 @@ extension WalkManager {
     }
 }
 
-
-
 class WalkManager:ObservableObject, PageProtocol{
     let locationObserver:LocationObserver
+    private var lockScreenManager:PageProtocol? = nil
     private let dataProvider:DataProvider
     private var anyCancellable = Set<AnyCancellable>()
     private(set) var missions:[Mission] = []
     private(set) var missionUsers:[Mission] = []
+    private(set) var missionUsersSummary:[Mission] = []
     private(set) var places:[Place] = []
+    private(set) var placesSummary:[Place] = []
     private(set) var startTime:Date = Date()
     private(set) var startLocation:CLLocation? = nil
     private(set) var completedMissions:[Int] = []
@@ -228,31 +229,35 @@ class WalkManager:ObservableObject, PageProtocol{
     private (set) var placeDatas:[String:[Place]] = [:]
     private (set) var userFilter:Filter = .all
     private (set) var placeFilters:[Filter] = [.vet, .restaurant, .cafe, .petShop]
-    private (set) var missionFilter:Filter = .all
+    private (set) var missionFilter:Filter = .notUsed
     let nearDistence:Double = WalkManager.nearDistence
+    let farDistence:Double = 10000
+    var isBackGround:Bool = false
     init(
         dataProvider:DataProvider,
         locationObserver:LocationObserver){
-        self.locationObserver = locationObserver
-        self.dataProvider = dataProvider
+            self.locationObserver = locationObserver
+            self.dataProvider = dataProvider
+            if #available(iOS 16.2, *) {
+                self.lockScreenManager = LockScreenManager()
+            }
     }
     
     func resetMapStatus(_ location:CLLocation? = nil, userFilter:Filter?=nil,  missionFilter:Filter?=nil, placeFilters:[Filter]?=nil, isAll:Bool = false){
         if let filter = userFilter {
             self.userFilter = filter
             self.missionUsers = []
+            missionUsersSummary = []
         }
-       
         if let filter = missionFilter {
             self.missionFilter = filter
             self.missions = []
         }
-        
         if let filters = placeFilters {
             self.placeFilters = filters
             self.places = []
+            self.placesSummary = []
         }
-        
         if isAll {
             if self.currentMission == nil {
                 self.missions = []
@@ -261,7 +266,9 @@ class WalkManager:ObservableObject, PageProtocol{
             self.missionUsers = []
             self.places = []
             self.missions = []
-        }
+            self.missionUsersSummary = []
+            self.placesSummary = []
+        } 
         self.event = .changeMapStatus
         if let loc = location ?? self.currentLocation {
             self.updateMapStatus(loc)
@@ -297,24 +304,31 @@ class WalkManager:ObservableObject, PageProtocol{
     }
     
     func updateMapStatus(_ location:CLLocation){
-        if !self.missions.isEmpty {
-            if let distence = self.missions.first?.destination?.distance(from: location) {
-                if distence <= Self.distenceUnit {
+        switch self.missionFilter {
+        case .notUsed :
+            DataLog.d("mission not used updated", tag: self.tag)
+            self.updateCheckAnotherStatus(location)
+        default :
+            if !self.missions.isEmpty {
+                if let distence = self.missions.first?.destination?.distance(from: location) {
+                    if distence <= Self.distenceUnit {
+                        DataLog.d("already updated", tag: self.tag)
+                        self.updateCheckAnotherStatus(location)
+                        return
+                    }
+                    self.event = .changeMapStatus
+                    self.resetMapStatus(location, isAll: true)
+                    return
+                } else {
                     DataLog.d("already updated", tag: self.tag)
                     self.updateCheckAnotherStatus(location)
                     return
                 }
-                self.event = .changeMapStatus
-                self.resetMapStatus(location, isAll: true)
-                return
-            } else {
-                DataLog.d("already updated", tag: self.tag)
-                self.updateCheckAnotherStatus(location)
-                return
             }
+            self.requestMapStatus(location)
         }
-        self.requestMapStatus(location)
     }
+    
     func updateSimpleView(_ view:Bool) {
         if self.status != .walking {
             self.isSimpleView = false
@@ -323,6 +337,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.isSimpleView = view
        
     }
+    
     func updateReward(_ exp:Double, point:Int) {
         if self.status != .walking { return }
         self.playPoint += point
@@ -364,6 +379,9 @@ class WalkManager:ObservableObject, PageProtocol{
         self.event = .start
         self.status = .walking
         self.startTimer()
+        if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
+            lsm.startLockScreen(data: .init(title: "start"))
+        }
     }
     
     func completeWalk(){
@@ -373,6 +391,9 @@ class WalkManager:ObservableObject, PageProtocol{
     }
     
     func endWalk(){
+        if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
+            lsm.endLockScreen(data: .init(title: "end", walkTime:self.walkTime , walkDistence:self.walkDistence))
+        }
         self.completedWalk = nil
         self.walkTime = 0
         self.walkDistence = 0
@@ -407,6 +428,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.currentDistenceFromMission = nil
         self.event = .endMission(mission)
     }
+    
     func forceCompleteMission(){
         guard let mission = self.currentMission else {return}
         self.missionCompleted(mission)
@@ -414,7 +436,6 @@ class WalkManager:ObservableObject, PageProtocol{
     
     func registPlace(){
         self.filterPlace()
-       
     }
     
     private func missionCompleted(_ mission:Mission){
@@ -429,11 +450,13 @@ class WalkManager:ObservableObject, PageProtocol{
         self.viewMission = mission
         self.getRoute(goal: goal)
     }
+    
     func viewRoute(place:Place){
         guard let goal = place.location else { return }
         self.viewPlace = place
         self.getRoute(goal: goal)
     }
+    
     func viewRouteEnd(){
         self.viewMission = nil
         self.viewPlace = nil
@@ -472,8 +495,23 @@ class WalkManager:ObservableObject, PageProtocol{
             self.walkDistence += diff
         }
         self.currentLocation = loc
-        self.findPlace(loc)
-        
+        if self.isBackGround {
+            if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
+                if let place = self.findPlace(loc) {
+                    lsm.alertLockScreen(data: .init(
+                        title: "FIND",
+                        info: (place.name ?? "") + " find!",
+                        walkTime: self.walkTime,
+                        walkDistence: self.walkDistence))
+                } else {
+                    lsm.updateLockScreen(data: .init(walkTime: self.walkTime, walkDistence: self.walkDistence))
+                }
+            }
+
+        } else {
+            self.findPlace(loc)
+        }
+        /*
         guard let mission = self.currentMission else {return}
         guard let destination = mission.destination else {return}
         let distance = destination.distance(from: loc)
@@ -481,6 +519,7 @@ class WalkManager:ObservableObject, PageProtocol{
         if distance < self.nearDistence {
             self.missionCompleted(mission)
         }
+        */
         //self.findWayPoint(loc)
         
     }
@@ -522,6 +561,7 @@ class WalkManager:ObservableObject, PageProtocol{
     }
     
     private var timer:AnyCancellable?
+    
     private func startTimer(){
         self.timer = Timer.publish(
             every: 1.0, on: .current, in: .common)
@@ -552,10 +592,8 @@ class WalkManager:ObservableObject, PageProtocol{
                 self.event = .updatedMissions
             }
         case .searchMission :
-            let me = self.dataProvider.user.snsUser?.snsID
             if let datas = res.data as? [MissionData] {
-                self.missionUsers = datas.map{Mission().setData($0, type: .user)}.filter{$0.user?.currentProfile.userId != me}
-                self.event = .updatedUsers
+                self.filterUser(datas: datas)
             }
         case .getPlace(_, _ , let searchType) :
             if let datas = res.data as? [PlaceData], let key = searchType {
@@ -600,7 +638,46 @@ class WalkManager:ObservableObject, PageProtocol{
         }
     }
     
-   
+    private func filterUser(datas:[MissionData]){
+        guard let loc = self.currentLocation else {
+            DataLog.d("filterUser error notfound me", tag: self.tag)
+            return
+        }
+        let me = self.dataProvider.user.snsUser?.snsID
+        self.missionUsers = datas.map{Mission().setData($0, type: .user)}
+            .filter{$0.user?.currentProfile.userId != me}
+            .sorted(by: { p1, p2 in
+                let distance1 = p1.destination?.distance(from: loc) ?? 0
+                let distance2 = p2.destination?.distance(from: loc) ?? 0
+                return distance1 < distance2
+            })
+            
+        var summary:[Mission] = []
+        var prev:Mission? = nil
+        var idx:Int = 0
+        for data in self.missionUsers {
+            data.setRange(idx: idx, width: 0)
+            idx += 1
+            if let loc = data.destination {
+                if let prevLoc = prev?.destination {
+                    if prevLoc.distance(from: loc) < self.farDistence {
+                        prev?.addCount()
+                    } else {
+                        let new = Mission().copySummry(origin: data)
+                        summary.append(new)
+                        prev = new
+                    }
+                } else {
+                    let new = Mission().copySummry(origin: data)
+                    summary.append(new)
+                    prev = new
+                }
+            }
+        }
+        self.missionUsersSummary = summary
+        self.event = .updatedUsers
+    }
+    
     private func findWayPoint(_ loc:CLLocation){
         /*
         guard let waypoints = self.currentRoute?.waypoints else {return}
@@ -608,6 +685,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.event = .findWaypoint(index: find, total:waypoints.count)
          */
     }
+    
     private func checkOnReadyPlaceData(){
         let find = self.placeFilters.first(where: { filter in
             if filter.keyward.isEmpty {return false}
@@ -618,21 +696,22 @@ class WalkManager:ObservableObject, PageProtocol{
         }
     }
     
-    
     private var finalFind:Place? = nil
-    private func findPlace(_ loc:CLLocation){
+    @discardableResult
+    private func findPlace(_ loc:CLLocation)->Place?{
         guard let find = self.places.filter({!$0.isMark}).first(where: {$0.location!.distance(from: loc) < self.nearDistence}) else {
             //DataLog.d("findPlace not find", tag: self.tag)
             self.finalFind = nil
-            return
+            return nil
         }
         if self.finalFind != nil {
             DataLog.d("findPlace already find", tag: self.tag)
-            return
+            return nil
         }
         self.finalFind = find
         DataLog.d("findPlace find " + (find.name ?? ""), tag: self.tag)
         self.event = .findPlace(find)
+        return find
     }
     private func filterPlace(){
         guard let loc = self.currentLocation else {
@@ -678,10 +757,34 @@ class WalkManager:ObservableObject, PageProtocol{
             }
         }
         fixed.append(contentsOf: completed)
+        var idx:Int = 0
+        fixed.forEach{
+            $0.setRange(idx: idx, width: 0)
+            idx += 1
+        }
         DataLog.d("filterPlace end " + fixed.count.description, tag: self.tag)
         self.places = fixed
-        DispatchQueue.main.async {
-            self.event = .updatedPlaces
+        
+        var summary:[Place] = []
+        var prev:Place? = nil
+        for data in datas {
+            if let loc = data.location {
+                if let prevLoc = prev?.location {
+                    if prevLoc.distance(from: loc) < self.farDistence {
+                        prev?.addCount()
+                    } else {
+                        let new = Place().copySummry(origin: data)
+                        summary.append(new)
+                        prev = new
+                    }
+                } else {
+                    let new = Place().copySummry(origin: data)
+                    summary.append(new)
+                    prev = new
+                }
+            }
         }
+        self.placesSummary = summary
+        self.event = .updatedPlaces
     }
 }

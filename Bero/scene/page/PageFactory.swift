@@ -38,9 +38,11 @@ extension PageID{
     static let editProfile:PageID = "editProfile"
     static let privacy:PageID = "privacy"
     static let serviceTerms:PageID = "serviceTerms"
+    static let webview:PageID = "webview"
     static let blockUser:PageID = "blockUser"
     static let missionCompleted:PageID = "missionCompleted"
     static let walkCompleted:PageID = "walkCompleted"
+    static let levelUp = "levelUp"
     
     static let addDog:PageID = "addDog"
     static let addDogCompleted:PageID = "addDogCompleted"
@@ -49,6 +51,7 @@ extension PageID{
     static let popupWalkPlace:PageID = "popupWalkPlace"
     static let popupWalkMission:PageID = "popupWalkMission"
     static let popupPlaceVisitor:PageID = "popupPlaceVisitor"
+    
     
 }
 
@@ -77,9 +80,9 @@ struct PageProvider {
     
     static func getType(_ pageID:PageID)-> PageAnimationType{
         switch pageID {
-        case  .addDog, .addDogCompleted, .chooseDog,
+        case  .addDog, .addDogCompleted, .chooseDog, .webview,
                 .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return .vertical
-        case  .missionCompleted, .walkCompleted: return .opacity
+        case  .missionCompleted, .walkCompleted, .levelUp: return .opacity
         default : return  .horizontal
         }
     }
@@ -91,7 +94,7 @@ struct PageProvider {
     }
     static func isLayer(_ pageID:PageID)-> Bool{
         switch pageID{
-        case .chooseDog, .missionCompleted, .walkCompleted : return true
+        case .chooseDog, .missionCompleted, .walkCompleted, .levelUp : return true
         case .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return true
         default : return false
         }
@@ -202,12 +205,14 @@ struct PageFactory{
         case .addDogCompleted : return PageAddDogCompleted(pageObservable:pageObservable)
         case .missionCompleted : return PageMissionCompleted(pageObservable:pageObservable)
         case .walkCompleted : return PageWalkCompleted(pageObservable:pageObservable)
+        case .levelUp : return PageLevelUp(pageObservable:pageObservable)
         case .modifyUser : return PageModifyUser(pageObservable:pageObservable)
         case .modifyPet : return PageModifyPet(pageObservable:pageObservable)
         case .modifyPetHealth : return PageModifyPetHealth(pageObservable:pageObservable)
         case .editProfile : return PageEditProfile(pageObservable:pageObservable)
         case .privacy : return PagePrivacy(pageObservable:pageObservable)
         case .serviceTerms : return PageServiceTerms(pageObservable:pageObservable)
+        case .webview : return PageWebview(pageObservable:pageObservable)
         case .popupWalkUser : return PopupWalkUser(pageObservable:pageObservable)
         case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
         case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)

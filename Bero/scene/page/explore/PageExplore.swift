@@ -38,8 +38,15 @@ struct PageExplore: PageView {
                         infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.explore,
                         sortButton: self.type.title,
-                        sort: self.onSort
-                    )
+                        sort: self.onSort,
+                        buttons:[.add ]){ type in
+                            switch type {
+                            case .add :
+                                self.onPick()
+                            default : break
+                            }
+                        }
+                    
                    
                     UserAlbumList(
                         infinityScrollModel: self.infinityScrollModel,
@@ -78,6 +85,33 @@ struct PageExplore: PageView {
             }
             
         }
+    }
+    
+    
+    private func onPick(){
+        self.appSceneObserver.select = .imgPicker(self.tag){ pick in
+            guard let pick = pick else {return}
+            DispatchQueue.global(qos:.background).async {
+                let scale:CGFloat = 1 //UIScreen.main.scale
+                let sizeList = CGSize(
+                    width: AlbumApi.thumbSize * scale,
+                    height: AlbumApi.thumbSize * scale)
+                let thumbImage = pick.normalized().crop(to: sizeList).resize(to: sizeList)
+                DispatchQueue.main.async {
+                    self.pagePresenter.isLoading = false
+                    self.update(img: pick, thumbImage: thumbImage, isExpose:true)
+                }
+            }
+           
+        }
+    }
+    
+    private func update(img:UIImage, thumbImage:UIImage, isExpose:Bool){
+        guard let id = self.dataProvider.user.snsUser?.snsID else {return}
+        self.dataProvider.requestData(q: .init(
+            id: id ,
+            type: .registAlbumPicture(img: img, thumbImg: thumbImage, id: id, .user, isExpose: isExpose)
+        ))
     }
 
 }

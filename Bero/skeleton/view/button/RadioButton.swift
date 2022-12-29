@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftUI
-struct RadioButton: View, SelecterbleProtocol {
+import FirebaseAnalytics
+struct RadioButton: View, SelecterbleProtocol, PageProtocol {
     enum ButtonType{
         case blank, stroke, switchOn, checkOn
         var strokeWidth:CGFloat{
@@ -68,6 +69,12 @@ struct RadioButton: View, SelecterbleProtocol {
     var body: some View {
         Button(action: {
             action(!self.isChecked)
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": text ?? icon ?? "",
+                "isChecked" : isChecked.description
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             HStack(alignment: .center, spacing: Dimen.margin.thin){
                 if let icon = self.icon {

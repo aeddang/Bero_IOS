@@ -18,14 +18,16 @@ struct MyDogsSection: PageComponent{
             if self.pets.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
-            } else if self.pets.count == 1, let pet = self.pets.first{
-                PetProfileInfo( profile: pet){
-                    self.movePetPage(pet)
-                }
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Dimen.margin.tiny){
+                        if let profile = self.me {
+                            UserProfileInfo(profile:profile, sizeType: .big){
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.modifyUser)
+                                )
+                            }
+                        }
                         ForEach(self.pets) { pet in
                             PetProfileInfo( profile: pet){
                                 self.movePetPage(pet)
@@ -40,7 +42,7 @@ struct MyDogsSection: PageComponent{
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .addedDog, .deletedDog: self.update()
+            case .addedDog, .deletedDog,. updatedProfile: self.update()
             default : break
             }
         }
@@ -48,9 +50,11 @@ struct MyDogsSection: PageComponent{
             self.update()
         }
     }
+    @State var me:UserProfile? = nil
     @State var pets:[PetProfile] = []
     
     private func update(){
+        self.me = self.dataProvider.user.currentProfile
         self.pets = self.dataProvider.user.pets
     }
     

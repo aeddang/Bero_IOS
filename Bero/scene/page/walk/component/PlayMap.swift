@@ -57,6 +57,7 @@ struct PlayMap: PageView {
    
     @Binding var isFollowMe:Bool
     @Binding var isForceMove:Bool
+    @State var isSimpleView:Bool = true
     var bottomMargin:CGFloat = 0
     var body: some View {
         ZStack(alignment: .bottom){
@@ -120,6 +121,21 @@ struct PlayMap: PageView {
             case .clearViewRoute : self.clearCurrentViewRoute()
             }
         }
+        .onReceive(self.viewModel.$position){ pos in
+            guard let pos = pos else {return}
+            let zoom = pos.zoom
+            var willSimple = self.isSimpleView
+            if zoom < Self.zoomFarAway {
+                willSimple = true
+            } else {
+                willSimple = false
+            }
+            if willSimple != self.isSimpleView {
+                self.isSimpleView = willSimple
+                self.onMarkerUpdate()
+            }
+            
+        }
         .onAppear{
             self.viewModel.zoom = Self.zoomRatio
             UIApplication.shared.isIdleTimerDisabled = true
@@ -136,13 +152,19 @@ struct PlayMap: PageView {
     @State var isWalk:Bool = false
     @State var isInit:Bool = false
     @State var isRouteView:Bool = false
+    @State var currentRoute:Route? = nil
     private func onMarkerUpdate(){
-        let zip:[MapUiEvent] = [
+        var zip:[MapUiEvent] = [
             .clearAll(),
             .addMarkers(self.getMissions(mission: self.walkManager.currentMission)),
             .addMarkers(self.getUsers()),
             .addMarkers(self.getPlaces())
         ]
+        if let route = self.currentRoute {
+            let lines = self.getRoutes(route, color: Color.brand.primary).map{ MapRoute(line:$0) }
+            zip.append(.addRoutes(lines))
+        }
+        
         self.viewModel.uiEvent = .zip(zip)
     }
     
@@ -220,9 +242,13 @@ struct PlayMap: PageView {
     }
     private func onMissionEnd(_ data:Mission){
         //let marker:MapMarker = .init(id:data.missionId.description, marker: self.getMissionMarker(data))
+        self.currentRoute = nil
         self.isMissionStart = false
-        var zip:[MapUiEvent] = []
-        zip.append(.addMarkers(self.getMissions()))
+        let zip:[MapUiEvent] = [
+            .clearAllRoute,
+            .addMarkers(self.getMissions())
+        ]
+        
         self.viewModel.uiEvent = .zip(zip)
     }
     
@@ -252,17 +278,18 @@ struct PlayMap: PageView {
     
     
     private func getUsers()->[MapMarker]{
-        let datas = self.walkManager.missionUsers.filter{
+        let origin = self.isSimpleView ? self.walkManager.missionUsersSummary : self.walkManager.missionUsers
+        let datas = origin.filter{
             $0.destination != nil
         }
-        let markers:[MapMarker] = datas.map{ data in
-            return .init(id:data.missionId.description, marker: self.getUserMarker(data))
+        return datas.map{ data in
+            .init(id:data.missionId.description, marker: self.getUserMarker(data))
         }
-        return markers
     }
     
     private func getPlaces()->[MapMarker]{
-        let datas = self.walkManager.places.filter{$0.location != nil && $0.googlePlaceId?.isEmpty == false}
+        let origin = self.isSimpleView ? self.walkManager.placesSummary : self.walkManager.places
+        let datas = origin.filter{$0.location != nil && $0.googlePlaceId?.isEmpty == false}
         let markers:[MapMarker] = datas.map{ data in
             return .init(id:data.googlePlaceId ?? "", marker: self.getPlaceMarker(data))
         }
@@ -274,6 +301,9 @@ struct PlayMap: PageView {
             return
         }
         let isAuto = !self.isMissionStart && self.walkManager.currentMission != nil
+        if self.walkManager.currentMission != nil && self.currentRoute == nil {
+            self.currentRoute = route
+        }
         var focus:CLLocation = loc
         var scale:Float = Self.zoomDefault
         if let me = self.walkManager.currentLocation {

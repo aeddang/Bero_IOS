@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftUI
-struct CircleButton: View, SelecterbleProtocol {
+import FirebaseAnalytics
+struct CircleButton: View, SelecterbleProtocol, PageProtocol {
     enum ButtonType{
         case tiny, icon(String, size:CGFloat? = nil), text(String), image(String?, size:CGFloat? = nil)
         var size:CGFloat{
@@ -32,6 +33,10 @@ struct CircleButton: View, SelecterbleProtocol {
     var body: some View {
         Button(action: {
             self.action( self.index )
+            let parameters = [
+                "buttonType": self.tag
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             ZStack{
                 switch self.type {

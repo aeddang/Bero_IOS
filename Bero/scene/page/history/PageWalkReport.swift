@@ -180,7 +180,7 @@ struct PageWalkReport: PageView {
                                 self.load()
                             }
                             if let data = self.reportData {
-                                VStack(alignment: .leading, spacing: Dimen.margin.mediumUltra){
+                                VStack(alignment: .leading, spacing: Dimen.margin.heavyExtra){
                                     VStack(alignment: .center, spacing: Dimen.margin.regular){
                                         ReportText(
                                             leading: String.pageText.reportWalkDayText,

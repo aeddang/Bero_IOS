@@ -107,6 +107,7 @@ struct WalkBox: PageComponent{
                                         self.isFollowMe = false
                                         self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkMission).addParam(key: .data, value: mission))
                                 }
+                                .frame(width: RectButton.SizeType.tiny.bgSize)
                             }
                             
                         }

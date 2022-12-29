@@ -67,7 +67,7 @@ struct PageIntro: PageView {
                     self.viewModel.request = .move(self.index + 1)
                 }
             }
-            .padding(.top, Dimen.margin.mediumUltra)
+            .padding(.top, Dimen.margin.heavyExtra)
             .padding(.bottom, Dimen.margin.medium)
             .padding(.horizontal, Dimen.margin.regular)
         }

@@ -47,6 +47,8 @@ struct MultiProfile: PageComponent{
     var type:ProfileType = .pet
     var sizeType:SizeType = .big
     var circleButtontype:CircleButton.ButtonType? = nil
+    var userId:String? = nil
+    var friendStatus:FriendStatus? = nil
     var image:UIImage? = nil
     var imagePath:String? = nil
     var imageSize:CGFloat? = nil
@@ -62,18 +64,29 @@ struct MultiProfile: PageComponent{
                     size: self.imageSize ?? Dimen.profile.mediumUltra,
                     emptyImagePath: self.type.emptyImage
                 )
-                if let type = self.circleButtontype {
-                    CircleButton(
-                        type: type,
-                        isSelected: self.type.getButtonSelectStatus(circleButtontype: type),
-                        strokeWidth: self.type.getStroke(circleButtontype: type, size:self.sizeType),
-                        defaultColor: Color.app.black,
-                        activeColor: Color.brand.primary
-                    ){ _ in
-                        self.buttonAction?()
+                HStack( spacing: Dimen.margin.micro){
+                    Spacer().modifier(MatchHorizontal(height: 0))
+                    if let status = self.friendStatus, let userId = self.userId {
+                        ForEach(status.buttons, id:\.rawValue){ btn in
+                            FriendButton(
+                                type:.icon,
+                                userId:userId,
+                                funcType: btn
+                            )
+                        }
+                    } else if let type = self.circleButtontype {
+                        CircleButton(
+                            type: type,
+                            isSelected: self.type.getButtonSelectStatus(circleButtontype: type),
+                            strokeWidth: self.type.getStroke(circleButtontype: type, size:self.sizeType),
+                            defaultColor: Color.app.black,
+                            activeColor: Color.brand.primary
+                        ){ _ in
+                            self.buttonAction?()
+                        }
                     }
-                    .padding(.leading, (self.imageSize ?? self.sizeType.imageSize) - Dimen.margin.light)
                 }
+                .frame(width:(self.imageSize ?? Dimen.profile.mediumUltra) + Dimen.margin.thin)
             }
             .modifier(MatchHorizontal(height: self.imageSize ?? self.sizeType.imageSize))
             if let name = self.name {

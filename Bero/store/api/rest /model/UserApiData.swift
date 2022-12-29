@@ -31,4 +31,7 @@ struct UserData : Decodable {
     private(set) var isChecked: Bool? = nil
     private(set) var isFriend: Bool? = nil
     private(set) var createdAt: String? = nil
+    
+    private(set) var nextLevelExp: Double? = nil
+    private(set) var prevLevelExp: Double? = nil
 }

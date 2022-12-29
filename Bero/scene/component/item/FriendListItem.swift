@@ -20,6 +20,8 @@ struct FriendListItemDataSet:Identifiable {
 class FriendListItemData:InfinityData{
     private(set) var imagePath:String? = nil
     private(set) var subImagePath:String? = nil
+    private(set) var name:String? = nil
+    private(set) var petName:String? = nil
     private(set) var text:String? = nil
     private(set) var userId:String? = nil
     func setData(_ data:MissionData, idx:Int) -> FriendListItemData{
@@ -41,11 +43,13 @@ class FriendListItemData:InfinityData{
     
     func setData(_ data:FriendData, idx:Int, type:FriendStatus) -> FriendListItemData{
         self.index = idx
-        self.imagePath = data.userImg
-        self.subImagePath = data.petImg
+        self.imagePath = data.petImg
+        self.subImagePath = data.userImg
         self.userId = data.refUserId
         let petName = data.petName
         let userName = data.userName
+        self.petName = petName
+        self.name = userName
         if let pet = petName , let user = userName {
             self.text = pet + " & " + user
         } else if let pet = petName {
@@ -61,38 +65,32 @@ struct FriendListItem: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     let data:FriendListItemData
     let imgSize:CGFloat
+    let isMe:Bool
     var status:FriendStatus? = nil
+    var isHorizontal:Bool = true
     var action: (() -> Void)
     var body: some View {
-        
-        VStack(spacing: Dimen.margin.tiny){
-            Button(action: {
-                self.action()
-            }) {
-                MultiProfile(
-                    id: "",
-                    type: .pet,
-                    circleButtontype: .image(self.data.subImagePath ?? ""),
-                    image: nil,
-                    imagePath: self.data.imagePath,
-                    imageSize: self.imgSize,
-                    name: self.data.text,
-                    buttonAction: self.action
-                )
+        ZStack{
+            if self.isHorizontal {
+                FriendListItemBodyHorizontal(
+                    data: self.data,
+                    imgSize: self.imgSize,
+                    isMe: self.isMe,
+                    status: self.status,
+                    currentStatus: self.currentStatus,
+                    action: self.action)
+            } else {
+                FriendListItemBodyVertical(
+                    data: self.data,
+                    imgSize: self.imgSize,
+                    isMe: self.isMe,
+                    status: self.status,
+                    currentStatus: self.currentStatus,
+                    action: self.action)
             }
-            if let status = self.currentStatus {
-                HStack( spacing: Dimen.margin.micro){
-                    ForEach(status.buttons, id:\.rawValue){ btn in
-                        FriendButton(
-                            userId: self.data.userId,
-                            type: btn,
-                            size:Dimen.button.light,
-                            radius: Dimen.radius.regular,
-                            textSize: Font.size.tiny
-                        )
-                    }
-                }
-            }
+        }
+        .onTapGesture {
+            self.action()
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
@@ -122,4 +120,115 @@ struct FriendListItem: PageComponent{
 }
 
 
+
+struct FriendListItemBodyHorizontal: PageComponent{
+    @EnvironmentObject var dataProvider:DataProvider
+    let data:FriendListItemData
+    let imgSize:CGFloat
+    let isMe:Bool
+    var status:FriendStatus? = nil
+    var currentStatus:FriendStatus? = nil
+    var action: (() -> Void)
+    var body: some View {
+        Button(action: {
+            self.action()
+        }) {
+            MultiProfile(
+                id: "",
+                type: .pet,
+                circleButtontype: .image(self.data.subImagePath ?? ""),
+                userId: self.isMe ? self.data.userId : nil,
+                friendStatus: self.currentStatus,
+                image: nil,
+                imagePath: self.data.imagePath,
+                imageSize: self.imgSize,
+                name: self.data.text,
+                buttonAction: self.action
+            )
+        }
+    }
+}
+
+
+struct FriendListItemBodyVertical: PageComponent{
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
+    @EnvironmentObject var dataProvider:DataProvider
+    let data:FriendListItemData
+    let imgSize:CGFloat
+    let isMe:Bool
+    var status:FriendStatus? = nil
+    var currentStatus:FriendStatus? = nil
+    var action: (() -> Void)
+    var body: some View {
+        ZStack{
+            HorizontalProfile(
+                type: .multi(imgPath: self.data.subImagePath),
+                sizeType: .small,
+                funcType: .moreFunc,   // .view(self.data.unreadCount.description),
+                userId: self.isMe ? self.data.userId : nil,
+                friendStatus: self.currentStatus,
+                imagePath: self.data.imagePath,
+                name: self.data.petName,
+                description: self.data.name,
+                isSelected: false,
+                useBg: false
+            ){ type in
+                switch type {
+                case .moreFunc : self.more()
+                default : self.action()
+                }
+            }
+        }
+        .padding(.vertical, Dimen.margin.thin)
+        
+    }
+    
+    private func more(){
+        let datas:[String] = [
+            String.button.block,
+            String.button.accuseUser
+        ]
+        let icons:[String?] = [
+            Asset.icon.block,
+            Asset.icon.notice
+        ]
+       
+        self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+            guard let idx = idx else {return}
+            switch idx {
+            case 0 :self.block()
+            case 1 :self.accuse()
+            default : break
+            }
+        }
+    }
+    
+    
+    private func block(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.blockUserConfirm,
+            nil,
+            [String.app.cancel,String.button.block],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .blockUser(userId: self.data.userId  ?? "", isBlock: true)))
+                }
+        }
+    }
+    
+    private func accuse(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.accuseUserConfirm,
+            String.alert.accuseUserConfirmText,
+            [String.app.cancel,String.button.accuse],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .sendReport(
+                        reportType: .user , userId: self.data.userId 
+                    )))
+                }
+        }
+    }
+    
+}
 

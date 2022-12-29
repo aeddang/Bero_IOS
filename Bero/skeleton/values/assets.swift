@@ -178,7 +178,7 @@ extension Asset{
     struct image {
         public static let present = "present"
         public static let addDog = "add_dog"
-        
+        public static let congratulations = "image_congratulations"
         public static let profile_dog_default = "profile_dog_default"
         public static let profile_user_default = "profile_user_default"
         public static let profile_deco = "profile_deco"
@@ -219,5 +219,8 @@ extension Asset{
         public static let tick:String = "tick"
         public static let shotLong:String = "shot_long"
         public static let shot:String = "shot"
+        
+        public static let mission:String = "mission"
+        public static let walk:String = "walk"
     }
 }

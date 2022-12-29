@@ -18,7 +18,7 @@ enum WebViewError{
 }
 
 enum WebViewEvent {
-    case callPage(String, [URLQueryItem]?), callFuncion(String,String?,String?)
+    case callPage(String, [URLQueryItem]?), callFuncion(String,String?,String?), loaded
 }
 
 open class WebViewModel: ComponentObservable {
@@ -111,13 +111,83 @@ struct WebView : UIViewRepresentable, WebViewProtocol {
     var scriptMessageHandlerName : String = ""
     var uiDelegate:WKUIDelegate? = nil
     func makeUIView(context: Context) -> WKWebView  {
-        return creatWebView()
+        let uiView = creatWebView()
+        uiView.navigationDelegate = context.coordinator
+        uiView.uiDelegate = context.coordinator
+        return uiView
     }
     func updateUIView(_ uiView: WKWebView, context: Context) {
         load( uiView )
     }
     static func dismantleUIView(_ uiView: WKWebView, coordinator: ()) {
         dismantleUIView( uiView )
+    }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, PageProtocol {
+        
+        var parent: WebView
+        init(_ parent: WebView) {
+            self.parent = parent
+        }
+    
+        func webView(_ webView: WKWebView,
+                     decidePolicyFor navigationAction: WKNavigationAction,
+                     preferences: WKWebpagePreferences,
+                     decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+            
+        }
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {}
+        func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+            ComponentLog.d("didCommit" , tag: self.tag )
+        }
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            ComponentLog.e("didFail: " + error.localizedDescription , tag: self.tag )
+        }
+        
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            ComponentLog.d("didFinish: ", tag: self.tag )
+        }
+
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            ComponentLog.e("error: " + error.localizedDescription , tag: self.tag )
+            
+        }
+        
+        func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping () -> Void) {
+        }
+
+        func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping (Bool) -> Void) {
+        }
+
+        func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String,
+                     defaultText: String?, initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping (String?) -> Void) {
+        }
+
+        func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse,
+                     decisionHandler: @escaping (WKNavigationResponsePolicy) -> Swift.Void) {
+            
+            guard
+                let response = navigationResponse.response as? HTTPURLResponse,
+                let url = navigationResponse.response.url
+                else {
+                    decisionHandler(.cancel)
+                    return
+                }
+            if let headerFields = response.allHeaderFields as? [String: String] {
+                let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url)
+                cookies.forEach { (cookie) in
+                    HTTPCookieStorage.shared.setCookie(cookie)
+                }
+            }
+            decisionHandler(.allow)
+        }
     }
 }
 

@@ -86,7 +86,8 @@ struct SelectDateEdit: PageComponent{
         .onAppear{
             self.selectDate = self.prevData
             if self.needAgree {
-                self.isAgree = false
+                self.isAgree = self.prevData.toDateFormatter(dateFormat: "yyyyMMdd")
+                    != Date().toDateFormatter(dateFormat: "yyyyMMdd")
             }
         }
     }

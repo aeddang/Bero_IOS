@@ -13,7 +13,7 @@ struct FriendFunctionBox: PageComponent{
             ForEach(self.currentStatus.buttons.filter{$0 != .delete}, id:\.rawValue){ btn in
                 FriendButton(
                     userId:self.user.currentProfile.userId,
-                    type: btn
+                    funcType: btn
                 )
             }
             if self.currentStatus == .friend {

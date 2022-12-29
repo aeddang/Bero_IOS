@@ -112,6 +112,10 @@ enum PageStatus:String {
     enterBackground
 }
 
+enum PageSceneEvent:String {
+    case changed
+}
+
 enum PageLayer:String {
     case top,
     below,

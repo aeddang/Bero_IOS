@@ -74,6 +74,9 @@ struct HorizontalProfile: PageComponent{
     var type:ProfileType = .pet
     var sizeType:SizeType = .small
     var funcType:FuncType? = nil
+    var userId:String? = nil
+    var friendStatus:FriendStatus? = nil
+    
     var color:Color = Color.brand.primary
     var image:UIImage? = nil
     var imagePath:String? = nil
@@ -200,6 +203,17 @@ struct HorizontalProfile: PageComponent{
                                     .lineLimit(1)
                             }
                         }
+                    }
+                }
+            }
+            if let status = self.friendStatus, let userId = self.userId {
+                HStack( spacing: Dimen.margin.micro){
+                    ForEach(status.buttons, id:\.rawValue){ btn in
+                        FriendButton(
+                            type:.icon,
+                            userId:userId,
+                            funcType: btn
+                        )
                     }
                 }
             }

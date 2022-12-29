@@ -2,21 +2,30 @@ import Foundation
 import SwiftUI
 
 struct AlbumSection: PageComponent{
+    @EnvironmentObject var repository:Repository
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var user:User
+    var pet:PetProfile? = nil
     var listSize:CGFloat = 300
     var pageSize:Int = SystemEnvironment.isTablet ? 12 : 6
     var rowSize:Int = SystemEnvironment.isTablet ? 4 : 2
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.album, buttons: self.isEmpty ? [] : [.viewMore]){ type in
+            TitleTab(type:.section, title: String.pageTitle.album,
+                     buttons: self.isEmpty
+                     ? self.user.isMe == true ? [.add] : []
+                     : [.viewMore]){ type in
                 switch type {
                 case .viewMore :
                     self.pagePresenter.openPopup(
                         PageProvider.getPageObject(.album)
                             .addParam(key: .data, value: self.user)
+                            .addParam(key: .subData, value: self.pet)
                     )
+                case .add :
+                    self.onPick()
                 default : break
                 }
             }
@@ -27,7 +36,7 @@ struct AlbumSection: PageComponent{
                     HStack(spacing: Dimen.margin.regularExtra){
                         ForEach(dataSet.datas) { data in
                             AlbumListItem(
-                                data: data, user:self.user, imgSize: self.albumSize, isEdit: .constant(false)
+                                data: data, user:self.user, pet: self.pet, imgSize: self.albumSize, isEdit: .constant(false)
                             )
                         }
                         if !dataSet.isFull , let count = self.rowSize-dataSet.datas.count {
@@ -42,10 +51,15 @@ struct AlbumSection: PageComponent{
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
             switch res.type {
-            case .getAlbumPictures(let id, _, _, let page, _):
-                if self.currentId == id && page == 0 {
+            case .getAlbumPictures(let id, let type, _, _, let page, _):
+                if self.currentId == id && type == self.currentType && page == 0 {
                     self.reset()
                     self.loaded(res)
+                }
+            case .registAlbumPicture(_, _, let id, let type, _) :
+                if self.currentId == id && type == self.currentType {
+                    self.reset()
+                    self.updateAlbum()
                 }
             default : break
             }
@@ -55,6 +69,7 @@ struct AlbumSection: PageComponent{
         }
     }
     @State var currentId:String = ""
+    @State var currentType:AlbumApi.Category = .user
     @State var isEmpty:Bool = false
     @State var albums:[AlbumListItemData] = []
     @State var albumDataSets:[AlbumListItemDataSet] = []
@@ -62,10 +77,19 @@ struct AlbumSection: PageComponent{
     private func updateAlbum(){
         let r:CGFloat = CGFloat(self.rowSize)
         let w:CGFloat = (self.listSize - (Dimen.margin.regularExtra * (r-1))) / r
-        self.currentId = self.user.snsUser?.snsID ?? ""
+        if let id = self.pet?.petId {
+            self.currentId = id.description
+            self.currentType = .pet
+        } else {
+            self.currentId = self.user.snsUser?.snsID ?? ""
+            self.currentType = .user
+        }
         self.albumSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
-        self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getAlbumPictures(id: self.currentId, .mission, page: 0, size: self.pageSize)))
+        self.dataProvider.requestData(q: .init(id: self.currentId, type:
+                .getAlbumPictures(id: self.currentId,
+                                  self.currentType,
+                                  isExpose: self.user.isMe || self.user.isFriend ? nil : true,
+                                  page: 0, size: self.pageSize)))
         
     }
     private func reset(){
@@ -84,6 +108,8 @@ struct AlbumSection: PageComponent{
         self.setupAlbumDataSet(added: added)
         if self.albums.isEmpty {
             withAnimation{ self.isEmpty = true }
+        } else {
+            withAnimation{ self.isEmpty = false }
         }
     }
     
@@ -111,6 +137,42 @@ struct AlbumSection: PageComponent{
         self.albumDataSets.append(contentsOf: rows)
     }
 
+    
+    private func onPick(){
+        self.appSceneObserver.select = .imgPicker(self.tag){ pick in
+            guard let pick = pick else {return}
+            DispatchQueue.global(qos:.background).async {
+                let scale:CGFloat = 1 //UIScreen.main.scale
+                let sizeList = CGSize(
+                    width: AlbumApi.thumbSize * scale,
+                    height: AlbumApi.thumbSize * scale)
+                let thumbImage = pick.normalized().crop(to: sizeList).resize(to: sizeList)
+                DispatchQueue.main.async {
+                    self.pagePresenter.isLoading = false
+                    self.updateConfirm(img:pick, thumbImage:thumbImage)
+                }
+            }
+        }
+    }
+    
+    private func updateConfirm(img:UIImage, thumbImage:UIImage){
+        var isExpose = self.repository.storage.isExpose
+        if self.repository.storage.isExposeSetup {
+            self.update(img: img, thumbImage: thumbImage, isExpose:isExpose)
+        } else {
+            self.appSceneObserver.alert = .confirm(nil, String.alert.exposeConfirm){ isOk in
+                isExpose = isOk
+                self.update(img: img, thumbImage: thumbImage, isExpose:isExpose)
+            }
+        }
+    }
+    
+    private func update(img:UIImage, thumbImage:UIImage, isExpose:Bool){
+        self.dataProvider.requestData(q: .init(
+            id: self.currentId,
+            type: .registAlbumPicture(img: img, thumbImg: thumbImage, id: self.currentId, self.currentType, isExpose:isExpose)
+        ))
+    }
 }
 
 

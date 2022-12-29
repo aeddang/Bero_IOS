@@ -8,6 +8,9 @@ import SwiftUI
 import Foundation
 open class PageSceneObserver: ObservableObject{
     @Published var status:PageStatus = .initate
+    @Published var event:PageSceneEvent? = nil
+        {didSet{ if self.event != nil { self.event = nil} }}
+    
     @Published private(set) var safeAreaStart:CGFloat = 0
     @Published private(set) var safeAreaEnd:CGFloat = 0
     @Published private(set) var safeAreaBottom:CGFloat = 0
@@ -16,7 +19,7 @@ open class PageSceneObserver: ObservableObject{
     @Published var willScreenSize:CGSize? = nil
     @Published private(set) var screenSize:CGSize = CGSize()
     @Published var isUpdated:Bool = false
-        {didSet{ if isUpdated { isUpdated = false} }}
+        {didSet{ if self.isUpdated { self.isUpdated = false} }}
     
     func update(geometry:GeometryProxy) {
         var willUpdate = false

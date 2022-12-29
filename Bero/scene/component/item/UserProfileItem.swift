@@ -16,6 +16,8 @@ struct UserProfileItem: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var data:UserProfile
     var postId:String? = nil
+    var title:String? = nil
+    var imagePath:String? = nil
     var subImagePath:String? = nil
     var date:String? = nil
     var useBg:Bool = false
@@ -27,8 +29,8 @@ struct UserProfileItem: PageComponent{
             funcType: self.dataProvider.user.isSameUser(self.data)
                 ? nil
             : .moreFunc ,
-            imagePath: self.data.imagePath,
-            name: self.data.nickName,
+            imagePath: self.imagePath ?? self.data.imagePath,
+            name: self.title ?? self.data.nickName,
             gender: self.date == nil ? self.data.gender : nil,
             age: self.date == nil ? self.data.birth?.toAge() : nil,
             description: self.date,

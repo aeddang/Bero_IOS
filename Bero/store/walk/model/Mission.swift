@@ -126,7 +126,9 @@ class Mission:MapUserData{
     private (set) var user:User? = nil
     private (set) var startDate:Date? = nil
     private (set) var endDate:Date? = nil
+    
     private(set) var completedMissions:[Int] = []
+    var count:Int? = nil
     var viewDistance:String { return WalkManager.viewDistance(self.distance) }
     var viewDuration:String { return WalkManager.viewDuration(self.duration) }
     var viewPlayTime:String { return WalkManager.viewDuration(self.playTime) }
@@ -219,6 +221,21 @@ class Mission:MapUserData{
         self.exp = WalkManager.getExp(data.walkDistence)
         return self
     }
+    
+    func copySummry(origin:Mission)->Mission{
+        self.missionId = origin.missionId
+        self.type = origin.type
+        self.user = origin.user
+        self.destination = origin.destination
+        self.distance = origin.distance
+        self.duration = origin.duration
+        self.count = 1
+        return self
+    }
+    func addCount(count:Int = 1){
+        self.count = (self.count ?? 0) + count
+    }
+    
 }
 
 

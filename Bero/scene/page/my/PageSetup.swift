@@ -64,6 +64,17 @@ struct PageSetup: PageView {
                             }
                             self.repository.setupPush(self.isReceivePush)
                         }
+                        RadioButton(
+                            type: .switchOn,
+                            isChecked: self.isExpose,
+                            text:String.pageText.setupExpose,
+                            color: Color.app.black
+                        ){ _ in
+                            withAnimation{
+                                self.isExpose.toggle()
+                            }
+                            self.repository.setupExpose(self.isExpose)
+                        }
                         Spacer().modifier(LineHorizontal())
                         SelectButton(
                             type: .medium,
@@ -152,6 +163,7 @@ struct PageSetup: PageView {
             }
             .onAppear(){
                 self.isReceivePush = self.repository.storage.isReceivePush
+                self.isExpose = self.repository.storage.isExpose
             }
             
         }//GeometryReader
@@ -160,6 +172,7 @@ struct PageSetup: PageView {
     
     @State var isRequestDelete:Bool = false
     @State var isReceivePush:Bool = false
+    @State var isExpose:Bool = false
     private func deleteAccount(){
         self.appSceneObserver.sheet = .select(
             String.alert.deleteAccountConfirm,

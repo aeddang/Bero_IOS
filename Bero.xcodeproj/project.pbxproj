@@ -107,11 +107,13 @@
 		31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794928C18F0800118B05 /* PageManageDogs.swift */; };
 		31AF794C28C1A33300118B05 /* PetProfileHealthEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */; };
 		31AF794E28C1A7A000118B05 /* PageModifyPetHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794D28C1A7A000118B05 /* PageModifyPetHealth.swift */; };
+		31B07CD9294D6484000EF3D5 /* SwipperScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B07CD8294D6484000EF3D5 /* SwipperScrollView.swift */; };
 		31B0F6FE28C6CCB100E86F05 /* RewardApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */; };
 		31B0F70028C6CDC500E86F05 /* RewardApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */; };
 		31B0F70228C6ED4B00E86F05 /* PageMissionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */; };
 		31B0F70428C6ED5D00E86F05 /* TotalMissionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */; };
 		31B0F70628C6EFE000E86F05 /* MissionHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */; };
+		31B29F0B293AE7AF00953C6D /* BannerApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B29F0A293AE7AF00953C6D /* BannerApiData.swift */; };
 		31B311E628D528B5001B539A /* PopupWalkPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311E528D528B5001B539A /* PopupWalkPlace.swift */; };
 		31B311E928D52DD0001B539A /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311E828D52DD0001B539A /* UserView.swift */; };
 		31B311EB28D53749001B539A /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EA28D53749001B539A /* PlaceView.swift */; };
@@ -119,6 +121,19 @@
 		31B311EF28D5460E001B539A /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EE28D5460E001B539A /* MissionView.swift */; };
 		31B311F128D5727D001B539A /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311F028D5727D001B539A /* PlaceInfo.swift */; };
 		31B311F328D6146E001B539A /* MultiProfileListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311F228D6146E001B539A /* MultiProfileListItem.swift */; };
+		31B3C865295BFAD1009CD1EB /* LockScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B3C864295BFAD1009CD1EB /* LockScreenManager.swift */; };
+		31B60EC1295C71F9005533AE /* colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91F95287271C1001C2738 /* colors.swift */; };
+		31B60EC2295C71FC005533AE /* strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91F90287271C1001C2738 /* strings.swift */; };
+		31B60EC3295C7200005533AE /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91F91287271C1001C2738 /* assets.swift */; };
+		31B60EC5295C7294005533AE /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91D7228725833001C2738 /* Log.swift */; };
+		31B60EC9295C7380005533AE /* GroupUnitUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B60EC8295C7380005533AE /* GroupUnitUtil.swift */; };
+		31B60ECA295C7386005533AE /* GroupUnitUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B60EC8295C7380005533AE /* GroupUnitUtil.swift */; };
+		31B60ECB295C773E005533AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
+		31BAA3DA28F8F1A3008155DD /* PageLevelUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3D928F8F1A3008155DD /* PageLevelUp.swift */; };
+		31BAA3DC28F8F31C008155DD /* ChangeBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3DB28F8F31C008155DD /* ChangeBox.swift */; };
+		31BAA3F028FCEBE8008155DD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 31BAA3EF28FCEBE8008155DD /* Lottie */; };
+		31BAA3F228FCEC0F008155DD /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3F128FCEC0F008155DD /* LottieView.swift */; };
+		31BAA3F528FCEC42008155DD /* lego.json in Resources */ = {isa = PBXBuildFile; fileRef = 31BAA3F428FCEC42008155DD /* lego.json */; };
 		31BBE44428C2F3F0006C3C84 /* FriendFunctionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */; };
 		31BBE44628C2FEAD006C3C84 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44528C2FEAD006C3C84 /* HeartButton.swift */; };
 		31BCF3AD28C363C9004605CF /* PageAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AC28C363C9004605CF /* PageAlbum.swift */; };
@@ -179,12 +194,16 @@
 		31C6374728A8C75A008EA54C /* EmptyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374628A8C75A008EA54C /* EmptyItem.swift */; };
 		31C6374928A8C793008EA54C /* item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374828A8C793008EA54C /* item.swift */; };
 		31C6374B28A8DDC8008EA54C /* Calender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6374A28A8DDC8008EA54C /* Calender.swift */; };
+		31C743EA29545F430006169D /* WalkApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C743E929545F430006169D /* WalkApi.swift */; };
+		31C743EC295463540006169D /* WalkApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C743EB295463540006169D /* WalkApiData.swift */; };
 		31C7A91028C2BB9D0010D045 /* PageUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C7A90F28C2BB9D0010D045 /* PageUser.swift */; };
 		31C7A91328C2BCB80010D045 /* UsersDogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C7A91228C2BCB80010D045 /* UsersDogSection.swift */; };
 		31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */; };
+		31C91E98295BDD5A0095696E /* BeroLockScreenLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E73C472957174200173B1C /* BeroLockScreenLiveActivity.swift */; };
 		31CA21BA28DFE61200A6CFBB /* PageChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CA21B928DFE61200A6CFBB /* PageChatRoom.swift */; };
 		31CA21BD28DFE65A00A6CFBB /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CA21BC28DFE65A00A6CFBB /* ChatItem.swift */; };
 		31CA21BF28DFEF4A00A6CFBB /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CA21BE28DFEF4A00A6CFBB /* ChatList.swift */; };
+		31CBF5C5293319C5007F1EC3 /* PageWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CBF5C4293319C5007F1EC3 /* PageWebview.swift */; };
 		31D0E95128AA3B7B0076D971 /* WalkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95028AA3B7B0076D971 /* WalkManager.swift */; };
 		31D0E95628AA4DF50076D971 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95528AA4DF50076D971 /* Route.swift */; };
 		31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */; };
@@ -362,9 +381,22 @@
 		31D920D028729FB5001C2738 /* PageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920CF28729FB5001C2738 /* PageFactory.swift */; };
 		31D920D22872A02E001C2738 /* PageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920D12872A02E001C2738 /* PageTest.swift */; };
 		31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31D920D72872B573001C2738 /* GoogleService-Info.plist */; };
+		31DCCF9229011E3D0010C9DD /* bero_mission_start.json in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9029011E3C0010C9DD /* bero_mission_start.json */; };
+		31DCCF9329011E3D0010C9DD /* bero_start_jump.json in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9129011E3D0010C9DD /* bero_start_jump.json */; };
+		31DCCF9629011F660010C9DD /* walk.wav in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9429011F660010C9DD /* walk.wav */; };
+		31DCCF9729011F660010C9DD /* mission.wav in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9529011F660010C9DD /* mission.wav */; };
 		31E1AA7F28DD74EC00E41FE6 /* PlayEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */; };
 		31E5B5BE28D300B000834A56 /* PageWalkPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */; };
 		31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5C028D3FA3100834A56 /* MapSortBox.swift */; };
+		31E73C422957174200173B1C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E73C25295714B500173B1C /* WidgetKit.framework */; };
+		31E73C432957174200173B1C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E73C27295714B500173B1C /* SwiftUI.framework */; };
+		31E73C462957174200173B1C /* BeroLockScreenBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E73C452957174200173B1C /* BeroLockScreenBundle.swift */; };
+		31E73C482957174200173B1C /* BeroLockScreenLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E73C472957174200173B1C /* BeroLockScreenLiveActivity.swift */; };
+		31E73C4A2957174200173B1C /* BeroLockScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E73C492957174200173B1C /* BeroLockScreen.swift */; };
+		31E73C4D2957174400173B1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31E73C4C2957174400173B1C /* Assets.xcassets */; };
+		31E73C4F2957174400173B1C /* BeroLockScreen.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 31E73C4B2957174200173B1C /* BeroLockScreen.intentdefinition */; };
+		31E73C502957174400173B1C /* BeroLockScreen.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 31E73C4B2957174200173B1C /* BeroLockScreen.intentdefinition */; };
+		31E73C532957174400173B1C /* BeroLockScreenExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 31E73C412957174200173B1C /* BeroLockScreenExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		31EA348E28AEE84E006A2C0A /* PlaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348D28AEE84E006A2C0A /* PlaceApi.swift */; };
 		31EA349028AEE93A006A2C0A /* PlaceApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */; };
 		31EA349228AF07EC006A2C0A /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349128AF07EC006A2C0A /* Place.swift */; };
@@ -398,6 +430,13 @@
 			remoteGlobalIDString = 31D91D34287257B3001C2738;
 			remoteInfo = Bero;
 		};
+		31E73C512957174400173B1C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31D91D2D287257B3001C2738 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31E73C402957174200173B1C;
+			remoteInfo = BeroLockScreenExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -410,6 +449,17 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		31E73C39295714B700173B1C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				31E73C532957174400173B1C /* BeroLockScreenExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -513,11 +563,13 @@
 		31AF794928C18F0800118B05 /* PageManageDogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManageDogs.swift; sourceTree = "<group>"; };
 		31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileHealthEdit.swift; sourceTree = "<group>"; };
 		31AF794D28C1A7A000118B05 /* PageModifyPetHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageModifyPetHealth.swift; sourceTree = "<group>"; };
+		31B07CD8294D6484000EF3D5 /* SwipperScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipperScrollView.swift; sourceTree = "<group>"; };
 		31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardApi.swift; sourceTree = "<group>"; };
 		31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardApiData.swift; sourceTree = "<group>"; };
 		31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionHistory.swift; sourceTree = "<group>"; };
 		31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalMissionSection.swift; sourceTree = "<group>"; };
 		31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionHistoryList.swift; sourceTree = "<group>"; };
+		31B29F0A293AE7AF00953C6D /* BannerApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerApiData.swift; sourceTree = "<group>"; };
 		31B311E528D528B5001B539A /* PopupWalkPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkPlace.swift; sourceTree = "<group>"; };
 		31B311E828D52DD0001B539A /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		31B311EA28D53749001B539A /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
@@ -525,6 +577,12 @@
 		31B311EE28D5460E001B539A /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
 		31B311F028D5727D001B539A /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
 		31B311F228D6146E001B539A /* MultiProfileListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProfileListItem.swift; sourceTree = "<group>"; };
+		31B3C864295BFAD1009CD1EB /* LockScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenManager.swift; sourceTree = "<group>"; };
+		31B60EC8295C7380005533AE /* GroupUnitUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupUnitUtil.swift; sourceTree = "<group>"; };
+		31BAA3D928F8F1A3008155DD /* PageLevelUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLevelUp.swift; sourceTree = "<group>"; };
+		31BAA3DB28F8F31C008155DD /* ChangeBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeBox.swift; sourceTree = "<group>"; };
+		31BAA3F128FCEC0F008155DD /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		31BAA3F428FCEC42008155DD /* lego.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lego.json; sourceTree = "<group>"; };
 		31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFunctionBox.swift; sourceTree = "<group>"; };
 		31BBE44528C2FEAD006C3C84 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		31BCF3AC28C363C9004605CF /* PageAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAlbum.swift; sourceTree = "<group>"; };
@@ -585,12 +643,15 @@
 		31C6374628A8C75A008EA54C /* EmptyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyItem.swift; sourceTree = "<group>"; };
 		31C6374828A8C793008EA54C /* item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = item.swift; sourceTree = "<group>"; };
 		31C6374A28A8DDC8008EA54C /* Calender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calender.swift; sourceTree = "<group>"; };
+		31C743E929545F430006169D /* WalkApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkApi.swift; sourceTree = "<group>"; };
+		31C743EB295463540006169D /* WalkApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkApiData.swift; sourceTree = "<group>"; };
 		31C7A90F28C2BB9D0010D045 /* PageUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageUser.swift; sourceTree = "<group>"; };
 		31C7A91228C2BCB80010D045 /* UsersDogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersDogSection.swift; sourceTree = "<group>"; };
 		31C91CEC288D1C4F0003821D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31CA21B928DFE61200A6CFBB /* PageChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageChatRoom.swift; sourceTree = "<group>"; };
 		31CA21BC28DFE65A00A6CFBB /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
 		31CA21BE28DFEF4A00A6CFBB /* ChatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
+		31CBF5C4293319C5007F1EC3 /* PageWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWebview.swift; sourceTree = "<group>"; };
 		31D0E95028AA3B7B0076D971 /* WalkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkManager.swift; sourceTree = "<group>"; };
 		31D0E95528AA4DF50076D971 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMapComponent.swift; sourceTree = "<group>"; };
@@ -767,9 +828,23 @@
 		31D920D62872AA8B001C2738 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		31D920D72872B573001C2738 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Bero/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31D920D92872BB17001C2738 /* Bero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bero.entitlements; sourceTree = "<group>"; };
+		31DCCF9029011E3C0010C9DD /* bero_mission_start.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bero_mission_start.json; sourceTree = "<group>"; };
+		31DCCF9129011E3D0010C9DD /* bero_start_jump.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bero_start_jump.json; sourceTree = "<group>"; };
+		31DCCF9429011F660010C9DD /* walk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = walk.wav; sourceTree = "<group>"; };
+		31DCCF9529011F660010C9DD /* mission.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = mission.wav; sourceTree = "<group>"; };
 		31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEffect.swift; sourceTree = "<group>"; };
 		31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkPopup.swift; sourceTree = "<group>"; };
 		31E5B5C028D3FA3100834A56 /* MapSortBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSortBox.swift; sourceTree = "<group>"; };
+		31E73C25295714B500173B1C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		31E73C27295714B500173B1C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		31E73C412957174200173B1C /* BeroLockScreenExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BeroLockScreenExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		31E73C452957174200173B1C /* BeroLockScreenBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeroLockScreenBundle.swift; sourceTree = "<group>"; };
+		31E73C472957174200173B1C /* BeroLockScreenLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeroLockScreenLiveActivity.swift; sourceTree = "<group>"; };
+		31E73C492957174200173B1C /* BeroLockScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeroLockScreen.swift; sourceTree = "<group>"; };
+		31E73C4B2957174200173B1C /* BeroLockScreen.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BeroLockScreen.intentdefinition; sourceTree = "<group>"; };
+		31E73C4C2957174400173B1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		31E73C4E2957174400173B1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		31E73C572957273600173B1C /* BeroLockScreenExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeroLockScreenExtension.entitlements; sourceTree = "<group>"; };
 		31EA348D28AEE84E006A2C0A /* PlaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApi.swift; sourceTree = "<group>"; };
 		31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApiData.swift; sourceTree = "<group>"; };
 		31EA349128AF07EC006A2C0A /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
@@ -796,6 +871,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31BAA3F028FCEBE8008155DD /* Lottie in Frameworks */,
 				311DC42A2877CDEC00A3F7F5 /* FirebaseAnalyticsSwift in Frameworks */,
 				31D91F41287258A9001C2738 /* SQLite in Frameworks */,
 				31D9206028727289001C2738 /* FacebookCore in Frameworks */,
@@ -824,6 +900,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				64F4E9C06FAB991E6BFED5D0 /* Pods_Bero_BeroUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31E73C3E2957174200173B1C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31E73C432957174200173B1C /* SwiftUI.framework in Frameworks */,
+				31E73C422957174200173B1C /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,6 +944,8 @@
 				6EEB839735FA5708BB1C6133 /* Pods_Bero.framework */,
 				47C228353527A1A6908D608D /* Pods_Bero_BeroUITests.framework */,
 				804E0A5725F53B5F08767818 /* Pods_BeroTests.framework */,
+				31E73C25295714B500173B1C /* WidgetKit.framework */,
+				31E73C27295714B500173B1C /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -934,6 +1021,7 @@
 				314E5EC6288297A4000EB910 /* MenuTab.swift */,
 				31F3BD2928961AD10025223B /* SlideMenuTab.swift */,
 				31937F1128ACFA8F00AA5473 /* ValueBox.swift */,
+				31BAA3DB28F8F31C008155DD /* ChangeBox.swift */,
 			);
 			path = tab;
 			sourceTree = "<group>";
@@ -1052,6 +1140,16 @@
 			path = test;
 			sourceTree = "<group>";
 		};
+		31BAA3F328FCEC2A008155DD /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				31DCCF9029011E3C0010C9DD /* bero_mission_start.json */,
+				31DCCF9129011E3D0010C9DD /* bero_start_jump.json */,
+				31BAA3F428FCEC42008155DD /* lego.json */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		31BCF3AE28C368F4004605CF /* history */ = {
 			isa = PBXGroup;
 			children = (
@@ -1092,9 +1190,10 @@
 			isa = PBXGroup;
 			children = (
 				31BCF3AC28C363C9004605CF /* PageAlbum.swift */,
-				31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */,
 				31BF830028E95CC000F9604C /* PagePrivacy.swift */,
 				31BF830228ED4C9900F9604C /* PageServiceTerms.swift */,
+				31BAA3D928F8F1A3008155DD /* PageLevelUp.swift */,
+				31CBF5C4293319C5007F1EC3 /* PageWebview.swift */,
 			);
 			path = popup;
 			sourceTree = "<group>";
@@ -1110,6 +1209,8 @@
 		31BF82C928E8400D00F9604C /* sound */ = {
 			isa = PBXGroup;
 			children = (
+				31DCCF9529011F660010C9DD /* mission.wav */,
+				31DCCF9429011F660010C9DD /* walk.wav */,
 				31BF82F828E913CA00F9604C /* reward.mp3 */,
 				31BF82F928E913CA00F9604C /* start.mp3 */,
 				31BF82DD28E84FE500F9604C /* end.mp3 */,
@@ -1240,11 +1341,20 @@
 			path = component;
 			sourceTree = "<group>";
 		};
+		31CAB3162932239000F82058 /* friend */ = {
+			isa = PBXGroup;
+			children = (
+				31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */,
+			);
+			path = friend;
+			sourceTree = "<group>";
+		};
 		31D0E95328AA3DC30076D971 /* walk */ = {
 			isa = PBXGroup;
 			children = (
 				31D0E95428AA3DE00076D971 /* model */,
 				31D0E95028AA3B7B0076D971 /* WalkManager.swift */,
+				31B3C864295BFAD1009CD1EB /* LockScreenManager.swift */,
 			);
 			path = walk;
 			sourceTree = "<group>";
@@ -1262,6 +1372,8 @@
 		31D91D2C287257B3001C2738 = {
 			isa = PBXGroup;
 			children = (
+				31E73C572957273600173B1C /* BeroLockScreenExtension.entitlements */,
+				31BAA3F328FCEC2A008155DD /* resources */,
 				31BF82C928E8400D00F9604C /* sound */,
 				314E5ECB2882BE63000EB910 /* font */,
 				31D920D72872B573001C2738 /* GoogleService-Info.plist */,
@@ -1272,6 +1384,7 @@
 				31D91D37287257B3001C2738 /* Bero */,
 				31D91D4D287257B6001C2738 /* BeroTests */,
 				31D91D57287257B6001C2738 /* BeroUITests */,
+				31E73C442957174200173B1C /* BeroLockScreen */,
 				31D91D36287257B3001C2738 /* Products */,
 				311DC45F2879929F00A3F7F5 /* Frameworks */,
 				97D36C94E507DB1426B6EC1F /* Pods */,
@@ -1284,6 +1397,7 @@
 				31D91D35287257B3001C2738 /* Bero.app */,
 				31D91D4A287257B6001C2738 /* BeroTests.xctest */,
 				31D91D54287257B6001C2738 /* BeroUITests.xctest */,
+				31E73C412957174200173B1C /* BeroLockScreenExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1363,6 +1477,7 @@
 			children = (
 				31D91D7228725833001C2738 /* Log.swift */,
 				31D91D7328725833001C2738 /* UnitUtil.swift */,
+				31B60EC8295C7380005533AE /* GroupUnitUtil.swift */,
 				31D91D7428725833001C2738 /* AppUtil.swift */,
 				31D91D7528725833001C2738 /* DiskStatus.swift */,
 				31D91D7628725833001C2738 /* AESUtil.swift */,
@@ -1431,6 +1546,7 @@
 			children = (
 				31D9209728729CDB001C2738 /* SystemEnvironment.swift */,
 				31D920A428729CDC001C2738 /* Repository.swift */,
+				31D9208D28729CDB001C2738 /* VisionApiData.swift */,
 				31D0E95328AA3DC30076D971 /* walk */,
 				31D9209528729CDB001C2738 /* provider */,
 				31D920A328729CDC001C2738 /* manager */,
@@ -1462,6 +1578,7 @@
 			children = (
 				31C7A91628C2C2410010D045 /* component */,
 				31BCF3CD28C5992B004605CF /* popup */,
+				31CAB3162932239000F82058 /* friend */,
 				31BCF3AE28C368F4004605CF /* history */,
 				3151DD2228CDF05200641BCC /* chat */,
 				31C7A91428C2C0AE0010D045 /* pet */,
@@ -1679,6 +1796,7 @@
 				31D91FCD287271C1001C2738 /* Swipper.swift */,
 				31D91FCE287271C1001C2738 /* LoopSwipperView.swift */,
 				31D91FCF287271C1001C2738 /* SwipperView.swift */,
+				31B07CD8294D6484000EF3D5 /* SwipperScrollView.swift */,
 			);
 			path = swiper;
 			sourceTree = "<group>";
@@ -1718,6 +1836,7 @@
 			children = (
 				31D91FDC287271C1001C2738 /* ImageView.swift */,
 				31D91FDD287271C1001C2738 /* ImageAnimation.swift */,
+				31BAA3F128FCEC0F008155DD /* LottieView.swift */,
 			);
 			path = image;
 			sourceTree = "<group>";
@@ -1819,6 +1938,7 @@
 				31EA348D28AEE84E006A2C0A /* PlaceApi.swift */,
 				31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */,
 				3151DD1C28CDDEF500641BCC /* ChatApi.swift */,
+				31C743E929545F430006169D /* WalkApi.swift */,
 			);
 			path = "rest ";
 			sourceTree = "<group>";
@@ -1826,7 +1946,6 @@
 		31D9208C28729CDB001C2738 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				31D9208D28729CDB001C2738 /* VisionApiData.swift */,
 				31D9208E28729CDB001C2738 /* AlbumApiData.swift */,
 				31D9208F28729CDB001C2738 /* WeatherApiData.swift */,
 				31D9209028729CDB001C2738 /* UserApiData.swift */,
@@ -1838,6 +1957,8 @@
 				316B778828B9EB7B0090E924 /* FriendApiData.swift */,
 				31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */,
 				3151DD1E28CDE0B900641BCC /* ChatApiData.swift */,
+				31B29F0A293AE7AF00953C6D /* BannerApiData.swift */,
+				31C743EB295463540006169D /* WalkApiData.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1915,6 +2036,19 @@
 			path = pop;
 			sourceTree = "<group>";
 		};
+		31E73C442957174200173B1C /* BeroLockScreen */ = {
+			isa = PBXGroup;
+			children = (
+				31E73C452957174200173B1C /* BeroLockScreenBundle.swift */,
+				31E73C472957174200173B1C /* BeroLockScreenLiveActivity.swift */,
+				31E73C492957174200173B1C /* BeroLockScreen.swift */,
+				31E73C4B2957174200173B1C /* BeroLockScreen.intentdefinition */,
+				31E73C4C2957174400173B1C /* Assets.xcassets */,
+				31E73C4E2957174400173B1C /* Info.plist */,
+			);
+			path = BeroLockScreen;
+			sourceTree = "<group>";
+		};
 		31EA349528AF8D37006A2C0A /* component */ = {
 			isa = PBXGroup;
 			children = (
@@ -1973,10 +2107,12 @@
 				31D91D33287257B3001C2738 /* Resources */,
 				311DC4562879918800A3F7F5 /* Embed Frameworks */,
 				11249F24D0C4768BDA777075 /* [CP] Copy Pods Resources */,
+				31E73C39295714B700173B1C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				31E73C522957174400173B1C /* PBXTargetDependency */,
 			);
 			name = Bero;
 			packageProductDependencies = (
@@ -1991,6 +2127,7 @@
 				311DC42D2877CDEC00A3F7F5 /* FirebaseDynamicLinks */,
 				311DC42F2877CDEC00A3F7F5 /* FirebaseMessaging */,
 				311DC4322877D3AF00A3F7F5 /* GoogleSignInSwift */,
+				31BAA3EF28FCEBE8008155DD /* Lottie */,
 			);
 			productName = Bero;
 			productReference = 31D91D35287257B3001C2738 /* Bero.app */;
@@ -2035,6 +2172,23 @@
 			productReference = 31D91D54287257B6001C2738 /* BeroUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		31E73C402957174200173B1C /* BeroLockScreenExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31E73C542957174400173B1C /* Build configuration list for PBXNativeTarget "BeroLockScreenExtension" */;
+			buildPhases = (
+				31E73C3D2957174200173B1C /* Sources */,
+				31E73C3E2957174200173B1C /* Frameworks */,
+				31E73C3F2957174200173B1C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeroLockScreenExtension;
+			productName = BeroLockScreenExtension;
+			productReference = 31E73C412957174200173B1C /* BeroLockScreenExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2042,7 +2196,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					31D91D34287257B3001C2738 = {
@@ -2055,6 +2209,9 @@
 					31D91D53287257B6001C2738 = {
 						CreatedOnToolsVersion = 13.4.1;
 						TestTargetID = 31D91D34287257B3001C2738;
+					};
+					31E73C402957174200173B1C = {
+						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
@@ -2074,6 +2231,7 @@
 				31D9205E28727289001C2738 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				311DC4282877CDEC00A3F7F5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				311DC4312877D3AE00A3F7F5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				31BAA3EE28FCEBE8008155DD /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 31D91D36287257B3001C2738 /* Products */;
 			projectDirPath = "";
@@ -2082,6 +2240,7 @@
 				31D91D34287257B3001C2738 /* Bero */,
 				31D91D49287257B6001C2738 /* BeroTests */,
 				31D91D53287257B6001C2738 /* BeroUITests */,
+				31E73C402957174200173B1C /* BeroLockScreenExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -2091,12 +2250,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31DCCF9629011F660010C9DD /* walk.wav in Resources */,
 				314E5EE12882BE63000EB910 /* Roboto-Medium.ttf in Resources */,
 				314E5EEB2882BE63000EB910 /* Poppins-ExtraBold.ttf in Resources */,
 				31BF82E228E84FE500F9604C /* ready.mp3 in Resources */,
 				31BF82E728E84FE600F9604C /* push.mp3 in Resources */,
 				314E5EE42882BE63000EB910 /* Poppins-ThinItalic.ttf in Resources */,
+				31DCCF9229011E3D0010C9DD /* bero_mission_start.json in Resources */,
+				31DCCF9329011E3D0010C9DD /* bero_start_jump.json in Resources */,
 				31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */,
+				31DCCF9729011F660010C9DD /* mission.wav in Resources */,
 				314E5EF02882BE63000EB910 /* Poppins-Black.ttf in Resources */,
 				31BF82FA28E913CA00F9604C /* reward.mp3 in Resources */,
 				314E5EE92882BE63000EB910 /* Poppins-SemiBoldItalic.ttf in Resources */,
@@ -2111,6 +2274,7 @@
 				31BF82FB28E913CA00F9604C /* start.mp3 in Resources */,
 				314E5EEE2882BE63000EB910 /* Poppins-LightItalic.ttf in Resources */,
 				314E5EE22882BE63000EB910 /* Roboto-Light.ttf in Resources */,
+				31BAA3F528FCEC42008155DD /* lego.json in Resources */,
 				31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */,
 				31BF82E928E8534300F9604C /* tick.mp3 in Resources */,
 				31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */,
@@ -2140,6 +2304,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31E73C3F2957174200173B1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31B60ECB295C773E005533AE /* Assets.xcassets in Resources */,
+				31E73C4D2957174400173B1C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2274,6 +2447,7 @@
 				31C7A91328C2BCB80010D045 /* UsersDogSection.swift in Sources */,
 				31D92032287271C1001C2738 /* ScrollLazeStack.swift in Sources */,
 				31C3F2CE28C849F400EFF7F4 /* WalkTopInfo.swift in Sources */,
+				31B29F0B293AE7AF00953C6D /* BannerApiData.swift in Sources */,
 				31D91FFE287271C1001C2738 /* AppleManager.swift in Sources */,
 				316B77BC28BB5AD90090E924 /* SelectListEdit.swift in Sources */,
 				31D920B428729CDC001C2738 /* VisionApiData.swift in Sources */,
@@ -2298,6 +2472,7 @@
 				31C17FB5289FBFA6009B5EA1 /* InputSearch.swift in Sources */,
 				31C3F2CA28C8380800EFF7F4 /* PageWalkInfo.swift in Sources */,
 				31C6372A28A7307A008EA54C /* SelectTagStap.swift in Sources */,
+				31B07CD9294D6484000EF3D5 /* SwipperScrollView.swift in Sources */,
 				31D920BA28729CDC001C2738 /* AuthApiData.swift in Sources */,
 				31C6374728A8C75A008EA54C /* EmptyItem.swift in Sources */,
 				3151DD1D28CDDEF500641BCC /* ChatApi.swift in Sources */,
@@ -2332,6 +2507,7 @@
 				316B77A928BB1ACB0090E924 /* PageDog.swift in Sources */,
 				316B779928BA1EDC0090E924 /* InputTextEdit.swift in Sources */,
 				31D9203C287271C1001C2738 /* PickerSelect.swift in Sources */,
+				31BAA3DA28F8F1A3008155DD /* PageLevelUp.swift in Sources */,
 				31D92009287271C1001C2738 /* CustomCaptureSession.swift in Sources */,
 				311DC43B2879874800A3F7F5 /* PageTestMap.swift in Sources */,
 				31C17FB3289FB1C2009B5EA1 /* SelectDateStep.swift in Sources */,
@@ -2382,6 +2558,7 @@
 				314E5ECA28829B3B000EB910 /* Switch.swift in Sources */,
 				3151DD2428CDF06E00641BCC /* PageChat.swift in Sources */,
 				31D91E9228725834001C2738 /* LocationObserver.swift in Sources */,
+				31CBF5C5293319C5007F1EC3 /* PageWebview.swift in Sources */,
 				31D91E8828725834001C2738 /* Resource.swift in Sources */,
 				31D92046287271C1001C2738 /* TextButton.swift in Sources */,
 				316B778728B9EAE70090E924 /* FriendApi.swift in Sources */,
@@ -2421,6 +2598,7 @@
 				31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */,
 				31D92010287271C1001C2738 /* CPWebView.swift in Sources */,
 				31D920C528729CDC001C2738 /* Repository.swift in Sources */,
+				31BAA3DC28F8F31C008155DD /* ChangeBox.swift in Sources */,
 				31D9205D287271CD001C2738 /* SceneTab.swift in Sources */,
 				31D4E2FC28B284C500C3BA75 /* PageWalkCompleted.swift in Sources */,
 				31F3BD312896898B0025223B /* HorizontalProfile.swift in Sources */,
@@ -2428,6 +2606,7 @@
 				31937F1228ACFA8F00AA5473 /* ValueBox.swift in Sources */,
 				31D91E7628725834001C2738 /* PageContentController.swift in Sources */,
 				3151DD1B28CDD72100641BCC /* ChatRoomListItem.swift in Sources */,
+				31BAA3F228FCEC0F008155DD /* LottieView.swift in Sources */,
 				31D92030287271C1001C2738 /* SwipperView.swift in Sources */,
 				31F3BD2F28967CBA0025223B /* VerticalProfile.swift in Sources */,
 				31D91E8B28725834001C2738 /* AnimateDrawView.swift in Sources */,
@@ -2481,6 +2660,7 @@
 				31BCF3B828C4203A004605CF /* LvHistoryItem.swift in Sources */,
 				31D9203E287271C1001C2738 /* Radio.swift in Sources */,
 				31D9204E287271C1001C2738 /* FocusableTextView.swift in Sources */,
+				31E73C502957174400173B1C /* BeroLockScreen.intentdefinition in Sources */,
 				31D4E2EE28B0B81E00C3BA75 /* UserControl.swift in Sources */,
 				31D91E8A28725834001C2738 /* InfinityScroll.swift in Sources */,
 				31D92027287271C1001C2738 /* TextStyle.swift in Sources */,
@@ -2490,6 +2670,7 @@
 				31D91FFF287271C1001C2738 /* SnsManager.swift in Sources */,
 				3151DD2628CE995900641BCC /* InputComment.swift in Sources */,
 				31D92003287271C1001C2738 /* assets.swift in Sources */,
+				31B3C865295BFAD1009CD1EB /* LockScreenManager.swift in Sources */,
 				316B77AD28BB22710090E924 /* PetTagSection.swift in Sources */,
 				316B77A128BAEE410090E924 /* FriendSection.swift in Sources */,
 				31071C7A289E769E00F46498 /* Step.swift in Sources */,
@@ -2502,6 +2683,7 @@
 				316B778528B99C360090E924 /* MyHistorySection.swift in Sources */,
 				3151DD1728CDC00500641BCC /* RewardInfo.swift in Sources */,
 				31D91E8C28725834001C2738 /* SoundToolBox.swift in Sources */,
+				31C743EC295463540006169D /* WalkApiData.swift in Sources */,
 				31D92042287271C1001C2738 /* RectButton.swift in Sources */,
 				31C6374928A8C793008EA54C /* item.swift in Sources */,
 				31B0F6FE28C6CCB100E86F05 /* RewardApi.swift in Sources */,
@@ -2511,11 +2693,13 @@
 				317C564228ACA743005E8512 /* MultiProfile.swift in Sources */,
 				31D91E8628725834001C2738 /* Rest.swift in Sources */,
 				316B778328B996410090E924 /* DistanceItem.swift in Sources */,
+				31C91E98295BDD5A0095696E /* BeroLockScreenLiveActivity.swift in Sources */,
 				31D92052287271C1001C2738 /* FocusableTextField.swift in Sources */,
 				31D920C128729CDC001C2738 /* User.swift in Sources */,
 				31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */,
 				31C6373A28A8804D008EA54C /* PetProfileItem.swift in Sources */,
 				31B311F328D6146E001B539A /* MultiProfileListItem.swift in Sources */,
+				31B60EC9295C7380005533AE /* GroupUnitUtil.swift in Sources */,
 				31D91E8F28725834001C2738 /* WhereverYouCanGo.swift in Sources */,
 				31C3F2CC28C8487700EFF7F4 /* MissionPlayInfo.swift in Sources */,
 				316B77A728BB19660090E924 /* PetProfileTopInfo.swift in Sources */,
@@ -2543,6 +2727,7 @@
 				31BCF3B028C36906004605CF /* PageWalkHistory.swift in Sources */,
 				31D91E8528725834001C2738 /* DownLoader.swift in Sources */,
 				31D92029287271C1001C2738 /* RatioSize.swift in Sources */,
+				31C743EA29545F430006169D /* WalkApi.swift in Sources */,
 				3151DD2C28CEBE9000641BCC /* UserAlbumList.swift in Sources */,
 				31D92025287271C1001C2738 /* CustomToggleStyle.swift in Sources */,
 				31D6658328CDAC2A00765625 /* LocationInfo.swift in Sources */,
@@ -2595,6 +2780,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		31E73C3D2957174200173B1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31E73C4A2957174200173B1C /* BeroLockScreen.swift in Sources */,
+				31B60ECA295C7386005533AE /* GroupUnitUtil.swift in Sources */,
+				31B60EC1295C71F9005533AE /* colors.swift in Sources */,
+				31B60EC3295C7200005533AE /* assets.swift in Sources */,
+				31B60EC2295C71FC005533AE /* strings.swift in Sources */,
+				31E73C4F2957174400173B1C /* BeroLockScreen.intentdefinition in Sources */,
+				31E73C482957174200173B1C /* BeroLockScreenLiveActivity.swift in Sources */,
+				31B60EC5295C7294005533AE /* Log.swift in Sources */,
+				31E73C462957174200173B1C /* BeroLockScreenBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2607,6 +2808,11 @@
 			isa = PBXTargetDependency;
 			target = 31D91D34287257B3001C2738 /* Bero */;
 			targetProxy = 31D91D55287257B6001C2738 /* PBXContainerItemProxy */;
+		};
+		31E73C522957174400173B1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31E73C402957174200173B1C /* BeroLockScreenExtension */;
+			targetProxy = 31E73C512957174400173B1C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2731,12 +2937,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0C4CFF1DCDF4E05BB6C53ED1 /* Pods-Bero.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 34;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2747,9 +2954,9 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bero/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Used for user profiles and photo uploads.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
+				INFOPLIST_KEY_NSCameraUsageDescription = "“Bero” Would Like to Access Your Photos Allow “Bero” to access your photos to upload images from the photo library.\n";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow “Bero” to access your location?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow “Bero” to use the user's location along with Apple's policy.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2760,10 +2967,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = bero_dev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REST_API_PATH = "http://acf14fe3f33d448ed863b0965826ef23-882930440.ap-northeast-2.elb.amazonaws.com/";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2778,12 +2985,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2925AECBDDF7EA23BF25DC71 /* Pods-Bero.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2794,9 +3002,9 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bero/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Used for user profiles and photo uploads.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "If you would like to be able to find fellow users nearby, please allow Bero to access your location while using the app";
+				INFOPLIST_KEY_NSCameraUsageDescription = "“Bero” Would Like to Access Your Photos Allow “Bero” to access your photos to upload images from the photo library.\n";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow “Bero” to access your location?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow “Bero” to use the user's location along with Apple's policy.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2807,7 +3015,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = bero_des;
@@ -2901,6 +3109,72 @@
 			};
 			name = Release;
 		};
+		31E73C552957174400173B1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TYPPBR5AQ8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BeroLockScreen/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BeroLockScreen;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.01;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero.BeroLockScreen;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		31E73C562957174400173B1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TYPPBR5AQ8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BeroLockScreen/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BeroLockScreen;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.01;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero.BeroLockScreen;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = bero_lockscreen_des;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2940,6 +3214,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		31E73C542957174400173B1C /* Build configuration list for PBXNativeTarget "BeroLockScreenExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31E73C552957174400173B1C /* Debug */,
+				31E73C562957174400173B1C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -2957,6 +3240,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 6.0.0;
+			};
+		};
+		31BAA3EE28FCEBE8008155DD /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
 			};
 		};
 		31D91F392872588C001C2738 /* XCRemoteSwiftPackageReference "Reachability" */ = {
@@ -3018,6 +3309,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 311DC4312877D3AE00A3F7F5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		31BAA3EF28FCEBE8008155DD /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31BAA3EE28FCEBE8008155DD /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		31D91F3A2872588C001C2738 /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;

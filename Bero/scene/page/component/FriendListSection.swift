@@ -13,8 +13,21 @@ struct FriendListSection: PageComponent{
         VStack(spacing:Dimen.margin.regular){
             HStack(spacing:0){
                 TitleSection(
-                    title: String.pageTitle.friends
+                    title: self.sortType.text
                 )
+                ImageButton(
+                    defaultImage: self.sortType == .friend ? Asset.icon.add_friend : Asset.icon.my,
+                    iconText:self.hasRequested && self.sortType == .friend ? "N" : nil
+                ){ _ in
+                    switch self.sortType {
+                    case .friend : self.sortType = .requested
+                    default : self.sortType = .friend
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05) {
+                        self.infinityScrollModel.uiEvent = .reload
+                    }
+                }
+                /*
                 SortButton(
                     type: .stroke,
                     sizeType: .big,
@@ -24,6 +37,7 @@ struct FriendListSection: PageComponent{
                         self.onSort()
                     }
                     .fixedSize()
+                 */
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
             FriendList(
@@ -34,10 +48,23 @@ struct FriendListSection: PageComponent{
                 isHorizontal: true
             )
         }
-        .frame(height: 230)
-        
+        .frame(height: 190)
+        .onReceive(self.dataProvider.$result){res in
+            guard let res = res else { return }
+            if res.id != self.tag {return}
+            switch res.type {
+            case .getRequestedFriend :
+                guard let datas = res.data as? [FriendData] else { return }
+                self.hasRequested = !datas.isEmpty
+                
+            default : break
+            }
+        }
+        .onAppear(){
+            self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0)))
+        }
     }
-    
+    @State var hasRequested:Bool = false
     @State var sortType:FriendList.ListType = .friend
     private func onSort(){
         let datas:[String] = [

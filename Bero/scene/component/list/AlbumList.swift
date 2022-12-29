@@ -37,7 +37,8 @@ struct AlbumList: PageComponent{
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     var type:ListType = .normal
     var user:User? = nil
-    var profile:PetProfile? = nil
+    var pet:PetProfile? = nil
+    var initId:Int? = nil
     var listSize:CGFloat = 300
     var marginBottom:CGFloat = Dimen.margin.medium
     @Binding var isEdit:Bool
@@ -81,7 +82,8 @@ struct AlbumList: PageComponent{
                         }
                     case .detail :
                         ForEach(self.albums) { data in
-                            AlbumListDetailItem(data: data, imgSize: self.albumSize, isEdit: self.$isEdit)
+                            AlbumListDetailItem(data: data, user: self.user, imgSize: self.albumSize, isEdit: self.$isEdit)
+                            .id(data.hashId)
                             .onAppear{
                                 if data.index == (self.albums.count-1) {
                                     self.infinityScrollModel.event = .bottom
@@ -134,25 +136,31 @@ struct AlbumList: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
+            if self.currentId != res.id { return }
             switch res.type {
-            case .getAlbumPictures(let id, _, _, let page ,let size):
-                if self.currentId == id && size == nil{
+            case .getAlbumPictures(_, let type , _, _, let page ,let size):
+                if type == self.currentType && size == nil{
                     if page == 0 {
                         self.resetScroll()
                     }
                     self.loaded(res)
                     self.pageObservable.isInit = true
                 }
+            case .registAlbumPicture(_, _, _, let type, _) :
+                if type == self.currentType {
+                    self.resetScroll()
+                    self.loadAlbum()
+                }
             case .deleteAlbumPictures :
                 self.resetScroll()
                 self.loadAlbum()
+                
             default : break
             }
         }
         .onReceive(self.dataProvider.$error){err in
             guard let err = err else { return }
-            if !err.id.hasPrefix(self.tag) {return}
+            if self.currentId != err.id { return }
             switch err.type {
             case .getAlbumPictures :
                 self.pageObservable.isInit = true
@@ -165,12 +173,13 @@ struct AlbumList: PageComponent{
         }
     }
     @State var currentId:String = ""
+    @State var currentType:AlbumApi.Category = .user
     @State var isEmpty:Bool = false
     @State var albums:[AlbumListItemData] = []
     @State var albumDataSets:[AlbumListItemDataSet] = []
     @State var albumSize:CGSize = .zero
     private func updateAlbum(){
-        self.currentId = self.user?.snsUser?.snsID ?? ""
+        
         self.resetScroll()
         let w = (self.listSize
                  - (Dimen.margin.regularExtra * CGFloat(self.type.raw-1))
@@ -192,9 +201,18 @@ struct AlbumList: PageComponent{
         if self.infinityScrollModel.isLoading {return}
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
-        self.currentId = self.user?.snsUser?.snsID ?? ""
-        self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getAlbumPictures(id: self.currentId, .mission, page: self.infinityScrollModel.page)))
+        if let id = self.pet?.petId {
+            self.currentId = id.description
+            self.currentType = .pet
+        } else {
+            self.currentId = self.user?.snsUser?.snsID ?? ""
+            self.currentType = .user
+        }
+       
+        self.dataProvider.requestData(q: .init(id: self.currentId, type:
+                .getAlbumPictures(id: self.currentId, self.currentType,
+                                  isExpose: self.user?.isMe == true || self.user?.isFriend == true  ? nil : true,
+                                  page: self.infinityScrollModel.page)))
         
     }
     
@@ -216,11 +234,19 @@ struct AlbumList: PageComponent{
             withAnimation{
                 self.isEmpty = true
                 self.isEdit = false
-                
             }
-            
+        } else {
+            withAnimation{
+                self.isEmpty = false
+            }
+        }
+        if self.infinityScrollModel.page == 0 , let initId = self.initId, let find = added.first(where: {$0.pictureId == initId}) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+                self.infinityScrollModel.uiEvent = .scrollMove(find.hashId)
+            }
         }
         self.infinityScrollModel.onComplete(itemCount: added.count)
+        
     }
     
     private func setupAlbumDataSet(added:[AlbumListItemData]){
@@ -255,7 +281,7 @@ struct AlbumList: PageComponent{
             return
         }
         let del = selects.reduce("", {$0 + "," + $1.pictureId.description}).dropFirst()
-        self.dataProvider.requestData(q: .init(id: self.tag, type:
+        self.dataProvider.requestData(q: .init(id: self.currentId, type:
                 .deleteAlbumPictures(ids: String(del))
         ))
         

@@ -80,7 +80,7 @@ struct UserAlbumList: PageComponent{
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
             switch res.type {
-            case .getAlbumPictures(_, _ , let type, let page, _):
+            case .getAlbumPictures(_, _ , let type, _ , let page, _):
                 if !res.id.hasPrefix(self.tag) {return}
                 if self.type == type {
                     if page == 0 {
@@ -88,7 +88,7 @@ struct UserAlbumList: PageComponent{
                     }
                     self.loaded(res)
                 }
-            case .blockUser :
+            case .blockUser , .registAlbumPicture :
                 self.updateUser()
             default : break
             }
@@ -123,7 +123,10 @@ struct UserAlbumList: PageComponent{
         self.infinityScrollModel.onLoad()
         
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getAlbumPictures(id: nil, .all, searchType: self.type, page: self.infinityScrollModel.page) ))
+                .getAlbumPictures(id: nil, .all,
+                                  searchType: self.type,
+                                  isExpose: true,
+                                  page: self.infinityScrollModel.page) ))
         
     }
     

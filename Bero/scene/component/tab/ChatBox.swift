@@ -31,23 +31,28 @@ struct ChatBox: PageComponent{
                 .onTapGesture {
                     self.sendMessageCompleted()
                 }
-            
-            ZStack(alignment: .top){
-                InputComment(
-                    input: self.$input,
-                    isFocus: self.isFocus,
-                    onFocus: {
-                        withAnimation{self.isFocus = true}
-                    },
-                    onAction: {
-                        self.sendMessage()
-                    }
-                )
+            VStack(spacing:0){
+                ZStack(alignment: .top){
+                    InputComment(
+                        input: self.$input,
+                        isFocus: self.isFocus,
+                        onFocus: {
+                            withAnimation{self.isFocus = true}
+                        },
+                        onAction: {
+                            self.sendMessage()
+                        }
+                    )
+                }
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                .background(Color.app.white)
+                Spacer()
+                    .modifier(MatchHorizontal(height: self.paddingBottom))
+                    .background(Color.app.white)
+                                  
             }
-            .padding(.horizontal, Dimen.app.pageHorinzontal)
-            .background(Color.app.white)
         }
-        .padding(.bottom, self.paddingBottom)
+        //.padding(.bottom, self.paddingBottom)
         .opacity(self.isShow ? 1 : 0)
         .onReceive (self.sceneObserver.$safeAreaBottom) { bottom in
             withAnimation{

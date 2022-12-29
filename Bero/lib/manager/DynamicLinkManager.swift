@@ -9,8 +9,8 @@
 import Foundation
 import Firebase
 struct DynamicLinkMamager{
-    static let deepLink = "http://btvplusnew.com"
-    static let urlPreFix = "https://mobilebtv.page.link"
+    static let deepLink = "http://bero.com"
+    static let urlPreFix = "https://bero.page.link"
     //private static let bundleID = "com.skb.btvplus"
     //private static let packageName = "com.skb.btvplus"
     

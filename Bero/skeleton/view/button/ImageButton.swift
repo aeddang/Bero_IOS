@@ -7,8 +7,8 @@
 //
 import Foundation
 import SwiftUI
-
-struct ImageButton: View, SelecterbleProtocol{
+import FirebaseAnalytics
+struct ImageButton: View, SelecterbleProtocol, PageProtocol{
     var isSelected: Bool = false
     var index: Int = -1
     var defaultImage:String = Asset.noImg1_1
@@ -26,6 +26,11 @@ struct ImageButton: View, SelecterbleProtocol{
     var body: some View {
         Button(action: {
             self.action(self.index)
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": text ?? self.defaultImage
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             ZStack(alignment: .topTrailing){
                 VStack(spacing:Dimen.margin.micro){
@@ -79,6 +84,14 @@ struct ImageButton_Previews: PreviewProvider {
                 defaultImage:Asset.icon.chat,
                 iconText: "N",
                 text: "Chat"
+            ){_ in
+                
+            }
+            .frame( alignment: .center)
+            
+            ImageButton(
+                isSelected: false,
+                defaultImage:Asset.icon.close
             ){_ in
                 
             }

@@ -23,6 +23,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var point:Int = 0
     private(set) var lv:Int = 1
     private(set) var exp:Double = 0
+    private(set) var prevExp:Double = 0
     private(set) var nextExp:Double = 0
     
     private(set) var exerciseDuration:Double = 0
@@ -38,9 +39,17 @@ class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var finalGeo:GeoData? = nil
     private(set) var isMe:Bool = false
     private(set) var characterIdx:Int = 0
+    private(set) var representativePet:PetProfile? = nil
+   
     var currentPet:PetProfile? = nil
     init(isMe:Bool = false) {
         self.isMe = isMe
+    }
+    
+    var isFriend:Bool {
+        get{
+            return self.currentProfile.status == .friend
+        }
     }
     
     func isSameUser(_ user:User?) -> Bool{
@@ -49,6 +58,10 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     func isSameUser(_ user:UserProfile?) -> Bool{
         guard let id = user?.userId else { return false }
+        return self.snsUser?.snsID == id
+    }
+    func isSameUser(userId:String?) -> Bool{
+        guard let id = userId else { return false }
         return self.snsUser?.snsID == id
     }
     
@@ -97,17 +110,18 @@ class User:ObservableObject, PageProtocol, Identifiable{
                 snsToken: ""
             )
         }
-        
         self.point = data.point ?? 0
         self.lv = data.level ?? 1
         self.exp = data.exp ?? (Double(self.lv-1) * Lv.expRange)
+        self.prevExp = data.prevLevelExp ?? (Double(self.lv-1) * Lv.expRange)
+        self.nextExp = data.nextLevelExp ?? (Double(self.lv) * Lv.expRange)
         self.totalWalkCount = data.walkCompleteCnt ?? 0
         self.totalMissionCount = data.missionCompleteCnt ?? 0
         self.totalWalkDistance = data.walkDistance ?? 0
         self.totalMissionDistance = data.missionDistance ?? 0
         self.exerciseDuration = data.exerciseDuration ?? 0
         self.currentProfile.setData(data: data)
-        self.updateExp(0)
+        self.currentProfile.setLv(self.lv)
         self.characterIdx = Int.random(in: 0...(Asset.character.rand.count-1))
         self.event = .updatedProfile(self.currentProfile)
         return self
@@ -115,6 +129,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     
     func setData(data:[PetData], isMyPet:Bool = false){
         self.pets = zip(0..<data.count, data).map{ idx, profile in PetProfile(data: profile, isMyPet: isMyPet, index: idx)}
+        self.representativePet = self.pets.first
         self.event = .updatedDogs
     }
     
@@ -123,6 +138,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
             return
         }
         let pet = self.pets.remove(at: find)
+        self.representativePet = self.pets.first
         self.event = .deletedDog(pet)
     }
     
@@ -152,12 +168,24 @@ class User:ObservableObject, PageProtocol, Identifiable{
         }
         self.event = .updatedPlayData
     }
+    func isLevelUp(lvData:MetaData?) -> Bool{
+        guard let lv = lvData?.level else {return false }
+        if let next = lvData?.nextLevelExp {
+            self.nextExp = next
+        }
+        if let prev = lvData?.prevLevelExp {
+            self.prevExp = prev
+        }
+        if self.lv < lv {
+            self.lv = lv
+            self.currentProfile.setLv(self.lv)
+            return true
+        }
+        return false
+    }
     
     func updateExp(_ exp:Double) {
         self.exp += exp
-        self.lv = floor(self.exp / Lv.expRange).toInt() + 1
-        self.nextExp = Double(self.lv) * Lv.expRange
-        self.currentProfile.setLv(self.lv)
         self.event = .updatedLvData
     }
     func updatePoint(_ point:Int) {
@@ -172,17 +200,19 @@ class User:ObservableObject, PageProtocol, Identifiable{
 
 
 enum Gender:String {
-    case male, female
-    var icon : String {
+    case male, female, neutral
+    var icon : String? {
         switch self {
         case .male : return Asset.icon.male
         case .female : return Asset.icon.female
+        case .neutral : return nil
         }
     }
     var color : Color {
         switch self {
         case .male : return Color.app.blue
         case .female : return  Color.app.orange
+        case .neutral : return  Color.app.green
         }
     }
     
@@ -190,6 +220,7 @@ enum Gender:String {
         switch self {
         case .male : return String.app.male
         case .female : return String.app.female
+        case .neutral : return String.app.neutral
         }
     }
     
@@ -198,12 +229,14 @@ enum Gender:String {
         switch self {
         case .male : return 1
         case .female : return 2
+        case .neutral : return 3
         }
     }
     var apiDataKey:String {
         switch self {
         case .male : return "Male"
         case .female : return "Female"
+        case .neutral : return "Neutral"
         }
     }
     
@@ -211,6 +244,7 @@ enum Gender:String {
         switch value{
         case 1 : return .male
         case 2 : return .female
+        case 3 : return .neutral
         default : return nil
         }
     }
@@ -218,6 +252,7 @@ enum Gender:String {
         switch value{
         case "Male" : return .male
         case "Female" : return .female
+        case "Neutral" : return .neutral
         default : return nil
         }
     }
@@ -226,8 +261,8 @@ enum Gender:String {
 enum Lv {
     case purple, blue, lightBlue, sky, lightSky, green, lightGreen, yellow , orange, red
     
-    static let expRange:Double = 100
-    
+    static let expRange:Double = 10
+    static let prefix:String = "Lv."
     var icon : String {
         switch self {
         case .purple : return Asset.icon.favorite_on
@@ -271,19 +306,21 @@ enum Lv {
         case .red : return "Heart Lv.1"
         }
     }
+    
+    
         
     static func getLv(_ value:Int) -> Lv{
         switch value{
-        case 0...10 : return .red
-        case 10...20 : return .orange
-        case 20...30 : return .yellow
-        case 30...40 : return .lightGreen
-        case 40...50 : return .green
-        case 50...60 : return .lightSky
-        case 60...70 : return .sky
-        case 70...80 : return .lightBlue
-        case 80...90 : return .blue
-        case 90...100 : return .purple
+        case 0...1 : return .red
+        case 1...2 : return .orange
+        case 2...3 : return .yellow
+        case 3...4 : return .lightGreen
+        case 4...5 : return .green
+        case 5...6 : return .lightSky
+        case 6...7 : return .sky
+        case 7...8 : return .lightBlue
+        case 8...9 : return .blue
+        case 9...100 : return .purple
         default : return .purple
         }
     }
@@ -309,7 +346,7 @@ enum FriendStatus{
         default : return String.button.addFriend
         }
     }
-    var buttons:[FriendButton.ButtonType]{
+    var buttons:[FriendButton.FuncType]{
         switch self {
         case .chat : return [.chat]
         case .requestFriend : return []

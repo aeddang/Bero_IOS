@@ -11,6 +11,7 @@ import SwiftUI
 
 struct ListDetailItem: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
+    @ObservedObject var imageLoader: ImageLoader = ImageLoader()
     var id:String = UUID().uuidString
     var imagePath:String? = nil
     var emptyImage:String = Asset.noImg1_1
@@ -30,7 +31,9 @@ struct ListDetailItem: PageComponent{
         VStack(alignment: .leading, spacing:Dimen.margin.thin){
             ZStack{
                 if let path = self.imagePath {
-                    ImageView(url: path,
+                    ImageView(
+                        imageLoader : self.imageLoader,
+                        url: path,
                               contentMode: .fill,
                               noImg: self.emptyImage)
                         .modifier(MatchParent())
@@ -85,7 +88,8 @@ struct ListDetailItem: PageComponent{
                 .padding(.all, Dimen.margin.regular)
             }
             .background(Color.app.grey100)
-            .frame(width: self.imgSize.width, height: self.imgSize.height)
+            .frame(width: self.imgSize.width, height: self.imageHeight ?? self.imgSize.height)
+            .clipped()
             HStack(spacing:0){
                 if let likeCount = self.likeCount {
                     SortButton(
@@ -134,7 +138,18 @@ struct ListDetailItem: PageComponent{
             .padding(.horizontal, Dimen.app.pageHorinzontal)
         }
         .frame(width: self.imgSize.width)
+        .onReceive(self.imageLoader.$event){ evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .complete(let img) :
+                let ratio:CGFloat = img.size.height / img.size.width
+                self.imageHeight = self.imgSize.width * ratio
+            default : break
+            }
+            
+        }
     }
+    @State var imageHeight:CGFloat? = nil
 }
 
 

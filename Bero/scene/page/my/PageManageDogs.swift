@@ -34,13 +34,14 @@ struct PageManageDogs: PageView {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
-                        useBack: true
-                    ){ type in
-                        switch type {
-                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
-                        }
-                    }
+                        title: String.button.manageDogs,
+                        useBack: true,
+                        action: { type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
+                        })
                     InfinityScrollView(
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
@@ -51,10 +52,7 @@ struct PageManageDogs: PageView {
                         isRecycle: false,
                         useTracking: true
                     ){
-                        
-                        TitleSection(
-                            title: String.button.manageDogs
-                        )
+                       
                         
                         ForEach(self.pets) { pet in
                             PetProfileEditable(profile: pet){

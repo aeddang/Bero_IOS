@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftUI
-struct AgreeButton: View, SelecterbleProtocol {
+import FirebaseAnalytics
+struct AgreeButton: View, SelecterbleProtocol, PageProtocol {
     @EnvironmentObject var pagePresenter:PagePresenter
     enum ButtonType{
         case privacy, service
@@ -50,6 +51,11 @@ struct AgreeButton: View, SelecterbleProtocol {
                         self.pagePresenter.openPopup(
                             PageProvider.getPageObject(self.type.page)
                         )
+                        let parameters = [
+                            "buttonType": self.tag,
+                            "buttonText": (text ?? "") + " more"
+                        ]
+                        Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
                     }
                 }
             }
@@ -64,6 +70,12 @@ struct AgreeButton: View, SelecterbleProtocol {
         }
         .onTapGesture {
             action(!self.isChecked)
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": text ?? "",
+                "isChecked" : isChecked.description
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }
             
     }

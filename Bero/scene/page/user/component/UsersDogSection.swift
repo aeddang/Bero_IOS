@@ -15,15 +15,17 @@ struct UsersDogSection: PageComponent{
             if self.pets.isEmpty {
                 EmptyItem(type: .myList)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
-            } else if self.pets.count == 1, let pet = self.pets.first{
-                PetProfileInfo( profile: pet){
-                    self.movePetPage(pet)
-                }
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
             } else {
+                
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Dimen.margin.tiny){
+                        if let profile = self.user.currentProfile {
+                            UserProfileInfo(profile:profile, sizeType: .big){
+                                
+                            }
+                        }
                         ForEach(self.pets) { pet in
+                            
                             PetProfileInfo( profile: pet){
                                 self.movePetPage(pet)
                             }

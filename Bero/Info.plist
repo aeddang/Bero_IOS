@@ -25,6 +25,8 @@
 	<string>a712c78e3bce352aa36d92a32dcefef1</string>
 	<key>FacebookDisplayName</key>
 	<string>Bero</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlechromes</string>
@@ -37,17 +39,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-    <key>NSCameraUsageDescription</key>
-    <string>“Bero” Would Like to Access Your Photos Allow “Bero” to access your photos to upload images from the photo library.
-</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Allow “Bero” to access your location?</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Allow “Bero” to use the user's location along with Apple's policy.</string>
 	<key>RestApiPath</key>
 	<string>$(REST_API_PATH)</string>
-    <key>ITSAppUsesNonExemptEncryption</key>
-    <false/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-Black.ttf</string>
@@ -78,5 +71,11 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 </dict>
 </plist>

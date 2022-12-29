@@ -14,7 +14,7 @@ import QuartzCore
 
 
 enum PlayEffectType {
-    case image, count, text
+    case image, count, text, animation
 }
 class PlayEffectItem:Identifiable{
     let id:String = UUID().uuidString
@@ -44,6 +44,20 @@ struct PlayEffect: PageView {
             
             ForEach(self.effects) { effect in
                 switch effect.type {
+                case .animation :
+                    PlayEffectAnimation(data: effect){
+                        self.remove(id: effect.id)
+                    }
+                    .position(effect.position)
+                    .onAppear{
+                        if let find = effect.isFind {
+                            if find {
+                                self.findShow()
+                            } else {
+                                self.findShowCancel()
+                            }
+                        }
+                    }
                 case .count :
                     PlayEffectCount(data:effect){
                         self.remove(id: effect.id)
@@ -96,10 +110,10 @@ struct PlayEffect: PageView {
             switch evt {
             case .missionPlayStart :
                 let eff = PlayEffectItem()
-                eff.type = .text
-                eff.duration = 3
-                eff.value = "Start!"
-                eff.snd = Asset.sound.start
+                eff.type = .animation
+                eff.value = "bero_mission_start"
+                eff.snd = Asset.sound.mission
+                eff.size = .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.add(effect: eff)
             case .viewRoute(let duration) :
                 let eff = PlayEffectItem()
@@ -115,12 +129,13 @@ struct PlayEffect: PageView {
             switch evt {
             case .start :
                 let eff = PlayEffectItem()
-                eff.type = .text
-                eff.duration = 3
-                eff.value = "Enjoy walk!"
-                eff.snd = Asset.sound.start
+                eff.type = .animation
+                eff.value = "bero_start_jump"
+                eff.snd = Asset.sound.walk
+                eff.size = .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                eff.position = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
                 self.add(effect: eff)
-           
+                
             case .startMission:
                 let eff = PlayEffectItem()
                 eff.type = .text
@@ -368,3 +383,21 @@ struct PlayEffectCount: PageView {
     }
 }
 
+struct PlayEffectAnimation: PageView {
+    let data:PlayEffectItem
+    let complete: (() -> Void)
+    var body: some View {
+        LottieView(lottieFile: self.data.value){
+            complete()
+        }
+        .frame(width: self.data.size.width, height: self.data.size.height)
+        .onAppear(){
+            if let snd = self.data.snd {
+                SoundToolBox().play(snd:snd, ext:"wav")
+            }
+        }
+        .onDisappear{
+            
+        }
+    }//body
+}

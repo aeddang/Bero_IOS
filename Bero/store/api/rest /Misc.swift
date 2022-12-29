@@ -48,6 +48,10 @@ class MiscApi :Rest{
         fetch(route: WeatherApiRoute(action:action, commandId: id), completion: completion, error:error)
     }
     
+    func getBanner(id:String, completion: @escaping (ApiContentResponse<BannerData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        fetch(route: BannerApiRoute(commandId: id), completion: completion, error:error)
+    }
+    
     func getCode(category:MiscApi.Category, searchKeyword:String? = nil, completion: @escaping (ApiItemResponse<CodeData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["category"] = category.rawValue
@@ -93,4 +97,11 @@ struct ReportApiRoute : ApiRoute{
     var query:[String: String]? = nil
     var body:[String: Any]? = nil
     var overrideHeaders: [String : String]? = nil
+}
+
+struct BannerApiRoute : ApiRoute{
+    var method:HTTPMethod = .get
+    var command: String = "misc/banners"
+    var commandId: String? = nil
+    var query:[String: String]? = nil
 }

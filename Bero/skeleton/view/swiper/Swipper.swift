@@ -21,6 +21,7 @@ protocol Swipper {
     func getWillIndex(value:DragGesture.Value, minIdx:Int, maxIdx:Int)->Int
 }
 
+
 extension Swipper{
     var sensitivity:CGFloat { get{100} set{sensitivity = 100.0}}
     

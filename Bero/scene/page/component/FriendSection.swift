@@ -31,6 +31,7 @@ struct FriendSection: PageComponent{
                             FriendListItem(
                                 data: data,
                                 imgSize: self.imageSize,
+                                isMe: self.isMe,
                                 action: {self.moveFriend(id:data.userId)}
                             )
                         }
@@ -45,9 +46,9 @@ struct FriendSection: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
+            if res.id != self.currentId {return}
             switch res.type {
-            case .getFriend(let page ,_):
+            case .getFriend(_, let page ,_):
                 if page == 0 && self.type == .friend{
                     self.reset()
                     self.loaded(res)
@@ -68,24 +69,27 @@ struct FriendSection: PageComponent{
         
         .onAppear(){
             self.updateFriend()
+            self.isMe = self.dataProvider.user.isSameUser(user)
         }
     }
-    
+    @State var currentId:String = ""
+    @State var isMe:Bool = false
     @State var isEmpty:Bool = false
     @State var friends:[FriendListItemData] = []
     @State var friendDataSets:[FriendListItemDataSet] = []
     @State var imageSize:CGFloat = 0
     private func updateFriend(){
+        self.currentId = self.user.snsUser?.snsID ?? ""
         let r:CGFloat = CGFloat(self.rowSize)
         let w:CGFloat = (self.listSize - (Dimen.margin.regularExtra * (r-1))) / r
         self.imageSize = w
         switch self.type {
         case .friend :
-            self.dataProvider.requestData(q: .init(id: self.tag, type:.getFriend(page: 0, size: self.pageSize)))
+            self.dataProvider.requestData(q: .init(id: self.currentId, type:.getFriend(userId: self.currentId, page: 0, size: self.pageSize)))
         case .requested :
-            self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0, size: self.pageSize)))
+            self.dataProvider.requestData(q: .init(id: self.currentId, type:.getRequestedFriend(page: 0, size: self.pageSize)))
         case .request :
-            self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestFriend(page: 0, size: self.pageSize)))
+            self.dataProvider.requestData(q: .init(id: self.currentId, type:.getRequestFriend(page: 0, size: self.pageSize)))
         }
     }
     private func reset(){

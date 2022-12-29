@@ -43,7 +43,7 @@ struct ChatRoomListItem: PageComponent{
         VStack(alignment: .leading, spacing: 0){
             HStack(spacing: Dimen.margin.thin){
                 HorizontalProfile(
-                    type: .user,
+                    type: .pet,
                     sizeType: .small,
                     funcType: self.isRead ? nil : .view("N"),   // .view(self.data.unreadCount.description),
                     imagePath: self.data.profileImagePath,

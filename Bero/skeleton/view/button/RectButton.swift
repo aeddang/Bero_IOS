@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftUI
-struct RectButton: View, SelecterbleProtocol{
+import FirebaseAnalytics
+struct RectButton: View, SelecterbleProtocol, PageProtocol{
     enum SizeType{
         case tiny, medium
         var iconSize:CGFloat{
@@ -60,6 +61,11 @@ struct RectButton: View, SelecterbleProtocol{
     var body: some View {
         Button(action: {
             self.action(self.index)
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": text
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             ZStack{
                 Spacer().modifier(MatchParent())
@@ -82,7 +88,7 @@ struct RectButton: View, SelecterbleProtocol{
                     
                 }
             }
-            .frame(width:self.sizeType.bgSize, height:self.sizeType.bgSize)
+            .modifier(MatchHorizontal(height: self.sizeType.bgSize))
             .background(self.isSelected ? self.color : self.bgColor)
             .clipShape(RoundedRectangle(cornerRadius:self.sizeType.radius))
             .overlay(

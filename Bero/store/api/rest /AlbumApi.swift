@@ -67,23 +67,29 @@ extension AlbumApi {
 }
 
 class AlbumApi :Rest{
-    func get(id:String?, type:AlbumApi.Category, searchType:AlbumApi.SearchType, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func get(id:String?, type:AlbumApi.Category, searchType:AlbumApi.SearchType, isExpose:Bool? = nil, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["pictureType"] = type.getApiCode()
         params["searchType"] = searchType.getApiCode()
         if let id = id {
             params["ownerId"] = id
         }
+        if let isExpose = isExpose {
+            params["isExpose"] = isExpose ? "1" : "0"
+        }
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description
         fetch(route: AlbumPicturesApiRoute (method: .get, query: params), completion: completion, error:error)
     }
     
-    func post(img:UIImage,thumbImg:UIImage, id:String, type:AlbumApi.Category, completion: @escaping (ApiContentResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func post(img:UIImage,thumbImg:UIImage, id:String, type:AlbumApi.Category, isExpose:Bool?, completion: @escaping (ApiContentResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: AlbumPicturesApiRoute(method: .post),
            constructingBlock:{ data in
             data.append(value: type.getApiCode(), name: "pictureType")
             data.append(value: id, name: "ownerId")
+            if let isExpose = isExpose {
+                data.append(value: isExpose.description, name: "isExpose")
+            }
             if let value = img.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "albumImage.jpg",mimeType:"image/jpeg")
             }
@@ -93,14 +99,20 @@ class AlbumApi :Rest{
         }, completion: completion, error:error)
     }
     
-    func put( id:Int, isLike:Bool, completion: @escaping (ApiItemResponse<PictureUpdateData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func put( id:Int, isLike:Bool?, isExpose:Bool?, completion: @escaping (ApiItemResponse<PictureUpdateData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var param = [String: Any]()
         param["id"] = id
-        param["isChecked"] = isLike
-        
+        var action:ApiAction? = nil
+        if let isLike = isLike {
+            param["isChecked"] = isLike
+            action = .thumbsup
+        }
+        if let isExpose = isExpose {
+            param["isExpose"] = isExpose
+        }
         var params = [String: Any]()
         params["items"] = [param]
-        fetch(route: AlbumPicturesApiRoute(method: .put, action:.thumbsup, body:params), completion: completion, error:error)
+        fetch(route: AlbumPicturesApiRoute(method: .put, action:action, body:params), completion: completion, error:error)
     }
     
     

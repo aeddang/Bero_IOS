@@ -15,6 +15,7 @@ struct PictureData : Decodable {
     private(set) var smallPictureUrl: String? = nil
     private(set) var thumbsupCount: Double? = nil
     private(set) var isChecked: Bool? = nil
+    private(set) var isExpose: Bool? = nil
     private(set) var createdAt: String? = nil
     private(set) var user: UserData? = nil
     private(set) var pets: [PetData]? = nil

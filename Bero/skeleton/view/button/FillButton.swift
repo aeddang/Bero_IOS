@@ -8,8 +8,9 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAnalytics
 
-struct FillButton: View, SelecterbleProtocol{
+struct FillButton: View, SelecterbleProtocol, PageProtocol{
     enum ButtonType{
         case fill, stroke
         var strokeWidth:CGFloat{
@@ -49,6 +50,11 @@ struct FillButton: View, SelecterbleProtocol{
     var body: some View {
         Button(action: {
             self.action(self.index)
+            let parameters = [
+                "buttonType": self.tag
+                "buttonText": text
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             ZStack{
                 if let gradient = self.gradient {

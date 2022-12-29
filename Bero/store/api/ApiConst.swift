@@ -63,22 +63,26 @@ enum ApiType{
          completeMission(Mission, [PetProfile], image:String? = nil),
          getMissionSummary(petId:Int), getMonthlyMission(userId:String, date:Date)
     
+    case registWalk(loc:CLLocation, [PetProfile]),
+         updateWalk(id:Int, loc:CLLocation, img:UIImage?, thumbImg:UIImage?)
+    
     case checkHumanWithDog(img:UIImage,thumbImg:UIImage)
     
-    case getAlbumPictures(id:String?, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , page:Int? = nil, size:Int? = nil),
-         registAlbumPicture(img:UIImage, thumbImg:UIImage, id:String, AlbumApi.Category),
+    case getAlbumPictures(id:String?, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , isExpose:Bool? = nil, page:Int? = nil, size:Int? = nil),
+         registAlbumPicture(img:UIImage, thumbImg:UIImage, id:String, AlbumApi.Category, isExpose:Bool = false),
          deleteAlbumPictures(ids:String),
-         updateAlbumPicture(pictureId:Int, isLike:Bool)
+         updateAlbumPicture(pictureId:Int, isLike:Bool? = nil, isExpose:Bool? = nil)
     
     case getWeather(CLLocation),
          getWeatherCity(id:String, type:ApiAction = .cities),
          getCode(category:MiscApi.Category, searchKeyword:String? = nil),
-         sendReport(reportType:MiscApi.ReportType, postId:String? = nil, userId : String? = nil)
+         sendReport(reportType:MiscApi.ReportType, postId:String? = nil, userId : String? = nil),
+         getBanner(id:String)
    
     case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil),
          registVisit(Place)
     
-    case getFriend (page:Int? = nil, size:Int? = nil),
+    case getFriend (userId:String? = nil, page:Int? = nil, size:Int? = nil),
          getRequestFriend(page:Int? = nil, size:Int? = nil),
          getRequestedFriend(page:Int? = nil, size:Int? = nil),
          requestFriend(userId:String), deleteFriend(userId:String),

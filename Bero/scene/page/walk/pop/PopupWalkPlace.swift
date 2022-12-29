@@ -35,14 +35,39 @@ struct PopupWalkPlace: PageView {
                         .background(Color.transparent.clear)
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
-                        CPPageViewPager(
-                            pageObservable: self.pageObservable,
+                        SwipperScrollView(
                             viewModel: self.viewPagerModel,
-                            pages: self.pages
-                        ){ idx in
-                            self.move(idx: idx)
-                            
+                            count: self.pages.count,
+                            coordinateSpace: .global
+                        ){
+                            ForEach(self.pages) { data in
+                                PlaceView(
+                                    pageObservable:self.pageObservable,
+                                    place:data)
+                                .frame(width: geometry.size.width)
+                            }
                         }
+                        /*
+                        InfinityScrollView(
+                            viewModel: self.infinityScrollModel,
+                            axes: .horizontal,
+                            showIndicators : false,
+                            marginTop: 0,
+                            marginBottom: 0,
+                            marginHorizontal:0,
+                            spacing:0,
+                            isRecycle: true,
+                            useTracking: true
+                        ){
+                            ForEach(self.pages) { data in
+                                PlaceView(
+                                    pageObservable:self.pageObservable,
+                                    place:data)
+                                .frame(width: geometry.size.width)
+                                .id(data.hashId)
+                            }
+                        }
+                        */
                         ImageButton( defaultImage: Asset.icon.close, padding: Dimen.margin.tiny){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
@@ -54,14 +79,13 @@ struct PopupWalkPlace: PageView {
                     
                 }
             }
+            
             .onReceive(self.pagePresenter.$event){ evt in
                 guard let evt = evt else {return}
                 switch evt.type {
                 case .pageChange :
                     if evt.id == PageID.popupWalkPlace , let place = evt.data as? Place {
-                        if let idx = self.walkManager.places.firstIndex(where: {place.placeId == $0.placeId}) {
-                            self.viewPagerModel.request = .move(idx)
-                        }
+                        self.move(idx: place.index)
                     }
                 default : break
                 }
@@ -69,35 +93,35 @@ struct PopupWalkPlace: PageView {
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 let selectPlace = obj.getParamValue(key: .data) as? Place
-                var selected:Int = 0
-                var idx:Int = 0
-                let pages = self.walkManager.places.map{ place in
-                    if place.placeId == selectPlace?.placeId{
-                        selected = idx
-                    }
-                    idx += 1
-                    return PlaceView(
-                        pageObservable:self.pageObservable,
-                        pageDragingModel: self.pageDragingModel,
-                        infinityScrollModel: self.infinityScrollModel,
-                        place:place
-                    )
-                }
-                self.viewPagerModel.index = selected
-                self.pages = pages
+                //self.pages = self.walkManager.places
                 
+                let width = geometry.size.width
+                self.pages = zip(0..<self.walkManager.places.count, self.walkManager.places).map{ idx , place in
+                    let p = place.setRange(idx:idx, width: width) as! Place
+                    return p
+                }
+                 
+                if let selected = self.pages.first(where: {$0.placeId == selectPlace?.placeId}){
+                    self.viewPagerModel.index = selected.index
+                }
             }
             
         }//geo
     }//body
-    @State var pages: [PlaceView] = []
-    
+    @State var pages: [Place] = []
+   
     private func move(idx:Int){
         if idx >= self.pages.count {return}
         let page = self.pages[idx]
-        guard let loc = page.place.location else {return}
+        //DataLog.d("page " + (page.name ?? ""), tag: self.tag)
+        //DataLog.d("page " + page.startPos.description, tag: self.tag)
+        //self.infinityScrollModel.uiEvent = .scrollMove(page.hashId, .top)
+        //if self.currentIdx == idx { return }
+        //self.currentIdx = idx
+        guard let loc = page.location else {return}
         let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0002, longitude: loc.coordinate.longitude)
         self.walkManager.uiEvent = .moveMap(modifyLoc)
+        
     }
 }
 

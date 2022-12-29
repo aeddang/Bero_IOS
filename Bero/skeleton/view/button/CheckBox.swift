@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftUI
-struct CheckBox: View, SelecterbleProtocol {
+import FirebaseAnalytics
+struct CheckBox: View, SelecterbleProtocol, PageProtocol {
     var isChecked: Bool
     var text:String? = nil
     var subText:String? = nil
@@ -28,6 +29,12 @@ struct CheckBox: View, SelecterbleProtocol {
                     if self.action != nil {
                         self.action!(!self.isChecked)
                     }
+                    let parameters = [
+                        "buttonType": self.tag,
+                        "buttonText": text ?? subText ?? "",
+                        "isChecked" : isChecked.description
+                    ]
+                    Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
             }
             VStack(alignment: .leading, spacing: Dimen.margin.tiny){
                 if self.text != nil {
@@ -55,6 +62,11 @@ struct CheckBox: View, SelecterbleProtocol {
                     isUnderLine: true)
                 {_ in
                     self.more!()
+                    let parameters = [
+                        "buttonType": self.tag,
+                        "buttonText": (text ?? subText ?? "") + " more"
+                    ]
+                    Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
                 }
             }
         }

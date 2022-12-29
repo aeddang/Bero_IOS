@@ -31,7 +31,6 @@ struct InfinityScrollView<Content>: PageView, InfinityScrollViewProtocol where C
     var isAlignCenter:Bool = false
     let isRecycle: Bool
     
-   
     @State var isTop:Bool = true
     @State var scrollPos:Float? = nil
     @State var scrollIdx:Int? = nil
@@ -123,7 +122,6 @@ struct InfinityScrollView<Content>: PageView, InfinityScrollViewProtocol where C
                 .modifier(MatchParent())
             }
             .modifier(MatchParent())
-            
             .onReceive(self.sceneObserver.$isUpdated){update in
                 if update {
                     self.viewModel.setup(scrollSize: self.sceneObserver.screenSize)
@@ -170,6 +168,7 @@ struct InfinityScrollView<Content>: PageView, InfinityScrollViewProtocol where C
                 }
         }
     }//body
+    
     
     private func onTopChange(evt:InfinityScrollEvent?){
         guard let evt = evt else {return}

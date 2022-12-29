@@ -10,28 +10,15 @@ import Foundation
 import SwiftUI
 import GoogleMaps
 
-struct PlaceView: PageComponent, Identifiable{
+struct PlaceView: PageComponent{
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     var pageObservable:PageObservable = PageObservable()
-    var pageDragingModel:PageDragingModel = PageDragingModel()
-    @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
-    let id:String = UUID().uuidString
     let place:Place
     var body: some View {
-        InfinityScrollView(
-            viewModel: self.infinityScrollModel,
-            axes: .vertical,
-            scrollType: .vertical(isDragEnd: false),
-            showIndicators : false,
-            marginVertical: Dimen.margin.medium,
-            marginHorizontal: 0,
-            spacing:Dimen.margin.regularExtra,
-            isRecycle: false,
-            useTracking: true
-        ){
+        VStack(spacing:Dimen.margin.regularExtra){
             PlaceInfo(
                 pageObservable: self.pageObservable,
                 sortIconPath: self.place.place?.icon,
@@ -43,7 +30,8 @@ struct PlaceView: PageComponent, Identifiable{
                     self.walkManager.viewRoute(place: self.place)
                 }
             )
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
+            .padding(.horizontal, Dimen.app.pageHorinzontal)
+            .padding(.top, Dimen.margin.regular)
             HStack(spacing:Dimen.margin.micro){
                 RewardInfo(
                     type: .exp,

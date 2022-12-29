@@ -21,6 +21,7 @@ class AlbumListItemData:InfinityData, ObservableObject{
     private(set) var imagePath:String? = nil
     private(set) var thumbIagePath:String? = nil
     @Published private(set) var isLike:Bool = false
+    @Published private(set) var isExpose:Bool = false
     @Published private(set) var likeCount:Double = 0
     @Published var isDelete:Bool = false
     private(set) var pictureId:Int = -1
@@ -30,15 +31,19 @@ class AlbumListItemData:InfinityData, ObservableObject{
         self.thumbIagePath = data.smallPictureUrl
         self.pictureId = data.pictureId ?? -1
         self.isLike = data.isChecked ?? false
+        self.isExpose = data.isExpose ?? false
         self.likeCount = data.thumbsupCount ?? 0
         return self
     }
     
     @discardableResult
-    func updata(isLike:Bool) -> AlbumListItemData{
-        if isLike != self.isLike {
+    func updata(isLike:Bool?, isExpose:Bool?) -> AlbumListItemData{
+        if isLike != self.isLike, let isLike = isLike {
             self.likeCount = isLike ? self.likeCount+1 : self.likeCount-1
             self.isLike = isLike
+        }
+        if isExpose != self.isExpose, let isExpose = isExpose {
+            self.isExpose = isExpose
         }
         return self
     }
@@ -49,6 +54,7 @@ struct AlbumListItem: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var data:AlbumListItemData
     var user:User? = nil
+    var pet:PetProfile? = nil
     let imgSize:CGSize
     @Binding var isEdit:Bool
     @State var isDelete:Bool = false
@@ -71,6 +77,7 @@ struct AlbumListItem: PageComponent{
                     self.pagePresenter.openPopup(
                         PageProvider.getPageObject(.album)
                             .addParam(key: .data, value: self.user)
+                            .addParam(key: .subData, value: self.pet)
                             .addParam(key: .id, value: self.data.pictureId)
                     )
                 }
@@ -98,40 +105,57 @@ struct AlbumListItem: PageComponent{
         .onReceive(self.dataProvider.$result){ res in
             guard let res = res else { return }
             switch res.type {
-            case .updateAlbumPicture(let pictureId, let isLike): self.updated(pictureId, isLike: isLike)
+            case .updateAlbumPicture(let pictureId, let isLike, let isExpose): self.updated(pictureId, isLike: isLike, isExpose:isExpose)
             default : break
             }
         }
     }
-    private func updated(_ id:Int, isLike:Bool){
+    private func updated(_ id:Int, isLike:Bool?, isExpose:Bool?){
         if self.data.pictureId == id {
-            self.data.updata(isLike: isLike)
+            self.data.updata(isLike: isLike, isExpose: isExpose)
         }
     }
 }
 
 struct AlbumListDetailItem: PageComponent{
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var data:AlbumListItemData
+    var user:User? = nil
+    var pet:PetProfile? = nil
     let imgSize:CGSize
     @Binding var isEdit:Bool
     @State var isDelete:Bool = false
     @State var isLike:Bool = false
     @State var likeCount:Double = 0
+    @State var isExpose:Bool = false
     var body: some View {
         ZStack(alignment: .topTrailing){
-            ListDetailItem(
-                id: self.data.id,
-                imagePath: self.data.imagePath,
-                imgSize: self.imgSize,
-                likeCount: self.likeCount,
-                isLike: self.isLike,
-                likeSize: .small,
-                action:{
-                    self.dataProvider.requestData(
-                        q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+            ZStack(alignment: .bottomTrailing){
+                ListDetailItem(
+                    id: self.data.id,
+                    imagePath: self.data.imagePath,
+                    imgSize: self.imgSize,
+                    likeCount: self.likeCount,
+                    isLike: self.isLike,
+                    likeSize: .small,
+                    action:{
+                        self.dataProvider.requestData(
+                            q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+                    }
+                )
+                if self.user?.isMe == true {
+                    ImageButton(
+                        isSelected: self.isExpose,
+                        defaultImage: Asset.icon.explore
+                    ){ _ in
+                        self.dataProvider.requestData(
+                            q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isExpose: !self.data.isExpose)))
+                    }
+                    .padding(.trailing, Dimen.app.pageHorinzontal)
+                    .padding(.bottom, Dimen.margin.tiny)
                 }
-            )
+            }
             if self.isEdit {
                 CircleButton(
                     type: .icon(Asset.icon.delete),
@@ -142,6 +166,7 @@ struct AlbumListDetailItem: PageComponent{
                 }
                 .padding(.all, Dimen.margin.thin)
             }
+            
         }
         .onReceive(self.data.$isLike) { isLike in
             self.isLike = isLike
@@ -149,13 +174,16 @@ struct AlbumListDetailItem: PageComponent{
         .onReceive(self.data.$likeCount) { value in
             self.likeCount = value
         }
+        .onReceive(self.data.$isExpose) { value in
+            self.isExpose = value
+        }
         .onReceive(self.data.$isDelete) { isDelete in
             self.isDelete = isDelete
         }
         .onReceive(self.dataProvider.$result){ res in
             guard let res = res else { return }
             switch res.type {
-            case .updateAlbumPicture(let pictureId, let isLike): self.updated(pictureId, isLike: isLike)
+            case .updateAlbumPicture(let pictureId, let isLike, let isExpose): self.updated(pictureId, isLike: isLike, isExpose:isExpose)
             default : break
             }
         }
@@ -163,11 +191,15 @@ struct AlbumListDetailItem: PageComponent{
             self.isLike = self.data.isLike
             self.likeCount = self.data.likeCount
             self.isDelete = self.data.isDelete
+            self.isExpose = self.data.isExpose
         }
     }
-    private func updated(_ id:Int, isLike:Bool){
+    private func updated(_ id:Int, isLike:Bool?, isExpose:Bool?){
         if self.data.pictureId == id {
-            self.data.updata(isLike: isLike)
+            self.data.updata(isLike: isLike, isExpose: isExpose)
+            if let expose = isExpose {
+                self.appSceneObserver.event = .toast(expose ? String.alert.exposed : String.alert.unExposed)
+            }
         }
     }
 }

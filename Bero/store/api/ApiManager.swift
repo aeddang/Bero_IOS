@@ -17,7 +17,7 @@ enum ApiEvent{
 }
 
 enum RewardEvent{
-    case exp(value:Double), point(value:Int), reward(exp:Double, point:Int)
+    case exp(value:Double, lvData:MetaData?), point(value:Int, lvData:MetaData?), reward(exp:Double, point:Int, lvData:MetaData?)
 }
 struct ApiNetwork :Network{
     static fileprivate(set) var accesstoken:String? = nil
@@ -55,21 +55,21 @@ class ApiManager :PageProtocol, ObservableObject{
     private var transition = [String : ApiQ]()
     
     //page Api
-    private let user:UserApi
-    private let pet:PetApi
-    private let album:AlbumApi
-    private let mission:MissionApi
-    private let friend:FriendApi
-    private let reward:RewardApi
-    private let chat:ChatApi
+    let user:UserApi
+    let pet:PetApi
+    let album:AlbumApi
+    let mission:MissionApi
+    let friend:FriendApi
+    let reward:RewardApi
+    let chat:ChatApi
     //Store Api
-    private let auth:AuthApi
-    private let userUpdate:UserApi
-    private let petUpdate:PetApi
-    private let walk:MissionApi
-    private let place:PlaceApi
-    private let misc:MiscApi
-    private let vision:VissionApi
+    let auth:AuthApi
+    let userUpdate:UserApi
+    let petUpdate:PetApi
+    let place:PlaceApi
+    let misc:MiscApi
+    let vision:VissionApi
+    let walk:WalkApi
     
     private var snsUser:SnsUser? = nil
     
@@ -85,10 +85,10 @@ class ApiManager :PageProtocol, ObservableObject{
         self.vision = VissionApi(network: self.network)
         self.album = AlbumApi(network: self.network)
         self.misc = MiscApi(network: self.network)
-        self.walk = MissionApi(network: self.network)
         self.friend = FriendApi(network: self.network)
         self.reward = RewardApi(network: self.network)
         self.chat = ChatApi(network: self.network)
+        self.walk = WalkApi(network: self.network)
     }
     
     func clear(){
@@ -258,33 +258,42 @@ class ApiManager :PageProtocol, ObservableObject{
                                     error:error)
             
         case .requestNewMission(let location, let distance) :
-            self.walk.get(location: location, distance: distance,
+            self.mission.get(location: location, distance: distance,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
        
         case .completeMission(let mission, let pets, let pictureUrl) :
-            self.walk.post(mission: mission, pets: pets, pictureUrl: pictureUrl,
+            self.mission.post(mission: mission, pets: pets, pictureUrl: pictureUrl,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
+            
+        case .registWalk(let loc, let pets) :
+            self.walk.post(loc: loc, pets: pets,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
+        case .updateWalk(let walkId, let loc, let img, let thumbImg):
+            self.walk.put(id: walkId, loc: loc, img: img, thumbImg: thumbImg,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
     
         case .checkHumanWithDog(let img, let thumb) :
             self.vision.post(img: img, thumbImg: thumb, action: .detecthumanwithdog,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .getAlbumPictures(let id, let cate, let searchType, let page , let size) :
-            self.album.get(id: id, type: cate, searchType:searchType, page: page, size: size,
+        case .getAlbumPictures(let id, let cate, let searchType, let isExpose, let page , let size) :
+            self.album.get(id: id, type: cate, searchType:searchType, isExpose: isExpose, page: page, size: size,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
-        case .registAlbumPicture(let img, let thumb, let id, let cate) :
-            self.album.post(img: img, thumbImg:thumb, id: id, type: cate,
+        case .registAlbumPicture(let img, let thumb, let id, let cate, let isExpose) :
+            self.album.post(img: img, thumbImg:thumb, id: id, type: cate, isExpose: isExpose,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
         case .deleteAlbumPictures(let ids) :
             self.album.delete(ids: ids,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
-        case .updateAlbumPicture(let pictureId, let isLike) :
-            self.album.put(id: pictureId, isLike: isLike,
+        case .updateAlbumPicture(let pictureId, let isLike, let isExpose) :
+            self.album.put(id: pictureId, isLike: isLike, isExpose: isExpose,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
         case .getWeather(let loc) :
@@ -299,6 +308,11 @@ class ApiManager :PageProtocol, ObservableObject{
             self.misc.getCode(category: category, searchKeyword: searchKeyword,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
+        case .getBanner(let id):
+            self.misc.getBanner(id: id,
+                              completion: {res in self.complated(id: apiID, type: type, res: res)},
+                              error:error)
+            
         case .sendReport(let reportType, let postId, let userId) :
             self.misc.postReport(type: reportType, postId:postId, userId:userId,
                                  completion: {res in self.complated(id: apiID, type: type, res: res)},
@@ -312,8 +326,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.place.post(place: place,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
-        case .getFriend(let page , let size) :
-            self.friend.get(action: nil, page: page, size: size,
+        case .getFriend(let userId, let page , let size) :
+            self.friend.get(userId:userId, action: nil, page: page, size: size,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
         case .getRequestFriend(let page , let size) :
@@ -373,6 +387,7 @@ class ApiManager :PageProtocol, ObservableObject{
             self.chat.putRoom(roomId: roomId,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
+        
         default: break
         }
         return apiID
@@ -408,12 +423,13 @@ class ApiManager :PageProtocol, ObservableObject{
         let result:ApiResultResponds = .init(id: id, type:type, data: res.contents)
         let expValue = res.metadata?.exp == 0 ? nil : res.metadata?.exp
         let pointValue = res.metadata?.point == 0 ? nil : res.metadata?.point
+        
         if let exp = expValue, let point = pointValue {
-            self.rewardEvent = .reward(exp: exp, point: point)
+            self.rewardEvent = .reward(exp: exp, point: point, lvData:res.metadata)
         } else if let exp = expValue {
-            self.rewardEvent = .exp(value: exp)
+            self.rewardEvent = .exp(value: exp, lvData:res.metadata)
         } else if let point = pointValue {
-            self.rewardEvent = .point(value: point)
+            self.rewardEvent = .point(value: point, lvData:res.metadata)
         }
         
         switch type {

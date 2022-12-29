@@ -41,12 +41,14 @@ struct PageWalk: PageView {
                 .modifier(MatchParent())
                 
                 VStack(alignment: .trailing, spacing: Dimen.margin.thin){
-                    
-                    PlaceSortBox(
-                        pageObservable:self.pageObservable,
-                        viewModel:self.mapModel
-                    )
-                    
+                    if self.isWalk {
+                        WalkBox(
+                            pageObservable: self.pageObservable,
+                            viewModel: self.mapModel,
+                            isFollowMe: self.$isFollowMe
+                        )
+                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    }
                     Spacer().modifier(MatchParent())
                     if self.isInitable {
                         if !self.isWalk {
@@ -56,14 +58,7 @@ struct PageWalk: PageView {
                                 isFollowMe: self.$isFollowMe
                             )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        } else {
-                            WalkBox(
-                                pageObservable: self.pageObservable,
-                                viewModel: self.mapModel,
-                                isFollowMe: self.$isFollowMe
-                            )
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        }
+                        } 
                     }
                 }
                 .padding(.bottom, Dimen.app.bottom + Dimen.margin.thin)
@@ -75,6 +70,7 @@ struct PageWalk: PageView {
                     isFollowMe: self.$isFollowMe
                 )
                 .modifier(MatchParent())
+                
             }
             .modifier(MatchParent())
             .background(Color.brand.bg)
@@ -132,6 +128,8 @@ struct PageWalk: PageView {
             withAnimation{
                 self.isInitable = !self.dataProvider.user.pets.isEmpty
             }
+            
+            
         }
         .onDisappear{
             self.walkManager.endMap()
@@ -140,7 +138,7 @@ struct PageWalk: PageView {
     @State var isInitable:Bool = false
     @State var isInit:Bool = false
     @State var isWalk:Bool = false
-    
+   
     private func needDog(){
         if !self.dataProvider.user.pets.isEmpty { return }
         self.appSceneObserver.sheet = .select(

@@ -35,13 +35,39 @@ struct PopupWalkUser: PageView {
                         .background(Color.transparent.clear)
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
-                        
-                        CPPageViewPager(
-                            pageObservable: self.pageObservable,
-                            viewModel: self.viewPagerModel,
-                            pages: self.pages
-                        ){ idx in
-                            self.move(idx: idx)
+                        VStack(spacing:Dimen.margin.regular){
+                            if let data = self.current {
+                                UserView(
+                                    pageObservable:self.pageObservable,
+                                    mission: data
+                                )
+                                .frame(width: geometry.size.width)
+                                .padding(.top, Dimen.margin.thin)
+                            }
+                            InfinityScrollView(
+                                viewModel: self.infinityScrollModel,
+                                axes: .horizontal,
+                                showIndicators : false,
+                                marginTop: Dimen.margin.micro,
+                                marginBottom: 0,
+                                marginHorizontal: Dimen.app.pageHorinzontal,
+                                spacing:0,
+                                isRecycle: true,
+                                useTracking: true
+                            ){
+                                ForEach(self.pages) { data in
+                                    Button(action: {
+                                        self.move(idx: data.index)
+                                    }) {
+                                        ProfileImage(
+                                            imagePath: data.user?.representativePet?.imagePath,
+                                            isSelected: data.index == self.current?.index,
+                                            size: Dimen.profile.thin,
+                                            emptyImagePath: Asset.image.profile_dog_default
+                                        )
+                                    }
+                                }
+                            }
                         }
                         ImageButton( defaultImage: Asset.icon.close, padding: Dimen.margin.tiny){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
@@ -50,30 +76,16 @@ struct PopupWalkUser: PageView {
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
                     .modifier(MatchHorizontal(height:380))
                     .modifier(BottomFunctionTab(margin: 0))
-                    .modifier(PageDragingSecondPriority(geometry: geometry, pageDragingModel: self.pageDragingModel))
+                    .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 }
-                /*
-                .onReceive(self.pageDragingModel.$nestedScrollEvent){evt in
-                    guard let evt = evt else {return}
-                    switch evt {
-                    case .pullCompleted :
-                        self.pageDragingModel.uiEvent = .pullCompleted(geometry)
-                    case .pullCancel :
-                        self.pageDragingModel.uiEvent = .pullCancel(geometry)
-                    case .pull(let pos) :
-                        self.pageDragingModel.uiEvent = .pull(geometry, pos)
-                    default: break
-                    }
-                }*/
+                
             }
             .onReceive(self.pagePresenter.$event){ evt in
                 guard let evt = evt else {return}
                 switch evt.type {
                 case .pageChange :
                     if evt.id == PageID.popupWalkUser , let mission = evt.data as? Mission {
-                        if let idx = self.walkManager.missionUsers.firstIndex(where: {mission.missionId == $0.missionId}) {
-                            self.viewPagerModel.request = .move(idx)
-                        }
+                        self.move(idx: mission.index)
                     }
                 default : break
                 }
@@ -81,37 +93,30 @@ struct PopupWalkUser: PageView {
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 let selectMission = obj.getParamValue(key: .data) as? Mission
-                var selected:Int = 0
-                var idx:Int = 0
-                let pages = self.walkManager.missionUsers.map{ mission in
-                    let user = mission.user ?? User()
-                    if mission.missionId == selectMission?.missionId {
-                        selected = idx
-                    }
-                    idx += 1
-                    return UserView(
-                        pageObservable:self.pageObservable,
-                        pageDragingModel: self.pageDragingModel,
-                        geometry: geometry,
-                        infinityScrollModel: self.infinityScrollModel,
-                        mission: mission
-                    )
+                let width = geometry.size.width
+                self.pages = self.walkManager.missionUsers
+                if let selected = self.pages.first(where: {$0.missionId == selectMission?.missionId}){
+                    self.viewPagerModel.index = selected.index
+                    self.current = selected
                 }
-                self.viewPagerModel.index = selected
-                self.pages = pages
-                
             }
             
         }//geo
     }//body
-    @State var pages:[UserView] = []
     
+    
+    
+    
+    @State var current:Mission? =  nil
+    @State var pages:[Mission] = []
+    @State var isLoading = false
     private func move(idx:Int){
         if idx >= self.pages.count {return}
         let page = self.pages[idx]
-        guard let loc = page.mission.destination else {return}
+        if self.current?.missionId == page.missionId { return }
+        self.current = page
+        guard let loc = page.destination else {return}
         let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0002, longitude: loc.coordinate.longitude)
-        
         self.walkManager.uiEvent = .moveMap(modifyLoc)
         
     }

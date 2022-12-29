@@ -16,28 +16,20 @@ struct UserView: PageComponent, Identifiable{
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     var pageObservable:PageObservable = PageObservable()
-    var pageDragingModel:PageDragingModel = PageDragingModel()
-    var geometry:GeometryProxy? = nil
-    @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
-    let id:String = UUID().uuidString
     let mission:Mission
-    var location:CLLocation? = nil
     var body: some View {
-        InfinityScrollView(
-            viewModel: self.infinityScrollModel,
-            axes: .vertical,
-            scrollType: .vertical(isDragEnd: false),
-            showIndicators : false,
-            marginVertical: Dimen.margin.medium,
-            marginHorizontal: 0,
-            spacing:Dimen.margin.regularExtra,
-            isRecycle: false,
-            useTracking: true
-        ){
+        VStack(spacing:Dimen.margin.regularExtra){
             if let user  = self.mission.user {
                 HStack(alignment: .center, spacing:Dimen.margin.thin){
-                    UserProfileTopInfo(profile: user.currentProfile, isSimple: true)
-                        .frame(width:110)
+                    if let pet = user.representativePet {
+                        PetProfileTopInfo(profile:pet, isSimple: true)
+                            .frame(width:110)
+                        
+                    } else {
+                        UserProfileTopInfo(profile: user.currentProfile, isSimple: true)
+                            .frame(width:110)
+                    }
+                    
                     VStack(spacing:Dimen.margin.tiny){
                         FriendFunctionBox(user: user)
                         FillButton(
@@ -56,25 +48,11 @@ struct UserView: PageComponent, Identifiable{
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                 .padding(.top, Dimen.margin.thin)
                 
-                UsersDogSection( user:user , isSimple: true)
-                
-            }
-            if let path = self.mission.pictureUrl {
-                ImageView(url: path,
-                          contentMode: .fill,
-                          noImg: Asset.noImg16_9)
-                .modifier(Ratio16_9(geometry: self.geometry, horizontalEdges: Dimen.app.pageHorinzontal))
-                .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                
+                //UsersDogSection( user:user , isSimple: true)
             }
         }
         .background(Color.app.white)
-        .modifier(
-            ContentScrollPull(
-                infinityScrollModel: self.infinityScrollModel,
-                pageDragingModel: self.pageDragingModel)
-        )
+        
     }
     
 }
@@ -87,7 +65,7 @@ struct UserView_Previews: PreviewProvider {
     static var previews: some View {
         VStack{
             UserView(
-                mission:Mission()
+                mission: Mission()
             )
         }
         .padding(.all, 10)

@@ -4,6 +4,7 @@ import SwiftUI
 struct UserProfileInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     var profile:UserProfile
+    var sizeType:HorizontalProfile.SizeType = .small
     var action: (() -> Void)
     var body: some View {
         Button(action: {
@@ -12,6 +13,7 @@ struct UserProfileInfo: PageComponent{
             HorizontalProfile(
                 id: self.profile.id,
                 type: .user,
+                sizeType: self.sizeType,
                 image: self.image,
                 imagePath: self.imagePath,
                 name: self.nickName,

@@ -65,7 +65,6 @@ struct PageChatRoom: PageView {
             }//draging
             .onReceive(self.pageObservable.$isAnimationComplete) { isOn in
                 if isOn {
-                    
                     if let data = self.roomData{
                         self.userId = data.userId
                         self.appSceneObserver.event =

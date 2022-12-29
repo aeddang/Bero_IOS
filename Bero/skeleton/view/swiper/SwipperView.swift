@@ -112,7 +112,8 @@ struct SwipperView : View , PageProtocol, Swipper {
             )
             .onReceive( self.viewModel.$index ){ idx in
                 if self.index == idx {return}
-                withAnimation{ self.index = idx }
+                self.index = idx
+                //withAnimation{ self.index = idx }
             }
             .onReceive(self.viewModel.$request){ evt in
                 guard let evt = evt else {return}

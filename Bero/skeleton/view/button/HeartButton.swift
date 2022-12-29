@@ -7,8 +7,8 @@
 
 import Foundation
 import SwiftUI
-
-struct HeartButton: View, SelecterbleProtocol{
+import FirebaseAnalytics
+struct HeartButton: View, SelecterbleProtocol, PageProtocol{
     enum ButtonType{
         case small, big
         var icon:String{
@@ -43,6 +43,12 @@ struct HeartButton: View, SelecterbleProtocol{
     var body: some View {
         Button(action: {
             self.action(self.index)
+            let parameters = [
+                "buttonType": self.tag,
+                "buttonText": text ?? "",
+                "isSelected" : isSelected.description
+            ]
+            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
             ZStack(){
                 Image(self.type.icon)

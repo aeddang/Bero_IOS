@@ -28,7 +28,7 @@ struct LvSection: PageComponent{
                 leadingText: "Lv." + self.lvValue.description,
                 trailingText: String.app.exp,
                 progress: self.expProgress,
-                progressMax: Lv.expRange,
+                progressMax: self.expMax,
                 color: self.lv.color
             )
             .frame(height: 32)
@@ -61,25 +61,24 @@ struct LvSection: PageComponent{
     @State var lvValue:Int = 1
     @State var lv:Lv = .purple
     @State var exp:Double = 0
-    @State var nextExp:Double = 0
+    @State var expMax:Double = 0
     @State var expProgress:Double = 0
     @State var needInfo:String = ""
     private func updatedLv(){
         self.lvValue = user.lv
         self.lv = Lv.getLv(user.lv)
         let exp = user.exp
-        let nextExp = user.nextExp
-        let current:Double = Double(user.lv-1) * Lv.expRange
+        let current:Double = user.prevExp
         let progress = exp - current
         self.exp = exp
-        self.nextExp = nextExp
-        self.expProgress = progress
+        self.expMax = user.prevExp + user.nextExp
+        self.expProgress = min(progress, expMax)
         
         if self.exp == 0 {
             self.needInfo = String.pageText.myLvText3.replace(String.app.appName)
         } else {
-            let needExp = self.nextExp - self.exp
-            self.needInfo = String.pageText.myLvText4.replace(needExp.description)
+            let needExp = self.expMax - self.exp
+            self.needInfo = String.pageText.myLvText4.replace(needExp.toInt().description)
         }
     }
 }

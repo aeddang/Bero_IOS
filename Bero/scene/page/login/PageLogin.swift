@@ -21,13 +21,22 @@ struct PageLogin: PageView {
     @State var isAgree:Bool = false
     var body: some View {
         VStack(spacing: Dimen.margin.medium){
-            Image(Asset.intro.onboarding_img_0)
-                .renderingMode(.original)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .modifier(MatchParent())
-                .frame(alignment: .top)
-            
+            ZStack(alignment: .top){
+                Image(Asset.intro.onboarding_img_0)
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .modifier(MatchParent())
+                    .frame(alignment: .top)
+                Text("For your dog’s\nhappiness")
+                    .modifier( BoldTextStyle(
+                        size: Font.size.black,
+                        color:  Color.app.black
+                    ))
+                    .multilineTextAlignment(.center)
+                    .fixedSize()
+                    .padding(.top, 60)
+            }
             VStack(spacing: Dimen.margin.thin){
                 AgreeButton(
                     type: .service,
@@ -47,22 +56,20 @@ struct PageLogin: PageView {
                 }
                 .opacity(self.isAgree ? 1 : 0.5)
                 
-                if SystemEnvironment.isTestMode {
-                    FillButton(
-                        type: .fill,
-                        icon: SnsType.fb.logo,
-                        text: String.pageText.loginButtonText + SnsType.fb.title,
-                        color: SnsType.fb.color
-                    ){_ in
-                        if !self.isAgree {
-                            self.appSceneObserver.event = .toast(String.alert.needAgreement)
-                            return
-                            
-                        }
-                        self.snsManager.requestLogin(type: .fb)
+                FillButton(
+                    type: .fill,
+                    icon: SnsType.fb.logo,
+                    text: String.pageText.loginButtonText + SnsType.fb.title,
+                    color: SnsType.fb.color
+                ){_ in
+                    if !self.isAgree {
+                        self.appSceneObserver.event = .toast(String.alert.needAgreement)
+                        return
+                        
                     }
-                    .opacity(self.isAgree ? 1 : 0.5)
+                    self.snsManager.requestLogin(type: .fb)
                 }
+                .opacity(self.isAgree ? 1 : 0.5)
                 FillButton(
                     type: .stroke,
                     icon: SnsType.google.logo,
@@ -78,7 +85,7 @@ struct PageLogin: PageView {
                 .opacity(self.isAgree ? 1 : 0.5)
             }
             .padding(.horizontal, Dimen.margin.regular)
-            .padding(.top, Dimen.margin.mediumUltra)
+            .padding(.top, Dimen.margin.heavyExtra)
             .padding(.bottom, Dimen.margin.medium)
         }
         .padding(.bottom, self.appSceneObserver.safeBottomHeight)

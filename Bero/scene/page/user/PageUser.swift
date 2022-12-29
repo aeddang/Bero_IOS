@@ -19,7 +19,6 @@ extension PageUser{
     static let innerScrollHeight:CGFloat = 300
 }
 struct PageUser: PageView {
-    
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -50,17 +49,7 @@ struct PageUser: PageView {
                         }
                     
                     if let user = self.user {
-                        /*
-                        ZStack{
-                            UserProfileTopInfo(profile: user.currentProfile)
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .frame(height: self.originTopHeight)
-                               
-                        }
-                        .frame(height: self.topHeight)
-                        .padding(.top, Dimen.margin.medium * (self.topHeight/self.originTopHeight))
-                        .opacity(self.topHeight/self.originTopHeight)
-                        */
+                       
                         InfinityScrollView(
                             viewModel: self.infinityScrollModel,
                             axes: .vertical,
@@ -71,11 +60,19 @@ struct PageUser: PageView {
                             isRecycle: false,
                             useTracking: true
                         ){
-                            
-                            UserProfileTopInfo(profile: user.currentProfile)
+                            if let pet = user.representativePet {
+                                PetProfileTopInfo(profile:pet){
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.modifyPet)
+                                            .addParam(key: .data, value: pet)
+                                    )
+                                }
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-                               // .frame(height: self.originTopHeight)
-                            
+                                
+                            } else {
+                                UserProfileTopInfo(profile: user.currentProfile)
+                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            }
                             if !self.dataProvider.user.isSameUser(user) {
                                 FriendFunctionBox(user: user)
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
@@ -89,21 +86,21 @@ struct PageUser: PageView {
                                 user: user
                             )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.mediumUltra)
+                            .padding(.top, Dimen.margin.heavyExtra)
                             
                             FriendSection(
                                 user: user,
                                 listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                             )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.mediumUltra)
+                            .padding(.top, Dimen.margin.heavyExtra)
                             
                             AlbumSection(
                                 user: user,
                                 listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                             )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.mediumUltra)
+                            .padding(.top, Dimen.margin.heavyExtra)
                         }
                         .background(Color.brand.bg)
                     } else {

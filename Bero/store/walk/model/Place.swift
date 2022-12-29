@@ -20,6 +20,8 @@ class Place:MapUserData{
     private(set) var place:MissionPlace? = nil
     private(set) var sortType:WalkManager.Filter? = nil
     private(set) var isMark:Bool = false
+    
+    var count:Int? = nil
     @discardableResult
     func setData(_ data:PlaceData, me:String, sortType:WalkManager.Filter?)->Place{
         self.name = data.name
@@ -44,7 +46,6 @@ class Place:MapUserData{
         self.isMark = data.isVisited ?? false
         return self
     }
-     
     func addMark(user:User){
         self.isMark = true
         self.visitorCount += 1
@@ -52,6 +53,22 @@ class Place:MapUserData{
             self.visitors.insert(PlaceVisitor(user: userData, pet:petData), at: 0)
         }
     }
+    func copySummry(origin:Place)->Place{
+     
+        self.name = origin.name
+        self.sortType = origin.sortType
+        self.googlePlaceId = origin.googlePlaceId
+        self.placeId = origin.placeId
+        self.location = origin.location
+        self.place = origin.place
+        self.isMark = origin.isMark
+        self.count = 1
+        return self
+    }
+    func addCount(count:Int = 1){
+        self.count = (self.count ?? 0) + count
+    }
+    
     
 }
 

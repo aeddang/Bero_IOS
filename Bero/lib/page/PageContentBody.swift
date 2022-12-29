@@ -60,43 +60,42 @@ struct PageContentBody: PageView  {
         }
         .opacity(self.opacity)
         .accessibilityElement(children: self.isVoiceOver ? .contain : .ignore)
-        
-        
-    
         .onReceive(self.pageChanger.$currentTopPage){ page in
             guard let page = page else { return }
             if !self.isReady  {return}
-            
-            self.topPageType = page.animationType
             guard let pageObject = self.pageObject else { return }
+            self.topPageType = page.animationType
             if pageObject == page {
                 self.isVoiceOver = UIAccessibility.isVoiceOverRunning
                 
             } else {
                 self.isVoiceOver = false
             }
-           // if pageObject.zIndex != 0 { return }
             if pageObject.isLayer || pageObject.isWillCloseLayer{
                 self.dragOpacity = 0
                 return
             }
-            
             if PageObject.isSamePage(l:pageObject , r:page) {
                 withAnimation(.easeIn(duration: Self.pageMoveDuration)){
                     self.isTop = true
                     self.isBelow = false
                     self.pageOffsetX = 0.0
                     self.pageOffsetY = 0.0
-                   // self.dragOpacity = 0
                 }
-                
-            } else {
+            }
+        }
+        .onReceive(self.sceneObserver.$event){ evt in
+            guard let evt  = evt else {return}
+            switch evt {
+            case .changed :
+                //if self.isTop {return}
+                guard let page = self.pageChanger.currentTopPage else { return }
+                guard let pageObject = self.pageObject else { return }
+                if pageObject.isLayer { return }
                 if pageObject.animationType == .opacity { return }
                 if pageObject.animationType == .reverseVertical { return }
                 if pageObject.animationType == .reverseHorizontal { return }
-               
                 if self.offsetX != 0 || self.offsetY != 0 { return }
-                
                 let below = self.pageChanger.getBelowPage(page: page)
                 if  UIAccessibility.isVoiceOverRunning {
                     self.isTop = false
@@ -115,25 +114,13 @@ struct PageContentBody: PageView  {
                     default : break
                     }
                 } else {
-                    withAnimation(.easeOut(duration: Self.pageMoveDuration)){
-                        self.isTop = false
-                        self.isBelow = PageObject.isSamePage(l: below , r: pageObject)
-                        //PageLog.d("below : " + (below?.pageID ?? "nil"), tag:self.tag)
-                        //PageLog.d("pageObject : " + pageObject.pageID, tag:self.tag)
-                        //PageLog.d("self.isBelow : " + self.isBelow.description, tag:self.tag)
-                        self.dragOpacity = 1
-                        if !self.useBelowPageMove {return}
-                        switch self.topPageType {
-                        case .horizontal :
-                            self.pageOffsetX = Self.pageMoveAmount
-                            self.pageOffsetY = 0
-                        
-                        case .vertical :
-                            self.pageOffsetY = -Self.pageMoveAmount
-                            self.pageOffsetX = 0
-                        
-                        default : break
+                    let needAni = PageObject.isSamePage(l: below , r: pageObject)
+                    if needAni {
+                        withAnimation(.easeOut(duration: Self.pageMoveDuration)){
+                            self.bellowAnimation(isBelow: true)
                         }
+                    } else if !self.isTop {
+                        self.bellowAnimation(isBelow: false)
                     }
                 }
             }
@@ -142,19 +129,15 @@ struct PageContentBody: PageView  {
             if !self.isReady  {return}
             if !self.isBelow {return}
             if self.isTop {return}
-            
             self.dragOpacity = opacity
             if !self.useBelowPageMove {return}
-           
             let amount = Self.pageMoveAmount * CGFloat(opacity)
             switch self.topPageType {
             case .horizontal :  self.pageOffsetX = amount
             case .vertical :  self.pageOffsetY = -amount
             default :break
             }
-            
         }
-        
         .onReceive(self.pageObservable.$pagePosition){ pos in
             if !self.isReady  {return}
             
@@ -214,6 +197,25 @@ struct PageContentBody: PageView  {
         self.pageObservable.pagePosition.y = 0
         self.pageObservable.pageOpacity = 1.0
         self.childView?.appear()
+        self.sceneObserver.event = .changed
+    }
+    
+    private func bellowAnimation(isBelow:Bool){
+        self.isTop = false
+        self.isBelow = isBelow
+        self.dragOpacity = 1
+        if !self.useBelowPageMove {return}
+        switch self.topPageType {
+        case .horizontal :
+            self.pageOffsetX = Self.pageMoveAmount
+            self.pageOffsetY = 0
+        
+        case .vertical :
+            self.pageOffsetY = -Self.pageMoveAmount
+            self.pageOffsetX = 0
+        
+        default : break
+        }
     }
 }
 

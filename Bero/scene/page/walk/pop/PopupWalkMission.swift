@@ -35,14 +35,23 @@ struct PopupWalkMission: PageView {
                         .background(Color.transparent.clear)
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
-                        CPPageViewPager(
-                            pageObservable: self.pageObservable,
+                        SwipperScrollView(
                             viewModel: self.viewPagerModel,
-                            pages: self.pages
-                        ){ idx in
-                            self.move(idx: idx)
-                            
+                            count: self.pages.count,
+                            coordinateSpace: .global
+                        ){
+                            ForEach(self.pages) { data in
+                                MissionView(
+                                    pageObservable:self.pageObservable,
+                                    pageDragingModel: self.pageDragingModel,
+                                    geometry:geometry,
+                                    infinityScrollModel: self.infinityScrollModel,
+                                    mission:data
+                                )
+                                .frame(width: geometry.size.width)
+                            }
                         }
+                        
                         ImageButton( defaultImage: Asset.icon.close, padding: Dimen.margin.tiny){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
@@ -67,47 +76,32 @@ struct PopupWalkMission: PageView {
                 default : break
                 }
             }
+            .onReceive(self.viewPagerModel.$index){ idx in
+                self.move(idx: idx)
+            }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 if let mission = self.walkManager.currentMission {
-                    let view = MissionView(
-                        pageObservable:self.pageObservable,
-                        pageDragingModel: self.pageDragingModel,
-                        geometry:geometry,
-                        infinityScrollModel: self.infinityScrollModel,
-                        mission:mission
-                    )
-                    self.pages = [view]
+                    
+                    self.pages = [mission]
                 } else {
                     let selectMission = obj.getParamValue(key: .data) as? Mission
-                    var selected:Int = 0
                     var idx:Int = 0
-                    let pages = self.walkManager.missions.map{ mission in
-                        if mission.missionId == selectMission?.missionId{
-                            selected = idx
-                        }
-                        idx += 1
-                        return MissionView(
-                            pageObservable:self.pageObservable,
-                            pageDragingModel: self.pageDragingModel,
-                            geometry:geometry,
-                            infinityScrollModel: self.infinityScrollModel,
-                            mission:mission
-                        )
-                    }
-                    self.viewPagerModel.index = selected
+                    let pages = self.walkManager.missions
+                    //var selected:Int = pages.first(where: {$0.missionId == selectMission?.missionId})
+                    //self.viewPagerModel.index = selected
                     self.pages = pages
                 }
             }
             
         }//geo
     }//body
-    @State var pages: [MissionView] = []
+    @State var pages: [Mission] = []
     
     private func move(idx:Int){
         if idx >= self.pages.count {return}
         let page = self.pages[idx]
-        guard let loc = page.mission.destination else {return}
+        guard let loc = page.destination else {return}
         let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0002, longitude: loc.coordinate.longitude)
         self.walkManager.uiEvent = .moveMap(modifyLoc)
     }

@@ -20,9 +20,9 @@ extension FriendList {
         }
         var text:String{
             switch self {
-            case .friend : return "Friend"
-            case .request : return "Request"
-            case .requested : return "Get Request"
+            case .friend : return "My Friends"
+            case .request : return "Request Friends"
+            case .requested : return "Received Friends Request"
             }
         }
         
@@ -78,7 +78,9 @@ struct FriendList: PageComponent{
                             FriendListItem(
                                 data: data,
                                 imgSize: self.imageSize,
-                                status: self.type.status == .friend ? .chat : self.type.status
+                                isMe: self.isMe,
+                                status: self.type.status == .friend ? .chat : self.type.status,
+                                isHorizontal: true
                             ){
                                 self.pagePresenter.openPopup(
                                     PageProvider.getPageObject(.user)
@@ -105,28 +107,21 @@ struct FriendList: PageComponent{
                         isRecycle: true,
                         useTracking: true
                     ){
-                        ForEach(self.friendDataSets) { dataSet in
-                            HStack(spacing: Dimen.margin.regularExtra){
-                                ForEach(dataSet.datas) { data in
-                                    FriendListItem(
-                                        data: data,
-                                        imgSize: Dimen.profile.mediumUltra,
-                                        status: self.type.status
-                                    ){
-                                        self.pagePresenter.openPopup(
-                                            PageProvider.getPageObject(.user)
-                                                .addParam(key: .id, value:data.userId)
-                                        )
-                                    }
-                                }
-                                if !dataSet.isFull , let count = Self.row-dataSet.datas.count {
-                                    ForEach(0..<count, id: \.self) { _ in
-                                        Spacer().frame(width: self.imageSize, height: self.imageSize)
-                                    }
-                                }
+                        ForEach(self.friends) { data in
+                            FriendListItem(
+                                data: data,
+                                imgSize: Dimen.profile.mediumUltra,
+                                isMe: self.isMe,
+                                status: self.type.status,
+                                isHorizontal: false
+                            ){
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.user)
+                                        .addParam(key: .id, value:data.userId)
+                                )
                             }
                             .onAppear{
-                                if  dataSet.index == (self.friendDataSets.count-1) {
+                                if  data.index == (self.friends.count-1) {
                                     self.infinityScrollModel.event = .bottom
                                 }
                             }
@@ -152,9 +147,9 @@ struct FriendList: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
+            if res.id != self.currentId {return}
             switch res.type {
-            case .getFriend(let page ,_), .getRequestFriend(let page ,_), .getRequestedFriend(let page ,_):
+            case .getFriend(_, let page ,_), .getRequestFriend(let page ,_), .getRequestedFriend(let page ,_):
                 if page == 0 {
                     self.resetScroll()
                 }
@@ -166,7 +161,7 @@ struct FriendList: PageComponent{
         }
         .onReceive(self.dataProvider.$error){err in
             guard let err = err else { return }
-            if !err.id.hasPrefix(self.tag) {return}
+            if err.id != self.currentId {return}
             switch err.type {
             case .getFriend, .getRequestFriend, .getRequestedFriend :
                 self.pageObservable.isInit = true
@@ -175,14 +170,16 @@ struct FriendList: PageComponent{
             }
         }
         .onAppear(){
+            self.isMe = self.dataProvider.user.isSameUser(user)
             self.updateFriend()
+            
         }
     }
     @State var currentId:String = ""
     @State var isEmpty:Bool = false
     @State var friends:[FriendListItemData] = []
-    @State var friendDataSets:[FriendListItemDataSet] = []
     @State var imageSize:CGFloat = 0
+    @State var isMe:Bool = false
     
     private func updateFriend(){
         self.currentId = self.user?.snsUser?.snsID ?? ""
@@ -196,7 +193,6 @@ struct FriendList: PageComponent{
     private func resetScroll(){
         withAnimation{ self.isEmpty = false }
         self.friends = []
-        self.friendDataSets = []
         self.infinityScrollModel.reload()
     }
     
@@ -205,14 +201,13 @@ struct FriendList: PageComponent{
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
         self.currentId = self.user?.snsUser?.snsID ?? ""
-        
         switch self.type {
         case .friend :
-            self.dataProvider.requestData(q: .init(id: self.tag, type:.getFriend(page: self.infinityScrollModel.page)))
+            self.dataProvider.requestData(q: .init(id: self.currentId, type:.getFriend(userId: self.currentId, page: self.infinityScrollModel.page)))
         case .requested :
-            self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: self.infinityScrollModel.page)))
+            self.dataProvider.requestData(q: .init(id: self.currentId, type:.getRequestedFriend(page: self.infinityScrollModel.page)))
         case .request :
-            self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestFriend(page: self.infinityScrollModel.page)))
+            self.dataProvider.requestData(q: .init(id: self.currentId, type:.getRequestFriend(page: self.infinityScrollModel.page)))
         }
     }
     
@@ -229,13 +224,13 @@ struct FriendList: PageComponent{
             return FriendListItemData().setData(d,  idx: idx, type:self.type.status)
         }
         self.friends.append(contentsOf: added)
-        self.setupFriendDataSet(added: added)
         if self.friends.isEmpty {
             withAnimation{ self.isEmpty = true }
         }
         self.infinityScrollModel.onComplete(itemCount: added.count)
     }
-    
+    /*
+     //@State var friendDataSets:[FriendListItemDataSet] = []
     private func setupFriendDataSet(added:[FriendListItemData]){
     
         let count:Int = Self.row
@@ -260,6 +255,7 @@ struct FriendList: PageComponent{
         }
         self.friendDataSets.append(contentsOf: rows)
     }
+     */
 }
 
 

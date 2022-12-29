@@ -23,6 +23,12 @@ class LocalStorage {
         static let walkCount = "walkCount" + VS
         
         static let isFirstChat = "isFirstChat" + VS
+        
+        static let bannerDate = "bannerDate" + VS
+        static let bannerValue = "bannerValue" + VS
+        
+        static let isExposeSetup = "isExposeSetup" + VS
+        static let isExpose = "isExpose" + VS
        
     }
     let defaults = UserDefaults.standard
@@ -115,4 +121,44 @@ class LocalStorage {
         }
     }
     
+    func isDailyBannerCheck(id:PageID)->Bool{
+        let now = AppUtil.networkTimeDate().toDateFormatter(dateFormat: "yyyyMMdd")
+        let prev =  self.getPageBannerCheckDate(id: id)
+        return now == prev
+    }
+    
+    func isSameBannerCheck(id:PageID,  value:String)->Bool{
+        let prev =  self.getPageBannerCheckValue(id: id)
+        return value == prev
+    }
+    
+    func getPageBannerCheckValue(id:PageID)->String?{
+        return defaults.string(forKey: Keys.bannerValue + id)
+    }
+    func getPageBannerCheckDate(id:PageID)->String?{
+        return defaults.string(forKey: Keys.bannerDate + id)
+    }
+    func updatedPageBannerValue(id:PageID, value:String){
+        let now = AppUtil.networkTimeDate().toDateFormatter(dateFormat: "yyyyMMdd")
+        defaults.set(value, forKey: Keys.bannerValue + id)
+        defaults.set(now, forKey: Keys.bannerDate + id)
+    }
+    
+    var isExposeSetup:Bool{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.isExposeSetup)
+        }
+        get{
+            return defaults.bool(forKey: Keys.isExposeSetup)
+        }
+    }
+    
+    var isExpose:Bool{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.isExpose)
+        }
+        get{
+            return defaults.bool(forKey: Keys.isExpose)
+        }
+    }
 }

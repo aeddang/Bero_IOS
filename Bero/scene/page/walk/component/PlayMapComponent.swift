@@ -52,10 +52,8 @@ extension PlayMap {
          let image = UIImageView(image: icon)
          image.tintColor = Color.brand.thirdly.uiColor()
         */
-        
-        
         marker.userData = data
-        marker.title = data.user?.currentProfile.nickName ?? "User"
+        marker.title = data.user?.representativePet?.name ?? "User"
         var iconPath = ""
         let characterIdx = data.user?.characterIdx ?? 0
         switch data.user?.currentProfile.status {
@@ -68,9 +66,8 @@ extension PlayMap {
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.zIndex = 300
-        if let pets = data.user?.pets {
-            let petNames = pets.reduce("", {$0+", "+($1.name ?? "")}).dropFirst()
-            marker.snippet = "with " + petNames
+        if let count = data.count {
+            marker.snippet = "+ " + count.description
         }
         return marker
     }
@@ -113,7 +110,12 @@ extension PlayMap {
         marker.iconView = image
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
-        marker.snippet = String.pageText.walkMapMarkText.replace(data.visitors.count.description)
+        if let count = data.count  {
+            marker.snippet = "+ " + count.description
+        } else {
+            marker.snippet = String.pageText.walkMapMarkText.replace(data.visitors.count.description)
+        }
+       
         marker.zIndex = data.isMark ?  100 : 200
         return marker
     }

@@ -74,6 +74,9 @@ struct ApiItemResponse<T>: Decodable where T: Decodable {
 struct MetaData : Decodable {
     private(set) var exp: Double? = nil
     private(set) var point: Int? = nil
+    private(set) var level: Int? = nil
+    private(set) var nextLevelExp: Double? = nil
+    private(set) var prevLevelExp: Double? = nil
 }
 
 protocol ApiRoute : NetworkRoute {
