@@ -28,7 +28,7 @@ struct GraphLine: PageView {
                     Line(
                         points: positions
                     )
-                    .stroke(self.lineColor, lineWidth: self.stroke)
+                    .stroke(self.lineColor, style: .init(lineWidth: self.stroke, lineCap: .round, lineJoin: .round))
                     .foregroundColor(self.lineColor)
                     
                     ForEach(zip(0..<positions.count, positions).map{ idx , pos in

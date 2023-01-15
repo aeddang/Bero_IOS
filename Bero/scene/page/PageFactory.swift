@@ -19,9 +19,10 @@ extension PageID{
     static let diary:PageID = "diary"
     static let my:PageID = "my"
     static let setup:PageID = "setup"
-    static let chooseDog:PageID = "chooseDog"
+    
    
     static let chatRoom:PageID = "chatRoom"
+    static let walkList:PageID = "walkList"
     static let walkHistory:PageID = "walkHistory"
     static let walkReport:PageID = "walkReport"
     static let walkInfo:PageID = "walkInfo"
@@ -47,6 +48,8 @@ extension PageID{
     static let addDog:PageID = "addDog"
     static let addDogCompleted:PageID = "addDogCompleted"
     
+    static let popupChooseDog:PageID = "popupChooseDog"
+    static let popupWalkUsers:PageID = "popupWalkUsers"
     static let popupWalkUser:PageID = "popupWalkUser"
     static let popupWalkPlace:PageID = "popupWalkPlace"
     static let popupWalkMission:PageID = "popupWalkMission"
@@ -80,8 +83,10 @@ struct PageProvider {
     
     static func getType(_ pageID:PageID)-> PageAnimationType{
         switch pageID {
-        case  .addDog, .addDogCompleted, .chooseDog, .webview,
-                .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return .vertical
+        case  .addDog, .addDogCompleted, .webview : return .vertical
+        case  .popupChooseDog, .popupWalkUser, .popupWalkPlace,
+                .popupWalkMission, .popupPlaceVisitor, .popupWalkUsers : return .vertical
+            
         case  .missionCompleted, .walkCompleted, .levelUp: return .opacity
         default : return  .horizontal
         }
@@ -94,15 +99,16 @@ struct PageProvider {
     }
     static func isLayer(_ pageID:PageID)-> Bool{
         switch pageID{
-        case .chooseDog, .missionCompleted, .walkCompleted, .levelUp : return true
-        case .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor : return true
+        case .missionCompleted, .walkCompleted, .levelUp : return true
+        case .popupChooseDog, .popupWalkUser, .popupWalkPlace, .popupWalkMission, .popupPlaceVisitor, .popupWalkUsers : return true
         default : return false
         }
     }
     static func isAutoInit(_ pageID:PageID)-> Bool{
         switch pageID{
-        case .user, .album, .dog,.walkReport, .walkInfo,
-            .walkHistory, .missionHistory, .friend , .editProfile: return false
+        case .user, .album, .dog,.walkReport, .walkInfo, .walkList: return false
+        case .walkHistory, .missionHistory, .friend , .editProfile: return false
+        case .popupWalkUser: return false
         default : return  true
         }
     }
@@ -190,8 +196,9 @@ struct PageFactory{
         case .setup : return PageSetup(pageObservable:pageObservable)
         case .dog : return PageDog(pageObservable:pageObservable)
         case .user : return PageUser(pageObservable:pageObservable)
-        case .chooseDog : return PageChooseDog(pageObservable:pageObservable)
+        case .popupChooseDog : return PopupChooseDog(pageObservable:pageObservable)
         case .chatRoom : return PageChatRoom(pageObservable:pageObservable)
+        case .walkList : return PageWalkList(pageObservable:pageObservable)
         case .walkHistory : return PageWalkHistory(pageObservable:pageObservable)
         case .walkReport : return PageWalkReport(pageObservable:pageObservable)
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)
@@ -214,6 +221,7 @@ struct PageFactory{
         case .serviceTerms : return PageServiceTerms(pageObservable:pageObservable)
         case .webview : return PageWebview(pageObservable:pageObservable)
         case .popupWalkUser : return PopupWalkUser(pageObservable:pageObservable)
+        case .popupWalkUsers : return PopupWalkUsers(pageObservable:pageObservable)
         case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
         case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)
         case .popupPlaceVisitor : return PopupPlaceVisitor(pageObservable:pageObservable)

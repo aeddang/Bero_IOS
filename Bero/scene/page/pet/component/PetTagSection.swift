@@ -6,20 +6,25 @@ struct PetTagSection: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     
     @ObservedObject var profile:PetProfile
+    var title:String? = String.pageTitle.tag
     var listSize:CGFloat = 300
     var body: some View {
-        VStack(alignment: .leading, spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.tag, buttons:self.profile.isMypet ? [.edit] : []){ type in
-                switch type {
-                case .edit :
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.editProfile)
-                            .addParam(key: .data, value: self.profile)
-                            .addParam(key: .type, value: PageEditProfile.EditType.hash)
-                    )
-                default : break
+        VStack(alignment: .leading, spacing:0){
+            if let title = self.title {
+                TitleTab(type:.section, title: title, buttons:self.profile.isMypet ? [.edit] : []){ type in
+                    switch type {
+                    case .edit :
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.editProfile)
+                                .addParam(key: .data, value: self.profile)
+                                .addParam(key: .type, value: PageEditProfile.EditType.hash)
+                        )
+                    default : break
+                    }
                 }
-                
+                .padding(.bottom, Dimen.margin.regularExtra)
+            } else {
+                Spacer().modifier(MatchHorizontal(height: 0))
             }
             VStack(alignment: .leading, spacing:Dimen.margin.tiny){
                 ForEach(self.buttonSets) { data in

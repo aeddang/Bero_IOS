@@ -185,7 +185,7 @@ class InfinityScrollModel:ComponentObservable{
         }
         if diff > 30 { return }
         if pos >= self.pullRange && self.scrollStatus != .pullCancel {
-            ComponentLog.d("pull " + pos.description, tag: "InfinityScrollViewProtocol")
+            //ComponentLog.d("pull " + pos.description, tag: "InfinityScrollViewProtocol")
             if self.scrollStatus != .pull {
                 self.onPullInit()
             }

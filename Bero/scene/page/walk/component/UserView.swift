@@ -16,45 +16,69 @@ struct UserView: PageComponent, Identifiable{
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     var pageObservable:PageObservable = PageObservable()
+    var geometry:GeometryProxy? = nil
     let mission:Mission
     var body: some View {
-        VStack(spacing:Dimen.margin.regularExtra){
-            if let user  = self.mission.user {
-                HStack(alignment: .center, spacing:Dimen.margin.thin){
-                    if let pet = user.representativePet {
-                        PetProfileTopInfo(profile:pet, isSimple: true)
-                            .frame(width:110)
-                        
-                    } else {
-                        UserProfileTopInfo(profile: user.currentProfile, isSimple: true)
-                            .frame(width:110)
-                    }
-                    
-                    VStack(spacing:Dimen.margin.tiny){
-                        FriendFunctionBox(user: user)
-                        FillButton(
-                            type: .stroke,
-                            text: String.button.visitProfile,
-                            color:  Color.brand.primary)
-                        { _ in
-                            self.pagePresenter.openPopup(
-                                PageProvider.getPageObject(.user)
-                                    .addParam(key: .data, value:user)
-                            )
-                            self.pagePresenter.closePopup(self.pageObservable.pageObject?.id)
+        ZStack(){
+            if let profile = self.profile {
+                VStack(alignment: .center, spacing:Dimen.margin.regularExtra){
+                    PetProfileTopInfo(
+                        profile: profile,
+                        isHorizontal: true,
+                        action: {
+                            self.moveUser(id: self.mission.userId)
                         }
-                    }
+                    )
+                    PetTagSection(
+                        profile: profile,
+                        title: nil,
+                        listSize: (geometry?.size.width ?? 320) - (Dimen.app.pageHorinzontal*2)
+                    )
                 }
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                 .padding(.top, Dimen.margin.thin)
-                
                 //UsersDogSection( user:user , isSimple: true)
-            }
+            } 
         }
         .background(Color.app.white)
-        
+        .onReceive(self.dataProvider.$result){res in
+            guard let res = res else { return }
+            if !res.id.hasPrefix(self.tag) {return}
+            switch res.type {
+            case .getPets(let userId, _) :
+                if userId == self.mission.userId , let datas = res.data as? [PetData]{
+                    if let data = datas.first(where: {$0.isRepresentative == true}) ?? datas.first {
+                        let profile = PetProfile(data: data)
+                        self.mission.petProfile = profile
+                        self.profile = profile
+                        self.pageObservable.isInit = true
+                    }
+                }
+            default : break
+            }
+        }
+        .onAppear(){
+            self.profile = self.mission.petProfile
+            if self.profile == nil {
+                self.getProfile()
+                return
+            }
+            self.pageObservable.isInit = true
+        }
     }
     
+    @State var profile:PetProfile? = nil
+    private func getProfile(){
+        if let id = self.mission.userId {
+            self.dataProvider.requestData(q: .init(id:self.tag, type: .getPets(userId: id)))
+        }
+    }
+    private func moveUser(id:String? = nil){
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.user)
+                .addParam(key: .id, value:id)
+        )
+    }
 }
 
 

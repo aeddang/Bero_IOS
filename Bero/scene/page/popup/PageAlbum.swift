@@ -134,7 +134,7 @@ struct PageAlbum: PageView {
         
         self.dataProvider.requestData(q: .init(
             id: self.currentId,
-            type: .registAlbumPicture(img: img, thumbImg: thumbImage, id: self.currentId, self.currentType, isExpose: isExpose)
+            type: .registAlbumPicture(img: img, thumbImg: thumbImage, userId: self.currentId, self.currentType, isExpose: isExpose)
         ))
     }
 }

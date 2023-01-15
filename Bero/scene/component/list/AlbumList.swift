@@ -138,7 +138,7 @@ struct AlbumList: PageComponent{
             guard let res = res else { return }
             if self.currentId != res.id { return }
             switch res.type {
-            case .getAlbumPictures(_, let type , _, _, let page ,let size):
+            case .getAlbumPictures(_, _, let type , _, _, let page ,let size):
                 if type == self.currentType && size == nil{
                     if page == 0 {
                         self.resetScroll()
@@ -146,7 +146,7 @@ struct AlbumList: PageComponent{
                     self.loaded(res)
                     self.pageObservable.isInit = true
                 }
-            case .registAlbumPicture(_, _, _, let type, _) :
+            case .registAlbumPicture(_, _, _, let type, _, _) :
                 if type == self.currentType {
                     self.resetScroll()
                     self.loadAlbum()
@@ -210,7 +210,7 @@ struct AlbumList: PageComponent{
         }
        
         self.dataProvider.requestData(q: .init(id: self.currentId, type:
-                .getAlbumPictures(id: self.currentId, self.currentType,
+                .getAlbumPictures(userId: self.currentId, self.currentType,
                                   isExpose: self.user?.isMe == true || self.user?.isFriend == true  ? nil : true,
                                   page: self.infinityScrollModel.page)))
         

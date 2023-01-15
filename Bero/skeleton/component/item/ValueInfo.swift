@@ -11,13 +11,15 @@ import SwiftUI
 
 struct ValueInfo: PageComponent{
     enum ValueType{
-        case point, coin, heart, walk, mission, walkComplete, missionComplete, exp , expEarned , pointEarned
+        case point, coin, heart, walk, mission, walkComplete, walkDistance,
+             missionComplete, exp , expEarned , pointEarned
         var icon:String{
             switch self {
             case .point, .pointEarned : return Asset.icon.point
             case .coin : return Asset.icon.coin
             case .heart : return Asset.icon.favorite_on
             case .walkComplete : return Asset.icon.paw
+            case .walkDistance : return Asset.icon.walk
             case .missionComplete : return Asset.icon.goal
             default : return Asset.icon.exp
             }
@@ -25,6 +27,7 @@ struct ValueInfo: PageComponent{
         
         var iconColor:Color?{
             switch self {
+            case .walkDistance : return Color.app.black
             case .coin, .point, .pointEarned, .heart : return nil
             default : return Color.brand.primary
             }
@@ -40,6 +43,7 @@ struct ValueInfo: PageComponent{
             case .walk : return "from walk"
             case .mission : return "from mission"
             case .walkComplete : return "Walks done"
+            case .walkDistance : return "Walk distance"
             case .missionComplete : return "Missions completed"
             }
         }
@@ -47,6 +51,7 @@ struct ValueInfo: PageComponent{
         func getValue(_ value:Double) -> String{
             switch self {
             case .coin : return value.description
+            case .walkDistance : return WalkManager.viewDistance(value)
             default : return value.toInt().description
             }
         }

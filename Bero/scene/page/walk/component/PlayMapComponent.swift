@@ -12,14 +12,11 @@ extension PlayMap {
         marker.position = CLLocationCoordinate2D(
             latitude: loc.coordinate.latitude,
             longitude: loc.coordinate.longitude)
-        marker.title = "Me"
-        let pets = user.pets.filter{$0.isWith}
-        let petNames = pets.reduce("", {$0+", "+($1.name ?? "")}).dropFirst()
-        marker.snippet = "with " + petNames
+        marker.title = user.representativePet?.name ?? "Me"
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.iconView = icon
-        marker.zIndex = 999
+        marker.zIndex = 700
         return marker
     }
     
@@ -34,46 +31,90 @@ extension PlayMap {
         line.strokeWidth = Dimen.line.medium
         line.title = "Route"
         line.path = GMSPath.init(fromEncodedPath: polyLine)
-        line.zIndex = 888
-    
+        line.zIndex = 800
         return line
     }
     
+    
+    func getCircle(data:MapUserData) -> GMSCircle{
+        guard let loc = data.location else { return GMSCircle() }
+        let circleCenter = CLLocationCoordinate2D(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
+        let radius:Double = Double(min(max(100, data.count * 20), 1000))
+        let circle = GMSCircle(position: circleCenter, radius: radius)
+        circle.fillColor = data.color.uiColor().withAlphaComponent(0.5)
+        
+        circle.title = data.count.description + (data.title ?? "")
+        circle.strokeWidth = 0
+        
+        return circle
+    }
+    
     func getUserMarker(_ data:Mission) -> GMSMarker{
-        guard let loc = data.destination else { return GMSMarker() }
+        guard let loc = data.location else { return GMSMarker() }
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(
             latitude: loc.coordinate.latitude ,
             longitude: loc.coordinate.longitude
         )
-        /*
-        var child = UIHostingController(rootView: ProfileImage())
-         let icon = UIImage(named: Asset.map.pinUser)?.withRenderingMode(.alwaysTemplate)
-         let image = UIImageView(image: icon)
-         image.tintColor = Color.brand.thirdly.uiColor()
-        */
+        
         marker.userData = data
-        marker.title = data.user?.representativePet?.name ?? "User"
-        var iconPath = ""
-        let characterIdx = data.user?.characterIdx ?? 0
-        switch data.user?.currentProfile.status {
-        case .friend : iconPath = Asset.character.randOn[characterIdx]
-        default : iconPath = Asset.character.rand[characterIdx]
+        
+        if data.isGroup {
+            marker.title = data.count.description + " " + (data.title ?? "")
+            marker.zIndex = 900
+            return marker
         }
-        let icon = UIImage(named: iconPath)
-        let image = UIImageView(image: icon)
-        marker.iconView = image
-        marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
+        if let path = data.pictureUrl {
+            marker.title = data.title ?? "User"
+            let scale:CGFloat = UIScreen.main.scale
+            let size = Dimen.profile.regular
+            if let prevImg =  data.previewImg {
+                onMarkerImage(uiImage: prevImg)
+            } else {
+                let loader = ImageLoader()
+                loader.$event.sink(receiveValue: { evt in
+                    guard let  evt = evt else { return }
+                    switch evt {
+                    case .reset :break
+                    case .complete(let img) :
+                        DispatchQueue.global(qos:.background).async {
+                            
+                            let uiImage = img.normalized().centerCrop()
+                                .resize(to: CGSize(
+                                    width: size/scale ,
+                                    height: size/scale ))
+                            data.previewImg = uiImage
+                            DispatchQueue.main.async {
+                                onMarkerImage(uiImage: uiImage)
+                            }
+                        }
+                        
+                    case .error :break
+                    }
+                }).store(in: &anyCancellable)
+                loader.load(url: path)
+            }
+            
+            func onMarkerImage(uiImage:UIImage){
+                marker.icon = uiImage.maskRoundedImage(
+                    radius: size/2,
+                    borderColor:Color.brand.primary,
+                    borderWidth:Dimen.stroke.regular)
+            }
+            
+        } else {
+            let icon = UIImage(named: Asset.image.profile_dog_default)
+            let image = UIImageView(image: icon)
+            marker.iconView = image
+        }
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.3)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.zIndex = 300
-        if let count = data.count {
-            marker.snippet = "+ " + count.description
-        }
         return marker
     }
     
     func getMissionMarker(_ data:Mission) -> GMSMarker{
-        guard let loc = data.destination else { return GMSMarker() }
+        guard let loc = data.location else { return GMSMarker() }
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(
             latitude: loc.coordinate.latitude ,
@@ -102,20 +143,19 @@ extension PlayMap {
             longitude: longitude
         )
         marker.userData = data
-        marker.title = data.name ?? "Place"
         
+        if data.isGroup {
+            marker.title = data.count.description + " " + (data.title ?? "")
+            marker.zIndex = 900
+            return marker
+        }
         let icon = UIImage(named: data.isMark ? type.iconMark : type.icon)
-        
         let image = UIImageView(image: icon)
         marker.iconView = image
+        marker.title = data.title ?? "Place"
+        marker.snippet = String.pageText.walkMapMarkText.replace(data.visitors.count.description)
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
-        if let count = data.count  {
-            marker.snippet = "+ " + count.description
-        } else {
-            marker.snippet = String.pageText.walkMapMarkText.replace(data.visitors.count.description)
-        }
-       
         marker.zIndex = data.isMark ?  100 : 200
         return marker
     }

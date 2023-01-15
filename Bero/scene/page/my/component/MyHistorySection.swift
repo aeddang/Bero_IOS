@@ -26,6 +26,7 @@ struct MyHistorySection: PageComponent{
                     }
                 )
             }
+            /*
             Button(action: {
                 self.moveMissionHistory()
             }) {
@@ -42,6 +43,7 @@ struct MyHistorySection: PageComponent{
                     }
                 )
             }
+            */
         }
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}

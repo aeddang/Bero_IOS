@@ -67,12 +67,15 @@ extension AlbumApi {
 }
 
 class AlbumApi :Rest{
-    func get(id:String?, type:AlbumApi.Category, searchType:AlbumApi.SearchType, isExpose:Bool? = nil, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func get(id:String?, referenceId:String?, type:AlbumApi.Category, searchType:AlbumApi.SearchType, isExpose:Bool? = nil, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["pictureType"] = type.getApiCode()
         params["searchType"] = searchType.getApiCode()
         if let id = id {
             params["ownerId"] = id
+        }
+        if let id = referenceId {
+            params["referenceId"] = id
         }
         if let isExpose = isExpose {
             params["isExpose"] = isExpose ? "1" : "0"
@@ -82,13 +85,16 @@ class AlbumApi :Rest{
         fetch(route: AlbumPicturesApiRoute (method: .get, query: params), completion: completion, error:error)
     }
     
-    func post(img:UIImage,thumbImg:UIImage, id:String, type:AlbumApi.Category, isExpose:Bool?, completion: @escaping (ApiContentResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func post(img:UIImage,thumbImg:UIImage, id:String, type:AlbumApi.Category, isExpose:Bool?, referenceId:String?, completion: @escaping (ApiContentResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: AlbumPicturesApiRoute(method: .post),
            constructingBlock:{ data in
             data.append(value: type.getApiCode(), name: "pictureType")
             data.append(value: id, name: "ownerId")
             if let isExpose = isExpose {
                 data.append(value: isExpose.description, name: "isExpose")
+            }
+            if let value = referenceId {
+                data.append(value: value, name: "referenceId")
             }
             if let value = img.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "albumImage.jpg",mimeType:"image/jpeg")

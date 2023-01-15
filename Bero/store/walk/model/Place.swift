@@ -7,11 +7,11 @@
 
 import Foundation
 import GooglePlaces
+import SwiftUI
+import Lottie
 
 class Place:MapUserData{
-    private(set) var placeId:String = ""
-    private(set) var location:CLLocation? = nil
-    private(set) var name: String? = nil
+    private(set) var placeId:Int = -1
     private(set) var googlePlaceId: String? = nil
     private(set) var visitorCount:Int = 0
     private(set) var visitors: [PlaceVisitor] = []
@@ -21,15 +21,14 @@ class Place:MapUserData{
     private(set) var sortType:WalkManager.Filter? = nil
     private(set) var isMark:Bool = false
     
-    var count:Int? = nil
     @discardableResult
     func setData(_ data:PlaceData, me:String, sortType:WalkManager.Filter?)->Place{
-        self.name = data.name
+        self.title = data.name
         self.sortType = sortType
         self.googlePlaceId = data.googlePlaceId
-        self.placeId = data.googlePlaceId ?? ""
+        self.placeId = data.placeId ?? -1
         if let loc = data.place?.geometry?.location {
-            self.location =  CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
+            self.location =  CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0) 
         }
         if self.location == nil, let locs = data.location?.components(separatedBy: " ") {
             let latitude = locs[0].onlyNumric().toDouble()
@@ -44,8 +43,11 @@ class Place:MapUserData{
         self.visitorCount = data.visitorCnt ?? 0
         self.place = data.place ?? MissionPlace()
         self.isMark = data.isVisited ?? false
+        self.playPoint = data.point ?? 0
+        self.playExp = data.exp ?? 0
         return self
     }
+    
     func addMark(user:User){
         self.isMark = true
         self.visitorCount += 1
@@ -53,9 +55,10 @@ class Place:MapUserData{
             self.visitors.insert(PlaceVisitor(user: userData, pet:petData), at: 0)
         }
     }
+    
     func copySummry(origin:Place)->Place{
-     
-        self.name = origin.name
+        self.title = String.app.place.lowercased()
+        self.color = Color.brand.secondary
         self.sortType = origin.sortType
         self.googlePlaceId = origin.googlePlaceId
         self.placeId = origin.placeId
@@ -63,10 +66,10 @@ class Place:MapUserData{
         self.place = origin.place
         self.isMark = origin.isMark
         self.count = 1
+        if let loc = origin.location {
+            self.locations.append(loc)
+        }
         return self
-    }
-    func addCount(count:Int = 1){
-        self.count = (self.count ?? 0) + count
     }
     
     

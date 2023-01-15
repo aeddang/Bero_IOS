@@ -60,6 +60,30 @@ struct EmptyItem: PageComponent{
 }
 
 
+struct EmptyData: PageComponent{
+    var text:String? = nil
+    var image:String = Asset.image.addDog
+    var body: some View {
+        ZStack{
+            Spacer().modifier(MatchHorizontal(height: 0))
+            VStack(spacing:Dimen.margin.tinyExtra){
+                if let text = self.text{
+                    Text(text)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin,color: Color.app.grey300))
+                }
+                
+                Image(self.image)
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 128)
+                
+            }
+        }
+    }
+}
+
 
 #if DEBUG
 struct EmptyItem_Previews: PreviewProvider {
@@ -68,6 +92,9 @@ struct EmptyItem_Previews: PreviewProvider {
         VStack{
             EmptyItem(
                 type: .myList
+            )
+            EmptyData(
+                text: "ttttteeeeeessssstttttttt"
             )
         }
         .padding(.all, 10)

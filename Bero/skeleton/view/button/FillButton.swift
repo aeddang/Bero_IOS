@@ -51,7 +51,7 @@ struct FillButton: View, SelecterbleProtocol, PageProtocol{
         Button(action: {
             self.action(self.index)
             let parameters = [
-                "buttonType": self.tag
+                "buttonType": self.tag,
                 "buttonText": text
             ]
             Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)

@@ -74,14 +74,16 @@ struct PageUser: PageView {
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                             }
                             if !self.dataProvider.user.isSameUser(user) {
-                                FriendFunctionBox(user: user)
-                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                    .padding(.top, Dimen.margin.regular)
+                                FriendFunctionBox(
+                                    userId: user.currentProfile.userId,
+                                    status: user.currentProfile.status
+                                )
+                                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                .padding(.top, Dimen.margin.regular)
                             }
                             
                             UsersDogSection( user:user )
                             .padding(.top, Dimen.margin.regular)
-                            
                             UserHistorySection(
                                 user: user
                             )

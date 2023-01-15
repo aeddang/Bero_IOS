@@ -20,9 +20,7 @@ struct UsersDogSection: PageComponent{
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Dimen.margin.tiny){
                         if let profile = self.user.currentProfile {
-                            UserProfileInfo(profile:profile, sizeType: .big){
-                                
-                            }
+                            UserProfileInfo(profile:profile, sizeType: .big)
                         }
                         ForEach(self.pets) { pet in
                             
@@ -40,8 +38,8 @@ struct UsersDogSection: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getPets(let user, _):
-                if user.snsID == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
+            case .getPets(let userId, _):
+                if userId == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
                     self.user.setData(data: data)
                 }
             default : break
@@ -65,7 +63,7 @@ struct UsersDogSection: PageComponent{
             return
         }
         guard let snsUser = self.user.snsUser else { return }
-        self.dataProvider.requestData(q: .init(id:self.tag, type: .getPets(snsUser, isCanelAble: true)))
+        self.dataProvider.requestData(q: .init(id:self.tag, type: .getPets(userId:snsUser.snsID, isCanelAble: true)))
     }
     private func movePetPage(_ profile:PetProfile){
         self.pagePresenter.openPopup(

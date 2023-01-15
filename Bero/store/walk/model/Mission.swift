@@ -39,115 +39,64 @@ enum MissionType:CaseIterable {
     }
 }
 
-enum MissionLv:CaseIterable {
-    case lv1, lv2, lv3, lv4
-    var apiDataKey : String {
-        switch self {
-        case .lv1 : return "lv1"
-        case .lv2 : return "lv2"
-        case .lv3 : return "lv3"
-        case .lv4 : return "lv4"
-        }
-    }
-    
-    static func getMissionLv(_ value:String?) -> MissionLv{
-        switch value{
-        case "lv1" : return .lv1
-        case "lv2" : return .lv2
-        case "lv3" : return .lv3
-        case "lv4" : return .lv4
-        default : return .lv1
-        }
-    }
-    var info:String{
-        switch self {
-        case .lv1: return "Easy"
-        case .lv2: return "Normal"
-        case .lv3: return "Difficult"
-        case .lv4: return "Very Difficult"
-        }
-    }
-    var icon:String{
-        switch self {
-        case .lv1: return "ic_difficulty_easy"
-        case .lv2: return "ic_difficulty_easy"
-        case .lv3: return "ic_difficulty_hard"
-        case .lv4: return "ic_difficulty_hard"
-        }
-    }
-    
-    var color:Color{
-        switch self {
-        case .lv1: return Color.brand.secondary
-        case .lv2: return Color.brand.primary
-        case .lv3: return Color.brand.thirdly
-        case .lv4: return Color.brand.thirdly
-        }
-    }
-    
-    var point:Double{
-        switch self {
-        case .lv1: return 10
-        case .lv2: return 20
-        case .lv3: return 30
-        case .lv4: return 50
-        }
-    }
-}
 
 
-
-
-class Mission:MapUserData{
+class Mission:MapUserData,ObservableObject{
     private (set) var missionId:Int = -1
     private (set) var type:MissionType = .new
     private (set) var difficulty:String? = nil
-    
-    private (set) var title:String? = nil
     private (set) var description:String? = nil
     private (set) var pictureUrl:String? = nil
     private (set) var point:Int = 0
     private (set) var exp:Double = 0
     private (set) var departure:CLLocation? = nil
-    private (set) var destination:CLLocation? = nil
     private (set) var waypoints:[CLLocation] = []
-    
     private (set) var distance:Double = 0 //miter
     private (set) var duration:Double = 0 //sec
     private (set) var isStart:Bool = false
     private (set) var isCompleted:Bool = false
     private (set) var playStartDate:Date? = nil
     private (set) var playTime:Double = 0
-    
-    private (set) var playStartDistence:Double = 0
-    private (set) var playDistence:Double = 0
-    
+    private (set) var playStartDistance:Double = 0
+    private (set) var playDistance:Double = 0
+    private (set) var walkPath:WalkPath? = nil
     private (set) var place:MissionPlace? = nil
+    private (set) var userId:String? = nil
+    private (set) var isFriend:Bool = false
     private (set) var user:User? = nil
     private (set) var startDate:Date? = nil
     private (set) var endDate:Date? = nil
-    
     private(set) var completedMissions:[Int] = []
-    var count:Int? = nil
+    
+    var petProfile:PetProfile? = nil
+    var previewImg:UIImage? = nil
+    @Published var isExpose:Bool = false
+    
+    
     var viewDistance:String { return WalkManager.viewDistance(self.distance) }
     var viewDuration:String { return WalkManager.viewDuration(self.duration) }
     var viewPlayTime:String { return WalkManager.viewDuration(self.playTime) }
-    var viewPlayDistance:String { return WalkManager.viewDistance(self.playDistence) }
-    var viewSpeed:String { return WalkManager.viewSpeed(self.distance/self.duration) }
+    var viewPlayDistance:String { return WalkManager.viewDistance(self.playDistance) }
+    var viewSpeed:String {
+        let d = self.distance
+        let dr = self.duration
+        let spd = d == 0 || dr == 0 ? 0 : d/dr
+        return WalkManager.viewSpeed(spd)
+    }
    
     var allPoint:[CLLocation] {
         var points:[CLLocation] = []
         if let value = self.departure { points.append(value) }
         points.append(contentsOf: self.waypoints)
-        if let value = self.destination { points.append(value) }
+        if let value = self.location { points.append(value) }
         return points
     }
     
-    func start(location:CLLocation, walkDistence:Double) {
+    func start(location:CLLocation, walkDistance:Double) {
         self.departure = location
         self.playStartDate = AppUtil.networkTimeDate()
-        self.playStartDistence = walkDistence
-        self.playDistence = 0
+        self.playStartDistance = walkDistance
+        self.playDistance = 0
         self.playTime = 0
         self.isStart = true
         self.isCompleted = false
@@ -156,7 +105,7 @@ class Mission:MapUserData{
     func end(isCompleted:Bool? = nil, imgPath:String? = nil) {
         self.departure = nil
         self.playStartDate = nil
-        self.playDistence = 0
+        self.playDistance = 0
         self.playTime = 0
         self.isStart = false
         self.pictureUrl = imgPath
@@ -165,10 +114,60 @@ class Mission:MapUserData{
         }
     }
     
-    func completed(walkDistence:Double) {
-        self.playDistence = walkDistence - self.playStartDistence
+    func completed(walkDistance:Double) {
+        self.playDistance = walkDistance - self.playStartDistance
         self.playTime = AppUtil.networkTimeDate().timeIntervalSince(self.playStartDate ?? Date())
         self.isCompleted = true
+    }
+    
+    @discardableResult
+    func setData(_ data:WalkData)->Mission{
+        self.type = .walk
+        self.missionId = data.walkId ?? UUID().hashValue
+        //self.title = data.createdAt
+        if let locs = data.locations {
+            self.walkPath = WalkPath().setData(locs)
+        }
+        self.isExpose = self.walkPath?.picture?.isExpose ?? false
+        self.pictureUrl = self.walkPath?.picture?.pictureUrl
+        self.point = data.point ?? 0
+        self.exp = data.exp ?? 0
+        if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
+            self.endDate = end
+            self.startDate = end.addingTimeInterval(data.duration ?? 0)
+        }
+        if let loc = data.geos?.last {
+            self.location = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
+        }
+       
+        self.isCompleted = true
+        self.user = User().setData(data) 
+        self.distance = data.distance ?? 0
+        self.duration = data.duration ?? 0
+        self.fixDestination()
+        return self
+    }
+    
+    @discardableResult
+    func setData(_ data:WalkUserData)->Mission{
+        self.type = .user
+        self.missionId = data.walkId ?? UUID().hashValue
+        self.userId = data.userId
+        self.isFriend = data.isFriend ?? false
+        if let pet = data.pet {
+            self.petProfile = PetProfile(data: pet)
+        }
+        self.title = self.petProfile?.name
+        self.pictureUrl = self.petProfile?.imagePath
+        if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
+            self.endDate = end
+        }
+        if let loc = data.location {
+            self.location = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
+        }
+        self.isCompleted = true
+        self.fixDestination()
+        return self
     }
     
     @discardableResult
@@ -188,54 +187,61 @@ class Mission:MapUserData{
         if let place = data.place {
             self.place = place
             if let loc = place.geometry?.location {
-                self.destination = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
+                self.location = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
             }
         } else if let loc = data.geos?.last {
-            self.destination = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
-        }
-        switch self.type {
-        case .user :
-            if let origin = self.destination {
-                let rand = Double.random(in: -0.0005...0.0005)
-                self.destination = CLLocation(latitude: origin.coordinate.latitude + rand , longitude: origin.coordinate.longitude + rand)
-            }
-        default : break
+            self.location = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
         }
         self.isCompleted = data.user != nil 
         self.user = User().setData(data)
         self.distance = data.distance ?? 0
         self.duration = data.duration ?? 0
+        self.fixDestination()
         return self
+    }
+    
+    private func fixDestination(){
+        switch self.type {
+        case .user :
+            if let origin = self.location {
+                let randX = Double.random(in: -0.003...0.003)
+                let randY = Double.random(in: -0.003...0.003)
+                self.location = CLLocation(latitude: origin.coordinate.latitude + randX , longitude: origin.coordinate.longitude + randY)
+            }
+        default : break
+        }
     }
     
     @discardableResult
     func setData(_ data:WalkManager)->Mission{
         self.type = .walk
-        self.title = "Walk"
+        self.title = String.app.walk
+        self.missionId = data.walkId ?? -1
         self.departure = data.startLocation
-        self.destination = data.currentLocation
-        self.distance = data.walkDistence
+        self.location = data.currentLocation
+        self.distance = data.walkDistance
         self.duration = data.walkTime
         self.completedMissions = data.completedMissions
-        self.point = WalkManager.getPoint(data.walkDistence)
-        self.exp = WalkManager.getExp(data.walkDistence)
+        self.point = WalkManager.getPoint(data.walkDistance)
+        self.exp = WalkManager.getExp(data.walkDistance)
         return self
     }
     
     func copySummry(origin:Mission)->Mission{
+        self.color = Color.brand.primary
+        self.title = String.app.users.lowercased()
         self.missionId = origin.missionId
         self.type = origin.type
         self.user = origin.user
-        self.destination = origin.destination
+        self.location = origin.location
         self.distance = origin.distance
         self.duration = origin.duration
         self.count = 1
+        if let loc = origin.location {
+            self.locations.append(loc)
+        }
         return self
     }
-    func addCount(count:Int = 1){
-        self.count = (self.count ?? 0) + count
-    }
-    
 }
 
 

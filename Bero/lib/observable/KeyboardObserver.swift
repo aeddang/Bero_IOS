@@ -26,22 +26,23 @@ class KeyboardObserver: ObservableObject {
     @Published private(set) var keyboardHeight: CGFloat = 0
     {
         didSet(oldVal){
-            //ComponentLog.d("oldVal " + oldVal.description, tag: "SceneObserver")
             if oldVal == keyboardHeight { return }
-            if self.keyboardHeight == 0.0 && self.isOn  { self.isOn = false }
-            else if self.keyboardHeight > 0.0 && !self.isOn { self.isOn = true }
-            
-            //ComponentLog.d("isOn  " + isOn .description, tag: "SceneObserver")
+            DispatchQueue.main.async{
+                if self.keyboardHeight == 0.0 && self.isOn  { self.isOn = false }
+                else if self.keyboardHeight > 0.0 && !self.isOn { self.isOn = true }
+            }
             ComponentLog.d("keyboardHeight " + keyboardHeight.description, tag: "SceneObserver")
-           
         }
     }
 
     @Published private(set) var isOn:Bool = false
     
-
     private let keyboardWillShow = NotificationCenter.default
         .publisher(for: UIResponder.keyboardWillShowNotification)
+        .compactMap { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height }
+    
+    private let keyboardChangedFrame = NotificationCenter.default
+        .publisher(for: UIResponder.keyboardWillChangeFrameNotification)
         .compactMap { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height }
 
     private let keyboardWillHide = NotificationCenter.default
@@ -52,7 +53,7 @@ class KeyboardObserver: ObservableObject {
     func start(){
         self.isOn = self.keyboardHeight != 0
         if cancellable != nil { return }
-           cancellable = Publishers.Merge(keyboardWillShow, keyboardWillHide)
+           cancellable = Publishers.Merge(keyboardChangedFrame, keyboardWillHide)
                    .subscribe(on: RunLoop.main)
                    .assign(to: \.keyboardHeight, on: self)
         }
@@ -60,6 +61,7 @@ class KeyboardObserver: ObservableObject {
     func cancel(){
         cancellable?.cancel()
         cancellable = nil
+        
         keyboardHeight = 0
         self.isOn = false
     }

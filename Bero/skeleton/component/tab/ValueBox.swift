@@ -26,21 +26,36 @@ struct ValueBox: PageComponent{
     var body: some View {
         HStack(spacing:Dimen.margin.light){
             ForEach(self.datas) { data in
-                switch data.type {
-                case .progress(let title, let percent) :
+                if let action = self.action {
                     Button(action: {
-                        self.action?(data.type)
+                        action(data.type)
                     }) {
+                        switch data.type {
+                        case .progress(let title, let percent) :
+                            ProgressInfo(
+                                title: title,
+                                progress: percent,
+                                progressMax: 100)
+                            .frame(height: 48)
+                            
+                        case .value(let type, let value) :
+                            ValueInfo(
+                                type: type,
+                                value: value
+                            )
+                            .modifier(MatchParent())
+                        }
+                    }
+                } else {
+                    switch data.type {
+                    case .progress(let title, let percent) :
                         ProgressInfo(
                             title: title,
                             progress: percent,
                             progressMax: 100)
                         .frame(height: 48)
-                    }
-                case .value(let type, let value) :
-                    Button(action: {
-                        self.action?(data.type)
-                    }) {
+                        
+                    case .value(let type, let value) :
                         ValueInfo(
                             type: type,
                             value: value
@@ -53,7 +68,6 @@ struct ValueBox: PageComponent{
                         LineVertical(width: Dimen.line.light,color: Color.app.grey100)
                     )
                     .padding(.vertical, Dimen.margin.tiny)
-                    
                 }
             }
         }

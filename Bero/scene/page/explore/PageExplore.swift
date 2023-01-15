@@ -110,7 +110,7 @@ struct PageExplore: PageView {
         guard let id = self.dataProvider.user.snsUser?.snsID else {return}
         self.dataProvider.requestData(q: .init(
             id: id ,
-            type: .registAlbumPicture(img: img, thumbImg: thumbImage, id: id, .user, isExpose: isExpose)
+            type: .registAlbumPicture(img: img, thumbImg: thumbImage, userId: id, .user, isExpose: isExpose)
         ))
     }
 

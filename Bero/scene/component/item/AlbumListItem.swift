@@ -25,6 +25,8 @@ class AlbumListItemData:InfinityData, ObservableObject{
     @Published private(set) var likeCount:Double = 0
     @Published var isDelete:Bool = false
     private(set) var pictureId:Int = -1
+    private(set) var walkId:Int? = nil
+    private(set) var type:MissionApi.Category? = nil
     func setData(_ data:PictureData, idx:Int) -> AlbumListItemData{
         self.index = idx
         self.imagePath = data.pictureUrl
@@ -33,6 +35,10 @@ class AlbumListItemData:InfinityData, ObservableObject{
         self.isLike = data.isChecked ?? false
         self.isExpose = data.isExpose ?? false
         self.likeCount = data.thumbsupCount ?? 0
+        self.walkId = data.referenceId?.toInt()
+        if self.walkId != nil {
+            self.type = .walk
+        }
         return self
     }
     
@@ -66,9 +72,16 @@ struct AlbumListItem: PageComponent{
                 id: self.data.id,
                 imagePath: self.data.thumbIagePath,
                 imgSize: self.imgSize,
+                icon: self.data.type?.icon,
                 likeCount: self.likeCount,
                 isLike: self.isLike,
                 likeSize: .small,
+                iconAction:{
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.walkInfo)
+                            .addParam(key: .id, value: self.data.walkId)
+                    )
+                },
                 action:{
                     self.dataProvider.requestData(
                         q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
@@ -118,6 +131,7 @@ struct AlbumListItem: PageComponent{
 }
 
 struct AlbumListDetailItem: PageComponent{
+    @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var data:AlbumListItemData
@@ -136,9 +150,16 @@ struct AlbumListDetailItem: PageComponent{
                     id: self.data.id,
                     imagePath: self.data.imagePath,
                     imgSize: self.imgSize,
+                    icon: self.data.type?.icon,
                     likeCount: self.likeCount,
                     isLike: self.isLike,
                     likeSize: .small,
+                    iconAction:{
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.walkInfo)
+                                .addParam(key: .id, value: self.data.walkId)
+                        )
+                    },
                     action:{
                         self.dataProvider.requestData(
                             q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))

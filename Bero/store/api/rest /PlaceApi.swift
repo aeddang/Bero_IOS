@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
-
 class PlaceApi :Rest{
     func get(location:CLLocation? = nil, distance:Double? = nil, searchType:String? = nil, completion: @escaping (ApiItemResponse<PlaceData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
@@ -17,14 +16,22 @@ class PlaceApi :Rest{
         params["lng"] = location?.coordinate.longitude.description ?? ""
         params["radius"] = distance?.toInt().description ?? ""
         params["searchType"] = searchType ?? "pet_store"
+        params["placeType"] = searchType == nil ? "Manual" : "Place"
         fetch(route: PlaceApiRoute (method: .get, action:.search, query: params), completion: completion, error:error)
+    }
+    
+    func get(placeId:Int, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PlaceVisitor>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["page"] = page?.description ?? "0"
+        params["size"] = size?.description ?? ApiConst.pageSize.description
+        fetch(route: PlaceApiRoute (method: .get, commandId: placeId.description, action:.visitors, query: params), completion: completion, error:error)
     }
     
     func post(place:Place? = nil, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
         params["lat"] = place?.location?.coordinate.latitude.description ?? ""
         params["lng"] = place?.location?.coordinate.longitude.description ?? ""
-        params["name"] = place?.name ?? ""
+        params["name"] = place?.title ?? ""
         params["googlePlaceId"] = place?.googlePlaceId ?? ""
         fetch(route: PlaceApiRoute (method: .post, action:.visit, body: params), completion: completion, error:error)
     }
@@ -33,8 +40,8 @@ class PlaceApi :Rest{
 struct PlaceApiRoute : ApiRoute{
     var method:HTTPMethod = .post
     var command: String = "place"
-    var action: ApiAction? = nil
     var commandId: String? = nil
+    var action: ApiAction? = nil
     var query:[String: String]? = nil
     var body:[String: Any]? = nil
     var overrideHeaders: [String : String]? = nil

@@ -19,7 +19,7 @@ class ReportData {
     private(set) var daysWalkTimeReport:String = ""
     
     
-    func setupData(_ data:MissionReport){
+    func setupData(_ data:WalkReport){
         self.daysWalkReport = Int(daysWalkData.value).description + " " + String.pageText.reportWalkDayUnit
         if daysWalkCompareData.count >= 2 {
             let me = daysWalkCompareData.first!.value
@@ -42,7 +42,7 @@ class ReportData {
         }
         self.daysWalkTimeReport = Double(avg).toTruncateDecimal(n:2) + " " + String.pageText.reportWalkRecentlyUnit
     }
-    func setWeeklyData(_ data:MissionSummary) -> ReportData{
+    func setWeeklyData(_ data:WalkSummary) -> ReportData{
         if let report = data.weeklyReport {
             self.currentDaysWalkTimeIdx = self.setReport(report)
             self.setupData(report)
@@ -50,7 +50,7 @@ class ReportData {
        
         return self
     }
-    func setMonthlyData(_ data:MissionSummary) -> ReportData{
+    func setMonthlyData(_ data:WalkSummary) -> ReportData{
         if let report = data.monthlyReport {
             self.currentDaysWalkTimeIdx = self.setReport(report)
             self.setupData(report)
@@ -58,7 +58,7 @@ class ReportData {
         return self
     }
     
-    func setReport(_ data:MissionReport)-> Int{
+    func setReport(_ data:WalkReport)-> Int{
         
         var todayIdx:Int = -1
         let max = Float(data.missionTimes?.count ?? 7)
@@ -222,7 +222,7 @@ struct PageWalkReport: PageView {
             .onReceive(self.dataProvider.$result){ res in
                 guard let res = res else { return }
                 switch res.type {
-                case .getMissionSummary(let id) :
+                case .getWalkSummary(let id) :
                     if self.profile?.petId == id {
                         self.loaded(res)
                     }
@@ -277,15 +277,15 @@ struct PageWalkReport: PageView {
     func load(){
         self.reportData = nil
         self.reportType = self.selectedMenu == 0 ? .weekly : .monthly
-        self.dataProvider.requestData(q: .init(type: .getMissionSummary(petId: self.profile?.petId ?? 0)))
+        self.dataProvider.requestData(q: .init(type: .getWalkSummary(petId: self.profile?.petId ?? 0)))
     }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let data = res.data as? MissionSummary else { return }
+        guard let data = res.data as? WalkSummary else { return }
         self.setupReportData(data)
     }
     
-    func setupReportData(_ data:MissionSummary){
+    func setupReportData(_ data:WalkSummary){
         switch self.reportType {
         case .monthly :
             self.reportData = ReportData().setMonthlyData(data)

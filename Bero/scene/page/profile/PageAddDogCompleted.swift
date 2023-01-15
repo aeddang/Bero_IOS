@@ -109,7 +109,7 @@ struct PageAddDogCompleted: PageView {
         guard let user = self.dataProvider.user.snsUser else { return }
         self.dataProvider.requestData(q: .init(
             id: self.tag,
-            type: .registPet(user, self.profile),
+            type: .registPet(user, self.profile, isRepresentative: self.dataProvider.user.representativePet == nil),
             isLock: true
             )
         )

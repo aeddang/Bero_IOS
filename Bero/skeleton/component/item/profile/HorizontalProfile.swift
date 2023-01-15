@@ -414,6 +414,22 @@ struct HorizontalProfile_Previews: PreviewProvider {
             ){ _ in
                 
             }
+            
+            HorizontalProfile(
+                id: "",
+                type: .user,
+                sizeType: .big,
+                funcType: .addFriend,
+                image: nil,
+                imagePath: nil,
+                name: "name",
+                gender: .female,
+                age: "20",
+                breed: "dog",
+                isSelected: false,
+                useBg: false
+                
+            )
         }
         .padding(.all, 10)
         .background(Color.app.whiteDeep)

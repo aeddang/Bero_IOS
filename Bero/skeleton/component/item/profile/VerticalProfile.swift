@@ -118,7 +118,7 @@ struct VerticalProfile: PageComponent{
                     Text(description)
                         .modifier(Self.descriptionStyle)
                         .padding(.all, Self.descriptionPadding)
-                        .modifier(MatchParent())
+                        //.modifier(MatchParent())
                         .multilineTextAlignment(self.alignment == .center ? .center : .leading)
                 }
                 .background(Color.app.whiteDeepLight)

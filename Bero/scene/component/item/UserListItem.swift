@@ -12,26 +12,12 @@ import SwiftUI
 
 
 class UserListItemData:InfinityData{
-    private(set) var walkData:WalkListItemData? = nil
     private(set) var albumData:AlbumListItemData? = nil
     private(set) var userProfile:UserProfile? = nil
     private(set) var title:String? = nil
     private(set) var imagePath:String? = nil
     private(set) var date:String? = nil
-   
-    func setData(_ data:MissionData, idx:Int) -> UserListItemData {
-        self.index = idx
-        self.walkData = WalkListItemData().setData(data, idx: 0)
-        if let user = data.user {
-            self.userProfile = UserProfile().setData(data: user)
-        }
-        if let pet = data.pets?.first {
-            self.title = pet.name
-            self.imagePath = pet.pictureUrl
-        }
-        self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
-        return self
-    }
+    
     
     func setData(_ data:PictureData, idx:Int) -> UserListItemData {
         self.index = idx
@@ -49,7 +35,7 @@ class UserListItemData:InfinityData{
     
     var postId:String? {
         get {
-            return (self.albumData?.pictureId ?? self.walkData?.originData?.missionId)?.description
+            return self.albumData?.pictureId.description
         }
     }
 }
@@ -73,9 +59,6 @@ struct UserListItem: PageComponent{
                 )
                 .padding(.vertical, Dimen.margin.regularExtra)
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-            }
-            if let walkData = self.data.walkData{
-                WalkListDetailItem(data: walkData, imgSize: self.imgSize)
             }
             if let albumData = self.data.albumData{
                 AlbumListDetailItem(data: albumData, imgSize: self.imgSize, isEdit: .constant(false))

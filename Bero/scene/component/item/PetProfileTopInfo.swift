@@ -5,24 +5,61 @@ struct PetProfileTopInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var profile:PetProfile
+    var isHorizontal:Bool = false
     var isSimple:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
-        VerticalProfile(
-            id: self.profile.id,
-            type: .pet,
-            alignment: .center,//self.isSimple ? .leading : .center,
-            sizeType: .medium,
-            isSelected: true,
-            image: self.image,
-            imagePath: self.imagePath,
-            name: self.name,
-            gender: self.gender,
-            age: self.age,
-            breed: self.breed,
-            description: self.isSimple ? nil : self.description,
-            editProfile: self.profile.isMypet ? self.action : nil
-        )
+        VStack(spacing:Dimen.margin.regularExtra){
+            if !self.isHorizontal {
+                VerticalProfile(
+                    id: self.profile.id,
+                    type: .pet,
+                    alignment: .center,//self.isSimple ? .leading : .center,
+                    sizeType: .medium,
+                    isSelected: true,
+                    image: self.image,
+                    imagePath: self.imagePath,
+                    name: self.name,
+                    gender: self.gender,
+                    age: self.age,
+                    breed: self.breed,
+                    description: self.isSimple ? nil : self.description,
+                    editProfile: self.profile.isMypet ? self.action : nil
+                )
+            } else {
+                HorizontalProfile(
+                    id: self.profile.id,
+                    type: .pet,
+                    sizeType: .big,
+                    funcType: nil,
+                    image: self.image,
+                    imagePath: self.imagePath,
+                    name: self.name,
+                    gender: self.gender,
+                    age: self.age,
+                    breed: self.breed,
+                    isSelected: false,
+                    useBg: false,
+                    action: { _ in
+                        self.action?()
+                    }
+                )
+                .onTapGesture {
+                    self.action?()
+                }
+                if !self.isSimple, let description = self.description{
+                    ZStack{
+                        Spacer().modifier(MatchHorizontal(height: 0))
+                        Text(description)
+                            .modifier(VerticalProfile.descriptionStyle)
+                            .padding(.all, VerticalProfile.descriptionPadding)
+                            .multilineTextAlignment(.center)
+                    }
+                    .background(Color.app.whiteDeepLight)
+                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+                }
+            }
+        }
         .onReceive(self.profile.$name){value in
             self.name = value
         }

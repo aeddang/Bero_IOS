@@ -79,6 +79,7 @@ struct CircleButton: View, SelecterbleProtocol, PageProtocol {
                     )
             )
         }
+        .buttonStyle(BorderlessButtonStyle())
     }
 }
 

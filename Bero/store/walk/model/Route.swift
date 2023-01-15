@@ -20,7 +20,7 @@ class Route:PageProtocol {
     private (set) var duration:Double = 0 //sec
     
     @discardableResult
-    func setData(_ data:MissionRoute)->Route{
+    func setData(_ data:WalkRoute)->Route{
         guard let leg = data.legs?.first else { return self }
         
         if let loc = leg.start_location {

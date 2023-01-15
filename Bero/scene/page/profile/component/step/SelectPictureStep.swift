@@ -35,10 +35,7 @@ struct SelectPictureStep: PageComponent{
                 image: self.picture ,
                 isSelected: self.picture != nil,
                 size: Dimen.profile.heavy,
-                emptyImagePath: Asset.image.profile_dog_default,
-                onDelete: {
-                    self.picture = nil
-                }
+                emptyImagePath: Asset.image.profile_dog_default
             )
             .padding(.bottom, Dimen.margin.regular)
             SelectButton(

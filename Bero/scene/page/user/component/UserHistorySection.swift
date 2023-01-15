@@ -7,7 +7,14 @@ struct UserHistorySection: PageComponent{
     var user:User
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.history){ type in }
+            TitleTab(type:.section, title: String.pageTitle.history, buttons:user.isFriend ? [.viewMore] : []){ type in
+                guard let id = user.snsUser?.snsID else {return}
+                self.pagePresenter.openPopup(
+                    PageProvider.getPageObject(.walkList)
+                        .addParam(key: .id, value: id)
+                
+                )
+            }
             
             ValueBox(
                 datas: self.datas
@@ -21,7 +28,7 @@ struct UserHistorySection: PageComponent{
     @State var datas:[ValueData] = []
     private func updated(){
         let walk = ValueData(idx: 0, type: .value(.walkComplete, value: Double(self.user.totalWalkCount)))
-        let mission = ValueData(idx: 1, type: .value(.missionComplete, value: Double(self.user.totalMissionCount)))
+        let mission = ValueData(idx: 1, type: .value(.walkDistance, value: Double(self.user.totalWalkDistance)))
         self.datas = [walk, mission]
     }
 }

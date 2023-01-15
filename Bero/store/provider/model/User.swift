@@ -35,13 +35,12 @@ class User:ObservableObject, PageProtocol, Identifiable{
    
     private(set) var pets:[PetProfile] = []
     private(set) var snsUser:SnsUser? = nil
-    private(set) var recentMission:History? = nil
     private(set) var finalGeo:GeoData? = nil
     private(set) var isMe:Bool = false
     private(set) var characterIdx:Int = 0
-    private(set) var representativePet:PetProfile? = nil
-   
+    @Published private(set) var representativePet:PetProfile? = nil
     var currentPet:PetProfile? = nil
+    
     init(isMe:Bool = false) {
         self.isMe = isMe
     }
@@ -82,8 +81,26 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     
     @discardableResult
+    func setData(_ data:WalkData) -> User {
+        if let user = data.user {
+            self.setData(data:user)
+        }
+        if let pets = data.pets {
+            self.setData(data:pets, isMyPet:false)
+        }
+        if let type = SnsType.getType(code: data.user?.providerType), let id = data.user?.userId {
+            self.snsUser = SnsUser(
+                snsType: type,
+                snsID: id,
+                snsToken: ""
+            )
+        }
+        self.finalGeo = data.geos?.first
+        return self
+    }
+    
+    @discardableResult
     func setData(_ data:MissionData) -> User {
-        self.recentMission = History(data: data)
         if let user = data.user {
             self.setData(data:user)
         }
@@ -129,7 +146,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     
     func setData(data:[PetData], isMyPet:Bool = false){
         self.pets = zip(0..<data.count, data).map{ idx, profile in PetProfile(data: profile, isMyPet: isMyPet, index: idx)}
-        self.representativePet = self.pets.first
+        self.findRepresentativePet()
         self.event = .updatedDogs
     }
     
@@ -138,7 +155,6 @@ class User:ObservableObject, PageProtocol, Identifiable{
             return
         }
         let pet = self.pets.remove(at: find)
-        self.representativePet = self.pets.first
         self.event = .deletedDog(pet)
     }
     
@@ -146,6 +162,19 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.pets.append(profile)
         self.event = .addedDog(profile)
     }
+    
+    func representativePetChanged(petId:Int){
+        self.pets.forEach{
+            $0.isRepresentative = $0.petId == petId
+        }
+        self.findRepresentativePet()
+        self.event = .updatedDogs
+    }
+    private func findRepresentativePet(){
+        self.pets.sort(by: {$0.sortIdx < $1.sortIdx})
+        self.representativePet = self.pets.first(where: {$0.isRepresentative})
+    }
+    
     
     func getPet(_ id :String) -> PetProfile? {
         return self.pets.first(where: {$0.id == id})
@@ -156,7 +185,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
         switch mission.type {
         case .walk :
             self.totalWalkCount += 1
-            self.totalWalkDistance += mission.playDistence
+            self.totalWalkDistance += mission.playDistance
     
         default :
             self.totalMissionCount += 1
@@ -374,7 +403,6 @@ class History:InfinityData {
     private(set) var duration: Double? = nil
     private(set) var distance: Double? = nil
     private(set) var point: Int? = nil
-    private(set) var lv:MissionLv? = nil
     private(set) var missionCategory:MissionApi.Category? = nil
     init(data:MissionData, idx:Int = 0){
         super.init()
@@ -383,7 +411,6 @@ class History:InfinityData {
         self.title = data.title
         self.imagePath = data.pictureUrl
         self.description = data.description
-        self.lv = MissionLv.getMissionLv(data.difficulty)
         self.duration = data.duration
         self.distance = data.distance
         self.point = data.point ?? 0

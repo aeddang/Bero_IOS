@@ -13,6 +13,7 @@ class MultiProfileListItemData:InfinityData{
     private(set) var pet:PetProfile? = nil
     func setData(_ data:PlaceVisitor, idx:Int) -> MultiProfileListItemData{
         self.index = idx
+        self.contentID = data.user?.userId ?? ""
         if let userData = data.user {
             self.user = UserProfile().setData(data: userData)
         }

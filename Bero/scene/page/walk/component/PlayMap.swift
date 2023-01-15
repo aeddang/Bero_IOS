@@ -34,8 +34,8 @@ class PlayMapModel:MapModel{
         }
     }
     @Published var componentHidden:Bool = false
-    
 }
+
 extension PlayMap {
     static let uiHeight:CGFloat = 130
     static let zoomRatio:Float = 17.0
@@ -43,8 +43,9 @@ extension PlayMap {
     static let zoomDefault:Float = 17.0
     static let zoomOut:Float = 16.0
     static let zoomFarAway:Float = 15
+    static let zoomSimpleView:Float = 14.5
     static let mapMoveDuration:Double = 0.5
-    static let mapMoveAngle:Double = 30
+    static let mapMoveAngle:Double = 0 //3D 맵사용시 설정
     static let routeViewDuration:Double = 4
 }
 
@@ -58,6 +59,7 @@ struct PlayMap: PageView {
     @Binding var isFollowMe:Bool
     @Binding var isForceMove:Bool
     @State var isSimpleView:Bool = true
+    @State var anyCancellable = Set<AnyCancellable>()
     var bottomMargin:CGFloat = 0
     var body: some View {
         ZStack(alignment: .bottom){
@@ -65,6 +67,7 @@ struct PlayMap: PageView {
                 viewModel: self.viewModel,
                 pageObservable: self.pageObservable
             )
+            
             if self.isRouteView {
                 FillButton(
                     type: .fill,
@@ -75,7 +78,6 @@ struct PlayMap: PageView {
                     self.viewRouteEnd()
                 }
                 .modifier(PageAll())
-                
             }
         }
         .onReceive(self.walkManager.$currentLocation){ loc in
@@ -97,7 +99,7 @@ struct PlayMap: PageView {
             switch evt {
             case .changeMapStatus : self.viewModel.uiEvent = .clearAll(nil)
             case .getRoute(let route) : self.viewRoute(route)
-            case .updatedMissions : self.onMarkerUpdate()
+            //case .updatedMissions : self.onMarkerUpdate()
             case .updatedPlaces : self.onMarkerUpdate()
             case .updatedUsers : self.onMarkerUpdate()
             case .startMission(let mission): self.onMissionStart(mission)
@@ -125,7 +127,7 @@ struct PlayMap: PageView {
             guard let pos = pos else {return}
             let zoom = pos.zoom
             var willSimple = self.isSimpleView
-            if zoom < Self.zoomFarAway {
+            if zoom < Self.zoomSimpleView {
                 willSimple = true
             } else {
                 willSimple = false
@@ -146,8 +148,7 @@ struct PlayMap: PageView {
             UIApplication.shared.isIdleTimerDisabled = false
         }
     }//body
-   
-   
+
     @State var location:CLLocation? = nil
     @State var isWalk:Bool = false
     @State var isInit:Bool = false
@@ -155,11 +156,15 @@ struct PlayMap: PageView {
     @State var currentRoute:Route? = nil
     private func onMarkerUpdate(){
         var zip:[MapUiEvent] = [
-            .clearAll(),
-            .addMarkers(self.getMissions(mission: self.walkManager.currentMission)),
-            .addMarkers(self.getUsers()),
-            .addMarkers(self.getPlaces())
+            .clearAll(exception: ["me"])
         ]
+        zip.append(.addMarkers(self.getUsers()))
+        zip.append(.addMarkers(self.getPlaces()))
+        
+        if self.isSimpleView {
+            zip.append(.addCircles(self.getSummarys()))
+        }
+        
         if let route = self.currentRoute {
             let lines = self.getRoutes(route, color: Color.brand.primary).map{ MapRoute(line:$0) }
             zip.append(.addRoutes(lines))
@@ -208,7 +213,7 @@ struct PlayMap: PageView {
         self.location = loc
         let move = isMove ?? self.isFollowMe
         var rotate:Double? = nil
-        if let target = self.walkManager.currentMission?.destination?.coordinate {
+        if let target = self.walkManager.currentMission?.location?.coordinate {
             let targetPoint = CGPoint(x: target.latitude, y: target.longitude)
             let mePoint = CGPoint(x: loc.coordinate.latitude, y: loc.coordinate.longitude)
             rotate = mePoint.getAngleBetweenPoints(target: targetPoint)
@@ -221,7 +226,7 @@ struct PlayMap: PageView {
     
     @State var isMissionStart:Bool = false
     private func onMissionStart(_ data:Mission){
-        if data.destination != nil {
+        if data.location != nil {
             self.walkManager.viewRoute(mission: data)
         } else {
             self.onMissionPlay()
@@ -264,23 +269,22 @@ struct PlayMap: PageView {
         return mapMarker
             
     }
+    
     private func getMissions(mission:Mission? = nil)->[MapMarker]{
         if let mission = mission {
             return [.init(id:mission.missionId.description, marker: self.getMissionMarker(mission))]
         }
-        let datas = self.walkManager.missions.filter{$0.destination != nil}
+        let datas = self.walkManager.missions.filter{$0.location != nil}
         let markers:[MapMarker] = datas.map{ data in
             return .init(id:data.missionId.description, marker: self.getMissionMarker(data))
         }
         return markers
-            
     }
-    
     
     private func getUsers()->[MapMarker]{
         let origin = self.isSimpleView ? self.walkManager.missionUsersSummary : self.walkManager.missionUsers
         let datas = origin.filter{
-            $0.destination != nil
+            $0.location != nil
         }
         return datas.map{ data in
             .init(id:data.missionId.description, marker: self.getUserMarker(data))
@@ -295,6 +299,16 @@ struct PlayMap: PageView {
         }
         return markers
     }
+    
+    private func getSummarys()->[MapCircle]{
+        var summary:[MapUserData] = self.walkManager.placesSummary
+        summary.append(contentsOf: self.walkManager.missionUsersSummary)
+        let markers:[MapCircle] = summary.map{ data in
+            return .init(id:data.id, marker: self.getCircle(data: data))
+        }
+        return markers
+    }
+    
     private func viewRoute(_ route:Route){
         guard let loc = route.waypoints.last else {
             self.viewModel.uiEvent = .clearAllRoute
@@ -352,6 +366,7 @@ struct PlayMap: PageView {
         }
         
     }
+    
     private func viewRouteEnd(){
         let isMissionPlay = self.walkManager.currentMission != nil
         self.isRouteView = false

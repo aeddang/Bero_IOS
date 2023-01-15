@@ -51,12 +51,12 @@ struct AlbumSection: PageComponent{
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
             switch res.type {
-            case .getAlbumPictures(let id, let type, _, _, let page, _):
+            case .getAlbumPictures(let id, _, let type, _, _, let page, _):
                 if self.currentId == id && type == self.currentType && page == 0 {
                     self.reset()
                     self.loaded(res)
                 }
-            case .registAlbumPicture(_, _, let id, let type, _) :
+            case .registAlbumPicture(_, _, let id, let type, _, _) :
                 if self.currentId == id && type == self.currentType {
                     self.reset()
                     self.updateAlbum()
@@ -86,7 +86,7 @@ struct AlbumSection: PageComponent{
         }
         self.albumSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
         self.dataProvider.requestData(q: .init(id: self.currentId, type:
-                .getAlbumPictures(id: self.currentId,
+                .getAlbumPictures(userId: self.currentId,
                                   self.currentType,
                                   isExpose: self.user.isMe || self.user.isFriend ? nil : true,
                                   page: 0, size: self.pageSize)))
@@ -170,7 +170,7 @@ struct AlbumSection: PageComponent{
     private func update(img:UIImage, thumbImage:UIImage, isExpose:Bool){
         self.dataProvider.requestData(q: .init(
             id: self.currentId,
-            type: .registAlbumPicture(img: img, thumbImg: thumbImage, id: self.currentId, self.currentType, isExpose:isExpose)
+            type: .registAlbumPicture(img: img, thumbImg: thumbImage, userId: self.currentId, self.currentType, isExpose:isExpose)
         ))
     }
 }

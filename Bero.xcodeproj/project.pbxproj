@@ -67,7 +67,7 @@
 		3151DD2628CE995900641BCC /* InputComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2528CE995900641BCC /* InputComment.swift */; };
 		3151DD2928CE9AC000641BCC /* ChatBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2828CE9AC000641BCC /* ChatBox.swift */; };
 		3151DD2C28CEBE9000641BCC /* UserAlbumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */; };
-		3151DD2E28CF320500641BCC /* PageChooseDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2D28CF320500641BCC /* PageChooseDog.swift */; };
+		3151DD2E28CF320500641BCC /* PopupChooseDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2D28CF320500641BCC /* PopupChooseDog.swift */; };
 		3151DD3028CF35E500641BCC /* PetProfileCheckItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */; };
 		316B777E28B982F80090E924 /* UserProfileTopInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B777D28B982F80090E924 /* UserProfileTopInfo.swift */; };
 		316B778128B98E470090E924 /* MyPlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778028B98E470090E924 /* MyPlayInfo.swift */; };
@@ -129,6 +129,13 @@
 		31B60EC9295C7380005533AE /* GroupUnitUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B60EC8295C7380005533AE /* GroupUnitUtil.swift */; };
 		31B60ECA295C7386005533AE /* GroupUnitUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B60EC8295C7380005533AE /* GroupUnitUtil.swift */; };
 		31B60ECB295C773E005533AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
+		31B868F329739E5A00FAC9F1 /* PageWalkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B868F229739E5A00FAC9F1 /* PageWalkList.swift */; };
+		31B868F529739EE000FAC9F1 /* WalkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B868F429739EE000FAC9F1 /* WalkList.swift */; };
+		31B8B15B29655B6E00F2FA36 /* PlayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B8B15A29655B6E00F2FA36 /* PlayBox.swift */; };
+		31B8F8D2296FD81D00495959 /* PupupWalkUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B8F8D1296FD81D00495959 /* PupupWalkUsers.swift */; };
+		31B8F8D4296FEB0700495959 /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B8F8D3296FEB0700495959 /* UsersView.swift */; };
+		31B8F8D62970D21200495959 /* WalkAlbumSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B8F8D52970D21200495959 /* WalkAlbumSection.swift */; };
+		31B8F8D82971047800495959 /* GraphPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B8F8D72971047800495959 /* GraphPolygon.swift */; };
 		31BAA3DA28F8F1A3008155DD /* PageLevelUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3D928F8F1A3008155DD /* PageLevelUp.swift */; };
 		31BAA3DC28F8F31C008155DD /* ChangeBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3DB28F8F31C008155DD /* ChangeBox.swift */; };
 		31BAA3F028FCEBE8008155DD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 31BAA3EF28FCEBE8008155DD /* Lottie */; };
@@ -153,7 +160,6 @@
 		31BCF3CC28C5766D004605CF /* MonthlyWalkSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3CB28C5766D004605CF /* MonthlyWalkSection.swift */; };
 		31BCF3CF28C59ACE004605CF /* ListItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3CE28C59ACE004605CF /* ListItemDetail.swift */; };
 		31BCF3D128C5B710004605CF /* UserListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D028C5B710004605CF /* UserListItem.swift */; };
-		31BCF3D328C5C147004605CF /* UserWalkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D228C5C147004605CF /* UserWalkList.swift */; };
 		31BCF3D628C5CD3D004605CF /* PageExplore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D528C5CD3D004605CF /* PageExplore.swift */; };
 		31BF82A628E8011900F9604C /* PlaceSortBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BF82A528E8011900F9604C /* PlaceSortBox.swift */; };
 		31BF82E228E84FE500F9604C /* ready.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82DC28E84FE500F9604C /* ready.mp3 */; };
@@ -180,8 +186,9 @@
 		31C3F2C528C7A1B200EFF7F4 /* PageFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */; };
 		31C3F2C728C80F8400EFF7F4 /* FriendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3F2C628C80F8400EFF7F4 /* FriendButton.swift */; };
 		31C3F2CA28C8380800EFF7F4 /* PageWalkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3F2C928C8380800EFF7F4 /* PageWalkInfo.swift */; };
-		31C3F2CC28C8487700EFF7F4 /* MissionPlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3F2CB28C8487700EFF7F4 /* MissionPlayInfo.swift */; };
+		31C3F2CC28C8487700EFF7F4 /* WalkPlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3F2CB28C8487700EFF7F4 /* WalkPlayInfo.swift */; };
 		31C3F2CE28C849F400EFF7F4 /* WalkTopInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3F2CD28C849F400EFF7F4 /* WalkTopInfo.swift */; };
+		31C467D22967F48C009D1BF3 /* WalkPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C467D12967F48C009D1BF3 /* WalkPath.swift */; };
 		31C6372828A71514008EA54C /* SelectListStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6372728A71514008EA54C /* SelectListStep.swift */; };
 		31C6372A28A7307A008EA54C /* SelectTagStap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6372928A7307A008EA54C /* SelectTagStap.swift */; };
 		31C6372C28A745A8008EA54C /* PageAddDogCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6372B28A745A8008EA54C /* PageAddDogCompleted.swift */; };
@@ -207,17 +214,12 @@
 		31D0E95128AA3B7B0076D971 /* WalkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95028AA3B7B0076D971 /* WalkManager.swift */; };
 		31D0E95628AA4DF50076D971 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95528AA4DF50076D971 /* Route.swift */; };
 		31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */; };
-		31D4E2EA28B07C7600C3BA75 /* SelectControlBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */; };
-		31D4E2EC28B0B13B00C3BA75 /* MissonControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */; };
-		31D4E2EE28B0B81E00C3BA75 /* UserControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */; };
-		31D4E2F028B0B92500C3BA75 /* PlaceControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */; };
 		31D4E2F228B0B97500C3BA75 /* PlaceProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */; };
 		31D4E2F628B1CC0C00C3BA75 /* PageMissionCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */; };
 		31D4E2FA28B1D0CC00C3BA75 /* ImageProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */; };
 		31D4E2FC28B284C500C3BA75 /* PageWalkCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */; };
 		31D6657D28CAEC4800765625 /* UserHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D6657C28CAEC4800765625 /* UserHistorySection.swift */; };
 		31D6657F28CAFC3A00765625 /* UserProfileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D6657E28CAFC3A00765625 /* UserProfileItem.swift */; };
-		31D6658128CD64EB00765625 /* StartBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D6658028CD64EB00765625 /* StartBox.swift */; };
 		31D6658328CDAC2A00765625 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D6658228CDAC2A00765625 /* LocationInfo.swift */; };
 		31D6658528CDAE9D00765625 /* WalkBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D6658428CDAE9D00765625 /* WalkBox.swift */; };
 		31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D91D3C287257B6001C2738 /* Assets.xcassets */; };
@@ -387,7 +389,6 @@
 		31DCCF9729011F660010C9DD /* mission.wav in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9529011F660010C9DD /* mission.wav */; };
 		31E1AA7F28DD74EC00E41FE6 /* PlayEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */; };
 		31E5B5BE28D300B000834A56 /* PageWalkPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */; };
-		31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E5B5C028D3FA3100834A56 /* MapSortBox.swift */; };
 		31E73C422957174200173B1C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E73C25295714B500173B1C /* WidgetKit.framework */; };
 		31E73C432957174200173B1C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E73C27295714B500173B1C /* SwiftUI.framework */; };
 		31E73C462957174200173B1C /* BeroLockScreenBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E73C452957174200173B1C /* BeroLockScreenBundle.swift */; };
@@ -401,7 +402,6 @@
 		31EA349028AEE93A006A2C0A /* PlaceApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */; };
 		31EA349228AF07EC006A2C0A /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349128AF07EC006A2C0A /* Place.swift */; };
 		31EA349428AF19E9006A2C0A /* AlramManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349328AF19E9006A2C0A /* AlramManager.swift */; };
-		31EA349728AF8D57006A2C0A /* WalkControllBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349628AF8D57006A2C0A /* WalkControllBox.swift */; };
 		31EC8E3328EFB49E0052761C /* PageBlockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8E3228EFB49E0052761C /* PageBlockUser.swift */; };
 		31EC8E3528EFB5DB0052761C /* BlockUserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8E3428EFB5DB0052761C /* BlockUserItem.swift */; };
 		31EC8E3728EFCAE60052761C /* FriendListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8E3628EFCAE60052761C /* FriendListSection.swift */; };
@@ -523,7 +523,7 @@
 		3151DD2528CE995900641BCC /* InputComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComment.swift; sourceTree = "<group>"; };
 		3151DD2828CE9AC000641BCC /* ChatBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBox.swift; sourceTree = "<group>"; };
 		3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumList.swift; sourceTree = "<group>"; };
-		3151DD2D28CF320500641BCC /* PageChooseDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageChooseDog.swift; sourceTree = "<group>"; };
+		3151DD2D28CF320500641BCC /* PopupChooseDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupChooseDog.swift; sourceTree = "<group>"; };
 		3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileCheckItem.swift; sourceTree = "<group>"; };
 		316B777D28B982F80090E924 /* UserProfileTopInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTopInfo.swift; sourceTree = "<group>"; };
 		316B778028B98E470090E924 /* MyPlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayInfo.swift; sourceTree = "<group>"; };
@@ -579,6 +579,13 @@
 		31B311F228D6146E001B539A /* MultiProfileListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProfileListItem.swift; sourceTree = "<group>"; };
 		31B3C864295BFAD1009CD1EB /* LockScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenManager.swift; sourceTree = "<group>"; };
 		31B60EC8295C7380005533AE /* GroupUnitUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupUnitUtil.swift; sourceTree = "<group>"; };
+		31B868F229739E5A00FAC9F1 /* PageWalkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkList.swift; sourceTree = "<group>"; };
+		31B868F429739EE000FAC9F1 /* WalkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkList.swift; sourceTree = "<group>"; };
+		31B8B15A29655B6E00F2FA36 /* PlayBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayBox.swift; sourceTree = "<group>"; };
+		31B8F8D1296FD81D00495959 /* PupupWalkUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PupupWalkUsers.swift; sourceTree = "<group>"; };
+		31B8F8D3296FEB0700495959 /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
+		31B8F8D52970D21200495959 /* WalkAlbumSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkAlbumSection.swift; sourceTree = "<group>"; };
+		31B8F8D72971047800495959 /* GraphPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphPolygon.swift; sourceTree = "<group>"; };
 		31BAA3D928F8F1A3008155DD /* PageLevelUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLevelUp.swift; sourceTree = "<group>"; };
 		31BAA3DB28F8F31C008155DD /* ChangeBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeBox.swift; sourceTree = "<group>"; };
 		31BAA3F128FCEC0F008155DD /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -602,7 +609,6 @@
 		31BCF3CB28C5766D004605CF /* MonthlyWalkSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyWalkSection.swift; sourceTree = "<group>"; };
 		31BCF3CE28C59ACE004605CF /* ListItemDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDetail.swift; sourceTree = "<group>"; };
 		31BCF3D028C5B710004605CF /* UserListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListItem.swift; sourceTree = "<group>"; };
-		31BCF3D228C5C147004605CF /* UserWalkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWalkList.swift; sourceTree = "<group>"; };
 		31BCF3D528C5CD3D004605CF /* PageExplore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageExplore.swift; sourceTree = "<group>"; };
 		31BF82A528E8011900F9604C /* PlaceSortBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSortBox.swift; sourceTree = "<group>"; };
 		31BF82DC28E84FE500F9604C /* ready.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ready.mp3; sourceTree = "<group>"; };
@@ -629,8 +635,9 @@
 		31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageFriend.swift; sourceTree = "<group>"; };
 		31C3F2C628C80F8400EFF7F4 /* FriendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendButton.swift; sourceTree = "<group>"; };
 		31C3F2C928C8380800EFF7F4 /* PageWalkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkInfo.swift; sourceTree = "<group>"; };
-		31C3F2CB28C8487700EFF7F4 /* MissionPlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPlayInfo.swift; sourceTree = "<group>"; };
+		31C3F2CB28C8487700EFF7F4 /* WalkPlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkPlayInfo.swift; sourceTree = "<group>"; };
 		31C3F2CD28C849F400EFF7F4 /* WalkTopInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkTopInfo.swift; sourceTree = "<group>"; };
+		31C467D12967F48C009D1BF3 /* WalkPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkPath.swift; sourceTree = "<group>"; };
 		31C6372728A71514008EA54C /* SelectListStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListStep.swift; sourceTree = "<group>"; };
 		31C6372928A7307A008EA54C /* SelectTagStap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagStap.swift; sourceTree = "<group>"; };
 		31C6372B28A745A8008EA54C /* PageAddDogCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAddDogCompleted.swift; sourceTree = "<group>"; };
@@ -655,17 +662,12 @@
 		31D0E95028AA3B7B0076D971 /* WalkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkManager.swift; sourceTree = "<group>"; };
 		31D0E95528AA4DF50076D971 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMapComponent.swift; sourceTree = "<group>"; };
-		31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectControlBox.swift; sourceTree = "<group>"; };
-		31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissonControl.swift; sourceTree = "<group>"; };
-		31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserControl.swift; sourceTree = "<group>"; };
-		31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceControl.swift; sourceTree = "<group>"; };
 		31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceProfileInfo.swift; sourceTree = "<group>"; };
 		31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionCompleted.swift; sourceTree = "<group>"; };
 		31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcess.swift; sourceTree = "<group>"; };
 		31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkCompleted.swift; sourceTree = "<group>"; };
 		31D6657C28CAEC4800765625 /* UserHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistorySection.swift; sourceTree = "<group>"; };
 		31D6657E28CAFC3A00765625 /* UserProfileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileItem.swift; sourceTree = "<group>"; };
-		31D6658028CD64EB00765625 /* StartBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartBox.swift; sourceTree = "<group>"; };
 		31D6658228CDAC2A00765625 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
 		31D6658428CDAE9D00765625 /* WalkBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkBox.swift; sourceTree = "<group>"; };
 		31D91D35287257B3001C2738 /* Bero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bero.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -834,7 +836,6 @@
 		31DCCF9529011F660010C9DD /* mission.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = mission.wav; sourceTree = "<group>"; };
 		31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEffect.swift; sourceTree = "<group>"; };
 		31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkPopup.swift; sourceTree = "<group>"; };
-		31E5B5C028D3FA3100834A56 /* MapSortBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSortBox.swift; sourceTree = "<group>"; };
 		31E73C25295714B500173B1C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		31E73C27295714B500173B1C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		31E73C412957174200173B1C /* BeroLockScreenExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BeroLockScreenExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -849,7 +850,6 @@
 		31EA348F28AEE93A006A2C0A /* PlaceApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApiData.swift; sourceTree = "<group>"; };
 		31EA349128AF07EC006A2C0A /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		31EA349328AF19E9006A2C0A /* AlramManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlramManager.swift; sourceTree = "<group>"; };
-		31EA349628AF8D57006A2C0A /* WalkControllBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkControllBox.swift; sourceTree = "<group>"; };
 		31EC8E3228EFB49E0052761C /* PageBlockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBlockUser.swift; sourceTree = "<group>"; };
 		31EC8E3428EFB5DB0052761C /* BlockUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserItem.swift; sourceTree = "<group>"; };
 		31EC8E3628EFCAE60052761C /* FriendListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListSection.swift; sourceTree = "<group>"; };
@@ -1004,11 +1004,11 @@
 		3143CD582888E7E500F1C88A /* walk */ = {
 			isa = PBXGroup;
 			children = (
+				31B8B1592965513100F2FA36 /* legercy */,
 				31EA349528AF8D37006A2C0A /* component */,
 				31E5B5BF28D300C300834A56 /* pop */,
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
 				31E5B5BD28D300B000834A56 /* PageWalkPopup.swift */,
-				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
 				31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */,
 			);
 			path = walk;
@@ -1120,24 +1120,22 @@
 				3151DD2028CDEF1400641BCC /* ChatRoomList.swift */,
 				31BCF3B528C41FC2004605CF /* LvHistoryList.swift */,
 				31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */,
-				31BCF3D228C5C147004605CF /* UserWalkList.swift */,
 				3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */,
 				31C3F2C228C7986300EFF7F4 /* FriendList.swift */,
+				31B868F429739EE000FAC9F1 /* WalkList.swift */,
 			);
 			path = list;
 			sourceTree = "<group>";
 		};
-		31B311E728D52D9D001B539A /* test */ = {
+		31B8B1592965513100F2FA36 /* legercy */ = {
 			isa = PBXGroup;
 			children = (
-				31EA349628AF8D57006A2C0A /* WalkControllBox.swift */,
-				31E5B5C028D3FA3100834A56 /* MapSortBox.swift */,
-				31D4E2E928B07C7600C3BA75 /* SelectControlBox.swift */,
-				31D4E2EB28B0B13B00C3BA75 /* MissonControl.swift */,
-				31D4E2ED28B0B81E00C3BA75 /* UserControl.swift */,
-				31D4E2EF28B0B92500C3BA75 /* PlaceControl.swift */,
+				31B311EC28D545E1001B539A /* PopupWalkMission.swift */,
+				31BF82A528E8011900F9604C /* PlaceSortBox.swift */,
+				31B311EE28D5460E001B539A /* MissionView.swift */,
+				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
 			);
-			path = test;
+			path = legercy;
 			sourceTree = "<group>";
 		};
 		31BAA3F328FCEC2A008155DD /* resources */ = {
@@ -1158,6 +1156,7 @@
 				31BCF3BE28C459D1004605CF /* PageWalkReport.swift */,
 				31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */,
 				31C3F2C928C8380800EFF7F4 /* PageWalkInfo.swift */,
+				31B868F229739E5A00FAC9F1 /* PageWalkList.swift */,
 			);
 			path = history;
 			sourceTree = "<group>";
@@ -1171,7 +1170,8 @@
 				31BCF3CB28C5766D004605CF /* MonthlyWalkSection.swift */,
 				31BCF3C028C459E0004605CF /* ReportText.swift */,
 				31C3F2CD28C849F400EFF7F4 /* WalkTopInfo.swift */,
-				31C3F2CB28C8487700EFF7F4 /* MissionPlayInfo.swift */,
+				31C3F2CB28C8487700EFF7F4 /* WalkPlayInfo.swift */,
+				31B8F8D52970D21200495959 /* WalkAlbumSection.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -1189,6 +1189,7 @@
 		31BCF3CD28C5992B004605CF /* popup */ = {
 			isa = PBXGroup;
 			children = (
+				31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */,
 				31BCF3AC28C363C9004605CF /* PageAlbum.swift */,
 				31BF830028E95CC000F9604C /* PagePrivacy.swift */,
 				31BF830228ED4C9900F9604C /* PageServiceTerms.swift */,
@@ -1341,14 +1342,6 @@
 			path = component;
 			sourceTree = "<group>";
 		};
-		31CAB3162932239000F82058 /* friend */ = {
-			isa = PBXGroup;
-			children = (
-				31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */,
-			);
-			path = friend;
-			sourceTree = "<group>";
-		};
 		31D0E95328AA3DC30076D971 /* walk */ = {
 			isa = PBXGroup;
 			children = (
@@ -1363,8 +1356,9 @@
 			isa = PBXGroup;
 			children = (
 				31D9207F28729CDB001C2738 /* Mission.swift */,
-				31D0E95528AA4DF50076D971 /* Route.swift */,
 				31EA349128AF07EC006A2C0A /* Place.swift */,
+				31D0E95528AA4DF50076D971 /* Route.swift */,
+				31C467D12967F48C009D1BF3 /* WalkPath.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1578,7 +1572,6 @@
 			children = (
 				31C7A91628C2C2410010D045 /* component */,
 				31BCF3CD28C5992B004605CF /* popup */,
-				31CAB3162932239000F82058 /* friend */,
 				31BCF3AE28C368F4004605CF /* history */,
 				3151DD2228CDF05200641BCC /* chat */,
 				31C7A91428C2C0AE0010D045 /* pet */,
@@ -1827,6 +1820,7 @@
 				31D91FD8287271C1001C2738 /* GraphHorizontal.swift */,
 				31D91FD9287271C1001C2738 /* GraphArc.swift */,
 				31D91FDA287271C1001C2738 /* GraphLine.swift */,
+				31B8F8D72971047800495959 /* GraphPolygon.swift */,
 			);
 			path = graph;
 			sourceTree = "<group>";
@@ -2027,11 +2021,11 @@
 		31E5B5BF28D300C300834A56 /* pop */ = {
 			isa = PBXGroup;
 			children = (
-				3151DD2D28CF320500641BCC /* PageChooseDog.swift */,
+				3151DD2D28CF320500641BCC /* PopupChooseDog.swift */,
+				311204F428D6B72A00C3DBF5 /* PopupPlaceVisitor.swift */,
+				31B8F8D1296FD81D00495959 /* PupupWalkUsers.swift */,
 				31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */,
 				31B311E528D528B5001B539A /* PopupWalkPlace.swift */,
-				31B311EC28D545E1001B539A /* PopupWalkMission.swift */,
-				311204F428D6B72A00C3DBF5 /* PopupPlaceVisitor.swift */,
 			);
 			path = pop;
 			sourceTree = "<group>";
@@ -2052,20 +2046,18 @@
 		31EA349528AF8D37006A2C0A /* component */ = {
 			isa = PBXGroup;
 			children = (
-				31B311E728D52D9D001B539A /* test */,
 				311DC43C287987D700A3F7F5 /* PlayMap.swift */,
 				31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */,
 				31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */,
-				31BF82A528E8011900F9604C /* PlaceSortBox.swift */,
-				31D6658028CD64EB00765625 /* StartBox.swift */,
 				31D6658428CDAE9D00765625 /* WalkBox.swift */,
+				31B8B15A29655B6E00F2FA36 /* PlayBox.swift */,
 				3151DD1828CDCF8600641BCC /* SimpleWalkBox.swift */,
 				31D6658228CDAC2A00765625 /* LocationInfo.swift */,
 				3151DD1428CDBCE100641BCC /* WithPetItem.swift */,
 				31B311E828D52DD0001B539A /* UserView.swift */,
 				31B311EA28D53749001B539A /* PlaceView.swift */,
-				31B311EE28D5460E001B539A /* MissionView.swift */,
 				311204F628D6BA5200C3DBF5 /* VisitorView.swift */,
+				31B8F8D3296FEB0700495959 /* UsersView.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -2429,6 +2421,7 @@
 				31D920B228729CDC001C2738 /* AuthApi.swift in Sources */,
 				31D92011287271C1001C2738 /* WebView.swift in Sources */,
 				31D920B628729CDC001C2738 /* WeatherApiData.swift in Sources */,
+				31C467D22967F48C009D1BF3 /* WalkPath.swift in Sources */,
 				31C6372C28A745A8008EA54C /* PageAddDogCompleted.swift in Sources */,
 				31D91E7C28725834001C2738 /* PageComponentProtocol.swift in Sources */,
 				31D92028287271C1001C2738 /* ListStyle.swift in Sources */,
@@ -2474,8 +2467,10 @@
 				31C6372A28A7307A008EA54C /* SelectTagStap.swift in Sources */,
 				31B07CD9294D6484000EF3D5 /* SwipperScrollView.swift in Sources */,
 				31D920BA28729CDC001C2738 /* AuthApiData.swift in Sources */,
+				31B868F329739E5A00FAC9F1 /* PageWalkList.swift in Sources */,
 				31C6374728A8C75A008EA54C /* EmptyItem.swift in Sources */,
 				3151DD1D28CDDEF500641BCC /* ChatApi.swift in Sources */,
+				31B8F8D2296FD81D00495959 /* PupupWalkUsers.swift in Sources */,
 				31EA349228AF07EC006A2C0A /* Place.swift in Sources */,
 				31EC8E3528EFB5DB0052761C /* BlockUserItem.swift in Sources */,
 				314E5EC7288297A4000EB910 /* MenuTab.swift in Sources */,
@@ -2503,7 +2498,6 @@
 				31D920B828729CDC001C2738 /* PetApiData.swift in Sources */,
 				31D91E8D28725834001C2738 /* SocialMediaSharingManager.swift in Sources */,
 				316B779528BA19260090E924 /* PageEditProfile.swift in Sources */,
-				31EA349728AF8D57006A2C0A /* WalkControllBox.swift in Sources */,
 				316B77A928BB1ACB0090E924 /* PageDog.swift in Sources */,
 				316B779928BA1EDC0090E924 /* InputTextEdit.swift in Sources */,
 				31D9203C287271C1001C2738 /* PickerSelect.swift in Sources */,
@@ -2586,9 +2580,7 @@
 				31BCF3CF28C59ACE004605CF /* ListItemDetail.swift in Sources */,
 				31BCF3C628C45F16004605CF /* ArcGraph.swift in Sources */,
 				31D920BE28729CDC001C2738 /* AccountManager.swift in Sources */,
-				31D4E2EA28B07C7600C3BA75 /* SelectControlBox.swift in Sources */,
 				31CA21BA28DFE61200A6CFBB /* PageChatRoom.swift in Sources */,
-				31D4E2EC28B0B13B00C3BA75 /* MissonControl.swift in Sources */,
 				31D9205A287271CD001C2738 /* ScenePickerController.swift in Sources */,
 				31BCF3CA28C463EF004605CF /* CompareGraph.swift in Sources */,
 				31071C78289E763200F46498 /* StepInfo.swift in Sources */,
@@ -2612,8 +2604,8 @@
 				31D91E8B28725834001C2738 /* AnimateDrawView.swift in Sources */,
 				316B777E28B982F80090E924 /* UserProfileTopInfo.swift in Sources */,
 				3151DD3028CF35E500641BCC /* PetProfileCheckItem.swift in Sources */,
+				31B8F8D4296FEB0700495959 /* UsersView.swift in Sources */,
 				31D9204A287271C1001C2738 /* CircularSpinner.swift in Sources */,
-				31BCF3D328C5C147004605CF /* UserWalkList.swift in Sources */,
 				316D35F32895427C002FC476 /* InputText.swift in Sources */,
 				31D9200A287271C1001C2738 /* CustomPHPicker.swift in Sources */,
 				31C6374B28A8DDC8008EA54C /* Calender.swift in Sources */,
@@ -2621,8 +2613,8 @@
 				31C3F2C728C80F8400EFF7F4 /* FriendButton.swift in Sources */,
 				31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */,
 				316B77AF28BB2B7E0090E924 /* PageModifyPet.swift in Sources */,
+				31B8F8D62970D21200495959 /* WalkAlbumSection.swift in Sources */,
 				31B311EB28D53749001B539A /* PlaceView.swift in Sources */,
-				31D4E2F028B0B92500C3BA75 /* PlaceControl.swift in Sources */,
 				31D9200C287271C1001C2738 /* CustomImagePicker.swift in Sources */,
 				31BF830528ED4D3100F9604C /* AgreeButton.swift in Sources */,
 				31D91E8028725834001C2738 /* DiskStatus.swift in Sources */,
@@ -2630,6 +2622,7 @@
 				31B0F70028C6CDC500E86F05 /* RewardApiData.swift in Sources */,
 				31AEC3AD28D2995D00507386 /* PopupWalkUser.swift in Sources */,
 				31D920D028729FB5001C2738 /* PageFactory.swift in Sources */,
+				31B868F529739EE000FAC9F1 /* WalkList.swift in Sources */,
 				316B778F28B9FA6C0090E924 /* UserProfilePictureEdit.swift in Sources */,
 				31BCF3D128C5B710004605CF /* UserListItem.swift in Sources */,
 				31D92047287271C1001C2738 /* SortButton.swift in Sources */,
@@ -2661,7 +2654,6 @@
 				31D9203E287271C1001C2738 /* Radio.swift in Sources */,
 				31D9204E287271C1001C2738 /* FocusableTextView.swift in Sources */,
 				31E73C502957174400173B1C /* BeroLockScreen.intentdefinition in Sources */,
-				31D4E2EE28B0B81E00C3BA75 /* UserControl.swift in Sources */,
 				31D91E8A28725834001C2738 /* InfinityScroll.swift in Sources */,
 				31D92027287271C1001C2738 /* TextStyle.swift in Sources */,
 				31D92045287271C1001C2738 /* RadioButton.swift in Sources */,
@@ -2679,6 +2671,7 @@
 				31D91E7528725834001C2738 /* PageSceneDelegate.swift in Sources */,
 				31D920B328729CDC001C2738 /* Misc.swift in Sources */,
 				31D92038287271C1001C2738 /* GraphLine.swift in Sources */,
+				31B8B15B29655B6E00F2FA36 /* PlayBox.swift in Sources */,
 				31C17FB1289FAB25009B5EA1 /* SelectGenderStep.swift in Sources */,
 				316B778528B99C360090E924 /* MyHistorySection.swift in Sources */,
 				3151DD1728CDC00500641BCC /* RewardInfo.swift in Sources */,
@@ -2696,12 +2689,12 @@
 				31C91E98295BDD5A0095696E /* BeroLockScreenLiveActivity.swift in Sources */,
 				31D92052287271C1001C2738 /* FocusableTextField.swift in Sources */,
 				31D920C128729CDC001C2738 /* User.swift in Sources */,
-				31E5B5C128D3FA3100834A56 /* MapSortBox.swift in Sources */,
+				31B8F8D82971047800495959 /* GraphPolygon.swift in Sources */,
 				31C6373A28A8804D008EA54C /* PetProfileItem.swift in Sources */,
 				31B311F328D6146E001B539A /* MultiProfileListItem.swift in Sources */,
 				31B60EC9295C7380005533AE /* GroupUnitUtil.swift in Sources */,
 				31D91E8F28725834001C2738 /* WhereverYouCanGo.swift in Sources */,
-				31C3F2CC28C8487700EFF7F4 /* MissionPlayInfo.swift in Sources */,
+				31C3F2CC28C8487700EFF7F4 /* WalkPlayInfo.swift in Sources */,
 				316B77A728BB19660090E924 /* PetProfileTopInfo.swift in Sources */,
 				31D92017287271C1001C2738 /* Map.swift in Sources */,
 				31D91F4528725BC4001C2738 /* SceneDelegate.swift in Sources */,
@@ -2741,7 +2734,6 @@
 				3117485E288D486E00B96A42 /* Sheet.swift in Sources */,
 				3143CD5A2888E7F600F1C88A /* PageWalk.swift in Sources */,
 				31F3BD2A28961AD10025223B /* SlideMenuTab.swift in Sources */,
-				31D6658128CD64EB00765625 /* StartBox.swift in Sources */,
 				31D92059287271CD001C2738 /* SceneSelectController.swift in Sources */,
 				31D91FFA287271C1001C2738 /* FaceBookButton.swift in Sources */,
 				31C6373E28A88AB4008EA54C /* MyDogsSection.swift in Sources */,
@@ -2752,7 +2744,7 @@
 				3143CD4E28879ADE00F1C88A /* IntroItem1.swift in Sources */,
 				31D91E7828725834001C2738 /* PageDragingProtocol.swift in Sources */,
 				31BCF3B428C411B5004605CF /* LvSection.swift in Sources */,
-				3151DD2E28CF320500641BCC /* PageChooseDog.swift in Sources */,
+				3151DD2E28CF320500641BCC /* PopupChooseDog.swift in Sources */,
 				31BCF3C828C463D3004605CF /* LineGraph.swift in Sources */,
 				31D91E8728725834001C2738 /* Network.swift in Sources */,
 				31D92002287271C1001C2738 /* strings.swift in Sources */,
@@ -2943,7 +2935,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -2991,7 +2983,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3118,12 +3110,13 @@
 				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeroLockScreen/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BeroLockScreen;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3150,13 +3143,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TYPPBR5AQ8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeroLockScreen/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BeroLockScreen;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

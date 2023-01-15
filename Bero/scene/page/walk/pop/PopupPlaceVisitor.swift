@@ -39,22 +39,48 @@ struct PopupPlaceVisitor: PageView {
                     }
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
-                        VisitorView(
-                            pageObservable:self.pageObservable,
-                            pageDragingModel: self.pageDragingModel,
-                            infinityScrollModel: self.infinityScrollModel,
-                            totalCount: self.totalCount,
-                            datas: self.visitors
-                        )
+                        VStack(spacing:0){
+                            ImageButton(
+                                defaultImage: Asset.icon.drag_handle,
+                                size:  CGSize(width: Dimen.icon.medium, height: Dimen.margin.mediumUltra),
+                                defaultColor: Color.app.grey100
+                            ){ _ in
+                                self.pagePresenter.closePopup(self.pageObject?.id)
+                            }
+                            if let id = self.placeId {
+                                VisitorView(
+                                    pageObservable:self.pageObservable,
+                                    infinityScrollModel: self.infinityScrollModel,
+                                    placeId:id,
+                                    totalCount: self.totalCount
+                                )
+                            }
+                        }
+                        .onReceive(self.infinityScrollModel.$event){evt in
+                            guard let evt = evt else {return}
+                            switch evt {
+                            case .down, .up :break
+                            case .pullCompleted:
+                                self.pageDragingModel.uiEvent = .pullCompleted(geometry)
+                            case .pullCancel :
+                                self.pageDragingModel.uiEvent = .pullCancel(geometry)
+                            default : break
+                            }
+                        }
+                        .onReceive(self.infinityScrollModel.$pullPosition){ pos in
+                            //self.pageDragingModel.uiEvent = .pull(geometry, pos)
+                        }
+                        /*
                         ImageButton( defaultImage: Asset.icon.close){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
                         .padding(.all, Dimen.margin.regular)
+                        */
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
-                    .modifier(MatchHorizontal(height: 430))
                     .modifier(BottomFunctionTab(margin: 0))
-                    .modifier(PageDragingSecondPriority(geometry: geometry, pageDragingModel: self.pageDragingModel))
+                    .padding(.top, Dimen.margin.medium + self.sceneObserver.safeAreaTop)
+                    .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                     
                 }
             }
@@ -62,12 +88,13 @@ struct PopupPlaceVisitor: PageView {
                 guard let obj = self.pageObject  else { return }
                 guard let place = obj.getParamValue(key: .data) as? Place else { return }
                 self.totalCount = place.visitorCount
+                self.placeId = place.placeId
                 self.visitors = place.visitors.map{MultiProfileListItemData().setData($0, idx: -1)}
             }
             
         }//geo
     }//body
-    
+    @State var placeId:Int? = nil
     @State var totalCount: Int = 0
     @State var visitors: [MultiProfileListItemData] = []
 }

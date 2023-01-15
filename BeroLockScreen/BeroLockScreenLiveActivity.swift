@@ -13,7 +13,7 @@ import SwiftUI
 struct BeroLockScreenAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         var walkTime:Double = 0
-        var walkDistence:Double = 0
+        var walkDistance:Double = 0
     }
     // Fixed non-changing properties about your activity go here!
     var name: String
@@ -32,7 +32,7 @@ struct BeroLockScreenLiveActivity: Widget {
                     .foregroundColor(Color.brand.primary)
                 VStack {
                     Text(context.attributes.name)
-                    Text(context.state.walkDistence.description)
+                    Text(context.state.walkDistance.description)
                     Text(context.state.walkTime.description)
                 }
             }
@@ -53,7 +53,7 @@ struct BeroLockScreenLiveActivity: Widget {
                                 .foregroundColor(Color.brand.primary)
                             Text(context.attributes.name)
                         }
-                        Text(self.viewDistance(context.state.walkDistence))
+                        Text(self.viewDistance(context.state.walkDistance))
                         Text(self.viewDuration(context.state.walkTime))
                     }
                 }
@@ -65,7 +65,7 @@ struct BeroLockScreenLiveActivity: Widget {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.brand.primary)
-                    Text(self.viewDistance(context.state.walkDistence))
+                    Text(self.viewDistance(context.state.walkDistance))
                 }
             } compactTrailing: {
                 Text(self.viewDuration(context.state.walkTime))
@@ -76,7 +76,7 @@ struct BeroLockScreenLiveActivity: Widget {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.brand.primary)
-                    Text(self.viewDistance(context.state.walkDistence))
+                    Text(self.viewDistance(context.state.walkDistance))
                 }
             } 
             //.widgetURL(URL(string: "http://www.apple.com"))

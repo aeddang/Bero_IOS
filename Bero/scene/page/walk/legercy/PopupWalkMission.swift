@@ -101,7 +101,7 @@ struct PopupWalkMission: PageView {
     private func move(idx:Int){
         if idx >= self.pages.count {return}
         let page = self.pages[idx]
-        guard let loc = page.destination else {return}
+        guard let loc = page.location else {return}
         let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0002, longitude: loc.coordinate.longitude)
         self.walkManager.uiEvent = .moveMap(modifyLoc)
     }

@@ -9,10 +9,8 @@ import Foundation
 import SwiftUI
 import Combine
 import GoogleMaps
-extension PageChooseDog {
-    static var isFirstChoose:Bool = true
-}
-struct PageChooseDog: PageView {
+
+struct PopupChooseDog: PageView {
     @EnvironmentObject var repository:Repository
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -81,8 +79,6 @@ struct PageChooseDog: PageView {
             }
             .onAppear{
                 self.pets = self.dataProvider.user.pets
-                Self.isFirstChoose = false
-                
             }
             
         }//geo
@@ -91,7 +87,7 @@ struct PageChooseDog: PageView {
     @State var pets:[PetProfile] = []
     private func startWalk(){
         if self.pets.first(where: {$0.isWith}) == nil {return}
-        self.walkManager.startWalk()
+        self.walkManager.requestWalk()
         self.pagePresenter.closePopup(self.pageObject?.id)
     }
     
@@ -102,7 +98,7 @@ struct PageChooseDog: PageView {
 struct PageChooseDog_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            PageChooseDog().contentBody
+            PopupChooseDog().contentBody
                 .environmentObject(PagePresenter())
                 .environmentObject(PageSceneObserver())
                 .environmentObject(Repository())

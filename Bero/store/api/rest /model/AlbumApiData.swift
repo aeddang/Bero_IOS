@@ -19,6 +19,7 @@ struct PictureData : Decodable {
     private(set) var createdAt: String? = nil
     private(set) var user: UserData? = nil
     private(set) var pets: [PetData]? = nil
+    private(set) var referenceId: String? = nil
 }
 
 struct PictureUpdateData : Decodable {

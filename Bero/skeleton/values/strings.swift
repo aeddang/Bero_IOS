@@ -33,6 +33,7 @@ extension String {
         public static let kg = "kg"
         public static let inch = "”"
         public static let exp = "EXP"
+        public static let time = "Time"
         public static let years = "Years"
         public static let weight = "Weight"
         public static let height = "Height"
@@ -48,7 +49,11 @@ extension String {
         public static let stores = "Stores"
         public static let dogs = "Dogs"
         public static let users = "Users"
+        public static let place = "Place"
         public static let filter = "Filter"
+        
+        public static let speed = "Speed"
+        public static let distance = "Distance"
     }
     
     struct gnb {
@@ -87,7 +92,6 @@ extension String {
         public static var addDogText = "Start with telling more about your dog."
         
         
-        
         public static var completedError = "Save fail. retry."
         public static var completedNeedPicture = "Need picture with your Dog."
         public static var completedNeedPictureError = "Need picture with your Dog. retry."
@@ -97,6 +101,9 @@ extension String {
         
         public static var walkDisableRemovePet = "You cannot delete a character of the dog while walking."
         public static var walkDisableEmptyWithPet = "You have to choose a dog to take a walk."
+        
+        public static var representativePetChangeConfirm = "Do you want to change representative dog?"
+        public static var representativeDisableRemovePet = "You cannot delete a representative dog."
         
         public static var walkFinishWithMissionConfirm = "As you cancel, the mission will also end."
         public static var missionStartNeedWalkConfirm = "You can start the mission while walking. Would you like to start walking?"
@@ -151,6 +158,8 @@ extension String {
         public static var exposeConfirm = "전채공개? 설정에서 설정하면 더묻지않음"
         public static var exposed = "전채 공개됨"
         public static var unExposed = "친구만 공개됨"
+        
+        public static var comingSoon = "Coming soon."
     }
     
    
@@ -331,14 +340,20 @@ extension String {
         
         public static let exploreSeletReport = "Whose posts do you want to see?"
         
+        public static let recommandUser = "Recommand friends"
+        public static let aroundUser = "Dogs around me"
+        public static let needTag = "In order to recommend a friend with a similar personality to my dog First, you need to register your dog's personality tag."
+        
+        public static let needRoute = "Path creation failed."
+        
         
         //for component
         public static let introductionDefault = "Hello, I am @%s. Let’s be friends!"
         public static let historyCompleted = "%s completed"
         
         public static let walkLocationNotFound = "Where Are You?"
-        public static let walkNoWalksText = "No walks today"
-        public static let walkStartWalksText = "Start walking with your dog!"
+        public static let walkPlayText = "Today’s walk"
+        public static let walkStartText = "Hi, %s.\nReady to walk?"
         public static let walkMissionCompletedText = "%s missions today"
         
         public static let walkFinishConfirm = "Finish the walk?"

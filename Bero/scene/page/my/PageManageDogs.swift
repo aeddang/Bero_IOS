@@ -55,14 +55,28 @@ struct PageManageDogs: PageView {
                        
                         
                         ForEach(self.pets) { pet in
-                            PetProfileEditable(profile: pet){
+                            PetProfileEditable(
+                                profile: pet,
+                                isSelected: pet.isRepresentative
+                            
+                            ){
                                 self.deletePet(pet)
                             }
                             .onTapGesture {
+                                /*
                                 self.pagePresenter.openPopup(
                                     PageProvider.getPageObject(.dog)
                                         .addParam(key: .data, value: pet)
                                 )
+                                */
+                                self.appSceneObserver.sheet = .select(
+                                    String.alert.representativePetChangeConfirm,
+                                    nil,
+                                    [String.app.cancel,String.app.confirm]){ idx in
+                                        if idx == 1 {
+                                            self.dataProvider.requestData(q: .init(type: .changeRepresentativePet(petId: pet.petId)))
+                                        }
+                                }
                             }
                         }
                         if self.pets.count < 3 {
@@ -94,14 +108,18 @@ struct PageManageDogs: PageView {
        
     }//body
     @State var pets:[PetProfile] = []
-    
     private func update(){
         self.pets = self.dataProvider.user.pets
+        
     }
     
     private func deletePet(_ profile:PetProfile){
         if walkManager.status == .walking {
             self.appSceneObserver.event = .toast(String.alert.walkDisableRemovePet)
+            return
+        }
+        if profile.isRepresentative {
+            self.appSceneObserver.event = .toast(String.alert.representativeDisableRemovePet)
             return
         }
         

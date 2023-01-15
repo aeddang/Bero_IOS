@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 class PetApi :Rest{
-    func get(user:SnsUser, completion: @escaping (ApiItemResponse<PetData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func get(userId:String, completion: @escaping (ApiItemResponse<PetData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
-        params["userId"] = user.snsID
+        params["userId"] = userId
        
         fetch(route: PetApiRoute (method: .get, query: params), completion: completion, error:error)
     }
@@ -18,7 +18,7 @@ class PetApi :Rest{
         fetch(route: PetApiRoute (method: .get, commandId: petId.description), completion: completion, error:error)
     }
     
-    func post(user:SnsUser, pet:ModifyPetProfileData, completion: @escaping (ApiContentResponse<PetData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func post(user:SnsUser, pet:ModifyPetProfileData, isRepresentative:Bool, completion: @escaping (ApiContentResponse<PetData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["userId"] = user.snsID
         fetch(route: PetApiRoute(method: .post, query: params),
@@ -28,6 +28,7 @@ class PetApi :Rest{
             if let value = pet.gender?.apiDataKey { data.append(value: value, name: "sex") }
             if let value = pet.microchip { data.append(value: value, name: "regNumber") }
             if let value = pet.animalId { data.append(value: value, name: "animalId") }
+            data.append(value: isRepresentative ? "true" : "false", name: "isRepresentative")
             data.append(value: "1", name: "level")
             
             if pet.breed?.isEmpty == false ,  let status = pet.breed{
@@ -48,6 +49,15 @@ class PetApi :Rest{
             
         }, completion: completion, error:error)
     }
+    
+    func putRepresentative(petId:Int, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        fetch(route: PetApiRoute(method: .put, commandId: petId.description),
+           constructingBlock:{ data in
+            data.append(value: "true", name: "isRepresentative")
+            data.log()
+        }, completion: completion, error:error)
+    }
+    
     
     func put(petId:Int, pet:ModifyPetProfileData, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: PetApiRoute(method: .put, commandId: petId.description),

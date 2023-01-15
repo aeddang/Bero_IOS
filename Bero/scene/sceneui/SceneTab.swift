@@ -120,8 +120,9 @@ struct SceneTab: PageComponent{
             case .walk :
                 if !self.isSimpleWalkPositionTop {
                     withAnimation{self.isSimpleWalkPositionTop = true}
-                    self.walkManager.updateSimpleView(false)
                 }
+                self.walkManager.updateSimpleView(false)
+                
             case .walkCompleted, .missionCompleted : break
             default :
                 if self.isSimpleWalkPositionTop {

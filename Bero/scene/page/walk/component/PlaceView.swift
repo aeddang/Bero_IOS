@@ -23,7 +23,7 @@ struct PlaceView: PageComponent{
                 pageObservable: self.pageObservable,
                 sortIconPath: self.place.place?.icon,
                 sortTitle: self.place.sortType?.getTitle(type: .place),
-                title: self.place.name,
+                title: self.place.title,
                 description: self.place.place?.vicinity,
                 distance: self.distance,
                 action: {
@@ -43,6 +43,7 @@ struct PlaceView: PageComponent{
                 )
                 FillButton(
                     type: .fill,
+                    icon: Asset.icon.pin_drop,
                     text: String.button.leaveAmark,
                     size: Dimen.button.regular,
                     color:  Color.app.white,
@@ -53,7 +54,7 @@ struct PlaceView: PageComponent{
                         return
                     }
                     self.updateData()
-                    if self.distance > WalkManager.nearDistence {
+                    if self.distance > WalkManager.nearDistance {
                         self.appSceneObserver.sheet = .alert(
                             String.pageText.walkPlaceMarkDisAbleTitle,
                             String.pageText.walkPlaceMarkDisAbleText
@@ -65,17 +66,27 @@ struct PlaceView: PageComponent{
                 }
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
-            SelectButton(
-                type: .small,
-                icon: Asset.icon.beenhere,
-                text: self.visitorNum == 0 ?  String.pageText.walkPlaceNoMarkText : String.pageText.walkPlaceMarkText.replace(self.visitorNum.description),
-                isSelected: false
-            ){_ in
-                if self.visitorNum == 0 {return}
-                self.pagePresenter.openPopup(PageProvider.getPageObject(.popupPlaceVisitor).addParam(key: .data, value: self.place))
+            
+            if self.visitors.isEmpty {
+                SelectButton(
+                    type: .small,
+                    icon: Asset.icon.beenhere,
+                    text: String.pageText.walkPlaceNoMarkText,
+                    isSelected: false
+                ){_ in
+                    /*
+                    self.pagePresenter.openPopup(PageProvider.getPageObject(.popupPlaceVisitor).addParam(key: .data, value: self.place))
+                    */
+                }
+                .opacity(0.4)
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
+            } else {
+                VisitorHorizontalView(
+                    pageObservable: self.pageObservable,
+                    place: self.place,
+                    datas: self.visitors
+                )
             }
-            .opacity(self.visitorNum == 0 ? 0.4 : 1)
-            .padding(.horizontal, Dimen.app.pageHorinzontal)
             if SystemEnvironment.isTestMode {
                 if !self.isMark {
                     FillButton(
@@ -104,8 +115,9 @@ struct PlaceView: PageComponent{
             self.updateData()
         }
     }
+    
     @State var isMark:Bool = false
-    @State var visitorNum:Int = 0
+    @State var visitors: [MultiProfileListItemData] = []
     @State var distance:Double = 0
     private func onMark(){
         self.place.addMark(user: self.dataProvider.user)
@@ -115,10 +127,10 @@ struct PlaceView: PageComponent{
     
     private func updateData(){
         self.isMark = self.place.isMark
-        self.visitorNum = self.place.visitorCount
         if let loc = self.walkManager.currentLocation, let destination = self.place.location {
             self.distance = destination.distance(from: loc)
         }
+        self.visitors = self.place.visitors.map{MultiProfileListItemData().setData($0, idx: -1)}
     }
 }
 

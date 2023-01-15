@@ -51,13 +51,17 @@ extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
             map.addRoute(route)
         case .addRoutes(let routes):
             map.addRoute(routes)
+        case .addCircle(let circle):
+            map.addCircle(circle)
+        case .addCircles(let circles):
+            map.addCircle(circles)
         case .me(let marker, let loc):
             map.me(marker)
             if let loc = loc {
                 map.move(loc)
             }
         case .clearAllRoute : map.clearAllRoute()
-        case .clearAll(let clears) : map.clearAll(clears)
+        case .clearAll(let clears, let exception) : map.clearAll(clears, exception:exception)
         case .clear(let id) : map.clear(id: id)
         case .move(let loc, let rotate, let zoom, let angle, let duration):
             map.move(loc, rotate:rotate, zoom:zoom, angle:angle, duration:duration)
@@ -71,6 +75,7 @@ extension CPGoogleMap: UIViewControllerRepresentable, PageProtocol {
 open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     @ObservedObject var viewModel:MapModel
     private var markers:[String: GMSMarker] = [:]
+    private var circles:[String: GMSCircle] = [:]
     private var routes:[String: GMSPolyline] = [:]
     init(viewModel:MapModel) {
         self.viewModel = viewModel
@@ -91,8 +96,10 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
             withLatitude: self.viewModel.startLocation.coordinate.latitude,
             longitude: self.viewModel.startLocation.coordinate.longitude,
             zoom: self.viewModel.zoom)
-        
-        let mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
+        let mapID = GMSMapID(identifier: "c7dec7b5fab604aa")
+        //let mapView = GMSMapView.init(frame: self.view.bounds, camera: camera)
+        let mapView = GMSMapView.init(frame: self.view.bounds, mapID: mapID, camera: camera)
+     
         self.view.addSubview(mapView)
         mapView.delegate = self
         self.mapView = mapView
@@ -180,6 +187,23 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
         }
     }
     
+    fileprivate func addCircle(_ circle:MapCircle ){
+        if let prevCircle = self.circles[circle.id] {
+            prevCircle.radius = circle.marker.radius
+            prevCircle.fillColor = circle.marker.fillColor
+            prevCircle.title = circle.marker.title
+        } else {
+            self.circles[circle.id] = circle.marker
+            circle.marker.map = mapView
+        }
+    }
+    
+    fileprivate func addCircle(_ circles:[MapCircle] ){
+        circles.forEach{
+            self.addCircle($0)
+        }
+    }
+    
     fileprivate func clearAllRoute(){
         self.routes.forEach{$0.value.map = nil}
         self.routes = [:]
@@ -194,16 +218,48 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
             marker.map = nil
             self.markers[id] = nil
         }
+        
+        if let circle = self.circles[id] {
+            circle.map = nil
+            self.circles[id] = nil
+        }
     }
     
-    fileprivate func clearAll(_ clears:[String]? = nil){
+    fileprivate func clearAll(_ clears:[String]? = nil, exception:[String]? = nil){
         if let clears = clears {
             clears.forEach{ self.clear(id: $0) }
         } else {
-            self.routes.forEach{$0.value.map = nil}
-            self.markers.forEach{$0.value.map = nil}
-            self.markers = [:]
-            self.routes = [:]
+            var newMarkers:[String: GMSMarker] = [:]
+            var newCircles:[String: GMSCircle] = [:]
+            var newRoutes:[String: GMSPolyline] = [:]
+        
+            self.routes.forEach{ route in
+                let key = route.key
+                if exception?.first(where: {$0 == key}) != nil {
+                    newRoutes[key] = route.value
+                } else {
+                    route.value.map = nil
+                }
+            }
+            self.markers.forEach{marker in
+                let key = marker.key
+                if exception?.first(where: {$0 == key}) != nil {
+                    newMarkers[key] = marker.value
+                } else {
+                    marker.value.map = nil
+                }
+            }
+            self.circles.forEach{marker in
+                let key = marker.key
+                if exception?.first(where: {$0 == key}) != nil {
+                    newCircles[key] = marker.value
+                } else {
+                    marker.value.map = nil
+                }
+            }
+            self.markers = newMarkers
+            self.routes = newRoutes
+            self.circles = newCircles
         }
     }
     
@@ -215,6 +271,7 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
+    
     public func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
         //ComponentLog.d("willMove gesture " + gesture.description, tag: "CustomGoogleMapController")
         self.viewModel.event = .move(isUser: gesture)
@@ -222,6 +279,10 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
     public func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         //ComponentLog.d("didChange CameraPosition", tag: "CustomGoogleMapController")
         self.viewModel.position = position
+    }
+    
+    public func mapView(_ mapView: GMSMapView, didTapAt coordinate:CLLocationCoordinate2D) {
+        self.viewModel.event = .tab(.init(latitude: coordinate.latitude, longitude: coordinate.longitude)) 
     }
     
     public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {

@@ -60,13 +60,13 @@ struct ApiErrorResponse: Decodable {
 }
 
 struct ApiContentResponse<T>: Decodable where T: Decodable {
-    private(set) var contents:T
+    var contents:T
     private(set) var kind: String
     private(set) var metadata: MetaData? = nil
 }
 
 struct ApiItemResponse<T>: Decodable where T: Decodable {
-    private(set) var items:[T]
+    var items:[T]
     private(set) var kind: String
     private(set) var metadata: MetaData? = nil
 }

@@ -23,7 +23,7 @@ struct SimpleWalkBox: PageComponent{
             FillButton(
                 type: .fill,
                 icon: Asset.icon.paw,
-                text: WalkManager.viewDistance(self.walkDistence),
+                text: WalkManager.viewDistance(self.walkDistance),
                 size: Dimen.button.regularExtra,
                 color: Color.app.black,
                 isActive: true
@@ -49,13 +49,13 @@ struct SimpleWalkBox: PageComponent{
                     lineWidth: Dimen.stroke.light
                 )
         )
-        .onReceive(self.walkManager.$walkDistence){ distence in
-            self.walkDistence = distence
+        .onReceive(self.walkManager.$walkDistance){ distance in
+            self.walkDistance = distance
         }
         
         
     }
-    @State var walkDistence:Double = 0
+    @State var walkDistance:Double = 0
     private func finishWalk(){
         self.appSceneObserver.sheet = .select(
             String.pageText.walkFinishConfirm,

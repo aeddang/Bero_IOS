@@ -59,6 +59,7 @@ class ApiManager :PageProtocol, ObservableObject{
     let pet:PetApi
     let album:AlbumApi
     let mission:MissionApi
+    let walk:WalkApi
     let friend:FriendApi
     let reward:RewardApi
     let chat:ChatApi
@@ -69,7 +70,7 @@ class ApiManager :PageProtocol, ObservableObject{
     let place:PlaceApi
     let misc:MiscApi
     let vision:VissionApi
-    let walk:WalkApi
+    let walking:WalkApi
     
     private var snsUser:SnsUser? = nil
     
@@ -81,6 +82,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.pet = PetApi(network: self.network)
         self.petUpdate = PetApi(network: self.network)
         self.mission = MissionApi(network: self.network)
+        self.walk = WalkApi(network: self.network)
         self.place = PlaceApi(network: self.network)
         self.vision = VissionApi(network: self.network)
         self.album = AlbumApi(network: self.network)
@@ -88,7 +90,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.friend = FriendApi(network: self.network)
         self.reward = RewardApi(network: self.network)
         self.chat = ChatApi(network: self.network)
-        self.walk = WalkApi(network: self.network)
+        self.walking = WalkApi(network: self.network)
     }
     
     func clear(){
@@ -96,6 +98,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.user.clear()
         self.pet.clear()
         self.mission.clear()
+        self.walk.clear()
         self.album.clear()
         self.friend.clear()
         self.reward.clear()
@@ -206,10 +209,14 @@ class ApiManager :PageProtocol, ObservableObject{
             self.userUpdate.delete(
                 completion: {res in self.complated(id: apiID, type: type, res: res)},
                 error:error)
-        case .registPet(let user, let pet) :
-            self.petUpdate.post(user: user, pet: pet,
+        case .registPet(let user, let pet, let isRepresentative) :
+            self.petUpdate.post(user: user, pet: pet, isRepresentative:isRepresentative,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
                                 error:error)
+        case .changeRepresentativePet(let petId) :
+            self.petUpdate.putRepresentative(petId: petId,
+                                             completion:{res in self.complated(id: apiID, type: type, res: res)},
+                                             error:error)
         case .updatePet(let petId, let pet) :
             self.petUpdate.put(petId: petId, pet: pet,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
@@ -218,13 +225,13 @@ class ApiManager :PageProtocol, ObservableObject{
             self.petUpdate.put(petId: petId, image: img,
                                 completion: {res in self.complated(id: apiID, type: type, res: res)},
                                 error:error)
-        case .getPets(let user , let isCanelAble) :
+        case .getPets(let userId , let isCanelAble) :
             if isCanelAble == true {
-                self.pet.get(user: user,
+                self.pet.get(userId: userId,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
             } else {
-                self.petUpdate.get(user: user,
+                self.petUpdate.get(userId: userId,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
             }
@@ -245,18 +252,47 @@ class ApiManager :PageProtocol, ObservableObject{
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
         case .requestRoute(let departure, let destination, _) :
-            self.mission.get(departure: departure, destination: destination,
+            self.walk.get(departure: departure, destination: destination,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .getMissionSummary(let petId) :
-            self.mission.getSummary(petId: petId,
+        case .getWalkSummary(let petId) :
+            self.walk.getSummary(petId: petId,
                                     completion: {res in self.complated(id: apiID, type: type, res: res)},
                                     error:error)
-        case .getMonthlyMission(let userId, let date) :
-            self.mission.getMonthly(userId: userId, date:date, 
+        case .getMonthlyWalk(let userId, let date) :
+            self.walk.getMonthly(userId: userId, date:date,
                                     completion: {res in self.complated(id: apiID, type: type, res: res)},
                                     error:error)
-            
+        case .getWalk(let walkId) :
+            self.walk.get(id:walkId,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .getWalks(let date) :
+            self.walk.get(date:date,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .searchLatestWalk(let loc, let radius, let min) :
+            self.walk.get(
+                loc: loc, radius: radius, min: min, page: nil, size: nil,
+                completion: { resA in
+                    self.walk.getFriend(
+                        page: nil, size: nil,
+                        completion: {resB in
+                            var res = resA
+                            res.items.append(contentsOf: resB.items)
+                            self.complated(id: apiID, type: type, res: res)
+                        },
+                        error: {_ in self.complated(id: apiID, type: type, res: resA)})
+                    },
+                error:error)
+        case .searchWalk(let loc, let radius, let min, let page, let size) :
+            self.walk.get(loc: loc, radius: radius, min: min, page: page, size: size,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .searchWalkFriends(let page, let size) :
+            self.walk.getFriend(page: page, size: size,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
         case .requestNewMission(let location, let distance) :
             self.mission.get(location: location, distance: distance,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
@@ -268,11 +304,15 @@ class ApiManager :PageProtocol, ObservableObject{
                               error:error)
             
         case .registWalk(let loc, let pets) :
-            self.walk.post(loc: loc, pets: pets,
+            self.walking.post(loc: loc, pets: pets,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
-        case .updateWalk(let walkId, let loc, let img, let thumbImg):
-            self.walk.put(id: walkId, loc: loc, img: img, thumbImg: thumbImg,
+        case .updateWalk(let walkId, let loc, let additionalData):
+            self.walking.put(id: walkId, loc: loc, status: .Walking, additionalData: additionalData,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
+        case .completeWalk(let walkId, let loc, let additionalData):
+            self.walking.put(id: walkId, loc: loc, status: .Finish, additionalData: additionalData,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
     
@@ -280,12 +320,12 @@ class ApiManager :PageProtocol, ObservableObject{
             self.vision.post(img: img, thumbImg: thumb, action: .detecthumanwithdog,
                              completion: {res in self.complated(id: apiID, type: type, res: res)},
                              error:error)
-        case .getAlbumPictures(let id, let cate, let searchType, let isExpose, let page , let size) :
-            self.album.get(id: id, type: cate, searchType:searchType, isExpose: isExpose, page: page, size: size,
+        case .getAlbumPictures(let userId, let referenceId, let cate, let searchType, let isExpose, let page , let size) :
+            self.album.get(id: userId, referenceId:referenceId, type: cate, searchType:searchType, isExpose: isExpose, page: page, size: size,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
-                           error:error)
-        case .registAlbumPicture(let img, let thumb, let id, let cate, let isExpose) :
-            self.album.post(img: img, thumbImg:thumb, id: id, type: cate, isExpose: isExpose,
+                           error:error) 
+        case .registAlbumPicture(let img, let thumb, let userId, let cate, let isExpose, let referenceId) :
+            self.album.post(img: img, thumbImg:thumb, id: userId, type: cate, isExpose: isExpose, referenceId: referenceId,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
         case .deleteAlbumPictures(let ids) :
@@ -320,6 +360,10 @@ class ApiManager :PageProtocol, ObservableObject{
         
         case .getPlace(let location, let distance, let searchType) :
             self.place.get(location: location, distance: distance, searchType: searchType,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
+        case .getPlaceVisitors(let placeId, let page , let size) :
+            self.place.get(placeId: placeId, page: page, size: size, 
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
         case .registVisit(let place) :

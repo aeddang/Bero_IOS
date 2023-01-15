@@ -5,24 +5,54 @@ struct UserProfileTopInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var profile:UserProfile
+    var isHorizontal:Bool = false
     var isSimple:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
-        VerticalProfile(
-            id: self.profile.id,
-            type: .user,
-            alignment: .center,//self.isSimple ? .leading : .center,
-            sizeType: .medium,
-            isSelected: true,
-            image: self.image,
-            imagePath: self.imagePath,
-            lv: self.lv,
-            name: self.nickName,
-            gender: self.gender,
-            age: self.age,
-            description: self.isSimple ? nil : self.description,
-            editProfile: self.profile.isMine ? self.action : nil
-        )
+        VStack(spacing:Dimen.margin.regularExtra){
+            if !self.isHorizontal {
+                VerticalProfile(
+                    id: self.profile.id,
+                    type: .user,
+                    alignment: .center,//self.isSimple ? .leading : .center,
+                    sizeType: .medium,
+                    isSelected: true,
+                    image: self.image,
+                    imagePath: self.imagePath,
+                    lv: self.lv,
+                    name: self.nickName,
+                    gender: self.gender,
+                    age: self.age,
+                    description: self.isSimple ? nil : self.description,
+                    editProfile: self.profile.isMine ? self.action : nil
+                )
+            } else {
+                HorizontalProfile(
+                    id: self.profile.id,
+                    type: .user,
+                    sizeType: .big,
+                    funcType: self.profile.status == .friend ? .send : .addFriend,
+                    image: self.image,
+                    imagePath: self.imagePath,
+                    name: self.nickName,
+                    gender: self.gender,
+                    age: self.age,
+                    isSelected: false,
+                    useBg: false
+                )
+                if !self.isSimple, let description = self.description{
+                    ZStack{
+                        Spacer().modifier(MatchHorizontal(height: 0))
+                        Text(description)
+                            .modifier(VerticalProfile.descriptionStyle)
+                            .padding(.all, VerticalProfile.descriptionPadding)
+                            .multilineTextAlignment(.center)
+                    }
+                    .background(Color.app.whiteDeepLight)
+                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+                }
+            }
+        }
         .onReceive(self.profile.$nickName){value in
             self.nickName = value
         }

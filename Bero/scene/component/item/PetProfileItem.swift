@@ -17,17 +17,38 @@ struct PetProfileInfo: PageComponent{
     }
 }
 
+struct PetProfileUser: PageComponent{
+    @EnvironmentObject var pagePresenter:PagePresenter
+    var profile:PetProfile
+    var friendStatus:FriendStatus? = nil
+    var action: (() -> Void)
+    var body: some View {
+        Button(action: {
+            self.action()
+        }) {
+            PetProfileBody(
+                profile: self.profile,
+                sizeType: .small,
+                userId: self.profile.userId,
+                friendStatus: self.friendStatus
+            )
+        }
+    }
+}
+
 struct PetProfileEditable: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     var profile:PetProfile
     var sizeType:HorizontalProfile.SizeType = .small
     var funcType:HorizontalProfile.FuncType = .delete
+    var isSelected:Bool = false
     var action: (() -> Void)
     var body: some View {
         PetProfileBody(
             profile: self.profile,
             sizeType: self.sizeType,
             funcType:self.funcType,
+            isSelected:self.isSelected,
             action: self.action
         )
     }
@@ -58,6 +79,9 @@ struct PetProfileBody: PageComponent{
     var profile:PetProfile
     var sizeType:HorizontalProfile.SizeType = .big
     var funcType:HorizontalProfile.FuncType? = nil
+    var userId:String? = nil
+    var friendStatus:FriendStatus? = nil
+    var isSelected:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
         HorizontalProfile(
@@ -65,13 +89,15 @@ struct PetProfileBody: PageComponent{
             type: .pet,
             sizeType: self.sizeType,
             funcType: self.funcType,
+            userId: self.userId,
+            friendStatus: self.friendStatus,
             image: self.image,
             imagePath: self.imagePath,
             name: self.name,
             gender: self.gender,
             age: self.age,
             breed: self.breed,
-            isSelected: false,
+            isSelected: self.isSelected,
             action: { _ in self.action?() }
         )
         .onReceive(self.profile.$name){value in

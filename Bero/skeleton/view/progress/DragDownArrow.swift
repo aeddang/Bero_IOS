@@ -10,24 +10,23 @@ import SwiftUI
 struct DragDownArrow: PageComponent {
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     var text:String? = nil
-    
-    @State var progress:Double = 0
-    let progressMax:Double = Double(InfinityScrollModel.DRAG_COMPLETED_RANGE) 
+    var progressMax:Double = Double(InfinityScrollModel.DRAG_COMPLETED_RANGE)
     var body: some View {
         VStack{
-            Image(Asset.icon.direction_down)
+            Image(Asset.icon.direction_up)
+                .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
+                .foregroundColor(self.progress >= self.progressMax ? Color.brand.primary : Color.app.grey100)
                 .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
-                .colorMultiply(self.progress > self.progressMax ? Color.brand.primary : Color.app.white)
+                .rotationEffect(.degrees(max(180,180 * self.progress / self.progressMax)))
             if text != nil {
                 Text(text!)
                 .modifier(LightTextStyle(
                     size: Font.size.light,
-                    color: self.progress >= self.progressMax ? Color.brand.primary : Color.app.grey50))
+                    color: self.progress >= self.progressMax ? Color.brand.primary : Color.app.grey100))
             }
         }
-        .modifier(MatchHorizontal(height: 90, margin: 0))
         .opacity(self.progress / self.progressMax)
         .onReceive(self.infinityScrollModel.$event){evt in
             if #available(iOS 14.0, *) {
@@ -42,19 +41,24 @@ struct DragDownArrow: PageComponent {
             if #available(iOS 14.0, *) {
                 if pos < InfinityScrollModel.DRAG_RANGE { return }
                 self.progress = Double(pos - InfinityScrollModel.DRAG_RANGE)
+                ComponentLog.d("progress " + progress.description, tag: self.tag)
             }
         }
     }//body
+    
+    @State var progress:Double = 0
 }
 
 #if DEBUG
 struct DragDownArrow_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            DragDownArrow()
-                .environmentObject(PagePresenter())
-                .environmentObject(Repository())
-                .frame(width: 375, height: 500, alignment: .center)
+            DragDownArrow(
+                text:"drag"
+            )
+            .environmentObject(PagePresenter())
+            .environmentObject(Repository())
+            .frame(width: 375, height: 500, alignment: .center)
         }
     }
 }

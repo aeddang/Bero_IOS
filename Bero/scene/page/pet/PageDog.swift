@@ -94,12 +94,13 @@ struct PageDog: PageView {
                             Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                 .padding(.top, Dimen.margin.medium)
                             if let user = self.user {
+                                /*
                                 PetHistorySection(
                                     user:user,
                                     profile:profile)
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                                     .padding(.top, Dimen.margin.medium)
-                                
+                                */
                                 AlbumSection(
                                     user: user,
                                     pet: profile,

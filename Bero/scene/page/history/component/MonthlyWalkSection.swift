@@ -36,15 +36,9 @@ struct MonthlyWalkSection: PageComponent{
                 } else {
                     ForEach(self.datas) { data in
                         WalkListItem(
-                            data: data, imgSize: self.walkListSize
-                        ){
-                            guard let missionData = data.originData else {return}
-                            let mission = Mission().setData( missionData, type: .history)
-                            self.pagePresenter.openPopup(
-                                PageProvider.getPageObject(.walkInfo)
-                                    .addParam(key: .data, value: mission)
-                            
-                            )
+                            data: data, imgSize: self.walkListSize)
+                        {
+                            self.move(data: data)
                         }
                     }
                 }
@@ -63,12 +57,12 @@ struct MonthlyWalkSection: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getMonthlyMission(let userId, let date) :
+            case .getMonthlyWalk(let userId, let date) :
                 if userId == self.userId, let datas = res.data as? [String] {
                     self.updatedMonthly(datas: datas, date:date)
                 }
-            case .getMission(let userId, _, let date, _, _, _):
-                if userId == self.userId, let datas = res.data as? [MissionData] {
+            case .getWalks(let date):
+                if let datas = res.data as? [WalkData] {
                     self.updatedWalk(datas: datas, date:date)
                 }
             default : break
@@ -80,7 +74,6 @@ struct MonthlyWalkSection: PageComponent{
         }
     }
     
-    @State var mission:Mission? = nil
     @State var userId:String = ""
     @State var yyyyMM:String = ""
     @State var yyyyMMdd:String = ""
@@ -92,7 +85,7 @@ struct MonthlyWalkSection: PageComponent{
         let yyyyMM = date.toDateFormatter(dateFormat: "yyyyMM")
         if yyyyMM == self.yyyyMM {return}
         self.yyyyMM = yyyyMM
-        self.dataProvider.requestData(q: .init(id:self.tag, type: .getMonthlyMission(userId: self.userId , date:date)))
+        self.dataProvider.requestData(q: .init(id:self.tag, type: .getMonthlyWalk(userId: self.userId , date:date)))
         
     }
     
@@ -118,14 +111,24 @@ struct MonthlyWalkSection: PageComponent{
         
         let w = self.listSize
         self.walkListSize = CGSize(width: w, height: w * Dimen.item.walkList.height / Dimen.item.walkList.width)
-        self.dataProvider.requestData(q: .init(id:self.tag, type: .getMission(userId: self.userId ,date: date, .walk)))
+        self.dataProvider.requestData(q: .init(id:self.tag, type: .getWalks(date: date)))
     }
-    private func updatedWalk(datas:[MissionData], date:Date?){
+    private func updatedWalk(datas:[WalkData], date:Date?){
         guard let date = date else {return}
         let yyyyMMdd = date.toDateFormatter(dateFormat: "yyyyMMdd") 
         if self.yyyyMMdd != yyyyMMdd {return}
         self.currentDate = date.toDateFormatter(dateFormat: "EEEE, MMMM d") + (self.isToday ? " ("+String.app.today+")" : "")
         self.datas = datas.map{WalkListItemData().setData($0, idx: 0)}
+    }
+    
+    private func move(data:WalkListItemData){
+        guard let walkData = data.originData else {return}
+        let mission = Mission().setData(walkData)
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.walkInfo)
+                .addParam(key: .data, value: mission)
+        
+        )
     }
 }
 

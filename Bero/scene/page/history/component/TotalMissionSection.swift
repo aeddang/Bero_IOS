@@ -58,8 +58,8 @@ struct TotalMissionSection: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getPets(let user, _):
-                if user.snsID == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
+            case .getPets(let userId, _):
+                if userId == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
                     self.user.setData(data: data)
                 }
             default : break
@@ -69,7 +69,7 @@ struct TotalMissionSection: PageComponent{
             self.profile = self.user.currentPet
             self.updatedMission()
             if user.pets.isEmpty, let snsUser = self.user.snsUser {
-                self.dataProvider.requestData(q: .init(id:self.tag, type: .getPets(snsUser, isCanelAble: true)))
+                self.dataProvider.requestData(q: .init(id:self.tag, type: .getPets(userId:snsUser.snsID, isCanelAble: true)))
                 
             }
            

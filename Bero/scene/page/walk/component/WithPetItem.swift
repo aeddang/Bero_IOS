@@ -20,7 +20,7 @@ struct WithPetItem: PageComponent{
                 self.appSceneObserver.event = .toast(String.alert.walkDisableEmptyWithPet )
                 return
             }
-            self.isSelect.toggle()
+            //self.isSelect.toggle()
             profile.isWith = self.isSelect
             
         }) {

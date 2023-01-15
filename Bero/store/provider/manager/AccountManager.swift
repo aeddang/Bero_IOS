@@ -19,8 +19,8 @@ class AccountManager : PageProtocol{
             if user.snsID == self.user.snsUser?.snsID, let data = res.data as? UserData {
                 self.user.setData(data: data)
             }
-        case .getPets(let user, _) :
-            if user.snsID == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
+        case .getPets(let userId, _) :
+            if userId == self.user.snsUser?.snsID, let data = res.data as? [PetData] {
                 self.user.setData(data: data, isMyPet: true)
             }
         case .updateUser(let user, let data):
@@ -31,11 +31,14 @@ class AccountManager : PageProtocol{
             if user.snsID == self.user.snsUser?.snsID {
                 self.user.currentProfile.update(image: data)
             }
-        case .registPet(let user, _):
+        case .registPet(let user, _, _):
             if user.snsID == self.user.snsUser?.snsID , let data = res.data as? PetData{
                 let idx = self.user.pets.count
                 self.user.registPetComplete(profile: PetProfile(data: data, isMyPet: true, index: idx))
             }
+        case .changeRepresentativePet(let petId):
+            self.user.representativePetChanged(petId: petId)
+            
         case .updatePet(let petId, let data):
             if let pet = self.user.pets.first(where: {$0.petId == petId}) {
                 pet.update(data: data)

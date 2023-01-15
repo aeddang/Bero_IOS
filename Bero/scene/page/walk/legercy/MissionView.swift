@@ -128,7 +128,7 @@ struct MissionView: PageComponent, Identifiable{
         self.isCompleted = self.mission.isCompleted
         self.isPlay = self.mission.isStart
         self.imaPath = self.mission.pictureUrl
-        if let loc = self.walkManager.currentLocation, let destination = self.mission.destination {
+        if let loc = self.walkManager.currentLocation, let destination = self.mission.location {
             self.distance = destination.distance(from: loc)
         }
     }
@@ -150,7 +150,7 @@ struct MissionView: PageComponent, Identifiable{
         if self.walkManager.status != .walking {
             self.appSceneObserver.alert = .confirm(nil, String.alert.missionStartNeedWalkConfirm){ isOk in
                 if isOk {
-                    self.walkManager.startWalk()
+                    //self.walkManager.startWalk()
                     DispatchQueue.main.asyncAfter(deadline: .now()+2) {
                         self.startMission()
                     }

@@ -172,6 +172,9 @@ extension Asset{
         public static let share = "share"
         public static let block = "block"
         public static let notice = "notice"
+        public static let search_dog = "search_dog"
+        public static let camera = "camera"
+        public static let pin_drop = "pin_drop"
     }
     
 

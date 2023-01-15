@@ -35,7 +35,7 @@ struct ApiCode {
 enum ApiAction:String{
     case login, pushToken
     case detecthumanwithdog, thumbsup, cities
-    case search, summary, newMissions, directions, visit, monthlyList
+    case search, summary, newMissions, directions, visit, visitors, monthlyList
     case isRequested, requesting, request, accept, reject
     case read, send
     case histories, list
@@ -52,24 +52,29 @@ enum ApiType{
          deleteUser
     
     case joinAuth(SnsUser, SnsUserInfo?), reflashAuth
-    case registPet(SnsUser, ModifyPetProfileData), getPets(SnsUser, isCanelAble:Bool? = true), getPet(petId:Int),
+    case registPet(SnsUser, ModifyPetProfileData, isRepresentative:Bool), getPets(userId:String, isCanelAble:Bool? = true), getPet(petId:Int),
          updatePet(petId:Int, ModifyPetProfileData), updatePetImage(petId:Int, UIImage?),
-         deletePet(petId:Int)
+         deletePet(petId:Int), changeRepresentativePet(petId:Int)
     
     case getMission(userId:String? = nil,petId:Int? = nil, date:Date? = nil, MissionApi.Category , page:Int? = nil, size:Int? = nil),
          searchMission(MissionApi.Category, MissionApi.SearchType, searchValue:String? = nil,
                        location:CLLocation? = nil, distance:Double? = nil, page:Int? = nil, size:Int? = nil),
          requestNewMission(CLLocation? = nil, distance:Double? = nil), requestRoute(departure:CLLocation, destination:CLLocation, missionId:String? = nil),
-         completeMission(Mission, [PetProfile], image:String? = nil),
-         getMissionSummary(petId:Int), getMonthlyMission(userId:String, date:Date)
-    
-    case registWalk(loc:CLLocation, [PetProfile]),
-         updateWalk(id:Int, loc:CLLocation, img:UIImage?, thumbImg:UIImage?)
+         completeMission(Mission, [PetProfile], image:String? = nil)
+         
+    case getWalk(walkId:Int), getWalks(date:Date),
+         searchLatestWalk(loc:CLLocation, radius:Int, min:Int),
+         searchWalk(loc:CLLocation, radius:Int, min:Int, page:Int? = nil, size:Int? = nil),
+         searchWalkFriends(page:Int? = nil, size:Int? = nil),
+         registWalk(loc:CLLocation, [PetProfile]),
+         updateWalk(walkId:Int, loc:CLLocation, additionalData:WalkadditionalData? = nil),
+         completeWalk(walkId:Int, loc:CLLocation, additionalData:WalkadditionalData? = nil),
+         getWalkSummary(petId:Int), getMonthlyWalk(userId:String, date:Date)
     
     case checkHumanWithDog(img:UIImage,thumbImg:UIImage)
     
-    case getAlbumPictures(id:String?, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , isExpose:Bool? = nil, page:Int? = nil, size:Int? = nil),
-         registAlbumPicture(img:UIImage, thumbImg:UIImage, id:String, AlbumApi.Category, isExpose:Bool = false),
+    case getAlbumPictures(userId:String?, referenceId:String? = nil, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , isExpose:Bool? = nil, page:Int? = nil, size:Int? = nil),
+         registAlbumPicture(img:UIImage, thumbImg:UIImage, userId:String, AlbumApi.Category, isExpose:Bool = false, referenceId:String? = nil),
          deleteAlbumPictures(ids:String),
          updateAlbumPicture(pictureId:Int, isLike:Bool? = nil, isExpose:Bool? = nil)
     
@@ -80,6 +85,7 @@ enum ApiType{
          getBanner(id:String)
    
     case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil),
+         getPlaceVisitors(placeId:Int, page:Int? = nil, size:Int? = nil),
          registVisit(Place)
     
     case getFriend (userId:String? = nil, page:Int? = nil, size:Int? = nil),

@@ -227,16 +227,17 @@ struct ContentTab: ViewModifier {
 struct BottomFunctionTab: ViewModifier {
     var margin:CGFloat = Dimen.margin.regular
     var bgColor:Color = Color.app.white
+    var effectPct:CGFloat = 1
     func body(content: Content) -> some View {
         return content
             .padding(.all, margin)
             .background(bgColor)
             .mask(
                 ZStack(alignment: .bottom){
-                    RoundedRectangle(cornerRadius: Dimen.radius.medium)
+                    RoundedRectangle(cornerRadius: Dimen.radius.medium * effectPct)
                     Rectangle().modifier(MatchHorizontal(height: Dimen.radius.medium))
                 }
             )
-            .modifier(ShadowTop())
+            .modifier(ShadowTop(opacity: 0.12 * effectPct))
     }
 }

@@ -26,6 +26,7 @@ struct ListDetailItem: PageComponent{
     var isLike:Bool = false
     var likeSize:SortButton.SizeType = .big
     var pets:[PetProfile] = []
+    var iconAction: (() -> Void)? = nil
     var action: (() -> Void)? = nil
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.thin){
@@ -53,7 +54,7 @@ struct ListDetailItem: PageComponent{
                                 color: self.iconColor,
                                 isSort: false
                             ){
-                                self.action?()
+                                self.iconAction?()
                             }
                             .fixedSize()
                         }

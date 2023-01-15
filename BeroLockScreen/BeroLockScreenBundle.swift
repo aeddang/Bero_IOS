@@ -11,7 +11,7 @@ import SwiftUI
 @main
 struct BeroLockScreenBundle: WidgetBundle {
     var body: some Widget {
-        BeroLockScreen()
+        //BeroLockScreen()
         if #available(iOS 16.1, *) {
             BeroLockScreenLiveActivity()
         }

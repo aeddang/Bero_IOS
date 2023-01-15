@@ -15,6 +15,11 @@ import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
 
+extension PageWalkInfo {
+    static let topScrollDefault:CGFloat = 240
+    static let topScrollMax:CGFloat = 320
+}
+
 struct PageWalkInfo: PageView {
     
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -53,6 +58,11 @@ struct PageWalkInfo: PageView {
                                     width: geometry.size.width * max(1.0,self.imageScale),
                                     height: geometry.size.width * max(1.0,self.imageScale)
                                 )
+                                .opacity(max(self.imageScale, 0.2))
+                                .frame(
+                                    width: geometry.size.width ,
+                                    height: geometry.size.width
+                                )
                             } else {
                                 Spacer()
                                     .modifier(MatchParent())
@@ -86,7 +96,7 @@ struct PageWalkInfo: PageView {
                         VStack(spacing:0){
                             Spacer().frame(
                                 width: 0,
-                                height: geometry.size.width + self.topOffSet - Dimen.radius.medium
+                                height: max(0,Self.topScrollDefault + self.topOffSet)
                             )
                             ZStack{
                                 if let mission = self.mission {
@@ -100,11 +110,15 @@ struct PageWalkInfo: PageView {
                                         isRecycle: false,
                                         useTracking: true
                                     ){
-                                        WalkTopInfo(mission: mission)
+                                        WalkTopInfo(mission: mission, isMe: self.isMe)
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                        MissionPlayInfo(mission: mission)
+                                        WalkPlayInfo(mission: mission)
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                                             .padding(.top, Dimen.margin.regularUltra)
+                                        
+                                        Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                                            .padding(.vertical, Dimen.margin.medium)
+                                        
                                         WalkPropertySection(mission: mission)
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                                             .padding(.top, Dimen.margin.regularUltra)
@@ -112,6 +126,13 @@ struct PageWalkInfo: PageView {
                                         Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                             .padding(.vertical, Dimen.margin.medium)
                                         
+                                        WalkAlbumSection(
+                                            listSize: geometry.size.width,
+                                            albums: mission.walkPath?.pictures ?? []
+                                        )
+                                        
+                                        
+                                        /*
                                         TitleTab(type:.section, title: String.pageTitle.completedMissions)
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                                             .padding(.bottom, Dimen.margin.regularUltra)
@@ -133,15 +154,15 @@ struct PageWalkInfo: PageView {
                                             Spacer()
                                                 .frame(height:100)
                                         }
-                                        Spacer()
-                                            .frame(height: max(-self.topOffSet, 0))
+                                        */
+                                        
                                     }
                                     
                                 } else {
                                     Spacer().modifier(MatchParent())
                                 }
                             }
-                            .modifier(BottomFunctionTab(margin:0))
+                            .modifier(BottomFunctionTab(margin:0, effectPct:self.imageScale))
                         }
                     }
                 }
@@ -163,51 +184,54 @@ struct PageWalkInfo: PageView {
                 self.imageScale = 1.0 + (scrollPos*0.01)
                 if scrollPos > 0 {return}
                 PageLog.d("scrollPos " + scrollPos.description, tag: self.tag)
-                self.topOffSet = max(scrollPos, -120)
+                self.topOffSet = max(scrollPos, -Self.topScrollMax)
             }
             .onReceive(self.dataProvider.$result){res in
                 guard let res = res else { return }
                 if !res.id.hasPrefix(self.tag) {return}
                 switch res.type {
-                case .searchMission : self.loaded(res)
+                case .getWalk(let walkId) :
+                    if walkId != self.walkId {return}
+                    self.loaded(res)
+                    self.pageObservable.isInit = true
                 default : break
                 }
             }
-            .onReceive(self.pageObservable.$isAnimationComplete){ isOn in
-                if isOn {
-                    self.loadMissions()
-                }
-            }
+            
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 if let mission = obj.getParamValue(key: .data) as? Mission{
                     self.mission = mission
-                    self.missionId = mission.missionId
+                    self.updatedData()
                     self.pageObservable.isInit = true
+                    return
                 }
-                
+                if let walkId = obj.getParamValue(key: .id) as? Int{
+                    self.walkId = walkId
+                    self.dataProvider.requestData(q:.init(id:self.tag,type: .getWalk(walkId: walkId)))
+                }
             }
         }//GeometryReader
     }//body
+    @State var userId:String = ""
     @State var title:String = String.app.walk
-    @State var missionId:Int = -1
+    @State var walkId:Int = -1
+    @State var isMe:Bool = false
     @State var mission:Mission? = nil
     @State var topOffSet:CGFloat = Dimen.margin.regular
     @State var imageScale:CGFloat = 1.0
-    @State var missions:[RewardHistoryListItemData] = []
-    
-    func loadMissions(){
-        self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .searchMission(.mission, .Walk, searchValue:self.missionId.description), isOptional: true
-        ))
-    }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let datas = res.data as? [MissionData] else { return }
-        let end =  datas.count
-        self.missions = zip(0...end, datas).map { idx, d in
-            return RewardHistoryListItemData().setData(d,  idx: idx)
-        }
+        guard let data = res.data as? WalkData else { return }
+        self.mission = Mission().setData(data)
+        self.updatedData()
+    }
+    
+    private func updatedData(){
+        guard let mission = self.mission else {return}
+        self.walkId = mission.missionId
+        self.userId = mission.user?.snsUser?.snsID ?? self.dataProvider.user.snsUser?.snsID ?? ""
+        self.isMe = self.dataProvider.user.isSameUser(userId: self.userId)
     }
 }
 

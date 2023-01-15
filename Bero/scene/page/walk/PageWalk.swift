@@ -41,24 +41,21 @@ struct PageWalk: PageView {
                 .modifier(MatchParent())
                 
                 VStack(alignment: .trailing, spacing: Dimen.margin.thin){
-                    if self.isWalk {
-                        WalkBox(
+                    WalkBox(
+                        pageObservable: self.pageObservable,
+                        viewModel: self.mapModel
+                    )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    
+                    Spacer().modifier(MatchParent())
+                    
+                    if self.isInitable {
+                        PlayBox(
                             pageObservable: self.pageObservable,
                             viewModel: self.mapModel,
                             isFollowMe: self.$isFollowMe
                         )
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    }
-                    Spacer().modifier(MatchParent())
-                    if self.isInitable {
-                        if !self.isWalk {
-                            StartBox(
-                                pageObservable: self.pageObservable,
-                                viewModel: self.mapModel,
-                                isFollowMe: self.$isFollowMe
-                            )
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        } 
                     }
                 }
                 .padding(.bottom, Dimen.app.bottom + Dimen.margin.thin)
@@ -74,11 +71,13 @@ struct PageWalk: PageView {
             }
             .modifier(MatchParent())
             .background(Color.brand.bg)
+            
         }//GeometryReader
         .onReceive(self.walkManager.$currentLocation){ loc in
             guard let loc = loc else {return}
             if !self.isInit {
                 self.isInit = true
+                self.walkManager.clearMapUser()
                 self.walkManager.updateMapStatus(loc)
             }
         }
@@ -103,17 +102,15 @@ struct PageWalk: PageView {
             guard let evt = evt else {return}
             switch evt {
             case .addedDog, .deletedDog, .updatedDogs:
-                withAnimation{
-                    self.isInitable = !self.dataProvider.user.pets.isEmpty
-                }
+                self.updatedDog()
                 self.needDog()
-            
             default : break
             }
         }
         .onReceive(self.mapModel.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
+            case .tab(_) : self.closeAllPopup()
             case .tabMarker(let marker) : self.onMapMarkerSelect(marker)
             case .tabOffMarker(let marker) : self.onMapMarkerDisSelect(marker)
             case .move(let isUser) :
@@ -123,12 +120,8 @@ struct PageWalk: PageView {
             }
         }
         .onAppear{
-            
             self.walkManager.startMap()
-            withAnimation{
-                self.isInitable = !self.dataProvider.user.pets.isEmpty
-            }
-            
+            self.updatedDog()
             
         }
         .onDisappear{
@@ -138,6 +131,12 @@ struct PageWalk: PageView {
     @State var isInitable:Bool = false
     @State var isInit:Bool = false
     @State var isWalk:Bool = false
+    
+    private func updatedDog(){
+        withAnimation{
+            self.isInitable = !self.dataProvider.user.pets.isEmpty
+        }
+    }
    
     private func needDog(){
         if !self.dataProvider.user.pets.isEmpty { return }

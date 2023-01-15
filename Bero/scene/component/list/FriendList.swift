@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Foundation
 import SwiftUI
 extension FriendList {
     static let row:Int = SystemEnvironment.isTablet ? 6 : 3

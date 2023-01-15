@@ -16,6 +16,8 @@ struct PlaceData : Decodable {
     private(set) var isVisited:Bool? = nil
     private(set) var visitors: [PlaceVisitor]? = nil
     private(set) var place:MissionPlace? = nil
+    private(set) var point:Int? = nil
+    private(set) var exp:Double? = nil
 }
 struct PlaceVisitor : Decodable {
     private(set) var user: UserData? = nil

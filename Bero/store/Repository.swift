@@ -102,7 +102,6 @@ class Repository:ObservableObject, PageProtocol{
         self.setupApiManager()
         self.autoSnsLogin()
         self.updateTodayWalkCount(0)
-      
     }
     
     deinit {
@@ -350,7 +349,7 @@ class Repository:ObservableObject, PageProtocol{
         self.status = .ready
         if let user = self.dataProvider.user.snsUser {
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
-            self.dataProvider.requestData(q: .init(type: .getPets(user, isCanelAble: false), isOptional: true))
+            self.dataProvider.requestData(q: .init(type: .getPets(userId: user.snsID, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(id: self.tag, type: .getChatRooms(page: 0), isOptional: true))
             Analytics.setUserID(user.snsID)
             Analytics.setUserProperty("type", forName: user.snsType.title)

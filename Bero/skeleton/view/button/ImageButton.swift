@@ -72,6 +72,7 @@ struct ImageButton: View, SelecterbleProtocol, PageProtocol{
             .padding(.all, self.padding)
             .background(Color.transparent.clearUi)
         }
+        .buttonStyle(BorderlessButtonStyle())
     }
 }
 

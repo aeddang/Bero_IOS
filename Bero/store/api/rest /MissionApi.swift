@@ -9,15 +9,6 @@ import Foundation
 import CoreLocation
 import GoogleMaps
 
-class Walk{
-    var locations:[CLLocation] = []
-    var playTime:Double = 0
-    var playDistence:Double = 0
-    var pictureUrl:String? = nil
-    func point()->Double {
-        return 10 + floor(playDistence/1000)*10
-    }
-}
 
 
 extension MissionApi {
@@ -110,24 +101,9 @@ class MissionApi :Rest{
     }
     
     
-    func get(departure:CLLocation,destination:CLLocation,
-             completion: @escaping (ApiItemResponse<MissionRoute>) -> Void, error: ((_ e:Error) -> Void)? = nil){
-        var params = [String: String]()
-        params["originLat"] = departure.coordinate.latitude.description
-        params["originLng"] = departure.coordinate.longitude.description
-        params["destLat"] = destination.coordinate.latitude.description
-        params["destLng"] = destination.coordinate.longitude.description
-        fetch(route: MissionApiRoute (method: .get, action:.directions, query: params), completion: completion, error:error)
-    }
     
-    func getMonthly(userId:String, date:Date,
-             completion: @escaping (ApiItemResponse<String>) -> Void, error: ((_ e:Error) -> Void)? = nil){
-        var params = [String: String]()
-        params["missionCategory"] = MissionApi.Category.all.getApiCode
-        params["userId"] = userId
-        params["month"] = date.toDateFormatter(dateFormat: "yyyy-MM") 
-        fetch(route: MissionApiRoute (method: .get, action:.monthlyList, query: params), completion: completion, error:error)
-    }
+    
+    
     
     func post(mission:Mission, pets:[PetProfile] , pictureUrl:String?,  completion: @escaping (ApiContentResponse<MissionData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()
@@ -153,7 +129,7 @@ class MissionApi :Rest{
             geo["lng"] = loc.coordinate.longitude
             geos.append(geo)
         }
-        if let loc = mission.destination {
+        if let loc = mission.location {
             var geo :[String: Any] = [:]
             geo["lat"] = loc.coordinate.latitude
             geo["lng"] = loc.coordinate.longitude
@@ -164,14 +140,6 @@ class MissionApi :Rest{
         fetch(route: MissionApiRoute (method: .post, body: params), completion: completion, error:error)
     }
     
-
-    
-    func getSummary(petId:Int?,
-             completion: @escaping (ApiContentResponse<MissionSummary>) -> Void, error: ((_ e:Error) -> Void)? = nil){
-        var params = [String: String]()
-        params["petId"] = petId?.description ?? ""
-        fetch(route: MissionApiRoute (method: .get, action:.summary, query: params), completion: completion, error:error)
-    }
 }
 
 struct MissionApiRoute : ApiRoute{

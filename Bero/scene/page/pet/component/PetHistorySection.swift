@@ -26,6 +26,7 @@ struct PetHistorySection: PageComponent{
                         description: self.walkDescription
                     )
                 }
+                /*
                 Button(action: {
                     self.user.currentPet = profile
                     self.pagePresenter.openPopup(
@@ -42,6 +43,7 @@ struct PetHistorySection: PageComponent{
                         description: self.missionDescription
                     )
                 }
+                */
             } else {
                 ValueBox(
                     datas: self.datas

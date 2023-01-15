@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct MissionPlayInfo: PageComponent{
+struct WalkPlayInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var mission:Mission

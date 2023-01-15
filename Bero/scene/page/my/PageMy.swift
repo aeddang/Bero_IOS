@@ -60,7 +60,7 @@ struct PageMy: PageView {
                         isRecycle: false,
                         useTracking: true
                     ){
-                        if let pet = self.dataProvider.user.representativePet {
+                        if let pet = self.representativePet {
                             PetProfileTopInfo(profile:pet){
                                 self.pagePresenter.openPopup(
                                     PageProvider.getPageObject(.modifyPet)
@@ -86,7 +86,10 @@ struct PageMy: PageView {
                                     self.pagePresenter.openPopup(
                                         PageProvider.getPageObject(.myLv)
                                     )
-                                default : break
+                                case .point :
+                                    self.appSceneObserver.event = .toast(String.alert.comingSoon)
+                                default :
+                                    self.appSceneObserver.event = .toast(String.alert.comingSoon)
                                 }
                             default : break
                             }
@@ -133,12 +136,14 @@ struct PageMy: PageView {
             .onReceive(self.dataProvider.user.$event){ evt in
                 guard let evt = evt else {return}
                 switch evt {
-                case .addedDog : break
+                case .updatedDogs: break
                 default : break
                 }
             }
+            .onReceive(self.dataProvider.user.$representativePet){ pet in
+                self.representativePet = pet
+            }
             .onAppear{
-                
                 
             
             }
@@ -146,7 +151,7 @@ struct PageMy: PageView {
        
     }//body
    
-    
+    @State var representativePet:PetProfile? = nil
    
 }
 

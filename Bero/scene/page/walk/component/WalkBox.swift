@@ -18,103 +18,37 @@ struct WalkBox: PageComponent{
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
     
-    @Binding var isFollowMe:Bool
-    @State var isExpand:Bool = true
     var body: some View {
-        ZStack(alignment: .topTrailing){
-            HStack(spacing:0){
-                CircleButton(
-                    type: .icon(self.isExpand ? Asset.icon.minimize : Asset.icon.maximize),
-                    isSelected: false,
-                    strokeWidth: Dimen.stroke.regular,
-                    defaultColor: self.isExpand ? Color.app.grey500 : Color.brand.primary)
-                { _ in
-                    withAnimation{
-                        self.isExpand.toggle()
-                    }
-                    self.walkManager.updateSimpleView(!self.isExpand)
-                }
-                .opacity(self.isExpand ? 1 : 0)
-                Spacer().modifier(MatchHorizontal(height: 0))
-                CircleButton(
-                    type: .icon(Asset.icon.my_location),
-                    isSelected: false,
-                    strokeWidth: Dimen.stroke.regular,
-                    defaultColor: self.isFollowMe ? Color.app.blue : Color.app.grey500)
-                { _ in
-                    self.isFollowMe.toggle()
-                    self.viewModel.playUiEvent = .resetMap
-                }
-            }
+        HStack(alignment: .top, spacing:Dimen.margin.regularExtra){
             if self.isExpand {
-                ZStack(alignment: .top){
-                    HStack(spacing:0){
-                        Spacer().modifier(MatchHorizontal(height: 0))
-                        HStack(spacing:Dimen.margin.micro){
-                            ForEach(self.pets) { profile in
-                                WithPetItem(profile: profile)
-                            }
-                        }
-                        .fixedSize()
-                    }
-                    VStack(alignment: .leading, spacing:Dimen.margin.thin){
-                        Text(WalkManager.viewDistance(self.walkDistence))
-                            .modifier(SemiBoldTextStyle(
-                                size: Font.size.medium,
-                                color: Color.app.grey500
-                            ))
-                            
-                        LocationInfo(
-                            time: WalkManager.viewDuration(self.walkTime)
-                        )
-                        HStack(spacing:Dimen.margin.micro){
-                            RewardInfo(
-                                type: .exp,
-                                value: self.playExp
+                VStack(alignment: .leading, spacing:0){
+                    Spacer().modifier(MatchHorizontal(height: 0))
+                    Text(self.title)
+                        .modifier(SemiBoldTextStyle(
+                            size: Font.size.regular,
+                            color: self.isWalk ? Color.brand.primary : Color.app.grey500
+                        ))
+                    if self.isWalk {
+                        HStack(spacing:Dimen.margin.thin){
+                            PropertyInfo(
+                                type: .impect,
+                                value: self.walkTime,
+                                unit:String.app.time
                             )
-                            RewardInfo(
-                                type: .point,
-                                value: self.playPoint
+                            PropertyInfo(
+                                type: .impect,
+                                value: self.walkDistance,
+                                unit:String.app.km
                             )
-                            FillButton(
-                                type: .fill,
-                                text: String.button.finish,
-                                size: Dimen.button.regularExtra,
-                                color: Color.app.black,
-                                isActive: true
-                            ){_ in
-                                self.finishWalk()
-                            }
-                            if let mission = self.mission {
-                                RectButton(
-                                    sizeType: .tiny,
-                                    icon: Asset.icon.goal,
-                                    text: WalkManager.viewDistance(self.distenceFromMission),
-                                    isSelected: true,
-                                    color: Color.brand.primary
-                                    ){_ in
-                                    
-                                        self.pagePresenter.closePopup(pageId: .popupWalkPlace)
-                                        self.pagePresenter.closePopup(pageId: .popupWalkUser)
-                                        
-                                        if self.pagePresenter.hasPopup(find: .popupWalkMission) {
-                                            self.pagePresenter.onPageEvent(
-                                                self.pageObject,
-                                                event: .init(id: PageID.popupWalkMission ,type: .pageChange, data: mission)
-                                            )
-                                            return
-                                        }
-                                        self.isFollowMe = false
-                                        self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkMission).addParam(key: .data, value: mission))
-                                }
-                                .frame(width: RectButton.SizeType.tiny.bgSize)
-                            }
-                            
                         }
+                        .padding(.top, Dimen.margin.thin)
+                    } else {
+                        LocationInfo()
+                            .padding(.top, Dimen.margin.medium)
                     }
                 }
                 .padding(.all, Dimen.margin.regularExtra)
-                .background(Color.app.white )
+                .background( Color.app.white )
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
                 .overlay(
                     RoundedRectangle(cornerRadius: Dimen.radius.light)
@@ -124,36 +58,38 @@ struct WalkBox: PageComponent{
                         )
                 )
                 .modifier(ShadowLight( opacity: 0.05 ))
-                .padding(.top, Dimen.icon.mediumUltra + Dimen.margin.thin)
+            } else {
+                Spacer().modifier(MatchHorizontal(height: 0))
+            }
+            CircleButton(
+                type: .icon(Asset.icon.search_dog),
+                isSelected: false,
+                strokeWidth: 0,
+                defaultColor: Color.app.grey500 )
+            { _ in
+                self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUsers))
             }
         }
         .opacity(self.isShow ? 1 : 0)
-        .onReceive(self.dataProvider.user.$event){ evt in
-            guard let evt = evt else {return}
-            switch evt {
-            case .addedDog, .deletedDog, .updatedDogs : self.updatedPets()
-            case .updatedPlayData :
-                break
-            default: break
+        .onReceive(self.dataProvider.user.$representativePet){ _ in
+            self.updateTitle()
+        }
+        .onReceive(self.walkManager.$status){ status in
+            if !self.isInit {
+                self.isInit = true
+                self.isWalk = status == .walking
+            } else {
+                withAnimation{
+                    self.isWalk = status == .walking
+                }
             }
-        }
-        .onReceive(self.walkManager.$playExp){ exp in
-            self.playExp = exp.toInt()
-        }
-        .onReceive(self.walkManager.$playPoint){ point in
-            self.playPoint = point
+            self.updateTitle()
         }
         .onReceive(self.walkManager.$walkTime){ time in
-            self.walkTime = time
+            self.walkTime = WalkManager.viewDuration(time)
         }
-        .onReceive(self.walkManager.$walkDistence){ distence in
-            self.walkDistence = distence
-        }
-        .onReceive(self.walkManager.$currentMission){ mission in
-            self.mission = mission
-        }
-        .onReceive(self.walkManager.$currentDistenceFromMission){ distence in
-            self.distenceFromMission = distence ?? 0
+        .onReceive(self.walkManager.$walkDistance){ distance in
+            self.walkDistance = WalkManager.viewDistance(distance)
         }
         .onReceive(self.walkManager.$isSimpleView){ isSimple in
             withAnimation{
@@ -164,45 +100,26 @@ struct WalkBox: PageComponent{
             withAnimation{ self.isShow = !isHidden }
         }
         .onAppear(){
-            self.updatedPets()
+            self.isExpand = !self.walkManager.isSimpleView
         }
+        
     }
+    @State var isInit:Bool = false
     @State var isShow:Bool = true
-    @State var walkTime:Double = 0
-    @State var walkDistence:Double = 0
-    @State var playExp:Int = 0
-    @State var playPoint:Int = 0
-    @State var pets:[PetProfile] = []
-    @State var mission:Mission? = nil
-    @State var distenceFromMission:Double = 0
-    private func finishWalk(){
-        
-        self.appSceneObserver.sheet = .select(
-            String.pageText.walkFinishConfirm,
-            String.alert.completedNeedPicture,
-            [String.app.cancel,String.button.finish]){ idx in
-                if idx == 1 {
-                    self.walkManager.endMission()
-                    self.walkManager.completeWalk()
-                } else {
-                    self.cancelWalk()
-                }
-            }
-    }
+    @State var isExpand:Bool = true
+    @State var isWalk:Bool = false
+    @State var walkTime:String = "00:00"
+    @State var walkDistance:String = "0"
+    @State var title:String = ""
     
-    private func cancelWalk(){
-        
-        self.appSceneObserver.alert  = .confirm(nil, String.alert.completedExitConfirm){ isOk in
-            
-            self.walkManager.endMission()
-            if isOk {
-                self.walkManager.endWalk()
-            } 
+    private func updateTitle(){
+        if self.isWalk {
+            self.title = String.pageText.walkPlayText
+        } else {
+            let name = self.dataProvider.user.representativePet?.name ?? self.dataProvider.user.currentProfile.nickName ?? ""
+            self.title = String.pageText.walkStartText.replace(name)
         }
-    }
-    
-    private func updatedPets(){
-        self.pets = self.dataProvider.user.pets
+        
     }
 }
 

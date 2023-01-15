@@ -87,14 +87,17 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @Published private(set) var size:Double? = nil
     private(set) var isEmpty:Bool = false
     private(set) var isMypet:Bool = false
-    
     private(set) var totalExerciseDistance: Double? = nil
     private(set) var totalExerciseDuration: Double? = nil
     @Published private(set) var totalMissionCount: Int = 0
     @Published private(set) var totalWalkCount: Int = 0
     private(set) var originData:PetData? = nil
     var isWith:Bool = true
-    
+    var isRepresentative:Bool = false
+    var isFriend:Bool = false
+    var sortIdx:Int {
+        self.isRepresentative ? 0 : 1
+    }
     public static func == (l:PetProfile, r:PetProfile)-> Bool {
         return l.id == r.id
     }
@@ -122,6 +125,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         if data.pictureUrl?.isEmpty == false {
             self.imagePath = data.pictureUrl
         }
+        self.isRepresentative = data.isRepresentative ?? false
         self.userId = data.userId ?? ""
         self.name = data.name
         self.breed = data.tagBreed
@@ -145,6 +149,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         }
     }
     
+
     @discardableResult
     func empty() -> PetProfile{
         self.isEmpty = true
