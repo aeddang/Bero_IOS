@@ -19,10 +19,12 @@ struct SelectGenderStep: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     let profile:ModifyPetProfileData?
+   
     let step:PageAddDog.Step
     let prev: (() -> Void)
     let next: ((ModifyPetProfileData) -> Void)
     @State var selectGender:Gender? = nil
+    @State var isNeutralized:Bool = false
     @State var isShowing = false
     var body: some View {
         VStack(spacing: Dimen.margin.tiny){
@@ -46,6 +48,12 @@ struct SelectGenderStep: PageComponent{
                         withAnimation{self.selectGender = .female}
                 }
             }
+            AgreeButton(
+                type: .neutralized,
+                isChecked: self.isNeutralized
+            ){ check in
+                self.isNeutralized = check
+            }
             Spacer()
             HStack (spacing:Dimen.margin.tinyExtra){
                 if !self.step.isFirst {
@@ -67,7 +75,8 @@ struct SelectGenderStep: PageComponent{
                     if self.selectGender == nil {return}
                     self.next(
                         .init(
-                            gender:self.selectGender
+                            gender:self.selectGender,
+                            isNeutralized: self.isNeutralized
                         )
                     )
                 }
@@ -78,6 +87,7 @@ struct SelectGenderStep: PageComponent{
         .opacity(self.isShowing ? 1 : 0)
         .onAppear{
             self.selectGender = self.profile?.gender
+            self.isNeutralized = self.profile?.isNeutralized ?? false
             withAnimation{  self.isShowing = true }
         }
     }

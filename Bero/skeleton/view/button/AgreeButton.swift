@@ -12,22 +12,30 @@ import FirebaseAnalytics
 struct AgreeButton: View, SelecterbleProtocol, PageProtocol {
     @EnvironmentObject var pagePresenter:PagePresenter
     enum ButtonType{
-        case privacy, service
-        
+        case privacy, service, neutralized
+        var icon:String?{
+            switch self {
+            case .neutralized : return Asset.icon.bone
+            default : return nil
+            }
+        }
         var text:String{
             switch self {
+            case .neutralized : return "Neutralized/Spayed"
             case .privacy : return "Privacy usage agreement"
             case .service : return "Terms of service agreement"
             }
         }
         
-        var page:PageID{
+        var page:PageID?{
             switch self {
             case .privacy : return .privacy
             case .service : return .serviceTerms
+            default : return nil
             }
         }
     }
+    
     var type:ButtonType = .privacy
     var isChecked: Bool
     var text:String? = nil
@@ -38,24 +46,33 @@ struct AgreeButton: View, SelecterbleProtocol, PageProtocol {
             VStack(alignment: .leading, spacing: 0){
                 Spacer().modifier(MatchHorizontal(height: 0))
                 HStack(spacing: Dimen.margin.tiny){
+                    if let icon = self.type.icon {
+                        Image(icon)
+                            .renderingMode(.original)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: Dimen.icon.light, height: Dimen.icon.light)
+                    }
                     Text(self.text ?? self.type.text)
                         .modifier( RegularTextStyle(
                             size: Font.size.light,
                             color: self.isChecked ? Color.app.black : Color.app.grey400
                         ))
                         .fixedSize()
-                    TextButton(
-                        defaultText: String.button.terms,
-                        isUnderLine: true
-                    ){_ in
-                        self.pagePresenter.openPopup(
-                            PageProvider.getPageObject(self.type.page)
-                        )
-                        let parameters = [
-                            "buttonType": self.tag,
-                            "buttonText": (text ?? "") + " more"
-                        ]
-                        Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
+                    if let page = self.type.page {
+                        TextButton(
+                            defaultText: String.button.terms,
+                            isUnderLine: true
+                        ){_ in
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(page)
+                            )
+                            let parameters = [
+                                "buttonType": self.tag,
+                                "buttonText": (text ?? "") + " more"
+                            ]
+                            Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
+                        }
                     }
                 }
             }
@@ -86,6 +103,12 @@ struct AgreeButton_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack{
+            AgreeButton(
+                type: .neutralized,
+                isChecked: true
+            ){ _ in
+                
+            }
             AgreeButton(
                 type: .privacy,
                 isChecked: true

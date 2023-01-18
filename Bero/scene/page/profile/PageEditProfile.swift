@@ -71,6 +71,7 @@ extension PageEditProfile{
     struct EditData {
         var name:String? = nil
         var gender:Gender? = nil
+        var isNeutralized:Bool? = nil
         var birth:Date? = nil
         var introduction:String? = nil
         var microchip:String? = nil
@@ -150,9 +151,10 @@ struct PageEditProfile: PageView {
                         case .gender :
                             SelectGenderEdit(
                                 prevData: self.gender,
+                                prevNeutralized: self.isNeutralized,
                                 type: type,
-                                needAgree:self.needAgree){data in
-                                    self.onEdit(data: data)
+                                needAgree:self.needAgree){data, isNeutralized in
+                                    self.onEdit(data: data, isOption: isNeutralized)
                                 }
                         case .birth :
                             SelectDateEdit(
@@ -212,6 +214,7 @@ struct PageEditProfile: PageView {
                 self.hashStatus = profile.hashStatus ?? ""
                 self.microchip = profile.microchip ?? ""
                 self.animalId = profile.animalId ?? ""
+                self.isNeutralized = profile.isNeutralized
                 self.needAgree = false
             }
             if let user = obj.getParamValue(key: .data) as? User{
@@ -240,12 +243,13 @@ struct PageEditProfile: PageView {
     @State var height:String = ""
     @State var birth:Date = Date()
     @State var gender:Gender? = nil
+    @State var isNeutralized:Bool? = nil
     @State var introduction:String = ""
     @State var immunStatus:String = ""
     @State var hashStatus:String = ""
     @State var microchip:String = ""
     @State var animalId:String = ""
-    private func onEdit(data:EditData){
+    private func onEdit(data:EditData, isOption:Bool? = nil){
         if let user = self.user, let snsUser = user.snsUser {
             let modifyData = ModifyUserProfileData(
                 nickName: data.name,
@@ -260,6 +264,7 @@ struct PageEditProfile: PageView {
             let modifyData = ModifyPetProfileData(
                 name: data.name,
                 gender: data.gender,
+                isNeutralized: data.gender != nil ? isOption : nil, 
                 birth: data.birth,
                 microchip: data.microchip,
                 animalId: data.animalId,

@@ -67,7 +67,8 @@ struct PageFriend: PageView {
                             infinityScrollModel: self.infinityScrollModel,
                             type:self.sortType,
                             user:user,
-                            listSize: geometry.size.width
+                            listSize: geometry.size.width,
+                            isEdit: self.isEdit
                         )
                     }
                 }
@@ -90,19 +91,17 @@ struct PageFriend: PageView {
             }
             .onAppear{
                 guard let obj = self.pageObject  else { return }
-                self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0)))
                 self.sortType = obj.getParamValue(key: .type) as? FriendList.ListType ?? .friend
-                if let user = obj.getParamValue(key: .data) as? User{
-                    self.user = user
-                    return
-                }
-                self.pageObservable.isInit = true
+                self.user = obj.getParamValue(key: .data) as? User ?? self.dataProvider.user
+                self.isEdit = obj.getParamValue(key: .isEdit) as? Bool ?? false
+                self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0)))
             }
         }//GeometryReader
     }//body
     @State var hasRequested:Bool = false
     @State var user:User? = nil
     @State var sortType:FriendList.ListType = .friend
+    @State var isEdit:Bool = false
     private func onSort(){
         let datas:[String] = [
             FriendList.ListType.friend.text,

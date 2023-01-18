@@ -152,6 +152,8 @@ extension PageParam {
     static let title = "title"
     static let text = "text"
     static let subText = "subText"
+    static let isFriend = "isFriend"
+    static let isEdit = "isEdit"
 }
 
 extension PageEventType {

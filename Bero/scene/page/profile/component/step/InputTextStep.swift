@@ -113,6 +113,7 @@ struct InputTextStep: PageComponent{
             self.onPrevDataBinding()
         }
         .onAppear{
+            /*
             switch self.step {
             case .identify :
                 if self.profile?.animalId?.isEmpty == false {
@@ -124,6 +125,7 @@ struct InputTextStep: PageComponent{
                 }
             default : break
             }
+            */
             self.onPrevDataBinding()
             withAnimation{  self.isShowing = true }
             if self.step.isSkipAble {return}
@@ -138,6 +140,7 @@ struct InputTextStep: PageComponent{
         case .name :
             self.input = self.profile?.name ?? ""
             self.limitedTextLength = 20
+        /*
         case .identify :
             if self.navigationModel.index == 0 {
                 self.input = self.profile?.animalId ?? ""
@@ -149,6 +152,7 @@ struct InputTextStep: PageComponent{
                 self.limitedTextLength = 9
                 
             }
+        */
         default : break
         }
     }
@@ -158,6 +162,7 @@ struct InputTextStep: PageComponent{
         switch self.step {
         case .name :
             self.next(.init(name : self.input))
+        /*
         case .identify :
             if self.inputTypeIndex == 0 {
                 self.next(.init(animalId : self.input))
@@ -165,6 +170,7 @@ struct InputTextStep: PageComponent{
             }else {
                 self.next(.init(microchip : self.input))
             }
+        */
         default : break
         }
         

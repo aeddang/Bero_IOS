@@ -7,6 +7,7 @@ struct FriendSection: PageComponent{
     var user:User
     var listSize:CGFloat = 300
     var type:FriendList.ListType = .friend
+    var isEdit:Bool = false
     var pageSize:Int = SystemEnvironment.isTablet ? 5 : 3
     var rowSize:Int = SystemEnvironment.isTablet ? 5 : 3
     var body: some View {
@@ -18,6 +19,7 @@ struct FriendSection: PageComponent{
                         PageProvider.getPageObject(.friend)
                             .addParam(key: .data, value: self.user)
                             .addParam(key: .type, value: self.type)
+                            .addParam(key: .isEdit, value: self.isEdit)
                     )
                 default : break
                 }

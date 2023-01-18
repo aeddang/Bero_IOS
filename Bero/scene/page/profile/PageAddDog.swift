@@ -16,7 +16,8 @@ import FirebaseCore
 import GoogleSignInSwift
 extension PageAddDog{
     enum Step: CaseIterable{
-        case name, picture, gender, birth, breed, immun, hash, identify
+        //case name, picture, gender, birth, breed, immun, hash, identify
+        case name, picture, gender, birth, breed, hash
         var description:String {
             switch self {
             case .name: return "What is the name of your dog?"
@@ -24,9 +25,9 @@ extension PageAddDog{
             case .gender : return "What is %s’s sex?"
             case .birth : return "When is %s’s birthday?"
             case .breed : return "What is %s’s breed?"
-            case .immun : return "Health & Immunization"
+            //case .immun : return "Health & Immunization"
             case .hash : return "Select all that applies to %s."
-            case .identify : return "Identify %s."
+            //case .identify : return "Identify %s."
             }
         }
         var caption:String? {
@@ -37,26 +38,26 @@ extension PageAddDog{
         }
         var inputType:[String]? {
             switch self {
-            case .identify : return [String.app.animalId, String.app.microchip]
+           //case .identify : return [String.app.animalId, String.app.microchip]
             default : return nil
             }
         }
         var inputDescription:String? {
             switch self {
-            case .identify : return "An animal ID is consisted of 15 digits.\nTake your pet to be scanned at the local vet, rescue centre or dog wardens service."
+            //case .identify : return "An animal ID is consisted of 15 digits.\nTake your pet to be scanned at the local vet, rescue centre or dog wardens service."
             default : return nil
             }
         }
         var keyboardType:UIKeyboardType {
             switch self {
-            case .identify: return .numberPad
+            //case .identify: return .numberPad
             default : return .namePhonePad
             }
         }
         var placeHolder:String{
             switch self {
             case .name : return "ex. Bero"
-            case .identify : return "ex) 123456789"
+            //case .identify : return "ex) 123456789"
             case .breed : return "Search breed"
             default : return ""
             }
@@ -71,7 +72,7 @@ extension PageAddDog{
         
         var isSkipAble:Bool{
             switch self {
-            case .identify : return true
+            //case .identify : return true
             default : return false
             }
         }
@@ -123,7 +124,7 @@ struct PageAddDog: PageView {
                     )
                 
                     switch self.currentStep {
-                    case .name, .identify :
+                    case .name : //, .identify :
                         InputTextStep(
                             navigationModel: self.navigationModel,
                             profile: self.profile,
@@ -148,6 +149,7 @@ struct PageAddDog: PageView {
                             step: self.currentStep,
                             prev: {self.onPrevStep()},
                             next: { data in self.onNextStep(updateProfile: data)})
+                    /*
                     case .immun :
                         SelectListStep(
                             infinityScrollModel : self.infinityScrollModel,
@@ -155,6 +157,7 @@ struct PageAddDog: PageView {
                             step: self.currentStep,
                             prev: {self.onPrevStep()},
                             next: { data in self.onNextStep(updateProfile: data)})
+                    */
                     case .breed :
                         SelectListStep(
                             infinityScrollModel : self.infinityScrollModel,

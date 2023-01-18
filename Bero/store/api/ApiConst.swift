@@ -62,7 +62,7 @@ enum ApiType{
          requestNewMission(CLLocation? = nil, distance:Double? = nil), requestRoute(departure:CLLocation, destination:CLLocation, missionId:String? = nil),
          completeMission(Mission, [PetProfile], image:String? = nil)
          
-    case getWalk(walkId:Int), getWalks(date:Date),
+    case getWalk(walkId:Int), getWalks(date:Date?), getUserWalks(userId:String? = nil, page:Int? = nil, size:Int? = nil),
          searchLatestWalk(loc:CLLocation, radius:Int, min:Int),
          searchWalk(loc:CLLocation, radius:Int, min:Int, page:Int? = nil, size:Int? = nil),
          searchWalkFriends(page:Int? = nil, size:Int? = nil),

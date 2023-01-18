@@ -34,7 +34,7 @@ class ReportData {
             }
         }
         var avg:Float = 0
-        if let missionTimes = data.missionTimes {
+        if let missionTimes = data.times {
             let values:[Float] = missionTimes.map{ time in
                 return Float(time.v ?? 0)
             }
@@ -61,8 +61,8 @@ class ReportData {
     func setReport(_ data:WalkReport)-> Int{
         
         var todayIdx:Int = -1
-        let max = Float(data.missionTimes?.count ?? 7)
-        let myCount =  Float(data.totalMissionCount ?? 0)
+        let max = Float(data.times?.count ?? 7)
+        let myCount =  Float(data.totalCount ?? 0)
         self.daysWalkCompareData
         = [
             CompareGraphData(
@@ -70,11 +70,11 @@ class ReportData {
                 color:Color.brand.primary,
                 title:String.pageText.reportWalkDayCompareMe),
             CompareGraphData(
-                value:Float(data.avgMissionCount ?? 0), max:max,
+                value:Float(data.avgCount ?? 0), max:max,
                 color:Color.app.grey300,
                 title:String.pageText.reportWalkDayCompareOthers)
         ]
-        if let missionTimes = data.missionTimes {
+        if let missionTimes = data.times {
             let count = missionTimes.count
             self.daysWalkData = ArcGraphData(value: myCount, max: Float(count))
             let today = Date().toDateFormatter(dateFormat: "yyyyMMdd")
@@ -127,7 +127,13 @@ struct PageWalkReport: PageView {
                     VStack(spacing:0){
                         TitleTab(
                             infinityScrollModel: self.infinityScrollModel,
+                            title: String.pageTitle.walkReport,
                             useBack: true,
+                            sortPetProfile: self.profile,
+                            sortButton: self.profile?.name,
+                            sort:{
+                                self.onSort()
+                            },
                             action :{ type in
                                 switch type {
                                 case .back : self.pagePresenter.closePopup(self.pageObject?.id)
@@ -145,28 +151,8 @@ struct PageWalkReport: PageView {
                             isRecycle: true,
                             useTracking: true
                         ){
-                            HStack(spacing: Dimen.margin.thin){
-                                TitleSection(
-                                    title: String.pageTitle.walkReport
-                                )
-                                SortButton(
-                                    type: .stroke,
-                                    sizeType: .big,
-                                    userProgile: nil,
-                                    petProgile: self.profile,
-                                    text: self.profile?.name ?? "",
-                                    color:Color.app.grey400,
-                                    isSort: true){
-                                        self.onSort()
-                                    }
-                                    .fixedSize()
-                            }
-                            if let profile = self.profile {
-                                PetWalkPropertySection(profile: profile)
-                            } else {
-                                PetWalkPropertySection(profile: PetProfile())
-                            }
-                            Spacer().modifier(LineHorizontal())
+                            
+                           
                             MenuTab(
                                 pageObservable:self.pageObservable,
                                 viewModel:self.navigationModel,
@@ -180,6 +166,13 @@ struct PageWalkReport: PageView {
                                 self.load()
                             }
                             if let data = self.reportData {
+                                if let profile = self.profile {
+                                    PetWalkPropertySection(profile: profile)
+                                } else {
+                                    PetWalkPropertySection(profile: PetProfile())
+                                }
+                                Spacer().modifier(LineHorizontal())
+                                
                                 VStack(alignment: .leading, spacing: Dimen.margin.heavyExtra){
                                     VStack(alignment: .center, spacing: Dimen.margin.regular){
                                         ReportText(

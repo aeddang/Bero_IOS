@@ -14,6 +14,7 @@ struct ModifyPetProfileData {
     var name:String? = nil
     var breed:String? = nil
     var gender:Gender? = nil
+    var isNeutralized:Bool? = nil
     var birth:Date? = nil
     var microchip:String? = nil
     var animalId:String? = nil
@@ -29,6 +30,7 @@ struct ModifyPetProfileData {
             name: data.name ?? self.name,
             breed: data.breed ?? self.breed,
             gender: data.gender ?? self.gender,
+            isNeutralized: data.isNeutralized ?? self.isNeutralized,
             birth: data.birth ?? self.birth,
             microchip: data.microchip ?? self.microchip,
             animalId: data.animalId ?? self.animalId,
@@ -73,6 +75,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @Published private(set) var name:String? = nil
     @Published private(set) var breed:String? = nil
     @Published private(set) var gender:Gender? = nil
+    @Published private(set) var isNeutralized:Bool = false
     @Published private(set) var birth:Date? = nil
     @Published private(set) var introduction:String? = nil
     @Published private(set) var exp:Double = 0
@@ -115,7 +118,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     init(isMyPet:Bool){
         self.isMypet = isMyPet
     }
-    init(data:PetData, isMyPet:Bool = false, index:Int = -1){
+    init(data:PetData, userId:String? = nil, isMyPet:Bool = false, index:Int = -1){
         self.isMypet = isMyPet
         if isMyPet {
             self.originData = data
@@ -126,7 +129,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
             self.imagePath = data.pictureUrl
         }
         self.isRepresentative = data.isRepresentative ?? false
-        self.userId = data.userId ?? ""
+        self.userId = data.userId ?? userId ?? ""
         self.name = data.name
         self.breed = data.tagBreed
         self.gender = Gender.getGender(data.sex) 
@@ -182,6 +185,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         if let value = data.name { self.name = value }
         if let value = data.breed { self.breed = value }
         if let value = data.gender { self.gender = value }
+        if let value = data.isNeutralized { self.isNeutralized = value }
         if let value = data.microchip { self.microchip = value }
         if let value = data.animalId { self.animalId = value }
         if let value = data.birth { self.birth = value }

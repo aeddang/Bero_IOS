@@ -40,8 +40,12 @@ struct PageChat: PageView {
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
                         title: String.pageTitle.chat,
-                        buttons:[.setting]){ type in
+                        buttons:[.friend, .setting]){ type in
                         switch type {
+                        case .friend :
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.friend)
+                            )
                         case .setting :
                             withAnimation{
                                 self.isEdit.toggle()
@@ -53,7 +57,7 @@ struct PageChat: PageView {
                     ChatRoomList(
                         infinityScrollModel: self.infinityScrollModel,
                         isEdit: self.$isEdit)
-                    
+                    /*
                     Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                     FriendListSection(
                         pageObservable:self.pageObservable,
@@ -62,6 +66,7 @@ struct PageChat: PageView {
                     )
                     .padding(.top, Dimen.margin.regular)
                     .padding(.bottom, self.bottomMargin)
+                     */
                 }
                 .padding(.bottom, Dimen.app.bottom)
                 .modifier(PageVertical())
@@ -78,6 +83,7 @@ struct PageChat: PageView {
                     if self.pagePresenter.currentTopPage == self.pageObject {
                         self.infinityScrollModel.uiEvent = .reload
                     }
+                    self.pagePresenter.closeAllPopup()
                 default : break
                 }
             }

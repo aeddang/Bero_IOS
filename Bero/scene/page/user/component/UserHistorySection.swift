@@ -7,11 +7,12 @@ struct UserHistorySection: PageComponent{
     var user:User
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.history, buttons:user.isFriend ? [.viewMore] : []){ type in
+            TitleTab(type:.section, title: String.pageTitle.history, buttons:[.viewMore]){ type in
                 guard let id = user.snsUser?.snsID else {return}
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.walkList)
                         .addParam(key: .id, value: id)
+                        .addParam(key: .isFriend, value: user.isFriend)
                 
                 )
             }

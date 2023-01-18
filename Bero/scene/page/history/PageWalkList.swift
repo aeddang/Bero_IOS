@@ -48,6 +48,7 @@ struct PageWalkList: PageView {
                             pageObservable: self.pageObservable,
                             infinityScrollModel: self.infinityScrollModel,
                             userId: userId,
+                            isFriend: self.isFriend,
                             listSize: geometry.size.width
                         )
                     } else {
@@ -65,17 +66,21 @@ struct PageWalkList: PageView {
             }//draging
             .onAppear{
                 guard let obj = self.pageObject  else { return }
+                if let isFriend = obj.getParamValue(key: .isFriend) as? Bool{
+                    self.isFriend = isFriend
+                }
                 if let userId = obj.getParamValue(key: .id) as? String{
                     self.userId = userId
                     return
                 }
+                
                 self.pageObservable.isInit = true
             }
         }//GeometryReader
     }//body
     
     @State var userId:String? = nil
-    
+    @State var isFriend:Bool = false
 }
 
 

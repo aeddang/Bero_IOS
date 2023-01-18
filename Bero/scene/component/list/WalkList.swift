@@ -7,6 +7,7 @@ struct WalkList: PageComponent{
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     let userId:String
+    var isFriend:Bool = false
     var listSize:CGFloat = 300
     var marginBottom:CGFloat = Dimen.margin.medium
     var body: some View {
@@ -62,11 +63,10 @@ struct WalkList: PageComponent{
             guard let res = res else { return }
             if res.id != self.userId {return}
             switch res.type {
-            case .getWalks :
-                /*
+            case .getUserWalks(_, let page, _) :
                 if page == 0 {
                     self.resetScroll()
-                }*/
+                }
                 self.loaded(res)
                 self.pageObservable.isInit = true
                 
@@ -77,7 +77,7 @@ struct WalkList: PageComponent{
             guard let err = err else { return }
             if err.id != self.userId {return}
             switch err.type {
-            case .getWalks :
+            case .getUserWalks :
                 self.pageObservable.isInit = true
                 
             default : break
@@ -109,7 +109,7 @@ struct WalkList: PageComponent{
         if self.infinityScrollModel.isLoading {return}
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
-        self.dataProvider.requestData(q: .init(id:self.userId, type: .getWalks(date: AppUtil.networkTimeDate())))
+        self.dataProvider.requestData(q: .init(id:self.userId, type: .getUserWalks(userId: self.userId, page: self.infinityScrollModel.page) ))
     }
     
     private func loaded(_ res:ApiResultResponds){

@@ -35,7 +35,7 @@ extension FriendList {
         
         var status:FriendStatus{
             switch self {
-            case .friend : return .friend
+            case .friend : return .chat
             case .request : return .requestFriend
             case .requested : return .recieveFriend
             }
@@ -53,6 +53,7 @@ struct FriendList: PageComponent{
     var listSize:CGFloat = 300
     var marginBottom:CGFloat = Dimen.margin.medium
     var isHorizontal:Bool = false
+    var isEdit:Bool = false
     var body: some View {
         VStack(spacing:0){
             if self.isEmpty {
@@ -78,7 +79,7 @@ struct FriendList: PageComponent{
                                 data: data,
                                 imgSize: self.imageSize,
                                 isMe: self.isMe,
-                                status: self.type.status == .friend ? .chat : self.type.status,
+                                status: self.isEdit && self.type == .friend ? .friend : self.type.status,
                                 isHorizontal: true
                             ){
                                 self.pagePresenter.openPopup(
@@ -111,7 +112,7 @@ struct FriendList: PageComponent{
                                 data: data,
                                 imgSize: Dimen.profile.mediumUltra,
                                 isMe: self.isMe,
-                                status: self.type.status,
+                                status: self.isEdit && self.type == .friend ? .friend : self.type.status,
                                 isHorizontal: false
                             ){
                                 self.pagePresenter.openPopup(

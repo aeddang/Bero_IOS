@@ -37,6 +37,16 @@ class WalkApi :Rest{
              completion: @escaping (ApiItemResponse<WalkData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         if let date = date { params["date"] = date.toDateFormatter(dateFormat: "yyyy-MM-dd") }
+        params["size"] = "999"
+        fetch(route: WalkApiRoute (method: .get, query: params), completion: completion, error:error)
+    }
+    
+    func get(userId:String?, page:Int?, size:Int?,
+             completion: @escaping (ApiItemResponse<WalkData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["userId"] = userId ?? ""
+        params["page"] = page?.description ?? "0"
+        params["size"] = size?.description ?? ApiConst.pageSize.description
         fetch(route: WalkApiRoute (method: .get, query: params), completion: completion, error:error)
     }
     

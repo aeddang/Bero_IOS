@@ -52,9 +52,9 @@ struct WalkSummary : Decodable {
 }
 
 struct WalkReport : Decodable {
-    private(set) var totalMissionCount: Double? = nil
-    private(set) var avgMissionCount: Double? = nil
-    private(set) var missionTimes: [WalkTime]? = nil
+    private(set) var totalCount: Double? = nil
+    private(set) var avgCount: Double? = nil
+    private(set) var times: [WalkTime]? = nil
 }
 
 struct WalkTime : Decodable {

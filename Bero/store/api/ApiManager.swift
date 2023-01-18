@@ -267,6 +267,10 @@ class ApiManager :PageProtocol, ObservableObject{
             self.walk.get(id:walkId,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
+        case .getUserWalks(let userId, let page, let size) :
+            self.walk.get(userId: userId, page: page, size: size,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
         case .getWalks(let date) :
             self.walk.get(date:date,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
@@ -279,7 +283,9 @@ class ApiManager :PageProtocol, ObservableObject{
                         page: nil, size: nil,
                         completion: {resB in
                             var res = resA
-                            res.items.append(contentsOf: resB.items)
+                            var resItems = resA.items.filter{$0.isFriend == false}
+                            resItems.append(contentsOf: resB.items)
+                            res.items = resItems
                             self.complated(id: apiID, type: type, res: res)
                         },
                         error: {_ in self.complated(id: apiID, type: type, res: resA)})

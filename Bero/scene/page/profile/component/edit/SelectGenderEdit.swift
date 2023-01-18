@@ -19,40 +19,52 @@ struct SelectGenderEdit: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     var prevData:Gender? = nil
+    var prevNeutralized:Bool? = nil
     let type:PageEditProfile.EditType
     var needAgree:Bool = false
-    let edit: ((PageEditProfile.EditData) -> Void)
+    let edit: ((PageEditProfile.EditData,Bool?) -> Void)
     @State var selectGender:Gender? = nil
+    @State var isNeutralized:Bool? = nil
     @State var isAgree:Bool = true
     var body: some View {
         VStack(spacing: Dimen.margin.heavy){
-            HStack(spacing:Dimen.margin.tinyExtra){
-                RectButton(
-                    icon: Gender.male.icon,
-                    text: Gender.male.title,
-                    isSelected: self.selectGender == Gender.male,
-                    color: Gender.male.color
-                ){_ in
-                    
-                    withAnimation{self.selectGender = .male}
-                }
-                if self.needAgree {
+            VStack(spacing: Dimen.margin.regular){
+                HStack(spacing:Dimen.margin.tinyExtra){
                     RectButton(
-                        icon: Gender.neutral.icon,
-                        text: Gender.neutral.title,
-                        isSelected: self.selectGender == Gender.neutral,
-                        color: Gender.neutral.color
+                        icon: Gender.male.icon,
+                        text: Gender.male.title,
+                        isSelected: self.selectGender == Gender.male,
+                        color: Gender.male.color
                     ){_ in
-                        withAnimation{self.selectGender = .neutral}
+                        
+                        withAnimation{self.selectGender = .male}
+                    }
+                    if self.needAgree {
+                        RectButton(
+                            icon: Gender.neutral.icon,
+                            text: Gender.neutral.title,
+                            isSelected: self.selectGender == Gender.neutral,
+                            color: Gender.neutral.color
+                        ){_ in
+                            withAnimation{self.selectGender = .neutral}
+                        }
+                    }
+                    RectButton(
+                        icon: Gender.female.icon,
+                        text: Gender.female.title,
+                        isSelected: self.selectGender == Gender.female,
+                        color: Gender.female.color
+                    ){_ in
+                        withAnimation{self.selectGender = .female}
                     }
                 }
-                RectButton(
-                    icon: Gender.female.icon,
-                    text: Gender.female.title,
-                    isSelected: self.selectGender == Gender.female,
-                    color: Gender.female.color
-                ){_ in
-                    withAnimation{self.selectGender = .female}
+                if let isNeutralized = self.isNeutralized {
+                    AgreeButton(
+                        type: .neutralized,
+                        isChecked: isNeutralized
+                    ){ check in
+                        self.isNeutralized = check
+                    }
                 }
             }
             VStack(spacing: Dimen.margin.regular){
@@ -74,13 +86,17 @@ struct SelectGenderEdit: PageComponent{
                     self.onAction()
                 }
                 .modifier(Shadow())
-                .opacity(self.selectGender?.rawValue == self.prevData?.rawValue
+                .opacity(
+                    self.isNeutralized != self.prevNeutralized
+                    ? 1
+                    : self.selectGender?.rawValue == self.prevData?.rawValue
                          || self.selectGender == nil || !self.isAgree ? 0.3 : 1)
             }
             Spacer().modifier(MatchParent())
         }
         .onAppear{
             self.selectGender = self.prevData
+            self.isNeutralized = self.prevNeutralized
             if self.needAgree {
                 self.isAgree = self.prevData != nil
             }
@@ -89,9 +105,12 @@ struct SelectGenderEdit: PageComponent{
     
     private func onAction(){
         if !self.isAgree {return}
+        if self.isNeutralized != self.prevNeutralized {
+            self.edit(.init(gender: self.selectGender), self.isNeutralized)
+            return
+        }
         if self.selectGender?.rawValue == self.prevData?.rawValue || self.selectGender == nil {return}
-      
-        self.edit(.init(gender: self.selectGender))
+        self.edit(.init(gender: self.selectGender), self.isNeutralized)
     }
 }
 
@@ -102,7 +121,7 @@ struct SelectGenderEdit_Previews: PreviewProvider {
         ZStack{
             SelectGenderEdit(
                 type: .gender,
-                edit: { data in }
+                edit: { data,  isNeutralized in }
             )
             .environmentObject(PagePresenter()).frame(width:320,height:600)
                 

@@ -105,7 +105,8 @@ struct PageMy: PageView {
                         
                         FriendSection(
                             user: self.dataProvider.user,
-                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                            listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2),
+                            isEdit: true
                         )
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                         .padding(.top, Dimen.margin.heavyExtra)

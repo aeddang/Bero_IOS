@@ -48,7 +48,7 @@ struct UserView: PageComponent, Identifiable{
             case .getPets(let userId, _) :
                 if userId == self.mission.userId , let datas = res.data as? [PetData]{
                     if let data = datas.first(where: {$0.isRepresentative == true}) ?? datas.first {
-                        let profile = PetProfile(data: data)
+                        let profile = PetProfile(data: data, userId: userId)
                         self.mission.petProfile = profile
                         self.profile = profile
                         self.pageObservable.isInit = true

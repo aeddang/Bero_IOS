@@ -155,7 +155,7 @@ class Mission:MapUserData,ObservableObject{
         self.userId = data.userId
         self.isFriend = data.isFriend ?? false
         if let pet = data.pet {
-            self.petProfile = PetProfile(data: pet)
+            self.petProfile = PetProfile(data: pet, userId: self.userId)
         }
         self.title = self.petProfile?.name
         self.pictureUrl = self.petProfile?.imagePath
@@ -204,8 +204,8 @@ class Mission:MapUserData,ObservableObject{
         switch self.type {
         case .user :
             if let origin = self.location {
-                let randX = Double.random(in: -0.003...0.003)
-                let randY = Double.random(in: -0.003...0.003)
+                let randX:Double = Double.random(in: -0.003...0.003)
+                let randY:Double = Double.random(in: -0.003...0.003)
                 self.location = CLLocation(latitude: origin.coordinate.latitude + randX , longitude: origin.coordinate.longitude + randY)
             }
         default : break

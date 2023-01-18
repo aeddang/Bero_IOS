@@ -73,6 +73,7 @@ struct UsersView: PageComponent, Identifiable{
                         } else {
                             ForEach(self.datas) { data in
                                 PetProfileUser(profile: data.petProfile!, friendStatus: .norelation){
+                                    self.pagePresenter.closePopup(self.pageObject?.id)
                                     self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUser).addParam(key: .data, value: data))
                                 }
                             }
@@ -84,6 +85,7 @@ struct UsersView: PageComponent, Identifiable{
                         } else {
                             ForEach(self.datas) { data in
                                 PetProfileUser(profile: data.petProfile!, friendStatus: .chat){
+                                    self.pagePresenter.closePopup(self.pageObject?.id)
                                     self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUser).addParam(key: .data, value: data))
                                 }
                             }

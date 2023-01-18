@@ -103,10 +103,12 @@ struct SelectListStep: PageComponent{
                         self.next(
                             .init( breed: self.finalSelect?.value)
                         )
+                    /*
                     case .immun :
                         self.next(
                             .init( immunStatus: PetProfile.exchangeListToString(self.selects))
                         )
+                    */
                     default : break
                     }
                 }
@@ -139,7 +141,7 @@ struct SelectListStep: PageComponent{
                     self.finalSelect = RadioBtnData(title: breed, value:breed, index: 0)
                 }
                 self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .breed, searchKeyword: self.keyword)))
-                
+            /*
             case .immun :
                 self.btnType = .stroke
                 self.isMultiSelectAble = true
@@ -147,6 +149,7 @@ struct SelectListStep: PageComponent{
                 self.useSearch = false
                 self.selects = PetProfile.exchangeStringToList(self.profile?.immunStatus)
                 self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .status)))
+             */
             default : break
             }
             withAnimation{  self.isShowing = true }
@@ -186,7 +189,7 @@ struct SelectListStep: PageComponent{
                     self.infinityScrollModel.uiEvent = .scrollMove(find)
                 }
             }
-            
+        /*
         case .immun :
             if category != .status {return}
             var index:Int = 0
@@ -199,6 +202,7 @@ struct SelectListStep: PageComponent{
                     index: num
                 )
             }
+         */
         default : break
         }
         
@@ -255,7 +259,7 @@ struct SearchStap_Previews: PreviewProvider {
         ZStack{
             SelectListStep(
                 profile: .init(),
-                step: .immun,
+                step: .breed,
                 prev: {},
                 next: { data in }
             )

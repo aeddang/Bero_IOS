@@ -95,6 +95,7 @@ struct TitleTab: PageComponent{
     var alignment:TextAlignment = .leading
     var useBack:Bool = false
     var margin:CGFloat? = nil
+    var sortPetProfile:PetProfile? = nil
     var sortButton:String? = nil
     var sort:(() -> Void)? = nil
     var buttons:[ButtonType] = []
@@ -147,6 +148,7 @@ struct TitleTab: PageComponent{
                         SortButton(
                             type: .stroke,
                             sizeType: .big,
+                            petProgile:self.sortPetProfile,
                             text: btn,
                             color:Color.app.grey400,
                             isSort: true){

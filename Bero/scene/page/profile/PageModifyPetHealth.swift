@@ -35,12 +35,13 @@ struct PageModifyPetHealth: PageView {
                         type:.section,
                         title: String.pageTitle.healthInformation,
                         alignment: .center,
-                        useBack: true){ type in
-                        switch type {
-                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
-                        }
-                    }
+                        useBack: true,
+                        action: { type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
+                        })
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                     InfinityScrollView(
                         viewModel: self.infinityScrollModel,
