@@ -37,28 +37,20 @@ extension Asset{
         public static let pinMissionOn = "pin_mission_on"
         public static let pinMissionCompleted = "pin_mission_mark"
         
+        public static let pinUser = "pin_user"
+        
         public static let pinCafe = "pin_cafe"
-        public static let pinSalon = "pin_salon"
-        public static let pinRestaurant = "pin_restaurant"
+        public static let pinPark = "pin_park"
         public static let pinVet = "pin_vet"
         
-        public static let pinCafeOn = "pin_cafe_on"
-        public static let pinSalonOn = "pin_salon_on"
-        public static let pinRestaurantOn = "pin_restaurant_on"
-        public static let pinVetOn = "pin_vet_on"
-        
-        public static let pinCafeIcon = "pin_cafe_icon"
-        public static let pinSalonIcon = "pin_salon_icon"
-        public static let pinRestaurantIcon = "pin_restaurant_icon"
-        public static let pinVetIcon = "pin_vet_icon"
-        
         public static let pinCafeMark = "pin_cafe_mark"
-        public static let pinSalonMark = "pin_salon_mark"
-        public static let pinRestaurantMark = "pin_restaurant_mark"
+        public static let pinParkMark = "pin_park_mark"
         public static let pinVetMark = "pin_vet_mark"
         
-        public static let myLocation = "pin_my_location"
-        public static let myLocationWalk = "pin_my_location_walk"
+        public static let myLocationOff = "pin_my_location_off"
+        public static let myLocationOn = "pin_my_location_on"
+        public static let myWalkingOff = "pin_my_walking_off"
+        public static let myWalkingOn = "pin_my_walking_on"
         public static let locator = "locator"
         
     }
@@ -130,7 +122,6 @@ extension Asset{
         public static let my_location  = "my_location"
         public static let add_location = "add_location"
         public static let arrived = "arrived"
-        public static let checked_circle_green = "checked_circle_green"
         public static let goal = "goal"
         
         public static let favorite_off = "favorite_off"

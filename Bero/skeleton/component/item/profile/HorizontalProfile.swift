@@ -45,6 +45,12 @@ struct HorizontalProfile: PageComponent{
             case .big : return Dimen.profile.heavyExtra
             }
         }
+        var lvType:HeartButton.ButtonType{
+            switch self {
+            case .small : return .tiny
+            case .big : return .small
+            }
+        }
         var titleSpacing:CGFloat{
             switch self {
             case .small : return Dimen.margin.micro
@@ -69,7 +75,7 @@ struct HorizontalProfile: PageComponent{
             }
         }
     }
-    
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     var id:String = UUID().uuidString
     var type:ProfileType = .pet
     var sizeType:SizeType = .small
@@ -80,9 +86,11 @@ struct HorizontalProfile: PageComponent{
     var color:Color = Color.brand.primary
     var image:UIImage? = nil
     var imagePath:String? = nil
+    var lv:Int? = nil
     var name:String? = nil
     var date:Date? = nil
     var gender:Gender? = nil
+    var isNeutralized:Bool? = nil
     var age:String? = nil
     var breed:String? = nil
     var description:String? = nil
@@ -119,12 +127,24 @@ struct HorizontalProfile: PageComponent{
                 }
                 .frame(width: Dimen.profile.thin)
             default :
-                ProfileImage(
-                    id : self.id,
-                    image: self.image,
-                    imagePath: self.imagePath,
-                    size: self.sizeType.imageSize,
-                    emptyImagePath: self.type.emptyImage)
+                ZStack(alignment: .bottomTrailing){
+                    ProfileImage(
+                        id : self.id,
+                        image: self.image,
+                        imagePath: self.imagePath,
+                        size: self.sizeType.imageSize,
+                        emptyImagePath: self.type.emptyImage)
+                    if let value = self.lv, let lv = Lv.getLv(value) {
+                        HeartButton(
+                            type: self.sizeType.lvType,
+                            text: value.description,
+                            activeColor: lv.color,
+                            isSelected: true
+                        ){_ in
+                            self.appSceneObserver.event = .toast(lv.title)
+                        }
+                    }
+                }
             }
             
         
@@ -171,6 +191,7 @@ struct HorizontalProfile: PageComponent{
                                 id: self.id,
                                 age: self.age,
                                 gender: self.gender,
+                                isNeutralized: self.isNeutralized,
                                 useCircle: false,
                                 color: self.isSelected ? Color.app.white : Color.app.grey500
                             )

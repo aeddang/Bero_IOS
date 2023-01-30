@@ -39,9 +39,9 @@ struct PageExplore: PageView {
                         title: String.pageTitle.explore,
                         sortButton: self.type.title,
                         sort: self.onSort,
-                        buttons:[.add ]){ type in
+                        buttons:[.addAlbum ]){ type in
                             switch type {
-                            case .add :
+                            case .addAlbum :
                                 self.onPick()
                             default : break
                             }

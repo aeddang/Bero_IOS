@@ -38,7 +38,7 @@ struct PlayEffect: PageView {
     @Binding var isFollowMe:Bool
     @State var effects:[PlayEffectItem] = []
     @State var isFindEffect:Bool = false
-
+    @State var followMeColor:Color = Color.app.blue
     var body: some View {
         ZStack(alignment: .center){
             
@@ -101,10 +101,11 @@ struct PlayEffect: PageView {
                         x: UIScreen.main.bounds.width/2,
                         y: UIScreen.main.bounds.height/2 - 40
                     ))
-            } else  if self.isFollowMe {
-                CircleWave(color: Color.app.blue)
+            } else if self.isFollowMe {
+                CircleWave(color: self.followMeColor)
             }
         }
+        
         .onReceive(self.viewModel.$playEffectEvent){ evt in
             guard let evt = evt else {return}
             switch evt {
@@ -124,10 +125,19 @@ struct PlayEffect: PageView {
                 self.add(effect: eff)
             }
         }
+        .onReceive(self.walkManager.$status){ status in
+            switch status {
+            case .ready :
+                self.followMeColor = Color.app.blue
+            case .walking :
+                self.followMeColor = Color.brand.primary
+            }
+        }
         .onReceive(self.walkManager.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
             case .start :
+                /*
                 let eff = PlayEffectItem()
                 eff.type = .animation
                 eff.value = "bero_start_jump"
@@ -135,7 +145,8 @@ struct PlayEffect: PageView {
                 eff.size = .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 eff.position = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
                 self.add(effect: eff)
-                
+                */
+                break
             case .startMission:
                 let eff = PlayEffectItem()
                 eff.type = .text

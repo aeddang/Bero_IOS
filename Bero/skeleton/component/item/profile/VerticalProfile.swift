@@ -41,6 +41,7 @@ struct VerticalProfile: PageComponent{
     var lv:Int? = nil
     var name:String? = nil
     var gender:Gender? = nil
+    var isNeutralized:Bool? = nil
     var age:String? = nil
     var breed:String? = nil
     var info:String? = nil
@@ -97,6 +98,7 @@ struct VerticalProfile: PageComponent{
                     age: self.age,
                     breed: self.breed,
                     gender: self.gender,
+                    isNeutralized: self.isNeutralized,
                     action: nil
                 )
             }

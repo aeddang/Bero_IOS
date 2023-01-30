@@ -22,7 +22,7 @@ extension PageAddDog{
             switch self {
             case .name: return "What is the name of your dog?"
             case .picture : return "Select %s’s profile picture"
-            case .gender : return "What is %s’s sex?"
+            case .gender : return "Which is %s’s gender??"
             case .birth : return "When is %s’s birthday?"
             case .breed : return "What is %s’s breed?"
             //case .immun : return "Health & Immunization"

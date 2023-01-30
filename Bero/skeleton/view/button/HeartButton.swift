@@ -10,11 +10,12 @@ import SwiftUI
 import FirebaseAnalytics
 struct HeartButton: View, SelecterbleProtocol, PageProtocol{
     enum ButtonType{
-        case small, big
+        case small, big, tiny
         var icon:String{
             switch self {
             case .big : return Asset.icon.favorite_on_big
             case .small : return Asset.icon.favorite_on
+            case .tiny : return Asset.icon.favorite_on
             }
         }
         
@@ -22,12 +23,14 @@ struct HeartButton: View, SelecterbleProtocol, PageProtocol{
             switch self {
             case .big : return Dimen.profile.heavyExtra
             case .small : return Dimen.icon.mediumUltra
+            case .tiny : return Dimen.icon.thin
             }
         }
         var textSize:CGFloat{
             switch self {
             case .big : return Font.size.medium
             case .small : return Font.size.tiny
+            case .tiny : return Font.size.micro
             }
         }
     }

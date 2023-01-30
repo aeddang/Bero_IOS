@@ -31,7 +31,7 @@ struct UserProfileTopInfo: PageComponent{
                     id: self.profile.id,
                     type: .user,
                     sizeType: .big,
-                    funcType: self.profile.status == .friend ? .send : .addFriend,
+                    funcType: self.profile.status.isFriend ? .send : .addFriend,
                     image: self.image,
                     imagePath: self.imagePath,
                     name: self.nickName,

@@ -28,6 +28,7 @@ class PetApi :Rest{
             if let value = pet.gender?.apiDataKey { data.append(value: value, name: "sex") }
             if let value = pet.microchip { data.append(value: value, name: "regNumber") }
             if let value = pet.animalId { data.append(value: value, name: "animalId") }
+            if let value = pet.isNeutralized { data.append(value: value.description, name: "isNeutered") }
             data.append(value: isRepresentative ? "true" : "false", name: "isRepresentative")
             data.append(value: "1", name: "level")
             
@@ -70,6 +71,7 @@ class PetApi :Rest{
             if let value = pet.introduction { data.append(value: value, name: " introduce") }
             if let value = pet.weight { data.append(value: value.description, name: "weight") }
             if let value = pet.size { data.append(value: value.description, name: "size") }
+            if let value = pet.isNeutralized { data.append(value: value.description, name: "isNeutered") }
             
             if pet.breed?.isEmpty == false ,  let status = pet.breed{
                 data.append(value:  status , name: "tagBreed")

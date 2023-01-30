@@ -22,6 +22,7 @@ struct WalkData : Decodable {
 struct WalkUserData : Decodable {
     private(set) var userId: String? = nil
     private(set) var walkId: Int? = nil
+    private(set) var level: Int? = nil
     private(set) var isFriend: Bool? = nil
     private(set) var createdAt: String? = nil
     private(set) var location: GeoData? = nil

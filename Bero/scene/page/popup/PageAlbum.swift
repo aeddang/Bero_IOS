@@ -43,14 +43,22 @@ struct PageAlbum: PageView {
                         infinityScrollModel: self.infinityScrollModel,
                         title:String.button.album,
                         useBack:true,
-                        buttons: self.user?.isMe == true ? [.add,.setting] : []){ type in
+                        buttons:
+                            self.user?.isMe == true
+                            ? self.isEdit ? [.close] : [.addAlbum,.setting]
+                            : [])
+                        { type in
                             switch type {
                             case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                            case .add :
+                            case .addAlbum :
                                 self.onPick()
                             case .setting :
                                 withAnimation{
-                                    self.isEdit.toggle()
+                                    self.isEdit = true
+                                }
+                            case .close :
+                                withAnimation{
+                                    self.isEdit = false
                                 }
                             default : break
                             }

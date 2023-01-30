@@ -28,7 +28,7 @@ struct WalkTopInfo: PageComponent{
                         if self.isMe , let picture = self.mission.walkPath?.picture {
                             ImageButton(
                                 isSelected: self.isExpose,
-                                defaultImage: Asset.icon.explore
+                                defaultImage: Asset.icon.share
                             ){ _ in
                                 self.dataProvider.requestData(
                                     q: .init( type: .updateAlbumPicture(pictureId: picture.pictureId ?? 0 , isExpose: !self.isExpose)))

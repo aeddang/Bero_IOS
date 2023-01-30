@@ -268,9 +268,10 @@ struct PageWalkReport: PageView {
     @State var reportData:ReportData? = nil
     
     func load(){
+        guard let id = self.profile?.petId else {return}
         self.reportData = nil
         self.reportType = self.selectedMenu == 0 ? .weekly : .monthly
-        self.dataProvider.requestData(q: .init(type: .getWalkSummary(petId: self.profile?.petId ?? 0)))
+        self.dataProvider.requestData(q: .init(type: .getWalkSummary(petId: id)))
     }
     
     private func loaded(_ res:ApiResultResponds){

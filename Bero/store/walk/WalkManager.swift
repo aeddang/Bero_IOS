@@ -57,7 +57,7 @@ extension WalkManager {
         return value.secToMinString()
     }
     static func getPoint(_ value:Double) -> Int {
-        return ceil(value/100).toInt() + 5//인증샷 점수
+        return ceil(value/100).toInt() //+ 5인증샷 점수
     }
     static func getExp(_ value:Double) -> Double {
         return ceil(value/100)
@@ -112,37 +112,16 @@ extension WalkManager {
         var icon:String{
             switch self {
             case .cafe: return Asset.map.pinCafe
-            case .restaurant: return Asset.map.pinRestaurant
-            case .petShop: return Asset.map.pinSalon
             case .vet: return Asset.map.pinVet
-            default : return ""
+            default : return Asset.map.pinPark
             }
         }
-        var iconOn:String{
-            switch self {
-            case .cafe: return Asset.map.pinCafeOn
-            case .restaurant: return Asset.map.pinRestaurantOn
-            case .petShop: return Asset.map.pinSalonOn
-            case .vet: return Asset.map.pinVetOn
-            default : return ""
-            }
-        }
-        var iconSort:String{
-            switch self {
-            case .cafe: return Asset.map.pinCafeIcon
-            case .restaurant: return Asset.map.pinRestaurantIcon
-            case .petShop: return Asset.map.pinSalonIcon
-            case .vet: return Asset.map.pinVetIcon
-            default : return ""
-            }
-        }
+        
         var iconMark:String{
             switch self {
             case .cafe: return Asset.map.pinCafeMark
-            case .restaurant: return Asset.map.pinRestaurantMark
-            case .petShop: return Asset.map.pinSalonMark
             case .vet: return Asset.map.pinVetMark
-            default : return ""
+            default : return Asset.map.pinParkMark
             }
         }
         var color:Color{

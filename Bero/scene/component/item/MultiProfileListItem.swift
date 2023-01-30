@@ -33,6 +33,7 @@ struct MultiProfileListItem: PageComponent{
                     HorizontalProfile(
                         type: .pet,
                         imagePath: petProfile.imagePath,
+                        lv: petProfile.lv,
                         name: petProfile.name,
                         gender: petProfile.gender,
                         age: petProfile.birth?.toAge(),
@@ -62,6 +63,7 @@ struct MultiProfileListItem: PageComponent{
                     HorizontalProfile(
                         type: .user,
                         imagePath: userProfile.imagePath,
+                        lv: userProfile.lv,
                         name: userProfile.nickName,
                         gender: userProfile.gender,
                         age: userProfile.birth?.toAge(),

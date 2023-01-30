@@ -123,38 +123,16 @@ struct PageWalkInfo: PageView {
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                                             .padding(.top, Dimen.margin.regularUltra)
                                         
-                                        Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                                            .padding(.vertical, Dimen.margin.medium)
-                                        
-                                        WalkAlbumSection(
-                                            listSize: geometry.size.width,
-                                            albums: mission.walkPath?.pictures ?? []
-                                        )
-                                        
-                                        
-                                        /*
-                                        TitleTab(type:.section, title: String.pageTitle.completedMissions)
-                                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                            .padding(.bottom, Dimen.margin.regularUltra)
-                                        
-                                        ForEach(self.missions) { data in
-                                            RewardHistoryListItem(data: data)
-                                                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                                
-                                            if data.index != (self.missions.count-1) {
-                                                Spacer().modifier(LineHorizontal())
-                                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                                    .padding(.vertical, Dimen.margin.regular)
-                                            }
+                                        if let pictures = self.pictures {
+                                            Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                                                .padding(.vertical, Dimen.margin.medium)
+                                            
+                                            WalkAlbumSection(
+                                                listSize: geometry.size.width,
+                                                albums: pictures
+                                            )
                                         }
-                                        if self.missions.isEmpty {
-                                            EmptyItem(type: .myList)
-                                        }
-                                        if self.missions.count < 3 {
-                                            Spacer()
-                                                .frame(height:100)
-                                        }
-                                        */
+                                        
                                         
                                     }
                                     
@@ -181,6 +159,7 @@ struct PageWalkInfo: PageView {
                 }
             }
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
+                if self.pictures?.isEmpty != false {return}
                 self.imageScale = 1.0 + (scrollPos*0.01)
                 if scrollPos > 0 {return}
                 PageLog.d("scrollPos " + scrollPos.description, tag: self.tag)
@@ -220,7 +199,7 @@ struct PageWalkInfo: PageView {
     @State var mission:Mission? = nil
     @State var topOffSet:CGFloat = Dimen.margin.regular
     @State var imageScale:CGFloat = 1.0
-    
+    @State var pictures:[WalkPictureItem]? = nil
     private func loaded(_ res:ApiResultResponds){
         guard let data = res.data as? WalkData else { return }
         self.mission = Mission().setData(data)
@@ -232,6 +211,8 @@ struct PageWalkInfo: PageView {
         self.walkId = mission.missionId
         self.userId = mission.user?.snsUser?.snsID ?? self.dataProvider.user.snsUser?.snsID ?? ""
         self.isMe = self.dataProvider.user.isSameUser(userId: self.userId)
+        
+        self.pictures = mission.walkPath?.pictures
     }
 }
 

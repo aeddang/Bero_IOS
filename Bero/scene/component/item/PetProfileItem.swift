@@ -21,6 +21,7 @@ struct PetProfileUser: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     var profile:PetProfile
     var friendStatus:FriendStatus? = nil
+    var distance:Double? = nil
     var action: (() -> Void)
     var body: some View {
         Button(action: {
@@ -30,7 +31,8 @@ struct PetProfileUser: PageComponent{
                 profile: self.profile,
                 sizeType: .small,
                 userId: self.profile.userId,
-                friendStatus: self.friendStatus
+                friendStatus: self.friendStatus,
+                distance: self.distance
             )
         }
     }
@@ -81,6 +83,7 @@ struct PetProfileBody: PageComponent{
     var funcType:HorizontalProfile.FuncType? = nil
     var userId:String? = nil
     var friendStatus:FriendStatus? = nil
+    var distance:Double? = nil
     var isSelected:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
@@ -93,10 +96,12 @@ struct PetProfileBody: PageComponent{
             friendStatus: self.friendStatus,
             image: self.image,
             imagePath: self.imagePath,
+            lv: self.lv,
             name: self.name,
             gender: self.gender,
             age: self.age,
             breed: self.breed,
+            distance:self.distance,
             isSelected: self.isSelected,
             action: { _ in self.action?() }
         )
@@ -118,6 +123,12 @@ struct PetProfileBody: PageComponent{
         .onReceive(self.profile.$breed){value in
             self.breed = value
         }
+        .onReceive(self.profile.$isNeutralized){value in
+            self.isNeutralized = value
+        }
+        .onReceive(self.profile.$lv){value in
+            self.lv = value
+        }
     }
     @State var name:String? = nil
     @State var gender:Gender? = nil
@@ -125,4 +136,6 @@ struct PetProfileBody: PageComponent{
     @State var breed:String? = nil
     @State var image:UIImage? = nil
     @State var imagePath:String? = nil
+    @State var isNeutralized:Bool? = nil
+    @State var lv:Int? = nil
 }

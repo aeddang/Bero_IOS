@@ -46,9 +46,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     
     var isFriend:Bool {
-        get{
-            return self.currentProfile.status == .friend
-        }
+        return self.currentProfile.status.isFriend
     }
     
     func isSameUser(_ user:User?) -> Bool{
@@ -356,13 +354,14 @@ enum Lv {
 }
 
 enum FriendStatus{
-    case norelation, requestFriend, friend, recieveFriend, chat
+    case norelation, requestFriend, friend, recieveFriend, chat, move(isFriend:Bool)
     var icon:String{
         switch self {
         case .chat : return Asset.icon.chat
         case .requestFriend : return Asset.icon.check
         case .friend : return Asset.icon.remove_friend
         case .recieveFriend : return Asset.icon.add_friend
+        case .move( let isFriend) : return isFriend ? Asset.icon.chat : Asset.icon.add_friend
         default : return Asset.icon.add_friend
         }
     }
@@ -372,6 +371,7 @@ enum FriendStatus{
         case .requestFriend : return String.button.requestSent
         case .friend : return String.button.removeFriend
         case .recieveFriend : return String.button.addFriend
+        case .move( let isFriend) : return isFriend ? String.button.chat : String.button.addFriend
         default : return String.button.addFriend
         }
     }
@@ -381,7 +381,15 @@ enum FriendStatus{
         case .requestFriend : return []
         case .friend : return [.delete]
         case .recieveFriend : return [.reject, .accept]
+        case .move( let isFriend) : return isFriend ? [.move, .chat] : [.move, .request]
         default : return [.request]
+        }
+    }
+    var isFriend:Bool {
+        switch self {
+        case .friend, .chat : return true
+        case .move(let isFriend) : return isFriend
+        default : return false
         }
     }
     

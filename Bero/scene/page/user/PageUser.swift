@@ -76,7 +76,7 @@ struct PageUser: PageView {
                             if !self.dataProvider.user.isSameUser(user) {
                                 FriendFunctionBox(
                                     userId: user.currentProfile.userId,
-                                    status: user.currentProfile.status
+                                    status: user.isFriend ? .chat : user.currentProfile.status
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.regular)
@@ -192,7 +192,7 @@ struct PageUser: PageView {
         }
     }
     private func more(){
-        if self.user?.currentProfile.status == .friend {
+        if self.user?.isFriend == true {
             let datas:[String] = [
                 String.button.removeFriend,
                 String.button.block,
@@ -204,7 +204,7 @@ struct PageUser: PageView {
                 Asset.icon.notice
             ]
            
-            self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+            self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in
                 guard let idx = idx else {return}
                 switch idx {
                 case 0 :self.removeFriend()
@@ -223,7 +223,7 @@ struct PageUser: PageView {
                 Asset.icon.notice
             ]
            
-            self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+            self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in
                 guard let idx = idx else {return}
                 switch idx {
                 case 0 :self.block()

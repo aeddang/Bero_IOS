@@ -15,7 +15,7 @@ struct AgreeButton: View, SelecterbleProtocol, PageProtocol {
         case privacy, service, neutralized
         var icon:String?{
             switch self {
-            case .neutralized : return Asset.icon.bone
+            case .neutralized : return nil
             default : return nil
             }
         }

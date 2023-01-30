@@ -14,8 +14,7 @@ import SwiftUI
 class UserListItemData:InfinityData{
     private(set) var albumData:AlbumListItemData? = nil
     private(set) var userProfile:UserProfile? = nil
-    private(set) var title:String? = nil
-    private(set) var imagePath:String? = nil
+    private(set) var petProfile:PetProfile? = nil
     private(set) var date:String? = nil
     
     
@@ -25,9 +24,8 @@ class UserListItemData:InfinityData{
         if let user = data.user {
             self.userProfile = UserProfile().setData(data: user)
         }
-        if let pet = data.pets?.first {
-            self.title = pet.name
-            self.imagePath = pet.pictureUrl
+        if let pet = data.pets?.first(where: {$0.isRepresentative == true}) {
+            self.petProfile = PetProfile(data: pet, userId: self.userProfile?.userId)
         }
         self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         return self
@@ -48,17 +46,33 @@ struct UserListItem: PageComponent{
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             if let user = self.data.userProfile {
-                UserProfileItem(
-                    data: user,
-                    postId: self.data.postId,
-                    title: self.data.title,
-                    imagePath: self.data.imagePath,
-                    subImagePath: user.imagePath,
-                    date: self.data.date,
-                    action:self.moveUser
-                )
-                .padding(.vertical, Dimen.margin.regularExtra)
-                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                if let pet = self.data.petProfile {
+                    UserProfileItem(
+                        data: user,
+                        type: .pet,
+                        postId: self.data.postId,
+                        title: pet.name,
+                        lv: pet.lv,
+                        imagePath: pet.imagePath,
+                        date: self.data.date,
+                        action:self.moveUser
+                    )
+                    .padding(.vertical, Dimen.margin.regularExtra)
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                } else {
+                    UserProfileItem(
+                        data: user,
+                        type: .user,
+                        postId: self.data.postId,
+                        title: user.nickName,
+                        lv: user.lv,
+                        imagePath: user.imagePath,
+                        date: self.data.date,
+                        action:self.moveUser
+                    )
+                    .padding(.vertical, Dimen.margin.regularExtra)
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                }
             }
             if let albumData = self.data.albumData{
                 AlbumListDetailItem(data: albumData, imgSize: self.imgSize, isEdit: .constant(false))

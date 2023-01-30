@@ -5,8 +5,18 @@ import GooglePlaces
 import QuartzCore
 
 extension PlayMap {
+    func getIcon(img:String)->UIImageView {
+        let icon = UIImage(named: img)
+        let imgv = UIImageView(image: icon)
+        return imgv
+    }
+    
+    
     func getMe(_ loc:CLLocation) -> GMSMarker {
-        let icon = self.meIcon
+        let icon = self.isWalk
+        ? self.isFollowMe ? self.myWalkingOn : self.myWalkingOff
+        : self.isFollowMe ? self.myLocationOn : self.myLocationOff
+        
         let user = self.dataProvider.user
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(
@@ -41,7 +51,7 @@ extension PlayMap {
         let circleCenter = CLLocationCoordinate2D(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
         let radius:Double = Double(min(max(100, data.count * 20), 1000))
         let circle = GMSCircle(position: circleCenter, radius: radius)
-        circle.fillColor = data.color.uiColor().withAlphaComponent(0.5)
+        circle.fillColor = data.color.uiColor().withAlphaComponent(0.3)
         
         circle.title = data.count.description + (data.title ?? "")
         circle.strokeWidth = 0
@@ -58,16 +68,18 @@ extension PlayMap {
         )
         
         marker.userData = data
-        
         if data.isGroup {
+            marker.iconView = self.getIcon(img: Asset.map.pinUser)
             marker.title = data.count.description + " " + (data.title ?? "")
             marker.zIndex = 900
+            marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
+            marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.1)
             return marker
         }
         if let path = data.pictureUrl {
             marker.title = data.title ?? "User"
-            let scale:CGFloat = UIScreen.main.scale
-            let size = Dimen.profile.regular
+           
+            let size = Dimen.profile.lightExtra
             if let prevImg =  data.previewImg {
                 onMarkerImage(uiImage: prevImg)
             } else {
@@ -81,8 +93,8 @@ extension PlayMap {
                             
                             let uiImage = img.normalized().centerCrop()
                                 .resize(to: CGSize(
-                                    width: size/scale ,
-                                    height: size/scale ))
+                                    width: size,
+                                    height: size))
                             data.previewImg = uiImage
                             DispatchQueue.main.async {
                                 onMarkerImage(uiImage: uiImage)
@@ -96,19 +108,22 @@ extension PlayMap {
             }
             
             func onMarkerImage(uiImage:UIImage){
-                marker.icon = uiImage.maskRoundedImage(
-                    radius: size/2,
-                    borderColor:Color.brand.primary,
-                    borderWidth:Dimen.stroke.regular)
+                let scale:CGFloat = UIScreen.main.scale
+                let icon = uiImage.maskRoundedImage(
+                    radius: size*scale/2,
+                    borderColor:data.isFriend ? Color.brand.primary : Color.app.white,
+                    borderWidth:Dimen.stroke.regular*scale)
+                
+                let image = UIImageView(image: icon)
+                image.frame = .init(x: 0, y: 0, width: size, height: size)
+                marker.iconView = image
             }
             
         } else {
-            let icon = UIImage(named: Asset.image.profile_dog_default)
-            let image = UIImageView(image: icon)
-            marker.iconView = image
+            marker.iconView = self.getIcon(img: Asset.map.pinUser)
         }
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.3)
-        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.16)
         marker.zIndex = 300
         return marker
     }
@@ -145,8 +160,11 @@ extension PlayMap {
         marker.userData = data
         
         if data.isGroup {
+            marker.iconView = self.getIcon(img: Asset.map.pinMission)
             marker.title = data.count.description + " " + (data.title ?? "")
             marker.zIndex = 900
+            //marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
+            marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.1)
             return marker
         }
         let icon = UIImage(named: data.isMark ? type.iconMark : type.icon)
@@ -155,7 +173,7 @@ extension PlayMap {
         marker.title = data.title ?? "Place"
         marker.snippet = String.pageText.walkMapMarkText.replace(data.visitors.count.description)
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)
-        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.13)
         marker.zIndex = data.isMark ?  100 : 200
         return marker
     }

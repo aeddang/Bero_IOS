@@ -33,8 +33,10 @@ struct ChatList: PageComponent{
                         sizeType: .small,
                         funcType: .more,
                         imagePath: pet.imagePath,
+                        lv: pet.lv,
                         name: pet.name,
                         gender: pet.gender,
+                        isNeutralized: pet.isNeutralized,
                         age: pet.birth?.toAge(),
                         breed: pet.breed,
                         useBg: false

@@ -67,9 +67,11 @@ class Mission:MapUserData,ObservableObject{
     private (set) var startDate:Date? = nil
     private (set) var endDate:Date? = nil
     private(set) var completedMissions:[Int] = []
+    private(set) var distanceFromMe:Double? = nil //miter
     
     var petProfile:PetProfile? = nil
     var previewImg:UIImage? = nil
+    
     @Published var isExpose:Bool = false
     
     
@@ -156,6 +158,7 @@ class Mission:MapUserData,ObservableObject{
         self.isFriend = data.isFriend ?? false
         if let pet = data.pet {
             self.petProfile = PetProfile(data: pet, userId: self.userId)
+            self.petProfile?.isFriend = self.isFriend
         }
         self.title = self.petProfile?.name
         self.pictureUrl = self.petProfile?.imagePath
@@ -211,6 +214,13 @@ class Mission:MapUserData,ObservableObject{
         default : break
         }
     }
+    @discardableResult
+    func setDistance(_ me:CLLocation?)->Mission{
+        if let me = me, let loc = self.location {
+            self.distanceFromMe = me.distance(from: loc)
+        }
+        return self
+    }
     
     @discardableResult
     func setData(_ data:WalkManager)->Mission{
@@ -228,7 +238,7 @@ class Mission:MapUserData,ObservableObject{
     }
     
     func copySummry(origin:Mission)->Mission{
-        self.color = Color.brand.primary
+        self.color = Color.app.yellow
         self.title = String.app.users.lowercased()
         self.missionId = origin.missionId
         self.type = origin.type

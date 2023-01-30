@@ -139,6 +139,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.animalId = data.animalId
         self.weight = data.weight
         self.size = data.size
+        self.isNeutralized = data.isNeutered ?? false
         self.immunStatus = data.tagStatus
         self.hashStatus = data.tagPersonality
         self.totalExerciseDistance = data.exerciseDistance

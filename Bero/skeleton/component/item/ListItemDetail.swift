@@ -45,6 +45,7 @@ struct ListDetailItem: PageComponent{
                 
                 VStack{
                     HStack{
+                        Spacer().modifier(MatchHorizontal(height: 0))
                         if let icon = self.icon {
                             SortButton(
                                 type: .stroke,
@@ -58,7 +59,7 @@ struct ListDetailItem: PageComponent{
                             }
                             .fixedSize()
                         }
-                        Spacer().modifier(MatchHorizontal(height: 0))
+                        
                     }
                     Spacer()
                     HStack{
@@ -115,6 +116,9 @@ struct ListDetailItem: PageComponent{
                     .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
                     .padding(.leading, Dimen.margin.tinyExtra )
                     .fixedSize()
+                    .onTapGesture {
+                        self.action?()
+                    }
                 }
                 Spacer()
                 HStack(spacing:Dimen.margin.micro){

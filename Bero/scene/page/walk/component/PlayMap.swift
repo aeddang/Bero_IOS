@@ -141,6 +141,12 @@ struct PlayMap: PageView {
         .onAppear{
             self.viewModel.zoom = Self.zoomRatio
             UIApplication.shared.isIdleTimerDisabled = true
+            
+            self.myLocationOn = self.getIcon(img: Asset.map.myLocationOn)
+            self.myLocationOff = self.getIcon(img: Asset.map.myLocationOff)
+            self.myWalkingOn = self.getIcon(img: Asset.map.myWalkingOn)
+            self.myWalkingOff = self.getIcon(img: Asset.map.myWalkingOff)
+            
             self.onMarkerUpdate()
             
         }
@@ -149,6 +155,11 @@ struct PlayMap: PageView {
         }
     }//body
 
+    @State var myLocationOn:UIImageView? = nil
+    @State var myLocationOff:UIImageView? = nil
+    @State var myWalkingOn:UIImageView? = nil
+    @State var myWalkingOff:UIImageView? = nil
+    
     @State var location:CLLocation? = nil
     @State var isWalk:Bool = false
     @State var isInit:Bool = false
@@ -188,7 +199,6 @@ struct PlayMap: PageView {
     
     private func resetMap(){
         if self.isForceMove {return}
-        self.meIcon = nil
         self.location = self.walkManager.currentLocation
         self.viewModel.angle = self.isFollowMe ? Self.mapMoveAngle : 0
         self.viewModel.zoom = self.isFollowMe ? Self.zoomCloseup : Self.zoomRatio
@@ -201,15 +211,11 @@ struct PlayMap: PageView {
         }
     }
     
-    @State var meIcon:UIImageView? = nil
+    
     private func moveMe(_ loc:CLLocation, isMove:Bool? = nil){
         if !self.isInit {return}
         if self.isForceMove {return}
-        if self.meIcon == nil {
-            let icon = UIImage(named: Asset.map.myLocationWalk)
-            let imgv = UIImageView(image: icon)
-            self.meIcon = imgv
-        }
+        
         self.location = loc
         let move = isMove ?? self.isFollowMe
         var rotate:Double? = nil

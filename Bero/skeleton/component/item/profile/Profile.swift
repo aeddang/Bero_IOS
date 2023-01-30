@@ -87,17 +87,29 @@ struct ProfileInfoDescription:PageView{
     var age:String? = nil
     var breed:String? = nil
     var gender:Gender? = nil
+    var isNeutralized:Bool? = nil
     var useCircle:Bool = true
     var color:Color = Color.app.grey500
     var action: (() -> Void)? = nil
     var body: some View {
         HStack(spacing:useCircle ? Dimen.margin.tiny : 0){
             if let gender = self.gender {
-                Text(gender.title)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.thin,
-                        color: self.color
-                    ))
+                HStack(spacing:Dimen.margin.microExtra){
+                    
+                    Text(gender.title)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin,
+                            color: self.color
+                        ))
+                    if let isNeutralized = self.isNeutralized {
+                        Image(Asset.icon.checked_circle)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(isNeutralized ? Color.app.green : Color.app.grey200)
+                            .frame(width: Dimen.icon.tiny, height: Dimen.icon.tiny)
+                    }
+                }
             }
             if let age = self.age {
                 if useCircle {

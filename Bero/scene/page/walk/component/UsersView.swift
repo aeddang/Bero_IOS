@@ -72,7 +72,7 @@ struct UsersView: PageComponent, Identifiable{
                             EmptyItem(type: .myList)
                         } else {
                             ForEach(self.datas) { data in
-                                PetProfileUser(profile: data.petProfile!, friendStatus: .norelation){
+                                PetProfileUser(profile: data.petProfile!, friendStatus: .norelation, distance: data.distanceFromMe){
                                     self.pagePresenter.closePopup(self.pageObject?.id)
                                     self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUser).addParam(key: .data, value: data))
                                 }
@@ -84,7 +84,7 @@ struct UsersView: PageComponent, Identifiable{
                             EmptyItem(type: .myList)
                         } else {
                             ForEach(self.datas) { data in
-                                PetProfileUser(profile: data.petProfile!, friendStatus: .chat){
+                                PetProfileUser(profile: data.petProfile!, friendStatus: .chat, distance: data.distanceFromMe){
                                     self.pagePresenter.closePopup(self.pageObject?.id)
                                     self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUser).addParam(key: .data, value: data))
                                 }
@@ -106,12 +106,17 @@ struct UsersView: PageComponent, Identifiable{
     @State var datas:[Mission] = []
     @State var isFriend:Bool = false
     private func setupDatas(){
+        let me = self.walkManager.currentLocation
         if self.isFriend {
             self.recommandDatas = []
-            self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{$0.isFriend}.map{$0}
+            self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{$0.isFriend}.map{
+                $0.setDistance(me)
+            }
         } else {
             self.recommandDatas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{$0.isFriend}.map{$0.petProfile!}
-            self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{!$0.isFriend}.map{$0}
+            self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{!$0.isFriend}.map{
+                $0.setDistance(me)
+            }
         }
     }
     

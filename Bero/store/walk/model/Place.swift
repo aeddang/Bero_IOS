@@ -58,7 +58,7 @@ class Place:MapUserData{
     
     func copySummry(origin:Place)->Place{
         self.title = String.app.place.lowercased()
-        self.color = Color.brand.secondary
+        self.color = Color.brand.primary
         self.sortType = origin.sortType
         self.googlePlaceId = origin.googlePlaceId
         self.placeId = origin.placeId

@@ -17,17 +17,6 @@ struct FriendFunctionBox: PageComponent{
                     funcType: btn
                 )
             }
-            if self.currentStatus == .friend {
-                FillButton(
-                    type: .fill,
-                    icon : Asset.icon.chat,
-                    text: String.button.chat,
-                    color: Color.brand.primary,
-                    isActive: true
-                ){_ in
-                    self.appSceneObserver.event = .sendChat(userId: self.userId)
-                }
-            }
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }

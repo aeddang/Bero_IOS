@@ -84,7 +84,7 @@ struct PlayBox: PageComponent{
             )
             .modifier(ShadowLight( opacity: 0.05 ))
         }
-        .opacity(self.isShow ? 1 : 0)
+        .opacity(self.isShow && self.isExpand ? 1 : 0)
         .onReceive(self.viewModel.$componentHidden){ isHidden in
             withAnimation{ self.isShow = !isHidden }
         }

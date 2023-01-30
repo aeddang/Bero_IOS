@@ -168,13 +168,13 @@ struct AlbumListDetailItem: PageComponent{
                 if self.user?.isMe == true {
                     ImageButton(
                         isSelected: self.isExpose,
-                        defaultImage: Asset.icon.explore
+                        defaultImage: Asset.icon.share
                     ){ _ in
                         self.dataProvider.requestData(
                             q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isExpose: !self.data.isExpose)))
                     }
                     .padding(.trailing, Dimen.app.pageHorinzontal)
-                    .padding(.bottom, Dimen.margin.tiny)
+                    .padding(.bottom, Dimen.margin.tinyExtra)
                 }
             }
             if self.isEdit {

@@ -34,6 +34,10 @@ struct UserView: PageComponent, Identifiable{
                         title: nil,
                         listSize: (geometry?.size.width ?? 320) - (Dimen.app.pageHorinzontal*2)
                     )
+                    FriendFunctionBox(
+                        userId: profile.userId,
+                        status: .move(isFriend: profile.isFriend)
+                    )
                 }
                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                 .padding(.top, Dimen.margin.thin)
@@ -50,6 +54,7 @@ struct UserView: PageComponent, Identifiable{
                     if let data = datas.first(where: {$0.isRepresentative == true}) ?? datas.first {
                         let profile = PetProfile(data: data, userId: userId)
                         self.mission.petProfile = profile
+                        profile.isFriend = self.mission.isFriend
                         self.profile = profile
                         self.pageObservable.isInit = true
                     }

@@ -19,7 +19,6 @@ extension PageID{
     static let diary:PageID = "diary"
     static let my:PageID = "my"
     static let setup:PageID = "setup"
-    
    
     static let chatRoom:PageID = "chatRoom"
     static let walkList:PageID = "walkList"

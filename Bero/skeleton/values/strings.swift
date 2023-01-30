@@ -93,7 +93,7 @@ extension String {
         
         
         public static var completedError = "Save fail. retry."
-        public static var completedNeedPicture = "Need picture with your Dog."
+        public static var completedNeedPicture = "Capture your moment to get rewards!"
         public static var completedNeedPictureError = "Need picture with your Dog. retry."
         public static var completedExitConfirm = "If you exit without receiving a reward, the completed walk record will not be saved. Are you sure you want to quit?"
       
@@ -160,6 +160,7 @@ extension String {
         public static var unExposed = "친구만 공개됨"
         
         public static var comingSoon = "Coming soon."
+        public static var supportAction = "Support action"
     }
     
    
@@ -227,6 +228,7 @@ extension String {
         public static let block = "Block"
         public static let unblock = "Unblock"
         public static let deleteAccount = "Delete account"
+        public static let viewProfile = "View Profile"
     }
     
     struct sort {
@@ -356,7 +358,7 @@ extension String {
         public static let walkStartText = "Hi, %s.\nReady to walk?"
         public static let walkMissionCompletedText = "%s missions today"
         
-        public static let walkFinishConfirm = "Finish the walk?"
+        public static let walkFinishConfirm = "Finish the Walk?"
         public static let walkFinishSuccessTitle = "Here is your reward!"
         public static let walkFinishSuccessText = "Don’t forget to walk with %s tomorrow."
         

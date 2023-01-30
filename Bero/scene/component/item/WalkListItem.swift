@@ -64,7 +64,7 @@ struct WalkListItem: PageComponent{
             title: self.data.title,
             subTitle: self.data.description,
             icon: self.data.type.icon,
-            iconText: self.data.type.text,
+            //iconText: self.data.type.text,
             pets: self.data.pets,
             iconAction: self.action,
             move:self.action

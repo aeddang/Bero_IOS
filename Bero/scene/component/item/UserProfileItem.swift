@@ -15,21 +15,23 @@ struct UserProfileItem: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var data:UserProfile
+    var type:HorizontalProfile.ProfileType = .pet
     var postId:String? = nil
     var title:String? = nil
+    var lv:Int? = nil
     var imagePath:String? = nil
-    var subImagePath:String? = nil
     var date:String? = nil
     var useBg:Bool = false
     var action: (() -> Void)? = nil
     var body: some View {
         HorizontalProfile(
-            type: .multi(imgPath: self.subImagePath),
+            type: self.type,
             sizeType: .small,
             funcType: self.dataProvider.user.isSameUser(self.data)
                 ? nil
             : .moreFunc ,
-            imagePath: self.imagePath ?? self.data.imagePath,
+            imagePath: self.imagePath ,
+            lv:self.lv,
             name: self.title ?? self.data.nickName,
             gender: self.date == nil ? self.data.gender : nil,
             age: self.date == nil ? self.data.birth?.toAge() : nil,
@@ -69,21 +71,21 @@ struct UserProfileItem: PageComponent{
     private func more(){
         
         let datas:[String] = [
-            self.status == .friend ? String.button.chat : String.button.addFriend,
+            self.status.isFriend ? String.button.chat : String.button.addFriend,
             //String.button.share,
             String.button.accuse
         ]
         let icons:[String?] = [
-            self.status == .friend ? Asset.icon.chat : Asset.icon.add_friend,
+            self.status.isFriend ? Asset.icon.chat : Asset.icon.add_friend,
             //Asset.icon.share,
             Asset.icon.notice
         ]
        
-        self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+        self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in
             guard let idx = idx else {return}
             switch idx {
             case 0 :
-                if self.status == .friend {
+                if self.status.isFriend {
                     self.sendMessage()
                 } else {
                     self.requestFriend()

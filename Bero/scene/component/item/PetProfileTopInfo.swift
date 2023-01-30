@@ -19,8 +19,10 @@ struct PetProfileTopInfo: PageComponent{
                     isSelected: true,
                     image: self.image,
                     imagePath: self.imagePath,
+                    lv: self.profile.lv,
                     name: self.name,
                     gender: self.gender,
+                    isNeutralized: self.isNeutralized,
                     age: self.age,
                     breed: self.breed,
                     description: self.isSimple ? nil : self.description,
@@ -34,8 +36,10 @@ struct PetProfileTopInfo: PageComponent{
                     funcType: nil,
                     image: self.image,
                     imagePath: self.imagePath,
+                    lv: self.profile.lv,
                     name: self.name,
                     gender: self.gender,
+                    isNeutralized: self.isNeutralized,
                     age: self.age,
                     breed: self.breed,
                     isSelected: false,
@@ -81,7 +85,9 @@ struct PetProfileTopInfo: PageComponent{
         .onReceive(self.profile.$introduction){value in
             self.description = value
         }
-        
+        .onReceive(self.profile.$isNeutralized){value in
+            self.isNeutralized = value
+        }
     }
     @State var name:String? = nil
     @State var description:String? = nil
@@ -91,6 +97,7 @@ struct PetProfileTopInfo: PageComponent{
     @State var lv:Int? = nil
     @State var imagePath:String? = nil
     @State var image:UIImage? = nil
+    @State var isNeutralized:Bool? = nil
 }
 
 

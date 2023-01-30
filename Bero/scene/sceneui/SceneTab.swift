@@ -21,7 +21,6 @@ struct SceneTab: PageComponent{
     @State var positionBottom:CGFloat = -Dimen.app.bottom
     @State var isDimed:Bool = false
     @State var isSimpleWalkView:Bool = false
-    @State var isSimpleWalkPositionTop:Bool = false
     @State var safeAreaTop:CGFloat = 0
     @State var safeAreaBottom:CGFloat = 0
     @State var useBottom:Bool = false
@@ -41,18 +40,11 @@ struct SceneTab: PageComponent{
     var body: some View {
         ZStack{
             VStack(alignment: .leading, spacing:0){
-                if self.isSimpleWalkPositionTop {
-                    SimpleWalkBox()
-                        .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
-                        .padding(.top, self.appSceneObserver.safeHeaderHeight)
-                }
                 Spacer()
-                if !self.isSimpleWalkPositionTop {
-                    SimpleWalkBox()
-                        .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
-                        .padding(.bottom, Dimen.margin.thin
-                                 + (self.isActiveChat ? (Dimen.app.chatBox + self.sceneObserver.safeAreaBottom) : 0))
-                }
+                SimpleWalkBox()
+                    .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
+                    .padding(.bottom, Dimen.margin.thin
+                             + (self.isActiveChat ? (Dimen.app.chatBox + self.sceneObserver.safeAreaBottom) : 0))
                 BottomTab()
                     .padding(.bottom, self.positionBottom)
                     .opacity(self.useBottom ? 1 : 0)
@@ -118,17 +110,10 @@ struct SceneTab: PageComponent{
             if page?.isLayer == true {return}
             switch pageId {
             case .walk :
-                if !self.isSimpleWalkPositionTop {
-                    withAnimation{self.isSimpleWalkPositionTop = true}
-                }
                 self.walkManager.updateSimpleView(false)
-                
             case .walkCompleted, .missionCompleted : break
             default :
-                if self.isSimpleWalkPositionTop {
-                    withAnimation{self.isSimpleWalkPositionTop = false}
-                    self.walkManager.updateSimpleView(true)
-                }
+                self.walkManager.updateSimpleView(true)
             }
             
         }

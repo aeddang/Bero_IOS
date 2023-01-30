@@ -35,4 +35,5 @@ struct PetData : Decodable {
     private(set) var introduce: String? = nil
     private(set) var userId:String? = nil
     private(set) var isRepresentative:Bool? = nil
+    private(set) var isNeutered:Bool? = nil
 }

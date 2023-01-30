@@ -47,7 +47,7 @@ extension TitleTab{
     }
     
     enum ButtonType:String{
-        case more, add, edit, close, back, setting, alramOn, alram, block
+        case more, add, edit, close, back, setting, alramOn, alram, block, addAlbum
         case addFriend,friend
         case viewMore, manageDogs
         var icon:String? {
@@ -55,6 +55,7 @@ extension TitleTab{
             case .back : return Asset.icon.back
             case .more : return Asset.icon.more_vert
             case .add : return Asset.icon.add
+            case .addAlbum : return Asset.icon.album
             case .edit : return nil
             case .close : return Asset.icon.close
             case .alram : return Asset.icon.notification_off
@@ -140,10 +141,6 @@ struct TitleTab: PageComponent{
                         }
                        
                     }
-                }
-                
-                HStack(spacing: Dimen.margin.tiny){
-                    Spacer().modifier(MatchHorizontal(height: 0))
                     if let btn = self.sortButton {
                         SortButton(
                             type: .stroke,
@@ -155,6 +152,11 @@ struct TitleTab: PageComponent{
                                 self.sort?()
                             }
                     }
+                }
+                
+                HStack(spacing: Dimen.margin.tiny){
+                   
+                    Spacer().modifier(MatchHorizontal(height: 0))
                     ForEach( Array(self.buttons.enumerated()), id: \.1){ idx,  btn in
                         HStack(spacing:Dimen.margin.microExtra){
                             if let text = btn.text {

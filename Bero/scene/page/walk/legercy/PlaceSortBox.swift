@@ -11,7 +11,7 @@ import Combine
 import GoogleMaps
 import GooglePlaces
 import QuartzCore
-
+/*
 struct PlaceSortBox: PageView {
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var walkManager:WalkManager
@@ -107,3 +107,4 @@ struct PlaceSortButton: PageView {
         )
     }//body
 }
+*/

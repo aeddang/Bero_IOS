@@ -193,7 +193,7 @@ struct FriendListItemBodyVertical: PageComponent{
             Asset.icon.notice
         ]
        
-        self.appSceneObserver.radio = .select((self.tag, icons, datas)){ idx in
+        self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in
             guard let idx = idx else {return}
             switch idx {
             case 0 :self.block()

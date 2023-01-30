@@ -14,8 +14,8 @@ extension FriendButton {
     }
     
     enum FuncType:String{
-        case request, requested, accept, reject, delete, chat
-        var icon:String{
+        case request, requested, accept, reject, delete, chat, move
+        var icon:String?{
             switch self {
             case .request : return Asset.icon.add_friend
             case .requested : return Asset.icon.add_friend
@@ -23,41 +23,35 @@ extension FriendButton {
             case .chat: return Asset.icon.chat
             case .accept: return Asset.icon.check
             case .reject: return Asset.icon.close
+            default : return nil
             }
         }
         var bgColor:Color{
             switch self {
-            case .request : return Color.app.white
+            case .move : return Color.brand.primary
             case .requested : return Color.app.grey300
-            case .delete : return Color.app.grey300
-            case .accept : return Color.app.white
-            case .reject : return Color.app.grey300
-            case .chat : return Color.app.grey500
+            case .delete, .reject: return Color.app.black
+            case .accept, .request,.chat : return Color.brand.primary
             }
         }
         
-        var bgGradient:Gradient?{
-            switch self {
-            case .request : return Color.app.orangeGradient
-            case .accept : return Color.app.orangeGradient
-            default : return nil
-            }
-        }
+        
         var iconColor:Color{
             switch self {
-            case .accept, .request, .chat : return Color.brand.primary
+            case .accept, .request, .chat, .move : return Color.brand.primary
             case .reject, .delete : return Color.app.black
             default : return Color.app.grey300
             }
         }
         var textColor:Color{
             switch self {
-            case .delete : return Color.app.grey300
+            case .move : return Color.brand.primary
             default : return Color.app.white
             }
         }
         var text:String{
             switch self {
+            case .move : return String.button.viewProfile
             case .request : return String.button.addFriend
             case .requested : return String.button.request
             case .delete : return String.button.remove
@@ -68,7 +62,7 @@ extension FriendButton {
         }
         var buttonType:FillButton.ButtonType{
             switch self {
-            case .delete : return .stroke
+            case .delete, .move : return .stroke
             default : return .fill
             }
         }
@@ -96,7 +90,6 @@ struct FriendButton: PageComponent{
                 radius: self.radius,
                 color: self.funcType.bgColor,
                 textColor: self.funcType.textColor,
-                gradient:self.funcType.bgGradient,
                 textSize: self.textSize
             ){_ in
                 
@@ -104,7 +97,7 @@ struct FriendButton: PageComponent{
             }
         case .icon :
             CircleButton(
-                type: .icon(self.funcType.icon),
+                type: self.funcType.icon != nil ? .icon(self.funcType.icon!) : .tiny,
                 isSelected: true,
                 strokeWidth: 2,
                 activeColor: self.funcType.iconColor
@@ -120,6 +113,11 @@ struct FriendButton: PageComponent{
         if id == self.dataProvider.user.snsUser?.snsID {return}
         
         switch funcType {
+        case .move:
+            self.pagePresenter.openPopup(
+                PageProvider.getPageObject(.user)
+                    .addParam(key: .id, value:id)
+            )
         case .request:
             self.dataProvider.requestData(q: .init(id: id, type: .requestFriend(userId: id)))
         case .requested:
