@@ -15,7 +15,7 @@ struct AgreeButton: View, SelecterbleProtocol, PageProtocol {
         case privacy, service, neutralized
         var icon:String?{
             switch self {
-            case .neutralized : return nil
+            case .neutralized : return Asset.icon.neutralized
             default : return nil
             }
         }
@@ -52,6 +52,7 @@ struct AgreeButton: View, SelecterbleProtocol, PageProtocol {
                             .resizable()
                             .scaledToFit()
                             .frame(width: Dimen.icon.light, height: Dimen.icon.light)
+                            .opacity(self.isChecked ? 1 : 0.4)
                     }
                     Text(self.text ?? self.type.text)
                         .modifier( RegularTextStyle(

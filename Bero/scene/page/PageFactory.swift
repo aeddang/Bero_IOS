@@ -19,7 +19,7 @@ extension PageID{
     static let diary:PageID = "diary"
     static let my:PageID = "my"
     static let setup:PageID = "setup"
-   
+    static let myAccount:PageID = "myAccount"
     static let chatRoom:PageID = "chatRoom"
     static let walkList:PageID = "walkList"
     static let walkHistory:PageID = "walkHistory"
@@ -195,6 +195,7 @@ struct PageFactory{
         case .chat : return PageChat(pageObservable:pageObservable)
         case .my : return PageMy(pageObservable:pageObservable)
         case .setup : return PageSetup(pageObservable:pageObservable)
+        case .myAccount : return PageMyAccount(pageObservable:pageObservable)
         case .dog : return PageDog(pageObservable:pageObservable)
         case .user : return PageUser(pageObservable:pageObservable)
         case .popupChooseDog : return PopupChooseDog(pageObservable:pageObservable)

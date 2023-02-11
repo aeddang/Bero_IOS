@@ -38,28 +38,29 @@ struct HorizontalProfile: PageComponent{
         }
     }
     enum SizeType{
-        case small, big
+        case small, big, tiny
         var imageSize:CGFloat{
             switch self {
+            case .tiny : return Dimen.profile.lightExtra
             case .small : return Dimen.profile.regular
             case .big : return Dimen.profile.heavyExtra
             }
         }
         var lvType:HeartButton.ButtonType{
             switch self {
-            case .small : return .tiny
+            case .small, .tiny : return .tiny
             case .big : return .small
             }
         }
         var titleSpacing:CGFloat{
             switch self {
-            case .small : return Dimen.margin.micro
+            case .small, .tiny : return Dimen.margin.micro
             case .big : return Dimen.margin.light
             }
         }
         var nameSize:CGFloat{
             switch self {
-            case .small : return Font.size.light
+            case .small, .tiny : return Font.size.light
             case .big : return Font.size.medium
             }
         }
@@ -88,7 +89,7 @@ struct HorizontalProfile: PageComponent{
     var imagePath:String? = nil
     var lv:Int? = nil
     var name:String? = nil
-    var date:Date? = nil
+    var date:String? = nil
     var gender:Gender? = nil
     var isNeutralized:Bool? = nil
     var age:String? = nil
@@ -175,7 +176,7 @@ struct HorizontalProfile: PageComponent{
                                 .multilineTextAlignment(.leading)
                                 
                             if let date = self.date {
-                                Text(date.sinceNow())
+                                Text(date)
                                     .modifier(RegularTextStyle(
                                         size: Font.size.tiny,
                                         color: Color.app.grey300

@@ -39,7 +39,10 @@ struct ListItem: PageComponent{
                                   noImg: self.emptyImage)
                             .modifier(MatchParent())
                     } else {
-                        Spacer()
+                        Image(Asset.noImg16_9)
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .modifier(MatchParent())
                     }
                 }

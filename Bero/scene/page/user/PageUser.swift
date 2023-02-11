@@ -68,7 +68,17 @@ struct PageUser: PageView {
                                     )
                                 }
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                
+                                PetTagSection(
+                                    profile: pet,
+                                    listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                                )
+                                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                .padding(.top, Dimen.margin.regular)
+                                PetPhysicalSection(
+                                    profile: pet
+                                )
+                                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                .padding(.top, Dimen.margin.regular)
                             } else {
                                 UserProfileTopInfo(profile: user.currentProfile)
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
@@ -81,14 +91,20 @@ struct PageUser: PageView {
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.regular)
                             }
+                            Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                                .padding(.top, Dimen.margin.medium)
                             
-                            UsersDogSection( user:user )
-                            .padding(.top, Dimen.margin.regular)
                             UserHistorySection(
                                 user: user
                             )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                             .padding(.top, Dimen.margin.heavyExtra)
+                            
+                            Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                                .padding(.top, Dimen.margin.medium)
+                            UsersDogSection( user:user )
+                            .padding(.top, Dimen.margin.regular)
+                            
                             
                             FriendSection(
                                 user: user,
@@ -220,7 +236,7 @@ struct PageUser: PageView {
             ]
             let icons:[String?] = [
                 Asset.icon.block,
-                Asset.icon.notice
+                Asset.icon.warning
             ]
            
             self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in
@@ -232,9 +248,8 @@ struct PageUser: PageView {
                 }
             }
         }
-        
-        
     }
+    
     private func removeFriend(){
         self.appSceneObserver.sheet = .select(
             String.alert.friendDeleteConfirm,

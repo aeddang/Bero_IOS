@@ -31,7 +31,6 @@ struct ChatList: PageComponent{
                     HorizontalProfile(
                         type: .pet,
                         sizeType: .small,
-                        funcType: .more,
                         imagePath: pet.imagePath,
                         lv: pet.lv,
                         name: pet.name,
@@ -46,8 +45,8 @@ struct ChatList: PageComponent{
                     HorizontalProfile(
                         type: .user,
                         sizeType: .small,
-                        funcType: .more,
                         imagePath: user.imagePath,
+                        lv: user.lv,
                         name: user.nickName,
                         gender: user.gender,
                         age: user.birth?.toAge(),
@@ -99,13 +98,24 @@ struct ChatList: PageComponent{
                                     .padding(.bottom, Dimen.margin.regular)
                             }
                             if !data.isMe {
-                                HorizontalProfile(
-                                    type: .multi(imgPath: self.pet?.imagePath),
-                                    sizeType: .small,
-                                    imagePath: self.user?.currentProfile.imagePath,
-                                    name: self.user?.currentProfile.nickName,
-                                    useBg: false
-                                )
+                                if let pet = self.pet {
+                                    HorizontalProfile(
+                                        type: .pet,
+                                        sizeType: .tiny,
+                                        imagePath: pet.imagePath,
+                                        name: pet.name,
+                                        useBg: false
+                                    )
+                                } else {
+                                    HorizontalProfile(
+                                        type: .user,
+                                        sizeType: .tiny,
+                                        imagePath: self.user?.currentProfile.imagePath,
+                                        name: self.user?.currentProfile.nickName,
+                                        useBg: false
+                                    )
+                                }
+                                
                             }
                             ForEach(data.datas.reversed() ) { chat in
                                 ChatItem(data:chat)
@@ -212,7 +222,7 @@ struct ChatList: PageComponent{
         if self.user == nil, let userData =  data.receiveUser{
             self.user = User().setData(data: userData)
         }
-        if self.pet == nil, let petData =  data.receivePets?.first{
+        if self.pet == nil, let petData =  data.receivePets?.first(where:{$0.isRepresentative == true}){
             self.pet = PetProfile(data: petData)
         }
         self.loadedChatRoom(datas: data.chats ?? [])

@@ -142,7 +142,6 @@ extension Asset{
         public static let beauty = "beauty"
         public static let bone = "bone"
         public static let coin = "coin"
-        public static let drag_handle = "drag_handle"
         public static let female = "female"
         public static let food = "food"
         public static let human_friends = "human_friends"
@@ -163,9 +162,17 @@ extension Asset{
         public static let share = "share"
         public static let block = "block"
         public static let notice = "notice"
-        public static let search_dog = "search_dog"
+        public static let search_user = "search_user"
         public static let camera = "camera"
         public static let pin_drop = "pin_drop"
+        public static let neutralized = "neutralized"
+        public static let global = "global"
+        public static let warning = "warning"
+        public static let route_flag = "route_flag"
+        public static let exit = "exit"
+        public static let account = "account"
+        public static let policy = "policy"
+        public static let terms = "terms"
     }
     
 
@@ -177,6 +184,7 @@ extension Asset{
         public static let profile_user_default = "profile_user_default"
         public static let profile_deco = "profile_deco"
         public static let hands_heart = "hands_heart"
+        public static let route_bg = "route_bg"
         
     }
     

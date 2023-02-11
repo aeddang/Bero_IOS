@@ -100,7 +100,7 @@ struct PetProfileBody: PageComponent{
             name: self.name,
             gender: self.gender,
             age: self.age,
-            breed: self.breed,
+            breed: self.distance == nil ? self.breed : nil, //거리와 품종 둘중하나만 표기
             distance:self.distance,
             isSelected: self.isSelected,
             action: { _ in self.action?() }

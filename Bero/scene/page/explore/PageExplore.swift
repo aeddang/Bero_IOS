@@ -69,11 +69,20 @@ struct PageExplore: PageView {
     }//body
     @State var type:AlbumApi.SearchType = .all
     private func onSort(){
+        let icons:[String?] = [
+            Asset.icon.global,
+            Asset.icon.human_friends
+        ]
         let datas:[String] = [
             AlbumApi.SearchType.all.text,
             AlbumApi.SearchType.friends.text
         ]
-        self.appSceneObserver.radio = .sort( (self.tag, datas), title: String.pageText.exploreSeletReport){ idx in
+        self.appSceneObserver.radio = .select(
+            (self.tag, icons, datas),
+            title: String.pageText.exploreSeletReport,
+            selected: self.type == .all ? 0 : 1
+        )
+        { idx in
             guard let idx = idx else {return}
             switch idx {
             case 0 : self.type = .all

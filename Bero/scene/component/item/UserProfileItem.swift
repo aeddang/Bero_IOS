@@ -72,13 +72,13 @@ struct UserProfileItem: PageComponent{
         
         let datas:[String] = [
             self.status.isFriend ? String.button.chat : String.button.addFriend,
-            //String.button.share,
+            String.button.block,
             String.button.accuse
         ]
         let icons:[String?] = [
             self.status.isFriend ? Asset.icon.chat : Asset.icon.add_friend,
-            //Asset.icon.share,
-            Asset.icon.notice
+            Asset.icon.block,
+            Asset.icon.warning
         ]
        
         self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in
@@ -90,8 +90,8 @@ struct UserProfileItem: PageComponent{
                 } else {
                     self.requestFriend()
                 }
-                
-            case 1 : self.accuse()
+            case 1 : self.block()
+            case 2 : self.accuse()
             default : break
             }
         }
@@ -104,6 +104,17 @@ struct UserProfileItem: PageComponent{
     private func sendMessage(){
         let id = self.data.userId
         self.appSceneObserver.event = .sendChat(userId: id)
+    }
+    private func block(){
+        self.appSceneObserver.sheet = .select(
+            String.alert.blockUserConfirm,
+            nil,
+            [String.app.cancel,String.button.block],
+            isNegative: true){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .blockUser(userId: self.data.userId , isBlock: true)))
+                }
+        }
     }
     private func accuse(){
         if let post = self.postId {

@@ -31,7 +31,7 @@ struct VisitorView: PageComponent, Identifiable{
                 viewModel: self.infinityScrollModel,
                 axes: .vertical,
                 showIndicators : false,
-                marginVertical: Dimen.margin.medium,
+                marginVertical: Dimen.margin.heavy,
                 marginHorizontal: Dimen.app.pageHorinzontal,
                 spacing:Dimen.margin.regularExtra,
                 isRecycle: true,
@@ -43,12 +43,24 @@ struct VisitorView: PageComponent, Identifiable{
                         color: Color.app.black
                     ))
                 ForEach(self.datas) { data in
+                    PetProfileUser(profile: data, friendStatus: data.isFriend ? .chat : .norelation){
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.user).addParam(key: .id, value:data.userId)
+                        )
+                    }
+                    .onAppear{
+                        if  data.index == (self.datas.count-1) {
+                            self.infinityScrollModel.event = .bottom
+                        }
+                    }
+                    /*
                     MultiProfileListItem(data: data)
                         .onAppear{
                             if  data.index == (self.datas.count-1) {
                                 self.infinityScrollModel.event = .bottom
                             }
                         }
+                     */
                 }
             }
         }
@@ -98,7 +110,7 @@ struct VisitorView: PageComponent, Identifiable{
             self.loadVisitor()
         }
     }
-    @State var datas:[MultiProfileListItemData] = []
+    @State var datas:[PetProfile] = []
     @State var isEmpty:Bool = false
     private func resetScroll(){
         withAnimation{ self.isEmpty = false }
@@ -122,11 +134,12 @@ struct VisitorView: PageComponent, Identifiable{
     }
     
     private func loadedVisitor(datas:[PlaceVisitor]){
-        var added:[MultiProfileListItemData] = []
+        var added:[PetProfile] = []
         let start = self.datas.count
         let end = start + datas.count
-        added = zip(start...end, datas).map { idx, d in
-            return MultiProfileListItemData().setData(d,  idx: idx)
+        added = zip(start...end, datas).map{ idx, d in
+            return PetProfile(data: d.pet ?? PetData(), userId: d.user?.userId, isFriend: d.user?.isFriend ?? false)
+            //return MultiProfileListItemData().setData(d,  idx: idx)
         }
         self.datas.append(contentsOf: added)
         if self.datas.isEmpty {
@@ -174,10 +187,10 @@ struct VisitorHorizontalView: PageComponent, Identifiable{
                         MultiProfile(
                             id: "",
                             type: .pet,
-                            circleButtontype: .image(data.user?.imagePath ?? ""),
                             imagePath: data.pet?.imagePath,
                             imageSize: Dimen.profile.mediumUltra,
                             name: data.pet?.name ?? data.user?.nickName,
+                            lv:data.pet?.lv,
                             buttonAction: {
                                 self.moveUser(id: data.contentID)
                             }

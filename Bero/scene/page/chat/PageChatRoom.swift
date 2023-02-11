@@ -125,7 +125,7 @@ struct PageChatRoom: PageView {
         let icons:[String?] = [
             Asset.icon.delete,
             Asset.icon.block,
-            Asset.icon.notice
+            Asset.icon.warning
         ]
        
         self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in

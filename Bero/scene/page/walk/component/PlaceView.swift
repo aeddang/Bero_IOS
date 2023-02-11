@@ -33,6 +33,7 @@ struct PlaceView: PageComponent{
             .padding(.horizontal, Dimen.app.pageHorinzontal)
             .padding(.top, Dimen.margin.regular)
             HStack(spacing:Dimen.margin.micro){
+                /*
                 RewardInfo(
                     type: .exp,
                     value: self.place.playExp.toInt()
@@ -40,7 +41,7 @@ struct PlaceView: PageComponent{
                 RewardInfo(
                     type: .point,
                     value: self.place.playPoint
-                )
+                )*/
                 FillButton(
                     type: .fill,
                     icon: Asset.icon.pin_drop,
@@ -63,6 +64,17 @@ struct PlaceView: PageComponent{
                     }
                     
                     self.dataProvider.requestData(q: .init(type: .registVisit(self.place)))
+                }
+                if SystemEnvironment.isTestMode {
+                    if !self.isMark {
+                        FillButton(
+                            type: .fill,
+                            text:"완료 테스트용",
+                            size: Dimen.button.regular
+                        ){ _ in
+                            self.dataProvider.requestData(q: .init(type: .registVisit(self.place)))
+                        }
+                    }
                 }
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
@@ -87,18 +99,7 @@ struct PlaceView: PageComponent{
                     datas: self.visitors
                 )
             }
-            if SystemEnvironment.isTestMode {
-                if !self.isMark {
-                    FillButton(
-                        type: .fill,
-                        text:"완료 테스트용",
-                        size: Dimen.button.regular
-                    ){ _ in
-                        self.dataProvider.requestData(q: .init(type: .registVisit(self.place)))
-                    }
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                }
-            }
+            
         }
         .background(Color.app.white)
         .onReceive(self.dataProvider.$result){ res in

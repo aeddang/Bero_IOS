@@ -32,13 +32,13 @@ struct PageMyLv: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        useBack: true
-                    ){ type in
-                        switch type {
-                        case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                        default : break
-                        }
-                    }
+                        useBack: true,
+                        action: { type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
+                        })
                     TitleSection(
                         title: String.pageTitle.myLv,
                         trailer: String.pageText.myLvText1
@@ -54,7 +54,7 @@ struct PageMyLv: PageView {
                     Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                         .padding(.top, Dimen.margin.medium)
                     
-                    LvHistoryList(
+                    RewardHistoryList(
                         infinityScrollModel:self.infinityScrollModel,
                         user:self.dataProvider.user)
                     

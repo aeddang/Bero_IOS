@@ -86,7 +86,7 @@ struct FriendSection: PageComponent{
         let w:CGFloat = (self.listSize - (Dimen.margin.regularExtra * (r-1))) / r
         self.imageSize = w
         switch self.type {
-        case .friend :
+        case .friend, .chat :
             self.dataProvider.requestData(q: .init(id: self.currentId, type:.getFriend(userId: self.currentId, page: 0, size: self.pageSize)))
         case .requested :
             self.dataProvider.requestData(q: .init(id: self.currentId, type:.getRequestedFriend(page: 0, size: self.pageSize)))

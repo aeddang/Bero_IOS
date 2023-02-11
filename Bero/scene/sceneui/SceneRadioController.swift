@@ -18,6 +18,7 @@ enum SceneRadio:Equatable {
     case select((String,[String?],[String]),
               title:String?=nil,
               description:String?=nil,
+              selected:Int?=nil,
               completed:(Int?) -> Void)
     
     case filter((String,[String]),
@@ -29,14 +30,14 @@ enum SceneRadio:Equatable {
     func check(key:String)-> Bool{
            switch (self) {
            case .sort(let v, _, _, _): return v.0 == key
-           case .select(let v, _, _, _): return v.0 == key
+           case .select(let v, _, _, _ ,_): return v.0 == key
            case .filter(let v, _, _, _): return v.0 == key
            }
        }
     static func ==(lhs: SceneRadio, rhs: SceneRadio) -> Bool {
         switch (lhs, rhs) {
         case (.sort(let lh,  _, _, _), .sort(let rh,  _, _, _)): return lh.0 == rh.0
-        case (.select(let lh,  _, _, _), .select(let rh,  _, _, _)): return lh.0 == rh.0
+        case (.select(let lh,  _, _, _ ,_), .select(let rh,  _, _, _ ,_)): return lh.0 == rh.0
         case (.filter(let lh,  _, _, _), .filter(let rh,  _, _, _)): return lh.0 == rh.0
         default : return false
         }
@@ -74,8 +75,8 @@ struct SceneRadioController: PageComponent{
             cancel: {
                 switch self.currentRadio {
                 case .sort( _, _, _ , let completed) : completed( nil )
-                case .select( _, _, _ , let completed) : completed( nil )
-                case .filter( _, _, _ ,let  completed) : completed( nil )
+                case .select( _, _, _, _, let completed) : completed( nil )
+                case .filter( _, _, _, let completed) : completed( nil )
                 default: return
                 }
                 withAnimation{
@@ -88,8 +89,8 @@ struct SceneRadioController: PageComponent{
             completed: {
                 switch self.currentRadio {
                 case .sort( _, _, _ , let completed) : completed( self.selectedRadio()?.first )
-                case .select( _, _, _ , let completed) : completed( self.selectedRadio()?.first )
-                case .filter( _, _, _ ,let  completed) : completed( self.selectedRadio() )
+                case .select( _, _, _, _, let completed) : completed( self.selectedRadio()?.first )
+                case .filter( _, _, _, let completed) : completed( self.selectedRadio() )
                 default: return
                 }
                 withAnimation{
@@ -110,11 +111,11 @@ struct SceneRadioController: PageComponent{
                 self.description = description
                 self.isMultiSelectAble = false
                 self.setupButton(data: data)
-            case .select(let data,  let title, let description, _) :
+            case .select(let data,  let title, let description, let selected, _) :
                 self.title = title
                 self.description = description
                 self.isMultiSelectAble = false
-                self.setupSelectButton(data: data)
+                self.setupSelectButton(data: data, selected:selected)
             case .filter(let data,  let title, let description, _) :
                 self.title = title
                 self.description = description
@@ -143,10 +144,10 @@ struct SceneRadioController: PageComponent{
             RadioBtnData(title: text, index: index)
         }
     }
-    func setupSelectButton(data:(String,[String?],[String])) {
+    func setupSelectButton(data:(String,[String?],[String]), selected:Int?) {
         let range = 0 ..< data.2.count
         self.buttons = zip(range, data.2).map {index, text in
-            RadioBtnData(icon: data.1[index], title: text, index: index)
+            RadioBtnData(icon: data.1[index], title: text, index: index, isSelected: index == selected)
         }
     }
     func selectedRadio() -> [Int]? {

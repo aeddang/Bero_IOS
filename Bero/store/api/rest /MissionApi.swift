@@ -31,7 +31,7 @@ extension MissionApi {
         }
         var icon : String {
             switch self {
-            case .walk : return Asset.icon.paw
+            case .walk : return Asset.icon.calendar
             case .mission : return Asset.icon.goal
             case .all : return Asset.icon.paw
             }

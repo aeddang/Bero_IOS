@@ -47,11 +47,23 @@ extension WalkManager {
     static var todayWalkCount:Int = 0
     static let distanceUnit:Double = 5000
     static let nearDistance:Double = 20
-    static func viewSpeed(_ value:Double, unit:String = String.app.kmPerH) -> String {
-        return (value * 3600 / 1000).toTruncateDecimal(n:1) + unit
+    static let limitedUpdateImageSize:Int = 9
+    static func viewSpeed(_ value:Double, unit:String? = String.app.kmPerH) -> String {
+        let v = (value / 1000).toTruncateDecimal(n:1)
+        if let unit = unit {
+            return v + " " + unit
+        } else {
+            return v
+        }
     }
-    static func viewDistance(_ value:Double, unit:String = String.app.km) -> String {
-        return (value / 1000).toTruncateDecimal(n:1) + unit
+    static func viewDistance(_ value:Double, unit:String? = String.app.km) -> String {
+        let v = (value / 1000).toTruncateDecimal(n:1)
+        if let unit = unit {
+            return v + " " + unit
+        } else {
+            return v
+        }
+        
     }
     static func viewDuration(_ value:Double) -> String {
         return value.secToMinString()
@@ -175,6 +187,7 @@ extension WalkManager {
 }
 
 class WalkManager:ObservableObject, PageProtocol{
+    var appSceneObserver:AppSceneObserver? = nil
     let locationObserver:LocationObserver
     private var lockScreenManager:PageProtocol? = nil
     private let dataProvider:DataProvider
@@ -210,14 +223,17 @@ class WalkManager:ObservableObject, PageProtocol{
     private (set) var userFilter:Filter = .all
     private (set) var placeFilters:[Filter] = [.vet, .restaurant, .cafe, .petShop]
     private (set) var missionFilter:Filter = .notUsed
+    private (set) var updateImages:[UIImage] = []
  
     let nearDistance:Double = WalkManager.nearDistance
     let farDistance:Double = 10000
     let updateTime:Int = 5
     var isBackGround:Bool = false
     init(
+        appSceneObserver:AppSceneObserver?,
         dataProvider:DataProvider,
         locationObserver:LocationObserver){
+            self.appSceneObserver = appSceneObserver
             self.locationObserver = locationObserver
             self.dataProvider = dataProvider
             if #available(iOS 16.2, *) {
@@ -404,6 +420,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.playExp = 0
         self.playPoint = 0
         self.completedMissions = []
+        self.updateImages = []
         self.endMission()
         self.endTimer()
         self.event = .end
@@ -450,6 +467,10 @@ class WalkManager:ObservableObject, PageProtocol{
     }
    
     func updateStatus(img:UIImage? = nil, thumbImage:UIImage? = nil){
+        if self.updateImages.count >= Self.limitedUpdateImageSize {
+            self.appSceneObserver?.event = .toast(String.pageText.walkImageLimitedUpdate)
+            return
+        }
         guard let loc = self.currentLocation else {return}
         guard let id = self.walkId else {return}
         self.dataProvider.requestData(q:
@@ -581,8 +602,9 @@ class WalkManager:ObservableObject, PageProtocol{
             }
         case .updateWalk(let walkId, _, let additionalData) :
             if walkId != self.walkId {return}
-            if additionalData?.img != nil {
-                
+            if let img = additionalData?.img  {
+                self.updateImages.append(img)
+                self.appSceneObserver?.event = .check(self.updateImages.count.description + "/" + Self.limitedUpdateImageSize.description)
             }
         default : break
         }

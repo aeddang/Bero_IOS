@@ -36,13 +36,22 @@ struct PageFriend: PageView {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
-                        //title: String.pageTitle.friends,
+                        title: self.sortType.text,
                         useBack:true,
-                        buttons: [self.sortType == .friend ? .addFriend : .friend, .more],
-                        icons: [self.hasRequested ? "N" : nil],
+                        buttons: self.sortType.buttons,
+                        icons: self.sortType == .friend ? [self.hasRequested ? "N" : nil] : [],
                         action:{ type in
                             switch type {
-                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            case .back :
+                                if self.sortType == self.originSortType {
+                                    self.pagePresenter.closePopup(self.pageObject?.id)
+                                } else {
+                                    withAnimation{
+                                        self.sortType = self.originSortType
+                                    }
+                                    self.onReload()
+                                }
+                                
                             case .addFriend :
                                 self.sortType = .requested
                                 self.onReload()
@@ -54,13 +63,7 @@ struct PageFriend: PageView {
                             }
                         }
                     )
-                    HStack(spacing:0){
-                        TitleSection(
-                            title: self.sortType.text
-                        )
-                    }
-                    .padding(.top, Dimen.margin.regularExtra)
-                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    
                     if let user = self.user {
                         FriendList(
                             pageObservable: self.pageObservable,
@@ -92,6 +95,7 @@ struct PageFriend: PageView {
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 self.sortType = obj.getParamValue(key: .type) as? FriendList.ListType ?? .friend
+                self.originSortType = self.sortType
                 self.user = obj.getParamValue(key: .data) as? User ?? self.dataProvider.user
                 self.isEdit = obj.getParamValue(key: .isEdit) as? Bool ?? false
                 self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0)))
@@ -100,6 +104,7 @@ struct PageFriend: PageView {
     }//body
     @State var hasRequested:Bool = false
     @State var user:User? = nil
+    @State var originSortType:FriendList.ListType = .friend
     @State var sortType:FriendList.ListType = .friend
     @State var isEdit:Bool = false
     private func onSort(){

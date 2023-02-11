@@ -35,28 +35,19 @@ struct PopupWalkPlace: PageView {
                         .background(Color.transparent.clear)
                     
                     ZStack(alignment: .topTrailing){
-                        VStack(spacing:0){
-                            ImageButton(
-                                defaultImage: Asset.icon.drag_handle,
-                                size:  CGSize(width: Dimen.icon.medium, height: Dimen.margin.mediumUltra),
-                                defaultColor: Color.app.grey100
-                            ){ _ in
-                                self.pagePresenter.closePopup(self.pageObject?.id)
-                            }
-                            
-                            if let data = self.current {
-                                PlaceView(
-                                    pageObservable:self.pageObservable,
-                                    place:data
-                                )
-                                .frame(width: geometry.size.width)
-                            }
+                        Spacer().modifier(MatchHorizontal(height: 0))
+                        if let data = self.current {
+                            PlaceView(
+                                pageObservable:self.pageObservable,
+                                place:data
+                            )
+                            .frame(width: geometry.size.width)
+                            .padding(.top, Dimen.margin.regular)
                         }
-                        /*
-                        ImageButton( defaultImage: Asset.icon.close, padding: Dimen.margin.tiny){ _ in
+                        ImageButton( defaultImage: Asset.icon.close){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
-                        */
+                        .padding(.all, Dimen.margin.regular)
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
                     .modifier(BottomFunctionTab(margin: 0))

@@ -53,6 +53,8 @@ struct WalkSummary : Decodable {
 }
 
 struct WalkReport : Decodable {
+    private(set) var duration: Double? = nil
+    private(set) var distance: Double? = nil
     private(set) var totalCount: Double? = nil
     private(set) var avgCount: Double? = nil
     private(set) var times: [WalkTime]? = nil

@@ -19,11 +19,10 @@ struct UsersDogSection: PageComponent{
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Dimen.margin.tiny){
-                        if let profile = self.user.currentProfile {
+                        if self.user.representativePet != nil, let profile = self.user.currentProfile {
                             UserProfileInfo(profile:profile, sizeType: .big)
                         }
-                        ForEach(self.pets) { pet in
-                            
+                        ForEach(self.pets.filter{!$0.isRepresentative}) { pet in
                             PetProfileInfo( profile: pet){
                                 self.movePetPage(pet)
                             }

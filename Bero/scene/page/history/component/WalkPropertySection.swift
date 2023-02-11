@@ -6,27 +6,25 @@ struct WalkPropertySection: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     var mission:Mission
+    var action: ((Int) -> Void)? = nil
     var body: some View {
-        HStack(spacing:Dimen.margin.thin){
-            ZStack{
-                Spacer().modifier(MatchHorizontal(height: 0))
-                if mission.walkPath?.paths.isEmpty == false, let path = mission.walkPath?.paths {
-                    let selects:[Int] = path.filter{$0.smallPictureUrl != nil}.map{$0.idx}
-                    let points:[CGPoint] = path.map{CGPoint(x: $0.tx, y:$0.ty )}
+        VStack(spacing:0){
+            if mission.walkPath?.paths.isEmpty == false, let path = mission.walkPath?.paths {
+                ZStack{
+                    Image(Asset.image.route_bg)
+                        .renderingMode(.original)
+                        .resizable()
+                        .scaledToFit()
+                        .modifier(MatchHorizontal(height: 200))
                     GraphPolygon(
-                        selectIdx: selects,
-                        selectedColor: Color.brand.primary,
-                        points: points)
-                        .modifier(MatchParent())
-                } else {
-                    EmptyData(
-                        text: String.pageText.needRoute
-                    )
+                        selectIdx: path.filter{$0.smallPictureUrl != nil}.map{$0.idx},
+                        points: path.map{CGPoint(x: $0.tx, y:$0.ty )},
+                        action: self.action)
+                    .frame(width: 160, height: 160)
                 }
             }
-            .frame(width: 240, height: 240)
             
-            VStack(spacing:Dimen.margin.thin){
+            HStack(spacing:Dimen.margin.tiny){
                 PropertyInfo(
                     type:.blank,
                     icon: Asset.icon.schedule,
@@ -90,6 +88,46 @@ struct PetWalkPropertySection: PageComponent{
     }
 }
 
+
+struct ReportWalkPropertySection: PageComponent{
+    @EnvironmentObject var pagePresenter:PagePresenter
+    @EnvironmentObject var dataProvider:DataProvider
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
+    var data:WalkReport
+    @State var duration:String = ""
+    @State var speed:String = ""
+    @State var distance:String = ""
+    var body: some View {
+        HStack(spacing:Dimen.margin.thin){
+            PropertyInfo(
+                type:.blank,
+                icon: Asset.icon.schedule,
+                title: "Total. " + String.app.time,
+                value: self.duration
+            )
+            PropertyInfo(
+                type:.blank,
+                icon: Asset.icon.speed,
+                title: "Avg. " + String.app.speed,
+                value: self.speed
+            )
+            PropertyInfo(
+                type:.blank,
+                icon: Asset.icon.navigation_outline,
+                title: "Total. " + String.app.distance,
+                value: self.distance
+            )
+        }
+        .onAppear{
+            let d = self.data.distance ?? 0
+            let dr = self.data.duration ?? 0
+            self.distance = WalkManager.viewDistance(d)
+            self.duration = WalkManager.viewDuration(dr)
+            let spd = d == 0 || dr == 0 ? 0 : d/dr
+            self.speed = WalkManager.viewSpeed(spd)
+        }
+    }
+}
 
 
 

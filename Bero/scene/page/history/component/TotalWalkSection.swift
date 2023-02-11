@@ -7,40 +7,68 @@ struct TotalWalkSection: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     var user:User
     var body: some View {
-        VStack(alignment: .center, spacing:0){
-            Spacer().modifier(MatchHorizontal(height: 0))
-            SortButton(
-                type: .stroke,
-                sizeType: .big,
-                userProgile: self.profile == nil ? self.user.currentProfile : nil,
-                petProgile: self.profile,
-                text: (self.profile == nil ? String.button.all : self.profile?.name) ?? "",
-                color:Color.app.grey400,
-                isSort: true){
-                    self.onSort()
+        VStack(alignment: .leading, spacing:  Dimen.margin.tiny){
+            HStack(alignment: .top, spacing:0){
+                VStack(alignment: .leading, spacing: 0){
+                    Spacer().modifier(MatchHorizontal(height: 0))
+                    if let pct = totalPct {
+                        Text(pct)
+                            .modifier(RegularTextStyle(
+                                size: Font.size.tiny,
+                                color: Color.brand.primary
+                            ))
+                    }
+                    HStack(alignment: .bottom, spacing: 0){
+                        Text(WalkManager.viewDistance(self.totalDistance, unit: nil))
+                            .modifier(SemiBoldTextStyle(
+                                size: 64,
+                                color: Color.app.black
+                            ))
+                            .frame(height: 64)
+                        Text(String.app.km)
+                            .modifier(
+                                RegularTextStyle(
+                                    size: Font.size.tiny, color: Color.app.grey400))
+                            .padding(.bottom, Dimen.margin.tiny)
+                    }
                 }
-                .fixedSize()
-            
-            Text(WalkManager.viewDistance(self.totalDistance))
-                .modifier(SemiBoldTextStyle(
-                    size: Font.size.bold,
-                    color: Color.app.black
-                ))
-                .padding(.top, Dimen.margin.regularUltra)
-               
-            Text(String.pageText.walkHistoryText1)
-                .modifier(RegularTextStyle(
-                    size: Font.size.thin,
-                    color: Color.app.grey500
-                ))
-            if let pct = totalPct {
-                Text(pct)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.tiny,
-                        color: Color.brand.primary
-                    ))
+                SortButton(
+                    type: .stroke,
+                    sizeType: .big,
+                    userProgile: self.profile == nil ? self.user.currentProfile : nil,
+                    petProgile: self.profile,
+                    text: (self.profile == nil ? String.button.all : self.profile?.name) ?? "",
+                    color:Color.app.grey400,
+                    isSort: true){
+                        self.onSort()
+                    }
+                    .fixedSize()
             }
-        
+            HStack(spacing: Dimen.margin.regular){
+                PropertyInfo(
+                    type:.impect,
+                    value: self.totalWalkCount.description,
+                    unit: String.app.walk,
+                    bgColor: Color.transparent.clear,
+                    alignment: .leading
+                )
+                PropertyInfo(
+                    type:.impect,
+                    value: WalkManager.viewDuration(self.totalDuration),
+                    unit: String.app.time,
+                    bgColor: Color.transparent.clear,
+                    alignment: .leading
+                )
+                PropertyInfo(
+                    type:.impect,
+                    value: self.speed,
+                    unit: String.app.kmPerH,
+                    bgColor: Color.transparent.clear,
+                    alignment: .leading
+                )
+            }
+            .padding(.leading, Dimen.margin.tiny)
+                
         }
         .onReceive(self.user.$event){evt in
             guard let evt = evt else { return }
@@ -75,16 +103,24 @@ struct TotalWalkSection: PageComponent{
     
     @State var totalDistance:Double = 0
     @State var totalDuration:Double = 0
+    @State var totalWalkCount:Int = 0
+    @State var speed:String = ""
     @State var totalPct:String? = nil
     @State var profile:PetProfile? = nil
     private func updatedWalk(){
         if let profile = self.profile {
             self.totalDistance = profile.totalExerciseDistance ?? 0
             self.totalDuration = profile.totalExerciseDuration ?? 0
+            self.totalWalkCount = profile.totalWalkCount
         } else {
             self.totalDistance = user.totalWalkDistance
             self.totalDuration = user.exerciseDuration
+            self.totalWalkCount = user.totalWalkCount
         }
+        let d = self.totalDistance
+        let dr = self.totalDuration
+        let spd = d == 0 || dr == 0 ? 0 : d/dr
+        self.speed = WalkManager.viewSpeed(spd, unit: nil)
     }
     private func onSort(){
         var datas:[String] = self.user.pets.map{$0.name ?? ""}

@@ -120,7 +120,7 @@ extension Binding {
 
 
 extension Date{
-    func localDate() -> Date {
+    static func localDate() -> Date {
         let nowUTC = Date()
         let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
         guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
@@ -169,7 +169,19 @@ extension Date{
         let diff = -self.timeIntervalSinceNow
         return diff.since()
     }
-    
+    func sinceNowDate(dateFormat:String = "yyyy-MM-dd'T'HH:mm:ssZ")->String {
+        let now =  Self.localDate().toDateFormatter(dateFormat: "yyyyMMdd")
+        let nowDay = now.toDate(dateFormat:"yyyyMMdd")
+        guard let now =  nowDay?.timeIntervalSince1970 else {return ""}
+        let me = self.timeIntervalSince1970
+        let diff = now - me
+        if diff < 0 {
+            return sinceNow()
+        } else if diff < 60 * 60 * 24 {
+            return "Yesterday"
+        }
+        return self.toDateFormatter(dateFormat: dateFormat)
+    }
     
 }
 

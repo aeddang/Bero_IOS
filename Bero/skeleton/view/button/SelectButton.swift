@@ -57,7 +57,7 @@ struct SelectButton: View, SelecterbleProtocol, PageProtocol{
             HStack(spacing:Dimen.margin.light){
                 if let icon = self.icon {
                     ZStack{
-                        if self.type == .medium {
+                        if self.type == .medium && self.useStroke {
                             Circle().stroke(Color.app.grey200)
                                 .frame(width: Dimen.circle.regular, height: Dimen.circle.regular)
                         }

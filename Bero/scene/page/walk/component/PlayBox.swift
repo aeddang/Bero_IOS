@@ -40,7 +40,7 @@ struct PlayBox: PageComponent{
                     type: .icon(Asset.icon.my_location),
                     isSelected: false,
                     strokeWidth: Dimen.stroke.regular,
-                    defaultColor: self.isFollowMe ? Color.app.blue : Color.app.grey500)
+                    defaultColor: self.isFollowMe ? Color.brand.primary : Color.app.grey500)
                 { _ in
                     self.isFollowMe.toggle()
                     self.viewModel.playUiEvent = .resetMap

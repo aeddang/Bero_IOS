@@ -24,6 +24,7 @@ struct UserView: PageComponent, Identifiable{
                 VStack(alignment: .center, spacing:Dimen.margin.regularExtra){
                     PetProfileTopInfo(
                         profile: profile,
+                        distance: self.mission.distanceFromMe,
                         isHorizontal: true,
                         action: {
                             self.moveUser(id: self.mission.userId)
@@ -63,6 +64,7 @@ struct UserView: PageComponent, Identifiable{
             }
         }
         .onAppear(){
+            self.mission.setDistance(self.walkManager.currentLocation)
             self.profile = self.mission.petProfile
             if self.profile == nil {
                 self.getProfile()

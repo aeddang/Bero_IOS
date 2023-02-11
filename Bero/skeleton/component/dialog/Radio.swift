@@ -109,15 +109,17 @@ struct Radio<Presenting>: View where Presenting: View {
                 }
                 VStack( spacing: Dimen.margin.medium){
                     VStack(alignment: .leading, spacing: Dimen.margin.tinyExtra){
-                        HStack(spacing:0){
-                            if let title = self.title {
-                                Text(title)
-                                    .modifier(BoldTextStyle(
-                                        size: Font.size.medium,
-                                        color: Color.app.black
-                                    ))
+                        HStack(alignment: .top, spacing:0){
+                            VStack(alignment:.leading, spacing: 0){
+                                Spacer().modifier(MatchHorizontal(height: 0))
+                                if let title = self.title {
+                                    Text(title)
+                                        .modifier(BoldTextStyle(
+                                            size: Font.size.medium,
+                                            color: Color.app.black
+                                        ))
+                                }
                             }
-                            Spacer().modifier(MatchHorizontal(height: 0))
                             ImageButton(defaultImage: Asset.icon.close){ _ in
                                 self.cancel()
                             }
@@ -135,10 +137,11 @@ struct Radio<Presenting>: View where Presenting: View {
                         VStack (alignment: .leading, spacing: Dimen.margin.tiny){
                             ForEach(self.buttons) { btn in
                                 RadioButton(
-                                    type: .blank,
+                                    type: .text,
                                     isChecked: btn.isSelected,
                                     icon: btn.icon,
-                                    text: btn.title
+                                    text: btn.title,
+                                    color: Color.app.black
                                 ){isSelect in
                                     self.update(btn: btn, isSelect: isSelect)
                                 }
@@ -149,9 +152,10 @@ struct Radio<Presenting>: View where Presenting: View {
                             LazyVStack(alignment: .leading, spacing: Dimen.margin.tiny){
                                 ForEach(self.buttons) { btn in
                                     RadioButton(
-                                        type: .blank,
+                                        type: .text,
                                         isChecked: btn.isSelected,
-                                        text: btn.title
+                                        text: btn.title,
+                                        color: Color.app.black
                                     ){isSelect in
                                         self.update(btn: btn, isSelect: isSelect)
                                     }

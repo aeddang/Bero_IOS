@@ -8,8 +8,7 @@
 
 import Foundation
 import SwiftUI
-
-struct MultiProfile: PageComponent{
+extension MultiProfile{
     enum ProfileType{
         case pet, user
         var emptyImage:String{
@@ -42,7 +41,9 @@ struct MultiProfile: PageComponent{
             }
         }
     }
-    
+}
+struct MultiProfile: PageComponent{
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     var id:String = UUID().uuidString
     var type:ProfileType = .pet
     var sizeType:SizeType = .big
@@ -53,6 +54,7 @@ struct MultiProfile: PageComponent{
     var imagePath:String? = nil
     var imageSize:CGFloat? = nil
     var name:String? = nil
+    var lv:Int? = nil
     var buttonAction: (() -> Void)? = nil
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
@@ -83,6 +85,15 @@ struct MultiProfile: PageComponent{
                             activeColor: Color.brand.primary
                         ){ _ in
                             self.buttonAction?()
+                        }
+                    } else if let value = self.lv, let lv = Lv.getLv(value) {
+                        HeartButton(
+                            type: .small,
+                            text: value.description,
+                            activeColor: lv.color,
+                            isSelected: true
+                        ){_ in
+                            self.appSceneObserver.event = .toast(lv.title)
                         }
                     }
                 }
@@ -150,6 +161,16 @@ struct MultiProfile_Previews: PreviewProvider {
                 image: nil,
                 imagePath: nil,
                 name: "name"
+            ){
+                
+            }
+            MultiProfile(
+                id: "",
+                type: .pet,
+                image: nil,
+                imagePath: nil,
+                name: "name",
+                lv: 10
             ){
                 
             }

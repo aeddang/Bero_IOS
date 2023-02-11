@@ -118,8 +118,9 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     init(isMyPet:Bool){
         self.isMypet = isMyPet
     }
-    init(data:PetData, userId:String? = nil, isMyPet:Bool = false, index:Int = -1){
+    init(data:PetData, userId:String? = nil, isMyPet:Bool = false, isFriend:Bool = false, index:Int = -1){
         self.isMypet = isMyPet
+        self.isFriend = isFriend
         if isMyPet {
             self.originData = data
         }

@@ -34,55 +34,21 @@ struct PopupWalkUser: PageView {
                     Spacer().modifier(MatchParent())
                         .background(Color.transparent.clear)
                     ZStack(alignment: .topTrailing){
-                        VStack(spacing:0){
-                            ImageButton(
-                                defaultImage: Asset.icon.drag_handle,
-                                size:  CGSize(width: Dimen.icon.medium, height: Dimen.margin.mediumUltra),
-                                defaultColor: Color.app.grey100
-                            ){ _ in
-                                self.pagePresenter.closePopup(self.pageObject?.id)
-                            }
-                            if let data = self.current {
-                                UserView(
-                                    pageObservable:self.pageObservable,
-                                    geometry: geometry,
-                                    mission: data
-                                )
-                                .frame(width: geometry.size.width)
-                                .padding(.top, Dimen.margin.thin)
-                            }
-                            /*
-                            InfinityScrollView(
-                                viewModel: self.infinityScrollModel,
-                                axes: .horizontal,
-                                showIndicators : false,
-                                marginTop: Dimen.margin.micro,
-                                marginBottom: 0,
-                                marginHorizontal: Dimen.app.pageHorinzontal,
-                                spacing:0,
-                                isRecycle: true,
-                                useTracking: true
-                            ){
-                                ForEach(self.pages) { data in
-                                    Button(action: {
-                                        self.move(idx: data.index)
-                                    }) {
-                                        ProfileImage(
-                                            imagePath: data.user?.representativePet?.imagePath,
-                                            isSelected: data.index == self.current?.index,
-                                            size: Dimen.profile.thin,
-                                            emptyImagePath: Asset.image.profile_dog_default
-                                        )
-                                    }
-                                }
-                            }
-                            */
+                        Spacer().modifier(MatchHorizontal(height: 0))
+                        if let data = self.current {
+                            UserView(
+                                pageObservable:self.pageObservable,
+                                geometry: geometry,
+                                mission: data
+                            )
+                            .frame(width: geometry.size.width)
+                            .padding(.top, Dimen.margin.regular)
                         }
-                        /*
-                        ImageButton( defaultImage: Asset.icon.close, padding: Dimen.margin.tiny){ _ in
+                        
+                        ImageButton( defaultImage: Asset.icon.close){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
-                        */
+                        .padding(.all, Dimen.margin.regular)
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
                     .modifier(BottomFunctionTab(margin: 0))

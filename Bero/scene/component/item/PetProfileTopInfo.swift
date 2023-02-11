@@ -5,6 +5,7 @@ struct PetProfileTopInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     var profile:PetProfile
+    var distance:Double? = nil
     var isHorizontal:Bool = false
     var isSimple:Bool = false
     var action: (() -> Void)? = nil
@@ -41,7 +42,8 @@ struct PetProfileTopInfo: PageComponent{
                     gender: self.gender,
                     isNeutralized: self.isNeutralized,
                     age: self.age,
-                    breed: self.breed,
+                    breed: self.distance == nil ? self.breed : nil,
+                    distance: self.distance,
                     isSelected: false,
                     useBg: false,
                     action: { _ in

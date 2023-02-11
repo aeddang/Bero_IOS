@@ -40,47 +40,35 @@ struct PopupWalkUsers: PageView {
                     }
                     ZStack(alignment: .topTrailing){
                         Spacer().modifier(MatchParent())
-                        VStack(spacing:0){
-                            ImageButton(
-                                defaultImage: Asset.icon.drag_handle,
-                                size:  CGSize(width: Dimen.icon.medium, height: Dimen.margin.mediumUltra),
-                                defaultColor: Color.app.grey100
-                            ){ _ in
-                                self.pagePresenter.closePopup(self.pageObject?.id)
-                            }
-                            UsersView(
-                                pageObservable:self.pageObservable,
-                                navigationModel: self.navigationModel,
-                                infinityScrollModel: self.infinityScrollModel
-                            )
-                            
-                        }
-                        .onReceive(self.infinityScrollModel.$event){evt in
-                            guard let evt = evt else {return}
-                            switch evt {
-                            case .down, .up :break
-                            case .pullCompleted:
-                                self.pageDragingModel.uiEvent = .pullCompleted(geometry)
-                            case .pullCancel :
-                                self.pageDragingModel.uiEvent = .pullCancel(geometry)
-                            default : break
-                            }
-                        }
-                        .onReceive(self.infinityScrollModel.$pullPosition){ pos in
-                            //self.pageDragingModel.uiEvent = .pull(geometry, pos)
-                        }
-                        /*
+                        UsersView(
+                            pageObservable:self.pageObservable,
+                            navigationModel: self.navigationModel,
+                            infinityScrollModel: self.infinityScrollModel
+                        )
+                        .padding(.top, Dimen.margin.heavy)
                         ImageButton( defaultImage: Asset.icon.close){ _ in
                             self.pagePresenter.closePopup(self.pageObject?.id)
                         }
                         .padding(.all, Dimen.margin.regular)
-                        */
                     }
                     .padding(.bottom, self.appSceneObserver.safeBottomHeight)
                     .modifier(BottomFunctionTab(margin: 0))
-                    .padding(.top, Dimen.margin.medium + self.sceneObserver.safeAreaTop)
+                    .padding(.top, Dimen.margin.medium + self.appSceneObserver.safeHeaderHeight)
                     .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
-                    
+                    .onReceive(self.infinityScrollModel.$event){evt in
+                        guard let evt = evt else {return}
+                        switch evt {
+                        case .down, .up :break
+                        case .pullCompleted:
+                            self.pageDragingModel.uiEvent = .pullCompleted(geometry)
+                        case .pullCancel :
+                            self.pageDragingModel.uiEvent = .pullCancel(geometry)
+                        default : break
+                        }
+                    }
+                    .onReceive(self.infinityScrollModel.$pullPosition){ pos in
+                        //self.pageDragingModel.uiEvent = .pull(geometry, pos)
+                    }
                 }
             }
             .onAppear{

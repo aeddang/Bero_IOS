@@ -17,12 +17,12 @@ import SwiftUI
 
 struct GraphPolygon: PageView {
     var selectIdx:[Int] = []
-    var selectedColor:Color = Color.brand.primary
-    var startColor:Color? = Color.app.black
-    var endColor:Color? = Color.app.green
     var points:[CGPoint]? = nil // percent set
-    var lineColor:Color = Color.app.grey400
-    var stroke:CGFloat = Dimen.stroke.heavy
+    
+    var selectedColor:Color = Color.brand.primary
+    var pointColor:Color = Color.app.green
+    var lineColor:Color = Color.brand.primary
+    var stroke:CGFloat = Dimen.stroke.heavyUltra
     var usePoint:Bool = true
     var action: ((Int) -> Void)? = nil
     var body: some View {
@@ -43,24 +43,41 @@ struct GraphPolygon: PageView {
                             ).setup(
                                 selectIdx: self.selectIdx,
                                 selectedColor: self.selectedColor,
-                                startColor: self.startColor,
-                                endColor: self.endColor,
+                                pointColor: self.pointColor,
                                 lineColor: self.lineColor,
                                 count: positions.count)
-                        }){ p in
-                            
-                            Circle()
-                                .stroke(p.color,lineWidth: self.stroke)
-                                .background(Circle().fill(Color.app.white))
-                                .frame(
-                                    width: p.isSelect ? Dimen.icon.microUltra : Dimen.icon.micro,
-                                    height: p.isSelect ? Dimen.icon.microUltra : Dimen.icon.micro,
-                                    alignment: .topLeading)
-                                .position(x: p.pos.x, y: p.pos.y)
-                                .onTapGesture{
-                                    if !p.isSelect {return}
-                                    self.action?(p.idx)
+                        }.filter{$0.isSelect})
+                        { p in
+                            ZStack{
+                                Circle()
+                                    .stroke(p.color,lineWidth: p.isStroke
+                                            ? p.isShadow ? self.stroke : 1
+                                            : 0)
+                                    .background(Circle().fill(p.bgColor))
+                                    .frame(
+                                        width: p.isShadow ? Dimen.icon.tiny : Dimen.icon.microUltra,
+                                        height: p.isShadow ? Dimen.icon.tiny : Dimen.icon.microUltra
+                                    )
+                                    .modifier(Shadow(opacity: p.isShadow ? 0.12 : 0))
+                                if let icon = p.icon {
+                                    Image(icon)
+                                        .renderingMode(.original)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: Dimen.icon.light, height: Dimen.icon.light)
+                                        .offset(x:7, y:-10)
                                 }
+                            }
+                            .frame(
+                                width: p.isShadow ? Dimen.icon.tiny : Dimen.icon.microUltra,
+                                height: p.isShadow ? Dimen.icon.tiny : Dimen.icon.microUltra
+                            )
+                            .position(x: p.pos.x, y: p.pos.y)
+                            .onTapGesture{
+                                if !p.isSelect {return}
+                                self.action?(p.idx)
+                            }
+                            
                         }
                     }
                 }
@@ -81,11 +98,14 @@ struct GraphPolygon: PageView {
     
     class PointData:Identifiable{
         let id:String
+        var icon:String? = nil
         let idx:Int
         let pos:CGPoint
         var color:Color = .black
+        var bgColor:Color = .white
         var isSelect:Bool = false
-        
+        var isStroke:Bool = false
+        var isShadow:Bool = false
         init(id:String,idx:Int,pos:CGPoint){
             self.id = id
             self.idx = idx
@@ -94,22 +114,33 @@ struct GraphPolygon: PageView {
         func setup(
             selectIdx:[Int],
             selectedColor:Color,
-            startColor:Color?,
-            endColor:Color?,
+            pointColor:Color,
             lineColor:Color,
             count:Int
         )->PointData{
             let idx = self.idx
-            let isSelect:Bool = selectIdx.first(where: {$0 == idx}) != nil
-            var color:Color = isSelect ? selectedColor : lineColor
-            if idx == 0, let c = startColor {
-                color = c
+           
+            if idx == 0 {
+                self.bgColor = selectedColor
+                self.color = .white
+                self.isSelect = true
+                self.isStroke = true
+                self.isShadow = true
+            } else if idx == count-1  {
+                self.color = selectedColor
+                self.isSelect = true
+                self.isStroke = true
+                self.isShadow = true
+                self.icon = Asset.icon.route_flag
+            } else {
+                let isSelect:Bool = selectIdx.first(where: {$0 == idx}) != nil
+                self.bgColor = isSelect ? pointColor : lineColor
+                self.color = .white
+                self.isSelect = isSelect
+                self.isStroke = isSelect
+                self.isShadow = false
+                
             }
-            if idx == count-1 , let c = endColor {
-                color = c
-            }
-            self.color = color
-            self.isSelect = isSelect
             return self
         }
     }

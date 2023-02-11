@@ -146,9 +146,12 @@ extension String {
         public static var unblockUserConfirm = "Do you want to unblock?"
         public static var unblockUserCompleted = "Unblocked."
         
+        public static var signOutConfirm = "Are you sure you want to sign out?"
+        public static var signOutConfirmText = "Once you sign out, you can sign back in whenever you want. See you soon!"
+        
         public static var deleteAccountCheck = "Available after subscriber authentication."
-        public static var deleteAccountConfirm = "Are you sure you want to delete account?"
-        public static var deleteAccountConfirmText = "The data, information, and history of the account will be permanently deleted."
+        public static var deleteAccountConfirm = "Are you sure you want to delete your account?"
+        public static var deleteAccountConfirmText = "Once you delete account permanently, it may not be restored again."
         public static var deleteAccounErrorAnotherSns = "The signed in account is different from the linked account"
         
         public static var deleteDogTitle = "Are you sure you want to delete %s’s profile?"
@@ -206,6 +209,7 @@ extension String {
         public static let requestFriend = "Request friend"
         public static let removeFriend = "Remove friend"
         public static let chat = "Chat"
+        public static let manageChat = "Manage Chat"
         public static let requestSent = "Request sent"
         public static let all = "All"
         public static let returnToAllPosts = "Return to all posts"
@@ -235,6 +239,8 @@ extension String {
         public static let all = "All"
         public static let notUsed = "notUsed"
         public static let friends = "Friends"
+        public static let myFriends = "My friends"
+        public static let aroundMe = "Around me"
         public static let new = "New"
         public static let complete = "Complete"
         public static let restaurant = "Restaurant"
@@ -254,13 +260,16 @@ extension String {
         public static let vetText = "Hospital"
         public static let salonText = "Salon"
         
+        
     }
     
     struct pageTitle {
         public static let my = "My"
         public static let setup = "Setup"
+        public static let myAccount = "My Account"
         public static let explore = "Explore"
         public static let chat = "Chat"
+        
         public static let addDog = "Add a dog"
         public static let history = "History"
         public static let album = "Album"
@@ -278,11 +287,12 @@ extension String {
         public static let usersDogs = "%s’s family"
         public static let walkHistory = "Walk History"
         public static let walkReport = "Walk Report"
+        public static let walkSummary = "Walk Summary"
         public static let missionHistory = "Mission History"
         public static let completedMissions = "Completed missions"
         
-        public static let privacy = "Privacy usage agreement"
-        public static let service = "Terms of service agreement"
+        public static let privacy = "Policy Agreements"
+        public static let service = "Terms of Use"
         public static let blockUser = "Manage block list"
     }
     
@@ -311,7 +321,6 @@ extension String {
         public static let myLvText3 = "Welcome to %s!"
         public static let myLvText4 = "Earn +%s friendship to level up!"
         
-        public static let walkHistoryText1 = "Walked in total"
         public static let missionHistoryText1 = "completed in total"
         public static let walkHistorySeletReport = "Whose report do you want to see?"
         
@@ -342,8 +351,8 @@ extension String {
         
         public static let exploreSeletReport = "Whose posts do you want to see?"
         
-        public static let recommandUser = "Recommand friends"
-        public static let aroundUser = "Dogs around me"
+        public static let recommandUser = "Friends recommendation"
+        public static let aroundUser = "Friends around me"
         public static let needTag = "In order to recommend a friend with a similar personality to my dog First, you need to register your dog's personality tag."
         
         public static let needRoute = "Path creation failed."
@@ -379,14 +388,16 @@ extension String {
         public static let walkPlaceMarkDisAbleTitle = "Seems like you’re not near the place."
         public static let walkPlaceMarkDisAbleText = "Move closer to the place and give the GPS few more seconds to process."
         
+        public static let walkImageLimitedUpdate = "Up to %s photos can be updated"
+        
         public static let chatRoomText = "Welcome! Say hello to your new friend. Ask them more about thier dogs!"
         public static let chatRoomDeletedMessage = "Deleted message"
         
         public static let setupNotification = "Receive notifications?"
         public static let levelUpText = "Level up!"
         
-        public static let setupExpose = "auto expose?"
-        
+        public static let setupExpose = "Location Disclosure"
+        public static let setupExposeText = "Share location with online users during walk"
     }
     
 }

@@ -30,6 +30,7 @@ class SceneDelegate: PageSceneDelegate {
         let keyboardObserver = KeyboardObserver()
         let locationObserver = LocationObserver()
         let walkManager = WalkManager(
+            appSceneObserver: sceneObserver, 
             dataProvider: dataProvider, 
             locationObserver:locationObserver
         )

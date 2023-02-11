@@ -232,7 +232,7 @@ enum Gender:String {
         switch self {
         case .male : return Asset.icon.male
         case .female : return Asset.icon.female
-        case .neutral : return nil
+        case .neutral : return Asset.icon.neutralized
         }
     }
     var color : Color {
@@ -390,6 +390,12 @@ enum FriendStatus{
         case .friend, .chat : return true
         case .move(let isFriend) : return isFriend
         default : return false
+        }
+    }
+    var useMore:Bool {
+        switch self {
+        case .chat : return false
+        default : return true
         }
     }
     

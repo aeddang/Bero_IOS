@@ -168,7 +168,7 @@ struct AlbumListDetailItem: PageComponent{
                 if self.user?.isMe == true {
                     ImageButton(
                         isSelected: self.isExpose,
-                        defaultImage: Asset.icon.share
+                        defaultImage: Asset.icon.global
                     ){ _ in
                         self.dataProvider.requestData(
                             q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isExpose: !self.data.isExpose)))

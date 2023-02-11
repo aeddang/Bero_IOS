@@ -66,7 +66,7 @@ struct Check<Presenting>: View where Presenting: View {
             .padding(.vertical, Dimen.margin.regularUltra)
             .padding(.horizontal, Dimen.margin.light)
             .frame(width: 208)
-            .background(Color.app.orangeSub)
+            .background(Color.app.white)
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
             .overlay(
                 RoundedRectangle(cornerRadius:Dimen.radius.tiny)

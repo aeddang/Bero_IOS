@@ -51,7 +51,7 @@ struct UserAlbumList: PageComponent{
                     useTracking: true
                 ){
                     ForEach(self.users) { data in
-                        UserListItem(data: data, imgSize: self.albumSize)
+                        UserAlbumListItem(data: data, imgSize: self.albumSize)
                         .onAppear{
                             if data.index == (self.users.count-1) {
                                 self.infinityScrollModel.event = .bottom
@@ -101,7 +101,7 @@ struct UserAlbumList: PageComponent{
     
     
     @State var isEmpty:Bool = false
-    @State var users:[UserListItemData] = []
+    @State var users:[UserAlbumListItemData] = []
     @State var albumSize:CGSize = .zero
     private func updateUser(){
         self.resetScroll()
@@ -136,11 +136,11 @@ struct UserAlbumList: PageComponent{
     }
     
     private func loadedUser(datas:[PictureData]){
-        var added:[UserListItemData] = []
+        var added:[UserAlbumListItemData] = []
         let start = self.users.count
         let end = start + datas.count
         added = zip(start...end, datas).map { idx, d in
-            return UserListItemData().setData(d,  idx: idx)
+            return UserAlbumListItemData().setData(d,  idx: idx)
         }
         self.users.append(contentsOf: added)
         if self.users.isEmpty {

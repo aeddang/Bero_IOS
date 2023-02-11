@@ -54,7 +54,7 @@ class Repository:ObservableObject, PageProtocol{
         self.shareManager = ShareManager(pagePresenter: pagePresenter)
         self.snsManager = snsManager ?? SnsManager()
         self.locationObserver = locationObserver ?? LocationObserver()
-        self.walkManager = walkManager ?? WalkManager(dataProvider: self.dataProvider, locationObserver: self.locationObserver)
+        self.walkManager = walkManager ?? WalkManager(appSceneObserver:sceneObserver, dataProvider: self.dataProvider, locationObserver: self.locationObserver)
         self.accountManager = AccountManager(user: self.dataProvider.user)
         self.pagePresenter?.$currentPage.sink(receiveValue: { page in
             guard let pageID = page?.pageID else {return}

@@ -16,7 +16,7 @@ import FirebaseCore
 import GoogleSignInSwift
 
 extension PageWalkInfo {
-    static let topScrollDefault:CGFloat = 240
+    static let topScrollDefault:CGFloat = 220
     static let topScrollMax:CGFloat = 320
 }
 
@@ -64,7 +64,10 @@ struct PageWalkInfo: PageView {
                                     height: geometry.size.width
                                 )
                             } else {
-                                Spacer()
+                                Image(Asset.noImg1_1)
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
                                     .modifier(MatchParent())
                             }
                             if let pets = self.mission?.user?.pets {
@@ -104,30 +107,30 @@ struct PageWalkInfo: PageView {
                                         viewModel: self.infinityScrollModel,
                                         axes: .vertical,
                                         showIndicators : false,
-                                        marginVertical: Dimen.margin.medium,
+                                        marginTop: Dimen.margin.regular,
+                                        marginBottom: Dimen.margin.medium,
                                         marginHorizontal: 0,
                                         spacing:0,
                                         isRecycle: false,
                                         useTracking: true
                                     ){
                                         WalkTopInfo(mission: mission, isMe: self.isMe)
-                                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                        
+                                        WalkPropertySection(mission: mission){ idx in
+                                            
+                                        }
+                                        .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                        .padding(.top, Dimen.margin.regular)
+                                        
                                         WalkPlayInfo(mission: mission)
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                            .padding(.top, Dimen.margin.regularUltra)
-                                        
-                                        Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                                            .padding(.vertical, Dimen.margin.medium)
-                                        
-                                        WalkPropertySection(mission: mission)
-                                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                            .padding(.top, Dimen.margin.regularUltra)
+                                            .padding(.top, Dimen.margin.regular)
+                                            .padding(.bottom, Dimen.margin.medium)
                                         
                                         if let pictures = self.pictures {
-                                            Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                                                .padding(.vertical, Dimen.margin.medium)
-                                            
                                             WalkAlbumSection(
+                                                title: nil,
                                                 listSize: geometry.size.width,
                                                 albums: pictures
                                             )
@@ -193,7 +196,7 @@ struct PageWalkInfo: PageView {
         }//GeometryReader
     }//body
     @State var userId:String = ""
-    @State var title:String = String.app.walk
+    @State var title:String = String.pageTitle.walkSummary
     @State var walkId:Int = -1
     @State var isMe:Bool = false
     @State var mission:Mission? = nil

@@ -39,12 +39,12 @@ class WalkPath:PageProtocol{
         var locations:[WalkPathItem] = []
         var idx:Int = 0
         datas.forEach{ data in
-            guard let lng = data.lng else {return}
-            guard let lat = data.lat else {return}
-            //let randX = Double.random(in: -0.003...0.003)
-            //let randY = Double.random(in: -0.003...0.003)
-            //let lat = originlat + randX
-            //let lng = originlng + randY
+            guard let originlng = data.lng else {return}
+            guard let originlat = data.lat else {return}
+            let randX = Double.random(in: -0.003...0.003)
+            let randY = Double.random(in: -0.003...0.003)
+            let lat = originlat + randX
+            let lng = originlng + randY
             minX = min(minX, lng)
             maxX = max(maxX, lng)
             minY = min(minY, lat)

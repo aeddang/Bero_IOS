@@ -24,7 +24,7 @@ struct UsersView: PageComponent, Identifiable{
             MenuTab(
                 viewModel:self.navigationModel,
                 buttons: [
-                    String.sort.all , String.sort.friends
+                    String.sort.aroundMe , String.sort.myFriends
                 ],
                 selectedIdx: self.isFriend ? 1 : 0
             )
@@ -45,24 +45,7 @@ struct UsersView: PageComponent, Identifiable{
                     useTracking: true
                 ){
                     if !self.isFriend {
-                        Text(String.pageText.recommandUser)
-                            .modifier(SemiBoldTextStyle(
-                                size: Font.size.regular,
-                                color: Color.app.black
-                            ))
-                        if self.recommandDatas.isEmpty {
-                            EmptyData(
-                                text: String.pageText.needTag
-                            )
-                        } else {
-                            ForEach(self.recommandDatas) { data in
-                                PetProfileUser(profile: data, friendStatus: .norelation){
-                                    self.pagePresenter.openPopup(
-                                        PageProvider.getPageObject(.user).addParam(key: .id, value:data.userId)
-                                    )
-                                }
-                            }
-                        }
+
                         Text(String.pageText.aroundUser)
                             .modifier(SemiBoldTextStyle(
                                 size: Font.size.regular,
@@ -80,6 +63,29 @@ struct UsersView: PageComponent, Identifiable{
                         }
                         
                     } else {
+                        Text(String.pageText.recommandUser)
+                            .modifier(SemiBoldTextStyle(
+                                size: Font.size.regular,
+                                color: Color.app.black
+                            ))
+                        if self.recommandDatas.isEmpty {
+                            EmptyData(
+                                text: String.pageText.needTag
+                            )
+                        } else {
+                            ForEach(self.recommandDatas) { data in
+                                PetProfileUser(profile: data, friendStatus: .norelation ){
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.user).addParam(key: .id, value:data.userId)
+                                    )
+                                }
+                            }
+                        }
+                        Text(String.sort.myFriends)
+                            .modifier(SemiBoldTextStyle(
+                                size: Font.size.regular,
+                                color: Color.app.black
+                            ))
                         if self.datas.isEmpty {
                             EmptyItem(type: .myList)
                         } else {
@@ -108,12 +114,13 @@ struct UsersView: PageComponent, Identifiable{
     private func setupDatas(){
         let me = self.walkManager.currentLocation
         if self.isFriend {
-            self.recommandDatas = []
+            self.recommandDatas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{!$0.isFriend}.map{$0.petProfile!}
+            
             self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{$0.isFriend}.map{
                 $0.setDistance(me)
             }
         } else {
-            self.recommandDatas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{$0.isFriend}.map{$0.petProfile!}
+            self.recommandDatas = []
             self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{!$0.isFriend}.map{
                 $0.setDistance(me)
             }

@@ -97,11 +97,15 @@ struct PageMy: PageView {
                         }
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                         .padding(.top, Dimen.margin.regular)
-                        
                         Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                             .padding(.top, Dimen.margin.medium)
-                        MyDogsSection()
+                        
+                        MyHistorySection()
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
                             .padding(.top, Dimen.margin.regular)
+                        
+                        MyDogsSection()
+                            .padding(.top, Dimen.margin.heavyExtra)
                         
                         FriendSection(
                             user: self.dataProvider.user,
@@ -120,9 +124,7 @@ struct PageMy: PageView {
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                         .padding(.top, Dimen.margin.heavyExtra)
                         
-                        MyHistorySection()
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.heavyExtra)
+                        
                        
                             
                     }

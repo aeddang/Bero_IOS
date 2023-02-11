@@ -10,23 +10,32 @@ import SwiftUI
 extension FriendList {
     static let row:Int = SystemEnvironment.isTablet ? 6 : 3
     enum  ListType{
-        case friend, request, requested
+        case friend, request, requested, chat
         var title:String {
             switch self {
-            case .friend : return String.pageTitle.friends
+            case .friend, .chat: return String.pageTitle.friends
             case .request, .requested : return String.pageTitle.friendRequest
             }
         }
         var text:String{
             switch self {
+            case .chat : return "Chat Friends"
             case .friend : return "My Friends"
             case .request : return "Request Friends"
-            case .requested : return "Received Friends Request"
+            case .requested : return "Friends Request"
+            }
+        }
+        var buttons:[TitleTab.ButtonType]{
+            switch self {
+            case .chat : return [.addFriend ]
+            case .friend : return [.addFriend, .more]
+            default : return []
             }
         }
         
         var action:String{
             switch self {
+            case .chat : return "Chat"
             case .friend : return "Friend"
             case .request : return "Request"
             case .requested : return "Get Request"
@@ -35,7 +44,7 @@ extension FriendList {
         
         var status:FriendStatus{
             switch self {
-            case .friend : return .chat
+            case .friend, .chat : return .chat
             case .request : return .requestFriend
             case .requested : return .recieveFriend
             }
@@ -202,7 +211,7 @@ struct FriendList: PageComponent{
         self.infinityScrollModel.onLoad()
         self.currentId = self.user?.snsUser?.snsID ?? ""
         switch self.type {
-        case .friend :
+        case .friend, .chat :
             self.dataProvider.requestData(q: .init(id: self.currentId, type:.getFriend(userId: self.currentId, page: self.infinityScrollModel.page)))
         case .requested :
             self.dataProvider.requestData(q: .init(id: self.currentId, type:.getRequestedFriend(page: self.infinityScrollModel.page)))

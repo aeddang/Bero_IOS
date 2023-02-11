@@ -15,10 +15,10 @@ struct MyHistorySection: PageComponent{
             }) {
                 HorizontalProfile(
                     id: "",
-                    type: .place(icon: MissionType.walk.icon),
+                    type: .place(icon:  MissionApi.Category.walk.icon),
                     sizeType: .small,
                     funcType: .more,
-                    name: MissionType.walk.text + " " + String.pageTitle.history,
+                    name: MissionApi.Category.walk.text + " " + String.pageTitle.history,
                     description: self.walkDescription,
                     distance: self.walkDistance,
                     action: { _ in

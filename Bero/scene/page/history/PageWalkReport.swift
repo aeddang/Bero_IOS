@@ -17,9 +17,10 @@ class ReportData {
     private(set) var daysWalkTimeData:LineGraphData = LineGraphData()
     private(set) var currentDaysWalkTimeIdx:Int = 0
     private(set) var daysWalkTimeReport:String = ""
-    
+    private(set) var originData:WalkReport? = nil
     
     func setupData(_ data:WalkReport){
+        self.originData = data
         self.daysWalkReport = Int(daysWalkData.value).description + " " + String.pageText.reportWalkDayUnit
         if daysWalkCompareData.count >= 2 {
             let me = daysWalkCompareData.first!.value
@@ -166,10 +167,8 @@ struct PageWalkReport: PageView {
                                 self.load()
                             }
                             if let data = self.reportData {
-                                if let profile = self.profile {
-                                    PetWalkPropertySection(profile: profile)
-                                } else {
-                                    PetWalkPropertySection(profile: PetProfile())
+                                if let originData = data.originData {
+                                    ReportWalkPropertySection(data:originData)
                                 }
                                 Spacer().modifier(LineHorizontal())
                                 

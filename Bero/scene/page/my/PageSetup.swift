@@ -56,6 +56,7 @@ struct PageSetup: PageView {
                         RadioButton(
                             type: .switchOn,
                             isChecked: self.isReceivePush,
+                            icon: Asset.icon.notice,
                             text:String.pageText.setupNotification,
                             color: Color.app.black
                         ){ _ in
@@ -67,6 +68,7 @@ struct PageSetup: PageView {
                         RadioButton(
                             type: .switchOn,
                             isChecked: self.isExpose,
+                            icon: Asset.icon.place,
                             text:String.pageText.setupExpose,
                             color: Color.app.black
                         ){ _ in
@@ -78,6 +80,29 @@ struct PageSetup: PageView {
                         Spacer().modifier(LineHorizontal())
                         SelectButton(
                             type: .medium,
+                            icon: Asset.icon.account,
+                            text: String.pageTitle.myAccount,
+                            useStroke: false,
+                            useMargin: false
+                        ){_ in
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.myAccount)
+                            )
+                        }
+                        SelectButton(
+                            type: .medium,
+                            icon: Asset.icon.block,
+                            text: String.pageTitle.blockUser,
+                            useStroke: false,
+                            useMargin: false
+                        ){_ in
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.blockUser)
+                            )
+                        }
+                        SelectButton(
+                            type: .medium,
+                            icon: Asset.icon.terms,
                             text: String.pageTitle.service,
                             useStroke: false,
                             useMargin: false
@@ -88,6 +113,7 @@ struct PageSetup: PageView {
                         }
                         SelectButton(
                             type: .medium,
+                            icon: Asset.icon.policy,
                             text: String.pageTitle.privacy,
                             useStroke: false,
                             useMargin: false
@@ -96,37 +122,7 @@ struct PageSetup: PageView {
                                 PageProvider.getPageObject(.privacy)
                             )
                         }
-                        SelectButton(
-                            type: .medium,
-                            text: String.pageTitle.blockUser,
-                            useStroke: false,
-                            useMargin: false
-                        ){_ in
-                            self.pagePresenter.openPopup(
-                                PageProvider.getPageObject(.blockUser)
-                            )
-                        }
-                        Spacer().modifier(LineHorizontal())
-                        Spacer()
-                        FillButton(
-                            type: .fill,
-                            text: String.button.logOut
-                        ){_ in
-                            self.signout()
-                        }
-                        FillButton(
-                            type: .fill,
-                            text: String.button.deleteAccount
-                        ){_ in
-                            guard let type = self.dataProvider.user.snsUser?.snsType else {
-                                self.deleteAccount()
-                                return
-                            }
-                            self.appSceneObserver.alert = .alert(nil, String.alert.deleteAccountCheck) {
-                                self.isRequestDelete = true
-                                self.repository.snsManager.requestLogin(type: type)
-                            }
-                        }
+                        
                     }
                 }
                 .modifier(PageVertical())
@@ -134,33 +130,6 @@ struct PageSetup: PageView {
                 .background(Color.brand.bg)
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
             }//draging
-            .onReceive(self.snsManager.$error){err in
-                if !self.isRequestDelete { return }
-                guard let err  = err  else { return }
-                switch err.event {
-                    case .login :
-                        self.isRequestDelete = false
-                        self.appSceneObserver.alert = .alert(nil, String.alert.snsLoginError)
-                    default : break
-                }
-            }
-            .onReceive(self.snsManager.$user){user in
-                if user == nil { return }
-                if !self.isRequestDelete { return }
-                self.isRequestDelete = false
-                if user?.snsID == self.dataProvider.user.snsUser?.snsID {
-                    self.deleteAccount()
-                } else {
-                    self.appSceneObserver.alert = .alert(nil, String.alert.deleteAccounErrorAnotherSns)
-                }
-            }
-            .onReceive(self.dataProvider.$result){res in
-                guard let res = res else { return }
-                switch res.type {
-                case .deleteUser : self.signout()
-                default : break
-                }
-            }
             .onAppear(){
                 self.isReceivePush = self.repository.storage.isReceivePush
                 self.isExpose = self.repository.storage.isExpose
@@ -170,24 +139,10 @@ struct PageSetup: PageView {
        
     }//body
     
-    @State var isRequestDelete:Bool = false
+    
     @State var isReceivePush:Bool = false
     @State var isExpose:Bool = false
-    private func deleteAccount(){
-        self.appSceneObserver.sheet = .select(
-            String.alert.deleteAccountConfirm,
-            String.alert.deleteAccountConfirmText,
-            [String.app.cancel,String.alert.deleteConfirm]){ idx in
-                if idx == 1 {
-                    self.dataProvider.requestData(q: .init(type: .deleteUser))
-                }
-        }
-    }
-   
-    private func signout(){
-        self.walkManager.endWalk()
-        self.repository.clearLogin()
-    }
+    
 }
 
 

@@ -95,20 +95,19 @@ struct ProfileInfoDescription:PageView{
         HStack(spacing:useCircle ? Dimen.margin.tiny : 0){
             if let gender = self.gender {
                 HStack(spacing:Dimen.margin.microExtra){
-                    
-                    Text(gender.title)
-                        .modifier(RegularTextStyle(
-                            size: Font.size.thin,
-                            color: self.color
-                        ))
                     if let isNeutralized = self.isNeutralized {
-                        Image(Asset.icon.checked_circle)
+                        Image(Asset.icon.neutralized)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .foregroundColor(isNeutralized ? Color.app.green : Color.app.grey200)
                             .frame(width: Dimen.icon.tiny, height: Dimen.icon.tiny)
                     }
+                    Text(gender.title)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin,
+                            color: self.color
+                        ))
                 }
             }
             if let age = self.age {

@@ -14,6 +14,7 @@ class ChatRoomListItemData:InfinityData, ObservableObject{
     private(set) var title:String? = nil
     private(set) var contents:String? = nil
     private(set) var date:Date? = nil
+    private(set) var viewDate:String? = nil
     private(set) var unreadCount:Int = 0
     private(set) var userId:String? = nil
     fileprivate(set) var isRead:Bool = false
@@ -28,6 +29,7 @@ class ChatRoomListItemData:InfinityData, ObservableObject{
         self.isRead = self.unreadCount == 0
         self.userId = data.receiver
         self.date = data.updatedAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") ?? data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
+        self.viewDate = self.date?.sinceNowDate(dateFormat:"MMMM d, yyyy")
         return self
     }
 }
@@ -48,7 +50,7 @@ struct ChatRoomListItem: PageComponent{
                     funcType: self.isRead ? nil : .view("N"),   // .view(self.data.unreadCount.description),
                     imagePath: self.data.profileImagePath,
                     name: self.data.title,
-                    date: self.data.date,
+                    date: self.data.viewDate,
                     description: self.data.contents,
                     isSelected: false,
                     useBg: false
@@ -73,7 +75,7 @@ struct ChatRoomListItem: PageComponent{
                 }
                 if self.isEdit {
                     CircleButton(
-                        type: .icon(Asset.icon.delete),
+                        type: .icon(Asset.icon.exit),
                         isSelected: false,
                         activeColor: Color.brand.primary
                     ){ _ in
@@ -91,7 +93,9 @@ struct ChatRoomListItem: PageComponent{
         self.appSceneObserver.sheet = .select(
             String.alert.chatRoomDeleteConfirm,
             String.alert.chatRoomDeleteConfirmText,
-            [String.app.cancel,String.button.delete]){ idx in
+            [String.app.cancel,String.button.delete],
+            isNegative: true
+        ){ idx in
                 if idx == 1 {
                     self.dataProvider.requestData(q: .init(type: .deleteChatRoom(roomId:self.data.roomId)))
                 }

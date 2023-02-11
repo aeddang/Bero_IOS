@@ -56,38 +56,45 @@ struct PropertyInfo: PageComponent{
     var value:String = ""
     var unit:String? = nil
     var color:Color = Color.brand.primary
+    var bgColor:Color? = nil
+    var alignment:HorizontalAlignment = .center
     var body: some View {
-        
-        VStack(spacing:self.type.spacing){
-            if let icon = self.icon {
-                Image(icon)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(self.color)
-                    .frame(width:Dimen.icon.light,height: Dimen.icon.light)
+        ZStack{
+            if self.alignment == .center {
+                Spacer().modifier(MatchHorizontal(height: self.type.boxHeight))
             }
-            if let title = self.title {
-                Text(title)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.tiny, color: Color.app.grey400))
-            }
-            Text(value)
-                .modifier(CustomTextStyle(textModifier: .init(
-                    family: self.type.valueTextStyle,
-                    size: self.type.valueTextSize,
-                    color: Color.app.grey400
-                )))
-            if let unit = self.unit {
-                Text(unit)
-                    .modifier(
-                        RegularTextStyle(
+            VStack(alignment: self.alignment, spacing:self.type.spacing){
+                
+                if let icon = self.icon {
+                    Image(icon)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(self.color)
+                        .frame(width:Dimen.icon.light,height: Dimen.icon.light)
+                }
+                if let title = self.title {
+                    Text(title)
+                        .modifier(RegularTextStyle(
                             size: Font.size.tiny, color: Color.app.grey400))
+                }
+                Text(value)
+                    .modifier(CustomTextStyle(textModifier: .init(
+                        family: self.type.valueTextStyle,
+                        size: self.type.valueTextSize,
+                        color: Color.app.grey400
+                    )))
+                if let unit = self.unit {
+                    Text(unit)
+                        .modifier(
+                            RegularTextStyle(
+                                size: Font.size.tiny, color: Color.app.grey400))
+                }
             }
         }
-        .modifier(MatchHorizontal(height: self.type.boxHeight))
-        .background(self.type.bgColor)
-        .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
+        .background(self.bgColor ?? self.type.bgColor)
+        .clipShape(RoundedRectangle(
+            cornerRadius: self.alignment == .center  ? Dimen.radius.light : 0))
     }
 }
 
@@ -112,7 +119,8 @@ struct PropertyInfo_Previews: PreviewProvider {
             PropertyInfo(
                 type: .impect,
                 value: "8.1",
-                unit:"kg"
+                unit:"kg",
+                alignment: .leading
             )
         }
         .padding(.all, 10)

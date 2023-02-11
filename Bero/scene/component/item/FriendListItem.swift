@@ -24,13 +24,24 @@ class FriendListItemData:InfinityData{
     private(set) var petName:String? = nil
     private(set) var text:String? = nil
     private(set) var userId:String? = nil
+    private(set) var lv:Int? = nil
     func setData(_ data:MissionData, idx:Int) -> FriendListItemData{
         self.index = idx
-        self.imagePath = data.pets?.first?.pictureUrl
-        self.subImagePath = data.user?.pictureUrl
         self.userId = data.user?.userId ?? ""
-        let petName = data.pets?.first?.name
         let userName = data.user?.name
+        var petName:String? = nil
+        if let pet:PetData = data.pets?.first(where:{$0.isRepresentative == true}) ?? data.pets?.first {
+            self.imagePath = pet.pictureUrl
+            self.subImagePath = data.user?.pictureUrl
+            self.lv = pet.level?.toInt()
+            petName = pet.name
+        } else {
+            self.imagePath = data.user?.pictureUrl
+            self.subImagePath = data.pets?.first?.pictureUrl
+            self.lv = data.user?.level
+            petName = data.pets?.first?.name
+        }
+       
         if let pet = petName , let user = userName {
             self.text = pet + " & " + user
         } else if let pet = petName {
@@ -38,18 +49,25 @@ class FriendListItemData:InfinityData{
         } else if let user = userName {
             self.text = user
         }
+        self.petName = petName
+        self.name = userName
         return self
     }
     
     func setData(_ data:FriendData, idx:Int, type:FriendStatus) -> FriendListItemData{
         self.index = idx
-        self.imagePath = data.petImg
-        self.subImagePath = data.userImg
         self.userId = data.refUserId
         let petName = data.petName
         let userName = data.userName
-        self.petName = petName
-        self.name = userName
+        if petName?.isEmpty == false {
+            self.imagePath = data.petImg
+            self.subImagePath = data.userImg
+            self.lv = data.petLevel
+        } else {
+            self.imagePath = data.userImg
+            self.lv = data.userLevel
+        }
+        
         if let pet = petName , let user = userName {
             self.text = pet + " & " + user
         } else if let pet = petName {
@@ -57,6 +75,8 @@ class FriendListItemData:InfinityData{
         } else if let user = userName {
             self.text = user
         }
+        self.petName = petName
+        self.name = userName
         return self
     }
 }
@@ -136,13 +156,14 @@ struct FriendListItemBodyHorizontal: PageComponent{
             MultiProfile(
                 id: "",
                 type: .pet,
-                circleButtontype: .image(self.data.subImagePath ?? ""),
+                circleButtontype: self.data.lv == nil ? .image(self.data.subImagePath ?? "") : nil,
                 userId: self.isMe ? self.data.userId : nil,
                 friendStatus: self.currentStatus,
                 image: nil,
                 imagePath: self.data.imagePath,
                 imageSize: self.imgSize,
                 name: self.data.text,
+                lv: self.data.lv,
                 buttonAction: self.action
             )
         }
@@ -162,12 +183,13 @@ struct FriendListItemBodyVertical: PageComponent{
     var body: some View {
         ZStack{
             HorizontalProfile(
-                type: .multi(imgPath: self.data.subImagePath),
+                type: self.data.lv == nil ? .multi(imgPath: self.data.subImagePath) : .pet,
                 sizeType: .small,
-                funcType: .moreFunc,   // .view(self.data.unreadCount.description),
+                funcType: self.status?.useMore == true ? .moreFunc : nil,   // .view(self.data.unreadCount.description),
                 userId: self.isMe ? self.data.userId : nil,
                 friendStatus: self.currentStatus,
                 imagePath: self.data.imagePath,
+                lv: self.data.lv,
                 name: self.data.petName,
                 description: self.data.name,
                 isSelected: false,
@@ -190,7 +212,7 @@ struct FriendListItemBodyVertical: PageComponent{
         ]
         let icons:[String?] = [
             Asset.icon.block,
-            Asset.icon.notice
+            Asset.icon.warning
         ]
        
         self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in

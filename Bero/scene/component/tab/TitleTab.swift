@@ -63,7 +63,7 @@ extension TitleTab{
             case .setting : return Asset.icon.settings
             case .viewMore, .manageDogs : return Asset.icon.direction_right
             case .addFriend : return Asset.icon.add_friend
-            case .friend : return Asset.icon.my
+            case .friend : return Asset.icon.human_friends
             case .block : return Asset.icon.block
             }
         }
@@ -80,7 +80,7 @@ extension TitleTab{
             switch self {
             case .edit : return Color.brand.primary
             case .viewMore, .manageDogs : return Color.app.grey400
-            default : return Color.app.grey500 
+            default : return Color.app.black
             }
         }
     }
@@ -144,7 +144,7 @@ struct TitleTab: PageComponent{
                     if let btn = self.sortButton {
                         SortButton(
                             type: .stroke,
-                            sizeType: .big,
+                            sizeType: .small,
                             petProgile:self.sortPetProfile,
                             text: btn,
                             color:Color.app.grey400,
@@ -155,7 +155,6 @@ struct TitleTab: PageComponent{
                 }
                 
                 HStack(spacing: Dimen.margin.tiny){
-                   
                     Spacer().modifier(MatchHorizontal(height: 0))
                     ForEach( Array(self.buttons.enumerated()), id: \.1){ idx,  btn in
                         HStack(spacing:Dimen.margin.microExtra){

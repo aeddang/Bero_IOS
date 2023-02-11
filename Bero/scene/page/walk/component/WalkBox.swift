@@ -22,12 +22,27 @@ struct WalkBox: PageComponent{
         HStack(alignment: .top, spacing:Dimen.margin.regularExtra){
             if self.isExpand {
                 VStack(alignment: .leading, spacing:0){
-                    Spacer().modifier(MatchHorizontal(height: 0))
-                    Text(self.title)
-                        .modifier(SemiBoldTextStyle(
-                            size: Font.size.regular,
-                            color: self.isWalk ? Color.brand.primary : Color.app.grey500
-                        ))
+                    HStack(alignment: .top, spacing:0) {
+                        VStack(alignment: .leading, spacing:0){
+                            Spacer().modifier(MatchHorizontal(height: 0))
+                            Text(self.title)
+                                .modifier(SemiBoldTextStyle(
+                                    size: Font.size.regular,
+                                    color: self.isWalk ? Color.brand.primary : Color.app.grey500
+                                ))
+                                .multilineTextAlignment(.leading)
+                        }
+                        ImageButton(
+                            isSelected: false,
+                            defaultImage:Asset.icon.search_user,
+                            type: .original,
+                            size: .init(width: Dimen.icon.heavyExtra, height: Dimen.icon.heavyExtra)
+                        ){_ in
+                            self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUsers))
+                        }
+                        .frame( alignment: .center)
+                    }
+                    
                     if self.isWalk {
                         HStack(spacing:Dimen.margin.thin){
                             PropertyInfo(
@@ -60,15 +75,20 @@ struct WalkBox: PageComponent{
                 .modifier(ShadowLight( opacity: 0.05 ))
             } else {
                 Spacer().modifier(MatchHorizontal(height: 0))
+                ImageButton(
+                    isSelected: false,
+                    defaultImage:Asset.icon.search_user,
+                    type: .original,
+                    size: .init(width: Dimen.icon.heavyExtra, height: Dimen.icon.heavyExtra)
+                ){_ in
+                    self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUsers))
+                }
+                .frame( alignment: .center)
             }
-            CircleButton(
-                type: .icon(Asset.icon.search_dog),
-                isSelected: false,
-                strokeWidth: 0,
-                defaultColor: Color.app.grey500 )
-            { _ in
-                self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUsers))
-            }
+            
+            /*
+            
+             */
         }
         .opacity(self.isShow ? 1 : 0)
         .onReceive(self.dataProvider.user.$representativePet){ _ in

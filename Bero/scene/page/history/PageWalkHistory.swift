@@ -47,7 +47,8 @@ struct PageWalkHistory: PageView {
                         viewModel: self.infinityScrollModel,
                         axes: .vertical,
                         showIndicators : false,
-                        marginVertical: Dimen.margin.medium,
+                        marginTop: Dimen.margin.regular,
+                        marginBottom: Dimen.margin.medium,
                         marginHorizontal: 0,
                         spacing:0,
                         isRecycle: false,
@@ -69,7 +70,7 @@ struct PageWalkHistory: PageView {
                                 )
                             }
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.medium)
+                            .padding(.top, Dimen.margin.regular)
                             Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                 .padding(.top, Dimen.margin.medium)
                             MonthlyWalkSection(

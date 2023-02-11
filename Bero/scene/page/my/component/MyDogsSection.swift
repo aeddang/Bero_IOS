@@ -21,14 +21,14 @@ struct MyDogsSection: PageComponent{
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Dimen.margin.tiny){
-                        if let profile = self.me {
+                        if self.hasRepresentative , let profile = self.me {
                             UserProfileInfo(profile:profile, sizeType: .big){
                                 self.pagePresenter.openPopup(
                                     PageProvider.getPageObject(.modifyUser)
                                 )
                             }
                         }
-                        ForEach(self.pets) { pet in
+                        ForEach(self.pets.filter{!$0.isRepresentative}) { pet in
                             PetProfileInfo( profile: pet){
                                 self.movePetPage(pet)
                             }
@@ -50,10 +50,12 @@ struct MyDogsSection: PageComponent{
             self.update()
         }
     }
+    @State var hasRepresentative = false
     @State var me:UserProfile? = nil
     @State var pets:[PetProfile] = []
     
     private func update(){
+        self.hasRepresentative = self.dataProvider.user.representativePet != nil
         self.me = self.dataProvider.user.currentProfile
         self.pets = self.dataProvider.user.pets
     }
