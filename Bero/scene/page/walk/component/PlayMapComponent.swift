@@ -27,6 +27,7 @@ extension PlayMap {
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.iconView = icon
         marker.zIndex = 700
+        marker.appearAnimation = .fadeIn
         return marker
     }
     
@@ -68,12 +69,14 @@ extension PlayMap {
         )
         
         marker.userData = data
+        marker.appearAnimation = .fadeIn
         if data.isGroup {
             marker.iconView = self.getIcon(img: Asset.map.pinUser)
             marker.title = data.count.description + " " + (data.title ?? "")
             marker.zIndex = 900
             marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
             marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.1)
+            
             return marker
         }
         if let path = data.pictureUrl {
@@ -131,6 +134,7 @@ extension PlayMap {
     func getMissionMarker(_ data:Mission) -> GMSMarker{
         guard let loc = data.location else { return GMSMarker() }
         let marker = GMSMarker()
+        marker.appearAnimation = .fadeIn
         marker.position = CLLocationCoordinate2D(
             latitude: loc.coordinate.latitude ,
             longitude: loc.coordinate.longitude
@@ -151,10 +155,11 @@ extension PlayMap {
         guard let loc = data.location else { return GMSMarker() }
         guard let type = data.sortType else { return GMSMarker() }
         let marker = GMSMarker()
+        marker.appearAnimation = .fadeIn
         let latitude = loc.coordinate.latitude
         let longitude = loc.coordinate.longitude
         marker.position = CLLocationCoordinate2D(
-            latitude: latitude ,
+            latitude: latitude,
             longitude: longitude
         )
         marker.userData = data
@@ -163,18 +168,16 @@ extension PlayMap {
             marker.iconView = self.getIcon(img: Asset.map.pinMission)
             marker.title = data.count.description + " " + (data.title ?? "")
             marker.zIndex = 900
-            //marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
-            marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.1)
             return marker
         }
         let icon = UIImage(named: data.isMark ? type.iconMark : type.icon)
         let image = UIImageView(image: icon)
+        //let view = MapPlaceView(frame:.infinite)
         marker.iconView = image
         marker.title = data.title ?? "Place"
-        marker.snippet = String.pageText.walkMapMarkText.replace(data.visitors.count.description)
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)
-        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.13)
         marker.zIndex = data.isMark ?  100 : 200
+        marker.tracksInfoWindowChanges = true
         return marker
     }
    

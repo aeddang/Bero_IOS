@@ -36,9 +36,9 @@ struct PageFriend: PageView {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
                         infinityScrollModel: self.infinityScrollModel,
-                        title: self.sortType.text,
+                        title: self.title ?? self.sortType.text,
                         useBack:true,
-                        buttons: self.sortType.buttons,
+                        buttons: self.isMe ? self.sortType.buttons : [],
                         icons: self.sortType == .friend ? [self.hasRequested ? "N" : nil] : [],
                         action:{ type in
                             switch type {
@@ -97,8 +97,13 @@ struct PageFriend: PageView {
                 self.sortType = obj.getParamValue(key: .type) as? FriendList.ListType ?? .friend
                 self.originSortType = self.sortType
                 self.user = obj.getParamValue(key: .data) as? User ?? self.dataProvider.user
-                self.isEdit = obj.getParamValue(key: .isEdit) as? Bool ?? false
-                self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0)))
+                self.isMe = self.user?.isMe ?? false
+                if self.isMe {
+                    self.isEdit = obj.getParamValue(key: .isEdit) as? Bool ?? false
+                    self.dataProvider.requestData(q: .init(id: self.tag, type:.getRequestedFriend(page: 0)))
+                } else if let name = self.user?.representativeName {
+                    self.title = String.pageTitle.usersFriends.replace(name)
+                }
             }
         }//GeometryReader
     }//body
@@ -106,7 +111,9 @@ struct PageFriend: PageView {
     @State var user:User? = nil
     @State var originSortType:FriendList.ListType = .friend
     @State var sortType:FriendList.ListType = .friend
+    @State var isMe:Bool = false
     @State var isEdit:Bool = false
+    @State var title:String? = nil
     private func onSort(){
         let datas:[String] = [
             FriendList.ListType.friend.text,

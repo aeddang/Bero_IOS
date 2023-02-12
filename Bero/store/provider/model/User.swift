@@ -45,6 +45,9 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.isMe = isMe
     }
     
+    var representativeName:String {
+        return  self.representativePet?.name ?? self.currentProfile.nickName ?? "bero user"
+    }
     var isFriend:Bool {
         return self.currentProfile.status.isFriend
     }

@@ -106,7 +106,7 @@ struct PlaceView: PageComponent{
             guard let res = res else { return }
             switch res.type {
             case .registVisit(let place) :
-                if place.placeId == self.place.placeId {
+                if place.googlePlaceId == self.place.googlePlaceId {
                     self.onMark()
                 }
             default : break

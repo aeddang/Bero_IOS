@@ -110,9 +110,9 @@ struct PlayMap: PageView {
         .onReceive(self.walkManager.$uiEvent){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .moveMap(let loc) :
+            case .moveMap(let loc, let zoom) :
                 self.isFollowMe = false
-                self.moveLocation(loc)
+                self.moveLocation(loc, zoom:zoom) 
             case .hiddenRoute : self.viewRouteEnd()
             }
         }
@@ -192,8 +192,8 @@ struct PlayMap: PageView {
         self.resetMap()
     }
     
-    private func moveLocation(_ loc:CLLocation){
-        self.viewModel.uiEvent = .move(loc, rotate: 0, zoom: Self.zoomCloseup, duration: Self.mapMoveDuration)
+    private func moveLocation(_ loc:CLLocation, zoom:Float){
+        self.viewModel.uiEvent = .move(loc, rotate: 0, zoom:zoom, duration: Self.mapMoveDuration)
         self.forceMoveLock()
     }
     

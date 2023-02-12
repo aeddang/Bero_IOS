@@ -34,7 +34,7 @@ struct SceneTab: PageComponent{
     @State var checked: (() -> Void)? = nil
    
     @State var isShowCamera:Bool = false
-    @State var isLayerPage:Bool = false
+    @State var isShowWalkBox:Bool = true
     @State var isOriginWalkStatus:Bool? = nil
     @State var cameraType:UIImagePickerController.SourceType = .camera
     @State var cameraDevice:UIImagePickerController.CameraDevice = .front
@@ -44,7 +44,7 @@ struct SceneTab: PageComponent{
             VStack(alignment: .leading, spacing:0){
                 Spacer()
                 SimpleWalkBox()
-                    .opacity(self.isLayerPage ? 0 : 1)
+                    .opacity(self.isShowWalkBox ? 0 : 1)
                     .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
                     .padding(.bottom, Dimen.margin.thin
                              + (self.isActiveChat ? (Dimen.app.chatBox + self.sceneObserver.safeAreaBottom) : 0))
@@ -110,12 +110,7 @@ struct SceneTab: PageComponent{
         }
         .onReceive(self.pagePresenter.$currentTopPage){ page in
             guard let pageId = page?.pageID else {return}
-            withAnimation{
-                self.isLayerPage = page?.isLayer ?? false
-            }
-            if page?.isLayer == true {
-                return
-            }
+            
             switch pageId {
             case .walk :
                 if let origin = self.isOriginWalkStatus {
@@ -139,6 +134,11 @@ struct SceneTab: PageComponent{
             if self.safeAreaBottom != pos {
                 self.safeAreaBottom = pos
                 self.updateBottomPos()
+            }
+        }
+        .onReceive (self.appSceneObserver.$showWalkBox) { show in
+            withAnimation{
+                self.isShowWalkBox = show
             }
         }
         .onReceive (self.appSceneObserver.$useBottom) { use in

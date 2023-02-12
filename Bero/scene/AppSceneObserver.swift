@@ -35,6 +35,7 @@ struct PickImage {
 class AppSceneObserver:ObservableObject{
   
     @Published var useBottom = false
+    @Published var showWalkBox = true
     @Published var useBottomImmediately = false
     @Published var isApiLoading = false
     @Published var safeHeaderHeight:CGFloat = 0

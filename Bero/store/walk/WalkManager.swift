@@ -34,7 +34,7 @@ enum WalkEvent {
 }
 
 enum WalkUiEvent {
-    case moveMap(CLLocation), hiddenRoute
+    case moveMap(CLLocation, zoom:Float = PlayMap.zoomCloseup), hiddenRoute
 }
 enum WalkError {
     case accessDenied, getRoute, updatedMissions

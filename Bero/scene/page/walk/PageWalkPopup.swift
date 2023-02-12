@@ -14,7 +14,7 @@ extension PageWalk {
         self.closeAllPopup()
         if let mission = marker.userData as? Mission {
             if mission.isGroup, let loc = mission.location {
-                //self.walkManager.uiEvent = .moveMap(loc)
+                self.walkManager.uiEvent = .moveMap(loc, zoom: PlayMap.zoomFarAway)
                 return
             }
             switch mission.type {
@@ -25,23 +25,14 @@ extension PageWalk {
             }
         } else if let place = marker.userData as? Place {
             if place.isGroup, let loc = place.location {
-                //self.walkManager.uiEvent = .moveMap(loc)
+                self.walkManager.uiEvent = .moveMap(loc, zoom:PlayMap.zoomFarAway)
                 return
             }
-            /*
-            if self.pagePresenter.hasPopup(find: .popupWalkPlace) {
-                self.pagePresenter.onPageEvent(
-                    self.pageObject,
-                    event: .init(id: PageID.popupWalkPlace ,type: .pageChange, data: place)
-                )
-                return
-            }*/
             self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkPlace).addParam(key: .data, value: place))
         }
         
     }
     func onMapMarkerDisSelect(_ marker:GMSMarker){
-    
         if let mission = marker.userData as? Mission {
             switch mission.type {
             case .user :

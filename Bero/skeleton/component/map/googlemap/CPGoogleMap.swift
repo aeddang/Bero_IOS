@@ -134,7 +134,6 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
                 viewingAngle: angle ?? self.viewModel.angle
             )
         }
-       
     }
     
     fileprivate func addMarker(_ marker:MapMarker ){

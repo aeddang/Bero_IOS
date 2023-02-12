@@ -9,7 +9,7 @@ struct UsersDogSection: PageComponent{
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
             if !self.isSimple {
-                TitleTab(type:.section, title: String.pageTitle.usersDogs.replace(user.currentProfile.nickName ?? ""))
+                TitleTab(type:.section, title: String.pageTitle.usersDogs.replace(user.representativeName))
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
             }
             if self.pets.isEmpty {

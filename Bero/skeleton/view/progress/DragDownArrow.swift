@@ -19,7 +19,7 @@ struct DragDownArrow: PageComponent {
                 .scaledToFit()
                 .foregroundColor(self.progress >= self.progressMax ? Color.brand.primary : Color.app.grey100)
                 .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
-                .rotationEffect(.degrees(max(180,180 * self.progress / self.progressMax)))
+                .rotationEffect(.degrees(max(90,90 * self.progress / self.progressMax)))
             if text != nil {
                 Text(text!)
                 .modifier(LightTextStyle(
