@@ -69,6 +69,7 @@ struct PageManageDogs: PageView {
                                         .addParam(key: .data, value: pet)
                                 )
                                 */
+                                if pet.isRepresentative {return}
                                 self.appSceneObserver.sheet = .select(
                                     String.alert.representativePetChangeConfirm,
                                     nil,

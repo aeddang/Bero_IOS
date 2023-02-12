@@ -43,6 +43,7 @@ extension String {
         public static let microchip = "Microchip"
         public static let today = "Today"
         public static let walk = "Walk"
+        public static let walks = "Walks"
         public static let near = "Near"
         public static let likes = "Likes"
         public static let missions = "Missions"

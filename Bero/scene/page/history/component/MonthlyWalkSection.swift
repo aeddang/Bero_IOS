@@ -10,68 +10,67 @@ struct MonthlyWalkSection: PageComponent{
     var user:User
     var listSize:CGFloat = 300
     var body: some View {
-        VStack(alignment: .leading, spacing:Dimen.margin.medium){
+       // VStack(alignment: .leading, spacing:Dimen.margin.medium){
             CPCalendar(
                 viewModel: self.calenderModel
             )
             Spacer().modifier(LineHorizontal())
-            VStack(alignment: .leading, spacing:Dimen.margin.regularExtra){
-                Text(self.currentDate)
-                    .modifier(MediumTextStyle(
-                        size: Font.size.thin,
+            Text(self.currentDate)
+                .modifier(MediumTextStyle(
+                    size: Font.size.thin,
+                    color: Color.brand.primary
+                ))
+                .onReceive(self.calenderModel.$event){evt in
+                    guard let evt = evt else { return }
+                    switch evt {
+                    case .selectdDate(let date) :
+                        self.updateWalk(date)
+                    case .changedMonth(let date) :
+                        self.updateMonthly(date: date)
+                    }
+                }
+                .onReceive(self.dataProvider.$result){res in
+                    guard let res = res else { return }
+                    if !res.id.hasPrefix(self.tag) {return}
+                    switch res.type {
+                    case .getMonthlyWalk(let userId, let date) :
+                        if userId == self.userId, let datas = res.data as? [String] {
+                            self.updatedMonthly(datas: datas, date:date)
+                        }
+                    case .getWalks(let date):
+                        if let datas = res.data as? [WalkData] {
+                            self.updatedWalk(datas: datas, date:date)
+                        }
+                    default : break
+                    }
+                }
+                .onAppear(){
+                    self.userId = self.user.snsUser?.snsID ?? ""
+                    self.updateMonthly(date: AppUtil.networkTimeDate())
+                }
+            if self.datas.isEmpty {
+                EmptyItem(type: .myList)
+                if self.walkManager.status == .ready {
+                    FillButton(
+                        type: .fill,
+                        text: String.button.startWalking,
                         color: Color.brand.primary
-                    ))
-                if self.datas.isEmpty {
-                    EmptyItem(type: .myList)
-                    if self.walkManager.status == .ready {
-                        FillButton(
-                            type: .fill,
-                            text: String.button.startWalking,
-                            color: Color.brand.primary
-                            
-                        ){_ in
-                            self.pagePresenter.changePage(PageProvider.getPageObject(.walk))
-                        }
+                        
+                    ){_ in
+                        self.pagePresenter.changePage(PageProvider.getPageObject(.walk))
                     }
-                } else {
-                    ForEach(self.datas) { data in
-                        WalkListItem(
-                            data: data, imgSize: self.walkListSize)
-                        {
-                            self.move(data: data)
-                        }
+                }
+            } else {
+                ForEach(self.datas) { data in
+                    WalkListItem(
+                        data: data, imgSize: self.walkListSize)
+                    {
+                        self.move(data: data)
                     }
                 }
             }
-        }
-        .onReceive(self.calenderModel.$event){evt in
-            guard let evt = evt else { return }
-            switch evt {
-            case .selectdDate(let date) :
-                self.updateWalk(date)
-            case .changedMonth(let date) :
-                self.updateMonthly(date: date)
-            }
-        }
-        .onReceive(self.dataProvider.$result){res in
-            guard let res = res else { return }
-            if !res.id.hasPrefix(self.tag) {return}
-            switch res.type {
-            case .getMonthlyWalk(let userId, let date) :
-                if userId == self.userId, let datas = res.data as? [String] {
-                    self.updatedMonthly(datas: datas, date:date)
-                }
-            case .getWalks(let date):
-                if let datas = res.data as? [WalkData] {
-                    self.updatedWalk(datas: datas, date:date)
-                }
-            default : break
-            }
-        }
-        .onAppear(){
-            self.userId = self.user.snsUser?.snsID ?? ""
-            self.updateMonthly(date: AppUtil.networkTimeDate())
-        }
+       // }
+        
     }
     
     @State var userId:String = ""
@@ -118,7 +117,7 @@ struct MonthlyWalkSection: PageComponent{
         let yyyyMMdd = date.toDateFormatter(dateFormat: "yyyyMMdd") 
         if self.yyyyMMdd != yyyyMMdd {return}
         self.currentDate = date.toDateFormatter(dateFormat: "EEEE, MMMM d") + (self.isToday ? " ("+String.app.today+")" : "")
-        self.datas = datas.map{WalkListItemData().setData($0, idx: 0)}
+        self.datas = datas.map{WalkListItemData().setData($0, idx: 0)}.filter{$0.imagePath != nil}
     }
     
     private func move(data:WalkListItemData){

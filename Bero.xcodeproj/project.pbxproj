@@ -976,7 +976,6 @@
 				31C6373928A8804D008EA54C /* PetProfileItem.swift */,
 				316B77A628BB19660090E924 /* PetProfileTopInfo.swift */,
 				3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */,
-				3151DD1A28CDD72100641BCC /* ChatRoomListItem.swift */,
 				31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */,
 				31BCF3D028C5B710004605CF /* UserAlbumListItem.swift */,
 				31D6657E28CAFC3A00765625 /* UserProfileItem.swift */,
@@ -1356,6 +1355,7 @@
 		31CA21BB28DFE64100A6CFBB /* component */ = {
 			isa = PBXGroup;
 			children = (
+				3151DD1A28CDD72100641BCC /* ChatRoomListItem.swift */,
 				3151DD2028CDEF1400641BCC /* ChatRoomList.swift */,
 				31CA21BC28DFE65A00A6CFBB /* ChatItem.swift */,
 				31CA21BE28DFEF4A00A6CFBB /* ChatList.swift */,
@@ -2967,7 +2967,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3016,7 +3016,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

@@ -27,14 +27,14 @@ struct PageLevelUp: PageView {
                 axis:.vertical
             ) {
                 Spacer().modifier(MatchParent())
-                    .background(Color.transparent.black70)
+                    .background(Color.transparent.black80)
                 //
                 VStack(spacing:0){
-                    Image(Asset.image.congratulations)
+                    Image(Asset.image.puppy)
                         .renderingMode(.original)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 163, height: 170)
+                        .frame(height: 170)
                     
                     Text(String.pageText.levelUpText)
                         .modifier(BoldTextStyle(

@@ -118,6 +118,7 @@ struct RadioButton: View, SelecterbleProtocol, PageProtocol {
                                     color: Color.app.grey400
                                 ))
                                 .multilineTextAlignment(.leading)
+                                .lineLimit(2)
                                 .padding(.top, Dimen.margin.micro)
                         }
                         
@@ -144,7 +145,8 @@ struct RadioButton: View, SelecterbleProtocol, PageProtocol {
                 
             }
             .padding(.horizontal, self.type.horizontalMargin)
-            .frame(height: Dimen.button.medium)
+            .padding(.vertical, Dimen.margin.thin)
+            //.frame(height: Dimen.button.medium)
             .background(self.type.bgColor)
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.thinExtra))
             .overlay(

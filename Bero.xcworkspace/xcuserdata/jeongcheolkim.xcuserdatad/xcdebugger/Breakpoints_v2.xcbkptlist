@@ -84,5 +84,69 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5B4F1255-6146-4593-A17C-CB2F36F726EC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bero/scene/page/component/AlbumSection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "updateConfirm(img:thumbImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D069FE96-EEF1-4CAB-908C-1191D1A51D0A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bero/scene/page/component/AlbumSection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "updateConfirm(img:thumbImage:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D069FE96-EEF1-4CAB-908C-1191D1A51D0A - b1717656ae366775"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bero.AlbumSection.updateConfirm(img: __C.UIImage, thumbImage: __C.UIImage) -&gt; ()"
+                  moduleName = "Bero"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jeongcheolkim/Desktop/project/ironraft/Bero_IOS/Bero/scene/page/component/AlbumSection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "163"
+                  endingLineNumber = "163"
+                  offsetFromSymbolStart = "392">
+               </Location>
+               <Location
+                  uuid = "D069FE96-EEF1-4CAB-908C-1191D1A51D0A - a8c0cd57fd209091"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in Bero.AlbumSection.updateConfirm(img: __C.UIImage, thumbImage: __C.UIImage) -&gt; ()"
+                  moduleName = "Bero"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jeongcheolkim/Desktop/project/ironraft/Bero_IOS/Bero/scene/page/component/AlbumSection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "159"
+                  endingLineNumber = "159"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

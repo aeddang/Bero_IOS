@@ -30,8 +30,10 @@ class ChatRoomListItemData:InfinityData, ObservableObject{
         self.isRead = self.unreadCount == 0
         self.userId = data.receiver
         self.lv = data.receiverLevel
-        self.date = data.updatedAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") ?? data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
-        self.viewDate = self.date?.sinceNowDate(dateFormat:"MMMM d, yyyy")
+        let date = data.updatedAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") ?? data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
+        let viewDate = date?.sinceNowDate(dateFormat:"MMMM d, yyyy")
+        self.date = date
+        self.viewDate = viewDate
         return self
     }
 }

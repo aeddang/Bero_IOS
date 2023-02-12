@@ -229,7 +229,7 @@ struct PageFactory{
         case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
         case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)
         case .popupPlaceVisitor : return PopupPlaceVisitor(pageObservable:pageObservable)
-        default : return PageTest(pageObservable:pageObservable)
+        default : return PageWalk(pageObservable:pageObservable)
         }
     }
    

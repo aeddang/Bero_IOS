@@ -68,6 +68,13 @@ struct PageMy: PageView {
                                 )
                             }
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .onTapGesture {
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.dog)
+                                        .addParam(key: .data, value: pet)
+                                        .addParam(key: .subData, value: self.dataProvider.user)
+                                )
+                            }
                             
                         } else {
                             UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){

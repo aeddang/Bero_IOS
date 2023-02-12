@@ -68,12 +68,21 @@ struct PageUser: PageView {
                                     )
                                 }
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                PetTagSection(
-                                    profile: pet,
-                                    listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
-                                )
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .padding(.top, Dimen.margin.regular)
+                                .onTapGesture {
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.dog)
+                                            .addParam(key: .data, value: pet)
+                                            .addParam(key: .subData, value: user)
+                                    )
+                                }
+                                if pet.hashStatus?.isEmpty == false {
+                                    PetTagSection(
+                                        profile: pet,
+                                        listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
+                                    )
+                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                    .padding(.top, Dimen.margin.regular)
+                                }
                                 PetPhysicalSection(
                                     profile: pet
                                 )

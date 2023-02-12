@@ -44,25 +44,25 @@ struct TotalWalkSection: PageComponent{
                     }
                     .fixedSize()
             }
-            HStack(spacing: Dimen.margin.regular){
+            HStack(spacing: Dimen.margin.regularUltra){
                 PropertyInfo(
                     type:.impect,
                     value: self.totalWalkCount.description,
-                    unit: String.app.walk,
+                    unit: String.app.walks,
                     bgColor: Color.transparent.clear,
                     alignment: .leading
                 )
                 PropertyInfo(
                     type:.impect,
                     value: WalkManager.viewDuration(self.totalDuration),
-                    unit: String.app.time,
+                    unit: String.app.time + "(" + String.app.min + ")",
                     bgColor: Color.transparent.clear,
                     alignment: .leading
                 )
                 PropertyInfo(
                     type:.impect,
                     value: self.speed,
-                    unit: String.app.kmPerH,
+                    unit: String.app.speed + "(" + String.app.kmPerH + ")",
                     bgColor: Color.transparent.clear,
                     alignment: .leading
                 )

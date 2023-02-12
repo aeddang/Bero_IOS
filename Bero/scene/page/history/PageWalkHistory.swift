@@ -51,7 +51,7 @@ struct PageWalkHistory: PageView {
                         marginBottom: Dimen.margin.medium,
                         marginHorizontal: 0,
                         spacing:0,
-                        isRecycle: false,
+                        isRecycle: true,
                         useTracking: true
                     ){
                         if let user = self.user {

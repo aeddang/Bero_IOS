@@ -181,11 +181,10 @@ extension Asset{
     struct image {
         public static let present = "present"
         public static let addDog = "add_dog"
-        public static let congratulations = "image_congratulations"
+        public static let puppy = "puppy"
         public static let profile_dog_default = "profile_dog_default"
         public static let profile_user_default = "profile_user_default"
         public static let profile_deco = "profile_deco"
-        public static let hands_heart = "hands_heart"
         public static let route_bg = "route_bg"
         
     }

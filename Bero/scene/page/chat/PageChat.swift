@@ -86,13 +86,19 @@ struct PageChat: PageView {
                
                 switch res.type {
                 case .sendChat :
-                    if self.pagePresenter.currentTopPage == self.pageObject {
+                    if self.pagePresenter.currentTopPage?.pageID != .chatRoom {
                         self.infinityScrollModel.uiEvent = .reload
+                        self.pagePresenter.closeAllPopup()
                     }
-                    self.pagePresenter.closeAllPopup()
                 default : break
                 }
             }
+            /*
+            .onReceive(self.pagePresenter.$currentTopPage){ page in
+                if page == self.pageObject {
+                    self.infinityScrollModel.uiEvent = .reload
+                }
+            }*/
             .onReceive(self.walkManager.$status) { status in
                 switch status {
                 case .walking : self.bottomMargin = Dimen.app.bottom

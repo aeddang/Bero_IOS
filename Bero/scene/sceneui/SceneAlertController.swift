@@ -11,9 +11,9 @@ import SwiftUI
 import Combine
 
 enum SceneAlert {
-    case confirm(String?, String?,(Bool) -> Void),
-         select(String?, String?, [String], (Int) -> Void),
-         alert(String?, String?, String? = nil, (() -> Void)? = nil),
+    case confirm(String?, String?, isNegative:Bool=true, (Bool) -> Void),
+         select(String?, String?, [String], isNegative:Bool=true, (Int) -> Void),
+         alert(String?, String?, String? = nil, isNegative:Bool=true, (() -> Void)? = nil),
          recivedApns, apiError(ApiResultError),
          requestLocation((Bool) -> Void),
          cancel
@@ -60,11 +60,10 @@ struct SceneAlertController: PageComponent{
             buttonColor: self.buttonColor
         ){ idx in
             switch self.currentAlert {
-            case .alert(_, _, _, let completionHandler) :
+            case .alert(_, _, _, _, let completionHandler) :
                 if let handler = completionHandler { self.selectedAlert(idx, completionHandler:handler) }
-                else {self.buttonColor = Color.app.black}
-            case .select(_, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
-            case .confirm(_, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
+            case .select(_, _, _, _, let completionHandler) : self.selectedSelect(idx, completionHandler:completionHandler)
+            case .confirm(_, _, _, let completionHandler) : self.selectedConfirm(idx, completionHandler:completionHandler)
             case .apiError(let data): self.selectedApi(idx, data:data)
             case .requestLocation(let completionHandler): self.selectedRequestLocation(idx, completionHandler:completionHandler)
             case .recivedApns: self.selectedRecivedApns(idx)
@@ -85,11 +84,15 @@ struct SceneAlertController: PageComponent{
                     self.reset()
                 }
                 return
-            case .alert(let title,let text, let subText, let completionHandler) :
-                if completionHandler == nil { self.buttonColor = Color.app.black }
+            case .alert(let title,let text, let subText, let isNegative, let completionHandler) :
+                self.buttonColor = isNegative ? Color.app.black : Color.brand.primary
                 self.setupAlert(title:title, text:text, subText:subText)
-            case .select(let title,let text, let selects, _) : self.setupSelect(title: title, text: text, selects: selects)
-            case .confirm(let title,let text, _) : self.setupConfirm(title:title, text:text)
+            case .select(let title,let text, let selects, let isNegative, _) :
+                self.buttonColor = isNegative ? Color.app.black : Color.brand.primary
+                self.setupSelect(title: title, text: text, selects: selects)
+            case .confirm(let title,let text, let isNegative, _) :
+                self.buttonColor = isNegative ? Color.app.black : Color.brand.primary
+                self.setupConfirm(title:title, text:text)
             case .apiError(let data): self.setupApi(data:data)
             case .requestLocation: self.setupRequestLocation()
             case .recivedApns: if !self.setupRecivedApns() {return}
@@ -121,7 +124,8 @@ struct SceneAlertController: PageComponent{
         guard let alert = aps["alert"] as? [String:Any] else { return false }
         self.title = String.alert.apns
         self.text = alert["title"] as? String
-        self.subText = alert["body"] as? String 
+        self.subText = alert["body"] as? String
+        self.buttonColor = Color.app.black
         if (self.appObserver.page?.page) != nil {
             self.buttons = [
                 AlertBtnData(title: String.app.cancel, index: 0),
@@ -149,6 +153,7 @@ struct SceneAlertController: PageComponent{
     
     func setupApi(data:ApiResultError) {
         self.title = String.alert.api
+        self.buttonColor = Color.app.black
         if let apiError = data.error as? ApiError {
             self.text = ApiError.getViewMessage(response: apiError.response)
             self.buttons = [
@@ -187,9 +192,9 @@ struct SceneAlertController: PageComponent{
     
     
     func setupRequestLocation() {
-        
         self.text = String.alert.location
         self.subText = String.alert.locationText
+        self.buttonColor = Color.app.black
         self.buttons = [
             AlertBtnData(title: String.alert.locationBtn, index: 0),
             AlertBtnData(title: String.app.cancel, index: 1)

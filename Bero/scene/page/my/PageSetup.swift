@@ -70,6 +70,7 @@ struct PageSetup: PageView {
                             isChecked: self.isExpose,
                             icon: Asset.icon.place,
                             text:String.pageText.setupExpose,
+                            description: String.pageText.setupExposeText,
                             color: Color.app.black
                         ){ _ in
                             withAnimation{

@@ -166,15 +166,16 @@ struct HorizontalProfile: PageComponent{
                             ))
                     }
                 } else {
-                    if let name = self.name {
+                    if self.name != nil || self.date != nil {
                         HStack(spacing: Dimen.margin.thin){
-                            Text(name)
-                                .modifier(SemiBoldTextStyle(
-                                    size: self.sizeType.nameSize,
-                                    color: self.isSelected ? Color.app.white : Color.app.black
-                                ))
-                                .multilineTextAlignment(.leading)
-                                
+                            if let name = self.name {
+                                Text(name)
+                                    .modifier(SemiBoldTextStyle(
+                                        size: self.sizeType.nameSize,
+                                        color: self.isSelected ? Color.app.white : Color.app.black
+                                    ))
+                                    .multilineTextAlignment(.leading)
+                            }
                             if let date = self.date {
                                 Text(date)
                                     .modifier(RegularTextStyle(

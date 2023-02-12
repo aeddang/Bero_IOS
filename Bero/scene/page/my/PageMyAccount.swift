@@ -72,9 +72,11 @@ struct PageMyAccount: PageView {
                                 self.deleteAccount()
                                 return
                             }
-                            self.appSceneObserver.alert = .alert(nil, String.alert.deleteAccountCheck) {
-                                self.isRequestDelete = true
-                                self.repository.snsManager.requestLogin(type: type)
+                            self.appSceneObserver.alert = .confirm(nil, String.alert.deleteAccountCheck) {isOk in
+                                if isOk {
+                                    self.isRequestDelete = true
+                                    self.repository.snsManager.requestLogin(type: type)
+                                }
                             }
                         }
                     }
@@ -138,10 +140,10 @@ struct PageMyAccount: PageView {
             [String.app.cancel,String.button.logOut],
             isNegative: true
         ){ idx in
-                if idx == 1 {
-                    self.walkManager.endWalk()
-                    self.repository.clearLogin()
-                }
+            if idx == 1 {
+                self.walkManager.endWalk()
+                self.repository.clearLogin()
+            }
         }
        
     }

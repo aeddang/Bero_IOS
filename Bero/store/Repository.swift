@@ -237,7 +237,7 @@ class Repository:ObservableObject, PageProtocol{
         
     }
     private func checkLevelUp(lvData:MetaData?){
-       
+        
         if self.dataProvider.user.isLevelUp(lvData:lvData) {
             self.pagePresenter?.openPopup(PageProvider.getPageObject(.levelUp))
         }
