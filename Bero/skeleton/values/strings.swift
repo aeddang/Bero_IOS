@@ -233,6 +233,7 @@ extension String {
         public static let unblock = "Unblock"
         public static let deleteAccount = "Delete account"
         public static let viewProfile = "View Profile"
+        public static let learnMore = "Learn more"
     }
     
     struct sort {
@@ -269,7 +270,6 @@ extension String {
         public static let myAccount = "My Account"
         public static let explore = "Explore"
         public static let chat = "Chat"
-        
         public static let addDog = "Add a dog"
         public static let history = "History"
         public static let album = "Album"
@@ -278,10 +278,10 @@ extension String {
         public static let friends = "Friends"
         public static let friendRequest = "Friend request"
         public static let chatRoom = "Chat room"
-
         public static let myDogs = "My family"
         public static let myProfile = "My Profile"
         public static let myLv = "My Heart Level"
+        public static let myPoint = "Point"
         public static let dogProfile = "Dog Profile"
         public static let healthInformation = "Health Information"
         public static let usersDogs = "%s’s family"
@@ -290,7 +290,6 @@ extension String {
         public static let walkSummary = "Walk Summary"
         public static let missionHistory = "Mission History"
         public static let completedMissions = "Completed missions"
-        
         public static let privacy = "Policy Agreements"
         public static let service = "Terms of Use"
         public static let blockUser = "Manage block list"
@@ -315,11 +314,16 @@ extension String {
         public static let addDogCompletedConfirm = "Start exploring"
         public static let addDogEmpty = "No dog added yet."
         
-        public static let myLvText = "Earn friendship to level up your heart!"
+        
         public static let myLvText1 = "How to earn friendship"
         public static let myLvText2 = "Hi %s!"
         public static let myLvText3 = "Welcome to %s!"
         public static let myLvText4 = "Earn +%s friendship to level up!"
+        
+        public static let myPointText1 = "Collect rewards by walking your dog and change it into our virtual currency."
+        public static let myPointText2 = "Store is coming soon"
+     
+        public static let earningHistory = "Earning history"
         
         public static let missionHistoryText1 = "completed in total"
         public static let walkHistorySeletReport = "Whose report do you want to see?"
@@ -399,5 +403,10 @@ extension String {
         public static let setupExpose = "Location Disclosure"
         public static let setupExposeText = "Share location with online users during walk"
     }
-    
+    struct lockScreen {
+        //for page
+        public static let start = "Today’s walk start"
+        public static let walking = "Currently walking..."
+        public static let end = "Today’s walk"
+    }
 }

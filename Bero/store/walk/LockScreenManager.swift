@@ -21,8 +21,9 @@ class LockScreenManager:PageProtocol{
     private var currentActivity:Activity<BeroLockScreenAttributes>? = nil
     func startLockScreen(data:LockScreenData){
         if ActivityAuthorizationInfo().areActivitiesEnabled {
-            let state = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance)
-            let attributes = BeroLockScreenAttributes(name: data.title)
+            let state = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance, name: data.title)
+            //let attributes = BeroLockScreenAttributes(name: data.title)
+            let attributes = BeroLockScreenAttributes()
             let content = ActivityContent(state: state, staleDate:nil)
             self.currentActivity = try? Activity.request(attributes: attributes, content: content)
         }
@@ -30,8 +31,7 @@ class LockScreenManager:PageProtocol{
     
     func updateLockScreen(data:LockScreenData){
         guard let ac = self.currentActivity else {return}
-        
-        let state = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance)
+        let state = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance, name: data.title)
         let content = ActivityContent(state: state, staleDate:nil)
         Task {
             await ac.update(content, alertConfiguration: nil)
@@ -40,7 +40,7 @@ class LockScreenManager:PageProtocol{
     
     func alertLockScreen(data:LockScreenData){
         guard let ac = self.currentActivity else {return}
-        let state = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance)
+        let state = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance, name: data.info)
         let content = ActivityContent(state: state, staleDate:nil)
         let alertConfiguration = AlertConfiguration(
             title: LocalizedStringResource(stringLiteral: data.title),
@@ -53,10 +53,10 @@ class LockScreenManager:PageProtocol{
     
     func endLockScreen(data:LockScreenData){
         guard let ac = self.currentActivity else {return}
-        let status = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance)
+        let status = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance, name: data.title)
         let content = ActivityContent(state: status, staleDate: nil)
         Task {
-            await ac.end(content, dismissalPolicy: .immediate)
+            await ac.end(content, dismissalPolicy: .default)
         }
     }
     

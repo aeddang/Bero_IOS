@@ -30,7 +30,21 @@ extension Font{
         public static let black =  "Poppins-ExtraBold"
         //["Poppins-Regular", "Poppins-Thin", "Poppins-ExtraLight", "Poppins-Light", "Poppins-Medium", "Poppins-SemiBold", "Poppins-Bold", "Poppins-ExtraBold", "Poppins-Black"]
     }
-    
+    struct familySystem {
+        public static let bold =  "AppleSDGothicNeo-Bold"
+        public static let semiBold =  "AppleSDGothicNeo-SemiBold"
+        public static let medium =  "AppleSDGothicNeo-Medium"
+        public static let regular = "AppleSDGothicNeo-Regular"
+        public static let light =  "AppleSDGothicNeo-Light"
+        public static let thin =  "AppleSDGothicNeo-Thin"
+        public static let tiny =  "AppleSDGothicNeo-Thin"
+        public static let micro =  "AppleSDGothicNeo-Thin"
+        
+        public static let numberBold = "Arial-BoldMT"
+        public static let number = "ArialMT"
+        public static let numberItalic = "Arial-ItalicMT"
+       
+    }
     struct spacing {
         public static let medium:CGFloat = 10
         public static let regular:CGFloat = -20

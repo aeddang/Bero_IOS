@@ -126,9 +126,7 @@ struct PetProfileBody: PageComponent{
         .onReceive(self.profile.$isNeutralized){value in
             self.isNeutralized = value
         }
-        .onReceive(self.profile.$lv){value in
-            self.lv = value
-        }
+        
     }
     @State var name:String? = nil
     @State var gender:Gender? = nil

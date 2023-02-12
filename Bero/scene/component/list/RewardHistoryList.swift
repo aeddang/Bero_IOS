@@ -57,7 +57,7 @@ struct RewardHistoryList: PageComponent{
             guard let res = res else { return }
             if !res.id.hasPrefix(self.tag) {return}
             switch res.type {
-            case .getRewardHistory(let userId, _, _):
+            case .getRewardHistory(let userId, _, _, _):
                 if self.currentId == userId {
                     self.loaded(res)
                 }
@@ -85,7 +85,7 @@ struct RewardHistoryList: PageComponent{
         self.infinityScrollModel.onLoad()
         self.currentId = self.user?.snsUser?.snsID ?? ""
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getRewardHistory(userId: self.currentId, page: self.infinityScrollModel.page)
+            .getRewardHistory(userId: self.currentId, type:self.type.apiType, page: self.infinityScrollModel.page)
         ))
         
     }
@@ -100,7 +100,7 @@ struct RewardHistoryList: PageComponent{
         let start = self.historys.count
         let end = start + datas.count
         added = zip(start...end, datas).map { idx, d in
-            return RewardHistoryListItemData().setData(d,  idx: idx)
+            return RewardHistoryListItemData().setData(d, type: self.type, idx: idx)
         }
         self.historys.append(contentsOf: added)
         if self.historys.isEmpty {

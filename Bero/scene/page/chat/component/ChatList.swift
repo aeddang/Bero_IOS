@@ -32,7 +32,7 @@ struct ChatList: PageComponent{
                         type: .pet,
                         sizeType: .small,
                         imagePath: pet.imagePath,
-                        lv: pet.lv,
+                        lv: self.user?.lv,
                         name: pet.name,
                         gender: pet.gender,
                         isNeutralized: pet.isNeutralized,

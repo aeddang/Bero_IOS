@@ -10,7 +10,6 @@ struct PetProfileCheckItem: PageComponent{
             funcType: .check(self.check),
             image: self.profile.image,
             imagePath: self.profile.imagePath,
-            lv:self.profile.lv,
             name: self.profile.name,
             gender: self.profile.gender,
             isNeutralized: self.profile.isNeutralized,

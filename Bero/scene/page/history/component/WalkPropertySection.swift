@@ -14,8 +14,9 @@ struct WalkPropertySection: PageComponent{
                     Image(Asset.image.route_bg)
                         .renderingMode(.original)
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
                         .modifier(MatchHorizontal(height: 200))
+                        .clipped()
                     GraphPolygon(
                         selectIdx: path.filter{$0.smallPictureUrl != nil}.map{$0.idx},
                         points: path.map{CGPoint(x: $0.tx, y:$0.ty )},

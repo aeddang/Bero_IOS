@@ -20,7 +20,7 @@ class PlaceApi :Rest{
         fetch(route: PlaceApiRoute (method: .get, action:.search, query: params), completion: completion, error:error)
     }
     
-    func get(placeId:Int, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PlaceVisitor>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func get(placeId:Int, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<UserAndPet>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description

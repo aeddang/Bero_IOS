@@ -19,30 +19,7 @@ class ReportData {
     private(set) var daysWalkTimeReport:String = ""
     private(set) var originData:WalkReport? = nil
     
-    func setupData(_ data:WalkReport){
-        self.originData = data
-        self.daysWalkReport = Int(daysWalkData.value).description + " " + String.pageText.reportWalkDayUnit
-        if daysWalkCompareData.count >= 2 {
-            let me = daysWalkCompareData.first!.value
-            let other = daysWalkCompareData.last!.value
-            let diff = me - other
-            if diff > 0 {
-                self.daysWalkCompareReport = Double(diff).toTruncateDecimal(n:2) + String.pageText.reportWalkDayUnit + " " + String.pageText.reportWalkDayCompareMore
-            } else if diff < 0 {
-                self.daysWalkCompareReport = Double(abs(diff)).toTruncateDecimal(n:2) + String.pageText.reportWalkDayUnit + " " + String.pageText.reportWalkDayCompareLess
-            } else {
-                self.daysWalkCompareReport = String.pageText.reportWalkDayCompareSame
-            }
-        }
-        var avg:Float = 0
-        if let missionTimes = data.times {
-            let values:[Float] = missionTimes.map{ time in
-                return Float(time.v ?? 0)
-            }
-            avg = values.reduce(Float(0), {$0 + $1}) / Float(self.daysWalkTimeData.values.count)
-        }
-        self.daysWalkTimeReport = Double(avg).toTruncateDecimal(n:2) + " " + String.pageText.reportWalkRecentlyUnit
-    }
+    
     func setWeeklyData(_ data:WalkSummary) -> ReportData{
         if let report = data.weeklyReport {
             self.currentDaysWalkTimeIdx = self.setReport(report)
@@ -94,7 +71,30 @@ class ReportData {
         }
         return todayIdx
     }
-    
+    func setupData(_ data:WalkReport){
+        self.originData = data
+        self.daysWalkReport = Int(daysWalkData.value).description + " " + String.pageText.reportWalkDayUnit
+        if daysWalkCompareData.count >= 2 {
+            let me = daysWalkCompareData.first!.value
+            let other = daysWalkCompareData.last!.value
+            let diff = me - other
+            if diff > 0 {
+                self.daysWalkCompareReport = Double(diff).toTruncateDecimal(n:2) + String.pageText.reportWalkDayUnit + " " + String.pageText.reportWalkDayCompareMore
+            } else if diff < 0 {
+                self.daysWalkCompareReport = Double(abs(diff)).toTruncateDecimal(n:2) + String.pageText.reportWalkDayUnit + " " + String.pageText.reportWalkDayCompareLess
+            } else {
+                self.daysWalkCompareReport = String.pageText.reportWalkDayCompareSame
+            }
+        }
+        var avg:Float = 0
+        if let missionTimes = data.times {
+            let values:[Float] = missionTimes.map{ time in
+                return Float(time.v ?? 0)
+            }
+            avg = values.reduce(Float(0), {$0 + $1}) / Float(self.daysWalkTimeData.values.count)
+        }
+        self.daysWalkTimeReport = Double(avg).toTruncateDecimal(n:2) + " " + String.pageText.reportWalkRecentlyUnit
+    }
 }
 
 extension PageWalkReport{

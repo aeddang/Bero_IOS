@@ -129,11 +129,11 @@ struct VisitorView: PageComponent, Identifiable{
     }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let datas = res.data as? [PlaceVisitor] else { return }
+        guard let datas = res.data as? [UserAndPet] else { return }
         self.loadedVisitor(datas: datas)
     }
     
-    private func loadedVisitor(datas:[PlaceVisitor]){
+    private func loadedVisitor(datas:[UserAndPet]){
         var added:[PetProfile] = []
         let start = self.datas.count
         let end = start + datas.count
@@ -190,7 +190,7 @@ struct VisitorHorizontalView: PageComponent, Identifiable{
                             imagePath: data.pet?.imagePath,
                             imageSize: Dimen.profile.mediumUltra,
                             name: data.pet?.name ?? data.user?.nickName,
-                            lv:data.pet?.lv,
+                            lv:data.lv,
                             buttonAction: {
                                 self.moveUser(id: data.contentID)
                             }

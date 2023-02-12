@@ -402,7 +402,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.startTimer()
         self.requestLocation()
         if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
-            lsm.startLockScreen(data: .init(title: "start"))
+            lsm.startLockScreen(data: .init(title: String.lockScreen.start))
         }
     }
     
@@ -432,7 +432,7 @@ class WalkManager:ObservableObject, PageProtocol{
     
     private func endLockScreen(){
         if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
-            lsm.endLockScreen(data: .init(title: "end", walkTime:self.walkTime , walkDistance:self.walkDistance))
+            lsm.endLockScreen(data: .init(title: String.lockScreen.end, walkTime:self.walkTime , walkDistance:self.walkDistance))
             self.lockScreenManager = nil
         }
     }
@@ -516,7 +516,7 @@ class WalkManager:ObservableObject, PageProtocol{
                         walkTime: self.walkTime,
                         walkDistance: self.walkDistance))
                 } else {
-                    lsm.updateLockScreen(data: .init(walkTime: self.walkTime, walkDistance: self.walkDistance))
+                    lsm.updateLockScreen(data: .init(title: String.lockScreen.walking, walkTime: self.walkTime, walkDistance: self.walkDistance))
                 }
             }
 

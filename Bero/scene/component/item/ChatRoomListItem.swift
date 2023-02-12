@@ -17,6 +17,7 @@ class ChatRoomListItemData:InfinityData, ObservableObject{
     private(set) var viewDate:String? = nil
     private(set) var unreadCount:Int = 0
     private(set) var userId:String? = nil
+    private(set) var lv:Int? = nil
     fileprivate(set) var isRead:Bool = false
     @Published var isDelete:Bool = false
     func setData(_ data:ChatRoomData, idx:Int) -> ChatRoomListItemData {
@@ -28,6 +29,7 @@ class ChatRoomListItemData:InfinityData, ObservableObject{
         self.unreadCount = data.unreadCnt ?? 0
         self.isRead = self.unreadCount == 0
         self.userId = data.receiver
+        self.lv = data.receiverLevel
         self.date = data.updatedAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") ?? data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
         self.viewDate = self.date?.sinceNowDate(dateFormat:"MMMM d, yyyy")
         return self
@@ -49,6 +51,7 @@ struct ChatRoomListItem: PageComponent{
                     sizeType: .small,
                     funcType: self.isRead ? nil : .view("N"),   // .view(self.data.unreadCount.description),
                     imagePath: self.data.profileImagePath,
+                    lv:self.data.lv,
                     name: self.data.title,
                     date: self.data.viewDate,
                     description: self.data.contents,

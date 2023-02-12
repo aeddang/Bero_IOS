@@ -14,7 +14,7 @@ import Firebase
 import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
-struct PageMyLv: PageView {
+struct PageMyPoint: PageView {
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -32,7 +32,7 @@ struct PageMyLv: PageView {
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
                     TitleTab(
-                        title: String.pageTitle.myLv,
+                        title: String.pageTitle.myPoint,
                         useBack: true,
                         action: { type in
                             switch type {
@@ -40,8 +40,8 @@ struct PageMyLv: PageView {
                             default : break
                             }
                         })
-            
-                    LvSection(
+                    
+                    PointSection(
                         user: self.dataProvider.user
                     )
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
@@ -49,10 +49,9 @@ struct PageMyLv: PageView {
                     
                     Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                         .padding(.top, Dimen.margin.medium)
-                    
                     TitleSection(
                         title: String.pageText.earningHistory,
-                        trailer: String.pageText.myLvText1
+                        trailer: String.pageText.myPointText1
                     )
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                     .padding(.top, Dimen.margin.regularExtra)
@@ -60,6 +59,7 @@ struct PageMyLv: PageView {
                         .padding(.top, Dimen.margin.regularExtra)
                     RewardHistoryList(
                         infinityScrollModel:self.infinityScrollModel,
+                        type: .point,
                         user:self.dataProvider.user)
                     
                 }
@@ -83,10 +83,10 @@ struct PageMyLv: PageView {
 
 
 #if DEBUG
-struct PageMyLv_Previews: PreviewProvider {
+struct PageMyPoint_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            PageMyLv().contentBody
+            PageMyPoint().contentBody
                 .environmentObject(Repository())
                 .environmentObject(PagePresenter())
                 .environmentObject(PageSceneObserver())

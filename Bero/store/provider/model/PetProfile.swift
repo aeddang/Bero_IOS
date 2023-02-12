@@ -78,8 +78,6 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @Published private(set) var isNeutralized:Bool = false
     @Published private(set) var birth:Date? = nil
     @Published private(set) var introduction:String? = nil
-    @Published private(set) var exp:Double = 0
-    @Published private(set) var lv:Int = 0
     @Published private(set) var prevExp:Double = 0
     @Published private(set) var nextExp:Double = 0
     @Published private(set) var immunStatus:String? = nil
@@ -135,7 +133,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.breed = data.tagBreed
         self.gender = Gender.getGender(data.sex) 
         self.birth = data.birthdate?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
-        self.exp = Double(data.experience ?? 0)
+        
         self.microchip = data.regNumber
         self.animalId = data.animalId
         self.weight = data.weight
@@ -147,7 +145,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.totalExerciseDuration = data.exerciseDuration
         self.totalMissionCount = data.missionCompleteCnt ?? 0
         self.totalWalkCount = data.walkCompleteCnt ?? 0
-        self.updatedExp()
+        
         self.introduction = data.introduce
         if !(self.introduction?.isEmpty == false) , let name = data.name {
             self.introduction = String.pageText.introductionDefault.replace(name)
@@ -178,7 +176,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.totalExerciseDistance = 1
         self.totalExerciseDuration = 10
     
-        return self.update(exp: 999)
+        return self
     }
     
     @discardableResult
@@ -235,26 +233,4 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         return self
     }
     
-    @discardableResult
-    func update(exp:Double) -> PetProfile{
-        self.exp += exp
-        self.updatedExp()
-        return self
-    }
-    
-    private func updatedExp(){
-        let willLv = Int(floor(self.exp / Self.expRange) + 1)
-        if willLv != self.lv {
-            self.lv = willLv
-            self.updatedLv()
-        }
-        
-    }
-    private func updatedLv(){
-        self.prevExp = Double(self.lv - 1) * Self.expRange
-        self.nextExp = Double(self.lv) * Self.expRange
-        //DataLog.d("prevExp " + self.prevExp.description, tag: self.tag)
-        //DataLog.d("nextExp " + self.nextExp.description, tag: self.tag)
-        //DataLog.d("lv " + self.lv.description, tag: self.tag)
-    }
 }

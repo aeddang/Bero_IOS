@@ -48,6 +48,7 @@ struct WalkLocationData : Decodable {
 struct WalkSummary : Decodable {
     private(set) var totalDuration: Double? = nil
     private(set) var totalDistance: Double? = nil
+    private(set) var totalCount: Double? = nil
     private(set) var weeklyReport: WalkReport? = nil
     private(set) var monthlyReport: WalkReport? = nil
 }
@@ -103,12 +104,4 @@ struct GeometryData : Decodable {
     private(set) var viewport: ViewPortData? = nil
 }
 
-struct ViewPortData : Decodable {
-    private(set) var northeast: GeoData? = nil
-    private(set) var southwest: GeoData? = nil
-}
 
-struct GeoData : Decodable {
-    private(set) var lat: Double? = nil
-    private(set) var lng: Double? = nil
-}

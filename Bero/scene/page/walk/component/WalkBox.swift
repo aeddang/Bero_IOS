@@ -126,7 +126,7 @@ struct WalkBox: PageComponent{
     }
     @State var isInit:Bool = false
     @State var isShow:Bool = true
-    @State var isExpand:Bool = true
+    @State var isExpand:Bool = false
     @State var isWalk:Bool = false
     @State var walkTime:String = "00:00"
     @State var walkDistance:String = "0"

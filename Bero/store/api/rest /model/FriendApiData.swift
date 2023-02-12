@@ -11,6 +11,5 @@ struct FriendData : Decodable {
     private(set) var petImg: String? = nil
     private(set) var userName: String? = nil
     private(set) var petName: String? = nil
-    private(set) var userLevel: Int? = nil
-    private(set) var petLevel: Int? = nil
+    private(set) var level: Int? = nil
 }

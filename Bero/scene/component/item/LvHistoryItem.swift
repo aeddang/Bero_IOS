@@ -30,12 +30,20 @@ class RewardHistoryListItemData:InfinityData{
         return self
     }
     
-    func setData(_ data:RewardHistoryData, idx:Int) -> RewardHistoryListItemData{
+    func setData(_ data:RewardHistoryData, type:HistoryItem.HistoryType = .exp, idx:Int) -> RewardHistoryListItemData{
         self.index = idx
         self.rewardType = RewardApi.RewardType.getType(data.expType)
         self.title = self.rewardType?.text
         self.date = data.createdAt?.toDate(dateFormat:"yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "MMMM d, yyyy")
-        self.value = data.exp?.toInt() ?? 0
+        self.valueType = type
+        switch self.valueType {
+        case .exp :
+            self.value = data.exp?.toInt() ?? 0
+        case .point :
+            self.value = data.point?.toInt() ?? 0
+        default :
+            self.value = 0
+        }
         return self
     }
     

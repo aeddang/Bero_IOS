@@ -243,6 +243,17 @@ struct SortButtonButton_Previews: PreviewProvider {
             {
                 
             }
+            SortButton(
+                type: .fill,
+                sizeType: .small,
+                icon: Asset.icon.paw,
+                text: "Chip",
+                color: Color.app.grey200,
+                isSelected: false
+            )
+            {
+                
+            }
         }
         .padding(.all, 10)
     }

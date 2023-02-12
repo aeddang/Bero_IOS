@@ -16,6 +16,7 @@ struct ChatRoomData : Decodable {
     private(set) var sender: String? = nil
     private(set) var receiver: String? = nil
     private(set) var receiverProfile: String? = nil
+    private(set) var receiverLevel:Int? = nil
 }
 
 struct ChatsData : Decodable {

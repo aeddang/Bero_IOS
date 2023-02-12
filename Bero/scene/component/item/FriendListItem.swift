@@ -28,17 +28,16 @@ class FriendListItemData:InfinityData{
     func setData(_ data:MissionData, idx:Int) -> FriendListItemData{
         self.index = idx
         self.userId = data.user?.userId ?? ""
+        self.lv = data.user?.level
         let userName = data.user?.name
         var petName:String? = nil
         if let pet:PetData = data.pets?.first(where:{$0.isRepresentative == true}) ?? data.pets?.first {
             self.imagePath = pet.pictureUrl
             self.subImagePath = data.user?.pictureUrl
-            self.lv = pet.level?.toInt()
             petName = pet.name
         } else {
             self.imagePath = data.user?.pictureUrl
             self.subImagePath = data.pets?.first?.pictureUrl
-            self.lv = data.user?.level
             petName = data.pets?.first?.name
         }
        
@@ -57,17 +56,15 @@ class FriendListItemData:InfinityData{
     func setData(_ data:FriendData, idx:Int, type:FriendStatus) -> FriendListItemData{
         self.index = idx
         self.userId = data.refUserId
+        self.lv = data.level
         let petName = data.petName
         let userName = data.userName
         if petName?.isEmpty == false {
             self.imagePath = data.petImg
             self.subImagePath = data.userImg
-            self.lv = data.petLevel
         } else {
             self.imagePath = data.userImg
-            self.lv = data.userLevel
         }
-        
         if let pet = petName , let user = userName {
             self.text = pet + " & " + user
         } else if let pet = petName {

@@ -108,7 +108,7 @@ struct PlayBox: PageComponent{
             self.isExpand = !self.walkManager.isSimpleView
         }
     }
-    @State var isExpand:Bool = true
+    @State var isExpand:Bool = false
     @State var isShow:Bool = true
     @State var isInit:Bool = false
     @State var isWalk:Bool = false

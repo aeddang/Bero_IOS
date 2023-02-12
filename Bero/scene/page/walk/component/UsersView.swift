@@ -100,6 +100,17 @@ struct UsersView: PageComponent, Identifiable{
                 }
             }
         }
+        .onReceive(self.dataProvider.$result){res in
+            guard let res = res else { return }
+            if !res.id.hasPrefix(self.tag) {return}
+            switch res.type {
+            case .getRecommandationFriends:
+                if let datas = res.data as? [UserAndPet]{
+                    self.setupRecommandDatas(datas)
+                }
+            default : break
+            }
+        }
         .onReceive(self.navigationModel.$index){ idx in
             self.isFriend = idx == 1 
             self.setupDatas()
@@ -114,11 +125,13 @@ struct UsersView: PageComponent, Identifiable{
     private func setupDatas(){
         let me = self.walkManager.currentLocation
         if self.isFriend {
-            self.recommandDatas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{!$0.isFriend}.map{$0.petProfile!}
-            
             self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{$0.isFriend}.map{
                 $0.setDistance(me)
             }
+            if self.recommandDatas.isEmpty {
+                self.dataProvider.requestData(q: .init(id:self.tag, type: .getRecommandationFriends, isOptional: true))
+            }
+            
         } else {
             self.recommandDatas = []
             self.datas = self.walkManager.missionUsers.filter{$0.petProfile != nil}.filter{!$0.isFriend}.map{
@@ -126,7 +139,15 @@ struct UsersView: PageComponent, Identifiable{
             }
         }
     }
-    
+    private func setupRecommandDatas(_ datas:[UserAndPet]){
+        self.recommandDatas = datas.filter{$0.pet != nil}
+            .map{PetProfile(
+                data: $0.pet ?? PetData(),
+                userId: $0.user?.userId,
+                isFriend: $0.user?.isFriend ?? false)
+                
+            }
+    }
     
 }
 

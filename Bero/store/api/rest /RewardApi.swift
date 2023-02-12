@@ -42,14 +42,20 @@ extension RewardApi {
             }
         }
     }
+    
+    enum ValueType:String {
+        case Exp, Point
+    }
 }
 
 class RewardApi :Rest{
-    func getHistory(userId:String, page:Int?, size:Int?,  completion: @escaping (ApiItemResponse<RewardHistoryData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func getHistory(userId:String, type:ValueType, page:Int?, size:Int?,  completion: @escaping (ApiItemResponse<RewardHistoryData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["userId"] = userId
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description
+        params["rewardType"] = type.rawValue
+
         fetch(route: RewardApiRoute(action:.histories, query:params), completion: completion, error:error)
     }
 }

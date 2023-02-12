@@ -21,6 +21,13 @@ struct HistoryItem: PageComponent{
 
             }
         }
+        var apiType:RewardApi.ValueType {
+            switch self {
+            case .point : return .Point
+            case .exp : return .Exp
+            default : return .Exp
+            }
+        }
     }
     let id:String
     var type:HistoryType = .exp

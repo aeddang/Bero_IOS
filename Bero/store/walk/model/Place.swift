@@ -14,7 +14,7 @@ class Place:MapUserData{
     private(set) var placeId:Int = -1
     private(set) var googlePlaceId: String? = nil
     private(set) var visitorCount:Int = 0
-    private(set) var visitors: [PlaceVisitor] = []
+    private(set) var visitors: [UserAndPet] = []
     private(set) var playExp:Double = 0
     private(set) var playPoint:Int = 0
     private(set) var place:MissionPlace? = nil
@@ -52,7 +52,7 @@ class Place:MapUserData{
         self.isMark = true
         self.visitorCount += 1
         if let userData = user.currentProfile.originData, let petData = user.pets.first?.originData {
-            self.visitors.insert(PlaceVisitor(user: userData, pet:petData), at: 0)
+            self.visitors.insert(UserAndPet(user: userData, pet:petData), at: 0)
         }
     }
     

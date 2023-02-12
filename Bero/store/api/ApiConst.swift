@@ -39,6 +39,7 @@ enum ApiAction:String{
     case isRequested, requesting, request, accept, reject
     case read, send
     case histories, list
+    case friends
 }
 
 enum ApiValue:String{
@@ -94,7 +95,7 @@ enum ApiType{
          requestFriend(userId:String), deleteFriend(userId:String),
          rejectFriend(userId:String), acceptFriend(userId:String)
     
-    case getRewardHistory(userId:String, page:Int? = nil, size:Int? = nil)
+    case getRewardHistory(userId:String, type:RewardApi.ValueType, page:Int? = nil, size:Int? = nil)
     
     case getChats (userId:String, page:Int? = nil, size:Int? = nil),
          deleteChat(chatId:Int),
@@ -103,6 +104,7 @@ enum ApiType{
          getChatRooms (page:Int? = nil, size:Int? = nil),
          readChatRoom(roomId:Int),
          deleteChatRoom(roomId:Int)
+    case getRecommandationFriends
     
     func coreDataKey() -> String? {
         switch self {

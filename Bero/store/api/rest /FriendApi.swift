@@ -37,6 +37,7 @@ class FriendApi :Rest{
         params["otherUserId"] = userId
         fetch(route: FriendRoute(method: .delete, query: params), completion: completion, error:error)
     }
+    
 }
 
 struct FriendRoute : ApiRoute{

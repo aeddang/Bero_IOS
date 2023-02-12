@@ -16,13 +16,14 @@ class UserAlbumListItemData:InfinityData{
     private(set) var userProfile:UserProfile? = nil
     private(set) var petProfile:PetProfile? = nil
     private(set) var date:String? = nil
-    
+    private(set) var lv:Int? = nil
     
     func setData(_ data:PictureData, idx:Int) -> UserAlbumListItemData {
         self.index = idx
         self.albumData = AlbumListItemData().setData(data, idx: 0)
         if let user = data.user {
             self.userProfile = UserProfile().setData(data: user)
+            self.lv = user.level
         }
         if let pet = data.pets?.first(where: {$0.isRepresentative == true}) {
             self.petProfile = PetProfile(data: pet, userId: self.userProfile?.userId)
@@ -52,7 +53,7 @@ struct UserAlbumListItem: PageComponent{
                         type: .pet,
                         postId: self.data.postId,
                         title: pet.name,
-                        lv: pet.lv,
+                        lv: self.data.lv,
                         imagePath: pet.imagePath,
                         date: self.data.date,
                         action:self.moveUser
@@ -65,7 +66,7 @@ struct UserAlbumListItem: PageComponent{
                         type: .user,
                         postId: self.data.postId,
                         title: user.nickName,
-                        lv: user.lv,
+                        lv: self.data.lv,
                         imagePath: user.imagePath,
                         date: self.data.date,
                         action:self.moveUser

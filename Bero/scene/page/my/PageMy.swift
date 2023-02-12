@@ -87,7 +87,9 @@ struct PageMy: PageView {
                                         PageProvider.getPageObject(.myLv)
                                     )
                                 case .point :
-                                    self.appSceneObserver.event = .toast(String.alert.comingSoon)
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.myPoint)
+                                    )
                                 default :
                                     self.appSceneObserver.event = .toast(String.alert.comingSoon)
                                 }

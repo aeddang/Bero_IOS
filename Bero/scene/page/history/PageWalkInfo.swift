@@ -162,7 +162,7 @@ struct PageWalkInfo: PageView {
                 }
             }
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
-                if self.pictures?.isEmpty != false {return}
+                if !self.useScrollUi {return}
                 self.imageScale = 1.0 + (scrollPos*0.01)
                 if scrollPos > 0 {return}
                 PageLog.d("scrollPos " + scrollPos.description, tag: self.tag)
@@ -203,6 +203,7 @@ struct PageWalkInfo: PageView {
     @State var topOffSet:CGFloat = Dimen.margin.regular
     @State var imageScale:CGFloat = 1.0
     @State var pictures:[WalkPictureItem]? = nil
+    @State var useScrollUi:Bool = false
     private func loaded(_ res:ApiResultResponds){
         guard let data = res.data as? WalkData else { return }
         self.mission = Mission().setData(data)
@@ -216,6 +217,7 @@ struct PageWalkInfo: PageView {
         self.isMe = self.dataProvider.user.isSameUser(userId: self.userId)
         
         self.pictures = mission.walkPath?.pictures
+        self.useScrollUi = (self.pictures?.count ?? 0) > 1
     }
 }
 

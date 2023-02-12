@@ -41,10 +41,14 @@ class WalkPath:PageProtocol{
         datas.forEach{ data in
             guard let originlng = data.lng else {return}
             guard let originlat = data.lat else {return}
-            let randX = Double.random(in: -0.003...0.003)
-            let randY = Double.random(in: -0.003...0.003)
-            let lat = originlat + randX
-            let lng = originlng + randY
+            var lat = originlat
+            var lng = originlng
+            if SystemEnvironment.isTestMode {
+                let randX = Double.random(in: -0.003...0.003)
+                let randY = Double.random(in: -0.003...0.003)
+                lat = originlat + randX
+                lng = originlng + randY
+            }
             minX = min(minX, lng)
             maxX = max(maxX, lng)
             minY = min(minY, lat)

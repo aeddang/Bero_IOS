@@ -11,11 +11,13 @@ import SwiftUI
 class MultiProfileListItemData:InfinityData{
     private(set) var user:UserProfile? = nil
     private(set) var pet:PetProfile? = nil
-    func setData(_ data:PlaceVisitor, idx:Int) -> MultiProfileListItemData{
+    private(set) var lv:Int? = nil
+    func setData(_ data:UserAndPet, idx:Int) -> MultiProfileListItemData{
         self.index = idx
         self.contentID = data.user?.userId ?? ""
         if let userData = data.user {
             self.user = UserProfile().setData(data: userData)
+            self.lv = userData.level
         }
         if let petData = data.pet {
             self.pet = PetProfile(data: petData)
@@ -33,7 +35,7 @@ struct MultiProfileListItem: PageComponent{
                     HorizontalProfile(
                         type: .pet,
                         imagePath: petProfile.imagePath,
-                        lv: petProfile.lv,
+                        lv: self.data.lv,
                         name: petProfile.name,
                         gender: petProfile.gender,
                         age: petProfile.birth?.toAge(),

@@ -63,6 +63,7 @@ class ApiManager :PageProtocol, ObservableObject{
     let friend:FriendApi
     let reward:RewardApi
     let chat:ChatApi
+    let recommendation:RecommendationApi
     //Store Api
     let auth:AuthApi
     let userUpdate:UserApi
@@ -91,6 +92,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.reward = RewardApi(network: self.network)
         self.chat = ChatApi(network: self.network)
         self.walking = WalkApi(network: self.network)
+        self.recommendation = RecommendationApi(network: self.network)
     }
     
     func clear(){
@@ -103,6 +105,7 @@ class ApiManager :PageProtocol, ObservableObject{
         self.friend.clear()
         self.reward.clear()
         self.chat.clear()
+        self.recommendation.clear()
         self.apiQ.removeAll()
     }
     
@@ -404,8 +407,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.friend.delete(userId: userId,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
-        case .getRewardHistory(let userId, let page, let size) :
-            self.reward.getHistory(userId: userId, page: page, size: size,
+        case .getRewardHistory(let userId, let value, let page, let size) :
+            self.reward.getHistory(userId: userId, type : value, page: page, size: size,
                                       completion: {res in self.complated(id: apiID, type: type, res: res)},
                                       error:error)
             
@@ -437,6 +440,10 @@ class ApiManager :PageProtocol, ObservableObject{
             self.chat.putRoom(roomId: roomId,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
+        case .getRecommandationFriends :
+            self.recommendation.get(action: .friends,
+                                    completion: {res in self.complated(id: apiID, type: type, res: res)},
+                                    error:error)
         
         default: break
         }

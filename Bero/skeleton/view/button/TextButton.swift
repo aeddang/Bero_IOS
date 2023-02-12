@@ -10,19 +10,88 @@ import Foundation
 import SwiftUI
 import FirebaseAnalytics
 struct TextButton: View, SelecterbleProtocol, PageProtocol{
+    enum ButtonType{
+        case box, blank
+        var bgColor:Color{
+            get{
+                switch self {
+                case .box : return Color.app.whiteDeepLight
+                default : return Color.transparent.clearUi
+                }
+            }
+        }
+        
+        var bgRadius:CGFloat
+        {
+            get{
+                switch self {
+                case .box : return Dimen.radius.regular
+                default : return 0
+                }
+            }
+        }
+        var paddingVertical:CGFloat
+        {
+            get{
+                switch self {
+                case .box : return Dimen.margin.tinyExtra
+                default : return 0
+                }
+            }
+        }
+        var paddingHorizontal:CGFloat
+        {
+            get{
+                switch self {
+                case .box : return Dimen.margin.light
+                default : return 0
+                }
+            }
+        }
+        var textFamily:String{
+            get{
+                switch self {
+                case .box : return Font.family.medium
+                default : return Font.family.semiBold
+                }
+            }
+        }
+        var textSize:CGFloat
+        {
+            get{
+                switch self {
+                case .box : return Font.size.thin
+                default : return Font.size.light
+                }
+            }
+        }
+        var textColor:Color{
+            get{
+                switch self {
+                case .box : return Color.app.grey400
+                default : return Color.app.black
+                }
+            }
+        }
+        var activeColor:Color{
+            get{
+                switch self {
+                case .box : return Color.app.white
+                default : return Color.brand.primary
+                }
+            }
+        }
+    }
+    var type:ButtonType = .blank
     var defaultText:String
+    var activeText:String? = nil
     var isSelected: Bool = false
     var index: Int = 0
-    var activeText:String? = nil
-    var textModifier:TextModifier = TextModifier(
-        family: Font.family.semiBold,
-        size: Font.size.light,
-        color: Color.app.black,
-        activeColor: Color.brand.primary)
-    
+    var textModifier:TextModifier? = nil
     var isUnderLine:Bool = false
     var image:String? = nil
     var imageSize:CGFloat = Dimen.icon.tiny
+    var imageMode:Image.TemplateRenderingMode = .original
     var spacing:CGFloat = Dimen.margin.tiny
     let action: (_ idx:Int) -> Void
     
@@ -38,25 +107,41 @@ struct TextButton: View, SelecterbleProtocol, PageProtocol{
             HStack(alignment:.center, spacing: spacing){
                 if self.isUnderLine {
                     Text(self.isSelected ? ( self.activeText ?? self.defaultText ) : self.defaultText)
-                    .font(.custom(textModifier.family, size: textModifier.size))
+                        .font(.custom(
+                            textModifier?.family ?? self.type.textFamily,
+                            size: textModifier?.size ?? self.type.textSize))
                     .underline()
-                    .foregroundColor(self.isSelected ? textModifier.activeColor : textModifier.color)
+                    .foregroundColor(self.isSelected
+                                     ? textModifier?.activeColor ?? self.type.activeColor
+                                     : textModifier?.color ?? self.type.textColor)
                     .lineLimit(1)
                 } else {
                     
                     Text(self.isSelected ? ( self.activeText ?? self.defaultText ) : self.defaultText)
-                    .font(.custom(textModifier.family, size: textModifier.size))
-                    .foregroundColor(self.isSelected ? textModifier.activeColor : textModifier.color)
+                        .font(.custom(
+                            textModifier?.family ?? self.type.textFamily,
+                            size: textModifier?.size ?? self.type.textSize))
+                        .foregroundColor(self.isSelected
+                                         ? textModifier?.activeColor ?? self.type.activeColor
+                                         : textModifier?.color ?? self.type.textColor)
                     .lineLimit(1)
                 }
-                if self.image != nil {
-                    Image(self.image!)
-                    .renderingMode(.original).resizable()
-                    .scaledToFit()
-                    .frame(width: self.imageSize, height: self.imageSize)
-                    .padding(.bottom, 1)
+                if let img = self.image {
+                    Image(img)
+                        .renderingMode(self.imageMode).resizable()
+                        .scaledToFit()
+                        .foregroundColor(
+                            self.isSelected
+                                 ? textModifier?.activeColor ?? self.type.activeColor
+                                 : textModifier?.color ?? self.type.textColor)
+                        .frame(width: self.imageSize, height: self.imageSize)
+                        .padding(.bottom, 1)
                 }
             }
+            .padding(.vertical,  self.type.paddingVertical)
+            .padding(.horizontal,  self.type.paddingHorizontal)
+            .background(self.type.bgColor)
+            .clipShape(RoundedRectangle(cornerRadius: self.type.bgRadius))
         }.buttonStyle(BorderlessButtonStyle())
     }
 }
@@ -65,7 +150,7 @@ struct TextButton: View, SelecterbleProtocol, PageProtocol{
 struct TextButton_Previews: PreviewProvider {
     
     static var previews: some View {
-        Form{
+        VStack{
             TextButton(
                 defaultText:"test",
                 isUnderLine: true,
@@ -73,7 +158,15 @@ struct TextButton_Previews: PreviewProvider {
                 ){_ in
                 
             }
-            .frame( alignment: .center)
+            
+            TextButton(
+                type: .box,
+                defaultText:"test",
+                image: Asset.icon.direction_right,
+                imageMode: .template
+                ){_ in
+                
+            }
         }
     }
 }

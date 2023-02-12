@@ -14,15 +14,14 @@ struct LvSection: PageComponent{
             ){_ in
                 self.appSceneObserver.event = .toast(String.pageText.myLvText2.replace(self.lv.title))
             }
-            ZStack{
-                Text(self.lv.title)
-                    .modifier(RegularTextStyle(size: Font.size.thin,color: Color.app.grey400))
-                    .padding(.vertical,  Dimen.margin.tinyExtra)
-                    .padding(.horizontal,  Dimen.margin.light)
-                    .multilineTextAlignment(.center)
+            TextButton(
+                type: .box,
+                defaultText:String.button.learnMore,
+                image: Asset.icon.direction_right,
+                imageMode: .template
+                ){_ in
+                    self.appSceneObserver.event = .toast(String.alert.comingSoon)
             }
-            .background(Color.app.whiteDeepLight)
-            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
             .padding(.top, Dimen.margin.tinyExtra)
             ProgressInfo(
                 leadingText: "Lv." + self.lvValue.description,

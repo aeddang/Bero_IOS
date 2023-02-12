@@ -27,7 +27,7 @@ struct ProfileImage:PageView{
                     Image(uiImage: img)
                         .renderingMode(.original)
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .modifier(MatchParent())
                         
                 } else if let path = self.imagePath {
