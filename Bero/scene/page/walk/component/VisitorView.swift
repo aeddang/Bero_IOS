@@ -198,7 +198,7 @@ struct VisitorHorizontalView: PageComponent, Identifiable{
                     }
                 }
             }
-            .frame(height: 96)
+            .frame(height: 106)
         }
         .background(Color.app.white)
     }

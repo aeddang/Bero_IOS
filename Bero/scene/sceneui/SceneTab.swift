@@ -44,7 +44,7 @@ struct SceneTab: PageComponent{
             VStack(alignment: .leading, spacing:0){
                 Spacer()
                 SimpleWalkBox()
-                    .opacity(self.isShowWalkBox ? 0 : 1)
+                    .opacity(self.isShowWalkBox ? 1 : 0)
                     .offset(x: self.isSimpleWalkView ? -SimpleWalkBox.offset : -200 )
                     .padding(.bottom, Dimen.margin.thin
                              + (self.isActiveChat ? (Dimen.app.chatBox + self.sceneObserver.safeAreaBottom) : 0))

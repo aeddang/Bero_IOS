@@ -49,12 +49,16 @@ struct PopupWalkPlace: PageView {
                         }
                         .padding(.all, Dimen.margin.regular)
                     }
-                    .padding(.bottom, self.appSceneObserver.safeBottomHeight)
+                    .padding(.bottom, self.appSceneObserver.safeBottomHeight + self.marginBottom)
                     .modifier(BottomFunctionTab(margin: 0))
                     .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 }
             }
-            
+            .onReceive(self.walkManager.$isSimpleView){ isSimpleView in
+                withAnimation{
+                    self.marginBottom = isSimpleView ? Dimen.margin.mediumUltra : 0
+                }
+            }
             .onReceive(self.pagePresenter.$event){ evt in
                 guard let evt = evt else {return}
                 switch evt.type {
@@ -91,7 +95,7 @@ struct PopupWalkPlace: PageView {
     
     @State var current:Place? =  nil
     @State var pages: [Place] = []
-   
+    @State var marginBottom:CGFloat = 0
     private func move(idx:Int){
         if idx < 0 {return}
         if idx >= self.pages.count {return}
@@ -99,7 +103,7 @@ struct PopupWalkPlace: PageView {
         if self.current?.placeId == page.placeId { return }
         withAnimation{ self.current = page }
         guard let loc = page.location else {return}
-        let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0002, longitude: loc.coordinate.longitude)
+        let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0003, longitude: loc.coordinate.longitude)
         self.walkManager.uiEvent = .moveMap(modifyLoc)
         
     }
