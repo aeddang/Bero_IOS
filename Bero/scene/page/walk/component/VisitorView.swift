@@ -44,9 +44,16 @@ struct VisitorView: PageComponent, Identifiable{
                     ))
                 ForEach(self.datas) { data in
                     PetProfileUser(profile: data, friendStatus: data.isFriend ? .chat : .norelation){
-                        self.pagePresenter.openPopup(
-                            PageProvider.getPageObject(.user).addParam(key: .id, value:data.userId)
-                        )
+                        if self.dataProvider.user.isSameUser(userId: data.userId) {
+                            self.pagePresenter.changePage(
+                                PageProvider.getPageObject(.my)
+                            )
+                        } else {
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.user).addParam(key: .id, value:data.userId)
+                            )
+                        }
+                        
                     }
                     .onAppear{
                         if  data.index == (self.datas.count-1) {

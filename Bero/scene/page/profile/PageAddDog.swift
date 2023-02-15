@@ -14,25 +14,27 @@ import Firebase
 import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
+
 extension PageAddDog{
     enum Step: CaseIterable{
         //case name, picture, gender, birth, breed, immun, hash, identify
         case name, picture, gender, birth, breed, hash
         var description:String {
             switch self {
-            case .name: return "What is the name of your dog?"
-            case .picture : return "Select %s’s profile picture"
-            case .gender : return "Which is %s’s gender??"
+            case .name: return "Tell us your beloved dog's name!"
+            case .picture : return "Select your favorite photo of %s!"
+            case .gender : return "What is %s’s gender?"
             case .birth : return "When is %s’s birthday?"
-            case .breed : return "What is %s’s breed?"
+            case .breed : return "Find %s’s breed!"
             //case .immun : return "Health & Immunization"
-            case .hash : return "Select all that applies to %s."
+            case .hash : return "Share %s’s Personality."
             //case .identify : return "Identify %s."
             }
         }
         var caption:String? {
             switch self {
-            case .birth : return "If you don’t know the exact birthday,\ninsert your best guess."
+            case .birth : return "If you don’t know the exact birthday put your best guess."
+            case .hash : return "Choose all the tags that related with %s."
             default : return nil
             }
         }
@@ -120,7 +122,7 @@ struct PageAddDog: PageView {
                     StepInfo(index: self.currentCount + 1, total: self.totalCount,
                                  image: self.profile.image,
                                  info: self.currentStep.description.replace(self.profile.name ?? ""),
-                                 subInfo: self.currentStep.caption
+                                 subInfo: self.currentStep.caption?.replace(self.profile.name ?? "")
                     )
                 
                     switch self.currentStep {
