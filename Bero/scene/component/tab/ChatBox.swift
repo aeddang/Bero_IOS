@@ -77,15 +77,16 @@ struct ChatBox: PageComponent{
                 withAnimation{self.isShow = isActive}
                 
             case .sendChat(let userId) :
-                self.input = ""
-                self.sendUser = userId
-                self.isFocus  = true
-                withAnimation{self.isActive = false}
-                withAnimation{self.isShow = true}
                 if self.repository.storage.isFirstChat {
                     self.repository.storage.isFirstChat = false
-                    self.appSceneObserver.alert = .alert(nil, String.alert.firstChatMessage)
+                    self.appSceneObserver.alert = .alert(nil, String.alert.firstChatMessage){
+                        self.inputChat(userId: userId)
+                    }
+                } else {
+                    self.inputChat(userId: userId)
                 }
+                
+                
                 
             default : break
             }
@@ -101,7 +102,13 @@ struct ChatBox: PageComponent{
             }
         }
     }
-    
+    private func inputChat(userId:String){
+        self.input = ""
+        self.sendUser = userId
+        self.isFocus  = true
+        withAnimation{self.isActive = false}
+        withAnimation{self.isShow = true}
+    }
     private func sendMessage(){
         if self.input.isEmpty { return }
         self.dataProvider.requestData(q: .init(id: self.tag, type: .sendChat(userId: self.sendUser, contents: self.input)))

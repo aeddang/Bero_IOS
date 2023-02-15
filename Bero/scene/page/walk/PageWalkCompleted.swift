@@ -75,18 +75,17 @@ struct PageWalkCompleted: PageView {
     private func pickImage(_ img:UIImage) {
         self.pagePresenter.isLoading = true
         DispatchQueue.global(qos:.background).async {
-            let scale:CGFloat = 1 //UIScreen.main.scale
             let size = CGSize(
-                width: AlbumApi.originSize * scale,
-                height: AlbumApi.originSize * scale)
+                width: AlbumApi.originSize,
+                height: AlbumApi.originSize)
             let image = img.normalized().crop(to: size).resize(to: size)
             
             let sizeList = CGSize(
-                width: AlbumApi.thumbSize * scale,
-                height: AlbumApi.thumbSize * scale)
+                width: AlbumApi.thumbSize,
+                height: AlbumApi.thumbSize)
             let thumbImage = img.normalized().crop(to: sizeList).resize(to: sizeList)
             DispatchQueue.main.async {
-                self.sendResult(img: img, thumbImage: thumbImage)
+                self.sendResult(img: image, thumbImage: thumbImage)
             }
         }
     }

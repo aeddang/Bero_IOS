@@ -47,21 +47,7 @@ struct PageDog: PageView {
                         }
                     )
                     if let profile = self.profile {
-                        /*
-                        ZStack{
-                            PetProfileTopInfo(profile: profile){
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.modifyPet)
-                                        .addParam(key: .data, value: profile)
-                                )
-                            }
-                            .frame(height: self.originTopHeight)
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                        }
-                        .frame(height: self.topHeight)
-                        .padding(.top, Dimen.margin.medium * (self.topHeight/self.originTopHeight))
-                        .opacity(self.topHeight/Self.height)
-                        */
+                        
                         InfinityScrollView(
                             viewModel: self.infinityScrollModel,
                             axes: .vertical,
@@ -72,12 +58,15 @@ struct PageDog: PageView {
                             isRecycle: false,
                             useTracking: true
                         ){
-                            PetProfileTopInfo(profile: profile){
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.modifyPet)
-                                        .addParam(key: .data, value: profile)
-                                )
-                            }
+                            PetProfileTopInfo(
+                                profile: profile,
+                                editProfile :{
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.modifyPet)
+                                            .addParam(key: .data, value: profile)
+                                    )
+                                }
+                            )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                             
                             PetTagSection(
@@ -108,7 +97,7 @@ struct PageDog: PageView {
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.heavyExtra)
-                                
+                                /*
                                 if !self.dataProvider.user.isSameUser(self.user) && !self.fromUserPage ,
                                     let user = self.user?.currentProfile {
                                     UserProfileItem(
@@ -118,7 +107,7 @@ struct PageDog: PageView {
                                     )
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                                     .padding(.vertical, Dimen.margin.heavyExtra)
-                                }
+                                }*/
                             }
                         }
                         .background(Color.brand.bg)

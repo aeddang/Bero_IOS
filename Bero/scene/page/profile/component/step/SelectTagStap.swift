@@ -168,6 +168,7 @@ struct SelectTagStep: PageComponent{
             self.selects.append(value)
         } else {
             if let find = self.selects.firstIndex(of: value) {
+                
                 self.selects.remove(at: find)
             }
         }

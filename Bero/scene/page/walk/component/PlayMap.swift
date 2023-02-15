@@ -43,10 +43,15 @@ extension PlayMap {
     static let zoomDefault:Float = 17.0
     static let zoomOut:Float = 16.0
     static let zoomFarAway:Float = 15
-    static let zoomSimpleView:Float = 14.5
     static let mapMoveDuration:Double = 0.5
     static let mapMoveAngle:Double = 0 //3D 맵사용시 설정
     static let routeViewDuration:Double = 4
+    
+    static let zoomFarAwayView:Float = 14.5
+    static let zoomCloseView:Float = 18.0
+    enum ZoomType {
+        case close, normal, farAway
+    }
 }
 
 struct PlayMap: PageView {
@@ -58,7 +63,7 @@ struct PlayMap: PageView {
    
     @Binding var isFollowMe:Bool
     @Binding var isForceMove:Bool
-    @State var isSimpleView:Bool = true
+    @State var zoomType:ZoomType = .normal
     @State var anyCancellable = Set<AnyCancellable>()
     var bottomMargin:CGFloat = 0
     var body: some View {
@@ -126,14 +131,16 @@ struct PlayMap: PageView {
         .onReceive(self.viewModel.$position){ pos in
             guard let pos = pos else {return}
             let zoom = pos.zoom
-            var willSimple = self.isSimpleView
-            if zoom < Self.zoomSimpleView {
-                willSimple = true
+            var willType = self.zoomType
+            if zoom < Self.zoomFarAwayView {
+                willType = .farAway
+            } else if zoom > Self.zoomCloseView{
+                willType = .close
             } else {
-                willSimple = false
+                willType = .normal
             }
-            if willSimple != self.isSimpleView {
-                self.isSimpleView = willSimple
+            if willType != self.zoomType {
+                self.zoomType = willType
                 self.onMarkerUpdate()
             }
             
@@ -169,10 +176,13 @@ struct PlayMap: PageView {
         var zip:[MapUiEvent] = [
             .clearAll(exception: ["me"])
         ]
-        zip.append(.addMarkers(self.getUsers()))
-        zip.append(.addMarkers(self.getPlaces()))
-        
-        if self.isSimpleView {
+        if self.zoomType != .close {
+            zip.append(.addMarkers(self.getUsers()))
+        }
+        if self.zoomType != .farAway {
+            zip.append(.addMarkers(self.getPlaces()))
+        }
+        if self.zoomType == .farAway {
             zip.append(.addCircles(self.getSummarys()))
         }
         
@@ -252,7 +262,6 @@ struct PlayMap: PageView {
         }
     }
     private func onMissionEnd(_ data:Mission){
-        //let marker:MapMarker = .init(id:data.missionId.description, marker: self.getMissionMarker(data))
         self.currentRoute = nil
         self.isMissionStart = false
         let zip:[MapUiEvent] = [
@@ -288,7 +297,7 @@ struct PlayMap: PageView {
     }
     
     private func getUsers()->[MapMarker]{
-        let origin = self.isSimpleView ? self.walkManager.missionUsersSummary : self.walkManager.missionUsers
+        let origin = self.zoomType == .farAway ? self.walkManager.missionUsersSummary : self.walkManager.missionUsers
         let datas = origin.filter{
             $0.location != nil
         }
@@ -298,7 +307,7 @@ struct PlayMap: PageView {
     }
     
     private func getPlaces()->[MapMarker]{
-        let origin = self.isSimpleView ? self.walkManager.placesSummary : self.walkManager.places
+        let origin = self.zoomType == .farAway ? self.walkManager.placesSummary : self.walkManager.places
         let datas = origin.filter{$0.location != nil && $0.googlePlaceId?.isEmpty == false}
         let markers:[MapMarker] = datas.map{ data in
             return .init(id:data.googlePlaceId ?? "", marker: self.getPlaceMarker(data))
@@ -307,8 +316,9 @@ struct PlayMap: PageView {
     }
     
     private func getSummarys()->[MapCircle]{
-        var summary:[MapUserData] = self.walkManager.placesSummary
-        summary.append(contentsOf: self.walkManager.missionUsersSummary)
+        let summary:[MapUserData] = self.walkManager.missionUsersSummary
+        //var summary:[MapUserData] = self.walkManager.placesSummary
+        //summary.append(contentsOf: self.walkManager.missionUsersSummary)
         let markers:[MapCircle] = summary.map{ data in
             return .init(id:data.id, marker: self.getCircle(data: data))
         }

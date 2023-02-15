@@ -367,8 +367,8 @@ class ApiManager :PageProtocol, ObservableObject{
                                  completion: {res in self.complated(id: apiID, type: type, res: res)},
                                  error:error)
         
-        case .getPlace(let location, let distance, let searchType) :
-            self.place.get(location: location, distance: distance, searchType: searchType,
+        case .getPlace(let location, let distance, let searchType, let zip) :
+            self.place.get(location: location, distance: distance, searchType: searchType, zip:zip,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
         case .getPlaceVisitors(let placeId, let page , let size) :

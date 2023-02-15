@@ -8,7 +8,8 @@ struct PetProfileTopInfo: PageComponent{
     var distance:Double? = nil
     var isHorizontal:Bool = false
     var isSimple:Bool = false
-    var action: (() -> Void)? = nil
+    var viewProfile: (() -> Void)? = nil
+    var editProfile: (() -> Void)? = nil
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
             if !self.isHorizontal {
@@ -26,7 +27,8 @@ struct PetProfileTopInfo: PageComponent{
                     age: self.age,
                     breed: self.breed,
                     description: self.isSimple ? nil : self.description,
-                    editProfile: self.profile.isMypet ? self.action : nil
+                    viewProfile: self.viewProfile,
+                    editProfile: self.profile.isMypet ? self.editProfile : nil
                 )
             } else {
                 HorizontalProfile(
@@ -45,11 +47,11 @@ struct PetProfileTopInfo: PageComponent{
                     isSelected: false,
                     useBg: false,
                     action: { _ in
-                        self.action?()
+                        self.viewProfile?()
                     }
                 )
                 .onTapGesture {
-                    self.action?()
+                    self.viewProfile?()
                 }
                 if !self.isSimple, let description = self.description{
                     ZStack{

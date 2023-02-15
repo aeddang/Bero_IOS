@@ -103,7 +103,7 @@ extension WalkManager {
     
     enum Filter{
         case all, friends, notUsed, complete, new,
-             cafe, restaurant, petShop, vet
+             cafe, restaurant, petShop, vet, manual
         
         static func getSortType(keyward:String)->Filter?{
             switch keyward {
@@ -146,13 +146,14 @@ extension WalkManager {
             }
         }
         
-        var keyward:String{
+        var keyward:String?{
             switch self {
             case .restaurant : return "restaurant"
             case .cafe : return "cafe"
             case .petShop : return "pet_store"
             case .vet : return "hospital"
-            default : return ""
+            case .manual : return ""
+            default : return nil
             }
         }
         
@@ -167,6 +168,7 @@ extension WalkManager {
             case .restaurant: return String.sort.restaurant
             case .petShop: return String.sort.salon
             case .vet: return String.sort.vet
+            case .manual: return ""
             }
         }
         
@@ -181,6 +183,7 @@ extension WalkManager {
             case .restaurant: return String.sort.restaurantText
             case .petShop: return String.sort.salonText
             case .vet: return String.sort.vetText
+            case .manual: return ""
             }
         }
     }
@@ -221,7 +224,7 @@ class WalkManager:ObservableObject, PageProtocol{
     private (set) var walkId:Int? = nil
     private (set) var placeDatas:[String:[Place]] = [:]
     private (set) var userFilter:Filter = .all
-    private (set) var placeFilters:[Filter] = [.vet, .restaurant, .cafe, .petShop]
+    private (set) var placeFilters:[Filter] = [.restaurant] //[.vet, .restaurant, .cafe, .petShop]
     private (set) var missionFilter:Filter = .notUsed
     private (set) var updateImages:[UIImage] = []
  
@@ -338,14 +341,20 @@ class WalkManager:ObservableObject, PageProtocol{
             }
             return
         }
-        
-        self.placeFilters.forEach{ filter in
-            let searchKeyward:String = filter.keyward
-            if searchKeyward.isEmpty {return}
-            if self.placeDatas[searchKeyward] == nil {
-                self.dataProvider.requestData(q: .init(id: self.tag, type: .getPlace(location, distance: Self.distanceUnit, searchType: searchKeyward), isOptional: true))
+        self.locationObserver.convertLocationToAddress(location: location){ address in
+            let zip = address.zipCode
+            self.placeFilters.forEach{ filter in
+                guard let searchKeyward = filter.keyward else {return}
+                //if searchKeyward == nil {return}
+                if self.placeDatas[searchKeyward] == nil {
+                    self.dataProvider.requestData(
+                        q: .init(
+                            id: self.tag,
+                            type: .getPlace(location, distance: Self.distanceUnit, searchType: searchKeyward, zip:zip), isOptional: true))
+                }
             }
         }
+        
         self.checkOnReadyPlaceData()
         if self.missionUsers.isEmpty {
             switch self.userFilter {
@@ -575,7 +584,7 @@ class WalkManager:ObservableObject, PageProtocol{
             if let datas = res.data as? [WalkUserData] {
                 self.filterUser(datas: datas)
             }
-        case .getPlace(_, _ , let searchType) :
+        case .getPlace(_, _ , let searchType, _) :
             if let datas = res.data as? [PlaceData], let key = searchType {
                 let me = self.dataProvider.user.snsUser?.snsID ?? ""
                 let placeDatas = datas.map{Place().setData($0, me:me, sortType: Filter.getSortType(keyward: key))}
@@ -620,7 +629,7 @@ class WalkManager:ObservableObject, PageProtocol{
             self.viewRouteEnd()
     
             
-        case .getPlace(_, _ , let searchType) :
+        case .getPlace(_, _ , let searchType, _) :
             if let key = searchType {
                 self.placeDatas[key] = []
                 self.checkOnReadyPlaceData()
@@ -680,8 +689,8 @@ class WalkManager:ObservableObject, PageProtocol{
     
     private func checkOnReadyPlaceData(){
         let find = self.placeFilters.first(where: { filter in
-            if filter.keyward.isEmpty {return false}
-            return self.placeDatas[filter.keyward] == nil
+            guard let keyward = filter.keyward else {return false}
+            return self.placeDatas[keyward] == nil
         })
         if find == nil {
             self.filterPlace()
@@ -715,7 +724,8 @@ class WalkManager:ObservableObject, PageProtocol{
         DataLog.d("filterPlace start", tag: self.tag)
         let initDatas:[Place] = []
         let datas:[Place] = self.placeFilters.reduce(initDatas, { prev, filter in
-            var addDatas:[Place] = self.placeDatas[filter.keyward] ?? []
+            guard let keyward = filter.keyward else {return []}
+            var addDatas:[Place] = self.placeDatas[keyward] ?? []
             //addDatas.shuffle()
             //var add:[Place] = Array(addDatas.prefix(10))
             addDatas.append(contentsOf: prev)

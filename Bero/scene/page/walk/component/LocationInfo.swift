@@ -101,6 +101,7 @@ struct LocationInfo: PageComponent{
         guard let loc = self.walkManager.currentLocation else {return}
         self.requestWeather(loc:loc)
         self.walkManager.locationObserver.convertLocationToAddress(location: loc){ address in
+
             guard let state = address.state else {return}
             if let city = address.city {
                 if let street = address.street {

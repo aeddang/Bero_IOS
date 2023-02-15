@@ -172,7 +172,7 @@ extension PlayMap {
         }
         let icon = UIImage(named: data.isMark ? type.iconMark : type.icon)
         let image = UIImageView(image: icon)
-        //let view = MapPlaceView(frame:.infinite)
+        let view = MapPlaceView(frame:.infinite)
         marker.iconView = image
         marker.title = data.title ?? "Place"
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)

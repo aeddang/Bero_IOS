@@ -85,7 +85,7 @@ enum ApiType{
          sendReport(reportType:MiscApi.ReportType, postId:String? = nil, userId : String? = nil),
          getBanner(id:String)
    
-    case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil),
+    case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil, zip:String? = nil),
          getPlaceVisitors(placeId:Int, page:Int? = nil, size:Int? = nil),
          registVisit(Place)
     

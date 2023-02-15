@@ -46,6 +46,7 @@ struct VerticalProfile: PageComponent{
     var breed:String? = nil
     var info:String? = nil
     var description:String? = nil
+    var viewProfile: (() -> Void)? = nil
     var editProfile: (() -> Void)? = nil
     var body: some View {
         VStack(alignment: self.alignment, spacing:Dimen.margin.regularExtra){
@@ -66,6 +67,16 @@ struct VerticalProfile: PageComponent{
                         defaultColor: Color.app.black
                     ){ _ in
                         edit()
+                    }
+                    .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
+                }else if let view = self.viewProfile {
+                    CircleButton(
+                        type: .icon(Asset.icon.search),
+                        isSelected: false,
+                        strokeWidth: Dimen.stroke.regular,
+                        defaultColor: Color.app.black
+                    ){ _ in
+                        view()
                     }
                     .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
                 }else if let value = self.lv, let lv = Lv.getLv(value) {

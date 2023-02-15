@@ -27,6 +27,7 @@ struct MyDogsSection: PageComponent{
                                     PageProvider.getPageObject(.modifyUser)
                                 )
                             }
+                            .frame(width: Dimen.item.petList)
                         }
                         ForEach(self.pets.filter{!$0.isRepresentative}) { pet in
                             PetProfileInfo( profile: pet){

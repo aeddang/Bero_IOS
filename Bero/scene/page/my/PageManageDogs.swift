@@ -52,8 +52,6 @@ struct PageManageDogs: PageView {
                         isRecycle: false,
                         useTracking: true
                     ){
-                       
-                        
                         ForEach(self.pets) { pet in
                             PetProfileEditable(
                                 profile: pet,
@@ -127,7 +125,9 @@ struct PageManageDogs: PageView {
         self.appSceneObserver.sheet = .select(
             String.alert.deleteDogTitle.replace(profile.name ?? String.app.name),
             String.alert.deleteDogText,
-            [String.app.cancel,String.alert.deleteConfirm]){ idx in
+            [String.app.cancel,String.alert.deleteConfirm],
+            isNegative: true
+        ){ idx in
                 if idx == 1 {
                     self.dataProvider.requestData(q: .init(type: .deletePet(petId: profile.petId)))
                 }

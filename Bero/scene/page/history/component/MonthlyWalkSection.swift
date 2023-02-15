@@ -11,10 +11,7 @@ struct MonthlyWalkSection: PageComponent{
     var listSize:CGFloat = 300
     var body: some View {
        // VStack(alignment: .leading, spacing:Dimen.margin.medium){
-            CPCalendar(
-                viewModel: self.calenderModel
-            )
-            Spacer().modifier(LineHorizontal())
+            
             Text(self.currentDate)
                 .modifier(MediumTextStyle(
                     size: Font.size.thin,

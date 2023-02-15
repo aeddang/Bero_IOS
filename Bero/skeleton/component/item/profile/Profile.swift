@@ -141,7 +141,6 @@ struct ProfileInfoDescription:PageView{
                             color: self.color
                         ))
                 }
-                    
                 Text(breedValue)
                     .modifier(RegularTextStyle(
                         size: Font.size.thin,

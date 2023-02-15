@@ -27,7 +27,6 @@ extension FriendList {
         }
         var buttons:[TitleTab.ButtonType]{
             switch self {
-            case .chat : return [.addFriend ]
             case .friend : return [.addFriend, .more]
             default : return []
             }

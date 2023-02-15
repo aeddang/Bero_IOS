@@ -40,10 +40,11 @@ struct SelectTagEdit: PageComponent{
                                             self.selects.first(where: {cell.value == $0}) != nil
                                             ? Color.brand.primary : Color.app.grey400,
                                         isSort: false){
-                                            self.selected(btn: cell, isSelect: !cell.isSelected)
+                                            let isSelect = self.selects.first(where: {cell.value == $0}) != nil
+                                            self.selected(btn: cell, isSelect: !isSelect)
+                                            
                                         }
                                         .fixedSize()
-                                
                                 }
                             }
                         }
@@ -150,6 +151,7 @@ struct SelectTagEdit: PageComponent{
             self.selects.append(value)
         } else {
             if let find = self.selects.firstIndex(of: value) {
+               
                 self.selects.remove(at: find)
             }
         }

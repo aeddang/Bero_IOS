@@ -30,10 +30,12 @@ struct Toast<Presenting>: View where Presenting: View {
         ZStack(alignment: .bottom) {
             self.presenting()
             Text(self.text)
-                .modifier(MediumTextStyle(size: Font.size.thin, color: Color.brand.primary))
+                .modifier(MediumTextStyle(size: Font.size.thin, color: Color.app.white))
             .padding(.all, Dimen.margin.light)
             .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,  maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .center)
-            .background(Color.app.white)
+            .padding(.bottom, self.safeAreaBottom)
+            .background(Color.transparent.black80)
+            /*
             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
             .overlay(
                 RoundedRectangle(cornerRadius:Dimen.radius.tiny)
@@ -44,10 +46,10 @@ struct Toast<Presenting>: View where Presenting: View {
             )
             .padding(.bottom, self.safeAreaBottom)
             .padding(.horizontal, Dimen.margin.regular)
+            */
             .offset(y:self.isShowing ? 0 : 100)
             .opacity(self.isShowing ? 1 : 0)
         }
-       
         .onReceive(self.sceneObserver.$safeAreaBottom){ pos in
             withAnimation{
                 self.safeAreaBottom = pos

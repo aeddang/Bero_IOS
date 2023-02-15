@@ -96,8 +96,8 @@ struct PopupWalkUser: PageView {
         if self.current?.missionId == page.missionId { return }
         self.current = page
         guard let loc = page.location else {return}
-        let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0003, longitude: loc.coordinate.longitude)
-        self.walkManager.uiEvent = .moveMap(modifyLoc)
+        let modifyLoc = CLLocation(latitude: loc.coordinate.latitude-0.0005, longitude: loc.coordinate.longitude)
+        self.walkManager.uiEvent = .moveMap(modifyLoc, zoom: PlayMap.zoomCloseView)
         
     }
 }

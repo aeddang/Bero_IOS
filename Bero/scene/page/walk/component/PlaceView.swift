@@ -25,10 +25,11 @@ struct PlaceView: PageComponent{
                 sortTitle: self.place.sortType?.getTitle(type: .place),
                 title: self.place.title,
                 description: self.place.place?.vicinity,
-                distance: self.distance,
+                distance: self.distance
+                /*
                 action: {
                     self.walkManager.viewRoute(place: self.place)
-                }
+                }*/
             )
             .padding(.horizontal, Dimen.app.pageHorinzontal)
             .padding(.top, Dimen.margin.regular)

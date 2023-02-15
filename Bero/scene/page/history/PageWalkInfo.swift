@@ -16,7 +16,7 @@ import FirebaseCore
 import GoogleSignInSwift
 
 extension PageWalkInfo {
-    static let topScrollDefault:CGFloat = 220
+    static let topScrollDefault:CGFloat = 240
     static let topScrollMax:CGFloat = 320
 }
 
@@ -48,6 +48,7 @@ struct PageWalkInfo: PageView {
                             default : break
                             }
                         })
+                    .zIndex(999)
                     ZStack(alignment: .top){
                         ZStack(alignment: .topTrailing){
                             if let path = self.mission?.pictureUrl {
@@ -70,7 +71,7 @@ struct PageWalkInfo: PageView {
                                     .aspectRatio(contentMode: .fill)
                                     .modifier(MatchParent())
                             }
-                            if let pets = self.mission?.user?.pets {
+                            if self.isMe, let pets = self.mission?.user?.pets {
                                 HStack(spacing:Dimen.margin.micro){
                                     ForEach(pets) { profile in
                                         Button(action: {
@@ -91,6 +92,23 @@ struct PageWalkInfo: PageView {
                                     }
                                 }
                                 .fixedSize()
+                                .padding(.all, Dimen.margin.regular)
+                            } else if !self.isMe, let user =  self.mission?.user,
+                                      let img = user.representativePet?.imagePath ?? user.currentProfile.imagePath {
+                                Button(action: {
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.user)
+                                            .addParam(key: .data, value:user)
+                                    )
+                                }) {
+                                    ProfileImage(
+                                        imagePath: img,
+                                        isSelected: true,
+                                        strokeColor: Color.app.white,
+                                        size: Dimen.profile.thin,
+                                        emptyImagePath: Asset.image.profile_dog_default
+                                    )
+                                }
                                 .padding(.all, Dimen.margin.regular)
                             }
                         }
@@ -114,7 +132,25 @@ struct PageWalkInfo: PageView {
                                         isRecycle: false,
                                         useTracking: true
                                     ){
-                                        WalkTopInfo(mission: mission, isMe: self.isMe)
+                                        HStack(spacing: 0){
+                                            VStack(alignment: .leading, spacing: 0){
+                                                Spacer().modifier(MatchHorizontal(height: 0))
+                                                WalkTopInfo(mission: mission, isMe: self.isMe)
+                                            }
+                                            if !self.isMe, let pets = self.mission?.user?.pets {
+                                                HStack(spacing:Dimen.margin.microExtra){
+                                                    ForEach(pets) { profile in
+                                                        ProfileImage(
+                                                            image:profile.image,
+                                                            imagePath: profile.imagePath,
+                                                            size: Dimen.profile.tiny,
+                                                            emptyImagePath: Asset.image.profile_dog_default
+                                                        )
+                                                    }
+                                                }
+                                                .fixedSize()
+                                            }
+                                        }
                                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                                         
                                         WalkPropertySection(mission: mission){ idx in

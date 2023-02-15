@@ -113,14 +113,18 @@ struct PageAlbum: PageView {
         self.appSceneObserver.select = .imgPicker(self.tag){ pick in
             guard let pick = pick else {return}
             DispatchQueue.global(qos:.background).async {
-                let scale:CGFloat = 1 //UIScreen.main.scale
+                let hei = AlbumApi.originSize * CGFloat(pick.cgImage?.height ?? 1) / CGFloat(pick.cgImage?.width ?? 1)
+                let size = CGSize(
+                    width: AlbumApi.originSize,
+                    height: hei)
+                let image = pick.normalized().crop(to: size).resize(to: size)
                 let sizeList = CGSize(
-                    width: AlbumApi.thumbSize * scale,
-                    height: AlbumApi.thumbSize * scale)
+                    width: AlbumApi.thumbSize,
+                    height: AlbumApi.thumbSize)
                 let thumbImage = pick.normalized().crop(to: sizeList).resize(to: sizeList)
                 DispatchQueue.main.async {
                     self.pagePresenter.isLoading = false
-                    self.updateConfirm(img:pick, thumbImage:thumbImage)
+                    self.updateConfirm(img:image, thumbImage:thumbImage)
                 }
             }
            

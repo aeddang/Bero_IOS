@@ -50,7 +50,7 @@ struct SelectDateStep: PageComponent{
                 SortButton(
                     type: .strokeFill,
                     sizeType: .small,
-                    text: self.selectDate.toAge(trailing:String.app.years),
+                    text: self.selectDate.toAge(),
                     color: Color.app.orange,
                     isSort: false,
                     isSelected: true

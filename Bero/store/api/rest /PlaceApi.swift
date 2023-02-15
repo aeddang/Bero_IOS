@@ -10,13 +10,15 @@ import SwiftUI
 import CoreLocation
 
 class PlaceApi :Rest{
-    func get(location:CLLocation? = nil, distance:Double? = nil, searchType:String? = nil, completion: @escaping (ApiItemResponse<PlaceData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func get(location:CLLocation? = nil, distance:Double? = nil, searchType:String? = nil, zip:String? = nil,
+             completion: @escaping (ApiItemResponse<PlaceData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: String]()
         params["lat"] = location?.coordinate.latitude.description ?? ""
         params["lng"] = location?.coordinate.longitude.description ?? ""
         params["radius"] = distance?.toInt().description ?? ""
         params["searchType"] = searchType ?? "pet_store"
-        params["placeType"] = searchType == nil ? "Manual" : "Place"
+        params["placeType"] = searchType?.isEmpty == false ? "Place" : "Manual"
+        params["zipCode"] = zip ?? ""
         fetch(route: PlaceApiRoute (method: .get, action:.search, query: params), completion: completion, error:error)
     }
     

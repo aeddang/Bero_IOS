@@ -61,12 +61,15 @@ struct PageUser: PageView {
                             useTracking: true
                         ){
                             if let pet = user.representativePet {
-                                PetProfileTopInfo(profile:pet){
-                                    self.pagePresenter.openPopup(
-                                        PageProvider.getPageObject(.modifyPet)
-                                            .addParam(key: .data, value: pet)
-                                    )
-                                }
+                                PetProfileTopInfo(
+                                    profile: pet ,
+                                    editProfile :{
+                                        self.pagePresenter.openPopup(
+                                            PageProvider.getPageObject(.modifyPet)
+                                                .addParam(key: .data, value: pet)
+                                        )
+                                    }
+                                )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .onTapGesture {
                                     self.pagePresenter.openPopup(
@@ -107,7 +110,7 @@ struct PageUser: PageView {
                                 user: user
                             )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.heavyExtra)
+                            .padding(.top, Dimen.margin.regular)
                             
                             Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                 .padding(.top, Dimen.margin.medium)

@@ -25,10 +25,7 @@ struct UserView: PageComponent, Identifiable{
                     PetProfileTopInfo(
                         profile: profile,
                         distance: self.mission.distanceFromMe,
-                        isHorizontal: true,
-                        action: {
-                            self.moveUser(id: self.mission.userId)
-                        }
+                        isHorizontal: true
                     )
                     PetTagSection(
                         profile: profile,

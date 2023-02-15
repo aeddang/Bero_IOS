@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 struct LvSection: PageComponent{
+    @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     var user:User
     var body: some View {
@@ -48,13 +49,17 @@ struct LvSection: PageComponent{
         .onReceive(self.user.$event){evt in
             guard let evt = evt else { return }
             switch evt {
-            case .updatedPlayData :
+            case .updatedProfile :
                 self.updatedLv()
             default : break
             }
         }
         .onAppear(){
-            self.updatedLv()
+            guard let user = self.dataProvider.user.snsUser else {
+                self.updatedLv()
+                return
+            }
+            self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
         }
     }
     @State var lvValue:Int = 1

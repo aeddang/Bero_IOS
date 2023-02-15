@@ -25,7 +25,7 @@ struct PageWalkHistory: PageView {
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
-   
+    @ObservedObject var calenderModel: CalenderModel = CalenderModel()
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -55,25 +55,33 @@ struct PageWalkHistory: PageView {
                         useTracking: true
                     ){
                         if let user = self.user {
-                            TotalWalkSection(user: user)
+                            VStack(spacing: 0){
+                                TotalWalkSection(user: user)
+                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                SelectButton(
+                                    type: .tiny,
+                                    icon: Asset.icon.chart,
+                                    text: String.pageTitle.walkReport,
+                                    isSelected: false
+                                ){_ in
+                                    
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.walkReport)
+                                            .addParam(key: .data, value: self.user)
+                                    )
+                                }
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            SelectButton(
-                                type: .tiny,
-                                icon: Asset.icon.chart,
-                                text: String.pageTitle.walkReport,
-                                isSelected: false
-                            ){_ in
-                                
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.walkReport)
-                                        .addParam(key: .data, value: self.user)
+                                .padding(.top, Dimen.margin.regular)
+                                Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                                    .padding(.top, Dimen.margin.medium)
+                                CPCalendar(
+                                    viewModel: self.calenderModel
                                 )
+                                .padding(.top, Dimen.margin.thin)
+                                Spacer().modifier(LineHorizontal())
                             }
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.regular)
-                            Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                                .padding(.top, Dimen.margin.medium)
                             MonthlyWalkSection(
+                                calenderModel: self.calenderModel,
                                 user: user ,
                                 listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                             )

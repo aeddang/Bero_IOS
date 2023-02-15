@@ -51,7 +51,7 @@ struct SelectDateEdit: PageComponent{
                 SortButton(
                     type: .strokeFill,
                     sizeType: .small,
-                    text: self.selectDate.toAge(trailing: String.app.years),
+                    text: self.selectDate.toAge(trailing: String.app.years, subTrailing: String.app.months),
                     color: Color.app.orange,
                     isSort: false,
                     isSelected: true

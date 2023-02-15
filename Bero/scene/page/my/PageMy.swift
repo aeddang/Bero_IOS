@@ -61,20 +61,18 @@ struct PageMy: PageView {
                         useTracking: true
                     ){
                         if let pet = self.representativePet {
-                            PetProfileTopInfo(profile:pet){
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.modifyPet)
-                                        .addParam(key: .data, value: pet)
-                                )
-                            }
+                            PetProfileTopInfo(
+                                profile:pet,
+                                viewProfile: {
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.dog)
+                                            .addParam(key: .data, value: pet)
+                                            .addParam(key: .subData, value: self.dataProvider.user)
+                                    )
+                                }
+                            )
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .onTapGesture {
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.dog)
-                                        .addParam(key: .data, value: pet)
-                                        .addParam(key: .subData, value: self.dataProvider.user)
-                                )
-                            }
+                            
                             
                         } else {
                             UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){

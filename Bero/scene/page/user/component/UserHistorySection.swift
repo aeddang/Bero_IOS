@@ -7,7 +7,10 @@ struct UserHistorySection: PageComponent{
     var user:User
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.history, buttons:[.viewMore]){ type in
+            TitleTab(type:.section, title: String.pageTitle.history)
+            ValueBox(
+                datas: self.datas
+            ).onTapGesture {
                 guard let id = user.snsUser?.snsID else {return}
                 self.pagePresenter.openPopup(
                     PageProvider.getPageObject(.walkList)
@@ -16,10 +19,6 @@ struct UserHistorySection: PageComponent{
                 
                 )
             }
-            
-            ValueBox(
-                datas: self.datas
-            )
         }
         .onAppear(){
             self.updated()

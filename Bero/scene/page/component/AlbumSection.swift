@@ -13,7 +13,7 @@ struct AlbumSection: PageComponent{
     var rowSize:Int = SystemEnvironment.isTablet ? 4 : 2
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.album,
+            TitleTab(type:.section, title: self.title ?? String.pageTitle.album,
                      buttons: self.isEmpty
                      ? self.user.isMe == true ? [.add] : []
                      : [.viewMore]){ type in
@@ -68,6 +68,7 @@ struct AlbumSection: PageComponent{
             self.updateAlbum()
         }
     }
+    @State var title:String? = nil
     @State var currentId:String = ""
     @State var currentType:AlbumApi.Category = .user
     @State var isEmpty:Bool = false
@@ -75,6 +76,9 @@ struct AlbumSection: PageComponent{
     @State var albumDataSets:[AlbumListItemDataSet] = []
     @State var albumSize:CGSize = .zero
     private func updateAlbum(){
+        if let name = self.pet?.name {
+            self.title = name + String.app.owners + " " + String.pageTitle.album
+        }
         let r:CGFloat = CGFloat(self.rowSize)
         let w:CGFloat = (self.listSize - (Dimen.margin.regularExtra * (r-1))) / r
         if let id = self.pet?.petId {
@@ -142,14 +146,18 @@ struct AlbumSection: PageComponent{
         self.appSceneObserver.select = .imgPicker(self.tag){ pick in
             guard let pick = pick else {return}
             DispatchQueue.global(qos:.background).async {
-                let scale:CGFloat = 1 //UIScreen.main.scale
+                let hei = AlbumApi.originSize * CGFloat(pick.cgImage?.height ?? 1) / CGFloat(pick.cgImage?.width ?? 1)
+                let size = CGSize(
+                    width: AlbumApi.originSize,
+                    height: hei)
+                let image = pick.normalized().crop(to: size).resize(to: size)
                 let sizeList = CGSize(
-                    width: AlbumApi.thumbSize * scale,
-                    height: AlbumApi.thumbSize * scale)
+                    width: AlbumApi.thumbSize,
+                    height: AlbumApi.thumbSize)
                 let thumbImage = pick.normalized().crop(to: sizeList).resize(to: sizeList)
                 DispatchQueue.main.async {
                     self.pagePresenter.isLoading = false
-                    self.updateConfirm(img:pick, thumbImage:thumbImage)
+                    self.updateConfirm(img:image, thumbImage:thumbImage)
                 }
             }
         }

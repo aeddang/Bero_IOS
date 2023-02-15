@@ -35,6 +35,7 @@ extension String {
         public static let exp = "EXP"
         public static let time = "Time"
         public static let years = "Years"
+        public static let months = "Month"
         public static let weight = "Weight"
         public static let height = "Height"
         public static let immunization = "Immunization"
@@ -55,6 +56,7 @@ extension String {
         
         public static let speed = "Speed"
         public static let distance = "Distance"
+        public static let owners = "'s"
     }
     
     struct gnb {
