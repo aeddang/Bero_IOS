@@ -80,10 +80,9 @@ struct VerticalProfile: PageComponent{
                     }
                     .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
                 }else if let value = self.lv, let lv = Lv.getLv(value) {
-                    HeartButton(
-                        text: value.description,
-                        activeColor: lv.color,
-                        isSelected: true
+                    LvButton(
+                        lv: lv,
+                        text: value.description
                     ){_ in
                         self.appSceneObserver.event = .toast(lv.title)
                     }

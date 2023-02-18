@@ -61,15 +61,17 @@ struct BlockUserItem: PageComponent{
         
         .onAppear{
             self.isBlock = self.data.isBlock
+            self.userName = self.data.user.nickName ?? ""
         }
     }
+    @State var userName:String = ""
     @State var isBlock:Bool = true
     
     private func block(){
         let value = !self.isBlock
         
         self.appSceneObserver.sheet = .select(
-            value ? String.alert.blockUserConfirm : String.alert.unblockUserConfirm,
+            value ? String.alert.blockUserConfirm.replace(self.userName) : String.alert.unblockUserConfirm.replace(self.userName),
             nil,
             [String.app.cancel,value ? String.button.block : String.button.unblock],
             isNegative: value 

@@ -49,7 +49,8 @@ struct PageChatRoom: PageView {
                         ChatList(
                             infinityScrollModel: self.infinityScrollModel,
                             userId: id,
-                            roomData: self.roomData
+                            roomData: self.roomData,
+                            userName: self.$userName
                         )
                     }
                     else {
@@ -113,6 +114,7 @@ struct PageChatRoom: PageView {
     }//body
     @State var roomData:ChatRoomListItemData? = nil
     @State var userId:String? = nil
+    @State var userName:String? = nil
     @State var title:String? = nil
    
     private func more(){
@@ -154,7 +156,7 @@ struct PageChatRoom: PageView {
     private func block(){
         
         self.appSceneObserver.sheet = .select(
-            String.alert.blockUserConfirm,
+            String.alert.blockUserConfirm.replace(self.userName ?? ""),
             nil,
             [String.app.cancel,String.button.block],
             isNegative: true){ idx in

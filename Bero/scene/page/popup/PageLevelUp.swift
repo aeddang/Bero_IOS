@@ -30,18 +30,35 @@ struct PageLevelUp: PageView {
                     .background(Color.transparent.black80)
                 //
                 VStack(spacing:0){
-                    Image(Asset.image.puppy)
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 170)
-                    
+                    ZStack(alignment: .bottom){
+                        if let effect = self.lv?.effect {
+                            Image(effect)
+                                .renderingMode(.original)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 170)
+                        }
+                        Image(self.lv?.icon ?? Asset.image.puppy)
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: self.lv?.icon == nil ? 170 : 90)
+                        if self.lv != nil {
+                            Image(Asset.image.puppy)
+                                .renderingMode(.original)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 40)
+                                .padding(.bottom, 10)
+                        }
+                    }
+                    .frame(height:170)
                     Text(String.pageText.levelUpText)
                         .modifier(BoldTextStyle(
                             size: Font.size.black,
                             color: Color.app.white
                         ))
-                        .padding(.top, Dimen.margin.heavyExtra)
+                        .padding(.top, Dimen.margin.medium)
                     
                     ChangeBox(
                         prev: self.prevLv,
@@ -70,6 +87,11 @@ struct PageLevelUp: PageView {
                 self.prevLv = Lv.prefix + (lv-1).description
                 self.currentLv = Lv.prefix + lv.description
                 self.color = Lv.getLv(lv).color
+                DispatchQueue.main.asyncAfter(deadline: .now()+1.5){
+                    withAnimation{
+                        self.lv = Lv.getLv(lv)
+                    }
+                }
             }
             .onDisappear{
                
@@ -77,6 +99,7 @@ struct PageLevelUp: PageView {
             
         }//geo
     }//body
+    @State var lv:Lv? = nil
     @State var prevLv:String = ""
     @State var currentLv:String = ""
     @State var color:Color = Color.app.white

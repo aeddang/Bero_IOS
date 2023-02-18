@@ -38,6 +38,7 @@ struct PlayEffect: PageView {
     @Binding var isFollowMe:Bool
     @State var effects:[PlayEffectItem] = []
     @State var isFindEffect:Bool = false
+    @State var isWalking:Bool = false
     @State var followMeColor:Color = Color.app.blue
     var body: some View {
         ZStack(alignment: .center){
@@ -101,7 +102,7 @@ struct PlayEffect: PageView {
                         x: UIScreen.main.bounds.width/2,
                         y: UIScreen.main.bounds.height/2 - 40
                     ))
-            } else if self.isFollowMe {
+            } else if self.isFollowMe && self.isWalking {
                 CircleWave(color: self.followMeColor)
             }
         }
@@ -129,8 +130,10 @@ struct PlayEffect: PageView {
             switch status {
             case .ready :
                 self.followMeColor = Color.app.blue
+                self.isWalking = false
             case .walking :
                 self.followMeColor = Color.brand.primary
+                self.isWalking = true
             }
         }
         .onReceive(self.walkManager.$event){ evt in

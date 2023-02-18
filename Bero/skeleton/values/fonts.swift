@@ -67,6 +67,7 @@ extension Font{
         public static let thin:CGFloat = 14
         public static let tiny:CGFloat = 12
         public static let micro:CGFloat = 9
+        public static let microExtra:CGFloat = 8
     }
 
 }

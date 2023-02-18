@@ -87,11 +87,10 @@ struct MultiProfile: PageComponent{
                             self.buttonAction?()
                         }
                     } else if let value = self.lv, let lv = Lv.getLv(value) {
-                        HeartButton(
+                        LvButton(
+                            lv: lv,
                             type: .small,
-                            text: value.description,
-                            activeColor: lv.color,
-                            isSelected: true
+                            text: value.description
                         ){_ in
                             self.appSceneObserver.event = .toast(lv.title)
                         }

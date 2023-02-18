@@ -75,6 +75,7 @@ struct PageWalkInfo: PageView {
                                 HStack(spacing:Dimen.margin.micro){
                                     ForEach(pets) { profile in
                                         Button(action: {
+                                           
                                             self.pagePresenter.openPopup(
                                                 PageProvider.getPageObject(.dog)
                                                     .addParam(key: .id, value: profile.petId)
@@ -93,24 +94,29 @@ struct PageWalkInfo: PageView {
                                 }
                                 .fixedSize()
                                 .padding(.all, Dimen.margin.regular)
-                            } else if !self.isMe, let user =  self.mission?.user,
-                                      let img = user.representativePet?.imagePath ?? user.currentProfile.imagePath {
-                                Button(action: {
-                                    self.pagePresenter.openPopup(
-                                        PageProvider.getPageObject(.user)
-                                            .addParam(key: .data, value:user)
-                                    )
-                                }) {
-                                    ProfileImage(
-                                        imagePath: img,
-                                        isSelected: true,
-                                        strokeColor: Color.app.white,
-                                        size: Dimen.profile.thin,
-                                        emptyImagePath: Asset.image.profile_dog_default
-                                    )
-                                }
-                                .padding(.all, Dimen.margin.regular)
+                            } else if !self.isMe ,
+                                let userId = self.user?.userId ?? self.userProfile?.userId ,
+                                let img = self.user?.representativeImage ?? self.userProfile?.imagePath {
+                                    Button(action: {
+                                        self.pagePresenter.openPopup(
+                                            PageProvider.getPageObject(.user)
+                                                .addParam(key: .id, value:userId)
+                                                .addParam(key:.data, value: self.user)
+                                        )
+                                        
+                                    }) {
+                                        ProfileImage(
+                                            imagePath: img,
+                                            isSelected: true,
+                                            strokeColor: Color.app.white,
+                                            size: Dimen.profile.thin,
+                                            emptyImagePath: Asset.image.profile_dog_default
+                                        )
+                                    }
+                                    .padding(.all, Dimen.margin.regular)
+                                
                             }
+                                    
                         }
                         .modifier(MatchHorizontal(height: geometry.size.width))
                         .clipped()
@@ -220,9 +226,14 @@ struct PageWalkInfo: PageView {
                 guard let obj = self.pageObject  else { return }
                 if let mission = obj.getParamValue(key: .data) as? Mission{
                     self.mission = mission
+                    self.user = mission.user
                     self.updatedData()
                     self.pageObservable.isInit = true
                     return
+                } else if let user = obj.getParamValue(key: .data) as? User{
+                    self.user = user
+                } else if let user = obj.getParamValue(key: .data) as? UserProfile{
+                    self.userProfile = user
                 }
                 if let walkId = obj.getParamValue(key: .id) as? Int{
                     self.walkId = walkId
@@ -231,7 +242,9 @@ struct PageWalkInfo: PageView {
             }
         }//GeometryReader
     }//body
-    @State var userId:String = ""
+    
+    @State var userProfile:UserProfile? = nil
+    @State var user:User? = nil
     @State var title:String = String.pageTitle.walkSummary
     @State var walkId:Int = -1
     @State var isMe:Bool = false
@@ -242,15 +255,15 @@ struct PageWalkInfo: PageView {
     @State var useScrollUi:Bool = false
     private func loaded(_ res:ApiResultResponds){
         guard let data = res.data as? WalkData else { return }
-        self.mission = Mission().setData(data)
+        self.mission = Mission().setData(data, userId: self.user?.userId)
         self.updatedData()
     }
     
     private func updatedData(){
         guard let mission = self.mission else {return}
         self.walkId = mission.missionId
-        self.userId = mission.user?.snsUser?.snsID ?? self.dataProvider.user.snsUser?.snsID ?? ""
-        self.isMe = self.dataProvider.user.isSameUser(userId: self.userId)
+        let userId = self.user?.userId ?? self.userProfile?.userId ?? mission.userId ??  "" //self.dataProvider.user.userId ?? ""
+        self.isMe = self.dataProvider.user.isSameUser(userId: userId)
         
         self.pictures = mission.walkPath?.pictures
         self.useScrollUi = (self.pictures?.count ?? 0) > 1

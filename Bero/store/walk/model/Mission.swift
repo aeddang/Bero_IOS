@@ -121,10 +121,15 @@ class Mission:MapUserData,ObservableObject{
         self.playTime = AppUtil.networkTimeDate().timeIntervalSince(self.playStartDate ?? Date())
         self.isCompleted = true
     }
-    
     @discardableResult
-    func setData(_ data:WalkData)->Mission{
+    func setData(_ data:User?)->Mission{
+        self.user = data
+        return self
+    }
+    @discardableResult
+    func setData(_ data:WalkData, userId:String? = nil)->Mission{
         self.type = .walk
+        self.userId = userId ?? self.userId
         self.missionId = data.walkId ?? UUID().hashValue
         //self.title = data.createdAt
         if let locs = data.locations {

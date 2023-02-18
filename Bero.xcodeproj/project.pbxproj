@@ -156,7 +156,7 @@
 		31BAA3F228FCEC0F008155DD /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3F128FCEC0F008155DD /* LottieView.swift */; };
 		31BAA3F528FCEC42008155DD /* lego.json in Resources */ = {isa = PBXBuildFile; fileRef = 31BAA3F428FCEC42008155DD /* lego.json */; };
 		31BBE44428C2F3F0006C3C84 /* FriendFunctionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */; };
-		31BBE44628C2FEAD006C3C84 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44528C2FEAD006C3C84 /* HeartButton.swift */; };
+		31BBE44628C2FEAD006C3C84 /* LvButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44528C2FEAD006C3C84 /* LvButton.swift */; };
 		31BCF3AD28C363C9004605CF /* PageAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AC28C363C9004605CF /* PageAlbum.swift */; };
 		31BCF3B028C36906004605CF /* PageWalkHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AF28C36906004605CF /* PageWalkHistory.swift */; };
 		31BCF3B228C36FC4004605CF /* PageMyLv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3B128C36FC4004605CF /* PageMyLv.swift */; };
@@ -610,7 +610,7 @@
 		31BAA3F128FCEC0F008155DD /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		31BAA3F428FCEC42008155DD /* lego.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lego.json; sourceTree = "<group>"; };
 		31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFunctionBox.swift; sourceTree = "<group>"; };
-		31BBE44528C2FEAD006C3C84 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
+		31BBE44528C2FEAD006C3C84 /* LvButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LvButton.swift; sourceTree = "<group>"; };
 		31BCF3AC28C363C9004605CF /* PageAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAlbum.swift; sourceTree = "<group>"; };
 		31BCF3AF28C36906004605CF /* PageWalkHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkHistory.swift; sourceTree = "<group>"; };
 		31BCF3B128C36FC4004605CF /* PageMyLv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMyLv.swift; sourceTree = "<group>"; };
@@ -1333,6 +1333,7 @@
 		31C7A91628C2C2410010D045 /* component */ = {
 			isa = PBXGroup;
 			children = (
+				31BBE44528C2FEAD006C3C84 /* LvButton.swift */,
 				31BCF3B328C411B5004605CF /* LvSection.swift */,
 				3145FFA529979E7300B39AEF /* PointSection.swift */,
 				316B77A028BAEE410090E924 /* FriendSection.swift */,
@@ -1883,7 +1884,6 @@
 				31D91FEB287271C1001C2738 /* TextButton.swift */,
 				31D91FEC287271C1001C2738 /* SortButton.swift */,
 				31D91FED287271C1001C2738 /* CheckBox.swift */,
-				31BBE44528C2FEAD006C3C84 /* HeartButton.swift */,
 				31BF830428ED4D3100F9604C /* AgreeButton.swift */,
 			);
 			path = button;
@@ -2735,7 +2735,7 @@
 				31D92037287271C1001C2738 /* GraphArc.swift in Sources */,
 				31B311ED28D545E1001B539A /* PopupWalkMission.swift in Sources */,
 				316B77B128BB2BBF0090E924 /* PetProfileEdit.swift in Sources */,
-				31BBE44628C2FEAD006C3C84 /* HeartButton.swift in Sources */,
+				31BBE44628C2FEAD006C3C84 /* LvButton.swift in Sources */,
 				31D9203F287271C1001C2738 /* Toast.swift in Sources */,
 				31D91E9028725834001C2738 /* OffsetKey.swift in Sources */,
 				31BCF3BA28C42118004605CF /* HistoryItem.swift in Sources */,
@@ -2967,7 +2967,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3016,7 +3016,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

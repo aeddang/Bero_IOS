@@ -278,7 +278,7 @@ struct PageUser: PageView {
     
     private func block(){
         self.appSceneObserver.sheet = .select(
-            String.alert.blockUserConfirm,
+            String.alert.blockUserConfirm.replace(self.user?.currentProfile.nickName ?? ""),
             nil,
             [String.app.cancel,String.button.block],
             isNegative: true){ idx in

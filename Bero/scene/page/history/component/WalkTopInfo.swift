@@ -44,10 +44,14 @@ struct WalkTopInfo: PageComponent{
                         }
                     }
                     if self.isMe , let picture = self.mission.walkPath?.picture {
-                        ImageButton(
-                            isSelected: self.isExpose,
-                            defaultImage: Asset.icon.global
-                        ){ _ in
+                        SortButton(
+                            type: .stroke,
+                            sizeType: .small,
+                            icon: Asset.icon.share,
+                            text: String.app.share,
+                            color: self.isExpose ? Color.brand.primary : Color.app.grey400,
+                            isSort: false
+                        ){
                             self.dataProvider.requestData(
                                 q: .init( type: .updateAlbumPicture(pictureId: picture.pictureId ?? 0 , isExpose: !self.isExpose)))
                         }

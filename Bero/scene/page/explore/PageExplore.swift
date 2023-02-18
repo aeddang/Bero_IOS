@@ -25,7 +25,7 @@ struct PageExplore: PageView {
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
-    
+    @State var reloadDegree:Double = 0
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -47,14 +47,17 @@ struct PageExplore: PageView {
                             }
                         }
                     
-                   
-                    UserAlbumList(
-                        infinityScrollModel: self.infinityScrollModel,
-                        type: self.$type,
-                        listSize: geometry.size.width,
-                        marginBottom: Dimen.app.bottom
-                    )
-                    
+                    ZStack(alignment: .top){
+                        UserAlbumList(
+                            infinityScrollModel: self.infinityScrollModel,
+                            type: self.$type,
+                            listSize: geometry.size.width,
+                            marginBottom: Dimen.app.bottom
+                        )
+                        ReflashSpinner(
+                            progress: self.reloadDegree
+                        )
+                    }
                 }
                 .modifier(PageVertical())
                 .modifier(MatchParent())
@@ -62,6 +65,25 @@ struct PageExplore: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
+            .onReceive(self.infinityScrollModel.$pullPosition){ pos in
+                if pos < InfinityScrollModel.PULL_RANGE { return }
+                self.reloadDegree = Double(pos - InfinityScrollModel.PULL_RANGE)
+            }
+            .onReceive(self.infinityScrollModel.$event){evt in
+                  guard let evt = evt else {return}
+                  switch evt {
+                  case .pullCompleted :
+                    self.infinityScrollModel.uiEvent = .reload
+                    withAnimation{
+                            self.reloadDegree = 0
+                        }
+                  case .pullCancel :
+                    withAnimation{
+                        self.reloadDegree = 0
+                    }
+                  default : break
+                  }
+            }
             .onAppear{
                
             }

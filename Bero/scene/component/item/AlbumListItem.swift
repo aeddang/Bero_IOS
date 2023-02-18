@@ -80,6 +80,7 @@ struct AlbumListItem: PageComponent{
                     self.pagePresenter.openPopup(
                         PageProvider.getPageObject(.walkInfo)
                             .addParam(key: .id, value: self.data.walkId)
+                            .addParam(key: .data, value: self.user)
                     )
                 },
                 action:{
@@ -136,6 +137,7 @@ struct AlbumListDetailItem: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var data:AlbumListItemData
     var user:User? = nil
+    var userProfile:UserProfile? = nil
     var pet:PetProfile? = nil
     let imgSize:CGSize
     @Binding var isEdit:Bool
@@ -154,28 +156,24 @@ struct AlbumListDetailItem: PageComponent{
                     likeCount: self.likeCount,
                     isLike: self.isLike,
                     likeSize: .small,
+                    isShared: self.user?.isMe == true ? self.isExpose : nil,
                     iconAction:{
                         self.pagePresenter.openPopup(
                             PageProvider.getPageObject(.walkInfo)
                                 .addParam(key: .id, value: self.data.walkId)
+                                .addParam(key: .data, value: self.user ?? self.userProfile)
                         )
                     },
-                    action:{
+                    likeAction:{
                         self.dataProvider.requestData(
                             q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
-                    }
-                )
-                if self.user?.isMe == true {
-                    ImageButton(
-                        isSelected: self.isExpose,
-                        defaultImage: Asset.icon.global
-                    ){ _ in
+                    },
+                    shareAction: {
                         self.dataProvider.requestData(
                             q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isExpose: !self.data.isExpose)))
                     }
-                    .padding(.trailing, Dimen.app.pageHorinzontal)
-                    .padding(.bottom, Dimen.margin.tinyExtra)
-                }
+                )
+                
             }
             if self.isEdit {
                 CircleButton(

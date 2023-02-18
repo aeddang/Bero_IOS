@@ -87,7 +87,7 @@ struct PageMy: PageView {
                             switch type {
                             case .value(let valueType, _) :
                                 switch valueType {
-                                case .heart :
+                                case .heart, .lv :
                                     self.pagePresenter.openPopup(
                                         PageProvider.getPageObject(.myLv)
                                     )

@@ -8,7 +8,7 @@ import Foundation
 import SwiftUI
 
 struct ReflashSpinner: PageComponent {
-    @Binding var progress:Double
+    var progress:Double
     var progressMax:Double = Double(InfinityScrollModel.PULL_COMPLETED_RANGE)
     var text:String? = nil
     var body: some View {
@@ -35,7 +35,7 @@ struct ReflashSpinner: PageComponent {
 struct ReflashSpinner_Previews: PreviewProvider {
     static var previews: some View {
         Form{
-            ReflashSpinner(progress: .constant(90))
+            ReflashSpinner(progress: 90)
                 .environmentObject(PagePresenter())
                 .environmentObject(Repository())
                 .frame(width: 375, height: 500, alignment: .center)

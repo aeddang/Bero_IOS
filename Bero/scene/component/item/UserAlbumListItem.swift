@@ -76,7 +76,7 @@ struct UserAlbumListItem: PageComponent{
                 }
             }
             if let albumData = self.data.albumData{
-                AlbumListDetailItem(data: albumData, imgSize: self.imgSize, isEdit: .constant(false))
+                AlbumListDetailItem(data: albumData, userProfile: self.data.userProfile, imgSize: self.imgSize, isEdit: .constant(false))
             }
         }
         

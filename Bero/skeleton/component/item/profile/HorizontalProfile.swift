@@ -46,7 +46,7 @@ struct HorizontalProfile: PageComponent{
             case .big : return Dimen.profile.heavyExtra
             }
         }
-        var lvType:HeartButton.ButtonType{
+        var lvType:LvButton.ButtonType{
             switch self {
             case .small, .tiny : return .tiny
             case .big : return .small
@@ -136,11 +136,10 @@ struct HorizontalProfile: PageComponent{
                         size: self.sizeType.imageSize,
                         emptyImagePath: self.type.emptyImage)
                     if let value = self.lv, let lv = Lv.getLv(value) {
-                        HeartButton(
+                        LvButton(
+                            lv: lv,
                             type: self.sizeType.lvType,
-                            text: value.description,
-                            activeColor: lv.color,
-                            isSelected: true
+                            text: value.description
                         ){_ in
                             self.appSceneObserver.event = .toast(lv.title)
                         }

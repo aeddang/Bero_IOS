@@ -28,7 +28,7 @@ struct PageChat: PageView {
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
     @ObservedObject var friendScrollModel: InfinityScrollModel = InfinityScrollModel()
-   
+    @State var reloadDegree:Double = 0
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -59,20 +59,15 @@ struct PageChat: PageView {
                         default : break
                         }
                     }
-                    
-                    ChatRoomList(
-                        infinityScrollModel: self.infinityScrollModel,
-                        isEdit: self.$isEdit)
-                    /*
-                    Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                    FriendListSection(
-                        pageObservable:self.pageObservable,
-                        infinityScrollModel : self.friendScrollModel,
-                        user:self.dataProvider.user
-                    )
-                    .padding(.top, Dimen.margin.regular)
-                    .padding(.bottom, self.bottomMargin)
-                     */
+                    ZStack(alignment: .top){
+                        ChatRoomList(
+                            infinityScrollModel: self.infinityScrollModel,
+                            isEdit: self.$isEdit)
+                        ReflashSpinner(
+                            progress: self.reloadDegree
+                        )
+                    }
+                   
                 }
                 .padding(.bottom, Dimen.app.bottom)
                 .modifier(PageVertical())
@@ -81,6 +76,25 @@ struct PageChat: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
+            .onReceive(self.infinityScrollModel.$pullPosition){ pos in
+                if pos < InfinityScrollModel.PULL_RANGE { return }
+                self.reloadDegree = Double(pos - InfinityScrollModel.PULL_RANGE)
+            }
+            .onReceive(self.infinityScrollModel.$event){evt in
+                  guard let evt = evt else {return}
+                  switch evt {
+                  case .pullCompleted :
+                    self.infinityScrollModel.uiEvent = .reload
+                    withAnimation{
+                            self.reloadDegree = 0
+                        }
+                  case .pullCancel :
+                    withAnimation{
+                        self.reloadDegree = 0
+                    }
+                  default : break
+                  }
+            }
             .onReceive(self.dataProvider.$result){res in
                 guard let res = res else { return }
                

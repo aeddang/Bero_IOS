@@ -25,9 +25,11 @@ struct ListDetailItem: PageComponent{
     var likeCount:Double? = nil
     var isLike:Bool = false
     var likeSize:SortButton.SizeType = .big
+    var isShared:Bool? = nil
     var pets:[PetProfile] = []
     var iconAction: (() -> Void)? = nil
-    var action: (() -> Void)? = nil
+    var likeAction: (() -> Void)? = nil
+    var shareAction: (() -> Void)? = nil
     var body: some View {
         VStack(alignment: .leading, spacing:Dimen.margin.thin){
             ZStack{
@@ -102,7 +104,7 @@ struct ListDetailItem: PageComponent{
                         color: self.isLike ? Color.brand.primary : Color.app.grey400,
                         isSort: false
                     ){
-                        self.action?()
+                        self.likeAction?()
                     }
                     .fixedSize()
                     ZStack{
@@ -117,7 +119,7 @@ struct ListDetailItem: PageComponent{
                     .padding(.leading, Dimen.margin.tinyExtra )
                     .fixedSize()
                     .onTapGesture {
-                        self.action?()
+                        self.likeAction?()
                     }
                 }
                 Spacer()
@@ -139,6 +141,20 @@ struct ListDetailItem: PageComponent{
                     }
                 }
                 .fixedSize()
+                
+                if let isShared = self.isShared {
+                    SortButton(
+                        type: .stroke,
+                        sizeType: .small,
+                        icon: Asset.icon.share,
+                        text: String.app.share,
+                        color: isShared ? Color.brand.primary : Color.app.grey400,
+                        isSort: false
+                    ){
+                        self.shareAction?()
+                    }
+                    .fixedSize()
+                }
             }
             .padding(.horizontal, Dimen.app.pageHorinzontal)
         }

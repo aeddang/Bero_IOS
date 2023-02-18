@@ -24,6 +24,7 @@ struct ChatList: PageComponent{
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     var userId:String
     var roomData:ChatRoomListItemData? = nil
+    @Binding var userName:String?
     var body: some View {
         VStack(spacing:0){
             ZStack{
@@ -221,6 +222,7 @@ struct ChatList: PageComponent{
         guard let data = res.data as? ChatsData else { return }
         if self.user == nil, let userData =  data.receiveUser{
             self.user = User().setData(data: userData)
+            self.userName = self.user?.currentProfile.nickName
         }
         if self.pet == nil, let petData =  data.receivePets?.first(where:{$0.isRepresentative == true}){
             self.pet = PetProfile(data: petData)

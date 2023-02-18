@@ -7,11 +7,10 @@ struct LvSection: PageComponent{
     var user:User
     var body: some View {
         VStack(spacing:0){
-            HeartButton(
+            LvButton(
+                lv:  self.lv,
                 type: .big,
-                text: "Lv." + self.lvValue.description,
-                activeColor: self.lv.color,
-                isSelected: true
+                text: "Lv." + self.lvValue.description
             ){_ in
                 self.appSceneObserver.event = .toast(String.pageText.myLvText2.replace(self.lv.title))
             }
@@ -63,7 +62,7 @@ struct LvSection: PageComponent{
         }
     }
     @State var lvValue:Int = 1
-    @State var lv:Lv = .purple
+    @State var lv:Lv = .green
     @State var exp:Double = 0
     @State var expMax:Double = 0
     @State var expProgress:Double = 0

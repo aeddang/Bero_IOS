@@ -49,7 +49,7 @@ class InfinityScrollModel:ComponentObservable{
         : CGSize(width:93, height:76)
     
     static let PULL_RANGE:CGFloat = 40
-    static let PULL_COMPLETED_RANGE:CGFloat = 40
+    static let PULL_COMPLETED_RANGE:CGFloat = 70
     static let DRAG_RANGE:CGFloat = 70
     static let DRAG_COMPLETED_RANGE:CGFloat = 50
     @Published var uiEvent:InfinityScrollUIEvent? = nil {

@@ -25,7 +25,7 @@ struct MyPlayInfo: PageComponent{
     @State var datas:[ValueData] = []
     private func updated(){
         let user = self.dataProvider.user
-        let lvData = ValueData(idx: 0, type: .value(.heart, value: Double(user.lv)))
+        let lvData = ValueData(idx: 0, type: .value(.lv(Lv.getLv(user.lv)), value: Double(user.lv)))
         let pointData = ValueData(idx: 1, type: .value(.point, value: Double(user.point)))
         self.datas = [lvData, pointData]
     }

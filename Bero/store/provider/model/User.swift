@@ -44,9 +44,14 @@ class User:ObservableObject, PageProtocol, Identifiable{
     init(isMe:Bool = false) {
         self.isMe = isMe
     }
-    
+    var userId:String? {
+        return  self.snsUser?.snsID ?? (self.currentProfile.userId.isEmpty ?  nil : self.currentProfile.userId)
+    }
     var representativeName:String {
         return  self.representativePet?.name ?? self.currentProfile.nickName ?? "bero user"
+    }
+    var representativeImage:String? {
+        return  self.representativePet?.imagePath ?? self.currentProfile.imagePath
     }
     var isFriend:Bool {
         return self.currentProfile.status.isFriend
@@ -289,69 +294,55 @@ enum Gender:String {
 }
 
 enum Lv {
-    case purple, blue, lightBlue, sky, lightSky, green, lightGreen, yellow , orange, red
+    case green, blue, yellow, pink, orange
     
-    static let expRange:Double = 10
+    static let expRange:Double = 100
     static let prefix:String = "Lv."
     var icon : String {
         switch self {
-        case .purple : return Asset.icon.favorite_on
-        case .blue : return Asset.icon.favorite_on
-        case .lightBlue : return Asset.icon.favorite_on
-        case .sky : return Asset.icon.favorite_on
-        case .lightSky : return Asset.icon.favorite_on
-        case .green : return Asset.icon.favorite_on
-        case .lightGreen : return Asset.icon.favorite_on
-        case .yellow : return Asset.icon.favorite_on
-        case .orange : return Asset.icon.favorite_on
-        case .red : return Asset.icon.favorite_on
+        case .green : return "lv_green"
+        case .blue : return "lv_blue"
+        case .yellow : return "lv_yellow"
+        case .pink : return "lv_pink"
+        case .orange : return "lv_orange"
         }
     }
+    var effect : String {
+        switch self {
+        case .green : return "lv_effect"
+        case .blue : return "lv_effect"
+        case .yellow : return "lv_effect"
+        case .pink : return "lv_effect"
+        case .orange : return "lv_effect"
+        }
+    }
+    
+    
     var color : Color {
         switch self {
-        case .purple : return Color.init(rgb:0x9A7DEB)
-        case .blue : return Color.init(rgb:0x7D88EB)
-        case .lightBlue : return Color.init(rgb:0x7DA9EB)
-        case .sky : return Color.init(rgb:0x7DCAEB)
-        case .lightSky : return Color.init(rgb:0x71E4D0)
-        case .green : return Color.init(rgb:0x51DF8A)
-        case .lightGreen : return Color.init(rgb:0x9CEF6A)
-        case .yellow : return Color.init(rgb:0xF8D41C)
-        case .orange : return Color.init(rgb:0xFFAD31)
-        case .red : return Color.brand.primary
+        case .green : return Color.app.green
+        case .blue : return Color.app.blue
+        case .yellow : return Color.app.yellow
+        case .pink : return Color.app.pink
+        case .orange : return Color.app.orange
         }
     }
-    
     var title : String {
         switch self {
-        case .purple : return "Heart Lv.10"
-        case .blue : return "Heart Lv.9"
-        case .lightBlue : return "Heart Lv.8"
-        case .sky : return "Heart Lv.7"
-        case .lightSky : return "Heart Lv.6"
-        case .green : return "Heart Lv.5"
-        case .lightGreen : return "Heart Lv.4"
-        case .yellow : return "Heart Lv.3"
-        case .orange : return "Heart Lv.2"
-        case .red : return "Heart Lv.1"
+        case .green : return "Avocado"
+        case .blue : return "Grape"
+        case .yellow : return "Mango"
+        case .pink : return "Peach"
+        case .orange : return "Orange"
         }
     }
-    
-    
-        
     static func getLv(_ value:Int) -> Lv{
         switch value{
-        case 0...1 : return .red
-        case 1...2 : return .orange
-        case 2...3 : return .yellow
-        case 3...4 : return .lightGreen
-        case 4...5 : return .green
-        case 5...6 : return .lightSky
-        case 6...7 : return .sky
-        case 7...8 : return .lightBlue
-        case 8...9 : return .blue
-        case 9...100 : return .purple
-        default : return .purple
+        case 0...5 : return .green
+        case 5...10 : return .blue
+        case 10...15 : return .yellow
+        case 15...20 : return .pink
+        default : return .orange
         }
     }
 }

@@ -11,10 +11,11 @@ import SwiftUI
 
 struct ValueInfo: PageComponent{
     enum ValueType{
-        case point, coin, heart, walk, mission, walkComplete, walkDistance,
+        case point, coin, heart, walk, mission, walkComplete, walkDistance, lv(Lv),
              missionComplete, exp , expEarned , pointEarned
         var icon:String{
             switch self {
+            case .lv(let lv): return lv.icon
             case .point, .pointEarned : return Asset.icon.point
             case .coin : return Asset.icon.coin
             case .heart : return Asset.icon.favorite_on
@@ -27,13 +28,22 @@ struct ValueInfo: PageComponent{
         
         var iconColor:Color?{
             switch self {
+            case .lv : return nil
             case .walkDistance : return Color.app.black
             case .coin, .point, .pointEarned, .heart : return nil
             default : return Color.brand.primary
             }
         }
+        
+        var textColor:Color?{
+            switch self {
+            case .lv(let lv) : return lv.color
+            default : return self.iconColor
+            }
+        }
         var text:String?{
             switch self {
+            case .lv(let lv): return lv.title
             case .exp : return "EXP"
             case .point : return "Points"
             case .expEarned : return "EXP earned"
@@ -58,7 +68,7 @@ struct ValueInfo: PageComponent{
         
         var isIconFirst:Bool{
             switch self {
-            case .heart : return true
+            case .heart, .lv : return true
             default : return false
             }
         }
@@ -98,7 +108,7 @@ struct ValueInfo: PageComponent{
                 }
                 Text(self.type.getValue(value))
                     .modifier(BoldTextStyle(
-                        size: Font.size.medium,color: value == 0 ? Color.app.grey300 : (self.type.iconColor ?? Color.brand.primary)))
+                        size: Font.size.medium,color: value == 0 ? Color.app.grey300 : (self.type.textColor ?? Color.brand.primary)))
                 if !self.type.isIconFirst {
                     if let color = self.type.iconColor {
                         Image(self.type.icon)

@@ -132,7 +132,7 @@ struct WalkList: PageComponent{
     }
     private func move(data:WalkListItemData){
         guard let walkData = data.originData else {return}
-        let mission = Mission().setData(walkData)
+        let mission = Mission().setData(walkData, userId: self.userId)
         self.pagePresenter.openPopup(
             PageProvider.getPageObject(.walkInfo)
                 .addParam(key: .data, value: mission)
