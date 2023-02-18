@@ -316,8 +316,6 @@ enum Lv {
         case .orange : return "lv_effect"
         }
     }
-    
-    
     var color : Color {
         switch self {
         case .green : return Color.app.green

@@ -18,6 +18,7 @@ struct PageChatRoom: PageView {
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
+    @EnvironmentObject var sceneObserver:PageSceneObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var dataProvider:DataProvider
     @ObservedObject var pageObservable:PageObservable = PageObservable()
@@ -57,7 +58,7 @@ struct PageChatRoom: PageView {
                         Spacer().modifier(MatchParent())
                     }
                 }
-                .padding(.bottom, Dimen.tab.medium)
+                .padding(.bottom, Dimen.tab.medium + self.sceneObserver.safeAreaIgnoreKeyboardBottom)
                 .modifier(PageVertical())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)

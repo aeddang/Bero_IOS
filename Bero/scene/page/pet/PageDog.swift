@@ -83,13 +83,7 @@ struct PageDog: PageView {
                             Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                 .padding(.top, Dimen.margin.medium)
                             if let user = self.user {
-                                /*
-                                PetHistorySection(
-                                    user:user,
-                                    profile:profile)
-                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                    .padding(.top, Dimen.margin.medium)
-                                */
+
                                 AlbumSection(
                                     user: user,
                                     pet: profile,
@@ -97,17 +91,6 @@ struct PageDog: PageView {
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                                 .padding(.top, Dimen.margin.heavyExtra)
-                                /*
-                                if !self.dataProvider.user.isSameUser(self.user) && !self.fromUserPage ,
-                                    let user = self.user?.currentProfile {
-                                    UserProfileItem(
-                                        data: user,
-                                        useBg: false,
-                                        action:self.moveUser
-                                    )
-                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                    .padding(.vertical, Dimen.margin.heavyExtra)
-                                }*/
                             }
                         }
                         .background(Color.brand.bg)

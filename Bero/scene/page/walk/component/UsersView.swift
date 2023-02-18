@@ -141,11 +141,14 @@ struct UsersView: PageComponent, Identifiable{
     }
     private func setupRecommandDatas(_ datas:[UserAndPet]){
         self.recommandDatas = datas.filter{$0.pet != nil}
-            .map{PetProfile(
-                data: $0.pet ?? PetData(),
-                userId: $0.user?.userId,
-                isFriend: $0.user?.isFriend ?? false)
-                
+            .map{
+                let pet = PetProfile(
+                    data: $0.pet ?? PetData(),
+                    userId: $0.user?.userId,
+                    isFriend: $0.user?.isFriend ?? false
+                )
+                pet.level = $0.user?.level
+                return pet
             }
     }
     

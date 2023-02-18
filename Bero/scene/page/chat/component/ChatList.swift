@@ -72,13 +72,35 @@ struct ChatList: PageComponent{
                     viewModel: self.infinityScrollModel,
                     axes: .vertical,
                     showIndicators : false,
-                    marginTop:0,
-                    marginBottom:Dimen.margin.medium,
+                    marginVertical:Dimen.margin.medium,
                     marginHorizontal: 0,
                     spacing:Dimen.margin.regular,
                     isRecycle: true,
                     useTracking: true
                 ){
+                    VStack(alignment: .center, spacing:0){
+                        Spacer().modifier(MatchHorizontal(height: 0))
+                        if self.chats.isEmpty {
+                            Text( AppUtil.networkTimeDate().toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy") )
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color:  Color.app.grey400))
+                                .multilineTextAlignment(.center)
+                                .padding(.bottom, Dimen.margin.regular)
+                            Text( String.pageText.chatRoomText )
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color:  Color.app.grey300))
+                                .multilineTextAlignment(.center)
+                                
+                        } else if let date = self.chats.first?.originDate {
+                            Text( date.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy") )
+                                .modifier(RegularTextStyle(
+                                    size: Font.size.thin,
+                                    color:  Color.app.grey400))
+                                .multilineTextAlignment(.center)
+                        }
+                    }
                     
                     ForEach(self.chats) { data in
                         VStack(alignment: .center, spacing:0){
@@ -90,14 +112,7 @@ struct ChatList: PageComponent{
                                     .multilineTextAlignment(.center)
                                     .padding(.bottom, Dimen.margin.regular)
                             }
-                            if data.index == 0 {
-                                Text( String.pageText.chatRoomText )
-                                    .modifier(RegularTextStyle(
-                                        size: Font.size.thin,
-                                        color:  Color.app.grey300))
-                                    .multilineTextAlignment(.center)
-                                    .padding(.bottom, Dimen.margin.regular)
-                            }
+                            
                             if !data.isMe {
                                 if let pet = self.pet {
                                     HorizontalProfile(
@@ -127,11 +142,10 @@ struct ChatList: PageComponent{
                         .padding(.top, Dimen.margin.regular)
                         .id(data.hashId)
                         .onAppear{
-                            if data.index == (self.chats.count-1) {
-                                self.infinityScrollModel.event = .bottom
-                            }
+                            
                         }
                     }
+                
                 }
             }
             
@@ -139,8 +153,11 @@ struct ChatList: PageComponent{
         .onReceive(self.infinityScrollModel.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .top : self.loadChat()
-            //case .bottom : self.loadChat()
+            case .top :
+                if self.isReady {
+                    self.loadChat()
+                }
+            case .up, .down : self.isReady = true
             default : break
             }
         }
@@ -148,6 +165,7 @@ struct ChatList: PageComponent{
             guard let evt = evt else {return}
             switch evt {
             case .reload :
+                
                 self.resetScroll()
                 self.loadChat()
             default : break
@@ -189,7 +207,8 @@ struct ChatList: PageComponent{
             self.loadChat()
         }
     }
-    
+    let bottomIdx:Int = UUID.init().hashValue
+    @State var isReady:Bool = false
     @State var isEmpty:Bool = false
     @State var chats:[ChatListDataSet] = []
     @State var user:User? = nil
@@ -234,14 +253,13 @@ struct ChatList: PageComponent{
         let me = self.dataProvider.user.snsUser?.snsID ?? ""
         let add = ChatItemData().setData(data, me:me, idx:0)
         var isFirst:Bool = self.chats.count == 0
-        var currentDataSet = self.chats.last ?? ChatListDataSet()
+        var currentDataSet = self.chats.first ?? ChatListDataSet()
         let ymd = currentDataSet.originDate?.toDateFormatter(dateFormat: "yyyyMMdd")
         let chatYmd = add.date?.toDateFormatter(dateFormat: "yyyyMMdd")
         let isMe = currentDataSet.isMe
        
         if isFirst {
             isFirst = false
-            currentDataSet.date = add.date
             currentDataSet.originDate = add.date
             currentDataSet.index = 0
             currentDataSet.isMe = add.isMe
@@ -249,12 +267,13 @@ struct ChatList: PageComponent{
             self.chats.append(currentDataSet)
             
         } else if add.isMe != isMe || ymd != chatYmd{
+            let prev = currentDataSet
             currentDataSet.index = 1
             currentDataSet = ChatListDataSet()
             currentDataSet.index = 0
             currentDataSet.originDate = add.date
             if ymd != chatYmd {
-                currentDataSet.date = add.date
+                prev.date = prev.originDate
             }
             currentDataSet.isMe = add.isMe
             currentDataSet.datas.append(add)
@@ -265,7 +284,7 @@ struct ChatList: PageComponent{
             self.chats.append(currentDataSet)
         }
         
-        self.infinityScrollModel.uiEvent = .scrollTo(currentDataSet.hashId)
+        self.infinityScrollModel.uiEvent = .scrollTo(self.bottomIdx)
 
     }
     
@@ -281,14 +300,13 @@ struct ChatList: PageComponent{
         var index = self.chats.count
         var addedChat:[ChatListDataSet] = []
         var isFirst:Bool = self.chats.count == 0
-        var currentDataSet = self.chats.last ?? ChatListDataSet()
+        var currentDataSet = self.chats.first ?? ChatListDataSet()
         added.forEach{ add in
             let ymd = currentDataSet.originDate?.toDateFormatter(dateFormat: "yyyyMMdd")
             let chatYmd = add.date?.toDateFormatter(dateFormat: "yyyyMMdd")
             let isMe = currentDataSet.isMe
             if isFirst {
                 isFirst = false
-                currentDataSet.date = add.date
                 currentDataSet.originDate = add.date
                 currentDataSet.index = 0
                 index += 1
@@ -297,12 +315,13 @@ struct ChatList: PageComponent{
                 addedChat.append(currentDataSet)
                 
             } else if add.isMe != isMe || ymd != chatYmd{
+                let prev = currentDataSet
                 currentDataSet = ChatListDataSet()
                 currentDataSet.index = index
                 index += 1
                 currentDataSet.originDate = add.date
                 if ymd != chatYmd {
-                    currentDataSet.date = add.date
+                    prev.date = prev.originDate
                 }
                 currentDataSet.isMe = add.isMe
                 currentDataSet.datas.append(add)
@@ -319,9 +338,10 @@ struct ChatList: PageComponent{
             }
         }
         self.infinityScrollModel.onComplete(itemCount: added.count)
-        if self.self.infinityScrollModel.page == 1 , let last = self.chats.last{
+        if self.infinityScrollModel.page == 1 , let last = self.chats.last {
             self.infinityScrollModel.uiEvent = .scrollTo(last.hashId, .center)
         }
+        
     }
 
 }

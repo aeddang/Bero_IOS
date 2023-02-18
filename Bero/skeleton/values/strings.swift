@@ -299,6 +299,7 @@ extension String {
         public static let service = "Terms of service agreement"
         public static let blockUser = "Manage block list"
         public static let myAccount = "My account"
+        public static let alarm = "Alarm"
     }
     
     

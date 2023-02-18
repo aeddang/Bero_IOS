@@ -164,6 +164,7 @@ class Mission:MapUserData,ObservableObject{
         if let pet = data.pet {
             self.petProfile = PetProfile(data: pet, userId: self.userId)
             self.petProfile?.isFriend = self.isFriend
+            self.petProfile?.level = data.level
         }
         self.title = self.petProfile?.name
         self.pictureUrl = self.petProfile?.imagePath

@@ -21,6 +21,7 @@ struct PetProfileTopInfo: PageComponent{
                     isSelected: true,
                     image: self.image,
                     imagePath: self.imagePath,
+                    lv:self.profile.level,
                     name: self.name,
                     gender: self.gender,
                     isNeutralized: self.isNeutralized,
@@ -38,6 +39,7 @@ struct PetProfileTopInfo: PageComponent{
                     funcType: nil,
                     image: self.image,
                     imagePath: self.imagePath,
+                    lv:self.profile.level,
                     name: self.name,
                     gender: self.gender,
                     isNeutralized: self.isNeutralized,
@@ -96,7 +98,6 @@ struct PetProfileTopInfo: PageComponent{
     @State var gender:Gender? = nil
     @State var age:String? = nil
     @State var breed:String? = nil
-    @State var lv:Int? = nil
     @State var imagePath:String? = nil
     @State var image:UIImage? = nil
     @State var isNeutralized:Bool? = nil

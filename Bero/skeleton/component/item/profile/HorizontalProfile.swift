@@ -83,7 +83,6 @@ struct HorizontalProfile: PageComponent{
     var funcType:FuncType? = nil
     var userId:String? = nil
     var friendStatus:FriendStatus? = nil
-    
     var color:Color = Color.brand.primary
     var image:UIImage? = nil
     var imagePath:String? = nil
@@ -96,6 +95,7 @@ struct HorizontalProfile: PageComponent{
     var breed:String? = nil
     var description:String? = nil
     var distance:Double? = nil
+    var withImagePath:String? = nil
     var isSelected:Bool = false
     var isEmpty:Bool = false
     var useBg:Bool = true
@@ -144,6 +144,9 @@ struct HorizontalProfile: PageComponent{
                             self.appSceneObserver.event = .toast(lv.title)
                         }
                     }
+                }
+                .onTapGesture(){
+                    self.action?(nil)
                 }
             }
             
@@ -322,6 +325,15 @@ struct HorizontalProfile: PageComponent{
                         .clipShape(Circle())
                 }
             }
+            if let path = self.withImagePath {
+                ImageView(
+                    url: path,
+                    contentMode: .fill,
+                    noImg: Asset.noImg1_1)
+                .frame(width: Dimen.button.medium, height: Dimen.button.medium)
+                .background(Color.app.grey50)
+                .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+            }
         }
         .padding(.all, self.useBg ? self.type.padding : 0)
         .background(self.useBg
@@ -370,6 +382,7 @@ struct HorizontalProfile_Previews: PreviewProvider {
                 gender: .female,
                 age: "20",
                 breed: "dog",
+                withImagePath: "",
                 isSelected: true
             ){ _ in
                 

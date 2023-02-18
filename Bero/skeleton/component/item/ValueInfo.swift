@@ -16,19 +16,20 @@ struct ValueInfo: PageComponent{
         var icon:String{
             switch self {
             case .lv(let lv): return lv.icon
+            case .exp, .expEarned : return Asset.icon.exp
             case .point, .pointEarned : return Asset.icon.point
             case .coin : return Asset.icon.coin
             case .heart : return Asset.icon.favorite_on
             case .walkComplete : return Asset.icon.paw
             case .walkDistance : return Asset.icon.walk
             case .missionComplete : return Asset.icon.goal
-            default : return Asset.icon.exp
+            default : return Asset.image.puppy
             }
         }
         
         var iconColor:Color?{
             switch self {
-            case .lv : return nil
+            case .lv, .exp, .expEarned : return nil
             case .walkDistance : return Color.app.black
             case .coin, .point, .pointEarned, .heart : return nil
             default : return Color.brand.primary

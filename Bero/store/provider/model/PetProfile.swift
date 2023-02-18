@@ -93,9 +93,11 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @Published private(set) var totalMissionCount: Int = 0
     @Published private(set) var totalWalkCount: Int = 0
     private(set) var originData:PetData? = nil
+    //인스턴스 바인딩
     var isWith:Bool = true
     var isRepresentative:Bool = false
     var isFriend:Bool = false
+    var level:Int? = nil
     var sortIdx:Int {
         self.isRepresentative ? 0 : 1
     }

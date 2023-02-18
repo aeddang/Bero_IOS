@@ -14,7 +14,7 @@ struct SystemEnvironment {
     static var firstLaunch :Bool = false
     static let deviceId: String = UIDevice.current.identifierForVendor?.uuidString ?? UUID.init().uuidString
     static let pushToken: String? = nil
-    static let isTestMode:Bool = true
+    static var isTestMode:Bool = false
     static var isTablet = AppUtil.isPad()
     static private(set) var breedCode:[String:String] = [:]
     static func setupBreedCode(res:ApiResultResponds){

@@ -60,14 +60,6 @@ struct VisitorView: PageComponent, Identifiable{
                             self.infinityScrollModel.event = .bottom
                         }
                     }
-                    /*
-                    MultiProfileListItem(data: data)
-                        .onAppear{
-                            if  data.index == (self.datas.count-1) {
-                                self.infinityScrollModel.event = .bottom
-                            }
-                        }
-                     */
                 }
             }
         }
@@ -117,6 +109,7 @@ struct VisitorView: PageComponent, Identifiable{
             self.loadVisitor()
         }
     }
+    
     @State var datas:[PetProfile] = []
     @State var isEmpty:Bool = false
     private func resetScroll(){
@@ -132,7 +125,6 @@ struct VisitorView: PageComponent, Identifiable{
     
         self.dataProvider.requestData(q:
                 .init(id: self.tag, type:.getPlaceVisitors(placeId: self.placeId, page: self.infinityScrollModel.page)))
-        
     }
     
     private func loaded(_ res:ApiResultResponds){

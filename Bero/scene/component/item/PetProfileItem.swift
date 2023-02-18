@@ -96,7 +96,7 @@ struct PetProfileBody: PageComponent{
             friendStatus: self.friendStatus,
             image: self.image,
             imagePath: self.imagePath,
-            lv: self.lv,
+            lv: self.profile.level,
             name: self.name,
             gender: self.gender,
             age: self.age,
@@ -135,5 +135,4 @@ struct PetProfileBody: PageComponent{
     @State var image:UIImage? = nil
     @State var imagePath:String? = nil
     @State var isNeutralized:Bool? = nil
-    @State var lv:Int? = nil
 }

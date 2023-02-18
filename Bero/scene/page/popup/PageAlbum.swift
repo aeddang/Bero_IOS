@@ -45,20 +45,24 @@ struct PageAlbum: PageView {
                         useBack:true,
                         buttons:
                             self.user?.isMe == true
-                            ? self.isEdit ? [.close] : [.addAlbum,.setting]
+                            ? self.isEdit ? [] : [.addAlbum,.setting]
                             : [])
                         { type in
                             switch type {
-                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            case .back :
+                                if self.isEdit {
+                                    withAnimation{
+                                        self.isEdit = false
+                                    }
+                                } else {
+                                    self.pagePresenter.closePopup(self.pageObject?.id)
+                                }
+                                
                             case .addAlbum :
                                 self.onPick()
                             case .setting :
                                 withAnimation{
                                     self.isEdit = true
-                                }
-                            case .close :
-                                withAnimation{
-                                    self.isEdit = false
                                 }
                             default : break
                             }

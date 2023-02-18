@@ -39,7 +39,7 @@ struct PageMy: PageView {
                         title: String.pageTitle.my,
                         buttons:[.setting]){ type in
                         switch type {
-                        case .alram : break
+                        case .alarm : break
                         case .setting :
                             self.pagePresenter.openPopup(
                                 PageProvider.getPageObject(.setup)

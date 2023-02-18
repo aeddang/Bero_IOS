@@ -65,7 +65,7 @@ struct HistoryItem: PageComponent{
                 .fixedSize()
             ZStack{
                 switch self.type {
-                case .point :
+                case .point, .exp :
                     Image(self.type.icon)
                         .renderingMode(.original)
                         .resizable()
@@ -110,7 +110,7 @@ struct HistoryItem_Previews: PreviewProvider {
             )
         }
         .padding(.all, 10)
-        .background(Color.app.whiteDeep)
+        .background(Color.app.white)
     }
 }
 #endif

@@ -31,6 +31,7 @@ extension PageID{
     static let dog:PageID = "dog"
     static let user:PageID = "user"
     static let album:PageID = "album"
+    static let alarm:PageID = "alarm"
     static let friend:PageID = "friend"
     static let manageDogs:PageID = "manageDogs"
     static let modifyUser:PageID = "modifyUser"
@@ -106,7 +107,7 @@ struct PageProvider {
     }
     static func isAutoInit(_ pageID:PageID)-> Bool{
         switch pageID{
-        case .user, .album, .dog,.walkReport, .walkInfo, .walkList: return false
+        case .user, .album, .dog,.walkReport, .walkInfo, .walkList, .alarm: return false
         case .walkHistory, .missionHistory, .friend , .editProfile: return false
         case .popupWalkUser: return false
         default : return  true
@@ -207,6 +208,7 @@ struct PageFactory{
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)
         case .missionHistory : return PageMissionHistory(pageObservable:pageObservable)
         case .album : return PageAlbum(pageObservable:pageObservable)
+        case .alarm : return PageAlarm(pageObservable:pageObservable)
         case .friend : return PageFriend(pageObservable:pageObservable)
         case .myLv : return PageMyLv(pageObservable:pageObservable)
         case .myPoint : return PageMyPoint(pageObservable:pageObservable)

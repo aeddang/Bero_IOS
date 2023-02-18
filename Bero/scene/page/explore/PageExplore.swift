@@ -39,10 +39,14 @@ struct PageExplore: PageView {
                         title: String.pageTitle.explore,
                         sortButton: self.type.title,
                         sort: self.onSort,
-                        buttons:[.addAlbum ]){ type in
+                        buttons:[.addAlbum, .alarm ]){ type in
                             switch type {
                             case .addAlbum :
                                 self.onPick()
+                            case .alarm :
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.alarm)
+                                )
                             default : break
                             }
                         }

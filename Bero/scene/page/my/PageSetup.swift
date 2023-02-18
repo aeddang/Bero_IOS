@@ -77,6 +77,21 @@ struct PageSetup: PageView {
                             }
                             self.repository.setupExpose(self.isExpose)
                         }
+                        
+                        RadioButton(
+                            type: .switchOn,
+                            isChecked: self.isTestMode,
+                            icon: Asset.image.puppy,
+                            text: "테스트모드 설정" ,
+                            description: "장소마크, 산책패턴자동완성",
+                            color: Color.app.black
+                        ){ _ in
+                            withAnimation{
+                                self.isTestMode.toggle()
+                            }
+                            SystemEnvironment.isTestMode = self.isTestMode
+                        }
+                        
                         Spacer().modifier(LineHorizontal())
                         SelectButton(
                             type: .medium,
@@ -133,13 +148,14 @@ struct PageSetup: PageView {
             .onAppear(){
                 self.isReceivePush = self.repository.storage.isReceivePush
                 self.isExpose = self.repository.storage.isExpose
+                self.isTestMode = SystemEnvironment.isTestMode
             }
             
         }//GeometryReader
        
     }//body
     
-    
+    @State var isTestMode:Bool = false
     @State var isReceivePush:Bool = false
     @State var isExpose:Bool = false
     

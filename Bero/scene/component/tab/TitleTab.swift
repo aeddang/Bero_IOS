@@ -47,7 +47,7 @@ extension TitleTab{
     }
     
     enum ButtonType:String{
-        case more, add, edit, close, back, setting, alramOn, alram, block, addAlbum
+        case more, add, edit, close, back, setting, alramOn, alarm, block, addAlbum
         case addFriend,friend
         case viewMore, manageDogs
         var icon:String? {
@@ -58,7 +58,7 @@ extension TitleTab{
             case .addAlbum : return Asset.icon.album
             case .edit : return nil
             case .close : return Asset.icon.close
-            case .alram : return Asset.icon.notification_off
+            case .alarm : return Asset.icon.notification_off
             case .alramOn : return Asset.icon.notification_on
             case .setting : return Asset.icon.settings
             case .viewMore, .manageDogs : return Asset.icon.direction_right
@@ -221,7 +221,7 @@ struct TitleTab_Previews: PreviewProvider {
                 title: "Page Title",
                 useBack: false,
                 buttons: [
-                    .alram, .setting
+                    .alarm, .setting
                 ]
             ){ type in
                 
