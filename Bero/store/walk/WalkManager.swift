@@ -11,7 +11,8 @@ import SwiftUI
 import CoreLocation
 import GooglePlaces
 enum WalkEvent {
-    case start, end, completed(Mission),
+    case viewTutorial(resource:String),
+         start, end, completed(Mission),
          startMission(Mission), endMission(Mission), completedMission(Mission),
          getRoute(Route), endRoute,
          changeMapStatus, updatedMissions, updatedPlaces , updatedUsers,
@@ -34,7 +35,7 @@ enum WalkEvent {
 }
 
 enum WalkUiEvent {
-    case moveMap(CLLocation, zoom:Float = PlayMap.zoomCloseup), hiddenRoute
+    case moveMap(CLLocation, zoom:Float = PlayMap.zoomCloseup), hiddenRoute, closeAllPopup
 }
 enum WalkError {
     case accessDenied, getRoute, updatedMissions
@@ -187,6 +188,15 @@ extension WalkManager {
             }
         }
     }
+    
+    enum WalkAniType {
+        case tutorial
+        var path:String{
+            switch self {
+            case .tutorial: return "tutorial"
+            }
+        }
+    }
 }
 
 class WalkManager:ObservableObject, PageProtocol{
@@ -265,7 +275,9 @@ class WalkManager:ObservableObject, PageProtocol{
         self.anyCancellable.removeAll()
         self.endLockScreen()
     }
-    
+    func firstWalk(){
+        self.event = .viewTutorial(resource: WalkAniType.tutorial.path)
+    }
     func resetMapStatus(_ location:CLLocation? = nil, userFilter:Filter?=nil,  missionFilter:Filter?=nil, placeFilters:[Filter]?=nil, isAll:Bool = false){
         if let filter = userFilter {
             self.userFilter = filter

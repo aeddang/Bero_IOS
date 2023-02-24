@@ -23,6 +23,7 @@ extension FriendButton {
             case .chat: return Asset.icon.chat
             case .accept: return Asset.icon.check
             case .reject: return Asset.icon.close
+            case .move: return Asset.icon.search
             default : return nil
             }
         }
@@ -85,6 +86,7 @@ struct FriendButton: PageComponent{
             FillButton(
                 type: self.funcType.buttonType,
                 icon: self.funcType.icon,
+                iconType: .template,
                 text: self.funcType.text,
                 size:self.size,
                 radius: self.radius,

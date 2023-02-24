@@ -14,6 +14,7 @@ struct CPImageViewPager: PageComponent {
     var pages: [PageViewProtocol]
     var cornerRadius:CGFloat = 0
     var useButton:Bool = false
+    var bottomMargin:CGFloat = Dimen.margin.thin
     @State var index: Int = 0
     var action:((_ idx:Int) -> Void)? = nil
     var body: some View {
@@ -37,7 +38,7 @@ struct CPImageViewPager: PageComponent {
                     }
                 }
                 .padding(.horizontal, Dimen.margin.medium)
-                .padding(.bottom, Dimen.margin.thin)
+                .padding(.bottom, self.bottomMargin)
             }
         }
         .onReceive( self.viewModel.$index ){ idx in

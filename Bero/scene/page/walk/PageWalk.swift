@@ -16,6 +16,7 @@ extension PageWalk{
 }
 
 struct PageWalk: PageView {
+    @EnvironmentObject var repository:Repository
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -81,6 +82,13 @@ struct PageWalk: PageView {
                 self.walkManager.updateMapStatus(loc)
             }
         }
+        .onReceive(self.walkManager.$uiEvent){ evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .closeAllPopup : self.closeAllPopup()
+            default : break
+            }
+        }
         .onReceive(self.walkManager.$status){ status in
             switch status {
             case .ready :
@@ -122,7 +130,11 @@ struct PageWalk: PageView {
         .onAppear{
             self.walkManager.startMap()
             self.updatedDog()
-            
+            if !self.repository.storage.isFirstWalk || SystemEnvironment.isTestMode {
+                self.repository.storage.isFirstWalk = true
+                self.walkManager.firstWalk()
+                
+            } 
         }
         .onDisappear{
             self.walkManager.endMap()
@@ -136,6 +148,8 @@ struct PageWalk: PageView {
         withAnimation{
             self.isInitable = !self.dataProvider.user.pets.isEmpty
         }
+        
+        
     }
    
     private func needDog(){

@@ -195,6 +195,10 @@ extension Asset{
         public static let onboarding_img_2 = "onboarding_img_2"
         public static let onboarding_img_3 = "onboarding_img_3"
         
+        public static let onboarding_ani_0 = "OnBoarding_1"
+        public static let onboarding_ani_1 = "OnBoarding_2"
+        public static let onboarding_ani_2 = "OnBoarding_3"
+        
     }
     struct shape {
         public static let point = "sp_point"

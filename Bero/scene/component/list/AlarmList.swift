@@ -92,50 +92,31 @@ struct AlarmList: PageComponent{
         }
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
-            /*
             switch res.type {
-            case .getAlarmPictures(_, _, let type , _, _, let page ,let size):
-                if type == self.currentType && size == nil{
-                    if page == 0 {
-                        self.resetScroll()
-                    }
-                    self.loaded(res)
-                    self.pageObservable.isInit = true
-                }
-            case .registAlarmPicture(_, _, _, let type, _, _) :
-                if type == self.currentType {
+            case .getAlarm(let page ,_):
+                if page == 0 {
                     self.resetScroll()
-                    self.loadAlarm()
                 }
-            case .deleteAlarmPictures :
-                self.resetScroll()
-                self.loadAlarm()
-                
-            default : break
-            }
-            */
-        }
-        .onReceive(self.dataProvider.$error){err in
-            guard let err = err else { return }
-            /*
-            switch err.type {
-            case .getAlarmPictures :
+                self.loaded(res)
                 self.pageObservable.isInit = true
                 
             default : break
             }
-            */
+            
+        }
+        .onReceive(self.dataProvider.$error){err in
+            guard let err = err else { return }
+            
+            switch err.type {
+            case .getAlarm :
+                self.pageObservable.isInit = true
+                
+            default : break
+            }
+            
         }
         .onAppear(){
             self.updateAlarm()
-            self.alarms = [
-                .init().setDummy(0),
-                .init().setDummy(1),
-                .init().setDummy(2),
-                .init().setDummy(3),
-                .init().setDummy(4),
-                .init().setDummy(5)
-            ]
             self.pageObservable.isInit = true
         }
     }
@@ -157,22 +138,19 @@ struct AlarmList: PageComponent{
         if self.infinityScrollModel.isLoading {return}
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
-        
-        /*
-        self.dataProvider.requestData(q: .init(id: self.currentId, type:
-                .getAlarmPictures(userId: self.currentId, self.currentType,
-                                  isExpose: self.user?.isMe == true || self.user?.isFriend == true  ? nil : true,
-                                  page: self.infinityScrollModel.page)))
-         */
+    
+        self.dataProvider.requestData(q: .init(id: self.tag, type:
+            .getAlarm(page: self.infinityScrollModel.page)))
+         
         
     }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let datas = res.data as? [PictureData] else { return }
+        guard let datas = res.data as? [AlarmData] else { return }
         self.loadedAlarm(datas: datas)
     }
     
-    private func loadedAlarm(datas:[PictureData]){
+    private func loadedAlarm(datas:[AlarmData]){
         var added:[AlarmListItemData] = []
         let start = self.alarms.count
         let end = start + datas.count

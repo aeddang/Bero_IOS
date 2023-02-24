@@ -21,6 +21,7 @@ class PlayEffectItem:Identifiable{
     fileprivate var type:PlayEffectType = .image
     fileprivate var value:String = ""
     fileprivate var duration:Int = 3
+    
     fileprivate var snd:String? = nil
     fileprivate var isFind:Bool? = nil
     fileprivate var font:TextModifier = .init(family: Font.family.bold, size: 48, color: Color.brand.primary)
@@ -47,17 +48,13 @@ struct PlayEffect: PageView {
                 switch effect.type {
                 case .animation :
                     PlayEffectAnimation(data: effect){
-                        self.remove(id: effect.id)
+                        if effect.duration > 0 {
+                            self.remove(id: effect.id)
+                        }
                     }
                     .position(effect.position)
-                    .onAppear{
-                        if let find = effect.isFind {
-                            if find {
-                                self.findShow()
-                            } else {
-                                self.findShowCancel()
-                            }
-                        }
+                    .onTapGesture{
+                        self.remove(id: effect.id)
                     }
                 case .count :
                     PlayEffectCount(data:effect){
@@ -139,16 +136,16 @@ struct PlayEffect: PageView {
         .onReceive(self.walkManager.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .start :
-                /*
+          
+            case .viewTutorial(let resource) :
                 let eff = PlayEffectItem()
                 eff.type = .animation
-                eff.value = "bero_start_jump"
-                eff.snd = Asset.sound.walk
+                eff.value = resource
+                eff.duration = -1 
                 eff.size = .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 eff.position = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
                 self.add(effect: eff)
-                */
+            
                 break
             case .startMission:
                 let eff = PlayEffectItem()

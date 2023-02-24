@@ -103,6 +103,11 @@
 		316D35F32895427C002FC476 /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D35F22895427B002FC476 /* InputText.swift */; };
 		317C564028AC6A76005E8512 /* CodeApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C563F28AC6A76005E8512 /* CodeApiData.swift */; };
 		317C564228ACA743005E8512 /* MultiProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C564128ACA743005E8512 /* MultiProfile.swift */; };
+		318CC2DE29A363DC009A0072 /* OnBoarding_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DA29A363DB009A0072 /* OnBoarding_1.json */; };
+		318CC2DF29A363DC009A0072 /* OnBoarding_3.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DB29A363DC009A0072 /* OnBoarding_3.json */; };
+		318CC2E029A363DC009A0072 /* OnBoarding_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DC29A363DC009A0072 /* OnBoarding_2.json */; };
+		318CC2E129A363DC009A0072 /* tutorial.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DD29A363DC009A0072 /* tutorial.json */; };
+		318CC2E329A3749A009A0072 /* AlarmApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318CC2E229A3749A009A0072 /* AlarmApiData.swift */; };
 		318D200729986019009764CF /* RecommendationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D200629986019009764CF /* RecommendationApi.swift */; };
 		318D200929986116009764CF /* BeroApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D200829986116009764CF /* BeroApiData.swift */; };
 		318D200A29986822009764CF /* dimens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91F93287271C1001C2738 /* dimens.swift */; };
@@ -572,6 +577,11 @@
 		316D35F22895427B002FC476 /* InputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputText.swift; sourceTree = "<group>"; };
 		317C563F28AC6A76005E8512 /* CodeApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeApiData.swift; sourceTree = "<group>"; };
 		317C564128ACA743005E8512 /* MultiProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProfile.swift; sourceTree = "<group>"; };
+		318CC2DA29A363DB009A0072 /* OnBoarding_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OnBoarding_1.json; sourceTree = "<group>"; };
+		318CC2DB29A363DC009A0072 /* OnBoarding_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OnBoarding_3.json; sourceTree = "<group>"; };
+		318CC2DC29A363DC009A0072 /* OnBoarding_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OnBoarding_2.json; sourceTree = "<group>"; };
+		318CC2DD29A363DC009A0072 /* tutorial.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial.json; sourceTree = "<group>"; };
+		318CC2E229A3749A009A0072 /* AlarmApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmApiData.swift; sourceTree = "<group>"; };
 		318D200629986019009764CF /* RecommendationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationApi.swift; sourceTree = "<group>"; };
 		318D200829986116009764CF /* BeroApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeroApiData.swift; sourceTree = "<group>"; };
 		318D200C29986AAB009764CF /* LockScreenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenComponent.swift; sourceTree = "<group>"; };
@@ -1168,6 +1178,10 @@
 				31DCCF9029011E3C0010C9DD /* bero_mission_start.json */,
 				31DCCF9129011E3D0010C9DD /* bero_start_jump.json */,
 				31BAA3F428FCEC42008155DD /* lego.json */,
+				318CC2DA29A363DB009A0072 /* OnBoarding_1.json */,
+				318CC2DC29A363DC009A0072 /* OnBoarding_2.json */,
+				318CC2DB29A363DC009A0072 /* OnBoarding_3.json */,
+				318CC2DD29A363DC009A0072 /* tutorial.json */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -1983,6 +1997,7 @@
 				31B29F0A293AE7AF00953C6D /* BannerApiData.swift */,
 				31C743EB295463540006169D /* WalkApiData.swift */,
 				318D200829986116009764CF /* BeroApiData.swift */,
+				318CC2E229A3749A009A0072 /* AlarmApiData.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2273,10 +2288,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				318CC2E129A363DC009A0072 /* tutorial.json in Resources */,
 				31DCCF9629011F660010C9DD /* walk.wav in Resources */,
 				314E5EE12882BE63000EB910 /* Roboto-Medium.ttf in Resources */,
+				318CC2DF29A363DC009A0072 /* OnBoarding_3.json in Resources */,
 				314E5EEB2882BE63000EB910 /* Poppins-ExtraBold.ttf in Resources */,
 				31BF82E228E84FE500F9604C /* ready.mp3 in Resources */,
+				318CC2E029A363DC009A0072 /* OnBoarding_2.json in Resources */,
 				31BF82E728E84FE600F9604C /* push.mp3 in Resources */,
 				314E5EE42882BE63000EB910 /* Poppins-ThinItalic.ttf in Resources */,
 				31DCCF9229011E3D0010C9DD /* bero_mission_start.json in Resources */,
@@ -2287,6 +2305,7 @@
 				31BF82FA28E913CA00F9604C /* reward.mp3 in Resources */,
 				314E5EE92882BE63000EB910 /* Poppins-SemiBoldItalic.ttf in Resources */,
 				31BF82EC28E8551300F9604C /* shot_long.mp3 in Resources */,
+				318CC2DE29A363DC009A0072 /* OnBoarding_1.json in Resources */,
 				314E5EED2882BE63000EB910 /* Poppins-Regular.ttf in Resources */,
 				31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */,
 				314E5EEF2882BE63000EB910 /* Poppins-Bold.ttf in Resources */,
@@ -2616,6 +2635,7 @@
 				31BCF3CF28C59ACE004605CF /* ListItemDetail.swift in Sources */,
 				31BCF3C628C45F16004605CF /* ArcGraph.swift in Sources */,
 				31D920BE28729CDC001C2738 /* AccountManager.swift in Sources */,
+				318CC2E329A3749A009A0072 /* AlarmApiData.swift in Sources */,
 				31CA21BA28DFE61200A6CFBB /* PageChatRoom.swift in Sources */,
 				31D9205A287271CD001C2738 /* ScenePickerController.swift in Sources */,
 				31BCF3CA28C463EF004605CF /* CompareGraph.swift in Sources */,
@@ -2979,7 +2999,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3028,7 +3048,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

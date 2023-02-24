@@ -49,6 +49,7 @@ struct InputTextStep: PageComponent{
                 isFocus: self.isEditing,
                 limitedTextLength:self.limitedTextLength,
                 keyboardType: self.step.keyboardType,
+                autocapitalizationType: self.step.autocapitalizationType,
                 onFocus: {
                     withAnimation{ self.isEditing = true }
                 },

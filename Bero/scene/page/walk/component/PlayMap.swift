@@ -119,6 +119,7 @@ struct PlayMap: PageView {
                 self.isFollowMe = false
                 self.moveLocation(loc, zoom:zoom) 
             case .hiddenRoute : self.viewRouteEnd()
+            default: break
             }
         }
         .onReceive(self.viewModel.$playUiEvent){ evt in

@@ -83,7 +83,8 @@ enum ApiType{
          getWeatherCity(id:String, type:ApiAction = .cities),
          getCode(category:MiscApi.Category, searchKeyword:String? = nil),
          sendReport(reportType:MiscApi.ReportType, postId:String? = nil, userId : String? = nil),
-         getBanner(id:String)
+         getBanner(id:String),
+         getAlarm(page:Int? = nil, size:Int? = nil)
    
     case getPlace(CLLocation, distance:Double? = nil, searchType:String? = nil, zip:String? = nil),
          getPlaceVisitors(placeId:Int, page:Int? = nil, size:Int? = nil),

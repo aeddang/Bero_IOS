@@ -44,7 +44,7 @@ struct PetProfileEditable: PageComponent{
     var sizeType:HorizontalProfile.SizeType = .small
     var funcType:HorizontalProfile.FuncType = .delete
     var isSelected:Bool = false
-    var action: (() -> Void)
+    var action: ((HorizontalProfile.FuncType?) -> Void)
     var body: some View {
         PetProfileBody(
             profile: self.profile,
@@ -85,7 +85,7 @@ struct PetProfileBody: PageComponent{
     var friendStatus:FriendStatus? = nil
     var distance:Double? = nil
     var isSelected:Bool = false
-    var action: (() -> Void)? = nil
+    var action: ((HorizontalProfile.FuncType?) -> Void)? = nil
     var body: some View {
         HorizontalProfile(
             id: self.profile.id,
@@ -103,7 +103,7 @@ struct PetProfileBody: PageComponent{
             breed: self.distance == nil ? self.breed : nil, //거리와 품종 둘중하나만 표기
             distance:self.distance,
             isSelected: self.isSelected,
-            action: { _ in self.action?() }
+            action:self.action
         )
         .onReceive(self.profile.$name){value in
             self.name = value

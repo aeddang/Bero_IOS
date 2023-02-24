@@ -14,12 +14,13 @@ struct IntroItem1: PageComponent, Identifiable {
     var body: some View {
         ZStack(){
             Spacer().modifier(MatchParent())
+            
             Image(Asset.intro.onboarding_img_1)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 270, height: 425)
-                
+            
         }
         .modifier(MatchParent())
         .background(Color.app.white)

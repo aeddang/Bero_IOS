@@ -36,6 +36,7 @@ struct FillButton: View, SelecterbleProtocol, PageProtocol{
     }
     var type:ButtonType = .fill
     var icon:String? = nil
+    var iconType:Image.TemplateRenderingMode? = nil
     var text:String = ""
     var index: Int = 0
     var size:CGFloat = Dimen.button.mediumExtra
@@ -69,16 +70,17 @@ struct FillButton: View, SelecterbleProtocol, PageProtocol{
                         switch self.type  {
                         case .fill :
                             Image(icon)
-                                .renderingMode(.template)
+                                .renderingMode(self.iconType ?? .template)
                                 .resizable()
                                 .scaledToFit()
                                 .foregroundColor(Color.white)
                                 .frame(width:Dimen.icon.light, height:Dimen.icon.light)
                         case .stroke :
                             Image(icon)
-                                .renderingMode(.original)
+                                .renderingMode(self.iconType ?? .original)
                                 .resizable()
                                 .scaledToFit()
+                                .foregroundColor( self.type.textColor(self.color))
                                 .frame(width:Dimen.icon.light, height:Dimen.icon.light)
                         }
                         

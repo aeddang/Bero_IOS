@@ -34,6 +34,10 @@ extension MiscApi {
         }
         
     }
+    
+    enum AlarmType:String {
+        case User, Album, Friend
+    }
 }
 
 class MiscApi :Rest{
@@ -66,6 +70,14 @@ class MiscApi :Rest{
         params["refUserId"] = userId
         fetch(route: ReportApiRoute(method:.post, body:params), completion: completion, error:error)
     }
+    
+    func getAlarm( page:Int?, size:Int?, completion: @escaping (ApiItemResponse<AlarmData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["page"] = page?.description ?? "0"
+        params["size"] = size?.description ?? ApiConst.pageSize.description
+        fetch(route: AlarmApiRoute (method: .get, query: params), completion: completion, error:error)
+    }
+    
     
 }
 
@@ -105,3 +117,10 @@ struct BannerApiRoute : ApiRoute{
     var commandId: String? = nil
     var query:[String: String]? = nil
 }
+
+struct AlarmApiRoute : ApiRoute{
+    var method:HTTPMethod = .get
+    var command: String = "misc/alarms"
+    var query:[String: String]? = nil
+}
+

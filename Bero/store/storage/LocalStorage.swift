@@ -23,12 +23,14 @@ class LocalStorage {
         static let walkCount = "walkCount" + VS
         
         static let isFirstChat = "isFirstChat" + VS
+        static let isFirstWalk = "isFirstWalk" + VS
         
         static let bannerDate = "bannerDate" + VS
         static let bannerValue = "bannerValue" + VS
         
         static let isExposeSetup = "isExposeSetup" + VS
         static let isExpose = "isExpose" + VS
+        
        
     }
     let defaults = UserDefaults.standard
@@ -120,6 +122,16 @@ class LocalStorage {
             return defaults.bool(forKey: Keys.isFirstChat)
         }
     }
+    
+    var isFirstWalk:Bool{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.isFirstWalk)
+        }
+        get{
+            return defaults.bool(forKey: Keys.isFirstWalk)
+        }
+    }
+    
     
     func isDailyBannerCheck(id:PageID)->Bool{
         let now = AppUtil.networkTimeDate().toDateFormatter(dateFormat: "yyyyMMdd")

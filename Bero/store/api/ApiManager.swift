@@ -366,7 +366,11 @@ class ApiManager :PageProtocol, ObservableObject{
             self.misc.postReport(type: reportType, postId:postId, userId:userId,
                                  completion: {res in self.complated(id: apiID, type: type, res: res)},
                                  error:error)
-        
+        case .getAlarm(let page , let size) :
+            self.misc.getAlarm(page: page, size: size,
+                               completion: {res in self.complated(id: apiID, type: type, res: res)},
+                               error:error)
+            
         case .getPlace(let location, let distance, let searchType, let zip) :
             self.place.get(location: location, distance: distance, searchType: searchType, zip:zip,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},

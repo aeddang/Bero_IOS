@@ -6,6 +6,7 @@ import QuartzCore
 
 extension PageWalk {
     func closeAllPopup(){
+        self.pagePresenter.closePopup(pageId: .popupWalkUsers)
         self.pagePresenter.closePopup(pageId: .popupWalkPlace)
         self.pagePresenter.closePopup(pageId: .popupWalkMission)
         self.pagePresenter.closePopup(pageId: .popupWalkUser)

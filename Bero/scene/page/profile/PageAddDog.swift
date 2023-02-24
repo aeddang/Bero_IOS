@@ -56,6 +56,13 @@ extension PageAddDog{
             default : return .namePhonePad
             }
         }
+        
+        var autocapitalizationType: UITextAutocapitalizationType{
+            switch self {
+            case .name : return .allCharacters
+            default : return .words
+            }
+        }
         var placeHolder:String{
             switch self {
             case .name : return "ex. Bero"

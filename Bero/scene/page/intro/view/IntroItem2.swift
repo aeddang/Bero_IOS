@@ -14,12 +14,16 @@ struct IntroItem2: PageComponent, Identifiable {
     var body: some View {
         ZStack(alignment: .trailing){
             Spacer().modifier(MatchParent())
+            LottieView(lottieFile: Asset.intro.onboarding_ani_1, autoPlay: false)
+            .modifier(MatchParent())
+            /*
             Image(Asset.intro.onboarding_img_2)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 339, height: 417)
                 .padding(.trailing,-10)
+             */
         }
         .modifier(MatchParent())
         .background(Color.app.white)

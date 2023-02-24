@@ -12,6 +12,7 @@ struct FocusableTextField: UIViewRepresentable{
     @Binding var text:String
     var keyboardType: UIKeyboardType = .default
     var returnVal: UIReturnKeyType = .default
+    var autocapitalizationType: UITextAutocapitalizationType = .sentences
     var placeholder: String = ""
     var placeholderModifier:TextModifier? = nil
     var placeholderColor:Color = Color.app.grey200
@@ -41,7 +42,8 @@ struct FocusableTextField: UIViewRepresentable{
         textField.returnKeyType = self.returnVal
         textField.delegate = context.coordinator
         textField.placeholder = self.placeholder
-        textField.autocorrectionType = .no
+        textField.autocapitalizationType = self.autocapitalizationType
+        
         //textField.clearButtonMode = .whileEditing
         textField.adjustsFontSizeToFitWidth = true
         textField.textAlignment = self.textAlignment

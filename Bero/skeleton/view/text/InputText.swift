@@ -16,6 +16,7 @@ struct InputText: PageView {
    
     var keyboardType:UIKeyboardType = .default
     var returnKeyType: UIReturnKeyType = .done
+    var autocapitalizationType: UITextAutocapitalizationType = .sentences
     var isEditable:Bool = true
     var isSecure:Bool = false
     
@@ -46,6 +47,7 @@ struct InputText: PageView {
                                         text:self.$input,
                                         keyboardType: self.keyboardType,
                                         returnVal: self.returnKeyType,
+                                        autocapitalizationType: self.autocapitalizationType,
                                         placeholder: self.placeHolder,
                                         textAlignment: .left,
                                         maxLength: self.limitedTextLength,
@@ -69,6 +71,7 @@ struct InputText: PageView {
                                         isSecureTextEntry: self.isSecure,
                                         keyboardType: self.keyboardType,
                                         returnKeyType: self.returnKeyType,
+                                        autocapitalizationType: self.autocapitalizationType,
                                         textAlignment: .left,
                                         textModifier:self.textModifier,
                                         limitedLine: self.limitedLine,

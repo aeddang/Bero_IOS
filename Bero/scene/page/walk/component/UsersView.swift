@@ -56,7 +56,8 @@ struct UsersView: PageComponent, Identifiable{
                         } else {
                             ForEach(self.datas) { data in
                                 PetProfileUser(profile: data.petProfile!, friendStatus: .norelation, distance: data.distanceFromMe){
-                                    self.pagePresenter.closePopup(self.pageObject?.id)
+                                    
+                                    self.walkManager.uiEvent = .closeAllPopup
                                     self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUser).addParam(key: .data, value: data))
                                 }
                             }
@@ -91,7 +92,8 @@ struct UsersView: PageComponent, Identifiable{
                         } else {
                             ForEach(self.datas) { data in
                                 PetProfileUser(profile: data.petProfile!, friendStatus: .chat, distance: data.distanceFromMe){
-                                    self.pagePresenter.closePopup(self.pageObject?.id)
+                                    
+                                    self.walkManager.uiEvent = .closeAllPopup
                                     self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUser).addParam(key: .data, value: data))
                                 }
                             }

@@ -57,25 +57,16 @@ struct PageManageDogs: PageView {
                                 profile: pet,
                                 isSelected: pet.isRepresentative
                             
-                            ){
-                                self.deletePet(pet)
+                            ){ type in
+                                if type == nil {
+                                    self.select(pet: pet)
+                                } else {
+                                    self.deletePet(pet)
+                                }
                             }
                             .onTapGesture {
-                                /*
-                                self.pagePresenter.openPopup(
-                                    PageProvider.getPageObject(.dog)
-                                        .addParam(key: .data, value: pet)
-                                )
-                                */
-                                if pet.isRepresentative {return}
-                                self.appSceneObserver.sheet = .select(
-                                    String.alert.representativePetChangeConfirm,
-                                    nil,
-                                    [String.app.cancel,String.app.confirm]){ idx in
-                                        if idx == 1 {
-                                            self.dataProvider.requestData(q: .init(type: .changeRepresentativePet(petId: pet.petId)))
-                                        }
-                                }
+                                self.select(pet: pet)
+                                
                             }
                         }
                         if self.pets.count < 3 {
@@ -106,6 +97,19 @@ struct PageManageDogs: PageView {
         }//GeometryReader
        
     }//body
+    private func select(pet:PetProfile){
+        if pet.isRepresentative {return}
+        self.appSceneObserver.sheet = .select(
+            String.alert.representativePetChangeConfirm,
+            nil,
+            [String.app.cancel,String.app.confirm]){ idx in
+                if idx == 1 {
+                    self.dataProvider.requestData(q: .init(type: .changeRepresentativePet(petId: pet.petId)))
+                }
+        }
+    }
+    
+    
     @State var pets:[PetProfile] = []
     private func update(){
         self.pets = self.dataProvider.user.pets

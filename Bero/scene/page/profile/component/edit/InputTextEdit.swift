@@ -42,6 +42,7 @@ struct InputTextEdit: PageComponent{
                 limitedTextLength: self.limitedTextLength,
                 keyboardType: self.type.keyboardType,
                 returnKeyType: self.type.keyboardReturnType,
+                autocapitalizationType: self.type.autocapitalizationType,
                 onFocus: {
                     withAnimation{ self.isEditing = true }
                 },

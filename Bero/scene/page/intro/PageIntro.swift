@@ -13,12 +13,7 @@ struct PageIntro: PageView {
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var viewModel:ViewPagerModel = ViewPagerModel()
-    let pages: [PageViewProtocol] =
-    [
-        IntroItem1(),
-        IntroItem2(),
-        IntroItem3()
-    ]
+    @State var pages: [PageViewProtocol] = []
     let titles: [String] =
     [
         String.pageText.introText1_1,
@@ -37,12 +32,14 @@ struct PageIntro: PageView {
     @State var sceneOrientation: SceneOrientation = .portrait
     @State var isComplete:Bool = false
     var body: some View {
-        VStack(alignment: .leading, spacing:0){
+        ZStack(alignment: .bottom){
             CPImageViewPager(
                 viewModel : self.viewModel,
                 pages: self.pages,
-                useButton: true
+                useButton: true,
+                bottomMargin: 90
             )
+            /*
             Text(self.titles[self.index])
                 .modifier(BoldTextStyle(size: Font.size.bold, color: Color.app.black))
                 .padding(.top, Dimen.margin.medium)
@@ -53,6 +50,7 @@ struct PageIntro: PageView {
                 .padding(.top, Dimen.margin.thin)
                 .fixedSize()
                 .padding(.horizontal, Dimen.margin.regular)
+            */
             FillButton(
                 type: .fill,
                 text: self.isComplete
@@ -78,11 +76,50 @@ struct PageIntro: PageView {
             }
         }
         .onAppear{
+            self.pages =
+            [
+                IntroLottie(
+                    viewModel: self.viewModel,
+                    lottie: LottieView(lottieFile: Asset.intro.onboarding_ani_0, autoPlay: false),
+                    index: 0
+                ),
+                IntroLottie(
+                    viewModel: self.viewModel,
+                    lottie: LottieView(lottieFile: Asset.intro.onboarding_ani_1, autoPlay: false),
+                    index: 1
+                ),
+                IntroLottie(
+                    viewModel: self.viewModel,
+                    lottie: LottieView(lottieFile: Asset.intro.onboarding_ani_2, autoPlay: false),
+                    index: 2
+                )
+            ]
            // self.setBar(idx:self.index)
         }
-        
     }//body
+}
+
+struct IntroLottie: PageComponent, Identifiable {
+    @ObservedObject var viewModel:ViewPagerModel = ViewPagerModel()
+    @EnvironmentObject var sceneObserver:PageSceneObserver
+    let id = UUID().uuidString
+    let lottie:LottieView
+    let index:Int
     
+    var body: some View {
+        ZStack(){
+            Spacer().modifier(MatchParent())
+            self.lottie
+            .modifier(MatchParent())
+        }
+        .modifier(MatchParent())
+        .background(Color.app.white)
+        .onReceive( self.viewModel.$index ){ idx in
+            if self.index == idx {
+                self.lottie.play()
+            }
+        }
+    }
 }
 
 

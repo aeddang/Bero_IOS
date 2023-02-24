@@ -18,7 +18,14 @@ extension Date{
         let now = AppUtil.networkTimeDate()
         let yy = now.toDateFormatter(dateFormat:"yyyy")
         let birthYY = self.toDateFormatter(dateFormat:"yyyy")
-        let age = yy.toInt() - birthYY.toInt()
+        let mm = now.toDateFormatter(dateFormat:"MM")
+        let birthMM = self.toDateFormatter(dateFormat:"MM")
+        
+        let yearDiff = yy.toInt() - birthYY.toInt()
+        let monthDiff = mm.toInt() - birthMM.toInt()
+        let diff = (yearDiff * 12) + monthDiff
+        
+        let age = floor(Double(diff/12)).toInt()
         if isKr {
             return (age + 1).description + trailing
         } else {
@@ -26,13 +33,11 @@ extension Date{
             let birthMD = self.toDateFormatter(dateFormat:"MMdd")
             if age > 0 {
                 let unit = age != 1 ? trailing : trailing.replace("s", with: "")
-                return md < birthMD ?  age.description + unit : (age + 1).description + unit
+                return age.description + unit 
             } else {
-                let mm = now.toDateFormatter(dateFormat:"MM")
-                let birthMM = self.toDateFormatter(dateFormat:"MM")
-                let months = mm.toInt() - birthMM.toInt()
-                let unit = months != 1 ? subTrailing : subTrailing.replace("s", with: "")
-                return months.description + unit
+            
+                let unit = diff != 1 ? subTrailing : subTrailing.replace("s", with: "")
+                return diff.description + unit
             }
             
         }

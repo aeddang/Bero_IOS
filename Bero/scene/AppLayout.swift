@@ -162,7 +162,7 @@ struct AppLayout: PageComponent{
     @State var isInit = false
     @State var isLaunching = false
     func onStoreInit(){
-        if SystemEnvironment.firstLaunch && !self.isLaunching{
+        if (SystemEnvironment.firstLaunch && !self.isLaunching) || SystemEnvironment.isTestMode{
             self.isLaunching = true
             self.isLoading = false
             self.pagePresenter.changePage(

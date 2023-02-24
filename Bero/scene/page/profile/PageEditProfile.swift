@@ -67,6 +67,13 @@ extension PageEditProfile{
             default : return .done
             }
         }
+        
+        var autocapitalizationType: UITextAutocapitalizationType{
+            switch self {
+            case .name : return .allCharacters
+            default : return .words
+            }
+        }
     }
     struct EditData {
         var name:String? = nil

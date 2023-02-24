@@ -116,7 +116,7 @@ extension String {
         
         public static var friendRequest = "Friend request has been sent."
         public static var friendAccept = "Friend request has been accepted"
-        public static var friendDeleteConfirm = "Do you want to remove %username% as your friend?"
+        public static var friendDeleteConfirm = "Do you want to remove %s as your friend?"
         
         public static var profileDeleteConfirm = "Remove profile photo?"
         public static var profileDeleteConfirmText = "It may not be restored once you delete."

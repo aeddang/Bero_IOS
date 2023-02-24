@@ -17,7 +17,7 @@ struct FocusableTextView: UIViewRepresentable {
     
     var keyboardType: UIKeyboardType = .default
     var returnKeyType: UIReturnKeyType = .done
-    
+    var autocapitalizationType: UITextAutocapitalizationType = .sentences
     var textAlignment:NSTextAlignment = .left
     var textModifier:TextModifier = RegularTextStyle().textModifier
     
@@ -35,6 +35,7 @@ struct FocusableTextView: UIViewRepresentable {
         textView.font = UIFont(name: textModifier.family, size: textModifier.size)
         textView.keyboardType = self.keyboardType
         textView.returnKeyType = self.returnKeyType
+        textView.autocapitalizationType = self.autocapitalizationType
         textView.delegate = context.coordinator
         textView.autocorrectionType = .yes
         textView.textAlignment = self.textAlignment
