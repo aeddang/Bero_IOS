@@ -13,11 +13,13 @@ import SwiftUI
 
 
 class AlarmListItemData:InfinityData, ObservableObject{
-    private(set) var type:AlarmListItem.AlarmType = .friend
+    private(set) var type:MiscApi.AlarmType? = nil
     private(set) var imagePath:String? = nil
     private(set) var title:String? = nil
     private(set) var description:String? = nil
+    private(set) var user:User? = nil
     private(set) var pet:PetProfile? = nil
+    private(set) var album:AlbumListItemData? = nil
     @Published var isDelete:Bool = false
     func setDummy(_ idx:Int) -> AlarmListItemData {
         self.index = idx
@@ -27,18 +29,23 @@ class AlarmListItemData:InfinityData, ObservableObject{
         self.imagePath = "qwdsdc"
         return self
     }
-}
-
-extension AlarmListItem{
-    enum AlarmType{
-        case chat, like, friend
-        var icon:String{
-            switch self {
-            case .chat : return Asset.icon.chat
-            case .like: return Asset.icon.favorite_on
-            case .friend: return Asset.icon.human_friends
-            }
+    
+    func setData(_ data:AlarmData , idx:Int) -> AlarmListItemData {
+        self.index = idx
+        self.type = MiscApi.AlarmType.getType(data.alarmType)
+        if let user = data.user {
+            self.user = User().setData(data: user)
         }
+        if let pet = data.pet {
+            self.pet = PetProfile(data: pet, userId: self.user?.userId)
+        }
+        if let album = data.album {
+            self.album = AlbumListItemData().setData(album)
+        }
+        self.title = data.title
+        self.description = data.contents
+        self.imagePath = self.album?.thumbIagePath
+        return self
     }
 }
 
@@ -54,13 +61,17 @@ struct AlarmListItem: PageComponent{
                 id: "",
                 type: .pet,
                 color: Color.brand.primary,
-                imagePath: self.data.pet?.imagePath,
+                imagePath: self.data.pet?.imagePath ?? self.data.user?.currentProfile.imagePath,
                 name: self.data.title,
                 description: self.data.description,
                 withImagePath: self.data.imagePath,
                 isSelected: false
-            ){ _ in
-                
+            ){ type in
+                if type == nil {
+                    self.moveUser()
+                } else {
+                    self.move()
+                }
             }
             .onTapGesture(){
                 self.move()
@@ -83,31 +94,32 @@ struct AlarmListItem: PageComponent{
     
     private func move(){
         switch self.data.type {
-        case .friend :
+        case .Friend :
             self.pagePresenter.openPopup(
                 PageProvider.getPageObject(.friend)
                     .addParam(key: .data, value: self.dataProvider.user)
                     .addParam(key: .type, value: FriendList.ListType.requested)
                     .addParam(key: .isEdit, value: true)
             )
-        case .chat :
+        case .User :
             self.pagePresenter.changePage(
                 PageProvider.getPageObject(.chat)
             )
-            /*
-             self.pagePresenter.openPopup(
-             PageProvider.getPageObject(.chatRoom)
-             .addParam(key: .data, value:ChatRoomListItemData())
-             )
-             */
-        case .like :
-            self.pagePresenter.openPopup(
-                PageProvider.getPageObject(.walkInfo)
-                    .addParam(key: .data, value: User())
-                    .addParam(key: .id, value: "walkId")
-            )
+
+        case .Album :
+            self.moveUser()
+            break
+        default :
             break
         }
+    }
+    private func moveUser(){
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.user)
+                .addParam(key: .data, value: self.data.user)
+                .addParam(key: .id, value: self.data.pet?.userId)
+                .addParam(key: .isEdit, value: true)
+        )
     }
 }
 

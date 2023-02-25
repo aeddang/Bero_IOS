@@ -17,8 +17,8 @@ import GoogleSignInSwift
 extension PageDog{
     static let height:CGFloat = 232
 }
+
 struct PageDog: PageView {
-    
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -83,7 +83,6 @@ struct PageDog: PageView {
                             Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
                                 .padding(.top, Dimen.margin.medium)
                             if let user = self.user {
-
                                 AlbumSection(
                                     user: user,
                                     pet: profile,

@@ -112,7 +112,7 @@ extension WalkManager {
             case "cafe": return Filter.cafe
             case "pet_store": return Filter.petShop
             case "hospital": return Filter.vet
-            default : return nil
+            default : return Filter.manual
             }
         }
         
@@ -137,6 +137,7 @@ extension WalkManager {
             default : return Asset.map.pinParkMark
             }
         }
+        
         var color:Color{
             switch self {
             case .cafe: return Color.app.brown
@@ -153,7 +154,7 @@ extension WalkManager {
             case .cafe : return "cafe"
             case .petShop : return "pet_store"
             case .vet : return "hospital"
-            case .manual : return ""
+            case .manual : return "manual"
             default : return nil
             }
         }
@@ -190,10 +191,11 @@ extension WalkManager {
     }
     
     enum WalkAniType {
-        case tutorial
+        case tutorial, start
         var path:String{
             switch self {
             case .tutorial: return "tutorial"
+            case .start: return "tutorial_start"
             }
         }
     }
@@ -230,11 +232,10 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private (set) var playPoint:Int = 0
     @Published private (set) var playExp:Double = 0
     @Published private (set) var isSimpleView:Bool = false
-    
     private (set) var walkId:Int? = nil
     private (set) var placeDatas:[String:[Place]] = [:]
     private (set) var userFilter:Filter = .all
-    private (set) var placeFilters:[Filter] = [.restaurant] //[.vet, .restaurant, .cafe, .petShop]
+    private (set) var placeFilters:[Filter] = [.manual] //[.vet, .restaurant, .cafe, .petShop]
     private (set) var missionFilter:Filter = .notUsed
     private (set) var updateImages:[UIImage] = []
  
@@ -275,8 +276,14 @@ class WalkManager:ObservableObject, PageProtocol{
         self.anyCancellable.removeAll()
         self.endLockScreen()
     }
+    
     func firstWalk(){
         self.event = .viewTutorial(resource: WalkAniType.tutorial.path)
+    }
+    func firstWalkStart(){
+        if Self.todayWalkCount < 1 {
+            self.event = .viewTutorial(resource: WalkAniType.start.path)
+        }
     }
     func resetMapStatus(_ location:CLLocation? = nil, userFilter:Filter?=nil,  missionFilter:Filter?=nil, placeFilters:[Filter]?=nil, isAll:Bool = false){
         if let filter = userFilter {

@@ -155,6 +155,7 @@ extension PageParam {
     static let subText = "subText"
     static let isFriend = "isFriend"
     static let isEdit = "isEdit"
+    static let isInitAction = "isInitAction"
 }
 
 extension PageEventType {

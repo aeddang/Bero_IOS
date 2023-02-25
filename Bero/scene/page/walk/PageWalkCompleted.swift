@@ -35,7 +35,17 @@ struct PageWalkCompleted: PageView {
                 if !res.id.hasPrefix(self.tag) {return}
                 switch res.type {
                 case .completeWalk :
-                   self.closePopup()
+                    self.appSceneObserver.alert  = .confirm(nil, String.alert.completedAndMoveHistoryConfirm){ isOk in
+                        if isOk {
+                            self.pagePresenter.openPopup(
+                                PageProvider.getPageObject(.walkHistory)
+                                    .addParam(key: .data, value: self.dataProvider.user)
+                                    .addParam(key: .isInitAction, value: true)
+                            )
+                        }
+                        self.closePopup()
+                    }
+                    
                 default : break
                 }
             }
@@ -43,9 +53,10 @@ struct PageWalkCompleted: PageView {
                 guard let err = err else { return }
                 if !err.id.hasPrefix(self.tag) {return}
                 switch err.type {
-                case .completeWalk :
+                case .completeWalk:
                     self.pagePresenter.isLoading = false
                     self.pagePresenter.closePopup(self.pageObject?.id)
+                    
                 default : break
                 }
             }

@@ -21,7 +21,7 @@ class PlayEffectItem:Identifiable{
     fileprivate var type:PlayEffectType = .image
     fileprivate var value:String = ""
     fileprivate var duration:Int = 3
-    
+    fileprivate var isFullScreen:Bool = false
     fileprivate var snd:String? = nil
     fileprivate var isFind:Bool? = nil
     fileprivate var font:TextModifier = .init(family: Font.family.bold, size: 48, color: Color.brand.primary)
@@ -30,6 +30,7 @@ class PlayEffectItem:Identifiable{
 }
 
 struct PlayEffect: PageView {
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var walkManager:WalkManager
@@ -141,7 +142,8 @@ struct PlayEffect: PageView {
                 let eff = PlayEffectItem()
                 eff.type = .animation
                 eff.value = resource
-                eff.duration = -1 
+                eff.duration = -1
+                eff.isFullScreen = true
                 eff.size = .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 eff.position = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
                 self.add(effect: eff)
@@ -178,12 +180,17 @@ struct PlayEffect: PageView {
         
     }//body
     private func add(effect:PlayEffectItem){
+        if effect.isFullScreen {
+            self.appSceneObserver.useBottom = false
+        }
         self.effects.append(effect)
         ComponentLog.d("self.effects " + self.effects.count.description, tag: self.tag)
     }
     private func remove(id:String){
+        
         if let find = self.effects.firstIndex(where: {$0.id == id}){
             self.effects.remove(at: find)
+            self.appSceneObserver.useBottom = true
         }
         ComponentLog.d("self.effects " + self.effects.count.description, tag: self.tag)
     }
@@ -395,6 +402,7 @@ struct PlayEffectCount: PageView {
 }
 
 struct PlayEffectAnimation: PageView {
+    
     let data:PlayEffectItem
     let complete: (() -> Void)
     var body: some View {
@@ -403,6 +411,7 @@ struct PlayEffectAnimation: PageView {
         }
         .frame(width: self.data.size.width, height: self.data.size.height)
         .onAppear(){
+            
             if let snd = self.data.snd {
                 SoundToolBox().play(snd:snd, ext:"wav")
             }

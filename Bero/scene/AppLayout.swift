@@ -197,17 +197,6 @@ struct AppLayout: PageComponent{
         if self.appObserver.apns != nil  {
             self.appSceneObserver.event = .debug("apns exist")
             self.appSceneObserver.alert = .recivedApns
-        } else {
-            /*
-            self.appSceneObserver.sheet = .select(
-                String.alert.addDogTitle,
-                String.alert.addDogText,
-                image:Asset.image.addDog,
-                [String.button.later,String.button.ok]){ idx in
-                    if idx == 1 {
-                        self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
-                    }
-            }*/
         }
     }
     

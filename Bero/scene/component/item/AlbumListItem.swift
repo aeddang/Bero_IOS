@@ -27,7 +27,7 @@ class AlbumListItemData:InfinityData, ObservableObject{
     private(set) var pictureId:Int = -1
     private(set) var walkId:Int? = nil
     private(set) var type:MissionApi.Category? = nil
-    func setData(_ data:PictureData, idx:Int) -> AlbumListItemData{
+    func setData(_ data:PictureData, idx:Int = -1) -> AlbumListItemData{
         self.index = idx
         self.imagePath = data.pictureUrl
         self.thumbIagePath = data.smallPictureUrl

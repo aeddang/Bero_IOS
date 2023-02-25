@@ -78,9 +78,12 @@ struct PageWalkHistory: PageView {
                                     viewModel: self.calenderModel
                                 )
                                 .padding(.top, Dimen.margin.thin)
+                                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                
                                 Spacer().modifier(LineHorizontal())
                             }
                             MonthlyWalkSection(
+                                pageObservable: self.pageObservable,
                                 calenderModel: self.calenderModel,
                                 user: user ,
                                 listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)

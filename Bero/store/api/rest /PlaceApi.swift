@@ -16,8 +16,13 @@ class PlaceApi :Rest{
         params["lat"] = location?.coordinate.latitude.description ?? ""
         params["lng"] = location?.coordinate.longitude.description ?? ""
         params["radius"] = distance?.toInt().description ?? ""
-        params["searchType"] = searchType ?? "pet_store"
-        params["placeType"] = searchType?.isEmpty == false ? "Place" : "Manual"
+        if searchType == "manual" {
+            params["searchType"] = ""
+            params["placeType"] = "Manual"
+        } else {
+            params["searchType"] = searchType ?? "pet_store"
+            params["placeType"] = searchType?.isEmpty == false ? "Place" : "Manual"
+        }
         params["zipCode"] = zip ?? ""
         fetch(route: PlaceApiRoute (method: .get, action:.search, query: params), completion: completion, error:error)
     }

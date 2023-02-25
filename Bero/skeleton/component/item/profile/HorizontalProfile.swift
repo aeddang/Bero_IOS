@@ -323,6 +323,9 @@ struct HorizontalProfile: PageComponent{
                         .padding(.all, Dimen.margin.micro)
                         .background(color)
                         .clipShape(Circle())
+                        .onTapGesture{
+                            self.action?(funcType)
+                        }
                 }
             }
             if let path = self.withImagePath {
@@ -333,6 +336,9 @@ struct HorizontalProfile: PageComponent{
                 .frame(width: Dimen.button.medium, height: Dimen.button.medium)
                 .background(Color.app.grey50)
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+                .onTapGesture{
+                    self.action?(.view(path, color: .black))
+                }
             }
         }
         .padding(.all, self.useBg ? self.type.padding : 0)

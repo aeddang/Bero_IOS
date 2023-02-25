@@ -37,6 +37,15 @@ extension MiscApi {
     
     enum AlarmType:String {
         case User, Album, Friend
+        
+        static func getType(_ value:String?) -> AlarmType?{
+            switch value{
+            case "User" : return .User
+            case "Album" : return .Album
+            case "Friend" : return .Friend
+            default : return nil
+            }
+        }
     }
 }
 

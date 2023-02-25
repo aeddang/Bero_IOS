@@ -12,5 +12,7 @@ struct AlarmData : Decodable {
     private(set) var user: UserData? = nil
     private(set) var pet: PetData? = nil
     private(set) var album: PictureData? = nil
+    private(set) var title: String? = nil
+    private(set) var contents: String? = nil
     private(set) var createdAt: String? = nil
 }

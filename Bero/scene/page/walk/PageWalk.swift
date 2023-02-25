@@ -13,6 +13,7 @@ import Combine
 
 extension PageWalk{
     static private var isFollowMe:Bool = false
+    static private var isFirstWalkStart:Bool = false
 }
 
 struct PageWalk: PageView {
@@ -59,9 +60,8 @@ struct PageWalk: PageView {
                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                     }
                 }
-                .padding(.bottom, Dimen.app.bottom + Dimen.margin.thin)
+                .padding(.bottom, self.bottomMargin + Dimen.margin.thin )
                 .modifier(PageVertical())
-                
                 PlayEffect(
                     pageObservable: self.pageObservable,
                     viewModel: self.mapModel,
@@ -95,7 +95,17 @@ struct PageWalk: PageView {
                 self.isWalk = false
             case .walking :
                 self.isWalk = true
+                if !Self.isFirstWalkStart {
+                    self.walkManager.firstWalkStart()
+                    Self.isFirstWalkStart = true
+                }
             }
+        }
+        .onReceive(self.appSceneObserver.$useBottom){ useBottom in
+            withAnimation{
+                self.bottomMargin = useBottom ? Dimen.app.bottom : 0
+            }
+            
         }
         .onReceive(self.walkManager.$event){ evt in
             guard let evt = evt else {return}
@@ -128,6 +138,7 @@ struct PageWalk: PageView {
             }
         }
         .onAppear{
+            self.bottomMargin = self.appSceneObserver.useBottom ? Dimen.app.bottom : 0
             self.walkManager.startMap()
             self.updatedDog()
             if !self.repository.storage.isFirstWalk || SystemEnvironment.isTestMode {
@@ -143,7 +154,7 @@ struct PageWalk: PageView {
     @State var isInitable:Bool = false
     @State var isInit:Bool = false
     @State var isWalk:Bool = false
-    
+    @State var bottomMargin:CGFloat = 0
     private func updatedDog(){
         withAnimation{
             self.isInitable = !self.dataProvider.user.pets.isEmpty

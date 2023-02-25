@@ -124,6 +124,7 @@
 		318FF6FD29A0FC3B00C0492C /* AlarmList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318FF6FC29A0FC3B00C0492C /* AlarmList.swift */; };
 		31937F1228ACFA8F00AA5473 /* ValueBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1128ACFA8F00AA5473 /* ValueBox.swift */; };
 		31937F1428ACFBCA00AA5473 /* ValueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1328ACFBCA00AA5473 /* ValueInfo.swift */; };
+		31A6CF5A29A98ED800BAB999 /* tutorial_start.json in Resources */ = {isa = PBXBuildFile; fileRef = 31A6CF5929A98ED800BAB999 /* tutorial_start.json */; };
 		31A9D2B9289F47340094EC5C /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A9D2B8289F47340094EC5C /* Check.swift */; };
 		31AEC3AD28D2995D00507386 /* PopupWalkUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */; };
 		31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794928C18F0800118B05 /* PageManageDogs.swift */; };
@@ -162,7 +163,6 @@
 		31BAA3DC28F8F31C008155DD /* ChangeBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3DB28F8F31C008155DD /* ChangeBox.swift */; };
 		31BAA3F028FCEBE8008155DD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 31BAA3EF28FCEBE8008155DD /* Lottie */; };
 		31BAA3F228FCEC0F008155DD /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BAA3F128FCEC0F008155DD /* LottieView.swift */; };
-		31BAA3F528FCEC42008155DD /* lego.json in Resources */ = {isa = PBXBuildFile; fileRef = 31BAA3F428FCEC42008155DD /* lego.json */; };
 		31BBE44428C2F3F0006C3C84 /* FriendFunctionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */; };
 		31BBE44628C2FEAD006C3C84 /* LvButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE44528C2FEAD006C3C84 /* LvButton.swift */; };
 		31BCF3AD28C363C9004605CF /* PageAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3AC28C363C9004605CF /* PageAlbum.swift */; };
@@ -402,8 +402,6 @@
 		31D920D028729FB5001C2738 /* PageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920CF28729FB5001C2738 /* PageFactory.swift */; };
 		31D920D22872A02E001C2738 /* PageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D920D12872A02E001C2738 /* PageTest.swift */; };
 		31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31D920D72872B573001C2738 /* GoogleService-Info.plist */; };
-		31DCCF9229011E3D0010C9DD /* bero_mission_start.json in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9029011E3C0010C9DD /* bero_mission_start.json */; };
-		31DCCF9329011E3D0010C9DD /* bero_start_jump.json in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9129011E3D0010C9DD /* bero_start_jump.json */; };
 		31DCCF9629011F660010C9DD /* walk.wav in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9429011F660010C9DD /* walk.wav */; };
 		31DCCF9729011F660010C9DD /* mission.wav in Resources */ = {isa = PBXBuildFile; fileRef = 31DCCF9529011F660010C9DD /* mission.wav */; };
 		31E1AA7F28DD74EC00E41FE6 /* PlayEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */; };
@@ -593,6 +591,7 @@
 		318FF6FC29A0FC3B00C0492C /* AlarmList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmList.swift; sourceTree = "<group>"; };
 		31937F1128ACFA8F00AA5473 /* ValueBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueBox.swift; sourceTree = "<group>"; };
 		31937F1328ACFBCA00AA5473 /* ValueInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueInfo.swift; sourceTree = "<group>"; };
+		31A6CF5929A98ED800BAB999 /* tutorial_start.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial_start.json; sourceTree = "<group>"; };
 		31A9D2B8289F47340094EC5C /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkUser.swift; sourceTree = "<group>"; };
 		31AF794928C18F0800118B05 /* PageManageDogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManageDogs.swift; sourceTree = "<group>"; };
@@ -624,7 +623,6 @@
 		31BAA3D928F8F1A3008155DD /* PageLevelUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLevelUp.swift; sourceTree = "<group>"; };
 		31BAA3DB28F8F31C008155DD /* ChangeBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeBox.swift; sourceTree = "<group>"; };
 		31BAA3F128FCEC0F008155DD /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
-		31BAA3F428FCEC42008155DD /* lego.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lego.json; sourceTree = "<group>"; };
 		31BBE44328C2F3F0006C3C84 /* FriendFunctionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFunctionBox.swift; sourceTree = "<group>"; };
 		31BBE44528C2FEAD006C3C84 /* LvButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LvButton.swift; sourceTree = "<group>"; };
 		31BCF3AC28C363C9004605CF /* PageAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAlbum.swift; sourceTree = "<group>"; };
@@ -863,8 +861,6 @@
 		31D920D62872AA8B001C2738 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		31D920D72872B573001C2738 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Bero/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31D920D92872BB17001C2738 /* Bero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bero.entitlements; sourceTree = "<group>"; };
-		31DCCF9029011E3C0010C9DD /* bero_mission_start.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bero_mission_start.json; sourceTree = "<group>"; };
-		31DCCF9129011E3D0010C9DD /* bero_start_jump.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bero_start_jump.json; sourceTree = "<group>"; };
 		31DCCF9429011F660010C9DD /* walk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = walk.wav; sourceTree = "<group>"; };
 		31DCCF9529011F660010C9DD /* mission.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = mission.wav; sourceTree = "<group>"; };
 		31E1AA7E28DD74EC00E41FE6 /* PlayEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEffect.swift; sourceTree = "<group>"; };
@@ -1175,13 +1171,11 @@
 		31BAA3F328FCEC2A008155DD /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				31DCCF9029011E3C0010C9DD /* bero_mission_start.json */,
-				31DCCF9129011E3D0010C9DD /* bero_start_jump.json */,
-				31BAA3F428FCEC42008155DD /* lego.json */,
 				318CC2DA29A363DB009A0072 /* OnBoarding_1.json */,
 				318CC2DC29A363DC009A0072 /* OnBoarding_2.json */,
 				318CC2DB29A363DC009A0072 /* OnBoarding_3.json */,
 				318CC2DD29A363DC009A0072 /* tutorial.json */,
+				31A6CF5929A98ED800BAB999 /* tutorial_start.json */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -2297,8 +2291,6 @@
 				318CC2E029A363DC009A0072 /* OnBoarding_2.json in Resources */,
 				31BF82E728E84FE600F9604C /* push.mp3 in Resources */,
 				314E5EE42882BE63000EB910 /* Poppins-ThinItalic.ttf in Resources */,
-				31DCCF9229011E3D0010C9DD /* bero_mission_start.json in Resources */,
-				31DCCF9329011E3D0010C9DD /* bero_start_jump.json in Resources */,
 				31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */,
 				31DCCF9729011F660010C9DD /* mission.wav in Resources */,
 				314E5EF02882BE63000EB910 /* Poppins-Black.ttf in Resources */,
@@ -2316,7 +2308,6 @@
 				31BF82FB28E913CA00F9604C /* start.mp3 in Resources */,
 				314E5EEE2882BE63000EB910 /* Poppins-LightItalic.ttf in Resources */,
 				314E5EE22882BE63000EB910 /* Roboto-Light.ttf in Resources */,
-				31BAA3F528FCEC42008155DD /* lego.json in Resources */,
 				31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */,
 				31BF82E928E8534300F9604C /* tick.mp3 in Resources */,
 				318D201A2998A7ED009764CF /* MapPlaceView.xib in Resources */,
@@ -2324,6 +2315,7 @@
 				314E5EF12882BE63000EB910 /* Roboto-Bold.ttf in Resources */,
 				31BF82E328E84FE500F9604C /* end.mp3 in Resources */,
 				314E5EE32882BE63000EB910 /* Poppins-ExtraLight.ttf in Resources */,
+				31A6CF5A29A98ED800BAB999 /* tutorial_start.json in Resources */,
 				314E5EEA2882BE63000EB910 /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				31BF82E528E84FE600F9604C /* success.mp3 in Resources */,
 				31BF82EF28E8565200F9604C /* find.mp3 in Resources */,
@@ -2999,7 +2991,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 60;
+				CURRENT_PROJECT_VERSION = 61;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3048,7 +3040,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 60;
+				CURRENT_PROJECT_VERSION = 61;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

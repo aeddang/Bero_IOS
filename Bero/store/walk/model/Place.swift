@@ -24,7 +24,7 @@ class Place:MapUserData{
     @discardableResult
     func setData(_ data:PlaceData, me:String, sortType:WalkManager.Filter?)->Place{
         self.title = data.name
-        self.sortType = sortType
+        self.sortType = sortType 
         self.googlePlaceId = data.googlePlaceId
         self.placeId = data.placeId ?? -1
         if let loc = data.place?.geometry?.location {

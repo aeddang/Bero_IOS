@@ -72,7 +72,6 @@ struct PageMissionHistory: PageView {
                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                             .padding(.top, Dimen.margin.medium)
                         }
-                            
                     }
                 }
                 .modifier(PageVertical())

@@ -56,7 +56,6 @@ struct PageManageDogs: PageView {
                             PetProfileEditable(
                                 profile: pet,
                                 isSelected: pet.isRepresentative
-                            
                             ){ type in
                                 if type == nil {
                                     self.select(pet: pet)
@@ -66,7 +65,6 @@ struct PageManageDogs: PageView {
                             }
                             .onTapGesture {
                                 self.select(pet: pet)
-                                
                             }
                         }
                         if self.pets.count < 3 {

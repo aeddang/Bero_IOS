@@ -29,8 +29,6 @@ extension Date{
         if isKr {
             return (age + 1).description + trailing
         } else {
-            let md = now.toDateFormatter(dateFormat:"MMdd")
-            let birthMD = self.toDateFormatter(dateFormat:"MMdd")
             if age > 0 {
                 let unit = age != 1 ? trailing : trailing.replace("s", with: "")
                 return age.description + unit 
