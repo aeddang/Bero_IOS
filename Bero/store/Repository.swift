@@ -22,6 +22,7 @@ enum RepositoryEvent{
 class Repository:ObservableObject, PageProtocol{
     @Published var status:RepositoryStatus = .initate
     @Published var event:RepositoryEvent? = nil {didSet{ if event != nil { event = nil} }}
+    @Published private(set) var hasNewAlarm:Bool = false
     let appSceneObserver:AppSceneObserver?
     let pagePresenter:PagePresenter?
     let dataProvider:DataProvider
@@ -270,6 +271,7 @@ class Repository:ObservableObject, PageProtocol{
         switch res.type {
         case .registPush(let token) : self.registedPushToken(token)
         case .getChatRooms(let page, _) : if page == 0 { self.onMassageUpdated(res) }
+        case .getAlarm(let page, _) : if page == 0 { self.onAlarmUpdated(res) }
         case .sendReport(let reportType, _, _) :
             self.appSceneObserver?.event = .toast(reportType.completeMessage)
         case .blockUser(_, let isBlock) :
@@ -351,6 +353,7 @@ class Repository:ObservableObject, PageProtocol{
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(type: .getPets(userId: user.snsID, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(id: self.tag, type: .getChatRooms(page: 0), isOptional: true))
+            self.dataProvider.requestData(q: .init(id: self.tag, type: .getAlarm(page: 0)))
             Analytics.setUserID(user.snsID)
             Analytics.setUserProperty("type", forName: user.snsType.title)
            
@@ -385,7 +388,17 @@ class Repository:ObservableObject, PageProtocol{
         self.event = .messageUpdate(find != nil)
     }
     
-    
+    //AlarmHistory
+    func onAlarmUpdated(_ res:ApiResultResponds){
+        guard let data = (res.data as? [AlarmData])?.first else { return }
+        if res.id == self.tag {
+            self.hasNewAlarm = self.storage.alarmDate != data.createdAt
+        } else {
+            self.storage.alarmDate = data.createdAt
+            self.hasNewAlarm = false
+        }
+    }
+
     // PushToken
     
     func setupPush(_ isOn:Bool){

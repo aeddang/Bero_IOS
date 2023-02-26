@@ -216,7 +216,7 @@ struct HorizontalProfile: PageComponent{
                                         size: Font.size.thin,
                                         color: self.isSelected ? Color.app.white : Color.app.grey500
                                     ))
-                                    .lineLimit(1)
+                                    .lineLimit(2)
                             }
                             
                             if let distance = self.distance {

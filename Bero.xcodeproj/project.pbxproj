@@ -125,6 +125,7 @@
 		31937F1228ACFA8F00AA5473 /* ValueBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1128ACFA8F00AA5473 /* ValueBox.swift */; };
 		31937F1428ACFBCA00AA5473 /* ValueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1328ACFBCA00AA5473 /* ValueInfo.swift */; };
 		31A6CF5A29A98ED800BAB999 /* tutorial_start.json in Resources */ = {isa = PBXBuildFile; fileRef = 31A6CF5929A98ED800BAB999 /* tutorial_start.json */; };
+		31A6CF5C29AAEFB300BAB999 /* PagePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */; };
 		31A9D2B9289F47340094EC5C /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A9D2B8289F47340094EC5C /* Check.swift */; };
 		31AEC3AD28D2995D00507386 /* PopupWalkUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */; };
 		31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794928C18F0800118B05 /* PageManageDogs.swift */; };
@@ -417,7 +418,7 @@
 		31E73C532957174400173B1C /* BeroLockScreenExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 31E73C412957174200173B1C /* BeroLockScreenExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		31EA348E28AEE84E006A2C0A /* PlaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA348D28AEE84E006A2C0A /* PlaceApi.swift */; };
 		31EA349228AF07EC006A2C0A /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349128AF07EC006A2C0A /* Place.swift */; };
-		31EA349428AF19E9006A2C0A /* AlramManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349328AF19E9006A2C0A /* AlramManager.swift */; };
+		31EA349428AF19E9006A2C0A /* AlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA349328AF19E9006A2C0A /* AlarmManager.swift */; };
 		31EC8E3328EFB49E0052761C /* PageBlockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8E3228EFB49E0052761C /* PageBlockUser.swift */; };
 		31EC8E3528EFB5DB0052761C /* BlockUserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8E3428EFB5DB0052761C /* BlockUserItem.swift */; };
 		31EC8E3728EFCAE60052761C /* FriendListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8E3628EFCAE60052761C /* FriendListSection.swift */; };
@@ -592,6 +593,7 @@
 		31937F1128ACFA8F00AA5473 /* ValueBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueBox.swift; sourceTree = "<group>"; };
 		31937F1328ACFBCA00AA5473 /* ValueInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueInfo.swift; sourceTree = "<group>"; };
 		31A6CF5929A98ED800BAB999 /* tutorial_start.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial_start.json; sourceTree = "<group>"; };
+		31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePicture.swift; sourceTree = "<group>"; };
 		31A9D2B8289F47340094EC5C /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkUser.swift; sourceTree = "<group>"; };
 		31AF794928C18F0800118B05 /* PageManageDogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManageDogs.swift; sourceTree = "<group>"; };
@@ -877,7 +879,7 @@
 		31E73C572957273600173B1C /* BeroLockScreenExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeroLockScreenExtension.entitlements; sourceTree = "<group>"; };
 		31EA348D28AEE84E006A2C0A /* PlaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceApi.swift; sourceTree = "<group>"; };
 		31EA349128AF07EC006A2C0A /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
-		31EA349328AF19E9006A2C0A /* AlramManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlramManager.swift; sourceTree = "<group>"; };
+		31EA349328AF19E9006A2C0A /* AlarmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmManager.swift; sourceTree = "<group>"; };
 		31EC8E3228EFB49E0052761C /* PageBlockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBlockUser.swift; sourceTree = "<group>"; };
 		31EC8E3428EFB5DB0052761C /* BlockUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserItem.swift; sourceTree = "<group>"; };
 		31EC8E3628EFCAE60052761C /* FriendListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListSection.swift; sourceTree = "<group>"; };
@@ -1223,6 +1225,7 @@
 			children = (
 				31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */,
 				31BCF3AC28C363C9004605CF /* PageAlbum.swift */,
+				31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */,
 				318FF6FA29A0FB3500C0492C /* PageAlarm.swift */,
 				31BF830028E95CC000F9604C /* PagePrivacy.swift */,
 				31BF830228ED4C9900F9604C /* PageServiceTerms.swift */,
@@ -2035,7 +2038,7 @@
 		31D920A328729CDC001C2738 /* manager */ = {
 			isa = PBXGroup;
 			children = (
-				31EA349328AF19E9006A2C0A /* AlramManager.swift */,
+				31EA349328AF19E9006A2C0A /* AlarmManager.swift */,
 			);
 			path = manager;
 			sourceTree = "<group>";
@@ -2626,6 +2629,7 @@
 				31D91E8228725834001C2738 /* ViewUtil.swift in Sources */,
 				31BCF3CF28C59ACE004605CF /* ListItemDetail.swift in Sources */,
 				31BCF3C628C45F16004605CF /* ArcGraph.swift in Sources */,
+				31A6CF5C29AAEFB300BAB999 /* PagePicture.swift in Sources */,
 				31D920BE28729CDC001C2738 /* AccountManager.swift in Sources */,
 				318CC2E329A3749A009A0072 /* AlarmApiData.swift in Sources */,
 				31CA21BA28DFE61200A6CFBB /* PageChatRoom.swift in Sources */,
@@ -2777,7 +2781,7 @@
 				31D6658328CDAC2A00765625 /* LocationInfo.swift in Sources */,
 				31D91E8128725834001C2738 /* AESUtil.swift in Sources */,
 				31B0F70428C6ED5D00E86F05 /* TotalMissionSection.swift in Sources */,
-				31EA349428AF19E9006A2C0A /* AlramManager.swift in Sources */,
+				31EA349428AF19E9006A2C0A /* AlarmManager.swift in Sources */,
 				31C6373628A87D8D008EA54C /* UserProfileInfo.swift in Sources */,
 				31C6372828A71514008EA54C /* SelectListStep.swift in Sources */,
 				31C6374128A89313008EA54C /* CPCalendar.swift in Sources */,
@@ -2991,7 +2995,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 61;
+				CURRENT_PROJECT_VERSION = 62;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3040,7 +3044,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 61;
+				CURRENT_PROJECT_VERSION = 62;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

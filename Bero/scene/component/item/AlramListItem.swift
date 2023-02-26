@@ -67,9 +67,12 @@ struct AlarmListItem: PageComponent{
                 withImagePath: self.data.imagePath,
                 isSelected: false
             ){ type in
-                if type == nil {
+                switch type {
+                case nil :
                     self.moveUser()
-                } else {
+                case .view :
+                    self.move()
+                default :
                     self.move()
                 }
             }
@@ -107,8 +110,12 @@ struct AlarmListItem: PageComponent{
             )
 
         case .Album :
-            self.moveUser()
-            break
+            self.pagePresenter.openPopup(
+                PageProvider.getPageObject(.picture)
+                    .addParam(key: .title, value: self.data.title ?? self.data.description)
+                    .addParam(key: .data, value: self.data.album)
+                    .addParam(key: .subData, value: self.dataProvider.user)
+            )
         default :
             break
         }

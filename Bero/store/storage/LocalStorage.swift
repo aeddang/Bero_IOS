@@ -31,6 +31,8 @@ class LocalStorage {
         static let isExposeSetup = "isExposeSetup" + VS
         static let isExpose = "isExpose" + VS
         
+        static let alarmDate = "alarmDate" + VS
+        
        
     }
     let defaults = UserDefaults.standard
@@ -102,6 +104,15 @@ class LocalStorage {
         }
         get{
             return defaults.string(forKey: Keys.walkCount)
+        }
+    }
+    
+    var alarmDate:String?{
+        set(newVal){
+            defaults.set(newVal, forKey: Keys.alarmDate)
+        }
+        get{
+            return defaults.string(forKey: Keys.alarmDate)
         }
     }
     

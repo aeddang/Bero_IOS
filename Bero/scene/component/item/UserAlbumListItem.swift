@@ -18,7 +18,7 @@ class UserAlbumListItemData:InfinityData{
     private(set) var date:String? = nil
     private(set) var lv:Int? = nil
     
-    func setData(_ data:PictureData, idx:Int) -> UserAlbumListItemData {
+    func setData(_ data:PictureData, idx:Int = -1) -> UserAlbumListItemData {
         self.index = idx
         self.albumData = AlbumListItemData().setData(data, idx: 0)
         if let user = data.user {

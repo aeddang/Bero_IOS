@@ -16,6 +16,7 @@ import FirebaseCore
 import GoogleSignInSwift
 
 struct PageExplore: PageView {
+    @EnvironmentObject var repository:Repository
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -39,7 +40,9 @@ struct PageExplore: PageView {
                         title: String.pageTitle.explore,
                         sortButton: self.type.title,
                         sort: self.onSort,
-                        buttons:[.addAlbum, .alarm ]){ type in
+                        buttons:[.addAlbum, .alarm ],
+                        icons: self.hasNewAlarm ? [nil,"N"] : []
+                    ){ type in
                             switch type {
                             case .addAlbum :
                                 self.onPick()
@@ -69,6 +72,9 @@ struct PageExplore: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
+            .onReceive(self.repository.$hasNewAlarm){ hasNewAlarm in
+                self.hasNewAlarm = hasNewAlarm
+            }
             .onReceive(self.infinityScrollModel.$pullPosition){ pos in
                 if pos < InfinityScrollModel.PULL_RANGE { return }
                 self.reloadDegree = Double(pos - InfinityScrollModel.PULL_RANGE)
@@ -93,6 +99,7 @@ struct PageExplore: PageView {
             }
         }//GeometryReader
     }//body
+    @State var hasNewAlarm:Bool = false
     @State var type:AlbumApi.SearchType = .all
     private func onSort(){
         let icons:[String?] = [

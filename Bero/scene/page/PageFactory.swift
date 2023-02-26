@@ -31,6 +31,7 @@ extension PageID{
     static let dog:PageID = "dog"
     static let user:PageID = "user"
     static let album:PageID = "album"
+    static let picture:PageID = "picture"
     static let alarm:PageID = "alarm"
     static let friend:PageID = "friend"
     static let manageDogs:PageID = "manageDogs"
@@ -209,6 +210,7 @@ struct PageFactory{
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)
         case .missionHistory : return PageMissionHistory(pageObservable:pageObservable)
         case .album : return PageAlbum(pageObservable:pageObservable)
+        case .picture : return PagePicture(pageObservable:pageObservable)
         case .alarm : return PageAlarm(pageObservable:pageObservable)
         case .friend : return PageFriend(pageObservable:pageObservable)
         case .myLv : return PageMyLv(pageObservable:pageObservable)

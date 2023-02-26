@@ -155,10 +155,9 @@ struct AlarmList: PageComponent{
         let start = self.alarms.count
         let end = start + datas.count
         added = zip(start...end, datas).map { idx, d in
-            return AlarmListItemData().setDummy(idx)
+            return AlarmListItemData().setData(d, idx: idx)
         }
         self.alarms.append(contentsOf: added)
-        
         if self.alarms.isEmpty {
             withAnimation{
                 self.isEmpty = true
@@ -185,7 +184,6 @@ struct AlarmList: PageComponent{
                 .deleteAlarmPictures(ids: String(del))
         ))
          */
-        
     }
 }
 

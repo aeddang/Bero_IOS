@@ -13,7 +13,7 @@ struct AlramData{
     var text:String? = nil
 }
 
-struct AlramManager {
+struct AlarmManager {
     static func sendWalkEvent(_ evt:WalkEvent){
         guard let title  = evt.pushTitle else {return}
         Self.sendLocalPush(data: .init(title: title, text: evt.pushText),

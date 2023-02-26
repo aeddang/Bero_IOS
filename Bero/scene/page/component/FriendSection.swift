@@ -104,7 +104,7 @@ struct FriendSection: PageComponent{
         var added:[FriendListItemData] = []
         let start = self.friends.count
         let end = min(self.pageSize, datas.count)
-        added = zip(start...end, datas).map { idx, d in
+        added = zip(start..<end, datas).map { idx, d in
             return FriendListItemData().setData(d,  idx: idx, type: self.type.status)
         }
         self.friends.append(contentsOf: added)
