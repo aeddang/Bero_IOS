@@ -9,7 +9,6 @@ import Foundation
 import Foundation
 import SwiftUI
 
-
 struct AlarmList: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider

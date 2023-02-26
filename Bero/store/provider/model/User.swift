@@ -240,7 +240,7 @@ enum Gender:String {
         switch self {
         case .male : return Asset.icon.male
         case .female : return Asset.icon.female
-        case .neutral : return Asset.icon.neutralized
+        case .neutral : return Asset.icon.neutrality
         }
     }
     var color : Color {

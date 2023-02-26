@@ -23,6 +23,13 @@ struct WalkPictureItem:Identifiable{
     var smallPictureUrl:String? = nil
     var isExpose:Bool = false
 }
+struct WalkPictureItemSet:Identifiable {
+    private(set) var id = UUID().uuidString
+    var count:Int = 2
+    var datas:[WalkPictureItem] = []
+    var isFull = false
+    var index:Int = -1
+}
 
 class WalkPath:PageProtocol{
     let id:String = UUID().uuidString

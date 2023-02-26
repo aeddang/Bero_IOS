@@ -64,6 +64,12 @@ struct PagePicture: PageView {
                                                 imgSize: self.itemSize,
                                                 isEdit: .constant(false))
                         }
+                        ForEach(self.walkPictures) { data in
+                            ListDetailItem(
+                                imagePath: data.pictureUrl,
+                                imgSize: self.itemSize
+                            )
+                        }
                     }
                 }
                 .modifier(PageVertical())
@@ -87,6 +93,9 @@ struct PagePicture: PageView {
                 if let datas = obj.getParamValue(key: .datas) as? [AlbumListItemData]{
                     self.datas = datas
                 }
+                if let datas = obj.getParamValue(key: .datas) as? [WalkPictureItem]{
+                    self.walkPictures = datas
+                }
                 
             }
         }//GeometryReader
@@ -94,6 +103,7 @@ struct PagePicture: PageView {
     @State var title:String? = nil
     @State var user:User? = nil
     @State var datas:[AlbumListItemData] = []
+    @State var walkPictures:[WalkPictureItem] = []
     @State var itemSize:CGSize = .zero
 }
 

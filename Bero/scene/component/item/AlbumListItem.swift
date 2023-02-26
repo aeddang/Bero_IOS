@@ -41,7 +41,7 @@ class AlbumListItemData:InfinityData, ObservableObject{
         }
         return self
     }
-    
+        
     @discardableResult
     func updata(isLike:Bool?, isExpose:Bool?) -> AlbumListItemData{
         if isLike != self.isLike, let isLike = isLike {

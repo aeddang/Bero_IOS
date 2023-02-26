@@ -141,7 +141,7 @@ class Mission:MapUserData,ObservableObject{
         self.exp = data.exp ?? 0
         if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
             self.endDate = end
-            self.startDate = end.addingTimeInterval(data.duration ?? 0)
+            self.startDate = end.addingTimeInterval(-(data.duration ?? 0))
         }
         if let loc = data.geos?.last {
             self.location = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
@@ -191,7 +191,7 @@ class Mission:MapUserData,ObservableObject{
         self.exp = data.exp ?? 0
         if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
             self.endDate = end
-            self.startDate = end.addingTimeInterval(data.duration ?? 0)
+            self.startDate = end.addingTimeInterval(-(data.duration ?? 0))
         }
         if let place = data.place {
             self.place = place

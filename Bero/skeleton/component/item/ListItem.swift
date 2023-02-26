@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct ListItem: PageComponent{
-    let id:String
+    var id:String = UUID().uuidString
     var imagePath:String? = nil
     var emptyImage:String = Asset.noImg1_1
     var imgSize:CGSize = CGSize(width: 100, height: 100)

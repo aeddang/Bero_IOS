@@ -17,7 +17,7 @@ import GoogleSignInSwift
 
 extension PageWalkInfo {
     static let topScrollDefault:CGFloat = 240
-    static let topScrollMax:CGFloat = 320
+    static let topScrollMax:CGFloat = 146
 }
 
 struct PageWalkInfo: PageView {
@@ -59,11 +59,14 @@ struct PageWalkInfo: PageView {
                                     width: geometry.size.width * max(1.0,self.imageScale),
                                     height: geometry.size.width * max(1.0,self.imageScale)
                                 )
-                                .opacity(max(self.imageScale, 0.2))
+                                .opacity(self.useScrollUi ? max(self.imageScale, 0.2) : 1)
                                 .frame(
                                     width: geometry.size.width ,
                                     height: geometry.size.width
                                 )
+                                .onTapGesture{
+                                    self.movePicture()
+                                }
                             } else {
                                 Image(Asset.noImg1_1)
                                     .renderingMode(.original)
@@ -75,7 +78,6 @@ struct PageWalkInfo: PageView {
                                 HStack(spacing:Dimen.margin.micro){
                                     ForEach(pets) { profile in
                                         Button(action: {
-                                           
                                             self.pagePresenter.openPopup(
                                                 PageProvider.getPageObject(.dog)
                                                     .addParam(key: .id, value: profile.petId)
@@ -135,7 +137,7 @@ struct PageWalkInfo: PageView {
                                         marginBottom: Dimen.margin.medium,
                                         marginHorizontal: 0,
                                         spacing:0,
-                                        isRecycle: false,
+                                        isRecycle: true,
                                         useTracking: true
                                     ){
                                         HStack(spacing: 0){
@@ -170,12 +172,24 @@ struct PageWalkInfo: PageView {
                                             .padding(.top, Dimen.margin.regular)
                                             .padding(.bottom, Dimen.margin.medium)
                                         
-                                        if let pictures = self.pictures {
-                                            WalkAlbumSection(
-                                                title: nil,
-                                                listSize: geometry.size.width,
-                                                albums: pictures
-                                            )
+                                        ForEach(self.pictureSets) { dataSet in
+                                            HStack(spacing: Dimen.margin.regularExtra){
+                                                ForEach(dataSet.datas) { data in
+                                                    ListItem(
+                                                        imagePath: data.pictureUrl,
+                                                        imgSize: self.pictureSize,
+                                                        move: {
+                                                            self.movePicture()
+                                                        }
+                                                    )
+                                                }
+                                                if !dataSet.isFull {
+                                                    Spacer().frame(
+                                                        width: self.pictureSize.width,
+                                                        height: self.pictureSize.height)
+                                                }
+                                            }
+                                            .padding(.horizontal, Dimen.app.pageHorinzontal)
                                         }
                                         
                                         
@@ -204,8 +218,8 @@ struct PageWalkInfo: PageView {
                 }
             }
             .onReceive(self.infinityScrollModel.$scrollPosition){ scrollPos  in
-                if !self.useScrollUi {return}
                 self.imageScale = 1.0 + (scrollPos*0.01)
+                if !self.useScrollUi { return }
                 if scrollPos > 0 {return}
                 PageLog.d("scrollPos " + scrollPos.description, tag: self.tag)
                 self.topOffSet = max(scrollPos, -Self.topScrollMax)
@@ -243,6 +257,16 @@ struct PageWalkInfo: PageView {
         }//GeometryReader
     }//body
     
+    private func movePicture(){
+        guard let pictures = self.mission?.walkPath?.pictures else {return}
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.picture)
+                .addParam(key: .title, value: String.pageTitle.walkPicture)
+                .addParam(key: .datas, value: pictures)
+        )
+    }
+    
+    
     @State var userProfile:UserProfile? = nil
     @State var user:User? = nil
     @State var title:String = String.pageTitle.walkSummary
@@ -251,7 +275,6 @@ struct PageWalkInfo: PageView {
     @State var mission:Mission? = nil
     @State var topOffSet:CGFloat = Dimen.margin.regular
     @State var imageScale:CGFloat = 1.0
-    @State var pictures:[WalkPictureItem]? = nil
     @State var useScrollUi:Bool = false
     private func loaded(_ res:ApiResultResponds){
         guard let data = res.data as? WalkData else { return }
@@ -262,11 +285,44 @@ struct PageWalkInfo: PageView {
     private func updatedData(){
         guard let mission = self.mission else {return}
         self.walkId = mission.missionId
-        let userId = self.user?.userId ?? self.userProfile?.userId ?? mission.userId ??  "" //self.dataProvider.user.userId ?? ""
+        let userId = self.user?.userId ?? self.userProfile?.userId ?? mission.userId ??  ""
         self.isMe = self.dataProvider.user.isSameUser(userId: userId)
+        self.setupPictureDataSet(mission: mission)
         
-        self.pictures = mission.walkPath?.pictures
-        self.useScrollUi = (self.pictures?.count ?? 0) > 1
+    }
+    
+    @State var pictureSets:[WalkPictureItemSet] = []
+    @State var pictureSize:CGSize = .zero
+    private func setupPictureDataSet(mission:Mission){
+        guard let pictures = mission.walkPath?.pictures.dropFirst() else {return}
+        let count:Int = 2
+        self.useScrollUi = pictures.count > count
+       
+        let w = (self.pageSceneObserver.screenSize.width
+                 - (Dimen.margin.regularExtra * CGFloat(count-1))
+                 - (Dimen.app.pageHorinzontal*2)) / CGFloat(count)
+        self.pictureSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
+        
+        var rows:[WalkPictureItemSet] = []
+        var cells:[WalkPictureItem] = []
+        var total = 0
+        pictures.forEach{ d in
+            if cells.count < count {
+                cells.append(d)
+            }else{
+                rows.append(
+                    WalkPictureItemSet( count: count, datas: cells, isFull: true, index:total)
+                )
+                total += 1
+                cells = [d]
+            }
+        }
+        if !cells.isEmpty {
+            rows.append(
+                WalkPictureItemSet( count: count, datas: cells,isFull: cells.count == count, index: total)
+            )
+        }
+        self.pictureSets.append(contentsOf: rows)
     }
 }
 

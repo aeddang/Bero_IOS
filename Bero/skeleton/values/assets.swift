@@ -144,6 +144,7 @@ extension Asset{
         public static let bone = "bone"
         public static let coin = "coin"
         public static let female = "female"
+        public static let neutrality = "neutrality"
         public static let food = "food"
         public static let human_friends = "human_friends"
         public static let male = "male"
