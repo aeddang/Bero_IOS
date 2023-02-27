@@ -94,7 +94,6 @@ struct PageVertical: ViewModifier {
 }
 
 struct PageHorizontal: ViewModifier {
-   
     func body(content: Content) -> some View {
         return content
             .padding(.horizontal, Dimen.app.pageHorinzontal)

@@ -17,7 +17,7 @@ import GoogleSignInSwift
 
 extension PageWalkInfo {
     static let topScrollDefault:CGFloat = 240
-    static let topScrollMax:CGFloat = 146
+    static let topScrollMax:CGFloat = 100
 }
 
 struct PageWalkInfo: PageView {
@@ -39,16 +39,21 @@ struct PageWalkInfo: PageView {
                 axis:.horizontal
             ) {
                 VStack(alignment: .leading, spacing: 0 ){
-                    TitleTab(
-                        infinityScrollModel: self.infinityScrollModel,
-                        title: self.title ,
-                        useBack: true, action: { type in
-                            switch type {
-                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
-                            default : break
-                            }
-                        })
+                    ZStack{
+                        TitleTab(
+                            //infinityScrollModel: self.infinityScrollModel,
+                            title: self.title ,
+                            useBack: true, action: { type in
+                                switch type {
+                                case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                                default : break
+                                }
+                            })
+                    }
+                    .modifier(PageTop())
                     .zIndex(999)
+                    .background(Color.app.white)
+                    .offset(y:min(0, -Dimen.app.top * (self.imageScale-1)))
                     ZStack(alignment: .top){
                         ZStack(alignment: .topTrailing){
                             if let path = self.mission?.pictureUrl {
@@ -59,7 +64,7 @@ struct PageWalkInfo: PageView {
                                     width: geometry.size.width * max(1.0,self.imageScale),
                                     height: geometry.size.width * max(1.0,self.imageScale)
                                 )
-                                .opacity(self.useScrollUi ? max(self.imageScale, 0.2) : 1)
+                                .opacity(self.useScrollUi ? max(self.imageScale, 0.5) : 1)
                                 .frame(
                                     width: geometry.size.width ,
                                     height: geometry.size.width
@@ -96,6 +101,8 @@ struct PageWalkInfo: PageView {
                                 }
                                 .fixedSize()
                                 .padding(.all, Dimen.margin.regular)
+                                .padding(.top, min(0,Dimen.app.top * (1-self.imageScale)))
+                                .opacity(2.0 - self.imageScale)
                             } else if !self.isMe ,
                                 let userId = self.user?.userId ?? self.userProfile?.userId ,
                                 let img = self.user?.representativeImage ?? self.userProfile?.imagePath {
@@ -116,12 +123,14 @@ struct PageWalkInfo: PageView {
                                         )
                                     }
                                     .padding(.all, Dimen.margin.regular)
-                                
+                                    .padding(.top, min(0,Dimen.app.top * (1-self.imageScale)))
+                                    .opacity(2.0 - self.imageScale)
                             }
                                     
                         }
                         .modifier(MatchHorizontal(height: geometry.size.width))
-                        .clipped()
+                        //.clipped()
+                        
                         VStack(spacing:0){
                             Spacer().frame(
                                 width: 0,
@@ -162,7 +171,6 @@ struct PageWalkInfo: PageView {
                                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                                         
                                         WalkPropertySection(mission: mission){ idx in
-                                            
                                         }
                                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                                         .padding(.top, Dimen.margin.regular)
@@ -191,19 +199,16 @@ struct PageWalkInfo: PageView {
                                             }
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
                                         }
-                                        
-                                        
                                     }
                                     
                                 } else {
                                     Spacer().modifier(MatchParent())
                                 }
                             }
-                            .modifier(BottomFunctionTab(margin:0, effectPct:self.imageScale))
+                            .modifier(BottomFunctionTab(margin:0))
                         }
                     }
                 }
-                .modifier(PageTop())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
@@ -235,7 +240,6 @@ struct PageWalkInfo: PageView {
                 default : break
                 }
             }
-            
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 if let mission = obj.getParamValue(key: .data) as? Mission{
@@ -296,7 +300,7 @@ struct PageWalkInfo: PageView {
     private func setupPictureDataSet(mission:Mission){
         guard let pictures = mission.walkPath?.pictures.dropFirst() else {return}
         let count:Int = 2
-        self.useScrollUi = pictures.count > count
+        //self.useScrollUi = pictures.count > count
        
         let w = (self.pageSceneObserver.screenSize.width
                  - (Dimen.margin.regularExtra * CGFloat(count-1))

@@ -290,7 +290,7 @@ struct PageUser: PageView {
     
     private func accuse(){
         self.appSceneObserver.sheet = .select(
-            String.alert.accuseUserConfirm,
+            String.alert.accuseUserConfirm.replace(self.user?.representativeName ?? ""),
             String.alert.accuseUserConfirmText,
             [String.app.cancel,String.button.accuse],
             isNegative: true){ idx in

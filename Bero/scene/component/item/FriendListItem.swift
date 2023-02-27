@@ -237,7 +237,7 @@ struct FriendListItemBodyVertical: PageComponent{
     
     private func accuse(){
         self.appSceneObserver.sheet = .select(
-            String.alert.accuseUserConfirm,
+            String.alert.accuseUserConfirm.replace(self.data.name ?? self.data.petName ?? ""),
             String.alert.accuseUserConfirmText,
             [String.app.cancel,String.button.accuse],
             isNegative: true){ idx in

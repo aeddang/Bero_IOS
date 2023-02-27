@@ -169,7 +169,7 @@ struct PageChatRoom: PageView {
     
     private func accuse(){
         self.appSceneObserver.sheet = .select(
-            String.alert.accuseUserConfirm,
+            String.alert.accuseUserConfirm.replace(self.userName ?? ""),
             String.alert.accuseUserConfirmText,
             [String.app.cancel,String.button.accuseUser],
             isNegative: true){ idx in

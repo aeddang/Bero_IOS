@@ -131,7 +131,7 @@ struct UserProfileItem: PageComponent{
                 }
         } else {
             self.appSceneObserver.sheet = .select(
-                String.alert.accuseUserConfirm,
+                String.alert.accuseUserConfirm.replace(self.title ?? self.data.nickName ?? ""),
                 String.alert.accuseUserConfirmText,
                 [String.app.cancel,String.button.accuseUser],
                 isNegative: true){ idx in
