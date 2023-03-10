@@ -69,10 +69,8 @@ class SceneDelegate: PageSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         PageLog.d("Deeplink openURLContexts", tag: self.tag)
         guard let url = URLContexts.first?.url else { return }
-        
         //[DL]
         AppDelegate.appObserver.handleDynamicLink(url)
-        
         //[FB]
         if let url = URLContexts.first?.url {
             ApplicationDelegate.shared.application(
@@ -86,18 +84,10 @@ class SceneDelegate: PageSceneDelegate {
     
     override func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         PageLog.d("Deeplink willConnectTo", tag: self.tag)
-        //AppDelegate.appObserver.handleDynamicLink(connectionOptions.urlContexts.first?.url)
-        //AppDelegate.appObserver.handleUniversalLink(connectionOptions.userActivities.first?.webpageURL)
         super.scene(scene, willConnectTo: session, options: connectionOptions)
     }
     
-    /*
-    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        PageLog.d("Deeplink continue userActivity", tag: self.tag)
-        AppDelegate.appObserver.handleUniversalLink(userActivity.webpageURL)
-    }
-    */
-    
+   
     func scene(_ scene: UIScene, didUpdate userActivity: NSUserActivity) {
         PageLog.d("Deeplink didUpdate userActivity", tag: self.tag)
         //AppDelegate.appObserver.handleUniversalLink(userActivity.webpageURL)

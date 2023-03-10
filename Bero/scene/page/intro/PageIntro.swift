@@ -37,7 +37,7 @@ struct PageIntro: PageView {
                 viewModel : self.viewModel,
                 pages: self.pages,
                 useButton: true,
-                bottomMargin: 90
+                bottomMargin: 110
             )
             /*
             Text(self.titles[self.index])

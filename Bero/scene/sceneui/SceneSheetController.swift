@@ -13,7 +13,7 @@ import Combine
 enum SceneSheet {
     case confirm(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, isNegative:Bool? = nil, (Bool) -> Void),
          alert(String?, String?, image:String?=nil, point:Int? = nil, exp:Double? = nil, confirm:String? = nil, isNegative:Bool? = nil , (() -> Void)? = nil),
-         select(String?, String?, icon:String? = nil, image:String?=nil, point:Int? = nil, exp:Double? = nil, [String], isNegative:Bool? = nil, (Int) -> Void)
+         select(String?, String?, icon:String? = nil, image:String?=nil, point:Int? = nil, exp:Double? = nil, [String] = [], isNegative:Bool? = nil, (Int) -> Void)
 }
 
 enum SceneSheetResult {

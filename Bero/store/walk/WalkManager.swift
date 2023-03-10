@@ -194,8 +194,8 @@ extension WalkManager {
         case tutorial, start
         var path:String{
             switch self {
-            case .tutorial: return "tutorial"
-            case .start: return "tutorial_start"
+            case .tutorial: return "tutorial_1"
+            case .start: return "tutorial_2"
             }
         }
     }
@@ -632,7 +632,7 @@ class WalkManager:ObservableObject, PageProtocol{
             if walkId != self.walkId {return}
             if let img = additionalData?.img  {
                 self.updateImages.append(img)
-                self.appSceneObserver?.event = .check(self.updateImages.count.description + "/" + Self.limitedUpdateImageSize.description)
+                self.appSceneObserver?.event = .check(self.updateImages.count.description + "/" + Self.limitedUpdateImageSize.description, icon:Asset.icon.camera)
             }
         default : break
         }

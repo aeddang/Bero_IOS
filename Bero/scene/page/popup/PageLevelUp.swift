@@ -29,30 +29,27 @@ struct PageLevelUp: PageView {
                 Spacer().modifier(MatchParent())
                     .background(Color.transparent.black80)
                 //
-                VStack(spacing:0){
-                    ZStack(alignment: .bottom){
-                        if let effect = self.lv?.effect {
-                            Image(effect)
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 170)
-                        }
-                        Image(self.lv?.icon ?? Asset.image.puppy)
+                ZStack(alignment: .center){
+                    if let icon = self.lv?.icon {
+                        LottieView(lottieFile: "levelup", mode: .playOnce)
+                        Image(icon)
                             .renderingMode(.original)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: self.lv?.icon == nil ? 170 : 90)
-                        if self.lv != nil {
-                            Image(Asset.image.puppy)
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 40)
-                                .padding(.bottom, 10)
-                        }
+                            .frame(height: 90)
+                            .padding(.bottom, 260)
                     }
-                    .frame(height:170)
+                    if let lvValue = self.lvValue {
+                        Text(lvValue)
+                            .modifier(BoldTextStyle(
+                                size: Font.size.black,
+                                color: Color.app.white
+                            ))
+                            .padding(.bottom, 240)
+                    }
+                }
+                .padding(.bottom, 50)
+                VStack(spacing:0){
                     Text(String.pageText.levelUpText)
                         .modifier(BoldTextStyle(
                             size: Font.size.black,
@@ -80,16 +77,26 @@ struct PageLevelUp: PageView {
                     .frame(width:164, height: Dimen.button.medium)
                     .padding(.top, Dimen.margin.mediumUltra)
                 }
+                
             }
             .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
             .onAppear{
                 let lv = self.dataProvider.user.lv
-                self.prevLv = Lv.prefix + (lv-1).description
+                let prev = lv-1
+                self.prevLv = Lv.prefix +  prev.description
                 self.currentLv = Lv.prefix + lv.description
-                self.color = Lv.getLv(lv).color
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5){
+                    withAnimation{
+                        self.color = Lv.getLv(prev).color
+                        self.lv = Lv.getLv(prev)
+                        self.lvValue = prev.description
+                    }
+                }
                 DispatchQueue.main.asyncAfter(deadline: .now()+1.5){
                     withAnimation{
+                        self.color = Lv.getLv(lv).color
                         self.lv = Lv.getLv(lv)
+                        self.lvValue = lv.description
                     }
                 }
             }
@@ -99,6 +106,7 @@ struct PageLevelUp: PageView {
             
         }//geo
     }//body
+    @State var lvValue:String? = nil
     @State var lv:Lv? = nil
     @State var prevLv:String = ""
     @State var currentLv:String = ""

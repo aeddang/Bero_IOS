@@ -25,9 +25,11 @@ struct SceneTab: PageComponent{
     @State var safeAreaBottom:CGFloat = 0
     @State var useBottom:Bool = false
     @State var isActiveChat:Bool = false
+    
     @State var toastMsg:String = ""
     @State var isToastShowing:Bool = false
     
+    @State var checkIcon:String? = nil
     @State var checkMsg:String = ""
     @State var isAutoCheck:Bool = false
     @State var isCheckShowing:Bool = false
@@ -97,10 +99,13 @@ struct SceneTab: PageComponent{
             }
             ChatBox(isActive :self.$isActiveChat)
             Spacer().modifier(MatchParent())
-                .check(isShowing: self.$isCheckShowing , text: self.checkMsg,
+                .check(isShowing: self.$isCheckShowing ,
+                       icon: self.checkIcon,
+                       text: self.checkMsg,
                        isAuto: self.isAutoCheck, action: self.checked)
             Spacer().modifier(MatchParent())
-                .toast(isShowing: self.$isToastShowing , text: self.toastMsg)
+                .toast(isShowing: self.$isToastShowing ,
+                       text: self.toastMsg)
         }
         .modifier(MatchParent())
         .onReceive(self.walkManager.$isSimpleView) { isSimple in
@@ -179,7 +184,8 @@ struct SceneTab: PageComponent{
         .onReceive(self.appSceneObserver.$event){ evt in
             guard let evt = evt else { return }
             switch evt  {
-            case .check(let msg, let checked):
+            case .check(let msg, let icon,  let checked):
+                self.checkIcon = icon
                 self.checkMsg = msg
                 self.checked = checked
                 self.isAutoCheck = checked == nil

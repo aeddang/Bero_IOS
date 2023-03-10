@@ -10,6 +10,7 @@ import Foundation
 struct Asset {}
 extension Asset {
     public static let appIcon = "launcher"
+    public static let appIconLogo = "app_icon_logo"
     public static let appIconCircle = "app_icon_circle"
     public static let noImg16_9 = "noimage_16_9"
     public static let noImg4_3 = "noimage_4_3"
@@ -38,8 +39,6 @@ extension Asset{
         public static let pinMissionOn = "pin_mission_on"
         public static let pinMissionCompleted = "pin_mission_mark"
         
-        public static let pinUser = "pin_user"
-        
         public static let pinCafe = "pin_cafe"
         public static let pinPark = "pin_park"
         public static let pinVet = "pin_vet"
@@ -53,6 +52,8 @@ extension Asset{
         public static let myWalkingOff = "pin_my_walking_off"
         public static let myWalkingOn = "pin_my_walking_on"
         public static let locator = "locator"
+        public static let pinUser = "pin_user"
+        public static let pinUsers = (1...7).map{ "pin_user_" + $0.description }
         
     }
     
@@ -196,9 +197,9 @@ extension Asset{
         public static let onboarding_img_2 = "onboarding_img_2"
         public static let onboarding_img_3 = "onboarding_img_3"
         
-        public static let onboarding_ani_0 = "OnBoarding_1"
-        public static let onboarding_ani_1 = "OnBoarding_2"
-        public static let onboarding_ani_2 = "OnBoarding_3"
+        public static let onboarding_ani_0 = "onboarding_01"
+        public static let onboarding_ani_1 = "onboarding_02"
+        public static let onboarding_ani_2 = "onboarding_03"
         
     }
     struct shape {

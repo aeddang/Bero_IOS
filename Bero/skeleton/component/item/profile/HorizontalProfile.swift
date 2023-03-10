@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-
+import struct Kingfisher.KFImage
 struct HorizontalProfile: PageComponent{
     enum ProfileType{
         case pet, user, place(icon:String = Asset.icon.goal), multi(imgPath:String?)
@@ -329,6 +329,22 @@ struct HorizontalProfile: PageComponent{
                 }
             }
             if let path = self.withImagePath {
+                KFImage(URL(string: path))
+                    .resizable()
+                    .placeholder {
+                        Image(Asset.noImg1_1)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                    .cancelOnDisappear(true)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: Dimen.button.medium, height: Dimen.button.medium)
+                    .background(Color.app.grey50)
+                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
+                    .onTapGesture{
+                        self.action?(.view(path, color: .black))
+                    }
+                /*
                 ImageView(
                     url: path,
                     contentMode: .fill,
@@ -338,7 +354,7 @@ struct HorizontalProfile: PageComponent{
                 .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.tiny))
                 .onTapGesture{
                     self.action?(.view(path, color: .black))
-                }
+                }*/
             }
         }
         .padding(.all, self.useBg ? self.type.padding : 0)

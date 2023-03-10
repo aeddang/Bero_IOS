@@ -182,24 +182,16 @@ class Repository:ObservableObject, PageProtocol{
         self.apiManager.$rewardEvent.sink(receiveValue: { evt in
             switch evt {
             case .exp(let score, let lvData) :
-                self.checkLevelUp(lvData:lvData)
                 self.dataProvider.user.updateExp(score)
-                self.appSceneObserver?.event = .check("+ exp " + score.toInt().description)
-                SoundToolBox().play(snd:Asset.sound.reward)
-                self.walkManager.updateReward(score, point: 0)
+                self.getReward(exp: score, point: nil, lvData:lvData)
+                
             case .point(let score, let lvData) :
-                self.checkLevelUp(lvData:lvData)
                 self.dataProvider.user.updatePoint(score)
-                self.appSceneObserver?.event = .check("+ point " + score.description)
-                SoundToolBox().play(snd:Asset.sound.reward)
-                self.walkManager.updateReward(0, point: score)
+                self.getReward(exp: nil, point: score, lvData:lvData)
                
             case .reward(let exp, let point, let lvData) :
-                self.checkLevelUp(lvData:lvData)
                 self.dataProvider.user.updateReward(exp, point: point)
-                self.appSceneObserver?.event = .check("+ point " + point.description + "\n" + "+ exp " + exp.toInt().description)
-                SoundToolBox().play(snd:Asset.sound.reward)
-                self.walkManager.updateReward(exp, point: point)
+                self.getReward(exp: exp, point: point, lvData:lvData)
                 
             default: break
             }
@@ -237,8 +229,39 @@ class Repository:ObservableObject, PageProtocol{
         }).store(in: &dataCancellable)
         
     }
-    private func checkLevelUp(lvData:MetaData?){
+   
+    private func getReward(exp:Double?, point:Int?, lvData:MetaData?){
+        let exp = exp ?? 0
+        let point = point ?? 0
+        if exp == 0 && point == 0 {return}
+        SoundToolBox().play(snd:Asset.sound.reward)
+        if point >= 100{
+            self.appSceneObserver?.sheet  = .select(
+                String.alert.welcome,
+                String.alert.welcomeText,
+                point:point,
+                exp:exp,
+                isNegative: false, {_ in
+                    self.checkLevelUp(lvData: lvData)
+                }
+            )
+            self.walkManager.updateReward(exp, point: point)
+            return
+            
+        } else if point == 0{
+            self.appSceneObserver?.event = .check("+ exp " + exp.description)
+        } else if exp == 0{
+            self.appSceneObserver?.event = .check("+ point " + point.description)
+        } else {
+            self.appSceneObserver?.event = .check("+ point " + point.description + "\n" + "+ exp " + exp.toInt().description)
+        }
+        self.walkManager.updateReward(exp, point: point)
+        DispatchQueue.main.asyncAfter(deadline: .now()+2.5) {
+            self.checkLevelUp(lvData: lvData)
+        }
         
+    }
+    private func checkLevelUp(lvData:MetaData?){
         if self.dataProvider.user.isLevelUp(lvData:lvData) {
             self.pagePresenter?.openPopup(PageProvider.getPageObject(.levelUp))
         }

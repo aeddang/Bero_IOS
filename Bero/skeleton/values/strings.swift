@@ -170,6 +170,9 @@ extension String {
         
         public static var signOutConfirm = "Are you sure you want to sign out?"
         public static var signOutConfirmText = "Once you sign out, you can sign back in whenever you want. See you soon!"
+        
+        public static var welcome = "Welcome!"
+        public static var welcomeText = "You’ve earned the welcome rewards!"
      
     }
     
@@ -301,7 +304,7 @@ extension String {
         public static let service = "Terms of service agreement"
         public static let blockUser = "Manage block list"
         public static let myAccount = "My account"
-        public static let alarm = "Alarm"
+        public static let alarm = "Notification"
     }
     
     

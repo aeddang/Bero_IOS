@@ -27,27 +27,30 @@ struct SelectTagEdit: PageComponent{
             VStack(alignment: .leading, spacing:Dimen.margin.regular){
                 HStack(alignment: .top, spacing: 0){
                     Spacer().modifier(MatchVertical(width: 0))
-                    VStack(alignment: .leading, spacing: Dimen.margin.thin) {
-                        ForEach(self.buttonSets) { data in
-                            HStack(alignment: .center, spacing: Dimen.margin.thin) {
-                                ForEach(data.cells) { cell in
-                                    SortButton(
-                                        type: self.selects.first(where: {cell.value == $0}) != nil
-                                        ? .fill : .stroke,
-                                        sizeType: .big,
-                                        text: cell.title,
-                                        color:
-                                            self.selects.first(where: {cell.value == $0}) != nil
+                    ScrollView(.vertical, showsIndicators: false ){
+                        VStack(alignment: .leading, spacing: Dimen.margin.thin) {
+                            ForEach(self.buttonSets) { data in
+                                HStack(alignment: .center, spacing: Dimen.margin.thin) {
+                                    ForEach(data.cells) { cell in
+                                        SortButton(
+                                            type: self.selects.first(where: {cell.value == $0}) != nil
+                                            ? .fill : .stroke,
+                                            sizeType: .big,
+                                            text: cell.title,
+                                            color:
+                                                self.selects.first(where: {cell.value == $0}) != nil
                                             ? Color.brand.primary : Color.app.grey400,
-                                        isSort: false){
-                                            let isSelect = self.selects.first(where: {cell.value == $0}) != nil
-                                            self.selected(btn: cell, isSelect: !isSelect)
-                                            
-                                        }
-                                        .fixedSize()
+                                            isSort: false){
+                                                let isSelect = self.selects.first(where: {cell.value == $0}) != nil
+                                                self.selected(btn: cell, isSelect: !isSelect)
+                                                
+                                            }
+                                            .fixedSize()
+                                    }
                                 }
                             }
                         }
+                        .padding(.top, Dimen.margin.regular)
                     }
                 }
                 FillButton(

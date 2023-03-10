@@ -16,12 +16,17 @@ struct LockScreen:View{
     var distance:String = ""
     var body: some View {
         ZStack(alignment: .topTrailing){
-            Image(Asset.appIconCircle)
-                .renderingMode(.original)
+            Image(Asset.appIconLogo)
+                .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: Dimen.icon.light, height: Dimen.icon.light)
+                .foregroundColor(Color.app.white)
+                .padding(.all, Dimen.margin.microUltra)
+                .frame(width: Dimen.icon.medium, height: Dimen.icon.medium)
+                .background(Color.brand.primary)
+                .clipShape(Circle())
                 .padding(.all, Dimen.margin.thin)
+            
             VStack (spacing: Dimen.margin.regular){
                 HStack(spacing: 0){
                     VStack(alignment: .leading, spacing: 0){
@@ -64,7 +69,7 @@ struct ScreenPropertyInfo:View{
     var body: some View {
         VStack(alignment: .leading, spacing:0){
             Spacer().modifier(MatchHorizontal(height: 0))
-            HStack(spacing: 0){
+            HStack(spacing: Dimen.margin.tiny){
                 if let icon = self.icon {
                     Image(icon)
                         .renderingMode(.template)
@@ -72,6 +77,7 @@ struct ScreenPropertyInfo:View{
                         .scaledToFit()
                         .foregroundColor(Color.brand.primary)
                         .frame(width:Dimen.icon.light,height: Dimen.icon.light)
+                        
                 }
                 if let title = self.title {
                     Text(title)
@@ -93,6 +99,7 @@ struct ScreenPropertyInfo:View{
                         .padding(.bottom, Dimen.margin.micro)
                 }
             }
+            .padding(.top, Dimen.margin.thin)
         }
         
     }

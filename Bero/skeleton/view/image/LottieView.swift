@@ -5,10 +5,11 @@ struct LottieView: UIViewRepresentable {
     let lottieFile: String
     let animationView = LottieAnimationView()
     var autoPlay:Bool = true
+    var mode:LottieLoopMode = .playOnce
     var complete: (() -> Void)? = nil
     func makeUIView(context: Context) -> some UIView {
         let view = UIView(frame: .zero)
- 
+        animationView.loopMode = self.mode
         animationView.animation = LottieAnimation.named(lottieFile)
         animationView.contentMode = .scaleAspectFill
         if self.autoPlay {

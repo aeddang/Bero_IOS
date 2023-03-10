@@ -37,29 +37,31 @@ struct SelectDateEdit: PageComponent{
                     .lineLimit(1)
                     .padding(.top, Dimen.margin.regularUltra)
             }
-            VStack(spacing:0){
-                DatePicker(
-                    "",
-                    selection: self.$selectDate,
-                    in:self.dateClosedRange,
-                    displayedComponents: [.date]
-                )
-                .labelsHidden()
-                .exChangeTextColor(Color.brand.primary)
-                .datePickerStyle(WheelDatePickerStyle())
-                
-                SortButton(
-                    type: .strokeFill,
-                    sizeType: .small,
-                    text: self.selectDate.toAge(trailing: String.app.years, subTrailing: String.app.months),
-                    color: Color.app.orange,
-                    isSort: false,
-                    isSelected: true
-                ){
-                    self.selectDate = Date()
+            ScrollView(.vertical, showsIndicators: false ){
+                VStack(spacing:0){
+                    DatePicker(
+                        "",
+                        selection: self.$selectDate,
+                        in:self.dateClosedRange,
+                        displayedComponents: [.date]
+                    )
+                    .labelsHidden()
+                    .exChangeTextColor(Color.brand.primary)
+                    .datePickerStyle(WheelDatePickerStyle())
+                    
+                    SortButton(
+                        type: .strokeFill,
+                        sizeType: .small,
+                        text: self.selectDate.toAge(trailing: String.app.years, subTrailing: String.app.months),
+                        color: Color.app.orange,
+                        isSort: false,
+                        isSelected: true
+                    ){
+                        self.selectDate = Date()
+                    }
+                    .padding(.top, Dimen.margin.medium)
+                    Spacer().modifier(MatchHorizontal(height: 0))
                 }
-                .padding(.top, Dimen.margin.medium)
-                Spacer().modifier(MatchHorizontal(height: 0))
             }
             VStack(spacing: Dimen.margin.regular){
                 if self.needAgree {

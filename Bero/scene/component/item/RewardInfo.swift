@@ -18,7 +18,12 @@ struct RewardInfo: PageComponent{
             case .exp : return Asset.icon.exp
             }
         }
-        
+        var iconMode:Image.TemplateRenderingMode{
+            switch self {
+            case .exp : return .original
+            default : return .template
+            }
+        }
         var iconColor:Color?{
             switch self {
             case .exp : return Color.brand.primary
@@ -80,7 +85,7 @@ struct RewardInfo: PageComponent{
                         size: self.sizeType.textSize, color: self.isActive ? self.type.color : Color.app.grey400))
                 if let color = self.type.iconColor {
                     Image(self.type.icon)
-                        .renderingMode(.template)
+                        .renderingMode(self.type.iconMode)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(color)

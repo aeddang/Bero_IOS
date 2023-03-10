@@ -71,17 +71,16 @@ extension PlayMap {
         marker.userData = data
         marker.appearAnimation = .fadeIn
         if data.isGroup {
-            marker.iconView = self.getIcon(img: Asset.map.pinUser)
+            let rand = Int.random(in: 0...(Asset.map.pinUsers.count-1))
+            marker.iconView = self.getIcon(img: Asset.map.pinUsers[rand])
             marker.title = data.count.description + " " + (data.title ?? "")
             marker.zIndex = 900
             marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
             marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.1)
-            
             return marker
         }
         if let path = data.pictureUrl {
             marker.title = data.title ?? "User"
-           
             let size = Dimen.profile.lightExtra
             if let prevImg =  data.previewImg {
                 onMarkerImage(uiImage: prevImg)
@@ -104,7 +103,8 @@ extension PlayMap {
                             }
                         }
                         
-                    case .error :break
+                    case .error :
+                        marker.iconView = self.getIcon(img: Asset.map.pinUser)
                     }
                 }).store(in: &anyCancellable)
                 loader.load(url: path)

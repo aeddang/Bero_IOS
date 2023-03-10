@@ -59,6 +59,21 @@ struct PagePicture: PageView {
                         isRecycle: true,
                         useTracking: true
                     ){
+                        if let user = self.other {
+                            UserProfileItem(
+                                data: user.currentProfile,
+                                type: .pet,
+                                title: user.representativeName,
+                                lv: user.lv,
+                                imagePath: user.representativeImage,
+                                description: self.subTitle,
+                                action:{
+                                    self.moveUser(user: user)
+                                }
+                            )
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                        }
+                        
                         ForEach(self.datas) { data in
                             AlbumListDetailItem(data:data, user:self.user,
                                                 imgSize: self.itemSize,
@@ -84,8 +99,14 @@ struct PagePicture: PageView {
                 if let data = obj.getParamValue(key: .title) as? String{
                     self.title = data
                 }
-                if let data = obj.getParamValue(key: .subData) as? User{
+                if let data = obj.getParamValue(key: .subText) as? String{
+                    self.subTitle = data
+                }
+                if let data = obj.getParamValue(key: .userData) as? User{
                     self.user = data
+                }
+                if let data = obj.getParamValue(key: .subData) as? User{
+                    self.other = data
                 }
                 if let data = obj.getParamValue(key: .data) as? AlbumListItemData{
                     self.datas = [data]
@@ -101,10 +122,19 @@ struct PagePicture: PageView {
         }//GeometryReader
     }//body
     @State var title:String? = nil
+    @State var subTitle:String? = nil
     @State var user:User? = nil
+    @State var other:User? = nil
     @State var datas:[AlbumListItemData] = []
     @State var walkPictures:[WalkPictureItem] = []
     @State var itemSize:CGSize = .zero
+    
+    private func moveUser(user:User){
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.user)
+                .addParam(key: .data, value: user)
+        )
+    }
 }
 
 

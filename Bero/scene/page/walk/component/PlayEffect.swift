@@ -27,6 +27,7 @@ class PlayEffectItem:Identifiable{
     fileprivate var font:TextModifier = .init(family: Font.family.bold, size: 48, color: Color.brand.primary)
     fileprivate var size:CGSize = .init(width: 100, height: 100)
     fileprivate var position:CGPoint = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/3)
+    fileprivate var bgColor:Color? = nil
 }
 
 struct PlayEffect: PageView {
@@ -42,9 +43,13 @@ struct PlayEffect: PageView {
     @State var isFindEffect:Bool = false
     @State var isWalking:Bool = false
     @State var followMeColor:Color = Color.app.blue
+    @State var backGroundColor:Color? = nil
     var body: some View {
         ZStack(alignment: .center){
-            
+            if let color = self.backGroundColor {
+                Spacer().modifier(MatchParent())
+                    .background(color)
+            }
             ForEach(self.effects) { effect in
                 switch effect.type {
                 case .animation :
@@ -146,6 +151,7 @@ struct PlayEffect: PageView {
                 eff.isFullScreen = true
                 eff.size = .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 eff.position = .init(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
+                eff.bgColor = Color.transparent.black70
                 self.add(effect: eff)
             
                 break
@@ -184,15 +190,33 @@ struct PlayEffect: PageView {
             self.appSceneObserver.useBottom = false
         }
         self.effects.append(effect)
+        if let color = effect.bgColor {
+            withAnimation{
+                self.backGroundColor = color
+            }
+        }
         ComponentLog.d("self.effects " + self.effects.count.description, tag: self.tag)
     }
     private func remove(id:String){
-        
         if let find = self.effects.firstIndex(where: {$0.id == id}){
             self.effects.remove(at: find)
             self.appSceneObserver.useBottom = true
         }
         ComponentLog.d("self.effects " + self.effects.count.description, tag: self.tag)
+        if self.effects.isEmpty {
+            withAnimation{
+                self.backGroundColor = nil
+            }
+        }
+        if let bg = self.effects.first(where: {$0.bgColor != nil}){
+            withAnimation{
+                self.backGroundColor = bg.bgColor
+            }
+        } else {
+            withAnimation{
+                self.backGroundColor = nil
+            }
+        }
     }
     
     @State var findShowSubscription:AnyCancellable?

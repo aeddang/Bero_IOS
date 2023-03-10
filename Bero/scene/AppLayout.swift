@@ -52,9 +52,16 @@ struct AppLayout: PageComponent{
                         }
                         ActivityIndicator(isAnimating: self.$isLoading, style: .large)
                             .padding(.bottom, Dimen.margin.medium + self.appSceneObserver.safeBottomHeight)
+                        /*
+                        LottieView(lottieFile: "Loading", mode: .loop)
+                            .frame(width: Dimen.icon.medium, height: Dimen.icon.medium)
+                            .padding(.bottom, Dimen.margin.medium + self.appSceneObserver.safeBottomHeight)
+                         */
+                         
                     }
                 }
             }
+            
             /*
             
             .padding(.top, 200)
@@ -110,6 +117,12 @@ struct AppLayout: PageComponent{
                 case .chat :
                     SoundToolBox().play(snd:Asset.sound.push)
                     if current == .chatRoom || current == .chat { return }
+                case .alarm :
+                    if current == .alarm {return}
+                    if current == .explore {
+                        self.dataProvider.requestData(q: .init(id: self.tag, type: .getAlarm(page: 0)))
+                        return
+                    }
                 default: break
                 }
             }
@@ -156,6 +169,11 @@ struct AppLayout: PageComponent{
             }
              
             */
+        }
+        .onDisappear(){
+            if self.walkManager.status == .walking {
+                self.walkManager.endWalk()
+            }
         }
     }
     

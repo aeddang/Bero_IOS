@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-
+import struct Kingfisher.KFImage
 struct ListDetailItem: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @ObservedObject var imageLoader: ImageLoader = ImageLoader()
@@ -34,12 +34,30 @@ struct ListDetailItem: PageComponent{
         VStack(alignment: .leading, spacing:Dimen.margin.thin){
             ZStack{
                 if let path = self.imagePath {
+                    KFImage(URL(string: path))
+                        .onSuccess({ img in
+                            let ratio:CGFloat = img.image.size.height / img.image.size.width
+                            self.imageHeight = self.imgSize.width * ratio
+                            
+                        })
+                        .resizable()
+                        .placeholder {
+                            Image(self.emptyImage)
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    
+                        .cancelOnDisappear(true)
+                        .aspectRatio(contentMode: .fill)
+                        .modifier(MatchParent())
+                    /*
                     ImageView(
                         imageLoader : self.imageLoader,
                         url: path,
                               contentMode: .fill,
                               noImg: self.emptyImage)
                         .modifier(MatchParent())
+                     */
                 } else {
                     Spacer()
                         .modifier(MatchParent())

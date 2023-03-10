@@ -12,7 +12,11 @@ struct PetProfileInfo: PageComponent{
         }) {
             PetProfileBody(
                 profile: self.profile,
-                sizeType: self.sizeType)
+                sizeType: self.sizeType,
+                action: { _ in
+                    self.action()
+                }
+            )
         }
     }
 }

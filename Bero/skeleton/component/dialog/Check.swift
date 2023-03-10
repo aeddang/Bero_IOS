@@ -11,9 +11,10 @@ import SwiftUI
 import Combine
 
 extension View {
-    func check(isShowing: Binding<Bool>, text: String, isAuto:Bool, action: (() -> Void)? = nil) -> some View {
+    func check(isShowing: Binding<Bool>, icon:String?, text: String, isAuto:Bool, action: (() -> Void)? = nil) -> some View {
         Check(isShowing: isShowing,
               presenting: { self },
+              icon: icon,
               text: text,
               isAuto: isAuto,
               action: action
@@ -26,6 +27,7 @@ struct Check<Presenting>: View where Presenting: View {
     @EnvironmentObject var sceneObserver:PageSceneObserver
     @Binding var isShowing: Bool
     let presenting: () -> Presenting
+    var icon: String? = nil
     var text: String
     var isAuto: Bool
     var duration:Double = 2.5
@@ -37,7 +39,7 @@ struct Check<Presenting>: View where Presenting: View {
             self.presenting().opacity(self.isShowing ? 1 : 0)
             VStack(spacing:Dimen.margin.regularExtra){
                 if self.isAuto {
-                    Image(Asset.icon.checked_circle)
+                    Image(self.icon ?? Asset.icon.checked_circle)
                         .renderingMode(.template)
                         .resizable()
                         .scaledToFit()

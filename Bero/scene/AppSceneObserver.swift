@@ -14,7 +14,7 @@ enum SceneUpdateType {
 }
 
 enum SceneEvent {
-    case initate, toast(String), check(String, (() -> Void)? = nil), update(SceneUpdateType),
+    case initate, toast(String), check(String, icon:String? = nil, (() -> Void)? = nil), update(SceneUpdateType),
          debug(String),
          openImagePicker(String,
                          type:UIImagePickerController.SourceType = .photoLibrary,

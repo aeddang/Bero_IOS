@@ -154,7 +154,7 @@ struct PageMy: PageView {
                 self.representativePet = pet
             }
             .onAppear{
-                
+               
             
             }
         }//GeometryReader

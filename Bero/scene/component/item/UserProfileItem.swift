@@ -20,6 +20,7 @@ struct UserProfileItem: PageComponent{
     var title:String? = nil
     var lv:Int? = nil
     var imagePath:String? = nil
+    var description:String? = nil
     var date:String? = nil
     var useBg:Bool = false
     var action: (() -> Void)? = nil
@@ -35,7 +36,7 @@ struct UserProfileItem: PageComponent{
             name: self.title ?? self.data.nickName,
             gender: self.date == nil ? self.data.gender : nil,
             age: self.date == nil ? self.data.birth?.toAge() : nil,
-            description: self.date,
+            description: description ?? self.date,
             isSelected: false,
             useBg: self.useBg
         ){ type in

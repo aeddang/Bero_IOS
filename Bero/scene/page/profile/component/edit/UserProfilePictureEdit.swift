@@ -55,10 +55,9 @@ struct UserProfilePictureEdit: PageComponent{
         self.appSceneObserver.select = .imgPicker(self.tag){ pick in
             guard let pick = pick else {return}
             DispatchQueue.global(qos:.background).async {
-                let scale:CGFloat = 1 //UIScreen.main.scale
                 let sizeList = CGSize(
-                    width: AlbumApi.thumbSize * scale,
-                    height: AlbumApi.thumbSize * scale)
+                    width: AlbumApi.thumbSize,
+                    height: AlbumApi.thumbSize)
                 let thumbImage = pick.normalized().crop(to: sizeList).resize(to: sizeList)
                 DispatchQueue.main.async {
                     self.pagePresenter.isLoading = false

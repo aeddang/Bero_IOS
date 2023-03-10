@@ -300,7 +300,7 @@ struct PageWalkInfo: PageView {
     private func setupPictureDataSet(mission:Mission){
         guard let pictures = mission.walkPath?.pictures.dropFirst() else {return}
         let count:Int = 2
-        //self.useScrollUi = pictures.count > count
+        self.useScrollUi = pictures.count > count
        
         let w = (self.pageSceneObserver.screenSize.width
                  - (Dimen.margin.regularExtra * CGFloat(count-1))

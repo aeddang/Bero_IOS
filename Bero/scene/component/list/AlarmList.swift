@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct AlarmList: PageComponent{
+    @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
@@ -113,6 +114,16 @@ struct AlarmList: PageComponent{
             default : break
             }
             
+        }
+        .onReceive (self.appObserver.$page) { iwg in
+            guard let pageId = iwg?.page?.pageID else { return }
+            switch pageId {
+            case .alarm :
+                self.updateAlarm()
+                
+            default: break
+            }
+            //self.appObserverMove(iwg)
         }
         .onAppear(){
             self.updateAlarm()

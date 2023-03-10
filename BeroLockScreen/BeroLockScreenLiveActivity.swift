@@ -28,7 +28,7 @@ struct BeroLockScreenLiveActivity: Widget {
                 distance: (context.state.walkDistance/1000).toTruncateDecimal(n: 2)
             )
             .activityBackgroundTint(Color.app.black)
-            .activitySystemActionForegroundColor(Color.app.black)
+            .activitySystemActionForegroundColor(Color.app.white)
             
         }
         dynamicIsland: { context in

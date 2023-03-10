@@ -112,9 +112,11 @@ struct AlarmListItem: PageComponent{
         case .Album :
             self.pagePresenter.openPopup(
                 PageProvider.getPageObject(.picture)
-                    .addParam(key: .title, value: self.data.title ?? self.data.description)
+                    .addParam(key: .title, value: String.pageTitle.alarm)
+                    .addParam(key: .subText, value: self.data.title ?? self.data.description)
                     .addParam(key: .data, value: self.data.album)
-                    .addParam(key: .subData, value: self.dataProvider.user)
+                    .addParam(key: .subData, value: self.data.user)
+                    .addParam(key: .userData, value: self.dataProvider.user)
             )
         default :
             break

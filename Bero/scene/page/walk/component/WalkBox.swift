@@ -19,62 +19,18 @@ struct WalkBox: PageComponent{
     @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
     
     var body: some View {
-        HStack(alignment: .top, spacing:Dimen.margin.regularExtra){
-            if self.isExpand {
+        VStack(alignment: .leading, spacing:0){
+            HStack(alignment: .top, spacing:0) {
                 VStack(alignment: .leading, spacing:0){
-                    HStack(alignment: .top, spacing:0) {
-                        VStack(alignment: .leading, spacing:0){
-                            Spacer().modifier(MatchHorizontal(height: 0))
-                            Text(self.title)
-                                .modifier(SemiBoldTextStyle(
-                                    size: Font.size.regular,
-                                    color: self.isWalk ? Color.brand.primary : Color.app.grey500
-                                ))
-                                .multilineTextAlignment(.leading)
-                        }
-                        ImageButton(
-                            isSelected: false,
-                            defaultImage:Asset.icon.search_user,
-                            type: .original,
-                            size: .init(width: Dimen.icon.heavyExtra, height: Dimen.icon.heavyExtra)
-                        ){_ in
-                            self.pagePresenter.openPopup(PageProvider.getPageObject(.popupWalkUsers))
-                        }
-                        .frame( alignment: .center)
-                    }
-                    
-                    if self.isWalk {
-                        HStack(spacing:Dimen.margin.thin){
-                            PropertyInfo(
-                                type: .impect,
-                                value: self.walkTime,
-                                unit:String.app.time
-                            )
-                            PropertyInfo(
-                                type: .impect,
-                                value: self.walkDistance,
-                                unit:String.app.km
-                            )
-                        }
-                        .padding(.top, Dimen.margin.thin)
-                    } else {
-                        LocationInfo()
-                            .padding(.top, Dimen.margin.medium)
-                    }
+                    Spacer().modifier(MatchHorizontal(height: 0))
+                    Text(self.title)
+                        .modifier(SemiBoldTextStyle(
+                            size: Font.size.regular,
+                            color: self.isWalk ? Color.brand.primary : Color.app.grey500
+                        ))
+                        .multilineTextAlignment(.leading)
+                        .opacity(self.isExpand ? 1 : 0)
                 }
-                .padding(.all, Dimen.margin.regularExtra)
-                .background( Color.app.white )
-                .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
-                .overlay(
-                    RoundedRectangle(cornerRadius: Dimen.radius.light)
-                        .strokeBorder(
-                            Color.app.grey100,
-                            lineWidth: Dimen.stroke.light
-                        )
-                )
-                .modifier(ShadowLight( opacity: 0.05 ))
-            } else {
-                Spacer().modifier(MatchHorizontal(height: 0))
                 ImageButton(
                     isSelected: false,
                     defaultImage:Asset.icon.search_user,
@@ -86,10 +42,38 @@ struct WalkBox: PageComponent{
                 .frame( alignment: .center)
             }
             
-            /*
-            
-             */
+            if self.isWalk {
+                HStack(spacing:Dimen.margin.tiny){
+                    PropertyInfo(
+                        type: .impect,
+                        value: self.walkTime,
+                        unit:String.app.time
+                    )
+                    PropertyInfo(
+                        type: .impect,
+                        value: self.walkDistance,
+                        unit:String.app.km
+                    )
+                }
+                .padding(.top, Dimen.margin.thin)
+                .opacity(self.isExpand ? 1 : 0)
+            } else {
+                LocationInfo()
+                    .padding(.top, Dimen.margin.medium)
+                    .opacity(self.isExpand ? 1 : 0)
+            }
         }
+        .padding(.all, self.isExpand ? Dimen.margin.regularExtra : 0)
+        .background( self.isExpand ? Color.app.white : Color.transparent.clear)
+        .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
+        .overlay(
+            RoundedRectangle(cornerRadius: Dimen.radius.light)
+                .strokeBorder(
+                    Color.app.grey100,
+                    lineWidth:  self.isExpand ? Dimen.stroke.light : 0
+                )
+        )
+        .modifier(ShadowLight( opacity: self.isExpand ? 0.05 : 0 ))
         .opacity(self.isShow ? 1 : 0)
         .onReceive(self.dataProvider.user.$representativePet){ _ in
             self.updateTitle()
@@ -126,7 +110,7 @@ struct WalkBox: PageComponent{
     }
     @State var isInit:Bool = false
     @State var isShow:Bool = true
-    @State var isExpand:Bool = false
+    @State var isExpand:Bool = true
     @State var isWalk:Bool = false
     @State var walkTime:String = "00:00"
     @State var walkDistance:String = "0"

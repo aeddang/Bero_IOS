@@ -12,7 +12,10 @@ struct UserProfileInfo: PageComponent{
             }) {
                 UserProfileInfoBody(
                     profile: self.profile,
-                    sizeType: self.sizeType
+                    sizeType: self.sizeType,
+                    action: { _ in
+                        action()
+                    }
                 )
             }
         } else {
@@ -28,7 +31,7 @@ struct UserProfileInfoBody: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     var profile:UserProfile
     var sizeType:HorizontalProfile.SizeType = .small
-
+    var action: ((HorizontalProfile.FuncType?) -> Void)? = nil
     var body: some View {
         HorizontalProfile(
             id: self.profile.id,
@@ -39,7 +42,8 @@ struct UserProfileInfoBody: PageComponent{
             name: self.nickName,
             gender: self.gender,
             age: self.age,
-            isSelected: false
+            isSelected: false,
+            action: self.action
         )
         .onReceive(self.profile.$nickName){value in
             self.nickName = value

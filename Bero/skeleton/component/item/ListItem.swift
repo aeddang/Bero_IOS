@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-
+import struct Kingfisher.KFImage
 struct ListItem: PageComponent{
     var id:String = UUID().uuidString
     var imagePath:String? = nil
@@ -34,10 +34,23 @@ struct ListItem: PageComponent{
                     self.move?()
                 }) {
                     if let path = self.imagePath {
+                        KFImage(URL(string: path))
+                            .resizable()
+                            .placeholder {
+                                Image(self.emptyImage)
+                                    .resizable()
+                                    .scaledToFit()
+                            }
+                        
+                            .cancelOnDisappear(true)
+                            .aspectRatio(contentMode: .fill)
+                            .modifier(MatchParent())
+                        /*
                         ImageView(url: path,
                                   contentMode: .fill,
                                   noImg: self.emptyImage)
                             .modifier(MatchParent())
+                         */
                     } else {
                         Image(Asset.noImg16_9)
                             .renderingMode(.original)

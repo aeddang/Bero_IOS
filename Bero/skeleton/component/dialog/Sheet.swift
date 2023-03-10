@@ -95,7 +95,7 @@ struct Sheet<Presenting>: View where Presenting: View {
                 }
                 VStack(alignment: .leading, spacing: 0){
                     Spacer().modifier(MatchHorizontal(height: 0))
-                    VStack(alignment: .leading, spacing: Dimen.margin.regularExtra){
+                    VStack(alignment: .leading, spacing: Dimen.margin.light){
                         if let icon = self.icon {
                             Image(icon)
                                 .resizable()
@@ -131,8 +131,10 @@ struct Sheet<Presenting>: View where Presenting: View {
                             .padding(.top, Dimen.margin.medium)
                     }
                     if self.point != nil || self.exp != nil {
-                        ZStack{
+                        ZStack(alignment: .bottom){
                             Spacer().modifier(MatchHorizontal(height: 0))
+                            LottieView(lottieFile: "welcome_gift_box", mode: .playOnce)
+                                .frame(width: 230, height: 275)
                             HStack(spacing:Dimen.margin.thin){
                                 if let exp = self.exp {
                                     RewardInfo(
@@ -152,7 +154,6 @@ struct Sheet<Presenting>: View where Presenting: View {
                                 }
                             }
                         }
-                        .padding(.top, Dimen.margin.medium)
                     }
                     HStack(spacing:Dimen.margin.tiny){
                         ForEach(self.buttons) { btn in
@@ -243,15 +244,14 @@ struct Sheet_Previews: PreviewProvider {
         }
         .sheet(
             isShowing: .constant(true),
-            icon: Asset.icon.walk,
-            title: "TITLE",
-            description: "desc",
-            image: Asset.image.addDog,
+            //icon: Asset.icon.walk,
+            title: String.alert.welcome,
+            description: String.alert.welcomeText,
+            //image: Asset.image.addDog,
             point: 99,
-            exp: 99,
-            cancel: {
-                
-            },
+            //exp: 99,
+            buttons: [.init(title: String.app.confirm, index: 1)],
+            cancel: {},
             action: { idx in
                 
             }

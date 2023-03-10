@@ -78,19 +78,6 @@ struct PageSetup: PageView {
                             self.repository.setupExpose(self.isExpose)
                         }
                         
-                        RadioButton(
-                            type: .switchOn,
-                            isChecked: self.isTestMode,
-                            icon: Asset.image.puppy,
-                            text: "테스트모드 설정" ,
-                            description: "장소마크, 산책패턴자동완성",
-                            color: Color.app.black
-                        ){ _ in
-                            withAnimation{
-                                self.isTestMode.toggle()
-                            }
-                            SystemEnvironment.isTestMode = self.isTestMode
-                        }
                         
                         Spacer().modifier(LineHorizontal())
                         SelectButton(
@@ -138,6 +125,49 @@ struct PageSetup: PageView {
                             )
                         }
                         
+                        RadioButton(
+                            type: .switchOn,
+                            isChecked: self.isTestMode,
+                            icon: Asset.image.puppy,
+                            text: "테스트모드 설정" ,
+                            description: "장소마크, 산책패턴자동완성",
+                            color: Color.app.black
+                        ){ _ in
+                            withAnimation{
+                                self.isTestMode.toggle()
+                            }
+                            SystemEnvironment.isTestMode = self.isTestMode
+                            
+                        }
+                        if self.isTestMode {
+                            SelectButton(
+                                type: .medium,
+                                text: "레벨업보기",
+                                useStroke: false,
+                                useMargin: false
+                            ){_ in
+                                self.appSceneObserver.event = .check("+ point 9" + "\n" + "+ exp 99")
+                                DispatchQueue.main.asyncAfter(deadline: .now()+2.5) {
+                                    self.pagePresenter.openPopup(PageProvider.getPageObject(.levelUp))
+                                }
+                            }
+                            SelectButton(
+                                type: .medium,
+                                text: "웰컴기프트보기",
+                                useStroke: false,
+                                useMargin: false
+                            ){_ in
+                                self.appSceneObserver.sheet  = .select(
+                                    String.alert.welcome,
+                                    String.alert.welcomeText,
+                                    point:999,
+                                    exp:0,
+                                    isNegative: false, {_ in
+                                        self.pagePresenter.openPopup(PageProvider.getPageObject(.levelUp))
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
                 .modifier(PageVertical())

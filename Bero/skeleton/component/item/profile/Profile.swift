@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import struct Kingfisher.KFImage
 struct ProfileImage:PageView{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var appSceneObserver:AppSceneObserver
@@ -31,11 +31,22 @@ struct ProfileImage:PageView{
                         .modifier(MatchParent())
                         
                 } else if let path = self.imagePath {
+                    KFImage(URL(string: path))
+                        .resizable()
+                        .placeholder {
+                            Image(self.emptyImagePath)
+                                .resizable()
+                                .scaledToFit()
+                        }
+                        .cancelOnDisappear(true)
+                        .aspectRatio(contentMode: .fill)
+                        .modifier(MatchParent())
+                    /*
                     ImageView(url: path,
                         contentMode: .fill,
                               noImg: Asset.image.profile_user_default)
                     .modifier(MatchParent())
-                        
+                      */
                 } else {
                     Image( uiImage: UIImage(named: self.emptyImagePath)! )
                         .renderingMode(.original)

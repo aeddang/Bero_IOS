@@ -103,10 +103,13 @@
 		316D35F32895427C002FC476 /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D35F22895427B002FC476 /* InputText.swift */; };
 		317C564028AC6A76005E8512 /* CodeApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C563F28AC6A76005E8512 /* CodeApiData.swift */; };
 		317C564228ACA743005E8512 /* MultiProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C564128ACA743005E8512 /* MultiProfile.swift */; };
-		318CC2DE29A363DC009A0072 /* OnBoarding_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DA29A363DB009A0072 /* OnBoarding_1.json */; };
-		318CC2DF29A363DC009A0072 /* OnBoarding_3.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DB29A363DC009A0072 /* OnBoarding_3.json */; };
-		318CC2E029A363DC009A0072 /* OnBoarding_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DC29A363DC009A0072 /* OnBoarding_2.json */; };
-		318CC2E129A363DC009A0072 /* tutorial.json in Resources */ = {isa = PBXBuildFile; fileRef = 318CC2DD29A363DC009A0072 /* tutorial.json */; };
+		318A401229BA08AC00CAB182 /* onboarding_03.json in Resources */ = {isa = PBXBuildFile; fileRef = 318A400F29BA08AA00CAB182 /* onboarding_03.json */; };
+		318A401329BA08AC00CAB182 /* onboarding_01.json in Resources */ = {isa = PBXBuildFile; fileRef = 318A401029BA08AB00CAB182 /* onboarding_01.json */; };
+		318A401429BA08AC00CAB182 /* onboarding_02.json in Resources */ = {isa = PBXBuildFile; fileRef = 318A401129BA08AC00CAB182 /* onboarding_02.json */; };
+		318A401729BA08B400CAB182 /* tutorial_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 318A401529BA08B300CAB182 /* tutorial_2.json */; };
+		318A401829BA08B400CAB182 /* tutorial_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 318A401629BA08B400CAB182 /* tutorial_1.json */; };
+		318A401A29BA08BA00CAB182 /* welcome_gift_box.json in Resources */ = {isa = PBXBuildFile; fileRef = 318A401929BA08BA00CAB182 /* welcome_gift_box.json */; };
+		318A401C29BA08C600CAB182 /* levelup.json in Resources */ = {isa = PBXBuildFile; fileRef = 318A401B29BA08C600CAB182 /* levelup.json */; };
 		318CC2E329A3749A009A0072 /* AlarmApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318CC2E229A3749A009A0072 /* AlarmApiData.swift */; };
 		318D200729986019009764CF /* RecommendationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D200629986019009764CF /* RecommendationApi.swift */; };
 		318D200929986116009764CF /* BeroApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D200829986116009764CF /* BeroApiData.swift */; };
@@ -124,7 +127,6 @@
 		318FF6FD29A0FC3B00C0492C /* AlarmList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318FF6FC29A0FC3B00C0492C /* AlarmList.swift */; };
 		31937F1228ACFA8F00AA5473 /* ValueBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1128ACFA8F00AA5473 /* ValueBox.swift */; };
 		31937F1428ACFBCA00AA5473 /* ValueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1328ACFBCA00AA5473 /* ValueInfo.swift */; };
-		31A6CF5A29A98ED800BAB999 /* tutorial_start.json in Resources */ = {isa = PBXBuildFile; fileRef = 31A6CF5929A98ED800BAB999 /* tutorial_start.json */; };
 		31A6CF5C29AAEFB300BAB999 /* PagePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */; };
 		31A9D2B9289F47340094EC5C /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A9D2B8289F47340094EC5C /* Check.swift */; };
 		31AEC3AD28D2995D00507386 /* PopupWalkUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */; };
@@ -576,10 +578,13 @@
 		316D35F22895427B002FC476 /* InputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputText.swift; sourceTree = "<group>"; };
 		317C563F28AC6A76005E8512 /* CodeApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeApiData.swift; sourceTree = "<group>"; };
 		317C564128ACA743005E8512 /* MultiProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProfile.swift; sourceTree = "<group>"; };
-		318CC2DA29A363DB009A0072 /* OnBoarding_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OnBoarding_1.json; sourceTree = "<group>"; };
-		318CC2DB29A363DC009A0072 /* OnBoarding_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OnBoarding_3.json; sourceTree = "<group>"; };
-		318CC2DC29A363DC009A0072 /* OnBoarding_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OnBoarding_2.json; sourceTree = "<group>"; };
-		318CC2DD29A363DC009A0072 /* tutorial.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial.json; sourceTree = "<group>"; };
+		318A400F29BA08AA00CAB182 /* onboarding_03.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding_03.json; sourceTree = "<group>"; };
+		318A401029BA08AB00CAB182 /* onboarding_01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding_01.json; sourceTree = "<group>"; };
+		318A401129BA08AC00CAB182 /* onboarding_02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding_02.json; sourceTree = "<group>"; };
+		318A401529BA08B300CAB182 /* tutorial_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial_2.json; sourceTree = "<group>"; };
+		318A401629BA08B400CAB182 /* tutorial_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial_1.json; sourceTree = "<group>"; };
+		318A401929BA08BA00CAB182 /* welcome_gift_box.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = welcome_gift_box.json; sourceTree = "<group>"; };
+		318A401B29BA08C600CAB182 /* levelup.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = levelup.json; sourceTree = "<group>"; };
 		318CC2E229A3749A009A0072 /* AlarmApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmApiData.swift; sourceTree = "<group>"; };
 		318D200629986019009764CF /* RecommendationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationApi.swift; sourceTree = "<group>"; };
 		318D200829986116009764CF /* BeroApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeroApiData.swift; sourceTree = "<group>"; };
@@ -592,7 +597,6 @@
 		318FF6FC29A0FC3B00C0492C /* AlarmList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmList.swift; sourceTree = "<group>"; };
 		31937F1128ACFA8F00AA5473 /* ValueBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueBox.swift; sourceTree = "<group>"; };
 		31937F1328ACFBCA00AA5473 /* ValueInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueInfo.swift; sourceTree = "<group>"; };
-		31A6CF5929A98ED800BAB999 /* tutorial_start.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial_start.json; sourceTree = "<group>"; };
 		31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePicture.swift; sourceTree = "<group>"; };
 		31A9D2B8289F47340094EC5C /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkUser.swift; sourceTree = "<group>"; };
@@ -1173,11 +1177,13 @@
 		31BAA3F328FCEC2A008155DD /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				318CC2DA29A363DB009A0072 /* OnBoarding_1.json */,
-				318CC2DC29A363DC009A0072 /* OnBoarding_2.json */,
-				318CC2DB29A363DC009A0072 /* OnBoarding_3.json */,
-				318CC2DD29A363DC009A0072 /* tutorial.json */,
-				31A6CF5929A98ED800BAB999 /* tutorial_start.json */,
+				318A401029BA08AB00CAB182 /* onboarding_01.json */,
+				318A401129BA08AC00CAB182 /* onboarding_02.json */,
+				318A400F29BA08AA00CAB182 /* onboarding_03.json */,
+				318A401629BA08B400CAB182 /* tutorial_1.json */,
+				318A401529BA08B300CAB182 /* tutorial_2.json */,
+				318A401929BA08BA00CAB182 /* welcome_gift_box.json */,
+				318A401B29BA08C600CAB182 /* levelup.json */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -2285,25 +2291,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				318CC2E129A363DC009A0072 /* tutorial.json in Resources */,
 				31DCCF9629011F660010C9DD /* walk.wav in Resources */,
+				318A401329BA08AC00CAB182 /* onboarding_01.json in Resources */,
 				314E5EE12882BE63000EB910 /* Roboto-Medium.ttf in Resources */,
-				318CC2DF29A363DC009A0072 /* OnBoarding_3.json in Resources */,
 				314E5EEB2882BE63000EB910 /* Poppins-ExtraBold.ttf in Resources */,
 				31BF82E228E84FE500F9604C /* ready.mp3 in Resources */,
-				318CC2E029A363DC009A0072 /* OnBoarding_2.json in Resources */,
 				31BF82E728E84FE600F9604C /* push.mp3 in Resources */,
 				314E5EE42882BE63000EB910 /* Poppins-ThinItalic.ttf in Resources */,
 				31D91D40287257B6001C2738 /* Preview Assets.xcassets in Resources */,
 				31DCCF9729011F660010C9DD /* mission.wav in Resources */,
 				314E5EF02882BE63000EB910 /* Poppins-Black.ttf in Resources */,
 				31BF82FA28E913CA00F9604C /* reward.mp3 in Resources */,
+				318A401229BA08AC00CAB182 /* onboarding_03.json in Resources */,
+				318A401729BA08B400CAB182 /* tutorial_2.json in Resources */,
+				318A401A29BA08BA00CAB182 /* welcome_gift_box.json in Resources */,
 				314E5EE92882BE63000EB910 /* Poppins-SemiBoldItalic.ttf in Resources */,
 				31BF82EC28E8551300F9604C /* shot_long.mp3 in Resources */,
-				318CC2DE29A363DC009A0072 /* OnBoarding_1.json in Resources */,
 				314E5EED2882BE63000EB910 /* Poppins-Regular.ttf in Resources */,
 				31C91CED288D1C4F0003821D /* LaunchScreen.storyboard in Resources */,
 				314E5EEF2882BE63000EB910 /* Poppins-Bold.ttf in Resources */,
+				318A401C29BA08C600CAB182 /* levelup.json in Resources */,
 				31BF82ED28E8551300F9604C /* shot.mp3 in Resources */,
 				314E5EE52882BE63000EB910 /* Poppins-ExtraLightItalic.ttf in Resources */,
 				314E5EF52882BE63000EB910 /* Poppins-MediumItalic.ttf in Resources */,
@@ -2315,10 +2322,10 @@
 				31BF82E928E8534300F9604C /* tick.mp3 in Resources */,
 				318D201A2998A7ED009764CF /* MapPlaceView.xib in Resources */,
 				31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */,
+				318A401829BA08B400CAB182 /* tutorial_1.json in Resources */,
 				314E5EF12882BE63000EB910 /* Roboto-Bold.ttf in Resources */,
 				31BF82E328E84FE500F9604C /* end.mp3 in Resources */,
 				314E5EE32882BE63000EB910 /* Poppins-ExtraLight.ttf in Resources */,
-				31A6CF5A29A98ED800BAB999 /* tutorial_start.json in Resources */,
 				314E5EEA2882BE63000EB910 /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				31BF82E528E84FE600F9604C /* success.mp3 in Resources */,
 				31BF82EF28E8565200F9604C /* find.mp3 in Resources */,
@@ -2327,6 +2334,7 @@
 				314E5EE82882BE63000EB910 /* Poppins-Medium.ttf in Resources */,
 				314E5EE72882BE63000EB910 /* Poppins-Light.ttf in Resources */,
 				314E5EF32882BE63000EB910 /* Poppins-SemiBold.ttf in Resources */,
+				318A401429BA08AC00CAB182 /* onboarding_02.json in Resources */,
 				314E5EE62882BE63000EB910 /* Poppins-BoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2995,7 +3003,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 64;
+				CURRENT_PROJECT_VERSION = 69;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3044,7 +3052,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 64;
+				CURRENT_PROJECT_VERSION = 69;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3172,7 +3180,7 @@
 				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeroLockScreen/Info.plist;
@@ -3205,7 +3213,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TYPPBR5AQ8;
 				GENERATE_INFOPLIST_FILE = YES;
