@@ -80,8 +80,9 @@ struct UserAlbumList: PageComponent{
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
             switch res.type {
-            case .getAlbumPictures(_, _, _ , let type, _ , let page, _):
+            case .getAlbumExplorer(let randId, let type, let page, _):
                 if !res.id.hasPrefix(self.tag) {return}
+                if self.randId != randId {return}
                 if self.type == type {
                     if page == 0 {
                         self.resetScroll()
@@ -99,7 +100,7 @@ struct UserAlbumList: PageComponent{
     }
     
     
-    
+    @State var randId:String = UUID().uuidString
     @State var isEmpty:Bool = false
     @State var users:[UserAlbumListItemData] = []
     @State var albumSize:CGSize = .zero
@@ -112,6 +113,8 @@ struct UserAlbumList: PageComponent{
     }
     
     private func resetScroll(){
+        let yyyyMMdd = AppUtil.networkTimeDate().timeIntervalSince1970.toInt().description
+        self.randId = yyyyMMdd
         withAnimation{ self.isEmpty = false }
         self.users = []
         self.infinityScrollModel.reload()
@@ -123,10 +126,9 @@ struct UserAlbumList: PageComponent{
         self.infinityScrollModel.onLoad()
         
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-                .getAlbumPictures(userId: nil, .all,
-                                  searchType: self.type,
-                                  isExpose: true,
-                                  page: self.infinityScrollModel.page) ))
+                .getAlbumExplorer(
+                    randId: self.randId,
+                    searchType: self.type,page: self.infinityScrollModel.page) ))
         
     }
     

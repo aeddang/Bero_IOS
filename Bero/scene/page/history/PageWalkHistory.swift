@@ -26,6 +26,43 @@ struct PageWalkHistory: PageView {
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     @ObservedObject var calenderModel: CalenderModel = CalenderModel()
+    
+    struct WalkHistoryTop: PageView {
+        @EnvironmentObject var pagePresenter:PagePresenter
+        var calenderModel: CalenderModel
+        var user:User
+        var body: some View {
+            VStack(spacing: 0){
+                TotalWalkSection(user: user)
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                SelectButton(
+                    type: .tiny,
+                    icon: Asset.icon.chart,
+                    text: String.pageTitle.walkReport,
+                    isSelected: false
+                ){_ in
+                    
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.walkReport)
+                            .addParam(key: .data, value: user)
+                    )
+                }
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                .padding(.top, Dimen.margin.regular)
+                Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
+                    .padding(.top, Dimen.margin.medium)
+                CPCalendar(
+                    viewModel: self.calenderModel
+                )
+                .padding(.top, Dimen.margin.thin)
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                
+                Spacer().modifier(LineHorizontal())
+            }
+        }
+    }
+    
+    
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -43,62 +80,38 @@ struct PageWalkHistory: PageView {
                             default : break
                             }
                         })
-                    InfinityScrollView(
-                        viewModel: self.infinityScrollModel,
-                        axes: .vertical,
-                        showIndicators : false,
-                        marginTop: Dimen.margin.regular,
-                        marginBottom: Dimen.margin.medium,
-                        marginHorizontal: 0,
-                        spacing:0,
-                        isRecycle: true,
-                        useTracking: true
-                    ){
-                        if let user = self.user {
-                            VStack(spacing: 0){
-                                TotalWalkSection(user: user)
-                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                SelectButton(
-                                    type: .tiny,
-                                    icon: Asset.icon.chart,
-                                    text: String.pageTitle.walkReport,
-                                    isSelected: false
-                                ){_ in
-                                    
-                                    self.pagePresenter.openPopup(
-                                        PageProvider.getPageObject(.walkReport)
-                                            .addParam(key: .data, value: self.user)
-                                    )
-                                }
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .padding(.top, Dimen.margin.regular)
-                                Spacer().modifier(LineHorizontal(height: Dimen.line.heavy))
-                                    .padding(.top, Dimen.margin.medium)
-                                CPCalendar(
-                                    viewModel: self.calenderModel
-                                )
-                                .padding(.top, Dimen.margin.thin)
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                
-                                Spacer().modifier(LineHorizontal())
-                            }
+                    if let user = self.user {
+                        InfinityScrollView(
+                            viewModel: self.infinityScrollModel,
+                            axes: .vertical,
+                            showIndicators : false,
+                            header :WalkHistoryTop(calenderModel: self.calenderModel, user: user),
+                            headerSize: 520,
+                            
+                            marginTop: Dimen.margin.regular,
+                            marginBottom: Dimen.margin.medium,
+                            marginHorizontal: Dimen.app.pageHorinzontal,
+                            spacing:Dimen.margin.regular,
+                            isRecycle: true,
+                            useTracking: true
+                        ){
                             MonthlyWalkSection(
                                 pageObservable: self.pageObservable,
                                 calenderModel: self.calenderModel,
                                 user: user ,
                                 listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
                             )
-                            .padding(.horizontal, Dimen.app.pageHorinzontal)
-                            .padding(.top, Dimen.margin.medium)
                         }
-                            
+                        
+                    } else {
+                        Spacer().modifier(MatchParent())
                     }
+                    
                 }
                 .modifier(PageVertical())
                 .modifier(MatchParent())
                 .background(Color.brand.bg)
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
-                
             }//draging
             .onReceive(self.dataProvider.$result){res in
                 guard let res = res else { return }

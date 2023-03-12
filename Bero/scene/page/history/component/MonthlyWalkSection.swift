@@ -58,10 +58,13 @@ struct MonthlyWalkSection: PageComponent{
             }
         } else {
             ForEach(self.datas) { data in
-                WalkListItem(
-                    data: data, imgSize: self.walkListSize)
-                {
-                    self.move(data: data)
+                VStack(spacing: 0){
+                    WalkListItem(
+                        data: data, imgSize: self.walkListSize)
+                    {
+                        self.move(data: data)
+                    }
+                    Spacer().modifier(LineHorizontal())
                 }
             }
         }

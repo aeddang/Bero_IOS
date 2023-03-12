@@ -332,7 +332,11 @@ class ApiManager :PageProtocol, ObservableObject{
         case .getAlbumPictures(let userId, let referenceId, let cate, let searchType, let isExpose, let page , let size) :
             self.album.get(id: userId, referenceId:referenceId, type: cate, searchType:searchType, isExpose: isExpose, page: page, size: size,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
-                           error:error) 
+                           error:error)
+        case .getAlbumExplorer(let randId, let searchType, let page , let size) :
+            self.album.getExplore(randId:randId, searchType:searchType, page: page, size: size,
+                           completion: {res in self.complated(id: apiID, type: type, res: res)},
+                           error:error)
         case .registAlbumPicture(let img, let thumb, let userId, let cate, let isExpose, let referenceId) :
             self.album.post(img: img, thumbImg:thumb, id: userId, type: cate, isExpose: isExpose, referenceId: referenceId,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},

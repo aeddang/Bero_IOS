@@ -44,7 +44,7 @@ extension AlbumApi {
         func getApiCode() -> String {
             switch self {
             case .friends : return "Friends"
-            case .all : return ""
+            case .all : return "All"
             }
         }
         var title : String {
@@ -83,6 +83,16 @@ class AlbumApi :Rest{
         params["page"] = page?.description ?? "0"
         params["size"] = size?.description ?? ApiConst.pageSize.description
         fetch(route: AlbumPicturesApiRoute (method: .get, query: params), completion: completion, error:error)
+    }
+    
+    func getExplore(randId:String, searchType:AlbumApi.SearchType, page:Int?, size:Int?, completion: @escaping (ApiItemResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["searchType"] = searchType.getApiCode()
+
+        params["randId"] = randId
+        params["page"] = page?.description ?? "0"
+        params["size"] = size?.description ?? ApiConst.pageSize.description
+        fetch(route: AlbumPicturesApiRoute (method: .get, action: .explorer,  query: params), completion: completion, error:error)
     }
     
     func post(img:UIImage,thumbImg:UIImage, id:String, type:AlbumApi.Category, isExpose:Bool?, referenceId:String?, completion: @escaping (ApiContentResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){

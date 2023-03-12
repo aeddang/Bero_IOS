@@ -39,7 +39,7 @@ enum ApiAction:String{
     case isRequested, requesting, request, accept, reject
     case read, send
     case histories, list
-    case friends
+    case friends, explorer
 }
 
 enum ApiValue:String{
@@ -75,6 +75,7 @@ enum ApiType{
     case checkHumanWithDog(img:UIImage,thumbImg:UIImage)
     
     case getAlbumPictures(userId:String?, referenceId:String? = nil, AlbumApi.Category, searchType:AlbumApi.SearchType = .all , isExpose:Bool? = nil, page:Int? = nil, size:Int? = nil),
+         getAlbumExplorer(randId:String, searchType:AlbumApi.SearchType = .all, page:Int? = nil, size:Int? = nil),
          registAlbumPicture(img:UIImage, thumbImg:UIImage, userId:String, AlbumApi.Category, isExpose:Bool = false, referenceId:String? = nil),
          deleteAlbumPictures(ids:String),
          updateAlbumPicture(pictureId:Int, isLike:Bool? = nil, isExpose:Bool? = nil)
