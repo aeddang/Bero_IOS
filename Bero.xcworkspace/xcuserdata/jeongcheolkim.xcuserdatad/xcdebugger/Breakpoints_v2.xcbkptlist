@@ -87,32 +87,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E576D5E1-C4C9-4CDD-82C7-C8A63A2E2A58"
-            shouldBeEnabled = "No"
+            uuid = "C82096B1-E1CF-45CB-92BC-C4410F2B0C9E"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Bero/scene/page/history/PageWalkInfo.swift"
+            filePath = "Bero/store/walk/model/Mission.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "loaded(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F3B46EDC-E698-49C6-B1DF-B1C652915C73"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Bero/scene/page/history/PageWalkInfo.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "updatedData()"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "setData(_:type:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

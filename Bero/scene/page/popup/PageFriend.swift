@@ -58,7 +58,7 @@ struct PageFriend: PageView {
                             case .friend :
                                 self.sortType = .friend
                                 self.onReload()
-                            case .more : self.onSort()
+                            //case .more : self.onSort()
                             default : break
                             }
                         }

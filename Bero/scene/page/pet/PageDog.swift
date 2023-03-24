@@ -118,7 +118,7 @@ struct PageDog: PageView {
                 switch res.type {
                 case .getPet(let petId) :
                     if petId == self.currentPetId, let data = res.data as? PetData{
-                        self.profile = PetProfile(data: data)
+                        self.profile = PetProfile(data: data, isMyPet: self.user?.isMe ?? false)
                         DispatchQueue.main.asyncAfter(deadline: .now()+0.05){
                             self.pageObservable.isInit = true
                             self.getUser()

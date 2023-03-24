@@ -19,7 +19,7 @@ struct PlayBox: PageComponent{
     @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
     
     @Binding var isFollowMe:Bool
-    
+    var isInitable:Bool = false
     var body: some View {
         VStack(){
             HStack(spacing:0){
@@ -68,7 +68,11 @@ struct PlayBox: PageComponent{
                     if self.isWalk {
                         self.finishWalk()
                     } else {
-                        self.startWalk()
+                        if self.isInitable {
+                            self.startWalk()
+                        } else {
+                            self.needDog()
+                        }
                     }
                 }
             }
@@ -113,6 +117,7 @@ struct PlayBox: PageComponent{
     @State var isInit:Bool = false
     @State var isWalk:Bool = false
     private func openPicker(){
+        if !self.walkManager.updateAbleCheck() {return}
         self.appSceneObserver.event = .openImagePicker(self.tag, type: .camera, cameraDevice: .rear){ img in
             guard let img = img else { return }
             self.pickImage(img)
@@ -175,6 +180,18 @@ struct PlayBox: PageComponent{
         }
     }
     
+    private func needDog(){
+        if !self.dataProvider.user.pets.isEmpty { return }
+        self.appSceneObserver.sheet = .select(
+            String.alert.addDogTitle,
+            String.alert.addDogText,
+            image:Asset.image.addDog,
+            [String.button.later,String.button.ok]){ idx in
+                if idx == 1 {
+                    self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
+                }
+        }
+    }
 }
 
 

@@ -14,6 +14,7 @@ struct LvSection: PageComponent{
             ){_ in
                 self.appSceneObserver.event = .toast(String.pageText.myLvText2.replace(self.lv.title))
             }
+            /*
             TextButton(
                 type: .box,
                 defaultText:String.button.learnMore,
@@ -23,6 +24,7 @@ struct LvSection: PageComponent{
                     self.appSceneObserver.event = .toast(String.alert.comingSoon)
             }
             .padding(.top, Dimen.margin.tinyExtra)
+             */
             ProgressInfo(
                 leadingText: "Lv." + self.lvValue.description,
                 trailingText: String.app.exp,

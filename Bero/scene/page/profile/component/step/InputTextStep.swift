@@ -16,8 +16,6 @@ import Foundation
 import SwiftUI
 
 
-
-
 struct InputTextStep: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var keyboardObserver:KeyboardObserver
@@ -34,74 +32,82 @@ struct InputTextStep: PageComponent{
     @State var isShowing = false
     @State var limitedTextLength:Int = 100
     var body: some View {
-        VStack(spacing: Dimen.margin.medium){
-            if let types = self.step.inputType {
-                MenuTab(
-                    viewModel:self.navigationModel,
-                    buttons: types,
-                    selectedIdx: self.inputTypeIndex
-                )
-            }
-            InputText(
-                input: self.$input,
-                placeHolder: self.step.placeHolder,
-                tip: self.tip,
-                isFocus: self.isEditing,
-                limitedTextLength:self.limitedTextLength,
-                keyboardType: self.step.keyboardType,
-                autocapitalizationType: self.step.autocapitalizationType,
-                onFocus: {
-                    withAnimation{ self.isEditing = true }
-                },
-                onChange: { text in
-                    
-                },
-                onAction: {
-                    self.onAction()
-                }
-            )
-            if !self.isEditing, let info = self.step.inputDescription {
-                Text(info)
-                    .modifier(RegularTextStyle(
-                        size: Font.size.thin,
-                        color: Color.app.grey400
-                    ))
-                .padding(.top, Dimen.margin.regular)
-            }
+        ZStack(alignment: .bottom){
             Spacer().modifier(MatchParent())
-            if self.step.isSkipAble && !self.isEditing{
-                TextButton(
-                    defaultText: String.button.skipNow,
-                    textModifier:TextModifier(
-                        family:Font.family.medium,
-                        size:Font.size.thin,
-                        color: Color.app.grey500),
-                    isUnderLine: true)
-                {_ in
-                    self.next(.init())
+                .background(self.isEditing ? Color.transparent.clearUi : Color.transparent.clear)
+                .onTapGesture {
+                    self.isEditing = false
+                    AppUtil.hideKeyboard()
                 }
-            }
-            HStack (spacing:Dimen.margin.tinyExtra){
-                if !self.step.isFirst {
-                    FillButton(
-                        type: .fill,
-                        text: String.button.goBack,
-                        color: Color.app.grey50,
-                        textColor: Color.app.grey400
-                    ){_ in
-                        self.prev()
+            VStack(spacing: Dimen.margin.medium){
+                if let types = self.step.inputType {
+                    MenuTab(
+                        viewModel:self.navigationModel,
+                        buttons: types,
+                        selectedIdx: self.inputTypeIndex
+                    )
+                }
+                InputText(
+                    input: self.$input,
+                    placeHolder: self.step.placeHolder,
+                    tip: self.tip,
+                    isFocus: self.isEditing,
+                    limitedTextLength:self.limitedTextLength,
+                    keyboardType: self.step.keyboardType,
+                    autocapitalizationType: self.step.autocapitalizationType,
+                    onFocus: {
+                        withAnimation{ self.isEditing = true }
+                    },
+                    onChange: { text in
+                        
+                    },
+                    onAction: {
+                        self.onAction()
+                    }
+                )
+                if !self.isEditing, let info = self.step.inputDescription {
+                    Text(info)
+                        .modifier(RegularTextStyle(
+                            size: Font.size.thin,
+                            color: Color.app.grey400
+                        ))
+                        .padding(.top, Dimen.margin.regular)
+                }
+                Spacer().modifier(MatchParent())
+                if self.step.isSkipAble && !self.isEditing{
+                    TextButton(
+                        defaultText: String.button.skipNow,
+                        textModifier:TextModifier(
+                            family:Font.family.medium,
+                            size:Font.size.thin,
+                            color: Color.app.grey500),
+                        isUnderLine: true)
+                    {_ in
+                        self.next(.init())
                     }
                 }
-                FillButton(
-                    type: .fill,
-                    text: String.button.next,
-                    color: Color.app.white,
-                    gradient: Color.app.orangeGradient
-                ){_ in
-                    self.onAction()
+                HStack (spacing:Dimen.margin.tinyExtra){
+                    if !self.step.isFirst {
+                        FillButton(
+                            type: .fill,
+                            text: String.button.goBack,
+                            color: Color.app.grey50,
+                            textColor: Color.app.grey400
+                        ){_ in
+                            self.prev()
+                        }
+                    }
+                    FillButton(
+                        type: .fill,
+                        text: String.button.next,
+                        color: Color.app.white,
+                        gradient: Color.app.orangeGradient
+                    ){_ in
+                        self.onAction()
+                    }
+                    .modifier(Shadow())
+                    .opacity(self.input.isEmpty ? 0.3 : 1)
                 }
-                .modifier(Shadow())
-                .opacity(self.input.isEmpty ? 0.3 : 1)
             }
         }
         .opacity(self.isShowing ? 1 : 0)

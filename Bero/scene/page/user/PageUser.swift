@@ -63,10 +63,11 @@ struct PageUser: PageView {
                             if let pet = user.representativePet {
                                 PetProfileTopInfo(
                                     profile: pet ,
-                                    editProfile :{
+                                    viewProfile: {
                                         self.pagePresenter.openPopup(
-                                            PageProvider.getPageObject(.modifyPet)
+                                            PageProvider.getPageObject(.dog)
                                                 .addParam(key: .data, value: pet)
+                                                .addParam(key: .subData, value: user)
                                         )
                                     }
                                 )
@@ -78,23 +79,27 @@ struct PageUser: PageView {
                                             .addParam(key: .subData, value: user)
                                     )
                                 }
-                                if pet.hashStatus?.isEmpty == false {
-                                    PetTagSection(
-                                        profile: pet,
-                                        listSize: geometry.size.width - (Dimen.app.pageHorinzontal*2)
-                                    )
-                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                    .padding(.top, Dimen.margin.regular)
-                                }
-                                PetPhysicalSection(
-                                    profile: pet
-                                )
-                                .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                .padding(.top, Dimen.margin.regular)
+                                
                             } else {
                                 UserProfileTopInfo(profile: user.currentProfile)
                                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                             }
+                            MyPlayInfo(user: user){ type in
+                                switch type {
+                                case .value(let valueType, _) :
+                                    switch valueType {
+                                    case .heart, .lv :
+                                        self.appSceneObserver.event = .toast(Lv.getLv(user.lv).title)
+                                    case .point :
+                                        self.appSceneObserver.event = .toast(String.alert.itsNotYourPoint)
+                                    default : break
+                                    }
+                                default : break
+                                }
+                                
+                            }
+                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                            .padding(.top, Dimen.margin.regular)
                             if !self.dataProvider.user.isSameUser(user) {
                                 FriendFunctionBox(
                                     userId: user.currentProfile.userId,

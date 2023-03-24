@@ -87,12 +87,12 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     
     @discardableResult
-    func setData(_ data:WalkData) -> User {
+    func setData(_ data:WalkData, isMe:Bool = false) -> User {
         if let user = data.user {
             self.setData(data:user)
         }
         if let pets = data.pets {
-            self.setData(data:pets, isMyPet:false)
+            self.setData(data:pets, isMyPet:isMe)
         }
         if let type = SnsType.getType(code: data.user?.providerType), let id = data.user?.userId {
             self.snsUser = SnsUser(
@@ -151,7 +151,11 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     
     func setData(data:[PetData], isMyPet:Bool = false){
-        self.pets = zip(0..<data.count, data).map{ idx, profile in PetProfile(data: profile, isMyPet: isMyPet, index: idx)}
+        self.pets = zip(0..<data.count, data).map{ idx, profile in
+            let pet = PetProfile(data: profile, isMyPet: isMyPet, index: idx)
+            pet.level = self.lv
+            return pet
+        }
         self.findRepresentativePet()
         self.event = .updatedDogs
     }

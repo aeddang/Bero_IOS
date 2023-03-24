@@ -72,12 +72,12 @@ struct UserProfileItem: PageComponent{
     private func more(){
         
         let datas:[String] = [
-            self.status.isFriend ? String.button.chat : String.button.addFriend,
+            //self.status.isFriend ? String.button.chat : String.button.addFriend,
             String.button.block,
             String.button.accuse
         ]
         let icons:[String?] = [
-            self.status.isFriend ? Asset.icon.chat : Asset.icon.add_friend,
+            //self.status.isFriend ? Asset.icon.chat : Asset.icon.add_friend,
             Asset.icon.block,
             Asset.icon.warning
         ]
@@ -85,14 +85,16 @@ struct UserProfileItem: PageComponent{
         self.appSceneObserver.radio = .select((self.tag, icons, datas), title: String.alert.supportAction){ idx in
             guard let idx = idx else {return}
             switch idx {
+            /*
             case 0 :
                 if self.status.isFriend {
                     self.sendMessage()
                 } else {
                     self.requestFriend()
                 }
-            case 1 : self.block()
-            case 2 : self.accuse()
+             */
+            case 0 : self.block()
+            case 1 : self.accuse()
             default : break
             }
         }

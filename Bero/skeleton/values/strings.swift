@@ -46,7 +46,7 @@ extension String {
         public static let walks = "Walks"
         public static let near = "Near"
         public static let likes = "Likes"
-        public static let share = "Share"
+        public static let share = "Public"
         public static let missions = "Missions"
         public static let stores = "Stores"
         public static let dogs = "Dogs"
@@ -173,7 +173,10 @@ extension String {
         
         public static var welcome = "Welcome!"
         public static var welcomeText = "You’ve earned the welcome rewards!"
-     
+        
+        
+        public static var itsMe = "It's me."
+        public static var itsNotYourPoint = "It's not your point, don't touch it."
     }
     
     struct button {
@@ -240,7 +243,7 @@ extension String {
         public static let block = "Block"
         public static let unblock = "Unblock"
         public static let deleteAccount = "Delete account"
-        public static let viewProfile = "View Profile"
+        public static let viewProfile = "View profile"
         public static let learnMore = "Learn more"
         public static let manageChat = "Manage Chat"
     }
@@ -277,33 +280,33 @@ extension String {
         public static let setup = "Setup"
         public static let explore = "Explore"
         public static let chat = "Chat"
-        public static let addDog = "Add a dog"
+        public static let addDog = "Add a Dog"
         public static let history = "History"
         public static let album = "Album"
         public static let tag = "Tags"
-        public static let physicalInformation = "Physical information"
+        public static let physicalInformation = "Physical Information"
         public static let friends = "Friends"
-        public static let friendRequest = "Friend request"
+        public static let friendRequest = "Friend Request"
         public static let usersFriends = "%s's Friends"
-        public static let chatRoom = "Chat room"
+        public static let chatRoom = "Chat Room"
         public static let myPoint = "Point"
-        public static let myDogs = "My family"
+        public static let myDogs = "My Family"
         public static let myProfile = "My Profile"
-        public static let myLv = "My heart level"
-        public static let dogProfile = "Dog profile"
-        public static let healthInformation = "Health information"
-        public static let usersDogs = "%s’s family"
-        public static let walkHistory = "Walk history"
-        public static let walkReport = "Walk report"
-        public static let walkSummary = "Walk summary"
-        public static let walkPicture = "Walk picture"
-        public static let missionHistory = "Mission history"
-        public static let completedMissions = "Completed missions"
+        public static let myLv = "Walk Level"
+        public static let dogProfile = "Dog Profile"
+        public static let healthInformation = "Health Information"
+        public static let usersDogs = "%s’s Family"
+        public static let walkHistory = "Walk History"
+        public static let walkReport = "Walk Report"
+        public static let walkSummary = "Walk Summary"
+        public static let walkPicture = "Walk Picture"
+        public static let missionHistory = "Mission History"
+        public static let completedMissions = "Completed Missions"
         
-        public static let privacy = "Privacy usage agreement"
-        public static let service = "Terms of service agreement"
-        public static let blockUser = "Manage block list"
-        public static let myAccount = "My account"
+        public static let privacy = "Privacy Usage Agreement"
+        public static let service = "Terms of Service Agreement"
+        public static let blockUser = "Manage Block List"
+        public static let myAccount = "My Account"
         public static let alarm = "Notification"
     }
     
@@ -335,7 +338,7 @@ extension String {
         public static let myPointText1 = "Collect rewards by walking your dog and change it into our virtual currency."
         public static let myPointText2 = "Store is coming soon"
      
-        public static let earningHistory = "Earning history"
+        public static let earningHistory = "Earning History"
         
         public static let walkHistoryText1 = "Walked in total"
         public static let missionHistoryText1 = "completed in total"
@@ -367,7 +370,7 @@ extension String {
         public static let reportWalkRecentlyText2 = "in average for each walk."
         public static let reportWalkRecentlyTip = "The recommended time for each walk\nis between 20-40 mins."
         
-        public static let exploreSeletReport = "Whose posts do you want to see?"
+        public static let exploreSeletReport = "Feed filter"
         
         public static let recommandUser = "Friends recommendation"
         public static let aroundUser = "Friends around me"

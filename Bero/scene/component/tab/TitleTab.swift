@@ -48,7 +48,7 @@ extension TitleTab{
     
     enum ButtonType:String{
         case more, add, edit, close, back, setting, alramOn, alarm, block, addAlbum
-        case addFriend,friend
+        case addFriend,friend, addChat
         case viewMore, manageDogs
         var icon:String? {
             switch self {
@@ -64,6 +64,7 @@ extension TitleTab{
             case .viewMore, .manageDogs : return Asset.icon.direction_right
             case .addFriend : return Asset.icon.add_friend
             case .friend : return Asset.icon.human_friends
+            case .addChat : return Asset.icon.add_chat
             case .block : return Asset.icon.block
             }
         }

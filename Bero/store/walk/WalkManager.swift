@@ -16,7 +16,9 @@ enum WalkEvent {
          startMission(Mission), endMission(Mission), completedMission(Mission),
          getRoute(Route), endRoute,
          changeMapStatus, updatedMissions, updatedPlaces , updatedUsers,
-         findWaypoint(index:Int, total:Int), findPlace(Place)
+         findWaypoint(index:Int, total:Int), findPlace(Place),
+         updatedPath
+         
     
     var pushTitle:String? {
         switch self {
@@ -223,6 +225,7 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private(set) var status:WalkStatus = .ready
     @Published private(set) var walkTime:Double = 0
     @Published private(set) var walkDistance:Double = 0
+  
     @Published private(set) var currentMission:Mission? = nil
     @Published private(set) var viewMission:Mission? = nil
     @Published private(set) var viewPlace:Place? = nil
@@ -233,12 +236,13 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private (set) var playExp:Double = 0
     @Published private (set) var isSimpleView:Bool = false
     private (set) var walkId:Int? = nil
+    private (set) var walkPath:WalkPath? = nil
     private (set) var placeDatas:[String:[Place]] = [:]
     private (set) var userFilter:Filter = .all
     private (set) var placeFilters:[Filter] = [.manual] //[.vet, .restaurant, .cafe, .petShop]
     private (set) var missionFilter:Filter = .notUsed
     private (set) var updateImages:[UIImage] = []
- 
+    private (set) var updateImageLocations:[CLLocation] = []
     let nearDistance:Double = WalkManager.nearDistance
     let farDistance:Double = 10000
     let updateTime:Int = 5
@@ -428,6 +432,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.event = .start
         self.status = .walking
         self.startTimer()
+        self.walkPath = WalkPath()
         self.requestLocation()
         if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
             lsm.startLockScreen(data: .init(title: String.lockScreen.start))
@@ -443,12 +448,14 @@ class WalkManager:ObservableObject, PageProtocol{
     func endWalk(){
         self.endLockScreen()
         self.completedWalk = nil
+        self.walkPath = nil
         self.walkTime = 0
         self.walkDistance = 0
         self.playExp = 0
         self.playPoint = 0
         self.completedMissions = []
         self.updateImages = []
+        self.updateImageLocations = []
         self.endMission()
         self.endTimer()
         self.event = .end
@@ -493,12 +500,19 @@ class WalkManager:ObservableObject, PageProtocol{
         self.dataProvider.requestData(q: .init(id: self.tag, type: .requestRoute(departure: me, destination: goal), isOptional: false))
         return true
     }
-   
-    func updateStatus(img:UIImage? = nil, thumbImage:UIImage? = nil){
-        if self.updateImages.count >= Self.limitedUpdateImageSize {
-            self.appSceneObserver?.event = .toast(String.pageText.walkImageLimitedUpdate)
-            return
+    func updateAbleCheck()->Bool{
+        guard let _ = self.currentLocation else {
+            self.appSceneObserver?.event = .toast(String.alert.locationDisable)
+            return false
         }
+        if self.updateImages.count >= Self.limitedUpdateImageSize {
+            self.appSceneObserver?.event = .toast(String.pageText.walkImageLimitedUpdate.replace(Self.limitedUpdateImageSize.description))
+            return false
+        }
+        return true
+    }
+    func updateStatus(img:UIImage? = nil, thumbImage:UIImage? = nil){
+       
         guard let loc = self.currentLocation else {return}
         guard let id = self.walkId else {return}
         self.dataProvider.requestData(q:
@@ -632,6 +646,11 @@ class WalkManager:ObservableObject, PageProtocol{
             if walkId != self.walkId {return}
             if let img = additionalData?.img  {
                 self.updateImages.append(img)
+                if let loc = self.currentLocation {
+                    self.updateImageLocations.append(loc)
+                    self.walkPath?.setData(self.updateImageLocations)
+                    self.event = .updatedPath
+                }
                 self.appSceneObserver?.event = .check(self.updateImages.count.description + "/" + Self.limitedUpdateImageSize.description, icon:Asset.icon.camera)
             }
         default : break

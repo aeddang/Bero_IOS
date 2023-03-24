@@ -31,7 +31,9 @@ struct PageLevelUp: PageView {
                 //
                 ZStack(alignment: .center){
                     if let icon = self.lv?.icon {
-                        LottieView(lottieFile: "levelup", mode: .playOnce)
+                        if self.isEffect {
+                            LottieView(lottieFile: "levelup", mode: .playOnce)
+                        }
                         Image(icon)
                             .renderingMode(.original)
                             .resizable()
@@ -98,6 +100,7 @@ struct PageLevelUp: PageView {
                         self.lv = Lv.getLv(lv)
                         self.lvValue = lv.description
                     }
+                    self.isEffect = true
                 }
             }
             .onDisappear{
@@ -111,6 +114,7 @@ struct PageLevelUp: PageView {
     @State var prevLv:String = ""
     @State var currentLv:String = ""
     @State var color:Color = Color.app.white
+    @State var isEffect:Bool = false
    
 }
 

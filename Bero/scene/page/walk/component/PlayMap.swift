@@ -180,9 +180,9 @@ struct PlayMap: PageView {
         if self.zoomType != .close {
             zip.append(.addMarkers(self.getUsers()))
         }
-        if self.zoomType != .farAway {
-            zip.append(.addMarkers(self.getPlaces()))
-        }
+        //if self.zoomType != .farAway {
+        zip.append(.addMarkers(self.getPlaces()))
+        //}
         if self.zoomType == .farAway {
             zip.append(.addCircles(self.getSummarys()))
         }
@@ -317,9 +317,8 @@ struct PlayMap: PageView {
     }
     
     private func getSummarys()->[MapCircle]{
-        let summary:[MapUserData] = self.walkManager.missionUsersSummary
-        //var summary:[MapUserData] = self.walkManager.placesSummary
-        //summary.append(contentsOf: self.walkManager.missionUsersSummary)
+        var summary:[MapUserData] = self.walkManager.missionUsersSummary
+        summary.append(contentsOf: self.walkManager.placesSummary)
         let markers:[MapCircle] = summary.map{ data in
             return .init(id:data.id, marker: self.getCircle(data: data))
         }

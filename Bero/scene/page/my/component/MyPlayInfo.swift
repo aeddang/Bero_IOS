@@ -4,6 +4,7 @@ import SwiftUI
 struct MyPlayInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    var user:User? = nil
     var action: ((ValueBox.ValueType) -> Void)? = nil
     var body: some View {
         ValueBox(
@@ -24,7 +25,7 @@ struct MyPlayInfo: PageComponent{
     
     @State var datas:[ValueData] = []
     private func updated(){
-        let user = self.dataProvider.user
+        let user = self.user ?? self.dataProvider.user
         let lvData = ValueData(idx: 0, type: .value(.lv(Lv.getLv(user.lv)), value: Double(user.lv)))
         let pointData = ValueData(idx: 1, type: .value(.point, value: Double(user.point)))
         self.datas = [lvData, pointData]

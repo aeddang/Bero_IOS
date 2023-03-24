@@ -127,7 +127,7 @@ class Mission:MapUserData,ObservableObject{
         return self
     }
     @discardableResult
-    func setData(_ data:WalkData, userId:String? = nil)->Mission{
+    func setData(_ data:WalkData, userId:String? = nil, isMe:Bool = false)->Mission{
         self.type = .walk
         self.userId = userId ?? self.userId
         self.missionId = data.walkId ?? UUID().hashValue
@@ -148,7 +148,7 @@ class Mission:MapUserData,ObservableObject{
         }
        
         self.isCompleted = true
-        self.user = User().setData(data) 
+        self.user = User().setData(data, isMe:isMe) 
         self.distance = data.distance ?? 0
         self.duration = data.duration ?? 0
         self.fixDestination()

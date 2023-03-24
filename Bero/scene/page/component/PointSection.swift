@@ -19,6 +19,7 @@ struct PointSection: PageComponent{
                     .aspectRatio(contentMode: .fit)
                     .frame(width: Dimen.icon.heavyExtra, height: Dimen.icon.heavyExtra)
             }
+            /*
             TextButton(
                 type: .box,
                 defaultText:String.button.learnMore,
@@ -27,7 +28,7 @@ struct PointSection: PageComponent{
                 ){_ in
                     self.appSceneObserver.event = .toast(String.alert.comingSoon)
                 }
-
+             */
             FillButton(
                 type: .fill,
                 icon: Asset.icon.store,

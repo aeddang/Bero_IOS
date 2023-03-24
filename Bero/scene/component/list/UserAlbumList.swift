@@ -73,7 +73,9 @@ struct UserAlbumList: PageComponent{
         .onReceive(self.infinityScrollModel.$uiEvent){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .reload : self.updateUser()
+            case .reload :
+                if self.infinityScrollModel.isLoading {return}
+                self.updateUser()
             default : break
             }
         }
@@ -105,6 +107,8 @@ struct UserAlbumList: PageComponent{
     @State var users:[UserAlbumListItemData] = []
     @State var albumSize:CGSize = .zero
     private func updateUser(){
+        let yyyyMMdd = AppUtil.networkTimeDate().timeIntervalSince1970.toInt().description
+        self.randId = yyyyMMdd
         self.resetScroll()
         let w = self.listSize
         self.albumSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
@@ -113,8 +117,6 @@ struct UserAlbumList: PageComponent{
     }
     
     private func resetScroll(){
-        let yyyyMMdd = AppUtil.networkTimeDate().timeIntervalSince1970.toInt().description
-        self.randId = yyyyMMdd
         withAnimation{ self.isEmpty = false }
         self.users = []
         self.infinityScrollModel.reload()

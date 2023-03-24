@@ -164,7 +164,7 @@ struct ListDetailItem: PageComponent{
                     SortButton(
                         type: .stroke,
                         sizeType: .small,
-                        icon: Asset.icon.share,
+                        icon: Asset.icon.global,
                         text: String.app.share,
                         color: isShared ? Color.brand.primary : Color.app.grey400,
                         isSort: false

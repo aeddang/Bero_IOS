@@ -93,6 +93,48 @@ class WalkPath:PageProtocol{
         }
         return self
     }
+    
+    @discardableResult
+    func setData(_ datas:[CLLocation]) -> WalkPath{
+        var minX:Double = 180
+        var maxX:Double = -180
+        var minY:Double = 90
+        var maxY:Double = -90
+        var locations:[WalkPathItem] = []
+        var idx:Int = 0
+        for data in datas {
+            var lat = data.coordinate.latitude
+            var lng = data.coordinate.longitude
+            if SystemEnvironment.isTestMode {
+                let randX = Double.random(in: -0.003...0.003)
+                let randY = Double.random(in: -0.003...0.003)
+                lat = lat + randX
+                lng = lng + randY
+            }
+            minX = min(minX, lng)
+            maxX = max(maxX, lng)
+            minY = min(minY, lat)
+            maxY = max(maxY, lat)
+            locations.append(WalkPathItem(idx:idx, location:CLLocation(latitude: lat, longitude: lng)))
+            idx += 1
+        }
+        
+        let diffX:Double = abs(minX-maxX)
+        let diffY:Double = abs(minY-maxY)
+        let range:Double = max(max( diffX, diffY ), 1)
+        let modifyX:Double = (range - diffX) / 2
+        let modifyY:Double = (range - diffY) / 2
+        minX = minX - modifyX
+        maxX = maxX + modifyX
+        minY = minY - modifyY
+        maxY = maxY + modifyY
+        self.paths = locations.map{ loc in
+            let tx = (loc.location.coordinate.longitude - minX)/range
+            let ty = (loc.location.coordinate.latitude - minY)/range
+            return .init(idx:loc.idx, location: loc.location, tx: tx, ty: ty)
+        }
+        return self
+    }
 }
 
 

@@ -82,10 +82,12 @@ struct PageWalkInfo: PageView {
                             if self.isMe, let pets = self.mission?.user?.pets {
                                 HStack(spacing:Dimen.margin.micro){
                                     ForEach(pets) { profile in
+                                        
                                         Button(action: {
                                             self.pagePresenter.openPopup(
                                                 PageProvider.getPageObject(.dog)
                                                     .addParam(key: .id, value: profile.petId)
+                                                    .addParam(key: .subData, value: self.dataProvider.user)
                                             )
                                         }) {
                                             ProfileImage(
@@ -282,7 +284,8 @@ struct PageWalkInfo: PageView {
     @State var useScrollUi:Bool = false
     private func loaded(_ res:ApiResultResponds){
         guard let data = res.data as? WalkData else { return }
-        self.mission = Mission().setData(data, userId: self.user?.userId)
+        self.isMe = self.dataProvider.user.isSameUser(userId: data.user?.userId)
+        self.mission = Mission().setData(data, userId: self.user?.userId, isMe: self.isMe)
         self.updatedData()
     }
     
@@ -295,10 +298,12 @@ struct PageWalkInfo: PageView {
         
     }
     
+    
+    
     @State var pictureSets:[WalkPictureItemSet] = []
     @State var pictureSize:CGSize = .zero
     private func setupPictureDataSet(mission:Mission){
-        guard let pictures = mission.walkPath?.pictures.dropFirst() else {return}
+        guard let pictures = mission.walkPath?.pictures else {return}
         let count:Int = 2
         self.useScrollUi = pictures.count > count
        

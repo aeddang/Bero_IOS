@@ -21,14 +21,14 @@ struct LvButton: View, SelecterbleProtocol, PageProtocol{
         }
         var textSize:CGFloat{
             switch self {
-            case .big : return Font.size.black
+            case .big : return Font.size.bold
             case .small : return Font.size.tiny
             case .tiny : return Font.size.microExtra
             }
         }
         var textTop:CGFloat{
             switch self {
-            case .big : return 26
+            case .big : return 28
             case .small : return 10
             case .tiny : return 6
             }
@@ -82,7 +82,7 @@ struct HeartButton_Previews: PreviewProvider {
         HStack{
             LvButton(
                 type: .big,
-                text: "99",
+                text: "LV.99",
                 isSelected: true
             ){_ in
                 

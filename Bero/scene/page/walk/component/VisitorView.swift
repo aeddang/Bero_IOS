@@ -43,11 +43,16 @@ struct VisitorView: PageComponent, Identifiable{
                         color: Color.app.black
                     ))
                 ForEach(self.datas) { data in
-                    PetProfileUser(profile: data, friendStatus: data.isFriend ? .chat : .norelation){
+                    PetProfileUser(profile: data,
+                                   friendStatus: data.isMypet
+                                   ? nil
+                                   : data.isFriend ? .chat : .norelation){
                         if self.dataProvider.user.isSameUser(userId: data.userId) {
+                            self.appSceneObserver.event = .toast(String.alert.itsMe)
+                            /*
                             self.pagePresenter.changePage(
                                 PageProvider.getPageObject(.my)
-                            )
+                            )*/
                         } else {
                             self.pagePresenter.openPopup(
                                 PageProvider.getPageObject(.user).addParam(key: .id, value:data.userId)
@@ -136,8 +141,13 @@ struct VisitorView: PageComponent, Identifiable{
         var added:[PetProfile] = []
         let start = self.datas.count
         let end = start + datas.count
+        let me = self.dataProvider.user.userId
         added = zip(start...end, datas).map{ idx, d in
-            return PetProfile(data: d.pet ?? PetData(), userId: d.user?.userId, isFriend: d.user?.isFriend ?? false)
+            let profile = PetProfile(data: d.pet ?? PetData(), userId: d.user?.userId,
+                                     isMyPet: d.user?.userId == me,
+                                     isFriend: d.user?.isFriend ?? false)
+            profile.level = d.user?.level
+            return profile
             //return MultiProfileListItemData().setData(d,  idx: idx)
         }
         self.datas.append(contentsOf: added)

@@ -103,6 +103,7 @@ struct PetProfileBody: PageComponent{
             lv: self.profile.level,
             name: self.name,
             gender: self.gender,
+            isNeutralized: self.isNeutralized,
             age: self.age,
             breed: self.distance == nil ? self.breed : nil, //거리와 품종 둘중하나만 표기
             distance:self.distance,

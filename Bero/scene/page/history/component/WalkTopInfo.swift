@@ -47,7 +47,7 @@ struct WalkTopInfo: PageComponent{
                         SortButton(
                             type: .stroke,
                             sizeType: .small,
-                            icon: Asset.icon.share,
+                            icon: Asset.icon.global,
                             text: String.app.share,
                             color: self.isExpose ? Color.brand.primary : Color.app.grey400,
                             isSort: false

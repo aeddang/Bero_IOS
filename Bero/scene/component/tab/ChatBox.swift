@@ -13,6 +13,7 @@ import GoogleMaps
 
 
 struct ChatBox: PageComponent{
+    @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var repository:Repository
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var sceneObserver:PageSceneObserver
@@ -73,6 +74,7 @@ struct ChatBox: PageComponent{
                     self.sendUser = ""
                     self.isFocus = false
                     AppUtil.hideKeyboard()
+                    
                 }
                 withAnimation{self.isShow = isActive}
                 
@@ -98,9 +100,12 @@ struct ChatBox: PageComponent{
             case .sendChat:
                 self.input = ""
                 self.sendMessageCompleted()
+            case .getChatRooms:
+               self.loaded(res)
             default : break
             }
         }
+        
     }
     private func inputChat(userId:String){
         self.input = ""
@@ -115,13 +120,30 @@ struct ChatBox: PageComponent{
     }
     
     private func sendMessageCompleted(){
-        
+        if self.pagePresenter.currentTopPage?.pageID != .chatRoom {
+            self.loadChatRoom()
+        }
         self.isFocus = false
         AppUtil.hideKeyboard()
         if !self.isActive {
             withAnimation{self.isShow = false}
         }
     }
+    
+    private func loadChatRoom(){
+        self.dataProvider.requestData(q: .init(id: self.tag, type:.getChatRooms(page: 0)))
+    }
+    
+    private func loaded(_ res:ApiResultResponds){
+        guard let data = (res.data as? [ChatRoomData])?.first(where: {$0.receiver == self.sendUser}) else { return }
+        let item = ChatRoomListItemData().setData(data,  idx: 0)
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.chatRoom)
+                .addParam(key: .data, value:item)
+        )
+    }
+    
+    
 }
 
 

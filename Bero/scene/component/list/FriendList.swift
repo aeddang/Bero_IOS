@@ -19,7 +19,7 @@ extension FriendList {
         }
         var text:String{
             switch self {
-            case .chat : return "Chat Friends"
+            case .chat : return "Direct Message"
             case .friend : return "My Friends"
             case .request : return "Request Friends"
             case .requested : return "Friends Request"
@@ -27,7 +27,7 @@ extension FriendList {
         }
         var buttons:[TitleTab.ButtonType]{
             switch self {
-            case .friend : return [.addFriend, .more]
+            case .friend : return [.addFriend]
             default : return []
             }
         }

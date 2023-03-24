@@ -51,14 +51,13 @@ struct PageWalk: PageView {
                     
                     Spacer().modifier(MatchParent())
                     
-                    if self.isInitable {
-                        PlayBox(
-                            pageObservable: self.pageObservable,
-                            viewModel: self.mapModel,
-                            isFollowMe: self.$isFollowMe
-                        )
-                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                    }
+                    PlayBox(
+                        pageObservable: self.pageObservable,
+                        viewModel: self.mapModel,
+                        isFollowMe: self.$isFollowMe,
+                        isInitable: self.isInitable
+                    )
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                 }
                 .padding(.bottom, self.bottomMargin + Dimen.margin.thin )
                 .modifier(PageVertical())
@@ -159,8 +158,6 @@ struct PageWalk: PageView {
         withAnimation{
             self.isInitable = !self.dataProvider.user.pets.isEmpty
         }
-        
-        
     }
    
     private func needDog(){

@@ -68,7 +68,7 @@ extension Asset{
         public static let search = "search"
         public static let settings = "settings"
         public static let sync = "sync"
-        public static let exp = "lv_green"
+        public static let exp = "exp"
         public static let arrow_right = "arrow_right"
         public static let back = "back"
         public static var close = "close"
@@ -177,6 +177,7 @@ extension Asset{
         public static let policy = "policy"
         public static let terms = "terms"
         public static let store = "store"
+        public static let add_chat = "add_chat"
     }
     
 

@@ -41,13 +41,13 @@ struct PageChat: PageView {
                         infinityScrollModel: self.infinityScrollModel,
                         title: self.isEdit ? String.button.manageChat : String.pageTitle.chat,
                         useBack: self.isEdit,
-                        buttons:self.isEdit ? [] : [.friend, .setting]){ type in
+                        buttons:self.isEdit ? [] : [.addChat, .setting]){ type in
                         switch type {
                         case .back :
                             withAnimation{
                                 self.isEdit = false
                             }
-                        case .friend :
+                        case .addChat :
                             self.pagePresenter.openPopup(
                                 PageProvider.getPageObject(.friend)
                                     .addParam(key: .type, value: FriendList.ListType.chat)

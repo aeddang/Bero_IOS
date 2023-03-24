@@ -93,6 +93,7 @@ struct PageAddDog: PageView {
     @EnvironmentObject var appObserver:AppObserver
     @EnvironmentObject var sceneObserver:PageSceneObserver
     @EnvironmentObject var appSceneObserver:AppSceneObserver
+    @EnvironmentObject var keyboardObserver:KeyboardObserver
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
@@ -196,6 +197,7 @@ struct PageAddDog: PageView {
                 
             }//draging
         }//GeometryReader
+        
         .onAppear{
            
              

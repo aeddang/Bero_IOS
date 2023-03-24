@@ -54,6 +54,19 @@ struct WalkBox: PageComponent{
                         value: self.walkDistance,
                         unit:String.app.km
                     )
+                    ZStack{
+                        Spacer()
+                            .modifier(MatchHorizontal(height: 70))
+                            .background(Color.app.grey50)
+                            .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
+                        GraphPolygon(
+                            selectIdx: self.paths.map{$0.idx},
+                            points: self.paths.map{CGPoint(x: $0.tx, y:$0.ty )},
+                            action: {_ in
+                                
+                            })
+                        .frame(width: 50, height: 50)
+                    }
                 }
                 .padding(.top, Dimen.margin.thin)
                 .opacity(self.isExpand ? 1 : 0)
@@ -89,6 +102,14 @@ struct WalkBox: PageComponent{
             }
             self.updateTitle()
         }
+        .onReceive(self.walkManager.$event){ evt in
+            guard let evt = evt else {return}
+            switch evt {
+            case .updatedPath :
+                self.paths = self.walkManager.walkPath?.paths ?? []
+            default : break
+            }
+        }
         .onReceive(self.walkManager.$walkTime){ time in
             self.walkTime = WalkManager.viewDuration(time)
         }
@@ -115,6 +136,7 @@ struct WalkBox: PageComponent{
     @State var walkTime:String = "00:00"
     @State var walkDistance:String = "0"
     @State var title:String = ""
+    @State var paths:[WalkPathItem] = []
     
     private func updateTitle(){
         if self.isWalk {
@@ -123,7 +145,7 @@ struct WalkBox: PageComponent{
             let name = self.dataProvider.user.representativePet?.name ?? self.dataProvider.user.currentProfile.nickName ?? ""
             self.title = String.pageText.walkStartText.replace(name)
         }
-        
+        self.paths = self.walkManager.walkPath?.paths ?? []
     }
 }
 
