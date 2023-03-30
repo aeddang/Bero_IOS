@@ -225,6 +225,11 @@ struct PageUser: PageView {
         }
     }
     private func more(){
+        if self.dataProvider.user.isSameUser(userId: self.userId ?? self.user?.userId) {
+            self.appSceneObserver.event = .toast(String.alert.itsMe)
+            return
+        }
+        
         if self.user?.isFriend == true {
             let datas:[String] = [
                 String.button.removeFriend,

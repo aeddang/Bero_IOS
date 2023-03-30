@@ -18,6 +18,7 @@ struct PageSetup: PageView {
     @EnvironmentObject var snsManager:SnsManager
     @EnvironmentObject var repository:Repository
     @EnvironmentObject var walkManager:WalkManager
+    @EnvironmentObject var locationObserver:LocationObserver
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -167,6 +168,7 @@ struct PageSetup: PageView {
                                     }
                                 )
                             }
+                            
                         }
                     }
                 }
@@ -188,6 +190,7 @@ struct PageSetup: PageView {
     @State var isTestMode:Bool = false
     @State var isReceivePush:Bool = false
     @State var isExpose:Bool = false
+    @State var currentZipCode:String? = nil
     
 }
 

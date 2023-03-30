@@ -81,7 +81,7 @@ class Mission:MapUserData,ObservableObject{
     var viewPlayDistance:String { return WalkManager.viewDistance(self.playDistance) }
     var viewSpeed:String {
         let d = self.distance
-        let dr = self.duration
+        let dr = self.duration/3600
         let spd = d == 0 || dr == 0 ? 0 : d/dr
         return WalkManager.viewSpeed(spd)
     }
@@ -240,6 +240,7 @@ class Mission:MapUserData,ObservableObject{
         self.completedMissions = data.completedMissions
         self.point = WalkManager.getPoint(data.walkDistance)
         self.exp = WalkManager.getExp(data.walkDistance)
+        self.isCompleted = true
         return self
     }
     

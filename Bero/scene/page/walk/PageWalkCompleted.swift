@@ -61,7 +61,8 @@ struct PageWalkCompleted: PageView {
                 }
             }
             .onAppear{
-                self.mission = self.walkManager.completedWalk
+                let mission = self.walkManager.completedWalk
+                self.mission = mission
                 self.openPicker()
             }
             .onDisappear{
@@ -119,6 +120,7 @@ struct PageWalkCompleted: PageView {
         self.walkManager.endWalk()
         self.repository.updateTodayWalkCount()
         if let mission = self.mission {
+            
             self.dataProvider.user.missionCompleted(mission)
         }
         self.pagePresenter.closePopup(self.pageObject?.id)

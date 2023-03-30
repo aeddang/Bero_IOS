@@ -29,13 +29,15 @@ struct SimpleWalkBox: PageComponent{
                 isActive: true
             ){_ in
                 if self.pagePresenter.currentPage?.pageID == PageID.walk {
+                    self.pagePresenter.closeAllPopup()
                     self.walkManager.updateSimpleView(false)
                 } else {
+                    
                     self.pagePresenter.changePage(PageProvider.getPageObject(.walk))
                 }
                 //self.finishWalk()
             }
-            .frame(width: 95)
+            .frame(width: 115)
         }
         .padding(.leading, Dimen.margin.tiny + Self.offset)
         .padding(.trailing, Dimen.margin.tiny)

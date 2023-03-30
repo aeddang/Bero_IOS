@@ -94,7 +94,7 @@ struct PageLevelUp: PageView {
                         self.lvValue = prev.description
                     }
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now()+1.5){
+                DispatchQueue.main.asyncAfter(deadline: .now()+2.5){
                     withAnimation{
                         self.color = Lv.getLv(lv).color
                         self.lv = Lv.getLv(lv)

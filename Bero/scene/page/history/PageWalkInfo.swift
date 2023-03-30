@@ -107,7 +107,7 @@ struct PageWalkInfo: PageView {
                                 .opacity(2.0 - self.imageScale)
                             } else if !self.isMe ,
                                 let userId = self.user?.userId ?? self.userProfile?.userId ,
-                                let img = self.user?.representativeImage ?? self.userProfile?.imagePath ?? "" {
+                                let img = self.user?.representativeImage ??  self.userProfile?.imagePath ?? "" {
                                     Button(action: {
                                         self.pagePresenter.openPopup(
                                             PageProvider.getPageObject(.user)
@@ -121,7 +121,7 @@ struct PageWalkInfo: PageView {
                                             isSelected: true,
                                             strokeColor: Color.app.white,
                                             size: Dimen.profile.thin,
-                                            emptyImagePath: Asset.image.profile_dog_default
+                                            emptyImagePath: Asset.image.profile_user_default
                                         )
                                     }
                                     .padding(.all, Dimen.margin.regular)

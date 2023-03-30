@@ -121,7 +121,7 @@ class WalkPath:PageProtocol{
         
         let diffX:Double = abs(minX-maxX)
         let diffY:Double = abs(minY-maxY)
-        let range:Double = max(max( diffX, diffY ), 1)
+        let range:Double = max(max( diffX, diffY ), 0.001)
         let modifyX:Double = (range - diffX) / 2
         let modifyY:Double = (range - diffY) / 2
         minX = minX - modifyX

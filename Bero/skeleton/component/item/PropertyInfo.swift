@@ -31,7 +31,7 @@ struct PropertyInfo: PageComponent{
         }
         var valueTextSize:CGFloat{
             switch self {
-            case .impect : return Font.size.bold
+            case .impect : return Font.size.medium
             case .normal : return Font.size.light
             case .blank : return Font.size.light
             }

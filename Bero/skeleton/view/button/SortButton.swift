@@ -254,6 +254,18 @@ struct SortButtonButton_Previews: PreviewProvider {
             {
                 
             }
+            SortButton(
+                type: .stroke,
+                sizeType: .small,
+                icon: Asset.icon.search,
+                text: "이 지역 보기",
+                color: Color.app.grey300,
+                isSort: false,
+                isSelected: false
+            )
+            {
+                
+            }
         }
         .padding(.all, 10)
     }

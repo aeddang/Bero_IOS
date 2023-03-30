@@ -140,7 +140,7 @@ struct PageWalk: PageView {
             self.bottomMargin = self.appSceneObserver.useBottom ? Dimen.app.bottom : 0
             self.walkManager.startMap()
             self.updatedDog()
-            if !self.repository.storage.isFirstWalk || SystemEnvironment.isTestMode {
+            if !self.repository.storage.isFirstWalk {
                 self.repository.storage.isFirstWalk = true
                 self.walkManager.firstWalk()
                 

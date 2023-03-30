@@ -56,7 +56,7 @@ class LockScreenManager:PageProtocol{
         let status = BeroLockScreenAttributes.ContentState(walkTime: data.walkTime, walkDistance: data.walkDistance, name: data.title)
         let content = ActivityContent(state: status, staleDate: nil)
         Task {
-            await ac.end(content, dismissalPolicy: .default)
+            await ac.end(content, dismissalPolicy: .immediate)
         }
     }
     

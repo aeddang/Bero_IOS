@@ -83,7 +83,8 @@ struct PetWalkPropertySection: PageComponent{
             let dr = self.profile.totalExerciseDuration ?? 0
             self.distance = WalkManager.viewDistance(d)
             self.duration = WalkManager.viewDuration(dr)
-            let spd = d == 0 || dr == 0 ? 0 : d/dr
+            let dh = dr/3600
+            let spd = d == 0 || dh == 0 ? 0 : d/dh
             self.speed = WalkManager.viewSpeed(spd)
         }
     }
@@ -124,7 +125,8 @@ struct ReportWalkPropertySection: PageComponent{
             let dr = self.data.duration ?? 0
             self.distance = WalkManager.viewDistance(d)
             self.duration = WalkManager.viewDuration(dr)
-            let spd = d == 0 || dr == 0 ? 0 : d/dr
+            let dh = dr/3600
+            let spd = d == 0 || dh == 0 ? 0 : d/dh
             self.speed = WalkManager.viewSpeed(spd)
         }
     }

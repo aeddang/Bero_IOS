@@ -170,7 +170,7 @@ struct VisitorHorizontalView: PageComponent, Identifiable{
     var body: some View {
         VStack(alignment: .leading, spacing: Dimen.margin.regularExtra){
             TitleTab(type:.section, title: String.pageText.walkVisitorTitle.replace(self.place.visitorCount.description),
-                     buttons:[.viewMore]){ type in
+                     buttons:self.place.placeId != -1 ? [.viewMore] : []){ type in
                 switch type {
                 case .viewMore :
                     self.pagePresenter.openPopup(PageProvider.getPageObject(.popupPlaceVisitor).addParam(key: .data, value: self.place))
@@ -213,10 +213,14 @@ struct VisitorHorizontalView: PageComponent, Identifiable{
     }
     
     private func moveUser(id:String? = nil){
-        self.pagePresenter.openPopup(
-            PageProvider.getPageObject(.user)
-                .addParam(key: .id, value:id)
-        )
+        if self.dataProvider.user.isSameUser(userId: id) {
+            self.appSceneObserver.event = .toast(String.alert.itsMe)
+            
+        } else {
+            self.pagePresenter.openPopup(
+                PageProvider.getPageObject(.user).addParam(key: .id, value:id)
+            )
+        }
     }
 }
 

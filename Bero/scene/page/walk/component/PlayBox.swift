@@ -35,6 +35,25 @@ struct PlayBox: PageComponent{
                     self.walkManager.updateSimpleView(!self.isExpand)
                 }
                 .opacity(self.isExpand && self.isWalk ? 1 : 0)
+                
+                Spacer().modifier(MatchHorizontal(height: 0))
+                SortButton(
+                    type: .stroke,
+                    sizeType: .small,
+                    icon: Asset.icon.refresh,
+                    text: String.button.searchArea,
+                    color: Color.brand.primary,
+                    isSort: false,
+                    isSelected: false
+                )
+                {
+                    guard let loc = self.viewModel.position else {return}
+                    let viewLoc = CLLocation(latitude: loc.target.latitude, longitude: loc.target.longitude)
+                    self.walkManager.replaceMapStatus(viewLoc)
+                    self.walkManager.uiEvent = .moveMap(viewLoc, zoom:PlayMap.zoomDefault)
+                }
+                .fixedSize()
+                
                 Spacer().modifier(MatchHorizontal(height: 0))
                 CircleButton(
                     type: .icon(Asset.icon.my_location),
@@ -161,14 +180,20 @@ struct PlayBox: PageComponent{
             String.alert.completedNeedPicture,
             [String.app.cancel,String.button.finish]){ idx in
                 if idx == 1 {
-                    self.walkManager.endMission()
-                    self.walkManager.completeWalk()
+                    self.checkFinish()
                 } else {
                     self.cancelWalk()
                 }
             }
     }
-    
+    private func checkFinish(){
+        if !SystemEnvironment.isTestMode && self.walkManager.walkDistance < WalkManager.minDistance {
+            self.appSceneObserver.alert  = .alert(nil,String.pageText.walkFinishCheckDistance.replace(WalkManager.minDistance.description))
+            return
+        }
+        self.walkManager.endMission()
+        self.walkManager.completeWalk()
+    }
     private func cancelWalk(){
         
         self.appSceneObserver.alert  = .confirm(nil, String.alert.completedExitConfirm){ isOk in

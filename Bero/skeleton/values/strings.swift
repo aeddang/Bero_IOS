@@ -246,6 +246,7 @@ extension String {
         public static let viewProfile = "View profile"
         public static let learnMore = "Learn more"
         public static let manageChat = "Manage Chat"
+        public static let searchArea = "Search this area"
     }
     
     struct sort {
@@ -388,6 +389,7 @@ extension String {
         public static let walkStartText = "Hi, %s.\nReady to walk?"
         public static let walkMissionCompletedText = "%s missions today"
         
+        public static let walkFinishCheckDistance = "A minimum distance of %sm is required to complete the walk"
         public static let walkFinishConfirm = "Finish the Walk?"
         public static let walkFinishSuccessTitle = "Here is the Rewards!"
         public static let walkFinishSuccessText = "Hope to see you next time!"

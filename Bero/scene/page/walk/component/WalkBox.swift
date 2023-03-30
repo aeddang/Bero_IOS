@@ -71,9 +71,11 @@ struct WalkBox: PageComponent{
                 .padding(.top, Dimen.margin.thin)
                 .opacity(self.isExpand ? 1 : 0)
             } else {
-                LocationInfo()
-                    .padding(.top, Dimen.margin.medium)
-                    .opacity(self.isExpand ? 1 : 0)
+                LocationInfo(
+                    viewModel: self.viewModel
+                )
+                .padding(.top, Dimen.margin.medium)
+                .opacity(self.isExpand ? 1 : 0)
             }
         }
         .padding(.all, self.isExpand ? Dimen.margin.regularExtra : 0)

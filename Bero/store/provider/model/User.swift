@@ -195,8 +195,8 @@ class User:ObservableObject, PageProtocol, Identifiable{
         switch mission.type {
         case .walk :
             self.totalWalkCount += 1
-            self.totalWalkDistance += mission.playDistance
-    
+            self.totalWalkDistance += mission.distance
+            self.exerciseDuration += mission.duration
         default :
             self.totalMissionCount += 1
             self.totalMissionDistance += mission.distance
@@ -332,10 +332,10 @@ enum Lv {
     var title : String {
         switch self {
         case .green : return "Avocado"
-        case .blue : return "Grape"
-        case .yellow : return "Mango"
+        case .blue : return "Blueberry"
+        case .yellow : return "Banana"
         case .pink : return "Peach"
-        case .orange : return "Orange"
+        case .orange : return "Carrot"
         }
     }
     static func getLv(_ value:Int) -> Lv{

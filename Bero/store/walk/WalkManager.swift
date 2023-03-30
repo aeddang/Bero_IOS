@@ -17,7 +17,8 @@ enum WalkEvent {
          getRoute(Route), endRoute,
          changeMapStatus, updatedMissions, updatedPlaces , updatedUsers,
          findWaypoint(index:Int, total:Int), findPlace(Place),
-         updatedPath
+         updatedPath,
+         updateViewLocation(CLLocation)
          
     
     var pushTitle:String? {
@@ -50,6 +51,7 @@ extension WalkManager {
     static var todayWalkCount:Int = 0
     static let distanceUnit:Double = 5000
     static let nearDistance:Double = 20
+    static let minDistance:Double = 100
     static let limitedUpdateImageSize:Int = 9
     static func viewSpeed(_ value:Double, unit:String? = String.app.kmPerH) -> String {
         let v = (value / 1000).toTruncateDecimal(n:1)
@@ -60,7 +62,7 @@ extension WalkManager {
         }
     }
     static func viewDistance(_ value:Double, unit:String? = String.app.km) -> String {
-        let v = (value / 1000).toTruncateDecimal(n:1)
+        let v = (value / 1000).toTruncateDecimal(n:2)
         if let unit = unit {
             return v + " " + unit
         } else {
@@ -217,6 +219,7 @@ class WalkManager:ObservableObject, PageProtocol{
     private(set) var startTime:Date = Date()
     private(set) var startLocation:CLLocation? = nil
     private(set) var updateLocation:CLLocation? = nil
+    private(set) var updateZipCode:String? = nil
     private(set) var completedMissions:[Int] = []
     private(set) var completedWalk:Mission? = nil
     @Published var uiEvent:WalkUiEvent? = nil {didSet{ if uiEvent != nil { uiEvent = nil} }}
@@ -244,7 +247,7 @@ class WalkManager:ObservableObject, PageProtocol{
     private (set) var updateImages:[UIImage] = []
     private (set) var updateImageLocations:[CLLocation] = []
     let nearDistance:Double = WalkManager.nearDistance
-    let farDistance:Double = 10000
+    let farDistance:Double = 2000
     let updateTime:Int = 5
     var isBackGround:Bool = false
     init(
@@ -289,6 +292,20 @@ class WalkManager:ObservableObject, PageProtocol{
             self.event = .viewTutorial(resource: WalkAniType.start.path)
         }
     }
+    private func clearAllMapStatus(){
+        if self.currentMission == nil {
+            self.missions = []
+        }
+        self.placeDatas = [:]
+        self.missionUsers = []
+        self.places = []
+        self.missions = []
+        self.missionUsersSummary = []
+        self.placesSummary = []
+        self.updateLocation = nil
+        self.updateZipCode = nil
+    }
+    
     func resetMapStatus(_ location:CLLocation? = nil, userFilter:Filter?=nil,  missionFilter:Filter?=nil, placeFilters:[Filter]?=nil, isAll:Bool = false){
         if let filter = userFilter {
             self.userFilter = filter
@@ -305,20 +322,12 @@ class WalkManager:ObservableObject, PageProtocol{
             self.placesSummary = []
         }
         if isAll {
-            if self.currentMission == nil {
-                self.missions = []
-            }
-            self.placeDatas = [:]
-            self.missionUsers = []
-            self.places = []
-            self.missions = []
-            self.missionUsersSummary = []
-            self.placesSummary = []
+            self.clearAllMapStatus()
         }
-        self.updateLocation = nil
+       
         self.event = .changeMapStatus
         if let loc = location ?? self.currentLocation {
-            self.updateMapStatus(loc)
+            self.updateMapStatus(loc, isCheckDistence: false)
         }
     }
     
@@ -361,14 +370,28 @@ class WalkManager:ObservableObject, PageProtocol{
             let distance = prevLoc.distance(from: location)
             if distance <= Self.distanceUnit {
                 DataLog.d("already updated", tag: self.tag)
+                return
             }
-            return
         }
+        self.updateMapPlace(location)
+        self.updateMapUser(location)
+        self.event = .updateViewLocation(location)
+    }
+    
+    func replaceMapStatus(_ location:CLLocation){
+        self.clearAllMapStatus()
+        self.updateMapPlace(location)
+        self.updateMapUser(location)
+        self.event = .updateViewLocation(location)
+    }
+
+    func updateMapPlace(_ location:CLLocation){
+        self.updateLocation = location
         self.locationObserver.convertLocationToAddress(location: location){ address in
             let zip = address.zipCode
+            self.updateZipCode = zip
             self.placeFilters.forEach{ filter in
                 guard let searchKeyward = filter.keyward else {return}
-                //if searchKeyward == nil {return}
                 if self.placeDatas[searchKeyward] == nil {
                     self.dataProvider.requestData(
                         q: .init(
@@ -377,8 +400,10 @@ class WalkManager:ObservableObject, PageProtocol{
                 }
             }
         }
-        
         self.checkOnReadyPlaceData()
+    }
+    
+    func updateMapUser(_ location:CLLocation){
         if self.missionUsers.isEmpty {
             switch self.userFilter {
             case .notUsed :
@@ -391,7 +416,6 @@ class WalkManager:ObservableObject, PageProtocol{
                           type: .searchLatestWalk(loc: location, radius: 1000, min: 60000),
                           isOptional: false))
         }
-        
     }
     
     func updateSimpleView(_ view:Bool) {
@@ -434,9 +458,12 @@ class WalkManager:ObservableObject, PageProtocol{
         self.startTimer()
         self.walkPath = WalkPath()
         self.requestLocation()
+        self.updatePath()
         if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
             lsm.startLockScreen(data: .init(title: String.lockScreen.start))
         }
+        guard let loc = self.currentLocation else { return }
+        self.updateMapStatus(loc, isCheckDistence: true)
     }
     
     func completeWalk(){
@@ -549,6 +576,8 @@ class WalkManager:ObservableObject, PageProtocol{
             self.walkDistance += diff
         }
         self.currentLocation = loc
+        
+        self.updateMapStatus(loc)
         if self.isBackGround {
             if #available(iOS 16.2, *) , let lsm = self.lockScreenManager as? LockScreenManager {
                 if let place = self.findPlace(loc) {
@@ -646,14 +675,18 @@ class WalkManager:ObservableObject, PageProtocol{
             if walkId != self.walkId {return}
             if let img = additionalData?.img  {
                 self.updateImages.append(img)
-                if let loc = self.currentLocation {
-                    self.updateImageLocations.append(loc)
-                    self.walkPath?.setData(self.updateImageLocations)
-                    self.event = .updatedPath
-                }
+                self.updatePath()
                 self.appSceneObserver?.event = .check(self.updateImages.count.description + "/" + Self.limitedUpdateImageSize.description, icon:Asset.icon.camera)
             }
         default : break
+        }
+    }
+    
+    private func updatePath(){
+        if let loc = self.currentLocation {
+            self.updateImageLocations.append(loc)
+            self.walkPath?.setData(self.updateImageLocations)
+            self.event = .updatedPath
         }
     }
     
@@ -807,7 +840,7 @@ class WalkManager:ObservableObject, PageProtocol{
         self.places = fixed
         var summary:[Place] = []
         var prev:Place? = nil
-        for data in datas {
+        for data in fixed {
             if let loc = data.location {
                 if let prevLoc = prev?.location {
                     if prevLoc.distance(from: loc) < self.farDistance {
