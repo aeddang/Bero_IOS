@@ -27,11 +27,9 @@ struct UserData : Decodable {
     private(set) var sex: String? = nil
     private(set) var introduce: String? = nil
     private(set) var exp:Double? = nil
+    private(set) var exerciseDistance: Double? = nil
     private(set) var exerciseDuration: Double? = nil
-    private(set) var walkDistance: Double? = nil
-    private(set) var missionDistance: Double? = nil
     private(set) var walkCompleteCnt: Int? = nil
-    private(set) var missionCompleteCnt: Int? = nil
     private(set) var level: Int? = nil
     private(set) var isChecked: Bool? = nil
     private(set) var isFriend: Bool? = nil
@@ -55,7 +53,6 @@ struct PetData : Decodable {
     private(set) var weight: Double? = nil
     private(set) var size: Double? = nil
     private(set) var walkCompleteCnt: Int? = nil
-    private(set) var missionCompleteCnt: Int? = nil
     private(set) var thumbsupCount: Int? = nil
     private(set) var isChecked: Bool? = nil
     private(set) var tagStatus: String? = nil

@@ -109,11 +109,11 @@ struct TotalWalkSection: PageComponent{
     @State var profile:PetProfile? = nil
     private func updatedWalk(){
         if let profile = self.profile {
-            self.totalDistance = profile.totalExerciseDistance ?? 0
-            self.totalDuration = profile.totalExerciseDuration ?? 0
+            self.totalDistance = profile.exerciseDistance ?? 0
+            self.totalDuration = profile.exerciseDuration ?? 0
             self.totalWalkCount = profile.totalWalkCount
         } else {
-            self.totalDistance = user.totalWalkDistance
+            self.totalDistance = user.exerciseDistance
             self.totalDuration = user.exerciseDuration
             self.totalWalkCount = user.totalWalkCount
         }

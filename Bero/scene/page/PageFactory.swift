@@ -25,7 +25,6 @@ extension PageID{
     static let walkHistory:PageID = "walkHistory"
     static let walkReport:PageID = "walkReport"
     static let walkInfo:PageID = "walkInfo"
-    static let missionHistory:PageID = "missionHistory"
     static let myLv:PageID = "myLv"
     static let myPoint:PageID = "myPoint"
     static let dog:PageID = "dog"
@@ -109,7 +108,7 @@ struct PageProvider {
     static func isAutoInit(_ pageID:PageID)-> Bool{
         switch pageID{
         case .user, .album, .dog,.walkReport, .walkInfo, .walkList, .alarm: return false
-        case .walkHistory, .missionHistory, .friend , .editProfile: return false
+        case .walkHistory, .friend , .editProfile: return false
         case .popupWalkUser: return false
         default : return  true
         }
@@ -209,7 +208,6 @@ struct PageFactory{
         case .walkHistory : return PageWalkHistory(pageObservable:pageObservable)
         case .walkReport : return PageWalkReport(pageObservable:pageObservable)
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)
-        case .missionHistory : return PageMissionHistory(pageObservable:pageObservable)
         case .album : return PageAlbum(pageObservable:pageObservable)
         case .picture : return PagePicture(pageObservable:pageObservable)
         case .alarm : return PageAlarm(pageObservable:pageObservable)

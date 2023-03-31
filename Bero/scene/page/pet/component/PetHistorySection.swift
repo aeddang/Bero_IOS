@@ -26,24 +26,7 @@ struct PetHistorySection: PageComponent{
                         description: self.walkDescription
                     )
                 }
-                /*
-                Button(action: {
-                    self.user.currentPet = profile
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.missionHistory)
-                            .addParam(key: .data, value: self.user)
-                    )
-                }) {
-                    HorizontalProfile(
-                        id: "",
-                        type: .place(icon: MissionType.history.icon),
-                        sizeType: .small,
-                        funcType: .more,
-                        name: MissionType.history.text + " " + String.pageTitle.history,
-                        description: self.missionDescription
-                    )
-                }
-                */
+                
             } else {
                 ValueBox(
                     datas: self.datas
@@ -53,9 +36,6 @@ struct PetHistorySection: PageComponent{
         .onReceive(self.profile.$totalWalkCount){ value in
             self.walkDescription = String.pageText.historyCompleted.replace(value.description)
         }
-        .onReceive(self.profile.$totalMissionCount){ value in
-            self.missionDescription = String.pageText.historyCompleted.replace(value.description)
-        }
         .onAppear(){
             if !self.profile.isMypet {
                 self.updated()
@@ -64,12 +44,10 @@ struct PetHistorySection: PageComponent{
     }
     
     @State var walkDescription:String = ""
-    @State var missionDescription:String = ""
     @State var datas:[ValueData] = []
     private func updated(){
         let walk = ValueData(idx: 0, type: .value(.walkComplete, value: Double(self.profile.totalWalkCount)))
-        let mission = ValueData(idx: 1, type: .value(.missionComplete, value: Double(self.profile.totalMissionCount)))
-        self.datas = [walk, mission]
+        self.datas = [walk]
     }
 }
 

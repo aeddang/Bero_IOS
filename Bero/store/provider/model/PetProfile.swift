@@ -88,9 +88,8 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @Published private(set) var size:Double? = nil
     private(set) var isEmpty:Bool = false
     private(set) var isMypet:Bool = false
-    private(set) var totalExerciseDistance: Double? = nil
-    private(set) var totalExerciseDuration: Double? = nil
-    @Published private(set) var totalMissionCount: Int = 0
+    private(set) var exerciseDistance: Double = 0
+    private(set) var exerciseDuration: Double = 0
     @Published private(set) var totalWalkCount: Int = 0
     private(set) var originData:PetData? = nil
     //인스턴스 바인딩
@@ -143,9 +142,8 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.isNeutralized = data.isNeutered ?? false
         self.immunStatus = data.tagStatus
         self.hashStatus = data.tagPersonality
-        self.totalExerciseDistance = data.exerciseDistance
-        self.totalExerciseDuration = data.exerciseDuration
-        self.totalMissionCount = data.missionCompleteCnt ?? 0
+        self.exerciseDistance = data.exerciseDistance ?? 0
+        self.exerciseDuration = data.exerciseDuration ?? 0
         self.totalWalkCount = data.walkCompleteCnt ?? 0
         
         self.introduction = data.introduce
@@ -175,8 +173,8 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.microchip = "19290192819281928"
         self.image =  UIImage(named: Asset.brand.logoLauncher)
         
-        self.totalExerciseDistance = 1
-        self.totalExerciseDuration = 10
+        self.exerciseDistance = 1
+        self.exerciseDuration = 10
     
         return self
     }
@@ -201,16 +199,10 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         return self
     }
     
-    func recordSummry() -> String? {
+    func recordSummry() -> String {
         var summry = ""
-        if let distance = self.totalExerciseDistance {
-            summry += WalkManager.viewDistance(distance)
-        }
-        if let duration = self.totalExerciseDuration {
-            if !summry.isEmpty {summry += " / "}
-            summry += WalkManager.viewDuration(duration)
-        }
-        if summry.isEmpty {return nil}
+        summry += WalkManager.viewDistance(self.exerciseDistance)
+        summry += " / " + WalkManager.viewDuration(self.exerciseDuration)
         return summry
     }
     
@@ -219,9 +211,9 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         switch mission.type {
         case .walk :
             self.totalWalkCount += 1
-           
-        default :
-            self.totalMissionCount += 1
+            self.exerciseDistance += mission.distance
+            self.exerciseDuration += mission.duration
+        default : break
         }
         
     }

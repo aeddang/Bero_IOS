@@ -136,8 +136,6 @@
 		31B07CD9294D6484000EF3D5 /* SwipperScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B07CD8294D6484000EF3D5 /* SwipperScrollView.swift */; };
 		31B0F6FE28C6CCB100E86F05 /* RewardApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */; };
 		31B0F70028C6CDC500E86F05 /* RewardApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */; };
-		31B0F70228C6ED4B00E86F05 /* PageMissionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */; };
-		31B0F70428C6ED5D00E86F05 /* TotalMissionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */; };
 		31B0F70628C6EFE000E86F05 /* MissionHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */; };
 		31B29F0B293AE7AF00953C6D /* BannerApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B29F0A293AE7AF00953C6D /* BannerApiData.swift */; };
 		31B311E628D528B5001B539A /* PopupWalkPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311E528D528B5001B539A /* PopupWalkPlace.swift */; };
@@ -606,8 +604,6 @@
 		31B07CD8294D6484000EF3D5 /* SwipperScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipperScrollView.swift; sourceTree = "<group>"; };
 		31B0F6FD28C6CCB100E86F05 /* RewardApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardApi.swift; sourceTree = "<group>"; };
 		31B0F6FF28C6CDC500E86F05 /* RewardApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardApiData.swift; sourceTree = "<group>"; };
-		31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionHistory.swift; sourceTree = "<group>"; };
-		31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalMissionSection.swift; sourceTree = "<group>"; };
 		31B0F70528C6EFE000E86F05 /* MissionHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionHistoryList.swift; sourceTree = "<group>"; };
 		31B29F0A293AE7AF00953C6D /* BannerApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerApiData.swift; sourceTree = "<group>"; };
 		31B311E528D528B5001B539A /* PopupWalkPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkPlace.swift; sourceTree = "<group>"; };
@@ -1194,7 +1190,6 @@
 				31BCF3BB28C445E0004605CF /* component */,
 				31BCF3AF28C36906004605CF /* PageWalkHistory.swift */,
 				31BCF3BE28C459D1004605CF /* PageWalkReport.swift */,
-				31B0F70128C6ED4B00E86F05 /* PageMissionHistory.swift */,
 				31C3F2C928C8380800EFF7F4 /* PageWalkInfo.swift */,
 				31B868F229739E5A00FAC9F1 /* PageWalkList.swift */,
 			);
@@ -1205,7 +1200,6 @@
 			isa = PBXGroup;
 			children = (
 				31BCF3C228C45C89004605CF /* WalkPropertySection.swift */,
-				31B0F70328C6ED5D00E86F05 /* TotalMissionSection.swift */,
 				31BCF3BC28C445FD004605CF /* TotalWalkSection.swift */,
 				31BCF3CB28C5766D004605CF /* MonthlyWalkSection.swift */,
 				31BCF3C028C459E0004605CF /* ReportText.swift */,
@@ -2699,7 +2693,6 @@
 				31D920CA28729DD8001C2738 /* LocalStorage.swift in Sources */,
 				31A9D2B9289F47340094EC5C /* Check.swift in Sources */,
 				31D9205C287271CD001C2738 /* SceneRadioController.swift in Sources */,
-				31B0F70228C6ED4B00E86F05 /* PageMissionHistory.swift in Sources */,
 				31D92041287271C1001C2738 /* SelectButton.swift in Sources */,
 				31D6657F28CAFC3A00765625 /* UserProfileItem.swift in Sources */,
 				311204F728D6BA5200C3DBF5 /* VisitorView.swift in Sources */,
@@ -2788,7 +2781,6 @@
 				31D92025287271C1001C2738 /* CustomToggleStyle.swift in Sources */,
 				31D6658328CDAC2A00765625 /* LocationInfo.swift in Sources */,
 				31D91E8128725834001C2738 /* AESUtil.swift in Sources */,
-				31B0F70428C6ED5D00E86F05 /* TotalMissionSection.swift in Sources */,
 				31EA349428AF19E9006A2C0A /* AlarmManager.swift in Sources */,
 				31C6373628A87D8D008EA54C /* UserProfileInfo.swift in Sources */,
 				31C6372828A71514008EA54C /* SelectListStep.swift in Sources */,
@@ -3003,7 +2995,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 78;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3052,7 +3044,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 78;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

@@ -26,24 +26,6 @@ struct MyHistorySection: PageComponent{
                     }
                 )
             }
-            /*
-            Button(action: {
-                self.moveMissionHistory()
-            }) {
-                HorizontalProfile(
-                    id: "",
-                    type: .place(icon: MissionType.history.icon),
-                    sizeType: .small,
-                    funcType: .more,
-                    name: MissionType.history.text + " " + String.pageTitle.history,
-                    description: self.missionDescription,
-                    distance: self.missionDistance,
-                    action: { _ in
-                        self.moveMissionHistory()
-                    }
-                )
-            }
-            */
         }
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}
@@ -63,10 +45,8 @@ struct MyHistorySection: PageComponent{
     
     private func update(){
         let user = self.dataProvider.user
-        self.walkDistance = user.totalWalkDistance
-        self.missionDistance = user.totalMissionDistance
+        self.walkDistance = user.exerciseDistance
         self.walkDescription = String.pageText.historyCompleted.replace(user.totalWalkCount.description)
-        self.missionDescription = String.pageText.historyCompleted.replace(user.totalMissionCount.description)
     }
     
     private func moveHistory(){
@@ -77,13 +57,6 @@ struct MyHistorySection: PageComponent{
         )
     }
     
-    private func moveMissionHistory(){
-        self.dataProvider.user.currentPet = nil
-        self.pagePresenter.openPopup(
-            PageProvider.getPageObject(.missionHistory)
-                .addParam(key: .data, value: self.dataProvider.user)
-        )
-    }
 }
 
 

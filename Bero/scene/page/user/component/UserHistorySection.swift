@@ -28,7 +28,7 @@ struct UserHistorySection: PageComponent{
     @State var datas:[ValueData] = []
     private func updated(){
         let walk = ValueData(idx: 0, type: .value(.walkComplete, value: Double(self.user.totalWalkCount)))
-        let mission = ValueData(idx: 1, type: .value(.walkDistance, value: Double(self.user.totalWalkDistance)))
+        let mission = ValueData(idx: 1, type: .value(.walkDistance, value: Double(self.user.exerciseDistance)))
         self.datas = [walk, mission]
     }
 }

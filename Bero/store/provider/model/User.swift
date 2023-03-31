@@ -27,9 +27,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var nextExp:Double = 0
     
     private(set) var exerciseDuration:Double = 0
-    private(set) var totalWalkDistance:Double = 0
-    private(set) var totalMissionDistance:Double = 0
-    private(set) var totalMissionCount: Int = 0
+    private(set) var exerciseDistance:Double = 0
     private(set) var totalWalkCount: Int = 0
     private(set) var currentProfile:UserProfile = UserProfile(isMine: true)
    
@@ -139,9 +137,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.prevExp = data.prevLevelExp ?? (Double(self.lv-1) * Lv.expRange)
         self.nextExp = data.nextLevelExp ?? (Double(self.lv) * Lv.expRange)
         self.totalWalkCount = data.walkCompleteCnt ?? 0
-        self.totalMissionCount = data.missionCompleteCnt ?? 0
-        self.totalWalkDistance = data.walkDistance ?? 0
-        self.totalMissionDistance = data.missionDistance ?? 0
+        self.exerciseDistance = data.exerciseDistance ?? 0
         self.exerciseDuration = data.exerciseDuration ?? 0
         self.currentProfile.setData(data: data)
         self.currentProfile.setLv(self.lv)
@@ -195,11 +191,10 @@ class User:ObservableObject, PageProtocol, Identifiable{
         switch mission.type {
         case .walk :
             self.totalWalkCount += 1
-            self.totalWalkDistance += mission.distance
+            self.exerciseDistance += mission.distance
             self.exerciseDuration += mission.duration
         default :
-            self.totalMissionCount += 1
-            self.totalMissionDistance += mission.distance
+            break
         }
         self.pets.filter{$0.isWith}.forEach{
             //$0.update(exp: Double(point))

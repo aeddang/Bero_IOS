@@ -301,7 +301,6 @@ extension String {
         public static let walkReport = "Walk Report"
         public static let walkSummary = "Walk Summary"
         public static let walkPicture = "Walk Picture"
-        public static let missionHistory = "Mission History"
         public static let completedMissions = "Completed Missions"
         
         public static let privacy = "Privacy Usage Agreement"
