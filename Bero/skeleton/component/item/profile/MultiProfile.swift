@@ -86,7 +86,8 @@ struct MultiProfile: PageComponent{
                         ){ _ in
                             self.buttonAction?()
                         }
-                    } else if let value = self.lv, let lv = Lv.getLv(value) {
+                    } else if let value = self.lv {
+                        let lv = Lv.getLv(value)
                         LvButton(
                             lv: lv,
                             type: .small,

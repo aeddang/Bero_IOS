@@ -37,8 +37,8 @@ struct FriendSection: PageComponent{
                                 action: {self.moveFriend(id:data.userId)}
                             )
                         }
-                        if !dataSet.isFull , let count = self.rowSize-dataSet.datas.count {
-                            ForEach(0..<count, id: \.self) { _ in
+                        if !dataSet.isFull {
+                            ForEach(0..<self.rowSize-dataSet.datas.count, id: \.self) { _ in
                                 Spacer().frame(width: self.imageSize, height: self.imageSize)
                             }
                         }

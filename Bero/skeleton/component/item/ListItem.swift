@@ -122,9 +122,9 @@ struct ListItem: PageComponent{
                         }
                     }
                 }
-                if !self.pets.isEmpty, let pets = self.pets.reversed() {
+                if !self.pets.isEmpty{
                     ZStack(alignment: .trailing){
-                        ForEach(pets) { profile in
+                        ForEach(self.pets.reversed()) { profile in
                             ProfileImage(
                                 image:profile.image,
                                 imagePath: profile.imagePath,

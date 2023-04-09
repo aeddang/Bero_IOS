@@ -139,9 +139,9 @@ class Mission:MapUserData,ObservableObject{
         self.pictureUrl = self.walkPath?.picture?.pictureUrl
         self.point = data.point ?? 0
         self.exp = data.exp ?? 0
-        if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
-            self.endDate = end
-            self.startDate = end.addingTimeInterval(-(data.duration ?? 0))
+        if let date = data.createdAt, let start = date.toDate() {
+            self.startDate = start
+            self.endDate = start.addingTimeInterval(data.duration ?? 0)
         }
         if let loc = data.geos?.last {
             self.location = CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0)
@@ -168,7 +168,7 @@ class Mission:MapUserData,ObservableObject{
         }
         self.title = self.petProfile?.name
         self.pictureUrl = self.petProfile?.imagePath
-        if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
+        if let date = data.createdAt, let end = date.toDate() {
             self.endDate = end
         }
         if let loc = data.location {
@@ -189,7 +189,7 @@ class Mission:MapUserData,ObservableObject{
         self.pictureUrl = data.pictureUrl
         self.point = data.point ?? 0
         self.exp = data.exp ?? 0
-        if let date = data.createdAt, let end = date.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") {
+        if let date = data.createdAt, let end = date.toDate() {
             self.endDate = end
             self.startDate = end.addingTimeInterval(-(data.duration ?? 0))
         }

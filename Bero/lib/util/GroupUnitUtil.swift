@@ -383,6 +383,7 @@ extension String{
      ) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: local) // set locale to reliable US_POSIX
+        dateFormatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
         dateFormatter.dateFormat = dateFormat
         let date = dateFormatter.date(from:self)
         return date

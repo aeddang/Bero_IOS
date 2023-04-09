@@ -133,7 +133,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
         self.name = data.name
         self.breed = data.tagBreed
         self.gender = Gender.getGender(data.sex) 
-        self.birth = data.birthdate?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
+        self.birth = data.birthdate?.toDate()
         
         self.microchip = data.regNumber
         self.animalId = data.animalId

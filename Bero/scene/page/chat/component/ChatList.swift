@@ -13,7 +13,6 @@ class ChatListDataSet:InfinityData{
     fileprivate(set) var originDate:Date? = nil
     fileprivate(set) var isMe:Bool = false
     fileprivate(set) var datas:[ChatItemData] = []
-    
 }
 
 struct ChatList: PageComponent{
@@ -187,15 +186,16 @@ struct ChatList: PageComponent{
         .onReceive(self.dataProvider.$result){res in
             guard let res = res else { return }
             switch res.type {
-            case .getChats(let id, _ , _):
-                if self.userId != id {return}
+            case .getRoomChats(let id, _ , _):
+                if self.roomData?.roomId != id {return}
                 self.loaded(res)
             case .sendChat(let id, let content):
                 if self.userId != id {return}
                 let data = res.data as? ChatData ?? ChatData(
                     contents:content,
-                    createdAt: Date().toDateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss"),
-                    sender: self.dataProvider.user.snsUser?.snsID
+                    createdAt: Date().toDateFormatter(),
+                    receiver: id
+                    //sender: self.dataProvider.user.snsUser?.snsID
                 )
                 self.insertChat(data: data)
                 
@@ -232,7 +232,7 @@ struct ChatList: PageComponent{
         if self.infinityScrollModel.isCompleted {return}
         self.infinityScrollModel.onLoad()
         self.dataProvider.requestData(q: .init(id: self.tag, type:
-            .getChats(userId:self.userId, page: self.infinityScrollModel.page)
+            .getRoomChats(roomId:self.roomData?.roomId ?? -1, page: self.infinityScrollModel.page)
         ))
         
     }
@@ -243,7 +243,7 @@ struct ChatList: PageComponent{
             self.user = User().setData(data: userData)
             self.userName = self.user?.currentProfile.nickName
         }
-        if self.pet == nil, let petData =  data.receivePets?.first(where:{$0.isRepresentative == true}){
+        if self.pet == nil, let petData = data.receivePet {
             self.pet = PetProfile(data: petData)
         }
         self.loadedChatRoom(datas: data.chats ?? [])

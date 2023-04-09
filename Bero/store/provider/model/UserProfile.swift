@@ -51,14 +51,14 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
         self.type = SnsType.getType(code: data.providerType)
         
         self.gender = Gender.getGender(data.sex)
-        self.birth = data.birthdate?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
+        self.birth = data.birthdate?.toDate()
         self.introduction = data.introduce
         if !(self.introduction?.isEmpty == false) , let name = data.name {
             self.introduction = String.pageText.introductionDefault.replace(name)
         }
         self.image = nil
         self.status = data.isFriend == true ? .friend : .norelation
-        self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
+        self.date = data.createdAt?.toDate()?.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy")
         return self
     }
     func setLv(_ lv:Int){

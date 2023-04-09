@@ -135,9 +135,10 @@ struct HorizontalProfile: PageComponent{
                         imagePath: self.imagePath,
                         size: self.sizeType.imageSize,
                         emptyImagePath: self.type.emptyImage)
-                    if let value = self.lv, let lv = Lv.getLv(value) {
+                    if let value = self.lv{
+                        let lv = Lv.getLv(value)
                         LvButton(
-                            lv: lv,
+                            lv:lv,
                             type: self.sizeType.lvType,
                             text: value.description
                         ){_ in

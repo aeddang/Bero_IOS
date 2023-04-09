@@ -16,6 +16,7 @@ struct UserProfileItem: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @ObservedObject var data:UserProfile
     var type:HorizontalProfile.ProfileType = .pet
+    var reportType:MiscApi.ReportType = .user
     var postId:String? = nil
     var title:String? = nil
     var lv:Int? = nil
@@ -128,7 +129,7 @@ struct UserProfileItem: PageComponent{
                 isNegative: true){ idx in
                     if idx == 1 {
                         self.dataProvider.requestData(q: .init(type: .sendReport(
-                            reportType: .user, postId: post , userId: self.data.userId
+                            reportType: self.reportType, postId: post , userId: self.data.userId
                         )))
                     }
                 }

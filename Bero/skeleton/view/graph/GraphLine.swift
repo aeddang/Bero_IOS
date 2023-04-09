@@ -24,7 +24,8 @@ struct GraphLine: PageView {
     var body: some View {
         GeometryReader { geometry in
             ZStack{
-                if self.points?.isEmpty == false, let positions = self.getPositions(geometry) {
+                if self.points?.isEmpty == false {
+                    let positions = self.getPositions(geometry)
                     Line(
                         points: positions
                     )

@@ -25,7 +25,7 @@ class RewardHistoryListItemData:InfinityData{
         default : self.rewardType = .walk
         }
         self.title = self.rewardType?.text
-        self.date = data.createdAt?.toDate(dateFormat:"yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "MMMM d, yyyy")
+        self.date = data.createdAt?.toDate()?.toDateFormatter(dateFormat: "MMMM d, yyyy")
         self.value = data.distance?.toInt() ?? 0
         return self
     }
@@ -34,7 +34,7 @@ class RewardHistoryListItemData:InfinityData{
         self.index = idx
         self.rewardType = RewardApi.RewardType.getType(data.expType)
         self.title = self.rewardType?.text
-        self.date = data.createdAt?.toDate(dateFormat:"yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "MMMM d, yyyy")
+        self.date = data.createdAt?.toDate()?.toDateFormatter(dateFormat: "MMMM d, yyyy")
         self.valueType = type
         switch self.valueType {
         case .exp :

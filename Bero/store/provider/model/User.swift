@@ -419,7 +419,7 @@ class History:InfinityData {
         self.duration = data.duration
         self.distance = data.distance
         self.point = data.point ?? 0
-        self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "yy-MM-dd HH:mm")
+        self.date = data.createdAt?.toDate()?.toDateFormatter(dateFormat: "yy-MM-dd HH:mm")
         self.index = idx
     }
 }

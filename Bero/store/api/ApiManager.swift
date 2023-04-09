@@ -29,6 +29,8 @@ struct ApiNetwork :Network{
         guard let token = ApiNetwork.accesstoken else { return request }
         var authorizationRequest = request
         authorizationRequest.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        authorizationRequest.addValue(SystemEnvironment.preferredLang ?? "", forHTTPHeaderField: "Accept-Language")
+        
         DataLog.d("token " + token , tag: self.tag)
         return authorizationRequest
     }
@@ -337,8 +339,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.album.getExplore(randId:randId, searchType:searchType, page: page, size: size,
                            completion: {res in self.complated(id: apiID, type: type, res: res)},
                            error:error)
-        case .registAlbumPicture(let img, let thumb, let userId, let cate, let isExpose, let referenceId) :
-            self.album.post(img: img, thumbImg:thumb, id: userId, type: cate, isExpose: isExpose, referenceId: referenceId,
+        case .registAlbumPicture(let img, let thumb, let ownerId, let cate, let isExpose, let referenceId) :
+            self.album.post(img: img, thumbImg:thumb, id: ownerId, userId: self.snsUser?.snsID, type: cate, isExpose: isExpose, referenceId: referenceId,
                             completion: {res in self.complated(id: apiID, type: type, res: res)},
                             error:error)
         case .deleteAlbumPictures(let ids) :
@@ -419,9 +421,12 @@ class ApiManager :PageProtocol, ObservableObject{
             self.reward.getHistory(userId: userId, type : value, page: page, size: size,
                                       completion: {res in self.complated(id: apiID, type: type, res: res)},
                                       error:error)
-            
         case .getChats(let userId, let page, let size) :
             self.chat.get(userId:userId, page: page, size: size,
+                          completion: {res in self.complated(id: apiID, type: type, res: res)},
+                          error:error)
+        case .getRoomChats(let roomId, let page, let size) :
+            self.chat.get(roomId:roomId, page: page, size: size,
                           completion: {res in self.complated(id: apiID, type: type, res: res)},
                           error:error)
         case .sendChat(let userId, let contents) :

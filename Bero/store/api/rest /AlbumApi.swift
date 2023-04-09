@@ -95,13 +95,16 @@ class AlbumApi :Rest{
         fetch(route: AlbumPicturesApiRoute (method: .get, action: .explorer,  query: params), completion: completion, error:error)
     }
     
-    func post(img:UIImage,thumbImg:UIImage, id:String, type:AlbumApi.Category, isExpose:Bool?, referenceId:String?, completion: @escaping (ApiContentResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+    func post(img:UIImage,thumbImg:UIImage, id:String, userId:String?, type:AlbumApi.Category, isExpose:Bool?, referenceId:String?, completion: @escaping (ApiContentResponse<PictureData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         fetch(route: AlbumPicturesApiRoute(method: .post),
            constructingBlock:{ data in
             data.append(value: type.getApiCode(), name: "pictureType")
             data.append(value: id, name: "ownerId")
             if let isExpose = isExpose {
                 data.append(value: isExpose.description, name: "isExpose")
+            }
+            if let value = userId{
+                data.append(value: value, name: "userId")
             }
             if let value = referenceId {
                 data.append(value: value, name: "referenceId")

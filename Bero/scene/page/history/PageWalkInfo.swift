@@ -106,27 +106,27 @@ struct PageWalkInfo: PageView {
                                 .padding(.top, min(0,Dimen.app.top * (1-self.imageScale)))
                                 .opacity(2.0 - self.imageScale)
                             } else if !self.isMe ,
-                                let userId = self.user?.userId ?? self.userProfile?.userId ,
-                                let img = self.user?.representativeImage ??  self.userProfile?.imagePath ?? "" {
-                                    Button(action: {
-                                        self.pagePresenter.openPopup(
-                                            PageProvider.getPageObject(.user)
-                                                .addParam(key: .id, value:userId)
-                                                .addParam(key:.data, value: self.user)
-                                        )
-                                        
-                                    }) {
-                                        ProfileImage(
-                                            imagePath: img,
-                                            isSelected: true,
-                                            strokeColor: Color.app.white,
-                                            size: Dimen.profile.thin,
-                                            emptyImagePath: Asset.image.profile_user_default
-                                        )
-                                    }
-                                    .padding(.all, Dimen.margin.regular)
-                                    .padding(.top, min(0,Dimen.app.top * (1-self.imageScale)))
-                                    .opacity(2.0 - self.imageScale)
+                                      let userId = self.user?.userId ?? self.userProfile?.userId {
+                                let img = self.user?.representativeImage ?? self.userProfile?.imagePath ?? ""
+                                Button(action: {
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.user)
+                                            .addParam(key: .id, value:userId)
+                                            .addParam(key:.data, value: self.user)
+                                    )
+                                    
+                                }) {
+                                    ProfileImage(
+                                        imagePath: img,
+                                        isSelected: true,
+                                        strokeColor: Color.app.white,
+                                        size: Dimen.profile.thin,
+                                        emptyImagePath: Asset.image.profile_user_default
+                                    )
+                                }
+                                .padding(.all, Dimen.margin.regular)
+                                .padding(.top, min(0,Dimen.app.top * (1-self.imageScale)))
+                                .opacity(2.0 - self.imageScale)
                             }
                                     
                         }
@@ -295,10 +295,7 @@ struct PageWalkInfo: PageView {
         let userId = self.user?.userId ?? self.userProfile?.userId ?? mission.userId ??  ""
         self.isMe = self.dataProvider.user.isSameUser(userId: userId)
         self.setupPictureDataSet(mission: mission)
-        
     }
-    
-    
     
     @State var pictureSets:[WalkPictureItemSet] = []
     @State var pictureSize:CGSize = .zero

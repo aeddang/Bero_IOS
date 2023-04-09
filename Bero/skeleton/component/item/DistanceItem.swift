@@ -32,15 +32,12 @@ struct DistanceItem: View, SelecterbleProtocol{
                 VStack(alignment: .leading, spacing: 0){
                     Spacer().modifier(MatchHorizontal(height: 0))
                     HStack(spacing:Dimen.margin.micro){
-                        if let icon = self.type.icon {
-                            Image(icon)
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(Color.brand.primary)
-                                .frame(width:Dimen.icon.light, height:Dimen.icon.light)
-                                
-                        }
+                        Image(self.type.icon)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(Color.brand.primary)
+                            .frame(width:Dimen.icon.light, height:Dimen.icon.light)
                         Text(WalkManager.viewDistance(distance))
                             .modifier(MediumTextStyle(
                                 size: Font.size.light,

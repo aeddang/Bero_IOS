@@ -28,7 +28,7 @@ class UserAlbumListItemData:InfinityData{
         if let pet = data.pets?.first(where: {$0.isRepresentative == true}) {
             self.petProfile = PetProfile(data: pet, userId: self.userProfile?.userId)
         }
-        self.date = data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toDateFormatter(dateFormat: "MMMM d, yyyy")
+        self.date = data.createdAt?.toDate()?.toDateFormatter(dateFormat: "MMMM d, yyyy")
         return self
     }
     
@@ -51,6 +51,7 @@ struct UserAlbumListItem: PageComponent{
                     UserProfileItem(
                         data: user,
                         type: .pet,
+                        reportType : .post,
                         postId: self.data.postId,
                         title: pet.name,
                         lv: self.data.lv,
@@ -64,6 +65,7 @@ struct UserAlbumListItem: PageComponent{
                     UserProfileItem(
                         data: user,
                         type: .user,
+                        reportType : .post,
                         postId: self.data.postId,
                         title: user.nickName,
                         lv: self.data.lv,

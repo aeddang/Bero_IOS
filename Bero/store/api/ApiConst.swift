@@ -100,6 +100,7 @@ enum ApiType{
     case getRewardHistory(userId:String, type:RewardApi.ValueType, page:Int? = nil, size:Int? = nil)
     
     case getChats (userId:String, page:Int? = nil, size:Int? = nil),
+         getRoomChats (roomId:Int, page:Int? = nil, size:Int? = nil),
          deleteChat(chatId:Int),
          deleteAllChat(chatIds:String),
          sendChat(userId:String, contents:String),

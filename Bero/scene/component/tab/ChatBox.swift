@@ -135,7 +135,7 @@ struct ChatBox: PageComponent{
     }
     
     private func loaded(_ res:ApiResultResponds){
-        guard let data = (res.data as? [ChatRoomData])?.first(where: {$0.receiver == self.sendUser}) else { return }
+        guard let data = (res.data as? [ChatRoomData])?.first(where: {$0.receiver?.userId == self.sendUser}) else { return }
         let item = ChatRoomListItemData().setData(data,  idx: 0)
         self.pagePresenter.openPopup(
             PageProvider.getPageObject(.chatRoom)

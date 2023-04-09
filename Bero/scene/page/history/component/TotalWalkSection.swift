@@ -109,8 +109,8 @@ struct TotalWalkSection: PageComponent{
     @State var profile:PetProfile? = nil
     private func updatedWalk(){
         if let profile = self.profile {
-            self.totalDistance = profile.exerciseDistance ?? 0
-            self.totalDuration = profile.exerciseDuration ?? 0
+            self.totalDistance = profile.exerciseDistance
+            self.totalDuration = profile.exerciseDuration 
             self.totalWalkCount = profile.totalWalkCount
         } else {
             self.totalDistance = user.exerciseDistance
@@ -119,7 +119,8 @@ struct TotalWalkSection: PageComponent{
         }
         let d = self.totalDistance
         let dr = self.totalDuration
-        let spd = d == 0 || dr == 0 ? 0 : d/dr
+        let dh = dr/3600
+        let spd = d == 0 || dh == 0 ? 0 : d/dh
         self.speed = WalkManager.viewSpeed(spd, unit: nil)
     }
     private func onSort(){

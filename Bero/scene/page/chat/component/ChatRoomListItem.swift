@@ -22,15 +22,15 @@ class ChatRoomListItemData:InfinityData, ObservableObject{
     @Published var isDelete:Bool = false
     func setData(_ data:ChatRoomData, idx:Int) -> ChatRoomListItemData {
         self.index = idx
-        self.profileImagePath = data.receiverProfile
+        self.profileImagePath = data.receiverPet?.pictureUrl ?? data.receiver?.pictureUrl
         self.roomId = data.chatRoomId ?? -1
         self.title = data.title
         self.contents = data.desc
         self.unreadCount = data.unreadCnt ?? 0
         self.isRead = self.unreadCount == 0
-        self.userId = data.receiver
-        self.lv = data.receiverLevel
-        let date = data.updatedAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss") ?? data.createdAt?.toDate(dateFormat: "yyyy-MM-dd'T'HH:mm:ss")
+        self.userId = data.receiver?.userId
+        self.lv = data.receiver?.level
+        let date = data.updatedAt?.toDate() ?? data.createdAt?.toDate()
         let viewDate = date?.sinceNowDate(dateFormat:"MMMM d, yyyy")
         self.date = date
         self.viewDate = viewDate

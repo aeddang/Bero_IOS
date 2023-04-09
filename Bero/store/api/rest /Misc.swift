@@ -19,17 +19,19 @@ extension MiscApi {
     }
     
     enum ReportType:String {
-        case mission, user
+        case mission, user, post, chat
         var apiCoreKey : String {
             switch self {
             case .mission : return "MISSION"
             case .user : return "USER"
+            case .post : return "POST"
+            case .chat : return "CHAT"
             }
         }
         var completeMessage : String {
             switch self {
-            case .mission : return String.alert.accuseAlbumCompleted
-            case .user : return String.alert.accuseUserCompleted
+            case .post : return String.alert.accuseAlbumCompleted
+            default : return String.alert.accuseUserCompleted
             }
         }
         

@@ -181,7 +181,7 @@ struct PageChatRoom: PageView {
     
     private func sendReport(){
         self.dataProvider.requestData(q: .init(type: .sendReport(
-            reportType: .user, postId: self.roomData?.roomId.description, userId: self.userId
+            reportType: .chat, postId: self.roomData?.roomId.description, userId: self.userId
         )))
     }
 }

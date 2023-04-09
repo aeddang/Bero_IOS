@@ -25,7 +25,11 @@ struct AlbumSection: PageComponent{
                             .addParam(key: .subData, value: self.pet)
                     )
                 case .add :
-                    self.onPick()
+                    if self.dataProvider.user.pets.isEmpty {
+                        self.needDog()
+                    } else {
+                        self.onPick()
+                    }
                 default : break
                 }
             }
@@ -39,8 +43,8 @@ struct AlbumSection: PageComponent{
                                 data: data, user:self.user, pet: self.pet, imgSize: self.albumSize, isEdit: .constant(false)
                             )
                         }
-                        if !dataSet.isFull , let count = self.rowSize-dataSet.datas.count {
-                            ForEach(0..<count, id: \.self) { _ in
+                        if !dataSet.isFull {
+                            ForEach(0..<self.rowSize-dataSet.datas.count, id: \.self) { _ in
                                 Spacer().frame(width: self.albumSize.width, height: self.albumSize.height)
                             }
                         }
@@ -68,6 +72,19 @@ struct AlbumSection: PageComponent{
             self.updateAlbum()
         }
     }
+    private func needDog(){
+        
+        self.appSceneObserver.sheet = .select(
+            String.alert.addDogTitle,
+            String.alert.addDogText,
+            image:Asset.image.addDog,
+            [String.button.later,String.button.ok]){ idx in
+                if idx == 1 {
+                    self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
+                }
+        }
+    }
+    
     @State var title:String? = nil
     @State var currentId:String = ""
     @State var currentType:AlbumApi.Category = .user

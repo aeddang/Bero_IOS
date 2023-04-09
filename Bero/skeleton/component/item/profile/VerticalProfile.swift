@@ -79,7 +79,8 @@ struct VerticalProfile: PageComponent{
                         view()
                     }
                     .padding(.leading, self.sizeType.imageSize - Dimen.margin.light)
-                }else if let value = self.lv, let lv = Lv.getLv(value) {
+                }else if let value = self.lv {
+                    let lv = Lv.getLv(value)
                     LvButton(
                         lv: lv,
                         text: value.description

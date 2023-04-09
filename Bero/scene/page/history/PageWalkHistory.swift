@@ -62,7 +62,6 @@ struct PageWalkHistory: PageView {
         }
     }
     
-    
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -86,8 +85,7 @@ struct PageWalkHistory: PageView {
                             axes: .vertical,
                             showIndicators : false,
                             header :WalkHistoryTop(calenderModel: self.calenderModel, user: user),
-                            headerSize: 520,
-                            
+                            headerSize: 548,
                             marginTop: Dimen.margin.regular,
                             marginBottom: Dimen.margin.medium,
                             marginHorizontal: Dimen.app.pageHorinzontal,
