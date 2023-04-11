@@ -24,7 +24,6 @@ struct CircleButton: View, SelecterbleProtocol, PageProtocol {
     var type:ButtonType = .tiny
     var isSelected: Bool = false
     var index:Int = 0
-    var icon:String? = nil
     var strokeWidth:CGFloat = 0
     var defaultColor:Color = Color.app.grey300
     var activeColor:Color = Color.brand.primary
@@ -90,7 +89,7 @@ struct CircleButton_Previews: PreviewProvider {
         VStack{
             CircleButton(
                 type: .icon(Asset.icon.add_friend),
-            isSelected: true,
+            isSelected: false,
             strokeWidth: 2){_ in
                 
             }

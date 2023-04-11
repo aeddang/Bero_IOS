@@ -85,9 +85,7 @@ extension Asset{
         public static let check = "check"
         public static let checked_circle = "checked_circle"
         public static let erase = "erase"
-        public static let status_normal = "status_normal"
-        public static let status_warning = "status_warning"
-        
+         
         public static let notification_off = "notification_off"
         public static let notification_on = "notification_on"
         public static let chat  = "chat"
@@ -152,11 +150,9 @@ extension Asset{
         public static let point = "point"
         public static let remove_friend = "remove_friend"
         public static let vet = "vet"
-        public static let hi = "hi"
         public static let cloudy = "cloudy"
         public static let rain = "rain"
         public static let lightening = "lightening"
-        public static let sunny = "hi"
         public static let minimize = "minimize"
         public static let maximize = "maximize"
         public static let send = "send"

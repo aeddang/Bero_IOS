@@ -131,7 +131,7 @@ struct PageExplore: PageView {
     
     
     private func onPick(){
-        self.appSceneObserver.select = .imgPicker(self.tag){ pick in
+        self.appSceneObserver.select = .imgPicker(self.tag, cameraDevice: .rear){ pick in
             guard let pick = pick else {return}
             DispatchQueue.global(qos:.background).async {
                 let hei = AlbumApi.originSize * CGFloat(pick.cgImage?.height ?? 1) / CGFloat(pick.cgImage?.width ?? 1)

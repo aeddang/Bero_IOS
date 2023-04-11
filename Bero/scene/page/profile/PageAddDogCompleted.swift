@@ -48,11 +48,13 @@ struct PageAddDogCompleted: PageView {
                             Text(String.pageText.addDogCompletedText1)
                                 .modifier(RegularTextStyle(
                                     size: Font.size.thin,color: Color.app.grey500))
+                            /*
                             Image(Asset.icon.hi)
                                 .renderingMode(.original)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: Dimen.icon.regular, height: Dimen.icon.regular)
+                             */
                         }
                         .padding(.vertical, Dimen.margin.regularExtra)
                         if let name = self.profile.name {

@@ -32,7 +32,7 @@ struct SelectButton: View, SelecterbleProtocol, PageProtocol{
     }
     var type:ButtonType = .small
     var icon:String? = nil
-    var isOriginIcon:Bool = false
+    var iconType:Image.TemplateRenderingMode = .template
     var title:String? = nil
     var text:String
     var description:String? = nil
@@ -61,21 +61,13 @@ struct SelectButton: View, SelecterbleProtocol, PageProtocol{
                             Circle().stroke(Color.app.grey200)
                                 .frame(width: Dimen.circle.regular, height: Dimen.circle.regular)
                         }
-                        if self.isOriginIcon {
-                            Image(icon)
-                                .renderingMode(.original)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width:Dimen.icon.regular, height:Dimen.icon.regular)
-                        } else {
-                            Image(icon)
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(
-                                    self.isSelected ? Color.brand.primary : Color.app.black)
-                                .frame(width:Dimen.icon.regular, height:Dimen.icon.regular)
-                        }
+                        Image(icon)
+                            .renderingMode(self.iconType)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(
+                                self.isSelected ? Color.brand.primary : Color.app.black)
+                            .frame(width:Dimen.icon.regular, height:Dimen.icon.regular)
                         
                     }
                 }

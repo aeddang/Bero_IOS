@@ -42,6 +42,7 @@ class UserAlbumListItemData:InfinityData{
 struct UserAlbumListItem: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     var data:UserAlbumListItemData
     let imgSize:CGSize
     var body: some View {
@@ -85,10 +86,16 @@ struct UserAlbumListItem: PageComponent{
         
     }
     private func moveUser(){
-        self.pagePresenter.openPopup(
-            PageProvider.getPageObject(.user)
-                .addParam(key: .id, value:self.data.userProfile?.userId)
-        )
+        guard let id = self.data.userProfile?.userId else {return}
+        if self.dataProvider.user.isSameUser(userId: id) {
+            self.appSceneObserver.event = .toast(String.alert.itsMe)
+            
+        } else {
+            self.pagePresenter.openPopup(
+                PageProvider.getPageObject(.user).addParam(key: .id, value:id)
+            )
+        }
+        
     }
 }
 
