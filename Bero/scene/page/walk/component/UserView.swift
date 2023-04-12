@@ -34,6 +34,7 @@ struct UserView: PageComponent, Identifiable{
                     )
                     FriendFunctionBox(
                         userId: profile.userId,
+                        userName: mission.user?.representativeName ?? profile.name,
                         status: .move(isFriend: profile.isFriend)
                     )
                 }

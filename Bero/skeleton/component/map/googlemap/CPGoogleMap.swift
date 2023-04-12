@@ -192,8 +192,12 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
             prevCircle.fillColor = circle.marker.fillColor
             prevCircle.title = circle.marker.title
         } else {
-            self.circles[circle.id] = circle.marker
-            circle.marker.map = mapView
+            let loc = circle.marker.position
+            if CLLocationCoordinate2DIsValid(loc) {
+                self.circles[circle.id] = circle.marker
+                circle.marker.map = mapView
+            }
+            
         }
     }
     

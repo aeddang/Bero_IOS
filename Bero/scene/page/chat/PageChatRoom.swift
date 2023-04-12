@@ -158,7 +158,7 @@ struct PageChatRoom: PageView {
         
         self.appSceneObserver.sheet = .select(
             String.alert.blockUserConfirm.replace(self.userName ?? ""),
-            nil,
+            String.alert.blockUserConfirmText,
             [String.app.cancel,String.button.block],
             isNegative: true){ idx in
                 if idx == 1 {

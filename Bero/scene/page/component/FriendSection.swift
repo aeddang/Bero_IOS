@@ -4,6 +4,7 @@ import SwiftUI
 struct FriendSection: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
+    @EnvironmentObject var appSceneObserver:AppSceneObserver
     var user:User
     var listSize:CGFloat = 300
     var type:FriendList.ListType = .friend
@@ -139,10 +140,15 @@ struct FriendSection: PageComponent{
     }
     
     private func moveFriend(id:String? = nil){
-        self.pagePresenter.openPopup(
-            PageProvider.getPageObject(.user)
-                .addParam(key: .id, value:id)
-        )
+        if self.dataProvider.user.isSameUser(userId: id) {
+            self.appSceneObserver.event = .toast(String.alert.itsMe)
+            
+        } else {
+            self.pagePresenter.openPopup(
+                PageProvider.getPageObject(.user).addParam(key: .id, value:id)
+            )
+        }
+        
     }
 }
 

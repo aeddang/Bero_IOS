@@ -195,7 +195,7 @@ struct RadioButton_Previews: PreviewProvider {
                 
             }
             RadioButton(
-                type: .stroke,
+                type: .checkOn,
                 isChecked: false,
                 text:"RadioButton"
             ){ _ in

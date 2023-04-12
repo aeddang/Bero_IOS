@@ -60,23 +60,21 @@ struct ChatRoomListItem: PageComponent{
                     isSelected: false,
                     useBg: false
                 ){ type in
+                    switch type {
+                    case .view :
+                        self.read()
+                    default :
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.user)
+                                .addParam(key: .id, value:self.data.userId)
+                        )
+                    }
                     
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.user)
-                            .addParam(key: .id, value:self.data.userId)
-                    )
+                    
                 }
                 .padding(.vertical, Dimen.margin.regularExtra)
                 .onTapGesture {
-                    if !self.isRead {
-                        self.isRead = true
-                        self.data.isRead = true
-                        self.dataProvider.requestData(q: .init(type: .readChatRoom(roomId:self.data.roomId), isOptional: true))
-                    }
-                    self.pagePresenter.openPopup(
-                        PageProvider.getPageObject(.chatRoom)
-                            .addParam(key: .data, value:self.data)
-                    )
+                    self.read()
                 }
                 if self.isEdit {
                     CircleButton(
@@ -93,7 +91,17 @@ struct ChatRoomListItem: PageComponent{
             self.isRead = self.data.isRead
         }
     }
-    
+    private func read(){
+        if !self.isRead {
+            self.isRead = true
+            self.data.isRead = true
+            self.dataProvider.requestData(q: .init(type: .readChatRoom(roomId:self.data.roomId), isOptional: true))
+        }
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.chatRoom)
+                .addParam(key: .data, value:self.data)
+        )
+    }
     private func delete(){
         self.appSceneObserver.sheet = .select(
             String.alert.chatRoomDeleteConfirm,

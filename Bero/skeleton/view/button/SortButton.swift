@@ -62,7 +62,7 @@ struct SortButton: View, PageProtocol{
         
         var marginVertical:CGFloat{
             switch self {
-            case .small : return Dimen.radius.micro
+            case .small : return Dimen.margin.micro
             case .big : return Dimen.margin.microUltra
             }
         }

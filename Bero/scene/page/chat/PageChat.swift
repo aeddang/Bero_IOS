@@ -107,12 +107,12 @@ struct PageChat: PageView {
                 default : break
                 }
             }
-            /*
+            
             .onReceive(self.pagePresenter.$currentTopPage){ page in
                 if page == self.pageObject {
                     self.infinityScrollModel.uiEvent = .reload
                 }
-            }*/
+            }
             .onReceive(self.walkManager.$status) { status in
                 switch status {
                 case .walking : self.bottomMargin = Dimen.app.bottom

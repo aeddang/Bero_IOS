@@ -7,6 +7,7 @@ struct FriendFunctionBox: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     var userId:String
+    var userName:String? = nil
     var status:FriendStatus = .norelation
     var isSimple:Bool = false
     var body: some View {
@@ -14,6 +15,7 @@ struct FriendFunctionBox: PageComponent{
             ForEach(self.currentStatus.buttons.filter{$0 != .delete}, id:\.rawValue){ btn in
                 FriendButton(
                     userId:self.userId,
+                    userName: self.userName,
                     funcType: btn
                 )
             }

@@ -31,8 +31,8 @@ class Place:MapUserData{
             self.location =  CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0) 
         }
         if self.location == nil, let locs = data.location?.components(separatedBy: " ") {
-            let latitude = locs[0].onlyNumric().toDouble()
-            let longitude = locs[1].onlyNumric().toDouble()
+            let latitude = locs[1].onlyNumric().toDouble()
+            let longitude = locs[0].onlyNumric().toDouble()
             if locs.count == 2 {
                 let lat = latitude
                 let long = longitude

@@ -73,6 +73,7 @@ struct MultiProfile: PageComponent{
                             FriendButton(
                                 type:.icon,
                                 userId:userId,
+                                userName: name,
                                 funcType: btn
                             )
                         }

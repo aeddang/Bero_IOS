@@ -85,7 +85,7 @@ struct ChatRoomList: PageComponent{
             }
         }
         .onAppear(){
-            self.loadChatRoom()
+            //self.loadChatRoom()
         }
     }
     

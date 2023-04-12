@@ -226,7 +226,7 @@ struct FriendListItemBodyVertical: PageComponent{
     private func block(){
         self.appSceneObserver.sheet = .select(
             String.alert.blockUserConfirm.replace(self.data.name ?? ""),
-            nil,
+            String.alert.blockUserConfirmText,
             [String.app.cancel,String.button.block],
             isNegative: true){ idx in
                 if idx == 1 {

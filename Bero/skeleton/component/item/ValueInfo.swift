@@ -44,7 +44,7 @@ struct ValueInfo: PageComponent{
         }
         var text:String?{
             switch self {
-            case .lv(let lv): return lv.title
+            case .lv: return "Level"
             case .exp : return "EXP"
             case .point : return "Points"
             case .expEarned : return "EXP earned"

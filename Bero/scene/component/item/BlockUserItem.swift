@@ -72,7 +72,7 @@ struct BlockUserItem: PageComponent{
         
         self.appSceneObserver.sheet = .select(
             value ? String.alert.blockUserConfirm.replace(self.userName) : String.alert.unblockUserConfirm.replace(self.userName),
-            nil,
+            value ? String.alert.blockUserConfirmText : nil,
             [String.app.cancel,value ? String.button.block : String.button.unblock],
             isNegative: value 
         ){ idx in

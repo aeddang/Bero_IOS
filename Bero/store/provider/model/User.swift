@@ -166,6 +166,9 @@ class User:ObservableObject, PageProtocol, Identifiable{
     
     func registPetComplete(profile:PetProfile)  {
         self.pets.append(profile)
+        if profile.isRepresentative {
+            self.representativePet = profile
+        }
         self.event = .addedDog(profile)
     }
     

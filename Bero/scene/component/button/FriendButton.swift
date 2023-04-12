@@ -76,6 +76,7 @@ struct FriendButton: PageComponent{
     @EnvironmentObject var dataProvider:DataProvider
     var type:FriendButton.ButtonType = .fill
     var userId:String? = nil
+    var userName:String? = nil
     var funcType:FriendButton.FuncType
     var size:CGFloat = Dimen.button.mediumExtra
     var radius:CGFloat = Dimen.radius.thin
@@ -126,8 +127,8 @@ struct FriendButton: PageComponent{
             self.appSceneObserver.event = .toast("Already friend (write the phrase)")
         case .delete:
             self.appSceneObserver.sheet = .select(
-                String.alert.friendDeleteConfirm,
-                nil,
+                String.alert.friendDeleteConfirm.replace(userName ?? ""),
+                String.alert.friendDeleteConfirmText,
                 [String.app.cancel,String.button.removeFriend],
                 isNegative: true){ idx in
                     if idx == 1 {

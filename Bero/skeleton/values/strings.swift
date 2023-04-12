@@ -118,11 +118,12 @@ extension String {
         public static var friendRequest = "Friend request has been sent."
         public static var friendAccept = "Friend request has been accepted"
         public static var friendDeleteConfirm = "Do you want to remove %s as your friend?"
+        public static var friendDeleteConfirmText = "Removing user from the list, you may encounter several restricted actions. You may resend its friend request anytime."
         
         public static var profileDeleteConfirm = "Remove profile photo?"
         public static var profileDeleteConfirmText = "It may not be restored once you delete."
         
-        public static var chatRoomDeleteConfirm = "Do you want to leave the chatroom??"
+        public static var chatRoomDeleteConfirm = "Do you want to leave the chatroom?"
         public static var chatRoomDeleteConfirmText = "The chat history will be permanently deleted, but still remains on the other user’s chat room."
         
         
@@ -136,8 +137,8 @@ extension String {
         public static var accuseUserConfirmText = "As your report submitted, Bero administration team will take care of the issue. Continue to submit report."
         public static var accuseUserCompleted = "Report submitted."
         
-        public static var accuseAlbumConfirm = "Do you want to report this post??"
-        public static var accuseAlbumConfirmText = "As your report submitted, Bero administration team will take an action  after review shortly. "
+        public static var accuseAlbumConfirm = "Do you want to report this post?"
+        public static var accuseAlbumConfirmText = "As your report submitted, Bero administration team will take an action after review shortly."
         public static var accuseAlbumCompleted = "Report submitted."
         
         public static var firstChatMessage = "In the case of using inappropriate post or language, i agree that account suspension and use of Bero app may not be possible according to the terms and conditions."
@@ -146,6 +147,7 @@ extension String {
         
           
         public static var blockUserConfirm = "Do you want to block %s?"
+        
         public static var blockUserConfirmText = "Blocking user means your account may not be found by the user. You may unblock the user from Manage block list."
         public static var blockUserCompleted = "Blocked."
         

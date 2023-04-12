@@ -274,8 +274,8 @@ struct PageUser: PageView {
     
     private func removeFriend(){
         self.appSceneObserver.sheet = .select(
-            String.alert.friendDeleteConfirm,
-            nil,
+            String.alert.friendDeleteConfirm.replace(user?.representativeName ?? ""),
+            String.alert.friendDeleteConfirmText,
             [String.app.cancel,String.button.removeFriend],
             isNegative: true
         ){ idx in
@@ -289,7 +289,7 @@ struct PageUser: PageView {
     private func block(){
         self.appSceneObserver.sheet = .select(
             String.alert.blockUserConfirm.replace(self.user?.currentProfile.nickName ?? ""),
-            nil,
+            String.alert.blockUserConfirmText,
             [String.app.cancel,String.button.block],
             isNegative: true){ idx in
                 if idx == 1 {
