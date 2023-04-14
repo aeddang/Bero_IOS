@@ -144,7 +144,7 @@ struct ChatList: PageComponent{
                             
                         }
                     }
-                
+                  
                 }
             }
             
@@ -207,7 +207,6 @@ struct ChatList: PageComponent{
             self.loadChat()
         }
     }
-    let bottomIdx:Int = UUID.init().hashValue
     @State var isReady:Bool = false
     @State var isEmpty:Bool = false
     @State var chats:[ChatListDataSet] = []
@@ -253,12 +252,12 @@ struct ChatList: PageComponent{
         let me = self.dataProvider.user.snsUser?.snsID ?? ""
         let add = ChatItemData().setData(data, me:me, idx:0)
         var isFirst:Bool = self.chats.count == 0
-        var currentDataSet = self.chats.first ?? ChatListDataSet()
+        var currentDataSet = self.chats.last ?? ChatListDataSet()
         let ymd = currentDataSet.originDate?.toDateFormatter(dateFormat: "yyyyMMdd")
         let chatYmd = add.date?.toDateFormatter(dateFormat: "yyyyMMdd")
         let isMe = currentDataSet.isMe
        
-        if isFirst {
+        if isFirst == true {
             isFirst = false
             currentDataSet.originDate = add.date
             currentDataSet.index = 0
@@ -284,7 +283,7 @@ struct ChatList: PageComponent{
             self.chats.append(currentDataSet)
         }
         
-        self.infinityScrollModel.uiEvent = .scrollTo(self.bottomIdx)
+        self.infinityScrollModel.uiEvent = .scrollTo(currentDataSet.hashId)
 
     }
     

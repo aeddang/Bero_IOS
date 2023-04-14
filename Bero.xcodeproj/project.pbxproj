@@ -355,7 +355,6 @@
 		31D92045287271C1001C2738 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FEA287271C1001C2738 /* RadioButton.swift */; };
 		31D92046287271C1001C2738 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FEB287271C1001C2738 /* TextButton.swift */; };
 		31D92047287271C1001C2738 /* SortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FEC287271C1001C2738 /* SortButton.swift */; };
-		31D92048287271C1001C2738 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FED287271C1001C2738 /* CheckBox.swift */; };
 		31D9204A287271C1001C2738 /* CircularSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF0287271C1001C2738 /* CircularSpinner.swift */; };
 		31D9204B287271C1001C2738 /* MultiStrokeSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF1287271C1001C2738 /* MultiStrokeSpinner.swift */; };
 		31D9204C287271C1001C2738 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FF2287271C1001C2738 /* ActivityIndicator.swift */; };
@@ -816,7 +815,6 @@
 		31D91FEA287271C1001C2738 /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		31D91FEB287271C1001C2738 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
 		31D91FEC287271C1001C2738 /* SortButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortButton.swift; sourceTree = "<group>"; };
-		31D91FED287271C1001C2738 /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		31D91FF0287271C1001C2738 /* CircularSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularSpinner.swift; sourceTree = "<group>"; };
 		31D91FF1287271C1001C2738 /* MultiStrokeSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiStrokeSpinner.swift; sourceTree = "<group>"; };
 		31D91FF2287271C1001C2738 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
@@ -1274,6 +1272,7 @@
 		31C3F2C828C80FFD00EFF7F4 /* button */ = {
 			isa = PBXGroup;
 			children = (
+				31BF830428ED4D3100F9604C /* AgreeButton.swift */,
 				31C3F2C628C80F8400EFF7F4 /* FriendButton.swift */,
 			);
 			path = button;
@@ -1903,8 +1902,6 @@
 				31D91FEA287271C1001C2738 /* RadioButton.swift */,
 				31D91FEB287271C1001C2738 /* TextButton.swift */,
 				31D91FEC287271C1001C2738 /* SortButton.swift */,
-				31D91FED287271C1001C2738 /* CheckBox.swift */,
-				31BF830428ED4D3100F9604C /* AgreeButton.swift */,
 			);
 			path = button;
 			sourceTree = "<group>";
@@ -2585,7 +2582,6 @@
 				31BCF3C128C459E0004605CF /* ReportText.swift in Sources */,
 				316B778128B98E470090E924 /* MyPlayInfo.swift in Sources */,
 				31D9202C287271C1001C2738 /* Line.swift in Sources */,
-				31D92048287271C1001C2738 /* CheckBox.swift in Sources */,
 				316B77BA28BB4D030090E924 /* PetPhysicalSection.swift in Sources */,
 				31D91E8E28725834001C2738 /* IndexMap.swift in Sources */,
 				316B77B628BB31370090E924 /* AlbumList.swift in Sources */,
@@ -2995,7 +2991,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 85;
+				CURRENT_PROJECT_VERSION = 86;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3044,7 +3040,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 85;
+				CURRENT_PROJECT_VERSION = 86;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;

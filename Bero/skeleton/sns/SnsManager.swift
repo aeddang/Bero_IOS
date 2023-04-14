@@ -130,6 +130,7 @@ class SnsManager: ObservableObject, PageProtocol {
     func requestAllLogOut() {
         fb.requestLogOut()
         apple.requestLogOut()
+        google.requestLogOut()
     }
     
     func getAccessTokenInfo() {

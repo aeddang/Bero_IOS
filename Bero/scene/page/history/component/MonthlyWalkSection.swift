@@ -124,7 +124,7 @@ struct MonthlyWalkSection: PageComponent{
     
     private func move(data:WalkListItemData){
         guard let walkData = data.originData else {return}
-        let mission = Mission().setData(walkData, isMe:true).setData(self.dataProvider.user)
+        let mission = Mission().setData(walkData, userId: self.dataProvider.user.userId, isMe:true)
         self.pagePresenter.openPopup(
             PageProvider.getPageObject(.walkInfo)
                 .addParam(key: .data, value: mission)

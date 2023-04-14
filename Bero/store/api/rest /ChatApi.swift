@@ -50,7 +50,7 @@ class ChatApi :Rest{
     }
     
     func putRoom(roomId:Int, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
-        fetch(route: ChatRoomRoute( method: .put, action:.read, actionId: roomId.description), completion: completion, error:error)
+        fetch(route: ChatRoomRoute( method: .put, action:.read, commandId: roomId.description), completion: completion, error:error)
     }
     
     func deleteRoom(roomId:Int, completion: @escaping (ApiContentResponse<Blank>) -> Void, error: ((_ e:Error) -> Void)? = nil){
