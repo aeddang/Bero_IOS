@@ -104,7 +104,6 @@ struct Sheet<Presenting>: View where Presenting: View {
                                 .foregroundColor(Color.brand.primary)
                                 .frame(width: Dimen.icon.heavyUltra, height: Dimen.icon.heavyUltra)
                         }
-                        
                         if let title = self.title {
                             Text(title)
                                 .modifier(BoldTextStyle(
@@ -120,7 +119,6 @@ struct Sheet<Presenting>: View where Presenting: View {
                                     color: Color.app.grey400
                                 ))
                         }
-                        
                     }
                     if let image = self.image {
                         Image(image)

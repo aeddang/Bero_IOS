@@ -273,9 +273,12 @@ struct Radio_Previews: PreviewProvider {
         }
         .radio(
             isShowing: .constant(true),
+        
             buttons: [
                 "test","test1"
             ],
+            title: "Radio_Previews",
+            description: "Radio_Previews",
             action: { idx, isSelect in
                 
             },

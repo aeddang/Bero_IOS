@@ -7,8 +7,9 @@
 //
 
 import Foundation
-import Foundation
+import AVFoundation
 import SwiftUI
+import Photos
 struct SceneTab: PageComponent{
     @EnvironmentObject var walkManager:WalkManager
     @EnvironmentObject var pagePresenter:PagePresenter
@@ -206,17 +207,55 @@ struct SceneTab: PageComponent{
                 #endif
                 break
             case .openImagePicker(let pickId, let type, let cameraDevice, let pick) :
-                self.imagePickerModel.pickId = pickId
-                self.cameraType = type
-                self.cameraDevice = cameraDevice
-                self.imagePick = pick
-                withAnimation{
-                    self.isShowCamera = true
+                
+                switch type {
+                case .camera :
+                    AVCaptureDevice.requestAccess(for: .video){ isGranted in
+                        DispatchQueue.main.async {
+                            if isGranted {
+                                self.imagePickerModel.pickId = pickId
+                                self.cameraType = type
+                                self.cameraDevice = cameraDevice
+                                self.imagePick = pick
+                                withAnimation{
+                                    self.isShowCamera = true
+                                }
+                            } else {
+                                self.moveSetup()
+                            }
+                        }
+                    }
+                default :
+                    PHPhotoLibrary.requestAuthorization{ status in
+                        switch status {
+                        case .authorized :
+                            self.imagePickerModel.pickId = pickId
+                            self.cameraType = type
+                            self.cameraDevice = cameraDevice
+                            self.imagePick = pick
+                            withAnimation{
+                                self.isShowCamera = true
+                            }
+                        default :
+                            self.moveSetup()
+                        }
+                        
+                    }
                 }
+                
+                
+            
             default: break
             }
         }
         
+    }
+    
+    private func moveSetup(){
+        self.appSceneObserver.alert = .alert(nil, String.alert.needCameraAccess){
+            guard let settingURL = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(settingURL) else { return }
+            UIApplication.shared.open(settingURL, options: [:])
+        }
     }
     
     func updateBottomPos(){

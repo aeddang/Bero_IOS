@@ -43,7 +43,7 @@ struct PagePrivacy: PageView {
             }//draging
             .onReceive(self.pageObservable.$isAnimationComplete){ ani in
                 if ani {
-                    self.webViewModel.request = .link("https://bero.dog/privacystatement")
+                    self.webViewModel.request = .link("https://bero.dog/privacyPolicy")
                 }
             }
             .onAppear{

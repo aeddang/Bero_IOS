@@ -125,7 +125,7 @@ struct PageSetup: PageView {
                                 PageProvider.getPageObject(.privacy)
                             )
                         }
-                        
+                        /*
                         RadioButton(
                             type: .switchOn,
                             isChecked: self.isTestMode,
@@ -139,7 +139,7 @@ struct PageSetup: PageView {
                             }
                             SystemEnvironment.isTestMode = self.isTestMode
                             
-                        }
+                        }*/
                         if self.isTestMode {
                             SelectButton(
                                 type: .medium,

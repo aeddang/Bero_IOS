@@ -15,7 +15,6 @@ import FacebookLogin
 import FirebaseCore
 import GoogleSignInSwift
 struct PageWalkHistory: PageView {
-    
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -26,7 +25,6 @@ struct PageWalkHistory: PageView {
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     @ObservedObject var calenderModel: CalenderModel = CalenderModel()
-    
     struct WalkHistoryTop: PageView {
         @EnvironmentObject var pagePresenter:PagePresenter
         var calenderModel: CalenderModel

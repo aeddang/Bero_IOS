@@ -88,6 +88,18 @@ struct PageWalk: PageView {
             default : break
             }
         }
+        .onReceive(self.walkManager.$error){ err in
+            guard let err = err else {return}
+            switch err {
+            case .accessDenied :
+                self.appSceneObserver.alert = .alert(nil, String.alert.needLocationAccess){
+                    guard let settingURL = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(settingURL) else { return }
+                    UIApplication.shared.open(settingURL, options: [:])
+                }
+            default : break
+            }
+            
+        }
         .onReceive(self.walkManager.$status){ status in
             switch status {
             case .ready :

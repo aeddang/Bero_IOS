@@ -156,8 +156,9 @@ extension String {
         
         public static var deleteAccountCheck = "Available after subscriber authentication."
         public static var deleteAccountConfirm = "Are you sure you want to delete your account?"
-        public static var deleteAccountConfirmText = "Once you delete account permanently, it may not be restored again."
+        public static var deleteAccountConfirmText = "It will be deactivated for 30 days, and it can be reactivated anytime upon your login. Your data will be stored for 6 months with us."
         public static var deleteAccounErrorAnotherSns = "The signed in account is different from the linked account"
+        
         
         public static var deleteDogTitle = "Are you sure you want to delete %s’s profile?"
         public static var deleteDogText = "It may not be restored, once all of data, information, and history of selected dog deleted."
@@ -179,6 +180,10 @@ extension String {
         
         public static var itsMe = "It's me."
         public static var itsNotYourPoint = "It's not your point, don't touch it."
+        
+        public static var needCameraAccess = "This will let you take photos for profile. explore and during walk."
+        public static var needLocationAccess = "This will let us show your current location, record walks, show other users and suggest point of interests near you."
+        
     }
     
     struct button {
