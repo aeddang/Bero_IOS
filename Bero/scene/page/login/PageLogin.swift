@@ -28,7 +28,7 @@ struct PageLogin: PageView {
                     .aspectRatio(contentMode: .fill)
                     .modifier(MatchParent())
                     .frame(alignment: .top)
-                Text("For your dog’s\nhappiness")
+                Text(String.pageText.loginText)
                     .modifier( BoldTextStyle(
                         size: Font.size.black,
                         color:  Color.app.black

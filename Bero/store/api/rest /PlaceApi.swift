@@ -8,6 +8,23 @@
 import Foundation
 import SwiftUI
 import CoreLocation
+extension PlaceApi {
+    enum PlaceCategoryType {
+        case cafe, vet, park, none
+        
+        static func getType(_ value:Int?) -> PlaceApi.PlaceCategoryType?{
+            switch value{
+            case 1 : return .cafe
+            case 2 : return .park
+            case 3 : return .vet
+            default : return nil
+            }
+        }
+    }
+    enum ValueType:String {
+        case Exp, Point
+    }
+}
 
 class PlaceApi :Rest{
     func get(location:CLLocation? = nil, distance:Double? = nil, searchType:String? = nil, zip:String? = nil,

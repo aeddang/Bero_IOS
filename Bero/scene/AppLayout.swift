@@ -90,7 +90,6 @@ struct AppLayout: PageComponent{
         .onReceive(self.pagePresenter.$currentTopPage){ page in
             guard let cPage = page else { return }
             PageLog.d("currentTopPage " + cPage.pageID.debugDescription, tag:self.tag)
-            
             self.appSceneObserver.useBottom = self.pagePresenter.hasLayerPopup() ? false : PageSceneModel.needBottomTab(cPage)
             AppUtil.hideKeyboard()
             if PageSceneModel.needKeyboard(cPage) {
@@ -103,7 +102,6 @@ struct AppLayout: PageComponent{
         .onReceive (self.sceneObserver.$isUpdated) { _ in
             self.updateSafeArea()
         }
-        
         .onReceive (self.appObserver.$page) { iwg in
             if !self.isInit { return }
             //self.appObserverMove(iwg)

@@ -9,12 +9,8 @@
 import Foundation
 import SwiftUI
 
-enum SceneUpdateType {
-    case purchase(String, String?, String?)
-}
-
 enum SceneEvent {
-    case initate, toast(String), check(String, icon:String? = nil, (() -> Void)? = nil), update(SceneUpdateType),
+    case initate, toast(String), check(String, icon:String? = nil, (() -> Void)? = nil),
          debug(String),
          openImagePicker(String,
                          type:UIImagePickerController.SourceType = .photoLibrary,

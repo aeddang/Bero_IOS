@@ -68,6 +68,7 @@ struct PetData : Decodable {
 
 struct PlaceData : Decodable {
     private(set) var placeId: Int? = nil
+    private(set) var placeCategory: Int? = nil
     private(set) var location: String? = nil
     private(set) var name: String? = nil
     private(set) var googlePlaceId: String? = nil

@@ -29,9 +29,6 @@
 		311EAA2428A9DFCD00A5F735 /* AlbumListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */; };
 		3143CD452887929900F1C88A /* BottomTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD442887929900F1C88A /* BottomTab.swift */; };
 		3143CD4728879A6500F1C88A /* PageIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD4628879A6500F1C88A /* PageIntro.swift */; };
-		3143CD4D28879ADE00F1C88A /* IntroItem3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD4A28879ADE00F1C88A /* IntroItem3.swift */; };
-		3143CD4E28879ADE00F1C88A /* IntroItem1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD4B28879ADE00F1C88A /* IntroItem1.swift */; };
-		3143CD4F28879ADE00F1C88A /* IntroItem2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD4C28879ADE00F1C88A /* IntroItem2.swift */; };
 		3143CD5228879E6700F1C88A /* PageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD5128879E6700F1C88A /* PageLogin.swift */; };
 		3143CD5A2888E7F600F1C88A /* PageWalk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143CD592888E7F600F1C88A /* PageWalk.swift */; };
 		3145FFA22997438300B39AEF /* PageMyAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3145FFA12997438300B39AEF /* PageMyAccount.swift */; };
@@ -500,9 +497,6 @@
 		311EAA2328A9DFCD00A5F735 /* AlbumListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListItem.swift; sourceTree = "<group>"; };
 		3143CD442887929900F1C88A /* BottomTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTab.swift; sourceTree = "<group>"; };
 		3143CD4628879A6500F1C88A /* PageIntro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIntro.swift; sourceTree = "<group>"; };
-		3143CD4A28879ADE00F1C88A /* IntroItem3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroItem3.swift; sourceTree = "<group>"; };
-		3143CD4B28879ADE00F1C88A /* IntroItem1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroItem1.swift; sourceTree = "<group>"; };
-		3143CD4C28879ADE00F1C88A /* IntroItem2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroItem2.swift; sourceTree = "<group>"; };
 		3143CD5128879E6700F1C88A /* PageLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageLogin.swift; sourceTree = "<group>"; };
 		3143CD552887A8DD00F1C88A /* BeroDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeroDebug.entitlements; sourceTree = "<group>"; };
 		3143CD592888E7F600F1C88A /* PageWalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalk.swift; sourceTree = "<group>"; };
@@ -1005,20 +999,9 @@
 		3143CD4828879ABC00F1C88A /* intro */ = {
 			isa = PBXGroup;
 			children = (
-				3143CD4928879AC800F1C88A /* view */,
 				3143CD4628879A6500F1C88A /* PageIntro.swift */,
 			);
 			path = intro;
-			sourceTree = "<group>";
-		};
-		3143CD4928879AC800F1C88A /* view */ = {
-			isa = PBXGroup;
-			children = (
-				3143CD4B28879ADE00F1C88A /* IntroItem1.swift */,
-				3143CD4C28879ADE00F1C88A /* IntroItem2.swift */,
-				3143CD4A28879ADE00F1C88A /* IntroItem3.swift */,
-			);
-			path = view;
 			sourceTree = "<group>";
 		};
 		3143CD5028879E4D00F1C88A /* login */ = {
@@ -2496,7 +2479,6 @@
 				316B77B328BB2C320090E924 /* PetProfilePictureEdit.swift in Sources */,
 				31BCF3BD28C445FD004605CF /* TotalWalkSection.swift in Sources */,
 				31D920C028729CDC001C2738 /* UserProfile.swift in Sources */,
-				3143CD4F28879ADE00F1C88A /* IntroItem2.swift in Sources */,
 				31D92014287271C1001C2738 /* CPTabNavigation.swift in Sources */,
 				31D92036287271C1001C2738 /* GraphHorizontal.swift in Sources */,
 				316B77A328BB0CFE0090E924 /* FriendListItem.swift in Sources */,
@@ -2789,9 +2771,7 @@
 				31D91FFA287271C1001C2738 /* FaceBookButton.swift in Sources */,
 				31C6373E28A88AB4008EA54C /* MyDogsSection.swift in Sources */,
 				31D0E95628AA4DF50076D971 /* Route.swift in Sources */,
-				3143CD4D28879ADE00F1C88A /* IntroItem3.swift in Sources */,
 				31D92013287271C1001C2738 /* CpTabDivisionNavigation.swift in Sources */,
-				3143CD4E28879ADE00F1C88A /* IntroItem1.swift in Sources */,
 				31D91E7828725834001C2738 /* PageDragingProtocol.swift in Sources */,
 				31BCF3B428C411B5004605CF /* LvSection.swift in Sources */,
 				3151DD2E28CF320500641BCC /* PopupChooseDog.swift in Sources */,
@@ -2991,7 +2971,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 90;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3021,7 +3001,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3045,7 +3025,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 90;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = TYPPBR5AQ8;
 				ENABLE_PREVIEWS = YES;
@@ -3075,7 +3055,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = bero_des;

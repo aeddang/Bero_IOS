@@ -271,6 +271,7 @@ extension String {
         public static let shop = "Shop"
         public static let vet = "Hospital"
         public static let salon = "Salon"
+        public static let park = "Park"
         public static let friendsText = "My friends’ posts only"
         public static let notUsedText = "invisible"
         public static let restaurantText = "Restaurant"
@@ -328,7 +329,7 @@ extension String {
         public static let introText3_2 = "Filter places for your dog and leave\ntraces of your visits."
         public static let introComplete = "Let’s explore!"
         
-        public static let loginText = "Let’s walk\nour dogs together!"
+        public static let loginText = "For your dog’s\nhappiness"
         public static let loginButtonText = "Continue with "
         
         public static let addDogCompletedText1 = "Nice to meet you"

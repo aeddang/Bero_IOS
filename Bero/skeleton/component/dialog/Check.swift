@@ -48,7 +48,7 @@ struct Check<Presenting>: View where Presenting: View {
                 } else {
                     ImageButton(
                         isSelected: self.isChecked,
-                        defaultImage: Asset.icon.checked_circle,
+                        defaultImage: self.icon ?? Asset.icon.checked_circle,
                         size: CGSize(width: Dimen.icon.heavy, height: Dimen.icon.heavy),
                         defaultColor: Color.app.grey400,
                         activeColor: Color.brand.primary

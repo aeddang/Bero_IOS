@@ -18,15 +18,28 @@ class Place:MapUserData{
     private(set) var playExp:Double = 0
     private(set) var playPoint:Int = 0
     private(set) var place:MissionPlace? = nil
-    private(set) var sortType:WalkManager.Filter? = nil
+    private(set) var requestSortType:WalkManager.Filter? = nil
+    private(set) var category:PlaceApi.PlaceCategoryType? = nil
     private(set) var isMark:Bool = false
+    
+    var sortType:WalkManager.Filter? {
+        get{
+            guard let cate = category else {return self.requestSortType}
+            switch cate {
+            case .cafe : return .cafe
+            case .vet : return .vet
+            default : return .manual
+            }
+        }
+    }
     
     @discardableResult
     func setData(_ data:PlaceData, me:String, sortType:WalkManager.Filter?)->Place{
         self.title = data.name
-        self.sortType = sortType 
+        self.requestSortType = sortType 
         self.googlePlaceId = data.googlePlaceId
         self.placeId = data.placeId ?? -1
+        self.category = PlaceApi.PlaceCategoryType.getType(data.placeCategory)
         if let loc = data.place?.geometry?.location {
             self.location =  CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0) 
         }
@@ -59,7 +72,8 @@ class Place:MapUserData{
     func copySummry(origin:Place)->Place{
         self.title = String.app.place.lowercased()
         self.color = Color.brand.primary
-        self.sortType = origin.sortType
+        self.requestSortType = origin.requestSortType
+        //self.category = origin.category
         self.googlePlaceId = origin.googlePlaceId
         self.placeId = origin.placeId
         self.location = origin.location

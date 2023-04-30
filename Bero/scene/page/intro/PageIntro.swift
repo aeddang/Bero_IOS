@@ -14,18 +14,7 @@ struct PageIntro: PageView {
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var viewModel:ViewPagerModel = ViewPagerModel()
     @State var pages: [PageViewProtocol] = []
-    let titles: [String] =
-    [
-        String.pageText.introText1_1,
-        String.pageText.introText2_1,
-        String.pageText.introText3_1
-    ]
-    let texts: [String] =
-    [
-        String.pageText.introText1_2,
-        String.pageText.introText2_2,
-        String.pageText.introText3_2
-    ]
+    
     @State var index: Int = 0
     @State var leading:CGFloat = 0
     @State var trailing:CGFloat = 0
@@ -39,18 +28,7 @@ struct PageIntro: PageView {
                 useButton: true,
                 bottomMargin: 110
             )
-            /*
-            Text(self.titles[self.index])
-                .modifier(BoldTextStyle(size: Font.size.bold, color: Color.app.black))
-                .padding(.top, Dimen.margin.medium)
-                .fixedSize()
-                .padding(.horizontal, Dimen.margin.regular)
-            Text(self.texts[self.index])
-                .modifier(MediumTextStyle(size: Font.size.light, color: Color.app.black))
-                .padding(.top, Dimen.margin.thin)
-                .fixedSize()
-                .padding(.horizontal, Dimen.margin.regular)
-            */
+            
             FillButton(
                 type: .fill,
                 text: self.isComplete
