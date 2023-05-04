@@ -175,8 +175,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PageProtocol {
     }
 
     
-    
-    
     // [START receive_message]
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         AppDelegate.appObserver.handleApns(userInfo)

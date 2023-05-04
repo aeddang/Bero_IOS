@@ -23,7 +23,6 @@ enum SceneAlertResult {
     case complete(SceneAlert), error(SceneAlert) , cancel(SceneAlert?), retry(SceneAlert?)
 }
 
-
 struct SceneAlertController: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider

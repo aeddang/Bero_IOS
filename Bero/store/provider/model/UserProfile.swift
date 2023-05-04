@@ -43,7 +43,7 @@ class UserProfile:ObservableObject, PageProtocol, Identifiable {
             self.originData = data
         }
         self.userId = data.userId ?? ""
-        self.nickName = data.name
+        self.nickName = data.name ?? String.app.appUser
         self.email = data.email
         if data.pictureUrl?.isEmpty == false {
             self.imagePath = data.pictureUrl

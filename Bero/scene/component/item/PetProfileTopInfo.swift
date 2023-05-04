@@ -8,6 +8,7 @@ struct PetProfileTopInfo: PageComponent{
     var distance:Double? = nil
     var isHorizontal:Bool = false
     var isSimple:Bool = false
+    var viewProfileImage: (() -> Void)? = nil
     var viewProfile: (() -> Void)? = nil
     var editProfile: (() -> Void)? = nil
     var body: some View {
@@ -28,6 +29,7 @@ struct PetProfileTopInfo: PageComponent{
                     age: self.age,
                     breed: self.breed,
                     description: self.isSimple ? nil : self.description,
+                    viewProfileImage: self.viewProfileImage,
                     viewProfile: self.viewProfile,
                     editProfile: self.profile.isMypet ? self.editProfile : nil
                 )

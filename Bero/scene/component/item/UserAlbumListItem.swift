@@ -80,6 +80,13 @@ struct UserAlbumListItem: PageComponent{
             }
             if let albumData = self.data.albumData{
                 AlbumListDetailItem(data: albumData, userProfile: self.data.userProfile, imgSize: self.imgSize, isEdit: .constant(false))
+                    .onTapGesture {
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.pictureViewer)
+                                .addParam(key: .data, value: albumData)
+                                //.addParam(key: .userData, value: self.data.userProfile)
+                        )
+                    }
             }
         }
         

@@ -126,6 +126,7 @@
 		31937F1428ACFBCA00AA5473 /* ValueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31937F1328ACFBCA00AA5473 /* ValueInfo.swift */; };
 		31A6CF5C29AAEFB300BAB999 /* PagePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */; };
 		31A9D2B9289F47340094EC5C /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A9D2B8289F47340094EC5C /* Check.swift */; };
+		31AD4CB92A0399350044F01A /* PagePictureViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AD4CB82A0399350044F01A /* PagePictureViewer.swift */; };
 		31AEC3AD28D2995D00507386 /* PopupWalkUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */; };
 		31AF794A28C18F0800118B05 /* PageManageDogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794928C18F0800118B05 /* PageManageDogs.swift */; };
 		31AF794C28C1A33300118B05 /* PetProfileHealthEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */; };
@@ -590,6 +591,7 @@
 		31937F1328ACFBCA00AA5473 /* ValueInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueInfo.swift; sourceTree = "<group>"; };
 		31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePicture.swift; sourceTree = "<group>"; };
 		31A9D2B8289F47340094EC5C /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
+		31AD4CB82A0399350044F01A /* PagePictureViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePictureViewer.swift; sourceTree = "<group>"; };
 		31AEC3AC28D2995D00507386 /* PopupWalkUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkUser.swift; sourceTree = "<group>"; };
 		31AF794928C18F0800118B05 /* PageManageDogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManageDogs.swift; sourceTree = "<group>"; };
 		31AF794B28C1A33300118B05 /* PetProfileHealthEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileHealthEdit.swift; sourceTree = "<group>"; };
@@ -1207,6 +1209,7 @@
 				31C3F2C428C7A1B200EFF7F4 /* PageFriend.swift */,
 				31BCF3AC28C363C9004605CF /* PageAlbum.swift */,
 				31A6CF5B29AAEFB300BAB999 /* PagePicture.swift */,
+				31AD4CB82A0399350044F01A /* PagePictureViewer.swift */,
 				318FF6FA29A0FB3500C0492C /* PageAlarm.swift */,
 				31BF830028E95CC000F9604C /* PagePrivacy.swift */,
 				31BF830228ED4C9900F9604C /* PageServiceTerms.swift */,
@@ -2636,6 +2639,7 @@
 				31D91E8B28725834001C2738 /* AnimateDrawView.swift in Sources */,
 				316B777E28B982F80090E924 /* UserProfileTopInfo.swift in Sources */,
 				3151DD3028CF35E500641BCC /* PetProfileCheckItem.swift in Sources */,
+				31AD4CB92A0399350044F01A /* PagePictureViewer.swift in Sources */,
 				31B8F8D4296FEB0700495959 /* UsersView.swift in Sources */,
 				31D9204A287271C1001C2738 /* CircularSpinner.swift in Sources */,
 				316D35F32895427C002FC476 /* InputText.swift in Sources */,
@@ -2971,9 +2975,9 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 91;
+				CURRENT_PROJECT_VERSION = 93;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
-				DEVELOPMENT_TEAM = TYPPBR5AQ8;
+				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3023,11 +3027,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 91;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 93;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
-				DEVELOPMENT_TEAM = TYPPBR5AQ8;
+				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3058,7 +3062,7 @@
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = bero_des;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REST_API_PATH = "http://acf14fe3f33d448ed863b0965826ef23-882930440.ap-northeast-2.elb.amazonaws.com/";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -3159,7 +3163,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = TYPPBR5AQ8;
+				DEVELOPMENT_TEAM = 7C57J25JR3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeroLockScreen/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BeroLockScreen;
@@ -3172,8 +3176,9 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.01;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero.BeroLockScreen;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero.BeroLoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -3189,11 +3194,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TYPPBR5AQ8;
+				DEVELOPMENT_TEAM = 7C57J25JR3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeroLockScreen/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BeroLockScreen;
@@ -3206,10 +3209,9 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.01;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero.BeroLockScreen;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero.BeroLoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = bero_lockscreen_des;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

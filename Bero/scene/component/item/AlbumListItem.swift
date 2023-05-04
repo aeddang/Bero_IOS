@@ -140,6 +140,7 @@ struct AlbumListDetailItem: PageComponent{
     var userProfile:UserProfile? = nil
     var pet:PetProfile? = nil
     let imgSize:CGSize
+    var isOriginSize:Bool = false
     @Binding var isEdit:Bool
     @State var isDelete:Bool = false
     @State var isLike:Bool = false
@@ -157,6 +158,7 @@ struct AlbumListDetailItem: PageComponent{
                     isLike: self.isLike,
                     likeSize: .small,
                     isShared: self.user?.isMe == true ? self.isExpose : nil,
+                    isOriginSize: self.isOriginSize,
                     iconAction:{
                         self.pagePresenter.openPopup(
                             PageProvider.getPageObject(.walkInfo)

@@ -75,7 +75,8 @@ struct PageMy: PageView {
                             
                             
                         } else {
-                            UserProfileTopInfo(profile: self.dataProvider.user.currentProfile){
+                            UserProfileTopInfo(
+                                profile: self.dataProvider.user.currentProfile){
                                 self.pagePresenter.openPopup(
                                     PageProvider.getPageObject(.modifyUser)
                                 )

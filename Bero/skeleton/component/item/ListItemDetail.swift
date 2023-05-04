@@ -26,6 +26,7 @@ struct ListDetailItem: PageComponent{
     var isLike:Bool = false
     var likeSize:SortButton.SizeType = .big
     var isShared:Bool? = nil
+    var isOriginSize:Bool = false
     var pets:[PetProfile] = []
     var iconAction: (() -> Void)? = nil
     var likeAction: (() -> Void)? = nil
@@ -36,8 +37,10 @@ struct ListDetailItem: PageComponent{
                 if let path = self.imagePath {
                     KFImage(URL(string: path))
                         .onSuccess({ img in
-                            let ratio:CGFloat = img.image.size.height / img.image.size.width
-                            self.imageHeight = self.imgSize.width * ratio
+                            if self.isOriginSize {
+                                let ratio:CGFloat = img.image.size.height / img.image.size.width
+                                self.imageHeight = self.imgSize.width * ratio
+                            }
                             
                         })
                         .resizable()

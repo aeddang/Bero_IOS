@@ -63,12 +63,21 @@ struct PageUser: PageView {
                             if let pet = user.representativePet {
                                 PetProfileTopInfo(
                                     profile: pet ,
+                                    viewProfileImage: {
+                                        if pet.imagePath?.isEmpty == false {
+                                            self.pagePresenter.openPopup(
+                                                PageProvider.getPageObject(.pictureViewer)
+                                                    .addParam(key: .data, value: pet.imagePath)
+                                            )
+                                        }
+                                    },
                                     viewProfile: {
                                         self.pagePresenter.openPopup(
                                             PageProvider.getPageObject(.dog)
                                                 .addParam(key: .data, value: pet)
                                                 .addParam(key: .subData, value: user)
                                         )
+                                        
                                     }
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
@@ -81,8 +90,18 @@ struct PageUser: PageView {
                                 }
                                 
                             } else {
-                                UserProfileTopInfo(profile: user.currentProfile)
-                                    .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                UserProfileTopInfo(
+                                    profile: user.currentProfile,
+                                    viewProfileImage: {
+                                        if user.currentProfile.imagePath?.isEmpty == false {
+                                            self.pagePresenter.openPopup(
+                                                PageProvider.getPageObject(.pictureViewer)
+                                                    .addParam(key: .data, value: user.currentProfile.imagePath)
+                                            )
+                                        }
+                                    }
+                                )
+                                .padding(.horizontal, Dimen.app.pageHorinzontal)
                             }
                             MyPlayInfo(user: user){ type in
                                 switch type {

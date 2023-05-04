@@ -60,6 +60,14 @@ struct PageDog: PageView {
                         ){
                             PetProfileTopInfo(
                                 profile: profile,
+                                viewProfileImage: {
+                                    if profile.imagePath?.isEmpty == false {
+                                        self.pagePresenter.openPopup(
+                                            PageProvider.getPageObject(.pictureViewer)
+                                                .addParam(key: .data, value:profile.imagePath)
+                                        )
+                                    }
+                                },
                                 editProfile :{
                                     self.pagePresenter.openPopup(
                                         PageProvider.getPageObject(.modifyPet)

@@ -46,6 +46,7 @@ struct VerticalProfile: PageComponent{
     var breed:String? = nil
     var info:String? = nil
     var description:String? = nil
+    var viewProfileImage: (() -> Void)? = nil
     var viewProfile: (() -> Void)? = nil
     var editProfile: (() -> Void)? = nil
     var body: some View {
@@ -59,6 +60,13 @@ struct VerticalProfile: PageComponent{
                     emptyImagePath: self.type.emptyImage,
                     onEdit: self.editProfile
                 )
+                .onTapGesture {
+                    if let view = viewProfileImage {
+                        view()
+                    } else {
+                        viewProfile?()
+                    }
+                }
                 if let edit = self.editProfile {
                     CircleButton(
                         type: .icon(Asset.icon.edit),

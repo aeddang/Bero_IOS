@@ -7,6 +7,7 @@ struct UserProfileTopInfo: PageComponent{
     var profile:UserProfile
     var isHorizontal:Bool = false
     var isSimple:Bool = false
+    var viewProfileImage: (() -> Void)? = nil
     var action: (() -> Void)? = nil
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
@@ -24,6 +25,7 @@ struct UserProfileTopInfo: PageComponent{
                     gender: self.gender,
                     age: self.age,
                     description: self.isSimple ? nil : self.description,
+                    viewProfileImage: self.viewProfileImage,
                     editProfile: self.profile.isMine ? self.action : nil
                 )
             } else {

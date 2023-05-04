@@ -326,7 +326,6 @@ class Repository:ObservableObject, PageProtocol{
         }
     }
     
-
     func registerSnsLogin(_ user:SnsUser, info:SnsUserInfo?) {
         self.storage.loginId = user.snsID
         self.storage.loginToken = user.snsToken
@@ -334,6 +333,7 @@ class Repository:ObservableObject, PageProtocol{
         self.dataProvider.user.registUser(user: user)
         self.dataProvider.requestData(q: .init(type: .joinAuth(user, info)))
     }
+    
     func clearLogin() {
         self.storage.loginId = nil
         self.storage.loginToken = nil
@@ -343,7 +343,10 @@ class Repository:ObservableObject, PageProtocol{
         self.dataProvider.user.clearUser()
         self.snsManager.requestAllLogOut()
         self.event = .loginUpdate
-        self.status = .ready
+        self.status = .initate
+        DispatchQueue.main.async {
+            self.status = .ready
+        }
         self.retryRegisterPushToken()
         Analytics.setUserID(nil)
     }

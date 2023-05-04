@@ -77,6 +77,7 @@ struct PagePicture: PageView {
                         ForEach(self.datas) { data in
                             AlbumListDetailItem(data:data, user:self.user,
                                                 imgSize: self.itemSize,
+                                                isOriginSize: true,
                                                 isEdit: .constant(false))
                         }
                         ForEach(self.walkPictures) { data in

@@ -14,6 +14,7 @@ extension String {
     
     struct app {
         public static let appName = "Bero"
+        public static let appUser = "Bero User"
         public static let confirm = "Confirm"
         public static let cancel = "Cancel"
         

@@ -116,7 +116,9 @@ struct PageAlbum: PageView {
     private func onPick(){
         self.appSceneObserver.select = .imgPicker(self.tag){ pick in
             guard let pick = pick else {return}
+            self.pagePresenter.isLoading = true
             DispatchQueue.global(qos:.background).async {
+               
                 let hei = AlbumApi.originSize * CGFloat(pick.cgImage?.height ?? 1) / CGFloat(pick.cgImage?.width ?? 1)
                 let size = CGSize(
                     width: AlbumApi.originSize,
@@ -140,10 +142,15 @@ struct PageAlbum: PageView {
         if self.repository.storage.isExposeSetup {
             self.update(img: img, thumbImage: thumbImage, isExpose:isExpose)
         } else {
-            self.appSceneObserver.alert = .confirm(nil, String.alert.exposeConfirm){ isOk in
-                isExpose = isOk
+            self.appSceneObserver.sheet = .select(
+                nil, String.alert.exposeConfirm,
+                [String.alert.unExposed, String.alert.exposed],
+                isNegative: false
+            ){ idx in
+                isExpose = idx == 1
                 self.update(img: img, thumbImage: thumbImage, isExpose:isExpose)
             }
+            
         }
     }
     private func update(img:UIImage, thumbImage:UIImage, isExpose:Bool){

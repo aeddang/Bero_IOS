@@ -20,7 +20,14 @@ struct UsersDogSection: PageComponent{
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Dimen.margin.tiny){
                         if self.user.representativePet != nil {
-                            UserProfileInfo(profile:self.user.currentProfile, sizeType: .big)
+                            UserProfileInfo(profile:self.user.currentProfile, sizeType: .big){
+                                if self.user.currentProfile.imagePath?.isEmpty == false {
+                                    self.pagePresenter.openPopup(
+                                        PageProvider.getPageObject(.pictureViewer)
+                                            .addParam(key: .data, value: self.user.currentProfile.imagePath)
+                                    )
+                                }
+                            }
                         }
                         ForEach(self.pets.filter{!$0.isRepresentative}) { pet in
                             PetProfileInfo( profile: pet){

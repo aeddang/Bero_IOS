@@ -31,6 +31,8 @@ extension PageID{
     static let user:PageID = "user"
     static let album:PageID = "album"
     static let picture:PageID = "picture"
+    static let pictureViewer:PageID = "pictureViewer"
+    
     static let alarm:PageID = "alarm"
     static let friend:PageID = "friend"
     static let manageDogs:PageID = "manageDogs"
@@ -132,7 +134,6 @@ struct PageProvider {
             default : return  false
         }
     }
-    
     static func getPageTitle(_ pageID:PageID, deco:String = "")-> String {
         switch pageID {
             default : return  ""
@@ -210,6 +211,7 @@ struct PageFactory{
         case .walkInfo : return PageWalkInfo(pageObservable:pageObservable)
         case .album : return PageAlbum(pageObservable:pageObservable)
         case .picture : return PagePicture(pageObservable:pageObservable)
+        case .pictureViewer : return PagePictureViewer(pageObservable:pageObservable)
         case .alarm : return PageAlarm(pageObservable:pageObservable)
         case .friend : return PageFriend(pageObservable:pageObservable)
         case .myLv : return PageMyLv(pageObservable:pageObservable)
@@ -246,14 +248,14 @@ struct PageSceneModel: PageModel {
     func getPageOrientation(_ pageObject:PageObject?) -> UIInterfaceOrientationMask? {
         guard let pageObject = pageObject ?? self.topPageObject else { return UIInterfaceOrientationMask.all }
         switch pageObject.pageID {
-        //case .picture :  return .all
+        case .pictureViewer :  return .all
         default :  return .portrait
         }
     }
     func getPageOrientationLock(_ pageObject:PageObject?) -> UIInterfaceOrientationMask? {
         guard let pageObject = pageObject ?? self.topPageObject else { return UIInterfaceOrientationMask.all }
         switch pageObject.pageID {
-        //case .picture :  return .all
+        case .pictureViewer :  return .all
         default : return  .portrait
         }
     }

@@ -61,7 +61,7 @@ extension AlbumApi {
         }
     }
     
-    public static let originSize:CGFloat = 320
+    public static let originSize:CGFloat = 480
     public static let thumbSize:CGFloat = 120
        
 }

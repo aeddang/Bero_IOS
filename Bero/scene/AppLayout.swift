@@ -61,9 +61,7 @@ struct AppLayout: PageComponent{
                     }
                 }
             }
-            
             /*
-            
             .padding(.top, 200)
              */
         }

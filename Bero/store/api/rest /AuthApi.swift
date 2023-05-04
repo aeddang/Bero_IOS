@@ -6,7 +6,6 @@
 //  Copyright © 2020 JeongCheol Kim. All rights reserved.
 //
 import Foundation
-
 class AuthApi :Rest{
     func post(user:SnsUser, info:SnsUserInfo? = nil, completion: @escaping (ApiContentResponse<UserAuth>) -> Void, error: ((_ e:Error) -> Void)? = nil){
         var params = [String: Any]()

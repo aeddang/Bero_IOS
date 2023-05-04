@@ -89,6 +89,12 @@ struct AlbumList: PageComponent{
                                     self.infinityScrollModel.event = .bottom
                                 }
                             }
+                            .onTapGesture {
+                                self.pagePresenter.openPopup(
+                                    PageProvider.getPageObject(.pictureViewer)
+                                        .addParam(key: .data, value: data)
+                                )
+                            }
                         }
                     }
                     
