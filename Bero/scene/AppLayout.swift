@@ -232,14 +232,17 @@ struct AppLayout: PageComponent{
     @discardableResult
     func appObserverMove(_ iwg:IwillGo? = nil) -> Bool {
         guard let page = iwg?.page else { return false }
-        if PageProvider.isHome(page.pageID) { page.isPopup = false }
+        if PageProvider.isHome(page.pageID) { page.isPopup = false } else { page.isPopup = true }
         if page.isPopup {
-            self.pagePresenter.openPopup(page)
+            self.pagePresenter.changePage(PageProvider.getPageObject(PageID.explore))
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+                self.pagePresenter.openPopup(page)
+            }
         }else{
             self.pagePresenter.changePage(page)
         }
         self.appObserver.reset()
-        return !page.isPopup
+        return true
     }
     
     private func updateSafeArea(){

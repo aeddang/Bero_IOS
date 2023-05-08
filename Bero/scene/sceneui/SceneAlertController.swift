@@ -141,6 +141,7 @@ struct SceneAlertController: PageComponent{
     func selectedRecivedApns(_ idx:Int) {
         if idx == 1 {
             guard let page = self.appObserver.page?.page else { return }
+            if PageProvider.isHome(page.pageID) { page.isPopup = false } else { page.isPopup = true }
             if page.isPopup {
                 self.pagePresenter.openPopup(page)
             }else{
