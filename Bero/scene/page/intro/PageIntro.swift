@@ -48,6 +48,7 @@ struct PageIntro: PageView {
             .padding(.horizontal, Dimen.margin.regular)
         }
         .onReceive( self.viewModel.$index ){ idx in
+            if self.pages.isEmpty {return}
             withAnimation{
                 self.index = idx
                 self.isComplete = idx >= (self.pages.count - 1)

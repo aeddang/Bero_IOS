@@ -56,6 +56,12 @@ extension PageAddDog{
             default : return .namePhonePad
             }
         }
+        var limitedTextLength:Int {
+            switch self {
+            case .name : return 20
+            default : return 100
+            }
+        }
         
         var autocapitalizationType: UITextAutocapitalizationType{
             switch self {

@@ -42,12 +42,8 @@ struct ModifyPetProfileData {
     }
 }
 
-struct ModifyPlayData {
-    let lv:Int
-    let exp:Double
-}
+
 extension PetProfile {
-    static let expRange:Double = 100
     static func exchangeListToString(_ list:[String]?)->String{
         if list?.isEmpty == false, let list = list {
             return list.reduce("", {$0 + "," + $1}).subString(1)
@@ -78,8 +74,7 @@ class PetProfile:ObservableObject, PageProtocol, Identifiable, Equatable {
     @Published private(set) var isNeutralized:Bool = false
     @Published private(set) var birth:Date? = nil
     @Published private(set) var introduction:String? = nil
-    @Published private(set) var prevExp:Double = 0
-    @Published private(set) var nextExp:Double = 0
+   
     @Published private(set) var immunStatus:String? = nil
     @Published private(set) var hashStatus:String? = nil
     @Published private(set) var microchip:String? = nil

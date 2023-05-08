@@ -105,6 +105,12 @@ struct AlarmListItem: PageComponent{
                     .addParam(key: .isEdit, value: true)
             )
         case .User :
+            guard let userId = self.data.user?.userId else {return}
+            self.pagePresenter.openPopup(
+                PageProvider.getPageObject(.user)
+                    .addParam(key: .id, value: userId)
+            )
+        case .Chat :
             self.pagePresenter.changePage(
                 PageProvider.getPageObject(.chat)
             )

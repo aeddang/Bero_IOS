@@ -130,6 +130,16 @@ struct SelectListStep: PageComponent{
             default : break
             }
         }
+        .onReceive(self.dataProvider.$error){ err in
+            guard let err = err else { return }
+            if !err.id.hasPrefix(self.tag) {return}
+            switch err.type {
+            case .getCode(let category,_):
+                if category != .breed {return}
+                self.isSearching = false
+            default : break
+            }
+        }
         .onAppear{
             switch self.step {
             case .breed :

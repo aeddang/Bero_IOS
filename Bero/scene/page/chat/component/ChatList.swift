@@ -26,44 +26,59 @@ struct ChatList: PageComponent{
     @Binding var userName:String?
     var body: some View {
         VStack(spacing:0){
-            ZStack{
-                if let pet = self.pet {
-                    HorizontalProfile(
-                        type: .pet,
-                        sizeType: .small,
-                        imagePath: pet.imagePath,
-                        lv: self.user?.lv,
-                        name: pet.name,
-                        gender: pet.gender,
-                        isNeutralized: pet.isNeutralized,
-                        age: pet.birth?.toAge(),
-                        breed: pet.breed,
-                        useBg: false
-                    )
-                    
-                } else if let user = self.user?.currentProfile {
-                    HorizontalProfile(
-                        type: .user,
-                        sizeType: .small,
-                        imagePath: user.imagePath,
-                        lv: user.lv,
-                        name: user.nickName,
-                        gender: user.gender,
-                        age: user.birth?.toAge(),
-                        useBg: false
-                    )
+            if self.pet != nil || self.user?.currentProfile != nil {
+                ZStack{
+                    if let pet = self.pet {
+                        HorizontalProfile(
+                            type: .pet,
+                            sizeType: .small,
+                            imagePath: pet.imagePath,
+                            lv: self.user?.lv,
+                            name: pet.name,
+                            gender: pet.gender,
+                            isNeutralized: pet.isNeutralized,
+                            age: pet.birth?.toAge(),
+                            breed: pet.breed,
+                            useBg: false
+                        )
+                        
+                    } else if let user = self.user?.currentProfile {
+                        HorizontalProfile(
+                            type: .user,
+                            sizeType: .small,
+                            imagePath: user.imagePath,
+                            lv: user.lv,
+                            name: user.nickName,
+                            gender: user.gender,
+                            age: user.birth?.toAge(),
+                            useBg: false
+                        )
+                    }
+                }
+                .padding(.horizontal, Dimen.app.pageHorinzontal)
+                .padding(.vertical, Dimen.margin.thin)
+                .background(Color.app.orangeSub)
+                .onTapGesture {
+                    self.move()
                 }
             }
-            .padding(.horizontal, Dimen.app.pageHorinzontal)
-            .padding(.vertical, Dimen.margin.thin)
-            .background(Color.app.orangeSub)
-            .onTapGesture {
-                self.move()
-            }
             if self.isEmpty {
+                Text( AppUtil.networkTimeDate().toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy") )
+                    .modifier(RegularTextStyle(
+                        size: Font.size.thin,
+                        color:  Color.app.grey400))
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, Dimen.margin.regular)
+                Text( String.pageText.chatRoomText )
+                    .modifier(RegularTextStyle(
+                        size: Font.size.thin,
+                        color:  Color.app.grey300))
+                    .multilineTextAlignment(.center)
+                /*
                 EmptyItem(type: .myList)
                     .padding(.top, Dimen.margin.regularUltra)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
+                 */
                 Spacer().modifier(MatchParent())
                 
             } else {
@@ -79,28 +94,16 @@ struct ChatList: PageComponent{
                 ){
                     VStack(alignment: .center, spacing:0){
                         Spacer().modifier(MatchHorizontal(height: 0))
-                        if self.chats.isEmpty {
-                            Text( AppUtil.networkTimeDate().toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy") )
-                                .modifier(RegularTextStyle(
-                                    size: Font.size.thin,
-                                    color:  Color.app.grey400))
-                                .multilineTextAlignment(.center)
-                                .padding(.bottom, Dimen.margin.regular)
-                            Text( String.pageText.chatRoomText )
-                                .modifier(RegularTextStyle(
-                                    size: Font.size.thin,
-                                    color:  Color.app.grey300))
-                                .multilineTextAlignment(.center)
-                                
-                        } else if let date = self.chats.first?.originDate {
+                        if !self.chats.isEmpty , let date = self.chats.first?.originDate{
                             Text( date.toDateFormatter(dateFormat: "EEEE, MMMM d, yyyy") )
                                 .modifier(RegularTextStyle(
                                     size: Font.size.thin,
                                     color:  Color.app.grey400))
                                 .multilineTextAlignment(.center)
+                                
                         }
                     }
-                    
+                    .padding(.horizontal, Dimen.app.pageHorinzontal)
                     ForEach(self.chats) { data in
                         VStack(alignment: .center, spacing:0){
                             if let date = data.date {
@@ -239,11 +242,15 @@ struct ChatList: PageComponent{
     private func loaded(_ res:ApiResultResponds){
         guard let data = res.data as? ChatsData else { return }
         if self.user == nil, let userData =  data.receiveUser{
-            self.user = User().setData(data: userData)
-            self.userName = self.user?.currentProfile.nickName
+            //withAnimation{
+                self.user = User().setData(data: userData)
+                self.userName = self.user?.currentProfile.nickName
+            //}
         }
         if self.pet == nil, let petData = data.receivePet {
-            self.pet = PetProfile(data: petData)
+            //withAnimation{
+                self.pet = PetProfile(data: petData)
+            //}
         }
         self.loadedChatRoom(datas: data.chats ?? [])
     }

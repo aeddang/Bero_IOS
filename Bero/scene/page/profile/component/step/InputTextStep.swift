@@ -30,7 +30,6 @@ struct InputTextStep: PageComponent{
     @State var inputTypeIndex:Int = 0
     @State var isEditing:Bool = false
     @State var isShowing = false
-    @State var limitedTextLength:Int = 100
     var body: some View {
         ZStack(alignment: .bottom){
             Spacer().modifier(MatchParent())
@@ -52,7 +51,7 @@ struct InputTextStep: PageComponent{
                     placeHolder: self.step.placeHolder,
                     tip: self.tip,
                     isFocus: self.isEditing,
-                    limitedTextLength:self.limitedTextLength,
+                    limitedTextLength:self.step.limitedTextLength,
                     keyboardType: self.step.keyboardType,
                     autocapitalizationType: self.step.autocapitalizationType,
                     onFocus: {
@@ -146,20 +145,7 @@ struct InputTextStep: PageComponent{
         switch self.step {
         case .name :
             self.input = self.profile?.name ?? ""
-            self.limitedTextLength = 20
-        /*
-        case .identify :
-            if self.navigationModel.index == 0 {
-                self.input = self.profile?.animalId ?? ""
-                self.inputTypeIndex = 0
-                self.limitedTextLength = 15
-            } else {
-                self.input = self.profile?.microchip ?? ""
-                self.inputTypeIndex = 1
-                self.limitedTextLength = 9
-                
-            }
-        */
+        
         default : break
         }
     }
