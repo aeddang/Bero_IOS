@@ -577,6 +577,7 @@
 		318A401529BA08B300CAB182 /* tutorial_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial_2.json; sourceTree = "<group>"; };
 		318A401629BA08B400CAB182 /* tutorial_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tutorial_1.json; sourceTree = "<group>"; };
 		318A401929BA08BA00CAB182 /* welcome_gift_box.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = welcome_gift_box.json; sourceTree = "<group>"; };
+		318C5FD52A0B078100F50A80 /* BeroLockScreenExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeroLockScreenExtensionDebug.entitlements; sourceTree = "<group>"; };
 		318CC2E229A3749A009A0072 /* AlarmApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmApiData.swift; sourceTree = "<group>"; };
 		318D200629986019009764CF /* RecommendationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationApi.swift; sourceTree = "<group>"; };
 		318D200829986116009764CF /* BeroApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeroApiData.swift; sourceTree = "<group>"; };
@@ -1393,6 +1394,7 @@
 		31D91D2C287257B3001C2738 = {
 			isa = PBXGroup;
 			children = (
+				318C5FD52A0B078100F50A80 /* BeroLockScreenExtensionDebug.entitlements */,
 				31E73C572957273600173B1C /* BeroLockScreenExtension.entitlements */,
 				31BAA3F328FCEC2A008155DD /* resources */,
 				31BF82C928E8400D00F9604C /* sound */,
@@ -2975,7 +2977,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 94;
+				CURRENT_PROJECT_VERSION = 95;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
@@ -3029,7 +3031,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 94;
+				CURRENT_PROJECT_VERSION = 95;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
@@ -3159,10 +3161,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtensionDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeroLockScreen/Info.plist;
@@ -3195,7 +3197,7 @@
 				CODE_SIGN_ENTITLEMENTS = BeroLockScreenExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeroLockScreen/Info.plist;

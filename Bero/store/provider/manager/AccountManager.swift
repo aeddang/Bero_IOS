@@ -40,14 +40,10 @@ class AccountManager : PageProtocol{
             self.user.representativePetChanged(petId: petId)
             
         case .updatePet(let petId, let data):
-            if let pet = self.user.pets.first(where: {$0.petId == petId}) {
-                pet.update(data: data)
-            }
+            self.user.updatedPet(petId: petId, data: data)
             
         case .updatePetImage(let petId, let data):
-            if let pet = self.user.pets.first(where: {$0.petId == petId}) {
-                pet.update(image: data)
-            }
+            self.user.updatedPet(petId: petId, data: .init(image: data))
         case .deletePet(let petId):
             self.user.deletePet(petId: petId)
         

@@ -29,24 +29,24 @@ class User:ObservableObject, PageProtocol, Identifiable{
     private(set) var exerciseDuration:Double = 0
     private(set) var exerciseDistance:Double = 0
     private(set) var totalWalkCount: Int = 0
-    private(set) var currentProfile:UserProfile = UserProfile(isMine: true)
+    private(set) var currentProfile:UserProfile
    
     private(set) var pets:[PetProfile] = []
     private(set) var snsUser:SnsUser? = nil
     private(set) var finalGeo:GeoData? = nil
     private(set) var isMe:Bool = false
-    private(set) var characterIdx:Int = 0
     @Published private(set) var representativePet:PetProfile? = nil
     var currentPet:PetProfile? = nil
     
     init(isMe:Bool = false) {
         self.isMe = isMe
+        self.currentProfile = UserProfile(isMine: isMe)
     }
     var userId:String? {
         return  self.snsUser?.snsID ?? (self.currentProfile.userId.isEmpty ?  nil : self.currentProfile.userId)
     }
     var representativeName:String {
-        return  self.representativePet?.name ?? self.currentProfile.nickName ?? "bero user"
+        return  self.representativePet?.name ?? self.currentProfile.nickName ?? "Bero user"
     }
     var representativeImage:String? {
         return  self.representativePet?.imagePath ?? self.currentProfile.imagePath
@@ -73,7 +73,7 @@ class User:ObservableObject, PageProtocol, Identifiable{
     }
     func clearUser(){
         self.snsUser = nil
-        self.currentProfile = UserProfile(isMine: true)
+        self.currentProfile = UserProfile(isMine: isMe)
     }
     func registUser(id:String?, token:String?, code:String?){
         DataLog.d("id " + (id ?? ""), tag: self.tag)
@@ -141,7 +141,6 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.exerciseDuration = data.exerciseDuration ?? 0
         self.currentProfile.setData(data: data)
         self.currentProfile.setLv(self.lv)
-        self.characterIdx = Int.random(in: 0...(Asset.character.rand.count-1))
         self.event = .updatedProfile(self.currentProfile)
         return self
     }
@@ -164,12 +163,20 @@ class User:ObservableObject, PageProtocol, Identifiable{
         self.event = .deletedDog(pet)
     }
     
+    
     func registPetComplete(profile:PetProfile)  {
         self.pets.append(profile)
         if profile.isRepresentative {
             self.representativePet = profile
         }
         self.event = .addedDog(profile)
+    }
+    func updatedPet(petId:Int, data:ModifyPetProfileData) {
+        guard let find = self.pets.first(where: {$0.petId == petId}) else {
+            return
+        }
+        find.update(data: data)
+        self.event = .updatedDog(find)
     }
     
     func representativePetChanged(petId:Int){
