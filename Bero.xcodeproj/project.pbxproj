@@ -1260,6 +1260,7 @@
 			isa = PBXGroup;
 			children = (
 				31BF830428ED4D3100F9604C /* AgreeButton.swift */,
+				31BBE44528C2FEAD006C3C84 /* LvButton.swift */,
 				31C3F2C628C80F8400EFF7F4 /* FriendButton.swift */,
 			);
 			path = button;
@@ -1339,7 +1340,6 @@
 		31C7A91628C2C2410010D045 /* component */ = {
 			isa = PBXGroup;
 			children = (
-				31BBE44528C2FEAD006C3C84 /* LvButton.swift */,
 				31BCF3B328C411B5004605CF /* LvSection.swift */,
 				3145FFA529979E7300B39AEF /* PointSection.swift */,
 				316B77A028BAEE410090E924 /* FriendSection.swift */,

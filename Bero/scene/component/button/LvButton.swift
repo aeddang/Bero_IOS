@@ -11,7 +11,6 @@ import FirebaseAnalytics
 struct LvButton: View, SelecterbleProtocol, PageProtocol{
     enum ButtonType{
         case small, big, tiny
-        
         var size:CGFloat{
             switch self {
             case .big : return Dimen.profile.heavyExtra
@@ -38,7 +37,6 @@ struct LvButton: View, SelecterbleProtocol, PageProtocol{
     var type:ButtonType = .small
     var text:String? = nil
     var defaultColor:Color = Color.app.grey100
-    var activeColor:Color? = nil
     var isSelected: Bool = true
     var index: Int = -1
     let action: (_ idx:Int) -> Void
@@ -60,7 +58,7 @@ struct LvButton: View, SelecterbleProtocol, PageProtocol{
                     .scaledToFit()
                     .frame(width: self.type.size, height: self.type.size)
                     .foregroundColor(self.isSelected
-                                     ? self.activeColor ?? self.lv.color
+                                     ? self.lv.color
                                      : self.defaultColor)
                     
                 if let text = self.text {
