@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 
 struct PetProfileInfo: PageComponent{
-    @EnvironmentObject var pagePresenter:PagePresenter
     var profile:PetProfile
     var sizeType:HorizontalProfile.SizeType = .big
     var action: (() -> Void) 
@@ -22,7 +21,6 @@ struct PetProfileInfo: PageComponent{
 }
 
 struct PetProfileUser: PageComponent{
-    @EnvironmentObject var pagePresenter:PagePresenter
     var profile:PetProfile
     var friendStatus:FriendStatus? = nil
     var distance:Double? = nil
@@ -43,7 +41,6 @@ struct PetProfileUser: PageComponent{
 }
 
 struct PetProfileEditable: PageComponent{
-    @EnvironmentObject var pagePresenter:PagePresenter
     var profile:PetProfile
     var sizeType:HorizontalProfile.SizeType = .small
     var funcType:HorizontalProfile.FuncType = .delete
@@ -61,7 +58,6 @@ struct PetProfileEditable: PageComponent{
 }
 
 struct PetProfileEmpty: PageComponent{
-    @EnvironmentObject var pagePresenter:PagePresenter
     var description:String? = String.pageText.addDogEmpty
     var action: (() -> Void)
     var body: some View {
@@ -81,7 +77,6 @@ struct PetProfileEmpty: PageComponent{
 
 
 struct PetProfileBody: PageComponent{
-    @EnvironmentObject var pagePresenter:PagePresenter
     var profile:PetProfile
     var sizeType:HorizontalProfile.SizeType = .big
     var funcType:HorizontalProfile.FuncType? = nil

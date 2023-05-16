@@ -8,7 +8,7 @@ struct PetHistorySection: PageComponent{
     @ObservedObject var profile:PetProfile
     var body: some View {
         VStack(spacing:Dimen.margin.regularExtra){
-            TitleTab(type:.section, title: String.pageTitle.history){ type in }
+            TitleTab(type:.section, title: String.pageTitle.history)
             if self.profile.isMypet {
                 Button(action: {
                     self.user.currentPet = profile

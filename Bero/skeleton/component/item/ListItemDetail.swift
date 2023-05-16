@@ -117,6 +117,7 @@ struct ListDetailItem: PageComponent{
             .clipped()
             HStack(spacing:0){
                 if let likeCount = self.likeCount {
+                
                     SortButton(
                         type: .stroke,
                         sizeType: self.likeSize,
@@ -203,19 +204,20 @@ struct ListDetailItem_Previews: PreviewProvider {
         VStack{
             ListDetailItem(
                 id: "",
-                imgSize: CGSize(width: 240, height: 240),
+                imgSize: CGSize(width: 320, height: 240),
                 title: "title",
                 subTitle: "subTitle",
                 icon: Asset.icon.paw,
                 iconText: "Walk",
                 likeCount:0,
                 isLike: true,
+                isShared: false,
                 pets: [
                     PetProfile(data: PetData(), isMyPet: false, index: 0),
                     PetProfile(data: PetData(), isMyPet: false, index: 1),
-                    PetProfile(data: PetData(), isMyPet: false, index: 2),
-                    PetProfile(data: PetData(), isMyPet: false, index: 3)
+                    PetProfile(data: PetData(), isMyPet: false, index: 2)
                 ]
+                
             ){
                 
             }

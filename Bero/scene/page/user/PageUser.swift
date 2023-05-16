@@ -103,7 +103,7 @@ struct PageUser: PageView {
                                 )
                                 .padding(.horizontal, Dimen.app.pageHorinzontal)
                             }
-                            MyPlayInfo(user: user){ type in
+                            UserPlayInfo(user: user){ type in
                                 switch type {
                                 case .value(let valueType, _) :
                                     switch valueType {

@@ -40,8 +40,6 @@ struct MyHistorySection: PageComponent{
     }
     @State var walkDistance:Double = 0
     @State var walkDescription:String = ""
-    @State var missionDistance:Double = 0
-    @State var missionDescription:String = ""
     
     private func update(){
         let user = self.dataProvider.user

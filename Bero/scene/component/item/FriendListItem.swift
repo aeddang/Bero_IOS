@@ -93,7 +93,6 @@ struct FriendListItem: PageComponent{
                     data: self.data,
                     imgSize: self.imgSize,
                     isMe: self.isMe,
-                    status: self.status,
                     currentStatus: self.currentStatus,
                     action: self.action)
             } else {
@@ -101,7 +100,6 @@ struct FriendListItem: PageComponent{
                     data: self.data,
                     imgSize: self.imgSize,
                     isMe: self.isMe,
-                    status: self.status,
                     currentStatus: self.currentStatus,
                     action: self.action)
             }
@@ -139,11 +137,9 @@ struct FriendListItem: PageComponent{
 
 
 struct FriendListItemBodyHorizontal: PageComponent{
-    @EnvironmentObject var dataProvider:DataProvider
     let data:FriendListItemData
     let imgSize:CGFloat
     let isMe:Bool
-    var status:FriendStatus? = nil
     var currentStatus:FriendStatus? = nil
     var action: (() -> Void)
     var body: some View {
@@ -174,7 +170,6 @@ struct FriendListItemBodyVertical: PageComponent{
     let data:FriendListItemData
     let imgSize:CGFloat
     let isMe:Bool
-    var status:FriendStatus? = nil
     var currentStatus:FriendStatus? = nil
     var action: (() -> Void)
     var body: some View {
@@ -182,7 +177,7 @@ struct FriendListItemBodyVertical: PageComponent{
             HorizontalProfile(
                 type: self.data.lv == nil ? .multi(imgPath: self.data.subImagePath) : .pet,
                 sizeType: .small,
-                funcType: self.status?.useMore == true ? .moreFunc : nil,   // .view(self.data.unreadCount.description),
+                funcType: self.currentStatus?.useMore == true ? .moreFunc : nil,   // .view(self.data.unreadCount.description),
                 userId: self.isMe ? self.data.userId : nil,
                 friendStatus: self.currentStatus,
                 imagePath: self.data.imagePath,

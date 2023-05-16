@@ -43,7 +43,7 @@ struct MyDogsSection: PageComponent{
         .onReceive(self.dataProvider.user.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
-            case .addedDog, .deletedDog,. updatedProfile: self.update()
+            case .addedDog, .deletedDog, .updatedProfile: self.update()
             default : break
             }
         }

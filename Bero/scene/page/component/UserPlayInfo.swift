@@ -1,8 +1,8 @@
 import Foundation
 import SwiftUI
 
-struct MyPlayInfo: PageComponent{
-    @EnvironmentObject var pagePresenter:PagePresenter
+struct UserPlayInfo: PageComponent{
+    
     @EnvironmentObject var dataProvider:DataProvider
     var user:User? = nil
     var action: ((ValueBox.ValueType) -> Void)? = nil
@@ -12,6 +12,7 @@ struct MyPlayInfo: PageComponent{
             action: self.action
         )
         .onReceive(self.dataProvider.user.$event){ evt in
+            if self.user != nil {return}
             guard let evt = evt else {return}
             switch evt {
             case .updatedLvData : self.updated()

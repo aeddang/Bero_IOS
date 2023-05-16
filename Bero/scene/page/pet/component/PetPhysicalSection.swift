@@ -17,7 +17,6 @@ struct PetPhysicalSection: PageComponent{
                     )
                 default : break
                 }
-                
             }
             HStack(spacing:Dimen.margin.thin){
                 PropertyInfo(
@@ -55,7 +54,6 @@ struct PetPhysicalSection: PageComponent{
                         .modifier(RegularTextStyle(
                             size: Font.size.thin, color: Color.app.grey500))
                         .fixedSize()
-                    
                 }
             }
         }

@@ -9,8 +9,6 @@ import Foundation
 import SwiftUI
 import struct Kingfisher.KFImage
 struct ProfileImage:PageView{
-    @EnvironmentObject var pagePresenter:PagePresenter
-    @EnvironmentObject var appSceneObserver:AppSceneObserver
     var id:String = UUID().uuidString
     var image:UIImage? = nil
     var imagePath:String? = nil
@@ -93,7 +91,6 @@ struct ProfileImage:PageView{
 }
 
 struct ProfileInfoDescription:PageView{
-    @EnvironmentObject var pagePresenter:PagePresenter
     var id:String
     var age:String? = nil
     var breed:String? = nil

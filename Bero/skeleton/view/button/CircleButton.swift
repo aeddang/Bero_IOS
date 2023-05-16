@@ -107,6 +107,12 @@ struct CircleButton_Previews: PreviewProvider {
             strokeWidth: 2){_ in
                 
             }
+            CircleButton(
+                type: .image("Lv99"),
+            isSelected: true,
+            strokeWidth: 2){_ in
+                
+            }
         }
         .padding(.all, 10)
         .background(Color.app.whiteDeep)

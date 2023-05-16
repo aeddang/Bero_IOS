@@ -24,7 +24,6 @@ extension FriendButton {
             case .accept: return Asset.icon.check
             case .reject: return Asset.icon.close
             case .move: return Asset.icon.search
-            default : return nil
             }
         }
         var bgColor:Color{
@@ -102,7 +101,7 @@ struct FriendButton: PageComponent{
             CircleButton(
                 type: self.funcType.icon != nil ? .icon(self.funcType.icon!) : .tiny,
                 isSelected: true,
-                strokeWidth: 2,
+                strokeWidth: Dimen.stroke.regular,
                 activeColor: self.funcType.iconColor
             ){_ in
                 self.action()

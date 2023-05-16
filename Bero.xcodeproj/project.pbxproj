@@ -71,7 +71,7 @@
 		3151DD2E28CF320500641BCC /* PopupChooseDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2D28CF320500641BCC /* PopupChooseDog.swift */; };
 		3151DD3028CF35E500641BCC /* PetProfileCheckItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */; };
 		316B777E28B982F80090E924 /* UserProfileTopInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B777D28B982F80090E924 /* UserProfileTopInfo.swift */; };
-		316B778128B98E470090E924 /* MyPlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778028B98E470090E924 /* MyPlayInfo.swift */; };
+		316B778128B98E470090E924 /* UserPlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778028B98E470090E924 /* UserPlayInfo.swift */; };
 		316B778328B996410090E924 /* DistanceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778228B996410090E924 /* DistanceItem.swift */; };
 		316B778528B99C360090E924 /* MyHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778428B99C360090E924 /* MyHistorySection.swift */; };
 		316B778728B9EAE70090E924 /* FriendApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778628B9EAE70090E924 /* FriendApi.swift */; };
@@ -541,7 +541,7 @@
 		3151DD2D28CF320500641BCC /* PopupChooseDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupChooseDog.swift; sourceTree = "<group>"; };
 		3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileCheckItem.swift; sourceTree = "<group>"; };
 		316B777D28B982F80090E924 /* UserProfileTopInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTopInfo.swift; sourceTree = "<group>"; };
-		316B778028B98E470090E924 /* MyPlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayInfo.swift; sourceTree = "<group>"; };
+		316B778028B98E470090E924 /* UserPlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPlayInfo.swift; sourceTree = "<group>"; };
 		316B778228B996410090E924 /* DistanceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceItem.swift; sourceTree = "<group>"; };
 		316B778428B99C360090E924 /* MyHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHistorySection.swift; sourceTree = "<group>"; };
 		316B778628B9EAE70090E924 /* FriendApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendApi.swift; sourceTree = "<group>"; };
@@ -1259,9 +1259,9 @@
 		31C3F2C828C80FFD00EFF7F4 /* button */ = {
 			isa = PBXGroup;
 			children = (
+				31C3F2C628C80F8400EFF7F4 /* FriendButton.swift */,
 				31BF830428ED4D3100F9604C /* AgreeButton.swift */,
 				31BBE44528C2FEAD006C3C84 /* LvButton.swift */,
-				31C3F2C628C80F8400EFF7F4 /* FriendButton.swift */,
 			);
 			path = button;
 			sourceTree = "<group>";
@@ -1284,7 +1284,6 @@
 		31C6373228A875E4008EA54C /* component */ = {
 			isa = PBXGroup;
 			children = (
-				316B778028B98E470090E924 /* MyPlayInfo.swift */,
 				31C6373D28A88AB4008EA54C /* MyDogsSection.swift */,
 				316B778428B99C360090E924 /* MyHistorySection.swift */,
 			);
@@ -1340,6 +1339,7 @@
 		31C7A91628C2C2410010D045 /* component */ = {
 			isa = PBXGroup;
 			children = (
+				316B778028B98E470090E924 /* UserPlayInfo.swift */,
 				31BCF3B328C411B5004605CF /* LvSection.swift */,
 				3145FFA529979E7300B39AEF /* PointSection.swift */,
 				316B77A028BAEE410090E924 /* FriendSection.swift */,
@@ -2567,7 +2567,7 @@
 				31D92005287271C1001C2738 /* dimens.swift in Sources */,
 				31D92008287271C1001C2738 /* CPImagePicker.swift in Sources */,
 				31BCF3C128C459E0004605CF /* ReportText.swift in Sources */,
-				316B778128B98E470090E924 /* MyPlayInfo.swift in Sources */,
+				316B778128B98E470090E924 /* UserPlayInfo.swift in Sources */,
 				31D9202C287271C1001C2738 /* Line.swift in Sources */,
 				316B77BA28BB4D030090E924 /* PetPhysicalSection.swift in Sources */,
 				31D91E8E28725834001C2738 /* IndexMap.swift in Sources */,
