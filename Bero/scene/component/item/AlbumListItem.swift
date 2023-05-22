@@ -148,35 +148,33 @@ struct AlbumListDetailItem: PageComponent{
     @State var isExpose:Bool = false
     var body: some View {
         ZStack(alignment: .topTrailing){
-            ZStack(alignment: .bottomTrailing){
-                ListDetailItem(
-                    id: self.data.id,
-                    imagePath: self.data.imagePath,
-                    imgSize: self.imgSize,
-                    icon: self.data.type?.icon,
-                    likeCount: self.likeCount,
-                    isLike: self.isLike,
-                    likeSize: .small,
-                    isShared: self.user?.isMe == true ? self.isExpose : nil,
-                    isOriginSize: self.isOriginSize,
-                    iconAction:{
-                        self.pagePresenter.openPopup(
-                            PageProvider.getPageObject(.walkInfo)
-                                .addParam(key: .id, value: self.data.walkId)
-                                .addParam(key: .data, value: self.user ?? self.userProfile)
-                        )
-                    },
-                    likeAction:{
-                        self.dataProvider.requestData(
-                            q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
-                    },
-                    shareAction: {
-                        self.dataProvider.requestData(
-                            q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isExpose: !self.data.isExpose)))
-                    }
-                )
-                
-            }
+            ListDetailItem(
+                id: self.data.id,
+                imagePath: self.data.imagePath,
+                imgSize: self.imgSize,
+                icon: self.data.type?.icon,
+                likeCount: self.likeCount,
+                isLike: self.isLike,
+                likeSize: .small,
+                isShared: self.user?.isMe == true ? self.isExpose : nil,
+                isOriginSize: self.isOriginSize,
+                iconAction:{
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.walkInfo)
+                            .addParam(key: .id, value: self.data.walkId)
+                            .addParam(key: .data, value: self.user ?? self.userProfile)
+                    )
+                },
+                likeAction:{
+                    self.dataProvider.requestData(
+                        q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isLike: !self.data.isLike)))
+                },
+                shareAction: {
+                    self.dataProvider.requestData(
+                        q: .init( type: .updateAlbumPicture(pictureId: self.data.pictureId , isExpose: !self.data.isExpose)))
+                }
+            )
+            
             if self.isEdit {
                 CircleButton(
                     type: .icon(Asset.icon.delete),

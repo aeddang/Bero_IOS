@@ -56,7 +56,7 @@ struct AlarmListItem: PageComponent{
     @Binding var isEdit:Bool
     @State var isDelete:Bool = false
     var body: some View {
-        HStack{
+        HStack(spacing: 0){
             HorizontalProfile(
                 id: "",
                 type: .pet,

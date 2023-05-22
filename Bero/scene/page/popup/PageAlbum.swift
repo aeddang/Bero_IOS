@@ -16,9 +16,7 @@ import FirebaseCore
 import GoogleSignInSwift
 
 struct PageAlbum: PageView {
-    enum ViewType{
-        case info, album
-    }
+    
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var pageSceneObserver:PageSceneObserver
     @EnvironmentObject var appObserver:AppObserver
@@ -101,7 +99,7 @@ struct PageAlbum: PageView {
                     self.currentId = id.description
                     self.currentType = .pet
                 } else {
-                    self.currentId = self.user?.snsUser?.snsID ?? ""
+                    self.currentId = self.user?.userId ?? ""
                     self.currentType = .user
                 }
             }

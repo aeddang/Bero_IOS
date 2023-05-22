@@ -62,6 +62,7 @@ struct UserAlbumListItem: PageComponent{
                     )
                     .padding(.vertical, Dimen.margin.regularExtra)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    .zIndex(99)
                 } else {
                     UserProfileItem(
                         data: user,
@@ -76,6 +77,7 @@ struct UserAlbumListItem: PageComponent{
                     )
                     .padding(.vertical, Dimen.margin.regularExtra)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    .zIndex(99)
                 }
             }
             if let albumData = self.data.albumData{
@@ -87,6 +89,7 @@ struct UserAlbumListItem: PageComponent{
                                 //.addParam(key: .userData, value: self.data.userProfile)
                         )
                     }
+                    
             }
         }
         

@@ -9,7 +9,6 @@ struct FriendFunctionBox: PageComponent{
     var userId:String
     var userName:String? = nil
     var status:FriendStatus = .norelation
-    var isSimple:Bool = false
     var body: some View {
         HStack(spacing:Dimen.margin.micro){
             ForEach(self.currentStatus.buttons.filter{$0 != .delete}, id:\.rawValue){ btn in

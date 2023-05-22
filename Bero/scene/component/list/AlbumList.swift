@@ -13,7 +13,7 @@ extension AlbumList {
     enum  ListType{
         case detail, normal
         
-        var raw:Int{
+        var row:Int{
             switch self {
             case .detail : return 1
             default : return AlbumList.row
@@ -188,8 +188,8 @@ struct AlbumList: PageComponent{
         
         self.resetScroll()
         let w = (self.listSize
-                 - (Dimen.margin.regularExtra * CGFloat(self.type.raw-1))
-                 - (self.type.marginHorizontal*2)) / CGFloat(self.type.raw)
+                 - (Dimen.margin.regularExtra * CGFloat(self.type.row-1))
+                 - (self.type.marginHorizontal*2)) / CGFloat(self.type.row)
         self.albumSize = CGSize(width: w, height: w * Dimen.item.albumList.height / Dimen.item.albumList.width)
         self.loadAlbum()
         

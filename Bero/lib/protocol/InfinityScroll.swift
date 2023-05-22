@@ -74,7 +74,7 @@ class InfinityScrollModel:ComponentObservable{
     var initIndex:Int? = nil
     let idstr:String = UUID().uuidString
     let topIdx:Int = UUID.init().hashValue
-    var size = 20
+    var size = ApiConst.pageSize
     var isLoadable:Bool {
         get {
             return !self.isLoading && !self.isCompleted

@@ -98,7 +98,6 @@ struct FriendListItem: PageComponent{
             } else {
                 FriendListItemBodyVertical(
                     data: self.data,
-                    imgSize: self.imgSize,
                     isMe: self.isMe,
                     currentStatus: self.currentStatus,
                     action: self.action)
@@ -168,7 +167,6 @@ struct FriendListItemBodyVertical: PageComponent{
     @EnvironmentObject var appSceneObserver:AppSceneObserver
     @EnvironmentObject var dataProvider:DataProvider
     let data:FriendListItemData
-    let imgSize:CGFloat
     let isMe:Bool
     var currentStatus:FriendStatus? = nil
     var action: (() -> Void)

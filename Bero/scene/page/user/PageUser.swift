@@ -28,7 +28,7 @@ struct PageUser: PageView {
     @ObservedObject var pageDragingModel:PageDragingModel = PageDragingModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
-    let buttons = [String.button.album, String.button.information]
+   
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(
@@ -307,7 +307,7 @@ struct PageUser: PageView {
     
     private func block(){
         self.appSceneObserver.sheet = .select(
-            String.alert.blockUserConfirm.replace(self.user?.currentProfile.nickName ?? ""),
+            String.alert.blockUserConfirm.replace(self.user?.representativeName ?? ""),
             String.alert.blockUserConfirmText,
             [String.app.cancel,String.button.block],
             isNegative: true){ idx in
