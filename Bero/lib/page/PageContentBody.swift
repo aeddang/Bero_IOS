@@ -187,6 +187,7 @@ struct PageContentBody: PageView  {
             self.childView?.disAppear()
             self.pageObservable.status = .disAppear
             PageLog.log("onDisappear",tag:self.pageID)
+            self.sceneObserver.event = .changed
         }
     }
     
