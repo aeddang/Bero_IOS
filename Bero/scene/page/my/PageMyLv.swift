@@ -5,7 +5,6 @@
 //  Created by JeongCheol Kim on 2020/05/29.
 //  Copyright © 2020 JeongCheol Kim. All rights reserved.
 //
-
 import Foundation
 import SwiftUI
 import WebKit
@@ -69,16 +68,11 @@ struct PageMyLv: PageView {
                 .modifier(PageDraging(geometry: geometry, pageDragingModel: self.pageDragingModel))
                 
             }//draging
-            
-            
             .onAppear(){
                
             }
         }//GeometryReader
-       
     }//body
-    
-   
 }
 
 

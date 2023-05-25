@@ -33,7 +33,7 @@ class UserApi :Rest{
             if let value = modifyData.nickName { data.append(value: value, name: "name") }
             if let value = modifyData.birth?.toDateFormatter() { data.append(value: value.subString(start: 0, len: 19), name: "birthdate") }
             if let value = modifyData.gender?.apiDataKey { data.append(value: value, name: "sex") }
-            if let value = modifyData.introduction { data.append(value: value, name: " introduce") }
+            if let value = modifyData.introduction { data.append(value: value, name: "introduce") }
 
             if let value = modifyData.image?.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "profileImage.jpg",mimeType:"image/jpeg")

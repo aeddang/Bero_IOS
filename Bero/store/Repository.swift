@@ -292,6 +292,7 @@ class Repository:ObservableObject, PageProtocol{
         self.accountManager.respondApi(res, appSceneObserver: self.appSceneObserver)
         self.walkManager.respondApi(res)
         switch res.type {
+        case .deleteUser : self.clearLogin()
         case .registPush(let token) : self.registedPushToken(token)
         case .getChatRooms(let page, _) : if page == 0 { self.onMassageUpdated(res) }
         case .getAlarm(let page, _) : if page == 0 { self.onAlarmUpdated(res) }

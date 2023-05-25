@@ -64,7 +64,6 @@ struct UserProfilePictureEdit: PageComponent{
                     self.onEdit(img: thumbImage)
                 }
             }
-           
         }
     }
     

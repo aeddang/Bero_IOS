@@ -23,7 +23,6 @@ struct PageAlarm: PageView {
     @ObservedObject var navigationModel:NavigationModel = NavigationModel()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     
-    let buttons = [String.button.information, String.button.album]
     var body: some View {
         GeometryReader { geometry in
             PageDragingBody(

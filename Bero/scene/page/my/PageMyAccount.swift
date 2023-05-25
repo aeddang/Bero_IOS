@@ -106,13 +106,14 @@ struct PageMyAccount: PageView {
                     self.appSceneObserver.alert = .alert(nil, String.alert.deleteAccounErrorAnotherSns)
                 }
             }
+            /*
             .onReceive(self.dataProvider.$result){res in
                 guard let res = res else { return }
                 switch res.type {
-                case .deleteUser : self.signout()
+                case .deleteUser :  self.repository.clearLogin()
                 default : break
                 }
-            }
+            }*/
             
             
         }//GeometryReader
