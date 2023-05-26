@@ -14,11 +14,7 @@ struct AlramData{
 }
 
 struct AlarmManager {
-    static func sendWalkEvent(_ evt:WalkEvent){
-        guard let title  = evt.pushTitle else {return}
-        Self.sendLocalPush(data: .init(title: title, text: evt.pushText),
-                           movePage: IwillGo(with: PageProvider.getPageObject(.walk)).stringfy())
-    }
+    
     static func sendLocalPush(data:AlramData, movePage:String? = nil){
         let push = UNMutableNotificationContent()
         push.title = data.title ?? ""

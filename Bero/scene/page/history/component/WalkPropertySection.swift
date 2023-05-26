@@ -79,8 +79,8 @@ struct PetWalkPropertySection: PageComponent{
             )
         }
         .onAppear{
-            let d = self.profile.exerciseDistance ?? 0
-            let dr = self.profile.exerciseDuration ?? 0
+            let d = self.profile.exerciseDistance
+            let dr = self.profile.exerciseDuration
             self.distance = WalkManager.viewDistance(d)
             self.duration = WalkManager.viewDuration(dr)
             let dh = dr/3600

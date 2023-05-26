@@ -11,25 +11,50 @@ import SwiftUI
 
 struct EmptyItem: PageComponent{
     enum ListType{
-        case myList
+        case myList, chat
         var image:String?{
             switch self {
             case .myList : return Asset.icon.paw
+            case .chat : return Asset.image.addDog
             }
         }
-        var height:CGFloat{
+        
+        var imageMode:Image.TemplateRenderingMode{
             switch self {
-            case .myList : return 92
+            case .myList : return .template
+            case .chat : return .original
+            }
+        }
+        
+        var imageHeight:CGFloat{
+            switch self {
+            case .myList : return Dimen.icon.medium
+            case .chat : return 104
+            }
+        }
+        
+        var spacing:CGFloat{
+            switch self {
+            case .myList : return Dimen.margin.tinyExtra
+            case .chat : return Dimen.margin.medium
             }
         }
         var text:String?{
             switch self {
             case .myList : return "It’s empty!"
+            case .chat : return "Looks like you haven't started any conversations yet! Add friends to your list and start new chats."
+            }
+        }
+        var bgColor:Color{
+            switch self {
+            case .myList : return Color.app.grey50
+            case .chat : return Color.transparent.clear
             }
         }
         var radius:CGFloat{
             switch self {
             case .myList : return Dimen.radius.light
+            case .chat : return 0
             }
         }
     }
@@ -37,24 +62,25 @@ struct EmptyItem: PageComponent{
     var type:ListType = .myList
     var body: some View {
         ZStack{
-            VStack(spacing:Dimen.margin.tinyExtra){
+            VStack(spacing:self.type.spacing){
                 if let img = self.type.image{
                     Image(img)
-                        .renderingMode(.template)
+                        .renderingMode(self.type.imageMode)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.app.grey200)
-                        .frame(width: Dimen.icon.medium, height: Dimen.icon.medium)
+                        .modifier(MatchHorizontal(height: self.type.imageHeight))
                 }
                 if let text = self.type.text{
                     Text(text)
                         .modifier(RegularTextStyle(
                             size: Font.size.thin,color: Color.app.grey300))
+                        .multilineTextAlignment(.center)
                 }
             }
+            .padding(.all, Dimen.margin.regular)
         }
-        .modifier(MatchHorizontal(height: self.type.height))
-        .background(Color.app.grey50)
+        .background(self.type.bgColor)
         .clipShape(RoundedRectangle(cornerRadius: self.type.radius))
     }
 }

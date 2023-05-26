@@ -22,7 +22,7 @@ struct PlaceView: PageComponent{
             PlaceInfo(
                 pageObservable: self.pageObservable,
                 sortIconPath: self.place.place?.icon,
-                sortTitle: self.place.sortType?.getTitle(type: .place),
+                sortTitle: self.place.category?.title,
                 title: self.place.title,
                 description: self.place.place?.vicinity,
                 distance: self.distance

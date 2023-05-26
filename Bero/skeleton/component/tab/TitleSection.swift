@@ -25,7 +25,6 @@ struct TitleSection: PageComponent{
     var title:String? = nil
     var trailer:String? = nil
     var color:Color = Color.app.black
-    var action: (() -> Void)? = nil
    
     var body: some View {
         HStack(spacing: Dimen.margin.regularExtra){
@@ -72,23 +71,17 @@ struct TitleSection_Previews: PreviewProvider {
                 header: "bero's",
                 title: "Strong",
                 trailer: "bero"
-            ){
-                
-            }
+            )
             TitleSection(
                 type:.small,
                 icon: Asset.icon.chart,
                 header: "bero's",
                 title: "small"
-            ){
-                
-            }
+            )
             TitleSection(
                 header: "bero's",
                 title: "TITLE"
-            ){
-                
-            }
+            )
             
             TitleSection(
                 title: "TITLE"

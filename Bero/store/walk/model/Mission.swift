@@ -86,13 +86,7 @@ class Mission:MapUserData,ObservableObject{
         return WalkManager.viewSpeed(spd)
     }
    
-    var allPoint:[CLLocation] {
-        var points:[CLLocation] = []
-        if let value = self.departure { points.append(value) }
-        points.append(contentsOf: self.waypoints)
-        if let value = self.location { points.append(value) }
-        return points
-    }
+    
     
     func start(location:CLLocation, walkDistance:Double) {
         self.departure = location

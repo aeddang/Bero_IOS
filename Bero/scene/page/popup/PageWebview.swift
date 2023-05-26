@@ -20,21 +20,22 @@ struct PageWebview: PageView {
             PageDragingBody(
                 pageObservable: self.pageObservable,
                 viewModel:self.pageDragingModel,
-                axis:.vertical
+                axis:.horizontal
             ) {
-                ZStack(alignment: .topTrailing){
+                VStack(spacing:0){
+                    TitleTab(
+                        title: self.title,
+                        useBack: true, action: { type in
+                            switch type {
+                            case .back : self.pagePresenter.closePopup(self.pageObject?.id)
+                            default : break
+                            }
+                        })
                     CustomWebView(
                         viewModel: self.webViewModel
                     )
                     .modifier(MatchParent())
-                    ImageButton(
-                        isSelected: false,
-                        defaultImage:Asset.icon.close,
-                        padding: Dimen.margin.tiny
-                    ){_ in
-                        self.pagePresenter.closePopup(self.pageObject?.id)
-                    }
-                    .padding(.all, Dimen.margin.regular)
+                        
                 }
                 .modifier(PageVertical())
                 .background(Color.brand.bg)
@@ -60,12 +61,16 @@ struct PageWebview: PageView {
                 if let link = obj.getParamValue(key: .link) as? String{
                     self.link = link
                 }
+                if let title = obj.getParamValue(key: .title) as? String{
+                    self.title = title
+                }
             }
             .onDisappear{
             }
             
         }//geo
     }//body
+    @State var title:String? = nil
     @State var link:String = ""
     
 }

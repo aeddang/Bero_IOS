@@ -159,8 +159,6 @@ class Repository:ObservableObject, PageProtocol{
     private func setupWalkManager(){
         self.walkManager.$event.sink(receiveValue: { evt in
             switch evt {
-            case .completedMission :
-                self.pagePresenter?.openPopup(PageProvider.getPageObject(.missionCompleted))
             case .completed :
                 self.pagePresenter?.openPopup(PageProvider.getPageObject(.walkCompleted))
             default: break
@@ -300,7 +298,7 @@ class Repository:ObservableObject, PageProtocol{
             self.appSceneObserver?.event = .toast(reportType.completeMessage)
         case .blockUser(_, let isBlock) :
             self.appSceneObserver?.event = .toast(isBlock ? String.alert.blockUserCompleted : String.alert.unblockUserCompleted)
-            self.walkManager.resetMapStatus(userFilter: .all)
+            self.walkManager.resetMapStatus()
         default : break
         }
         if let coreDatakey = res.type.coreDataKey(){

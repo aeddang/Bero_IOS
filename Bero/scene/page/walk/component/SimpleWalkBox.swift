@@ -64,7 +64,6 @@ struct SimpleWalkBox: PageComponent{
             nil,
             [String.app.cancel,String.button.finish]){ idx in
                 if idx == 1 {
-                    self.walkManager.endMission()
                     self.walkManager.completeWalk()
                 }
             }

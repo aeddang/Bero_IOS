@@ -191,14 +191,12 @@ struct PlayBox: PageComponent{
             self.appSceneObserver.alert  = .alert(nil,String.pageText.walkFinishCheckDistance.replace(WalkManager.minDistance.description))
             return
         }
-        self.walkManager.endMission()
         self.walkManager.completeWalk()
     }
     private func cancelWalk(){
         
         self.appSceneObserver.alert  = .confirm(nil, String.alert.completedExitConfirm){ isOk in
             
-            self.walkManager.endMission()
             if isOk {
                 self.walkManager.endWalk()
             }

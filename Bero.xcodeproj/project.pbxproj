@@ -117,8 +117,6 @@
 		318D201229987246009764CF /* LayoutAlignmentGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D201129987246009764CF /* LayoutAlignmentGroup.swift */; };
 		318D20132998724E009764CF /* LayoutAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D91FC2287271C1001C2738 /* LayoutAlignment.swift */; };
 		318D20142998727A009764CF /* LayoutAlignmentGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D201129987246009764CF /* LayoutAlignmentGroup.swift */; };
-		318D20182998A361009764CF /* MapPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D20172998A361009764CF /* MapPlaceView.swift */; };
-		318D201A2998A7ED009764CF /* MapPlaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 318D20192998A7ED009764CF /* MapPlaceView.xib */; };
 		318FF6F929A0F78D00C0492C /* AlramListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318FF6F829A0F78D00C0492C /* AlramListItem.swift */; };
 		318FF6FB29A0FB3500C0492C /* PageAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318FF6FA29A0FB3500C0492C /* PageAlarm.swift */; };
 		318FF6FD29A0FC3B00C0492C /* AlarmList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318FF6FC29A0FC3B00C0492C /* AlarmList.swift */; };
@@ -139,8 +137,6 @@
 		31B311E628D528B5001B539A /* PopupWalkPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311E528D528B5001B539A /* PopupWalkPlace.swift */; };
 		31B311E928D52DD0001B539A /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311E828D52DD0001B539A /* UserView.swift */; };
 		31B311EB28D53749001B539A /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EA28D53749001B539A /* PlaceView.swift */; };
-		31B311ED28D545E1001B539A /* PopupWalkMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EC28D545E1001B539A /* PopupWalkMission.swift */; };
-		31B311EF28D5460E001B539A /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311EE28D5460E001B539A /* MissionView.swift */; };
 		31B311F128D5727D001B539A /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311F028D5727D001B539A /* PlaceInfo.swift */; };
 		31B311F328D6146E001B539A /* MultiProfileListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B311F228D6146E001B539A /* MultiProfileListItem.swift */; };
 		31B3C865295BFAD1009CD1EB /* LockScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B3C864295BFAD1009CD1EB /* LockScreenManager.swift */; };
@@ -182,7 +178,6 @@
 		31BCF3CF28C59ACE004605CF /* ListItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3CE28C59ACE004605CF /* ListItemDetail.swift */; };
 		31BCF3D128C5B710004605CF /* UserAlbumListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D028C5B710004605CF /* UserAlbumListItem.swift */; };
 		31BCF3D628C5CD3D004605CF /* PageExplore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BCF3D528C5CD3D004605CF /* PageExplore.swift */; };
-		31BF82A628E8011900F9604C /* PlaceSortBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BF82A528E8011900F9604C /* PlaceSortBox.swift */; };
 		31BF82E228E84FE500F9604C /* ready.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82DC28E84FE500F9604C /* ready.mp3 */; };
 		31BF82E328E84FE500F9604C /* end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82DD28E84FE500F9604C /* end.mp3 */; };
 		31BF82E528E84FE600F9604C /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF82DF28E84FE500F9604C /* success.mp3 */; };
@@ -236,7 +231,6 @@
 		31D0E95628AA4DF50076D971 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D0E95528AA4DF50076D971 /* Route.swift */; };
 		31D4E2E728B0645700C3BA75 /* PlayMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */; };
 		31D4E2F228B0B97500C3BA75 /* PlaceProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */; };
-		31D4E2F628B1CC0C00C3BA75 /* PageMissionCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */; };
 		31D4E2FA28B1D0CC00C3BA75 /* ImageProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */; };
 		31D4E2FC28B284C500C3BA75 /* PageWalkCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */; };
 		31D6657D28CAEC4800765625 /* UserHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D6657C28CAEC4800765625 /* UserHistorySection.swift */; };
@@ -583,8 +577,6 @@
 		318D200829986116009764CF /* BeroApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeroApiData.swift; sourceTree = "<group>"; };
 		318D200C29986AAB009764CF /* LockScreenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenComponent.swift; sourceTree = "<group>"; };
 		318D201129987246009764CF /* LayoutAlignmentGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutAlignmentGroup.swift; sourceTree = "<group>"; };
-		318D20172998A361009764CF /* MapPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPlaceView.swift; sourceTree = "<group>"; };
-		318D20192998A7ED009764CF /* MapPlaceView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapPlaceView.xib; sourceTree = "<group>"; };
 		318FF6F829A0F78D00C0492C /* AlramListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlramListItem.swift; sourceTree = "<group>"; };
 		318FF6FA29A0FB3500C0492C /* PageAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAlarm.swift; sourceTree = "<group>"; };
 		318FF6FC29A0FC3B00C0492C /* AlarmList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmList.swift; sourceTree = "<group>"; };
@@ -605,8 +597,6 @@
 		31B311E528D528B5001B539A /* PopupWalkPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkPlace.swift; sourceTree = "<group>"; };
 		31B311E828D52DD0001B539A /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		31B311EA28D53749001B539A /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
-		31B311EC28D545E1001B539A /* PopupWalkMission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWalkMission.swift; sourceTree = "<group>"; };
-		31B311EE28D5460E001B539A /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
 		31B311F028D5727D001B539A /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
 		31B311F228D6146E001B539A /* MultiProfileListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProfileListItem.swift; sourceTree = "<group>"; };
 		31B3C864295BFAD1009CD1EB /* LockScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenManager.swift; sourceTree = "<group>"; };
@@ -641,7 +631,6 @@
 		31BCF3CE28C59ACE004605CF /* ListItemDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDetail.swift; sourceTree = "<group>"; };
 		31BCF3D028C5B710004605CF /* UserAlbumListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumListItem.swift; sourceTree = "<group>"; };
 		31BCF3D528C5CD3D004605CF /* PageExplore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageExplore.swift; sourceTree = "<group>"; };
-		31BF82A528E8011900F9604C /* PlaceSortBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSortBox.swift; sourceTree = "<group>"; };
 		31BF82DC28E84FE500F9604C /* ready.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ready.mp3; sourceTree = "<group>"; };
 		31BF82DD28E84FE500F9604C /* end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = end.mp3; sourceTree = "<group>"; };
 		31BF82DF28E84FE500F9604C /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = success.mp3; sourceTree = "<group>"; };
@@ -694,7 +683,6 @@
 		31D0E95528AA4DF50076D971 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		31D4E2E628B0645700C3BA75 /* PlayMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMapComponent.swift; sourceTree = "<group>"; };
 		31D4E2F128B0B97500C3BA75 /* PlaceProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceProfileInfo.swift; sourceTree = "<group>"; };
-		31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMissionCompleted.swift; sourceTree = "<group>"; };
 		31D4E2F928B1D0CC00C3BA75 /* ImageProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcess.swift; sourceTree = "<group>"; };
 		31D4E2FB28B284C500C3BA75 /* PageWalkCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageWalkCompleted.swift; sourceTree = "<group>"; };
 		31D6657C28CAEC4800765625 /* UserHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistorySection.swift; sourceTree = "<group>"; };
@@ -1018,7 +1006,6 @@
 		3143CD582888E7E500F1C88A /* walk */ = {
 			isa = PBXGroup;
 			children = (
-				31B8B1592965513100F2FA36 /* legercy */,
 				31EA349528AF8D37006A2C0A /* component */,
 				31E5B5BF28D300C300834A56 /* pop */,
 				3143CD592888E7F600F1C88A /* PageWalk.swift */,
@@ -1139,19 +1126,6 @@
 				31B868F429739EE000FAC9F1 /* WalkList.swift */,
 			);
 			path = list;
-			sourceTree = "<group>";
-		};
-		31B8B1592965513100F2FA36 /* legercy */ = {
-			isa = PBXGroup;
-			children = (
-				318D20172998A361009764CF /* MapPlaceView.swift */,
-				318D20192998A7ED009764CF /* MapPlaceView.xib */,
-				31B311EC28D545E1001B539A /* PopupWalkMission.swift */,
-				31BF82A528E8011900F9604C /* PlaceSortBox.swift */,
-				31B311EE28D5460E001B539A /* MissionView.swift */,
-				31D4E2F528B1CC0C00C3BA75 /* PageMissionCompleted.swift */,
-			);
-			path = legercy;
 			sourceTree = "<group>";
 		};
 		31BAA3F328FCEC2A008155DD /* resources */ = {
@@ -2298,7 +2272,6 @@
 				314E5EE22882BE63000EB910 /* Roboto-Light.ttf in Resources */,
 				31D920D82872B573001C2738 /* GoogleService-Info.plist in Resources */,
 				31BF82E928E8534300F9604C /* tick.mp3 in Resources */,
-				318D201A2998A7ED009764CF /* MapPlaceView.xib in Resources */,
 				31D91D3D287257B6001C2738 /* Assets.xcassets in Resources */,
 				318A401829BA08B400CAB182 /* tutorial_1.json in Resources */,
 				314E5EF12882BE63000EB910 /* Roboto-Bold.ttf in Resources */,
@@ -2459,7 +2432,6 @@
 				31D91E7C28725834001C2738 /* PageComponentProtocol.swift in Sources */,
 				31D92028287271C1001C2738 /* ListStyle.swift in Sources */,
 				31D92051287271C1001C2738 /* SpanText.swift in Sources */,
-				31BF82A628E8011900F9604C /* PlaceSortBox.swift in Sources */,
 				31BCF3BF28C459D1004605CF /* PageWalkReport.swift in Sources */,
 				31C3F2C528C7A1B200EFF7F4 /* PageFriend.swift in Sources */,
 				31D920BB28729CDC001C2738 /* VisionApi.swift in Sources */,
@@ -2519,7 +2491,6 @@
 				3151DD2928CE9AC000641BCC /* ChatBox.swift in Sources */,
 				31D91E7F28725834001C2738 /* AppUtil.swift in Sources */,
 				311EAA2028A9C34100A5F735 /* ListItem.swift in Sources */,
-				31B311EF28D5460E001B539A /* MissionView.swift in Sources */,
 				3143CD5228879E6700F1C88A /* PageLogin.swift in Sources */,
 				31D920CE28729E67001C2738 /* DeviceMotionObserver.swift in Sources */,
 				31AF794C28C1A33300118B05 /* PetProfileHealthEdit.swift in Sources */,
@@ -2693,7 +2664,6 @@
 				31D9204E287271C1001C2738 /* FocusableTextView.swift in Sources */,
 				31E73C502957174400173B1C /* BeroLockScreen.intentdefinition in Sources */,
 				31D91E8A28725834001C2738 /* InfinityScroll.swift in Sources */,
-				318D20182998A361009764CF /* MapPlaceView.swift in Sources */,
 				31D92027287271C1001C2738 /* TextStyle.swift in Sources */,
 				31D92045287271C1001C2738 /* RadioButton.swift in Sources */,
 				31D92018287271C1001C2738 /* ImageItem.swift in Sources */,
@@ -2741,12 +2711,10 @@
 				31C17FAF289F89FA009B5EA1 /* SelectPictureStep.swift in Sources */,
 				31D9200D287271C1001C2738 /* CPPageViewPager.swift in Sources */,
 				31D9200B287271C1001C2738 /* ImagePicker.swift in Sources */,
-				31D4E2F628B1CC0C00C3BA75 /* PageMissionCompleted.swift in Sources */,
 				31D92006287271C1001C2738 /* durations.swift in Sources */,
 				31EC8E3728EFCAE60052761C /* FriendListSection.swift in Sources */,
 				31D91FFC287271C1001C2738 /* Sns.swift in Sources */,
 				31D92037287271C1001C2738 /* GraphArc.swift in Sources */,
-				31B311ED28D545E1001B539A /* PopupWalkMission.swift in Sources */,
 				316B77B128BB2BBF0090E924 /* PetProfileEdit.swift in Sources */,
 				31BBE44628C2FEAD006C3C84 /* LvButton.swift in Sources */,
 				31D9203F287271C1001C2738 /* Toast.swift in Sources */,
@@ -2977,7 +2945,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 95;
+				CURRENT_PROJECT_VERSION = 96;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
@@ -3007,7 +2975,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3031,7 +2999,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 95;
+				CURRENT_PROJECT_VERSION = 96;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
@@ -3061,7 +3029,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

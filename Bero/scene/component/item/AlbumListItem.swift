@@ -89,11 +89,16 @@ struct AlbumListItem: PageComponent{
                 },
                 move: {
                     self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.pictureViewer)
+                            .addParam(key: .data, value: data)
+                        )
+                    /*
+                    self.pagePresenter.openPopup(
                         PageProvider.getPageObject(.album)
                             .addParam(key: .data, value: self.user)
                             .addParam(key: .subData, value: self.pet)
                             .addParam(key: .id, value: self.data.pictureId)
-                    )
+                    )*/
                 }
             )
             if self.isEdit {

@@ -13,28 +13,11 @@ import GooglePlaces
 enum WalkEvent {
     case viewTutorial(resource:String),
          start, end, completed(Mission),
-         startMission(Mission), endMission(Mission), completedMission(Mission),
          getRoute(Route), endRoute,
          changeMapStatus, updatedMissions, updatedPlaces , updatedUsers,
          findWaypoint(index:Int, total:Int), findPlace(Place),
          updatedPath,
          updateViewLocation(CLLocation)
-         
-    
-    var pushTitle:String? {
-        switch self {
-        case .endMission :
-            return "Mission Complete"
-        default : return nil
-        }
-    }
-    var pushText:String? {
-        switch self {
-        case .endMission(let mission) :
-            return mission.description
-        default : return nil
-        }
-    }
 }
 
 enum WalkUiEvent {
@@ -79,121 +62,9 @@ extension WalkManager {
     static func getExp(_ value:Double) -> Double {
         return ceil(value/100)
     }
-    enum SortType{
-        case user, mission, place
-        
-        var icon:String{
-            switch self {
-            case .user: return Asset.image.profile_dog_default
-            case .mission: return Asset.icon.goal
-            case .place: return Asset.icon.place
-            }
-        }
-        var title:String{
-            switch self {
-            case .user: return String.app.dogs
-            case .mission: return String.app.missions
-            case .place: return String.app.stores
-            }
-        }
-        // 현제 사용안함
-        var filter:[Filter]{
-            switch self {
-            case .user: return [Filter.all, Filter.friends, Filter.notUsed]
-            case .mission: return [Filter.all, Filter.complete, Filter.new, Filter.notUsed]
-            case .place: return [Filter.petShop, Filter.cafe, Filter.restaurant, Filter.notUsed]
-            }
-        }
-    }
     
-    enum Filter{
-        case all, friends, notUsed, complete, new,
-             cafe, restaurant, petShop, vet, manual
-        
-        static func getSortType(keyward:String)->Filter?{
-            switch keyward {
-            case "restaurant": return Filter.restaurant
-            case "cafe": return Filter.cafe
-            case "pet_store": return Filter.petShop
-            case "hospital": return Filter.vet
-            default : return Filter.manual
-            }
-        }
-        
-        var isActive:Bool {
-            switch self {
-            case .notUsed: return false
-            default : return true
-            }
-        }
-        var icon:String{
-            switch self {
-            case .cafe: return Asset.map.pinCafe
-            case .vet: return Asset.map.pinVet
-            default : return Asset.map.pinPark
-            }
-        }
-        
-        var iconMark:String{
-            switch self {
-            case .cafe: return Asset.map.pinCafeMark
-            case .vet: return Asset.map.pinVetMark
-            default : return Asset.map.pinParkMark
-            }
-        }
-        
-        var color:Color{
-            switch self {
-            case .cafe: return Color.app.brown
-            case .restaurant: return Color.app.yellowDeep
-            case .petShop: return Color.app.pink
-            case .vet: return Color.app.greenDeep
-            default : return Color.brand.primary
-            }
-        }
-        
-        var keyward:String?{
-            switch self {
-            case .restaurant : return "restaurant"
-            case .cafe : return "cafe"
-            case .petShop : return "pet_store"
-            case .vet : return "hospital"
-            case .manual : return "manual"
-            default : return nil
-            }
-        }
-        
-        func getTitle(type:SortType)->String{
-            switch self {
-            case .all: return type.title
-            case .complete: return String.sort.complete
-            case .new: return String.sort.new
-            case .friends: return String.sort.friends
-            case .notUsed: return type.title
-            case .cafe: return String.sort.cafe
-            case .restaurant: return String.sort.restaurant
-            case .petShop: return String.sort.salon
-            case .vet: return String.sort.vet
-            case .manual: return ""
-            }
-        }
-        
-        func getText(type:SortType)->String{
-            switch self {
-            case .all: return String.sort.all + " " + type.title
-            case .complete: return String.sort.complete + " " + type.title
-            case .new: return String.sort.new + " " + type.title
-            case .friends: return String.sort.friendsText
-            case .notUsed: return String.sort.notUsedText
-            case .cafe: return String.sort.cafeText
-            case .restaurant: return String.sort.restaurantText
-            case .petShop: return String.sort.salonText
-            case .vet: return String.sort.vetText
-            case .manual: return ""
-            }
-        }
-    }
     
+
     enum WalkAniType {
         case tutorial, start
         var path:String{
@@ -211,9 +82,10 @@ class WalkManager:ObservableObject, PageProtocol{
     private var lockScreenManager:PageProtocol? = nil
     private let dataProvider:DataProvider
     private var anyCancellable = Set<AnyCancellable>()
-    private(set) var missions:[Mission] = []
+   
     private(set) var missionUsers:[Mission] = []
     private(set) var missionUsersSummary:[Mission] = []
+    private(set) var originPlaces:[Place] = []
     private(set) var places:[Place] = []
     private(set) var placesSummary:[Place] = []
     private(set) var startTime:Date = Date()
@@ -229,7 +101,6 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private(set) var walkTime:Double = 0
     @Published private(set) var walkDistance:Double = 0
   
-    @Published private(set) var currentMission:Mission? = nil
     @Published private(set) var viewMission:Mission? = nil
     @Published private(set) var viewPlace:Place? = nil
     @Published private(set) var currentLocation:CLLocation? = nil
@@ -240,10 +111,6 @@ class WalkManager:ObservableObject, PageProtocol{
     @Published private (set) var isSimpleView:Bool = false
     private (set) var walkId:Int? = nil
     private (set) var walkPath:WalkPath? = nil
-    private (set) var placeDatas:[String:[Place]] = [:]
-    private (set) var userFilter:Filter = .all
-    private (set) var placeFilters:[Filter] = [.manual] //[.vet, .restaurant, .cafe, .petShop]
-    private (set) var missionFilter:Filter = .notUsed
     private (set) var updateImages:[UIImage] = []
     private (set) var updateImageLocations:[CLLocation] = []
     let nearDistance:Double = WalkManager.nearDistance
@@ -293,71 +160,21 @@ class WalkManager:ObservableObject, PageProtocol{
         }
     }
     private func clearAllMapStatus(){
-        if self.currentMission == nil {
-            self.missions = []
-        }
-        self.placeDatas = [:]
         self.missionUsers = []
+        self.originPlaces = []
         self.places = []
-        self.missions = []
         self.missionUsersSummary = []
         self.placesSummary = []
         self.updateLocation = nil
         self.updateZipCode = nil
     }
     
-    func resetMapStatus(_ location:CLLocation? = nil, userFilter:Filter?=nil,  missionFilter:Filter?=nil, placeFilters:[Filter]?=nil, isAll:Bool = false){
-        if let filter = userFilter {
-            self.userFilter = filter
-            self.missionUsers = []
-            self.missionUsersSummary = []
-        }
-        if let filter = missionFilter {
-            self.missionFilter = filter
-            self.missions = []
-        }
-        if let filters = placeFilters {
-            self.placeFilters = filters
-            self.places = []
-            self.placesSummary = []
-        }
-        if isAll {
-            self.clearAllMapStatus()
-        }
-       
+    func resetMapStatus(_ location:CLLocation? = nil){
+        self.clearAllMapStatus()
         self.event = .changeMapStatus
         if let loc = location ?? self.currentLocation {
             self.updateMapStatus(loc, isCheckDistence: false)
         }
-    }
-    
-    //사용안함
-    func resetMapFilter(_ location:CLLocation? = nil, placeFilter:Filter, use:Bool){ //filter 하나식리셋
-        if use && self.placeFilters.contains(placeFilter){
-            return
-        } else if !use && !self.placeFilters.contains(placeFilter) {
-            return
-        }
-        if use {
-            self.placeFilters.append(placeFilter)
-        } else if let find = self.placeFilters.firstIndex(of: placeFilter) {
-            self.placeFilters.remove(at: find)
-        } else {
-            return
-        }
-        if let loc = location ?? self.currentLocation {
-            self.resetMapPlace(loc)
-        }
-    }
-    
-    //사용안함
-    func resetMapPlace(_ location:CLLocation, isAllShow:Bool = false){
-        if isAllShow {
-            self.placeFilters = [.vet, .restaurant, .cafe, .petShop]
-        }
-        self.places = []
-        self.event = .changeMapStatus
-        self.updateMapStatus(location, isCheckDistence: false)
     }
     
     func clearMapUser(){
@@ -390,27 +207,16 @@ class WalkManager:ObservableObject, PageProtocol{
         self.locationObserver.convertLocationToAddress(location: location){ address in
             let zip = address.zipCode
             self.updateZipCode = zip
-            self.placeFilters.forEach{ filter in
-                guard let searchKeyward = filter.keyward else {return}
-                if self.placeDatas[searchKeyward] == nil {
-                    self.dataProvider.requestData(
-                        q: .init(
-                            id: self.tag,
-                            type: .getPlace(location, distance: Self.distanceUnit, searchType: searchKeyward, zip:zip), isOptional: true))
-                }
-            }
+            self.dataProvider.requestData(
+                q: .init(
+                    id: self.tag,
+                    type: .getPlace(location, distance: Self.distanceUnit, zip:zip), isOptional: true))
         }
-        self.checkOnReadyPlaceData()
+        self.filterPlace()
     }
     
     func updateMapUser(_ location:CLLocation){
         if self.missionUsers.isEmpty {
-            switch self.userFilter {
-            case .notUsed :
-                self.event = .updatedUsers
-                return
-            default : break
-            }
             self.dataProvider.requestData(q:
                     .init(id: self.tag,
                           type: .searchLatestWalk(loc: location, radius: 1000, min: 60000),
@@ -438,10 +244,7 @@ class WalkManager:ObservableObject, PageProtocol{
     }
     
     func endMap() {
-        self.missions.forEach{
-            $0.isSelected = false
-        }
-        self.currentMission?.isSelected = false
+        
     }
     
     func requestWalk(){
@@ -483,7 +286,6 @@ class WalkManager:ObservableObject, PageProtocol{
         self.completedMissions = []
         self.updateImages = []
         self.updateImageLocations = []
-        self.endMission()
         self.endTimer()
         self.event = .end
         self.status = .ready
@@ -594,17 +396,6 @@ class WalkManager:ObservableObject, PageProtocol{
         } else {
             self.findPlace(loc)
         }
-        /*
-        guard let mission = self.currentMission else {return}
-        guard let destination = mission.destination else {return}
-        let distance = destination.distance(from: loc)
-        self.currentDistanceFromMission = distance
-        if distance < self.nearDistance {
-            self.missionCompleted(mission)
-        }
-        */
-        //self.findWayPoint(loc)
-        
     }
 
 
@@ -631,27 +422,16 @@ class WalkManager:ObservableObject, PageProtocol{
     func respondApi(_ res:ApiResultResponds){
         if !res.id.hasPrefix(self.tag) {return} 
         switch res.type {
-        case .requestNewMission :
-            self.isMapLoading = false
-            if let datas = res.data as? [MissionData] {
-                let missions = datas.map{Mission().setData($0, type: .new)}
-                switch self.missionFilter {
-                case .new : self.missions = missions.filter{!$0.isCompleted}
-                case .complete : self.missions = missions.filter{$0.isCompleted}
-                default : self.missions = missions
-                }
-                self.event = .updatedMissions
-            }
+       
         case .searchLatestWalk :
             if let datas = res.data as? [WalkUserData] {
                 self.filterUser(datas: datas)
             }
-        case .getPlace(_, _ , let searchType, _) :
-            if let datas = res.data as? [PlaceData], let key = searchType {
+        case .getPlace :
+            if let datas = res.data as? [PlaceData] {
                 let me = self.dataProvider.user.snsUser?.snsID ?? ""
-                let placeDatas = datas.map{Place().setData($0, me:me, sortType: Filter.getSortType(keyward: key))}
-                self.placeDatas[key] = placeDatas
-                self.checkOnReadyPlaceData()
+                self.originPlaces = datas.map{Place().setData($0, me:me)}
+                self.filterPlace()
             }
         case .requestRoute :
             if let datas = res.data as? [WalkRoute] {
@@ -692,19 +472,14 @@ class WalkManager:ObservableObject, PageProtocol{
     
     func errorApi(_ err:ApiResultError, appSceneObserver:AppSceneObserver?){
         switch err.type {
-        case .requestNewMission :
-            self.isMapLoading = false
-            self.error = .updatedMissions
+       
         case .requestRoute :
             self.error = .getRoute
             self.viewRouteEnd()
     
+        case .getPlace :
+            self.filterPlace()
             
-        case .getPlace(_, _ , let searchType, _) :
-            if let key = searchType {
-                self.placeDatas[key] = []
-                self.checkOnReadyPlaceData()
-            }
         default : break
         }
     }
@@ -758,16 +533,6 @@ class WalkManager:ObservableObject, PageProtocol{
         */
     }
     
-    private func checkOnReadyPlaceData(){
-        let find = self.placeFilters.first(where: { filter in
-            guard let keyward = filter.keyward else {return false}
-            return self.placeDatas[keyward] == nil
-        })
-        if find == nil {
-            self.filterPlace()
-        }
-    }
-    
     private var finalFind:Place? = nil
     @discardableResult
     private func findPlace(_ loc:CLLocation)->Place?{
@@ -790,18 +555,10 @@ class WalkManager:ObservableObject, PageProtocol{
         guard let loc = self.currentLocation else {
             DataLog.d("filterPlace error notfound me", tag: self.tag)
             return
-            
         }
         DataLog.d("filterPlace start", tag: self.tag)
         let initDatas:[Place] = []
-        let datas:[Place] = self.placeFilters.reduce(initDatas, { prev, filter in
-            guard let keyward = filter.keyward else {return []}
-            var addDatas:[Place] = self.placeDatas[keyward] ?? []
-            //addDatas.shuffle()
-            //var add:[Place] = Array(addDatas.prefix(10))
-            addDatas.append(contentsOf: prev)
-            return addDatas
-        })
+        let datas:[Place] = self.originPlaces
         .sorted(by: { p1, p2 in
             let distance1 = p1.location?.distance(from: loc) ?? 0
             let distance2 = p2.location?.distance(from: loc) ?? 0
@@ -838,6 +595,7 @@ class WalkManager:ObservableObject, PageProtocol{
         }
         DataLog.d("filterPlace end " + fixed.count.description, tag: self.tag)
         self.places = fixed
+       
         var summary:[Place] = []
         var prev:Place? = nil
         for data in fixed {
@@ -860,40 +618,6 @@ class WalkManager:ObservableObject, PageProtocol{
         summary.forEach{$0.addCompleted()}
         self.placesSummary = summary
         self.event = .updatedPlaces
-    }
-
-    func startMission(_ mission:Mission){
-        self.currentMission = mission
-        if let loc = self.currentLocation {
-            mission.start(location: loc, walkDistance:self.walkDistance)
-        }
-        self.currentDistanceFromMission = nil
-        self.event = .startMission(mission)
-    }
-    
-    func endMission(imgPath:String? = nil, missionId:Int? = nil){
-        guard let mission = self.currentMission else {return}
-        if let id = missionId {
-            self.completedMissions.append(id)
-            mission.end(isCompleted:true, imgPath: imgPath)
-        } else {
-            mission.end(isCompleted:false)
-        }
-        self.currentMission = nil
-        self.currentDistanceFromMission = nil
-        self.event = .endMission(mission)
-    }
-    
-    func forceCompleteMission(){
-        guard let mission = self.currentMission else {return}
-        self.missionCompleted(mission)
-    }
-    
-    private func missionCompleted(_ mission:Mission){
-        //self.currentMission = nil
-        if mission.isCompleted {return}
-        mission.completed(walkDistance: self.walkDistance)
-        self.event = .completedMission(mission)
     }
     
 }

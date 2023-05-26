@@ -153,7 +153,7 @@ extension PlayMap {
     
     func getPlaceMarker(_ data:Place) -> GMSMarker{
         guard let loc = data.location else { return GMSMarker() }
-        guard let type = data.sortType else { return GMSMarker() }
+        guard let type = data.category else { return GMSMarker() }
         let marker = GMSMarker()
         marker.appearAnimation = .fadeIn
         let latitude = loc.coordinate.latitude
@@ -172,7 +172,6 @@ extension PlayMap {
         }
         let icon = UIImage(named: data.isMark ? type.iconMark : type.icon)
         let image = UIImageView(image: icon)
-        let view = MapPlaceView(frame:.infinite)
         marker.iconView = image
         marker.title = data.title ?? "Place"
         marker.groundAnchor = CGPoint(x: 0.52, y: 0.5)

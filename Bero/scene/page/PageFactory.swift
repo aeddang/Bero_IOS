@@ -86,7 +86,7 @@ struct PageProvider {
     
     static func getType(_ pageID:PageID)-> PageAnimationType{
         switch pageID {
-        case  .addDog, .addDogCompleted, .webview : return .vertical
+        case  .addDog, .addDogCompleted : return .vertical
         case  .popupChooseDog, .popupWalkUser, .popupWalkPlace,
                 .popupWalkMission, .popupPlaceVisitor, .popupWalkUsers : return .vertical
             
@@ -220,7 +220,6 @@ struct PageFactory{
         case .blockUser : return PageBlockUser(pageObservable:pageObservable)
         case .addDog : return PageAddDog(pageObservable:pageObservable)
         case .addDogCompleted : return PageAddDogCompleted(pageObservable:pageObservable)
-        case .missionCompleted : return PageMissionCompleted(pageObservable:pageObservable)
         case .walkCompleted : return PageWalkCompleted(pageObservable:pageObservable)
         case .levelUp : return PageLevelUp(pageObservable:pageObservable)
         case .modifyUser : return PageModifyUser(pageObservable:pageObservable)
@@ -233,7 +232,6 @@ struct PageFactory{
         case .popupWalkUser : return PopupWalkUser(pageObservable:pageObservable)
         case .popupWalkUsers : return PopupWalkUsers(pageObservable:pageObservable)
         case .popupWalkPlace : return PopupWalkPlace(pageObservable:pageObservable)
-        case .popupWalkMission : return PopupWalkMission(pageObservable:pageObservable)
         case .popupPlaceVisitor : return PopupPlaceVisitor(pageObservable:pageObservable)
         default : return PageWalk(pageObservable:pageObservable)
         }

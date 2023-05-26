@@ -11,6 +11,41 @@ import CoreLocation
 extension PlaceApi {
     enum PlaceCategoryType {
         case cafe, vet, park, none
+        var icon:String{
+            switch self {
+            case .cafe: return Asset.map.pinCafe
+            case .vet: return Asset.map.pinVet
+            case .park: return Asset.map.pinPark
+            default : return Asset.map.pinPark
+            }
+        }
+                
+        var iconMark:String{
+            switch self {
+            case .cafe: return Asset.map.pinCafeMark
+            case .vet: return Asset.map.pinVetMark
+            case .park: return Asset.map.pinParkMark
+            default : return Asset.map.pinParkMark
+            }
+        }
+                
+        var color:Color{
+            switch self {
+            case .cafe: return Color.app.brown
+            case .vet: return Color.app.greenDeep
+            case .park: return Color.app.green
+            default : return Color.app.green
+            }
+        }
+        var title:String{
+            switch self {
+            case .cafe: return String.sort.cafe
+            case .vet: return String.sort.vet
+            case .park: return String.sort.park
+            default : return ""
+            }
+        }
+    
         
         static func getType(_ value:Int?) -> PlaceApi.PlaceCategoryType?{
             switch value{
@@ -21,9 +56,7 @@ extension PlaceApi {
             }
         }
     }
-    enum ValueType:String {
-        case Exp, Point
-    }
+    
 }
 
 class PlaceApi :Rest{
@@ -33,12 +66,12 @@ class PlaceApi :Rest{
         params["lat"] = location?.coordinate.latitude.description ?? ""
         params["lng"] = location?.coordinate.longitude.description ?? ""
         params["radius"] = distance?.toInt().description ?? ""
-        if searchType == "manual" {
+        if let searchType = searchType {
+            params["searchType"] = searchType
+            params["placeType"] = searchType.isEmpty ? "Place" : "Manual"
+        } else {
             params["searchType"] = ""
             params["placeType"] = "Manual"
-        } else {
-            params["searchType"] = searchType ?? "pet_store"
-            params["placeType"] = searchType?.isEmpty == false ? "Place" : "Manual"
         }
         params["zipCode"] = zip ?? ""
         fetch(route: PlaceApiRoute (method: .get, action:.search, query: params), completion: completion, error:error)

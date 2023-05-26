@@ -77,7 +77,6 @@ struct PageWalk: PageView {
             guard let loc = loc else {return}
             if !self.isInit {
                 self.isInit = true
-                self.walkManager.clearMapUser()
                 self.walkManager.updateMapStatus(loc)
             }
         }

@@ -21,9 +21,15 @@ struct ChatRoomList: PageComponent{
     var body: some View {
         VStack(spacing:0){
             if self.isEmpty {
-                EmptyItem(type: .myList)
+                EmptyItem(type: .chat)
                     .padding(.top, Dimen.margin.regularUltra)
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
+                    .onTapGesture {
+                        self.pagePresenter.openPopup(
+                            PageProvider.getPageObject(.friend)
+                                .addParam(key: .type, value: FriendList.ListType.chat)
+                        )
+                    }
                 Spacer().modifier(MatchParent())
             } else {
                 InfinityScrollView(

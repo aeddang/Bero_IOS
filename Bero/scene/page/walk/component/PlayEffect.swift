@@ -155,22 +155,6 @@ struct PlayEffect: PageView {
                 self.add(effect: eff)
             
                 break
-            case .startMission:
-                let eff = PlayEffectItem()
-                eff.type = .text
-                eff.duration = 3
-                eff.value = "Ready"
-                eff.snd = Asset.sound.ready
-                self.add(effect: eff)
-    
-            case .completedMission:
-                let eff = PlayEffectItem()
-                eff.type = .text
-                eff.duration = 3
-                eff.value = "Mission\nComplete!"
-                eff.snd = Asset.sound.end
-
-                self.add(effect: eff)
                 
             case .findPlace :
                 let eff = PlayEffectItem()
