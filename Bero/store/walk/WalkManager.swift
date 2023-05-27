@@ -94,6 +94,7 @@ class WalkManager:ObservableObject, PageProtocol{
     private(set) var updateZipCode:String? = nil
     private(set) var completedMissions:[Int] = []
     private(set) var completedWalk:Mission? = nil
+    
     @Published var uiEvent:WalkUiEvent? = nil {didSet{ if uiEvent != nil { uiEvent = nil} }}
     @Published private(set) var event:WalkEvent? = nil {didSet{ if event != nil { event = nil} }}
     @Published private(set) var error:WalkError? = nil {didSet{ if error != nil { error = nil} }}
@@ -429,8 +430,7 @@ class WalkManager:ObservableObject, PageProtocol{
             }
         case .getPlace :
             if let datas = res.data as? [PlaceData] {
-                let me = self.dataProvider.user.snsUser?.snsID ?? ""
-                self.originPlaces = datas.map{Place().setData($0, me:me)}
+                self.originPlaces = datas.map{Place().setData($0)}
                 self.filterPlace()
             }
         case .requestRoute :

@@ -23,7 +23,7 @@ class Place:MapUserData{
     
     
     @discardableResult
-    func setData(_ data:PlaceData, me:String)->Place{
+    func setData(_ data:PlaceData)->Place{
         self.title = data.name
         self.googlePlaceId = data.googlePlaceId
         self.placeId = data.placeId ?? -1
@@ -32,12 +32,10 @@ class Place:MapUserData{
             self.location =  CLLocation(latitude: loc.lat ?? 0, longitude: loc.lng ?? 0) 
         }
         if self.location == nil, let locs = data.location?.components(separatedBy: " ") {
-            let latitude = locs[1].onlyNumric().toDouble()
-            let longitude = locs[0].onlyNumric().toDouble()
             if locs.count == 2 {
-                let lat = latitude
-                let long = longitude
-                self.location = CLLocation(latitude: lat, longitude: long)
+                let latitude = locs[1].onlyNumric().toDouble()
+                let longitude = locs[0].onlyNumric().toDouble()
+                self.location = CLLocation(latitude: latitude, longitude: longitude)
             }
         }
         self.visitors = data.visitors ?? []
@@ -52,7 +50,7 @@ class Place:MapUserData{
     func addMark(user:User){
         self.isMark = true
         self.visitorCount += 1
-        if let userData = user.currentProfile.originData, let petData = user.pets.first?.originData {
+        if let userData = user.currentProfile.originData, let petData = user.representativePet?.originData{
             self.visitors.insert(UserAndPet(user: userData, pet:petData), at: 0)
         }
     }
