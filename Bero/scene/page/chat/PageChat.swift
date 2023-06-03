@@ -41,7 +41,9 @@ struct PageChat: PageView {
                         infinityScrollModel: self.infinityScrollModel,
                         title: self.isEdit ? String.button.manageChat : String.pageTitle.chat,
                         useBack: self.isEdit,
-                        buttons:self.isEdit ? [] : [.addChat, .setting]){ type in
+                        buttons:self.isEdit
+                        ? []
+                        : [.addChat, .setting]){ type in
                         switch type {
                         case .back :
                             withAnimation{

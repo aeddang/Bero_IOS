@@ -15,7 +15,7 @@
 import Foundation
 import SwiftUI
 
-struct GraphPolygon: PageView {
+struct PolygonGraph: PageView {
     var selectIdx:[Int] = []
     var points:[CGPoint]? = nil // percent set
     
@@ -149,10 +149,10 @@ struct GraphPolygon: PageView {
 
 
 #if DEBUG
-struct GraphPolygon_Previews: PreviewProvider {
+struct PolygonGraph_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            GraphPolygon(
+            PolygonGraph(
                 selectIdx: [2,4],
                 points:  [
                     .init(x:0.2, y:0.2),

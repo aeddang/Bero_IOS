@@ -13,13 +13,11 @@ class ChatItemData:InfinityData, ObservableObject{
     private(set) var isMe:Bool = false
     private(set) var contents:String = ""
     private(set) var date:Date? = nil
-    fileprivate(set) var isRead:Bool = false
     @Published var isDelete:Bool = false
     func setData(_ data:ChatData, me:String, idx:Int) -> ChatItemData {
         self.chatId = data.chatId ?? -1
         self.isMe = data.receiver != me
         self.contents = data.contents ?? ""
-        self.isRead = data.isRead ?? false
         self.isDelete = data.isDeleted ?? false
         self.date = data.createdAt?.toDate()
         return self

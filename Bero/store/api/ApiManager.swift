@@ -30,7 +30,8 @@ struct ApiNetwork :Network{
         var authorizationRequest = request
         authorizationRequest.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
         authorizationRequest.addValue(SystemEnvironment.preferredLang ?? "", forHTTPHeaderField: "Accept-Language")
-        
+        authorizationRequest.addValue("IOS", forHTTPHeaderField: "User-Agent")
+        authorizationRequest.addValue(SystemEnvironment.zoneOffset.description, forHTTPHeaderField: "X-Timezone-Offset")
         DataLog.d("token " + token , tag: self.tag)
         return authorizationRequest
     }

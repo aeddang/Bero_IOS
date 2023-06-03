@@ -116,7 +116,7 @@ struct AppLayout: PageComponent{
                 case .alarm :
                     if current == .alarm {return}
                     if current == .explore {
-                        self.dataProvider.requestData(q: .init(id: self.tag, type: .getAlarm(page: 0)))
+                        self.dataProvider.requestData(q: .init(id: self.repository.tag, type: .getAlarm(page: 0)))
                         return
                     }
                 default: break

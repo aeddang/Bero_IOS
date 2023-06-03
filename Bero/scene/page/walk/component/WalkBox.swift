@@ -59,7 +59,7 @@ struct WalkBox: PageComponent{
                             .modifier(MatchHorizontal(height: 70))
                             .background(Color.app.grey50)
                             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
-                        GraphPolygon(
+                        PolygonGraph(
                             selectIdx: self.paths.map{$0.idx},
                             points: self.paths.map{CGPoint(x: $0.tx, y:$0.ty )},
                             action: {_ in

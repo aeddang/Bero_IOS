@@ -95,9 +95,10 @@ class WalkApi :Rest{
             if let value = additionalData?.walkDistance?.toInt() {
                 data.append(value: value.description, name: "distance")
             }
+            /*
             if let value = additionalData?.img?.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "albumImage.jpg",mimeType:"image/jpeg")
-            }
+            }*/
             if let value = additionalData?.img?.jpegData(compressionQuality: 1.0) {
                 data.append(file: value,name: "contents",fileName: "albumImage.jpg",mimeType:"image/jpeg")
             }

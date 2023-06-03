@@ -18,6 +18,8 @@ struct SystemEnvironment {
     static let isoCode = NSLocale.current.currencyCode?.uppercased() ?? ""
     static let preferredLang = NSLocale.preferredLanguages.first
     static var isTablet = AppUtil.isPad()
+    static var zoneOffset = floor(Double(TimeZone.current.secondsFromGMT()/60)).toInt()
+    
     static private(set) var breedCode:[String:String] = [:]
     static func setupBreedCode(res:ApiResultResponds){
         guard let datas = res.data as? [CodeData] else { return }

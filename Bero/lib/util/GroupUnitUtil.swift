@@ -170,8 +170,8 @@ extension Date{
         return diff.since()
     }
     func sinceNowDate(dateFormat:String = "yyyy-MM-dd'T'HH:mm:ssZ")->String {
-        let now =  Self.localDate().toDateFormatter(dateFormat: "yyyyMMdd")
-        let nowDay = now.toDate(dateFormat:"yyyyMMdd")
+        let nowDate =  Self.localDate().toDateFormatter(dateFormat: "yyyyMMdd")
+        let nowDay = nowDate.toDate(dateFormat:"yyyyMMdd")
         guard let now =  nowDay?.timeIntervalSince1970 else {return ""}
         let me = self.timeIntervalSince1970
         let diff = now - me
@@ -192,8 +192,6 @@ extension CryptoKit.SHA256.Digest {
         bytes.map { String(format: "%02X", $0) }.joined()
     }
 }
-
-
 
 extension String{
     func toDigits(_ n:Int) -> String {

@@ -85,6 +85,10 @@ struct PagePicture: PageView {
                                 imagePath: data.pictureUrl,
                                 imgSize: self.itemSize
                             )
+                            .onTapGesture {
+                                PageProvider.getPageObject(.pictureViewer)
+                                    .addParam(key: .data, value:data.pictureUrl)
+                            }
                         }
                     }
                 }

@@ -48,7 +48,6 @@ struct PageWalkList: PageView {
                             pageObservable: self.pageObservable,
                             infinityScrollModel: self.infinityScrollModel,
                             userId: userId,
-                            isFriend: self.isFriend,
                             listSize: geometry.size.width
                         )
                     } else {

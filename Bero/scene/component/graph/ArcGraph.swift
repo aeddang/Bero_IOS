@@ -29,7 +29,7 @@ struct ArcGraph: PageComponent{
     var textSize:CGFloat = 100
     var data:ArcGraphData = ArcGraphData()
     var innerCircleColor:Color = Color.app.white
-    @State var progress:Float = 0
+   
     var body: some View {
         VStack(spacing: 0){
             GraphArc(progress: self.data.value/self.data.max,

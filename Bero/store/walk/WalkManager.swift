@@ -213,7 +213,7 @@ class WalkManager:ObservableObject, PageProtocol{
                     id: self.tag,
                     type: .getPlace(location, distance: Self.distanceUnit, zip:zip), isOptional: true))
         }
-        self.filterPlace()
+        //self.filterPlace()
     }
     
     func updateMapUser(_ location:CLLocation){
@@ -411,6 +411,7 @@ class WalkManager:ObservableObject, PageProtocol{
                 n += 1
                 if n == self.updateTime{
                     self.updateStatus()
+                    n = 0
                 }
             }
     }
@@ -462,13 +463,7 @@ class WalkManager:ObservableObject, PageProtocol{
         }
     }
     
-    private func updatePath(){
-        if let loc = self.currentLocation {
-            self.updateImageLocations.append(loc)
-            self.walkPath?.setData(self.updateImageLocations)
-            self.event = .updatedPath
-        }
-    }
+    
     
     func errorApi(_ err:ApiResultError, appSceneObserver:AppSceneObserver?){
         switch err.type {
@@ -481,6 +476,14 @@ class WalkManager:ObservableObject, PageProtocol{
             self.filterPlace()
             
         default : break
+        }
+    }
+    
+    private func updatePath(){
+        if let loc = self.currentLocation {
+            self.updateImageLocations.append(loc)
+            self.walkPath?.setData(self.updateImageLocations)
+            self.event = .updatedPath
         }
     }
     

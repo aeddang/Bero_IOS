@@ -46,44 +46,42 @@ struct ChatRoomListItem: PageComponent{
     @Binding var isEdit:Bool
     @State var isRead:Bool = false
     var body: some View {
-        VStack(alignment: .leading, spacing: 0){
-            HStack(spacing: Dimen.margin.thin){
-                HorizontalProfile(
-                    type: .pet,
-                    sizeType: .small,
-                    funcType: self.isRead ? nil : .view("N"),   // .view(self.data.unreadCount.description),
-                    imagePath: self.data.profileImagePath,
-                    lv:self.data.lv,
-                    name: self.data.title,
-                    date: self.data.viewDate,
-                    description: self.data.contents,
-                    isSelected: false,
-                    useBg: false
-                ){ type in
-                    switch type {
-                    case .view :
-                        self.read()
-                    default :
-                        self.pagePresenter.openPopup(
-                            PageProvider.getPageObject(.user)
-                                .addParam(key: .id, value:self.data.userId)
-                        )
-                    }
-                    
-                    
-                }
-                .padding(.vertical, Dimen.margin.regularExtra)
-                .onTapGesture {
+        HStack(spacing: Dimen.margin.thin){
+            HorizontalProfile(
+                type: .pet,
+                sizeType: .small,
+                funcType: self.isRead ? nil : .view("N"),   // .view(self.data.unreadCount.description),
+                imagePath: self.data.profileImagePath,
+                lv:self.data.lv,
+                name: self.data.title,
+                date: self.data.viewDate,
+                description: self.data.contents,
+                isSelected: false,
+                useBg: false
+            ){ type in
+                switch type {
+                case .view :
                     self.read()
+                default :
+                    self.pagePresenter.openPopup(
+                        PageProvider.getPageObject(.user)
+                            .addParam(key: .id, value:self.data.userId)
+                    )
                 }
-                if self.isEdit {
-                    CircleButton(
-                        type: .icon(Asset.icon.exit),
-                        isSelected: false,
-                        activeColor: Color.brand.primary
-                    ){ _ in
-                        self.delete()
-                    }
+                
+                
+            }
+            .padding(.vertical, Dimen.margin.regularExtra)
+            .onTapGesture {
+                self.read()
+            }
+            if self.isEdit {
+                CircleButton(
+                    type: .icon(Asset.icon.exit),
+                    isSelected: false,
+                    activeColor: Color.brand.primary
+                ){ _ in
+                    self.delete()
                 }
             }
         }

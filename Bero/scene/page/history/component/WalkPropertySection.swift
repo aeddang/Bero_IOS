@@ -17,7 +17,7 @@ struct WalkPropertySection: PageComponent{
                         .scaledToFill()
                         .modifier(MatchHorizontal(height: 200))
                         .clipped()
-                    GraphPolygon(
+                    PolygonGraph(
                         selectIdx: path.filter{$0.smallPictureUrl != nil}.map{$0.idx},
                         points: path.map{CGPoint(x: $0.tx, y:$0.ty )},
                         action: self.action)

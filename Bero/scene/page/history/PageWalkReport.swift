@@ -221,7 +221,7 @@ struct PageWalkReport: PageView {
                 case .getUserDetail(let userId):
                     if userId == self.userId , let data = res.data as? UserData{
                         self.user = User().setData(data:data)
-                        self.profile = self.user?.pets.first
+                        self.profile = self.user?.representativePet
                         self.load()
                         self.pageObservable.isInit = true
                     }

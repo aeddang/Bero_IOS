@@ -7,7 +7,6 @@ struct WalkList: PageComponent{
     @ObservedObject var pageObservable:PageObservable = PageObservable()
     @ObservedObject var infinityScrollModel: InfinityScrollModel = InfinityScrollModel()
     let userId:String
-    var isFriend:Bool = false
     var listSize:CGFloat = 300
     var marginBottom:CGFloat = Dimen.margin.medium
     var body: some View {

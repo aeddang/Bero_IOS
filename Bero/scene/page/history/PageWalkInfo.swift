@@ -42,7 +42,7 @@ struct PageWalkInfo: PageView {
                     ZStack{
                         TitleTab(
                             //infinityScrollModel: self.infinityScrollModel,
-                            title: self.title ,
+                            title: String.pageTitle.walkSummary ,
                             useBack: true, action: { type in
                                 switch type {
                                 case .back : self.pagePresenter.closePopup(self.pageObject?.id)
@@ -172,10 +172,9 @@ struct PageWalkInfo: PageView {
                                         }
                                         .padding(.horizontal, Dimen.app.pageHorinzontal)
                                         
-                                        WalkPropertySection(mission: mission){ idx in
-                                        }
-                                        .padding(.horizontal, Dimen.app.pageHorinzontal)
-                                        .padding(.top, Dimen.margin.regular)
+                                        WalkPropertySection(mission: mission)
+                                            .padding(.horizontal, Dimen.app.pageHorinzontal)
+                                            .padding(.top, Dimen.margin.regular)
                                         
                                         WalkPlayInfo(mission: mission)
                                             .padding(.horizontal, Dimen.app.pageHorinzontal)
@@ -189,7 +188,7 @@ struct PageWalkInfo: PageView {
                                                         imagePath: data.pictureUrl,
                                                         imgSize: self.pictureSize,
                                                         move: {
-                                                            self.movePicture()
+                                                            self.movePictureViewer(path: data.pictureUrl )
                                                         }
                                                     )
                                                 }
@@ -271,11 +270,15 @@ struct PageWalkInfo: PageView {
                 .addParam(key: .datas, value: pictures)
         )
     }
-    
+    private func movePictureViewer(path:String?){
+        self.pagePresenter.openPopup(
+            PageProvider.getPageObject(.pictureViewer)
+                .addParam(key: .data, value:path)
+        )
+    }
     
     @State var userProfile:UserProfile? = nil
     @State var user:User? = nil
-    @State var title:String = String.pageTitle.walkSummary
     @State var walkId:Int = -1
     @State var isMe:Bool = false
     @State var mission:Mission? = nil
