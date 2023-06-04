@@ -21,7 +21,7 @@ struct PlayBox: PageComponent{
     @Binding var isFollowMe:Bool
     var isInitable:Bool = false
     var body: some View {
-        VStack(){
+        VStack(spacing:Dimen.margin.thin){
             HStack(spacing:0){
                 CircleButton(
                     type: .icon(self.isExpand ? Asset.icon.minimize : Asset.icon.maximize),

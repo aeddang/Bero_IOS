@@ -60,8 +60,8 @@ struct WalkBox: PageComponent{
                             .background(Color.app.grey50)
                             .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.light))
                         PolygonGraph(
-                            selectIdx: self.paths.map{$0.idx},
-                            points: self.paths.map{CGPoint(x: $0.tx, y:$0.ty )},
+                            selectIdx: self.pathSelectIdx,
+                            points: self.pathPoints,
                             action: {_ in
                                 
                             })
@@ -71,9 +71,7 @@ struct WalkBox: PageComponent{
                 .padding(.top, Dimen.margin.thin)
                 .opacity(self.isExpand ? 1 : 0)
             } else {
-                LocationInfo(
-                    viewModel: self.viewModel
-                )
+                LocationInfo()
                 .padding(.top, Dimen.margin.medium)
                 .opacity(self.isExpand ? 1 : 0)
             }
@@ -108,7 +106,7 @@ struct WalkBox: PageComponent{
             guard let evt = evt else {return}
             switch evt {
             case .updatedPath :
-                self.paths = self.walkManager.walkPath?.paths ?? []
+                self.updatePath(paths:self.walkManager.walkPath?.paths ?? [])
             default : break
             }
         }
@@ -138,16 +136,23 @@ struct WalkBox: PageComponent{
     @State var walkTime:String = "00:00"
     @State var walkDistance:String = "0"
     @State var title:String = ""
-    @State var paths:[WalkPathItem] = []
+    
+    @State var pathSelectIdx:[Int] = []
+    @State var pathPoints:[CGPoint] = []
     
     private func updateTitle(){
         if self.isWalk {
             self.title = String.pageText.walkPlayText
         } else {
-            let name = self.dataProvider.user.representativePet?.name ?? self.dataProvider.user.currentProfile.nickName ?? ""
+            let name = self.dataProvider.user.representativeName
             self.title = String.pageText.walkStartText.replace(name)
         }
-        self.paths = self.walkManager.walkPath?.paths ?? []
+        self.updatePath(paths: self.walkManager.walkPath?.paths ?? [])
+    }
+    
+    private func updatePath(paths:[WalkPathItem]){
+        self.pathSelectIdx = paths.map{$0.idx}
+        self.pathPoints = paths.map{CGPoint(x: $0.tx, y:$0.ty )}
     }
 }
 

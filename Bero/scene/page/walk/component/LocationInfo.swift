@@ -15,7 +15,6 @@ struct LocationInfo: PageComponent{
     @EnvironmentObject var pagePresenter:PagePresenter
     @EnvironmentObject var dataProvider:DataProvider
     @EnvironmentObject var appSceneObserver:AppSceneObserver
-    @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
     var time:String? = nil
     var body: some View {
         HStack(spacing:Dimen.margin.tinyExtra){
@@ -110,7 +109,6 @@ struct LocationInfo: PageComponent{
             self.updatedLocation()
         }
     }
-    @State var pets:[PetProfile] = []
     @State var location:String? = nil
     @State var temperature:String? = nil
     @State var weatherIcon:String? = nil
