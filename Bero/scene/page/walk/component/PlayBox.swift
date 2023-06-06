@@ -19,7 +19,6 @@ struct PlayBox: PageComponent{
     @ObservedObject var viewModel:PlayMapModel = PlayMapModel()
     
     @Binding var isFollowMe:Bool
-    var isInitable:Bool = false
     var body: some View {
         VStack(spacing:Dimen.margin.thin){
             HStack(spacing:0){
@@ -87,7 +86,8 @@ struct PlayBox: PageComponent{
                     if self.isWalk {
                         self.finishWalk()
                     } else {
-                        if self.isInitable {
+                        let isInitable = !self.dataProvider.user.pets.isEmpty
+                        if isInitable {
                             self.startWalk()
                         } else {
                             self.needDog()

@@ -307,7 +307,7 @@ class Repository:ObservableObject, PageProtocol{
     }
     private func errorApi(_ err:ApiResultError){
         self.accountManager.errorApi(err, appSceneObserver: self.appSceneObserver)
-        self.walkManager.errorApi(err, appSceneObserver: self.appSceneObserver)
+        self.walkManager.errorApi(err)
         switch err.type {
         case .joinAuth : self.clearLogin()
         case .registPush(let token) : self.registFailPushToken(token)

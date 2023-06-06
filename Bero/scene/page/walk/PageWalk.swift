@@ -13,7 +13,6 @@ import Combine
 
 extension PageWalk{
     static private var isFollowMe:Bool = false
-    static private var isFirstWalkStart:Bool = false
 }
 
 struct PageWalk: PageView {
@@ -54,8 +53,7 @@ struct PageWalk: PageView {
                     PlayBox(
                         pageObservable: self.pageObservable,
                         viewModel: self.mapModel,
-                        isFollowMe: self.$isFollowMe,
-                        isInitable: self.isInitable
+                        isFollowMe: self.$isFollowMe
                     )
                     .padding(.horizontal, Dimen.app.pageHorinzontal)
                 }
@@ -105,10 +103,7 @@ struct PageWalk: PageView {
                 self.isWalk = false
             case .walking :
                 self.isWalk = true
-                if !Self.isFirstWalkStart {
-                    self.walkManager.firstWalkStart()
-                    Self.isFirstWalkStart = true
-                }
+
             }
         }
         .onReceive(self.appSceneObserver.$useBottom){ useBottom in
@@ -126,15 +121,7 @@ struct PageWalk: PageView {
             default : break
             }
         }
-        .onReceive(self.dataProvider.user.$event){ evt in
-            guard let evt = evt else {return}
-            switch evt {
-            case .addedDog, .deletedDog, .updatedDogs:
-                self.updatedDog()
-                self.needDog()
-            default : break
-            }
-        }
+    
         .onReceive(self.mapModel.$event){ evt in
             guard let evt = evt else {return}
             switch evt {
@@ -150,7 +137,6 @@ struct PageWalk: PageView {
         .onAppear{
             self.bottomMargin = self.appSceneObserver.useBottom ? Dimen.app.bottom : 0
             self.walkManager.startMap()
-            self.updatedDog()
             if !self.repository.storage.isFirstWalk {
                 self.repository.storage.isFirstWalk = true
                 self.walkManager.firstWalk()
@@ -165,24 +151,8 @@ struct PageWalk: PageView {
     @State var isInit:Bool = false
     @State var isWalk:Bool = false
     @State var bottomMargin:CGFloat = 0
-    private func updatedDog(){
-        withAnimation{
-            self.isInitable = !self.dataProvider.user.pets.isEmpty
-        }
-    }
+    
    
-    private func needDog(){
-        if !self.dataProvider.user.pets.isEmpty { return }
-        self.appSceneObserver.sheet = .select(
-            String.alert.addDogTitle,
-            String.alert.addDogText,
-            image:Asset.image.addDog,
-            [String.button.later,String.button.ok]){ idx in
-                if idx == 1 {
-                    self.pagePresenter.openPopup(PageProvider.getPageObject(.addDog))
-                }
-        }
-    }
 }
 
 

@@ -31,6 +31,7 @@ enum WalkStatus {
 }
 
 extension WalkManager {
+    static private var isFirstWalkStart:Bool = false
     static var todayWalkCount:Int = 0
     static let distanceUnit:Double = 5000
     static let nearDistance:Double = 20
@@ -221,7 +222,7 @@ class WalkManager:ObservableObject, PageProtocol{
             self.dataProvider.requestData(q:
                     .init(id: self.tag,
                           type: .searchLatestWalk(loc: location, radius: 1000, min: 60000),
-                          isOptional: false))
+                          isOptional: true))
         }
     }
     
@@ -255,6 +256,10 @@ class WalkManager:ObservableObject, PageProtocol{
     }
 
     private func startWalk(){
+        if !Self.isFirstWalkStart {
+            self.firstWalkStart()
+            Self.isFirstWalkStart = true
+        }
         self.startTime = Date()
         self.startLocation = self.currentLocation
         self.event = .start
@@ -465,7 +470,8 @@ class WalkManager:ObservableObject, PageProtocol{
     
     
     
-    func errorApi(_ err:ApiResultError, appSceneObserver:AppSceneObserver?){
+    func errorApi(_ err:ApiResultError){
+        if !err.id.hasPrefix(self.tag) {return}
         switch err.type {
        
         case .requestRoute :
