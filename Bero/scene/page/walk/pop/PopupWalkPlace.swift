@@ -75,31 +75,26 @@ struct PopupWalkPlace: PageView {
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 let selectPlace = obj.getParamValue(key: .data) as? Place
-                //self.pages = self.walkManager.places
-                
-                let width = geometry.size.width
+                /*
                 self.pages = zip(0..<self.walkManager.places.count, self.walkManager.places).map{ idx , place in
                     let p = place.setRange(idx:idx, width: width) as! Place
                     return p
                 }
+                 */
                 self.move(idx: selectPlace?.index ?? 0)
-                /*
-                if let selected = self.pages.first(where: {$0.placeId == selectPlace?.placeId}){
-                    self.viewPagerModel.index = selected.index
-                    self.current = selected
-                }*/
+            
             }
             
         }//geo
     }//body
     
     @State var current:Place? =  nil
-    @State var pages: [Place] = []
     @State var marginBottom:CGFloat = 0
     private func move(idx:Int){
         if idx < 0 {return}
-        if idx >= self.pages.count {return}
-        let page = self.pages[idx]
+        let pages = self.walkManager.places
+        if idx >= pages.count {return}
+        let page = pages[idx]
         if self.current?.placeId == page.placeId { return }
         withAnimation{ self.current = page }
         guard let loc = page.location else {return}

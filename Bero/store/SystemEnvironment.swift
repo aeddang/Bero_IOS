@@ -14,7 +14,7 @@ struct SystemEnvironment {
     static var firstLaunch :Bool = false
     static let deviceId: String = UIDevice.current.identifierForVendor?.uuidString ?? UUID.init().uuidString
     static let pushToken: String? = nil
-    static var isTestMode:Bool = false
+    static var isTestMode:Bool = true
     static let isoCode = NSLocale.current.currencyCode?.uppercased() ?? ""
     static let preferredLang = NSLocale.preferredLanguages.first
     static var isTablet = AppUtil.isPad()

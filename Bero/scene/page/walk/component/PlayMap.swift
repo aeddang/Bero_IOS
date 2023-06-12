@@ -17,7 +17,7 @@ enum PlayMapUiEvent {
     case resetMap, clearViewRoute
 }
 
-enum PlayMapEffectEvent {
+enum PlayMapEffectEvent {// 사용안함
     case missionPlayStart, viewRoute(duration:Double)
 }
 
@@ -40,7 +40,7 @@ extension PlayMap {
     static let uiHeight:CGFloat = 130
     static let zoomRatio:Float = 17.0
     static let zoomCloseup:Float = 18.5
-    static let zoomDefault:Float = 17.0
+    static let zoomDefault:Float = 17.5
     static let zoomOut:Float = 16.0
     static let zoomFarAway:Float = 15
     static let mapMoveDuration:Double = 0.5

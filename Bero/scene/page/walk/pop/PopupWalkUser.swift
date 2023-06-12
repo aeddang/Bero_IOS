@@ -74,7 +74,7 @@ struct PopupWalkUser: PageView {
             .onAppear{
                 guard let obj = self.pageObject  else { return }
                 let selectMission = obj.getParamValue(key: .data) as? Mission
-                self.pages = self.walkManager.missionUsers
+               
                 self.move(idx: selectMission?.index ?? 0)
                 /*
                 if let selected = self.pages.first(where: {$0.missionId == selectMission?.missionId}){
@@ -87,12 +87,12 @@ struct PopupWalkUser: PageView {
     }//body
     
     @State var current:Mission? =  nil
-    @State var pages:[Mission] = []
     @State var marginBottom:CGFloat = 0
     private func move(idx:Int){
         if idx < 0 {return}
-        if idx >= self.pages.count {return}
-        let page = self.pages[idx]
+        let pages = self.walkManager.missionUsers
+        if idx >= pages.count {return}
+        let page = pages[idx]
         if self.current?.missionId == page.missionId { return }
         self.current = page
         guard let loc = page.location else {return}

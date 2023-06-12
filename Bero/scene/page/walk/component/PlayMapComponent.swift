@@ -27,6 +27,7 @@ extension PlayMap {
         marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.18)
         marker.iconView = icon
         marker.zIndex = 700
+        marker.opacity = 0
         marker.appearAnimation = .fadeIn
         return marker
     }

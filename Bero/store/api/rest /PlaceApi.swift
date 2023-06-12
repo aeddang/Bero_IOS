@@ -52,7 +52,7 @@ extension PlaceApi {
             case 1 : return .cafe
             case 2 : return .park
             case 3 : return .vet
-            default : return nil
+            default : return .park
             }
         }
     }

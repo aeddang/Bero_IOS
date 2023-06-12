@@ -99,7 +99,8 @@ open class CustomGoogleMapController: UIViewController, GMSMapViewDelegate {
         let mapID = GMSMapID(identifier: "c7dec7b5fab604aa")
         //let mapView = GMSMapView.init(frame: self.view.bounds, camera: camera)
         let mapView = GMSMapView.init(frame: self.view.bounds, mapID: mapID, camera: camera)
-     
+        mapView.isMyLocationEnabled = true
+        
         self.view.addSubview(mapView)
         mapView.delegate = self
         self.mapView = mapView

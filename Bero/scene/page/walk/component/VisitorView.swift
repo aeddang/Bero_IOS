@@ -145,7 +145,9 @@ struct VisitorView: PageComponent, Identifiable{
         added = zip(start...end, datas).map{ idx, d in
             let profile = PetProfile(data: d.pet ?? PetData(), userId: d.user?.userId,
                                      isMyPet: d.user?.userId == me,
-                                     isFriend: d.user?.isFriend ?? false)
+                                     isFriend: d.user?.isFriend ?? false,
+                                     index: start + idx
+            )
             profile.level = d.user?.level
             return profile
             //return MultiProfileListItemData().setData(d,  idx: idx)

@@ -2979,7 +2979,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				REST_API_PATH = "http://acf14fe3f33d448ed863b0965826ef23-882930440.ap-northeast-2.elb.amazonaws.com/";
+				REST_API_PATH = "https://devapi.bero.dog/";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -3033,7 +3033,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				REST_API_PATH = "http://acf14fe3f33d448ed863b0965826ef23-882930440.ap-northeast-2.elb.amazonaws.com/";
+				REST_API_PATH = "https://api.bero.dog/";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
