@@ -178,21 +178,19 @@ class Repository:ObservableObject, PageProtocol{
             }
         }).store(in: &dataCancellable)
         self.apiManager.$rewardEvent.sink(receiveValue: { evt in
+            guard let evt = evt else {return}
             switch evt {
             case .exp(let score, let lvData) :
                 self.dataProvider.user.updateExp(score)
-                self.getReward(exp: score, point: nil, lvData:lvData)
-                
+                self.getReward(lvData:lvData)
             case .point(let score, let lvData) :
                 self.dataProvider.user.updatePoint(score)
-                self.getReward(exp: nil, point: score, lvData:lvData)
-               
+                self.getReward(lvData:lvData)
             case .reward(let exp, let point, let lvData) :
                 self.dataProvider.user.updateReward(exp, point: point)
-                self.getReward(exp: exp, point: point, lvData:lvData)
-                
-            default: break
+                self.getReward(lvData:lvData)
             }
+            
         }).store(in: &dataCancellable)
         self.apiManager.$result.sink(receiveValue: { res in
             guard let res = res else { return }
@@ -228,9 +226,9 @@ class Repository:ObservableObject, PageProtocol{
         
     }
    
-    private func getReward(exp:Double?, point:Int?, lvData:MetaData?){
-        let exp = exp ?? 0
-        let point = point ?? 0
+    private func getReward(lvData:MetaData?){
+        let exp = lvData?.exp ?? 0
+        let point = lvData?.point ?? 0
         if exp == 0 && point == 0 {return}
         SoundToolBox().play(snd:Asset.sound.reward)
         if point >= 100{
