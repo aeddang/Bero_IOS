@@ -116,33 +116,13 @@ struct ListDetailItem: PageComponent{
             .frame(width: self.imgSize.width, height: self.imageHeight ?? self.imgSize.height)
             .clipped()
             HStack(spacing:0){
-                if let likeCount = self.likeCount {
-                
-                    SortButton(
-                        type: .stroke,
-                        sizeType: self.likeSize,
-                        icon: self.isLike ? Asset.icon.favorite_on : Asset.icon.favorite_off,
-                        text: "",
-                        color: self.isLike ? Color.brand.primary : Color.app.grey400,
-                        isSort: false
-                    ){
-                        self.likeAction?()
-                    }
-                    .fixedSize()
-                    ZStack{
-                        Text(likeCount.toThousandUnit() + " " + String.app.likes)
-                            .modifier(RegularTextStyle(size: Font.size.thin,color: Color.app.grey400))
-                            .padding(.vertical,  Dimen.margin.tinyExtra)
-                            .padding(.horizontal,  Dimen.margin.light)
-                            .multilineTextAlignment(.center)
-                    }
-                    .background(Color.app.whiteDeepLight)
-                    .clipShape(RoundedRectangle(cornerRadius: Dimen.radius.regular))
-                    .padding(.leading, Dimen.margin.tinyExtra )
-                    .fixedSize()
-                    .onTapGesture {
-                        self.likeAction?()
-                    }
+                if let likeAction = self.likeAction {
+                    LikeButton(
+                        isLike: self.isLike,
+                        sizeType: self.likeSize ,
+                        likeCount: self.likeCount,
+                        action: likeAction
+                    )
                 }
                 Spacer()
                 HStack(spacing:Dimen.margin.micro){

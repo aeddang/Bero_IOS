@@ -86,7 +86,6 @@ struct UserAlbumListItem: PageComponent{
                         self.pagePresenter.openPopup(
                             PageProvider.getPageObject(.pictureViewer)
                                 .addParam(key: .data, value: albumData)
-                                //.addParam(key: .userData, value: self.data.userProfile)
                         )
                     }
                     
