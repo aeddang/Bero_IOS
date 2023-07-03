@@ -82,11 +82,12 @@ struct RadioButton: View, SelecterbleProtocol, PageProtocol {
     var action: (_ check:Bool) -> Void
     var body: some View {
         Button(action: {
-            action(!self.isChecked)
+            let checked = !self.isChecked
+            action(checked)
             let parameters = [
                 "buttonType": self.tag,
                 "buttonText": text ?? icon ?? "",
-                "isChecked" : isChecked.description
+                "isChecked" : checked.description
             ]
             Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {

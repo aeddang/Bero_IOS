@@ -339,10 +339,11 @@ class Repository:ObservableObject, PageProtocol{
         self.apiManager.clearApi()
         self.dataProvider.user.clearUser()
         self.snsManager.requestAllLogOut()
-        self.event = .loginUpdate
+        
         self.status = .initate
         DispatchQueue.main.async {
             self.status = .ready
+            self.event = .loginUpdate
         }
         self.retryRegisterPushToken()
         Analytics.setUserID(nil)
@@ -358,7 +359,6 @@ class Repository:ObservableObject, PageProtocol{
     
     private func loginCompleted() {
         self.storage.authToken = ApiNetwork.accesstoken
-        self.event = .loginUpdate
         if SystemEnvironment.breedCode.isEmpty {
             self.dataProvider.requestData(q: .init(id: self.tag, type: .getCode(category: .breed)))
         } else {
@@ -372,6 +372,7 @@ class Repository:ObservableObject, PageProtocol{
     private func onReady() {
         self.storage.authToken = ApiNetwork.accesstoken
         self.status = .ready
+        self.event = .loginUpdate
         if let user = self.dataProvider.user.snsUser {
             self.dataProvider.requestData(q: .init(type: .getUser(user, isCanelAble: false), isOptional: true))
             self.dataProvider.requestData(q: .init(type: .getPets(userId: user.snsID, isCanelAble: false), isOptional: true))

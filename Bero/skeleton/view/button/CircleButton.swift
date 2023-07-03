@@ -20,6 +20,15 @@ struct CircleButton: View, SelecterbleProtocol, PageProtocol {
             default : return Dimen.icon.mediumUltra
             }
         }
+        
+        var value:String{
+            switch self {
+            case .text(let value) : return value
+            case .image(let img, _) : return  img ?? ""
+            case .icon(let img, _) : return  img ?? ""
+            default : return ""
+            }
+        }
     }
     var type:ButtonType = .tiny
     var isSelected: Bool = false
@@ -33,7 +42,8 @@ struct CircleButton: View, SelecterbleProtocol, PageProtocol {
         Button(action: {
             self.action( self.index )
             let parameters = [
-                "buttonType": self.tag
+                "buttonType": self.tag,
+                "buttonText": self.type.value
             ]
             Analytics.logEvent(AnalyticsEventSelectItem, parameters:parameters)
         }) {
