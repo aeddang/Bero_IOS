@@ -59,7 +59,6 @@ class Repository:ObservableObject, PageProtocol{
         self.accountManager = AccountManager(user: self.dataProvider.user)
         self.pagePresenter?.$currentPage.sink(receiveValue: { page in
             guard let pageID = page?.pageID else {return}
-            //guard let pageIdx = page?.pageIDX else {return}
             self.apiManager.clear()
             self.appSceneObserver?.isApiLoading = false
             self.pagePresenter?.isLoading = false
@@ -68,16 +67,14 @@ class Repository:ObservableObject, PageProtocol{
             case .chat :  self.event = .messageUpdate(false)
             default : break
             }
-            let alreadyUpdate = self.storage.isDailyBannerCheck(id: pageID)
-            if alreadyUpdate {return}
+            let dateValue = self.storage.getPageBannerCheckDate(id: pageID)
             self.apiManager.misc.getBanner(
                 id: pageID,
+                dateValue: dateValue,
                 completion: { res in
                     let data = res.contents
-                    guard let url = data.url else {return}
-                    let value = data.updatedAt ?? url
-                    if self.storage.isSameBannerCheck(id: pageID, value: value) {return}
-                    self.storage.updatedPageBannerValue(id: pageID, value: value)
+                    let url = data.url ?? "www.naver.com"
+                    self.storage.updatedPageBannerValue(id: pageID)
                     self.pagePresenter?.openPopup(
                         PageProvider.getPageObject(.webview)
                             .addParam(key: .link, value: url)

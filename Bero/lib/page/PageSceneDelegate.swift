@@ -600,7 +600,9 @@ class PageSceneDelegate: UIResponder, UIWindowSceneDelegate, PageProtocol {
         if willChangePage.isPopup {
             pagePresenter.currentPopup = willChangePage
         }else{
-            pagePresenter.currentPage = willChangePage
+            if pagePresenter.currentPage != willChangePage {
+                pagePresenter.currentPage = willChangePage
+            }
             pagePresenter.currentPopup = nil
         }
         pagePresenter.currentTopPage = willChangePage

@@ -148,6 +148,12 @@ extension Date{
         dateFormatter.dateFormat = dateFormat
         return dateFormatter.string(from:self)
     }
+    func toDateFormatterUTC(dateFormat:String = "yyyy-MM-dd'T'HH:mm:ss") -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = dateFormat
+        return dateFormatter.string(from:self) 
+    }
     
     var dayBefore: Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: noon)!

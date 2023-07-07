@@ -364,8 +364,8 @@ class ApiManager :PageProtocol, ObservableObject{
             self.misc.getCode(category: category, searchKeyword: searchKeyword,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
-        case .getBanner(let id):
-            self.misc.getBanner(id: id,
+        case .getBanner(let id, let dateValue):
+            self.misc.getBanner(id: id, dateValue: dateValue,
                               completion: {res in self.complated(id: apiID, type: type, res: res)},
                               error:error)
             

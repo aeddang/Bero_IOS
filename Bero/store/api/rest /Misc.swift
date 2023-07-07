@@ -64,8 +64,10 @@ class MiscApi :Rest{
         fetch(route: WeatherApiRoute(action:action, commandId: id), completion: completion, error:error)
     }
     
-    func getBanner(id:String, completion: @escaping (ApiContentResponse<BannerData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
-        fetch(route: BannerApiRoute(commandId: id), completion: completion, error:error)
+    func getBanner(id:String, dateValue:String?, completion: @escaping (ApiContentResponse<BannerData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
+        var params = [String: String]()
+        params["exposedDate"] = dateValue ?? ""
+        fetch(route: BannerApiRoute(commandId: id, query:params), completion: completion, error:error)
     }
     
     func getCode(category:MiscApi.Category, searchKeyword:String? = nil, completion: @escaping (ApiItemResponse<CodeData>) -> Void, error: ((_ e:Error) -> Void)? = nil){
