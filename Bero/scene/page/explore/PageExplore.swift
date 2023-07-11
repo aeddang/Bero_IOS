@@ -134,11 +134,13 @@ struct PageExplore: PageView {
         self.appSceneObserver.select = .imgPicker(self.tag, cameraDevice: .rear){ pick in
             guard let pick = pick else {return}
             DispatchQueue.global(qos:.background).async {
-                let hei = AlbumApi.originSize * CGFloat(pick.cgImage?.height ?? 1) / CGFloat(pick.cgImage?.width ?? 1)
+                let h = pick.size.height
+                let w = pick.size.width
+                let hei = AlbumApi.originSize * h / w
                 let size = CGSize(
                     width: AlbumApi.originSize,
                     height: hei)
-                let image = pick.normalized().crop(to: size).resize(to: size)
+                let image = pick.normalized().resize(to: size)
                 let sizeList = CGSize(
                     width: AlbumApi.thumbSize,
                     height: AlbumApi.thumbSize)

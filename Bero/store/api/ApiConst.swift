@@ -13,6 +13,10 @@ import AVFAudio
 
 struct ApiPath {
     static func getRestApiPath() -> String {
+        if SystemEnvironment.isReleaseMode {
+            return "https://api.bero.dog/"
+        }
+        
         if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
             let dictRoot = NSDictionary(contentsOfFile: path)
             if let dict = dictRoot {

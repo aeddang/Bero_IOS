@@ -146,10 +146,13 @@ struct PlayBox: PageComponent{
     private func pickImage(_ img:UIImage) {
         self.pagePresenter.isLoading = true
         DispatchQueue.global(qos:.background).async {
+            let h = img.size.height
+            let w = img.size.width
+            let hei = AlbumApi.originSize * h / w
             let size = CGSize(
                 width: AlbumApi.originSize,
-                height: AlbumApi.originSize)
-            let image = img.normalized().crop(to: size).resize(to: size)
+                height: hei)
+            let image = img.normalized().resize(to: size)
             
             let sizeList = CGSize(
                 width: AlbumApi.thumbSize,

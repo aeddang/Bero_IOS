@@ -12,6 +12,7 @@ extension Asset {
     public static let appIcon = "launcher"
     public static let appIconLogo = "app_icon_logo"
     public static let appIconCircle = "app_icon_circle"
+    public static let splashLogo = "splash_logo"
     public static let noImg16_9 = "noimage_16_9"
     public static let noImg4_3 = "noimage_4_3"
     public static let noImg1_1 = "noimage_1_1"

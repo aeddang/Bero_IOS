@@ -70,6 +70,7 @@
 		3151DD2C28CEBE9000641BCC /* UserAlbumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */; };
 		3151DD2E28CF320500641BCC /* PopupChooseDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2D28CF320500641BCC /* PopupChooseDog.swift */; };
 		3151DD3028CF35E500641BCC /* PetProfileCheckItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */; };
+		315994512A5BC4FD0048D6DA /* Tipografi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315994502A5BC4FD0048D6DA /* Tipografi.swift */; };
 		316B777E28B982F80090E924 /* UserProfileTopInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B777D28B982F80090E924 /* UserProfileTopInfo.swift */; };
 		316B778128B98E470090E924 /* UserPlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778028B98E470090E924 /* UserPlayInfo.swift */; };
 		316B778328B996410090E924 /* DistanceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316B778228B996410090E924 /* DistanceItem.swift */; };
@@ -535,6 +536,7 @@
 		3151DD2B28CEBE9000641BCC /* UserAlbumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumList.swift; sourceTree = "<group>"; };
 		3151DD2D28CF320500641BCC /* PopupChooseDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupChooseDog.swift; sourceTree = "<group>"; };
 		3151DD2F28CF35E500641BCC /* PetProfileCheckItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileCheckItem.swift; sourceTree = "<group>"; };
+		315994502A5BC4FD0048D6DA /* Tipografi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tipografi.swift; sourceTree = "<group>"; };
 		316B777D28B982F80090E924 /* UserProfileTopInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTopInfo.swift; sourceTree = "<group>"; };
 		316B778028B98E470090E924 /* UserPlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPlayInfo.swift; sourceTree = "<group>"; };
 		316B778228B996410090E924 /* DistanceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceItem.swift; sourceTree = "<group>"; };
@@ -1893,6 +1895,7 @@
 				316D35F22895427B002FC476 /* InputText.swift */,
 				31C17FB4289FBFA6009B5EA1 /* InputSearch.swift */,
 				3151DD2528CE995900641BCC /* InputComment.swift */,
+				315994502A5BC4FD0048D6DA /* Tipografi.swift */,
 			);
 			path = text;
 			sourceTree = "<group>";
@@ -2538,6 +2541,7 @@
 				31BCF3B628C41FC2004605CF /* RewardHistoryList.swift in Sources */,
 				316B779F28BAEACB0090E924 /* AlbumSection.swift in Sources */,
 				311DC43D287987D700A3F7F5 /* PlayMap.swift in Sources */,
+				315994512A5BC4FD0048D6DA /* Tipografi.swift in Sources */,
 				31D92005287271C1001C2738 /* dimens.swift in Sources */,
 				31D92008287271C1001C2738 /* CPImagePicker.swift in Sources */,
 				31BCF3C128C459E0004605CF /* ReportText.swift in Sources */,
@@ -2949,7 +2953,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/BeroDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 101;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
@@ -3003,7 +3007,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bero/Bero.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 101;
 				DEVELOPMENT_ASSET_PATHS = "\"Bero/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C57J25JR3;
 				ENABLE_PREVIEWS = YES;
@@ -3037,7 +3041,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironraft.pupping.Bero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				REST_API_PATH = "https://devapi.bero.dog/";
+				REST_API_PATH = "https://api.bero.dog/";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;

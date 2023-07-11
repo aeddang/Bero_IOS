@@ -14,10 +14,10 @@ struct ActivityIndicator: UIViewRepresentable {
 
     @Binding var isAnimating: Bool
     var style:UIActivityIndicatorView.Style = .medium
-    var color:Color = Color.app.orangeSub
+    var color:Color = Color.app.grey100
     func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
         let v = UIActivityIndicatorView(style : style)
-        v.color = Color.app.grey50.uiColor()
+        v.color = color.uiColor()
         return v
     }
 

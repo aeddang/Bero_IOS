@@ -73,7 +73,7 @@ class Repository:ObservableObject, PageProtocol{
                 dateValue: dateValue,
                 completion: { res in
                     let data = res.contents
-                    let url = data.url ?? "www.naver.com"
+                    guard let url = data.url else {return}
                     self.storage.updatedPageBannerValue(id: pageID)
                     self.pagePresenter?.openPopup(
                         PageProvider.getPageObject(.webview)

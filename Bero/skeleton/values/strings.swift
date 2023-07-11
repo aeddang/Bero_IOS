@@ -330,7 +330,8 @@ extension String {
         public static let introText3_2 = "Filter places for your dog and leave\ntraces of your visits."
         public static let introComplete = "Let’s explore!"
         
-        public static let loginText = "For your dog’s\nhappiness"
+        public static let loginText0 = "Welcome!"
+        public static let loginText1 = "Ready to share your\nPawsome experience?"
         public static let loginButtonText = "Continue with "
         
         public static let addDogCompletedText1 = "Nice to meet you"

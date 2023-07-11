@@ -51,7 +51,7 @@ struct AppLayout: PageComponent{
                             
                         }
                         ActivityIndicator(isAnimating: self.$isLoading, style: .large)
-                            .padding(.bottom, Dimen.margin.medium + self.appSceneObserver.safeBottomHeight)
+                            .padding(.bottom, Dimen.margin.medium + Dimen.app.bottom + self.appSceneObserver.safeBottomHeight)
                         /*
                         LottieView(lottieFile: "Loading", mode: .loop)
                             .frame(width: Dimen.icon.medium, height: Dimen.icon.medium)

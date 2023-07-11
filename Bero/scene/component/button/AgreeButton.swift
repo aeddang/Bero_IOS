@@ -22,8 +22,8 @@ struct AgreeButton: View, SelecterbleProtocol, PageProtocol {
         var text:String{
             switch self {
             case .neutralized : return "Neutralized/Spayed"
-            case .privacy : return "Privacy usage agreement"
-            case .service : return "Terms of service agreement"
+            case .privacy : return "Privacy Policy"
+            case .service : return "Terms of service"
             }
         }
         
