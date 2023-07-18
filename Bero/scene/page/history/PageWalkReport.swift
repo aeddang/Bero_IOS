@@ -73,7 +73,9 @@ class ReportData {
     }
     func setupData(_ data:WalkReport){
         self.originData = data
-        self.daysWalkReport = Int(daysWalkData.value).description + " " + String.pageText.reportWalkDayUnit
+        let n = Int(daysWalkData.value)
+        let unit = n < 2 ? String.app.day : String.pageText.reportWalkDayUnit
+        self.daysWalkReport = n.description + " " + unit
         if daysWalkCompareData.count >= 2 {
             let me = daysWalkCompareData.first!.value
             let other = daysWalkCompareData.last!.value

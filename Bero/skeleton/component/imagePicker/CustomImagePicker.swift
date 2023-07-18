@@ -50,10 +50,11 @@ extension CustomImagePicker: UIViewControllerRepresentable {
         let picker = UIImagePickerController()
         picker.sourceType = self.sourceType
         picker.delegate = context.coordinator
+        picker.allowsEditing = false
         if self.sourceType == .camera {
             picker.cameraOverlayView = self.cameraOverlayView
             picker.cameraDevice = self.cameraDevice
-            picker.allowsEditing = false
+           
             
         }
         return picker

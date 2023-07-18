@@ -23,12 +23,14 @@ struct PageLogin: PageView {
     var body: some View {
         VStack(spacing: 0){
             ZStack(alignment: .center){
+                /*
                 Circle()
                     .fill(
                         RadialGradient(gradient: Gradient(
                             colors: [Color.app.orangeSub.opacity(0.3), Color.app.orangeSub.opacity(0)]), center: .center, startRadius: 0, endRadius: 100)
                     )
                     .modifier(MatchParent())
+                */
                 Image(Asset.splashLogo)
                     .renderingMode(.original)
                     .resizable()
@@ -38,14 +40,14 @@ struct PageLogin: PageView {
             .padding(.top, self.appSceneObserver.safeHeaderHeight)
             .modifier(MatchParent())
             .layoutPriority(0)
-            VStack(spacing: Dimen.margin.mediumUltra){
+            VStack(spacing: 0){
                 Text(String.pageText.loginText0)
                     .modifier( RegularTextStyle(
                         size: Font.size.light,
                         color:  Color.app.grey500
                     ))
                     .multilineTextAlignment(.center)
-                    .padding(.top, Dimen.margin.regular)
+                    .padding(.all, Dimen.margin.tinyExtra)
                 
                 Text(String.pageText.loginText1)
                     .modifier( SemiBoldTextStyle(
@@ -53,6 +55,7 @@ struct PageLogin: PageView {
                         color:  Color.app.black
                     ))
                     .multilineTextAlignment(.center)
+                    .padding(.all, Dimen.margin.tinyExtra)
                     
                 /*
                 AgreeButton(
@@ -104,6 +107,8 @@ struct PageLogin: PageView {
                     }
                     .opacity(self.isAgree ? 1 : 0.5)
                 }
+                .padding(.top, 56)
+                .padding(.bottom, 48)
                 
                 VStack(spacing: 0){
                     Text("By continuing, you agree to Bero’s ")
@@ -151,6 +156,7 @@ struct PageLogin: PageView {
                 
                 
             }
+            .padding(.top, Dimen.margin.regular)
             .padding(.bottom, self.appSceneObserver.safeBottomHeight)
             .modifier(BottomFunctionTab())
             .layoutPriority(1)

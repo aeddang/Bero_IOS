@@ -171,6 +171,11 @@ struct PageSetup: PageView {
                             
                         }
                     }
+
+                    Text("v " + AppUtil.version + "(" + AppUtil.build + ")" )
+                        .modifier(RegularTextStyle(size: Font.size.thin, color: Color.app.grey400))
+                        .modifier(MatchHorizontal(height: Dimen.app.bottom))
+                        
                 }
                 .modifier(PageVertical())
                 .modifier(MatchParent())

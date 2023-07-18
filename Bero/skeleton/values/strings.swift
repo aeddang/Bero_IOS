@@ -58,6 +58,7 @@ extension String {
         public static let speed = "Speed"
         public static let distance = "Distance"
         public static let owners = "'s"
+        public static let day = "day"
     }
     
     struct gnb {
@@ -88,7 +89,7 @@ extension String {
         public static var locationFind = "Retrieving location information. Please wait."
         public static var dragdown = "Pull to close this page"
         
-        public static var snsLoginError = "After login. Available."
+        public static var snsLoginError = "Available after login."
         public static var getUserProfileError = "Failed to retrieve user information, Please try again in a few minutes"
         
         public static var addDogTitle = "Tell us about your dog!"
@@ -142,7 +143,7 @@ extension String {
         public static var accuseAlbumConfirmText = "As your report submitted, Bero administration team will take an action after review shortly."
         public static var accuseAlbumCompleted = "Report submitted."
         
-        public static var firstChatMessage = "In the case of using inappropriate post or language, i agree that account suspension and use of Bero app may not be possible according to the terms and conditions."
+        public static var firstChatMessage = "I agree that use of inappropriate language or posts may lead to account suspension, as outlined in the terms and conditions."
         
         public static var needAgreement = "You should agree to the terms and conditions before using it."
         
